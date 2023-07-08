@@ -1,0 +1,23 @@
+##### Setup command #####
+setup_topic: "⏯ *Pause/Resume the song.*\n⬅ *Previous the song.*\n⏹ *Stop the song.*\n➡ *Skip the song.*\n🔁 *Loop/Unloop the song.*"
+setup_msg: "*`Succesfully Setup Music System in`* %{channel}\n```Note: Don't delete message anything of bot was sended! (FOR SETUP WORKING!)```"
+setup_deleted: "*`Successfully Delete %{channel} Channel!`*"
+setup_enable: "*`Already have setup channel song request can't use this command.`*"
+
+##### Setup Handler #####
+setup_queuemsg: "**__Queue list:__**\nJoin a voice channel and queue songs by name or url in here."
+
+setup_playembed_author: "No song playing currently."
+setup_playembed_desc: ">>> [Invite](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Support](https://discord.gg/SNG3dh3MbR) | [Website](https://adivise.github.io/Stylish/)"
+setup_playembed_footer: "Prefix is: /"
+
+##### Setup Update Handler #####
+
+setup_author: "Starting playing..."
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
+setup_footer: "%{songs} • Song's in Queue | Volume • %{volume}% | %{duration} • Total Duration"
+
+setup_content: "**__Queue list:__**"
+setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
+setup_content_empty: "Join a voice channel and queue songs by name or url in here."

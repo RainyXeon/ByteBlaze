@@ -1,0 +1,25 @@
+##### Generate command #####
+provide_plan: "Please provide plan: %{plans}"
+plan_invalid: "Invalid Plan, available plans: %{plans}"
+gen_author: "Generate Code"
+gen_desc: "• *Generated* [`+%{codes_length}`]\n```%{codes}```\n • *Plan*: `%{plan}`\n • *Expires at*: `%{expires}`"
+gen_footer: "Type: %{prefix}redeem <code> to redeem!"
+
+##### Profile command #####
+profile_author: "Profile"
+profile_desc: "*User*: `%{user}`\n*Plan*: `%{plan}`\n*Expires at*: `%{expires}`"
+
+##### Redeem command #####
+redeem_arg: "Please specify the code you want to redeem!"
+redeem_already: "You are already a premium user"
+redeem_title: "Redeemed Code"
+redeem_desc: "*Plan*: `%{plan}`\n*Expires at*: [`%{expires}`]"
+redeem_invalid: "**The code is invalid. Please try again using valid one!**"
+
+##### Remove command #####
+remove_mention: "Please mention member!"
+remove_already: "**Already removed! %{user}**"
+remove_desc: "**You have successfully removed! %{user}s** premium"
+remove_no_params: "You must provide id or mention!"
+remove_only_params: "You must provide only 1 id or mention!"
+remove_404: "User %{userid} not found in database!"

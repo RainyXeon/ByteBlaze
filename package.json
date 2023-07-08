@@ -1,0 +1,49 @@
+{
+  "name": "byteblaze",
+  "version": "1.0.0",
+  "description": "A versatile and powerful music bot for Discord that brings rhythm and melody to your server. This is a big upgrade of Cylane!",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/bot.js",
+    "dev": "nodemon ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RainyXeon/ByteBlaze.git"
+  },
+  "keywords": [
+    "discordbot"
+  ],
+  "author": "RainyXeon",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/RainyXeon/ByteBlaze/issues"
+  },
+  "homepage": "https://github.com/RainyXeon/ByteBlaze#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.11.0",
+    "js-yaml": "^4.1.0",
+    "kazagumo": "^2.3.2",
+    "kazagumo-deezer": "^1.2.2",
+    "kazagumo-nico": "^1.1.5",
+    "kazagumo-spotify": "^1.2.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "quick.db": "^9.1.6",
+    "shoukaku": "^3.4.0",
+    "winston": "^3.9.0",
+    "write-file-atomic": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/lodash": "^4.14.195",
+    "@types/node": "^20.4.1",
+    "dotenv": "^16.3.1",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.1.6"
+  }
+}

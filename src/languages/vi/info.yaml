@@ -1,0 +1,9 @@
+dev_title: "Adivise/XeonDex | Tôi chỉ làm lại từ Adivise"
+dev_desc: "Đây là bot âm nhạc được chỉnh sửa và làm lại bởi XeonDex. Đặc biệt cảm ơn Adivise. [Dashboard làm bởi tôi]"
+dev_foot: "Hãy tham gia máy chủ hoặc mời Bot :) Điều này sẽ giúp tôi rất nhiều!"
+
+inv_title: "**Cảm ơn đã mời %{username}**"
+inv_desc: "**%{username} được phát triển bởi Adivise/XeonDex**"
+
+ping_title: "**Ping của **"
+ping_desc: "Ping của tôi là ***%{ping}ms***"

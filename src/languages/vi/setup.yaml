@@ -1,0 +1,23 @@
+##### Setup command #####
+setup_topic: "⏯ *Tạm dừng/Tiếp tục bài hát.*\n⬅ *Quay lại bài hát trước kia.*\n⏹ *Dừng bài hát*\n➡ *Bỏ qua bài hát.*\n🔁 *Lặp/Dừng lặp bài hát.*"
+setup_msg: "*`Thiết lập thành công hệ thống âm nhạc trong kênh`* %{channel}\n```Lưu ý: Không xóa bất kỳ tin nhắn nào của bot đã được gửi! (ĐỂ THIẾT LẬP BẢNG ĐIỀU KHIỂN!)```"
+setup_deleted: "*`Xóa thành công kênh %{channel}`*"
+setup_enable: "*`Đã thiết lập yêu cầu bài hát kênh không thể sử dụng lệnh này.`*"
+
+##### Setup Handler #####
+setup_queuemsg: "**__Hàng đợi:__**\nTham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
+
+setup_playembed_author: "Hiện không có bài hát nào đang phát."
+setup_playembed_desc: ">>> [Mời vào máy chủ](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Hỗ trợ](https://discord.gg/uxbwPDtYq8) | [Trang ưeb](https://dreamvast.vercel.app/)"
+setup_playembed_footer: "Tiền tố để sử dụng lệnh: /"
+
+##### Setup Update Handler #####
+
+setup_author: "Đang bắt đầu chơi nhạc..."
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
+setup_footer: "%{songs} • Bài hát trong hàng đợi | Âm lượng • %{volume}% | %{duration} • Tổng thời lượng"
+
+setup_content: "**__Hàng đợi:__**"
+setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
+setup_content_empty: "Tham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."

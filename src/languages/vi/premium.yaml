@@ -1,0 +1,22 @@
+##### Generate command #####
+provide_plan: "Vui lòng chọn gói: %{plans}"
+plan_invalid: "Gói không hợp lệ, các loại gói cao cấp có sẵn: %{plans}"
+gen_author: "Tạo mã sản phẩm"
+gen_desc: "• *Đã tạo mã sản phẩm* [`+%{codes_length}`]\n```%{codes}```\n • *Gói*: `%{plan}`\n • *Hết hạn lúc*: `%{expires}`"
+gen_footer: "Gõ: %{prefix}redeem <mã sản phẩm> để kích hoạt!"
+##### Profile command #####
+profile_author: "Hồ sơ gói cao cấp"
+profile_desc: "*Người dùng*: `%{user}`\n*Gói*: `%{plan}`\n*Hết hạn lúc*: `%{expires}`"
+##### Redeem command #####
+redeem_arg: "Vui lòng nhập mã bạn muốn đăng ký gói cao cấp!"
+redeem_already: "Bạn đã là người dùng có đăng ký gói cao cấp"
+redeem_title: "Gói cao cấp đã được kích hoạt"
+redeem_desc: "**Bạn đã đăng ký thành công gói cao cấp!**\n\n*Hết hạn lúc*: [`%{expires}`]"
+redeem_invalid: "**Mã sẩn phẩm không hợp lệ. Vui lòng thử lại mã khác!**"
+##### Remove command #####
+remove_mention: "Vui lòng đề cập (mention) đến thành viên!"
+remove_already: "**Đã loại bỏ! %{user}**"
+remove_desc: "**Bạn đã loại bỏ thành công! %{user}**"
+remove_no_params: "Bạn phải cung cấp id hoặc đề cập (mention)!"
+remove_only_params: "Bạn chỉ được cung cấp 1 id hoặc 1 đề cập (mention)!"
+remove_404: "Không tìm thấy người dùng %{userid} trong cơ sở dữ liệu!"

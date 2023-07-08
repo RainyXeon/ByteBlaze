@@ -1,0 +1,13 @@
+##### InteractionCreate Event #####
+
+# On settings/config.js in DEV_ID
+dev_only: "บอทอยู่ในระหว่างการพัฒนา (กรุณากลับมาใหม่ภายหลัง)"
+
+# No permission to use command (this for bot!)
+no_perms: "ฉันไม่มีสิทธิ์ดำเนินการคำสั่ง!"
+
+# Bot getting error something!
+error: "อะไรบางอย่างผิดปกติ."
+
+# You are not the client owner of this bot!
+owner_only: "คุณไม่ใช่เจ้าของบอท"

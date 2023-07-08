@@ -1,0 +1,5 @@
+##### No premium Event #####
+#No premium sending msg!
+premium_author: "พรีเมี่ยม!"
+premium_desc: "*คุณต้องเป็นพรีเมี่ยมเพื่อใช้คำสั่งนี้*"
+premium_error: "เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง"

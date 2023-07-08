@@ -1,0 +1,7 @@
+##### Need to join voice channel to use command! #####
+
+# No song playing in guild!
+no_player: "ไม่มีเพลงที่กำลังเล่นอยู่ในกิลด์นี้"
+
+# Need to join voice & same voice to use command!
+no_voice: "คุณต้องอยู่ใน ห้องเสียง/เดียวกัน"

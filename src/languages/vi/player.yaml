@@ -1,0 +1,66 @@
+##### On track start playing! Event #####
+track_title: "Đang chơi..."
+track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+
+# Embed Field
+author_title: "Tác giả:"
+request_title: "Người yêu cầu:"
+volume_title: "Âm lượng hiện tại:"
+queue_title: "Độ dài hàng đợi:"
+duration_title: "Độ dài:"
+total_duration_title: "Tổng độ dài:"
+current_duration_title: "Độ dài hiện tại: `[0:00 / %{current_duration}]`"
+
+# Need in voice to use button!
+join_voice: "Bạn cần ở trong cùng một kênh thoại để sử dụng nút này."
+
+# Message Button
+switch_pause: Đã tạm dừng
+switch_resume: Đã bật lại
+pause_msg: "`⏯` | *Bài hát đã:* `%{pause}`"
+
+skip_msg: "`⏭` | *Bài hát đã:* `Skipped`"
+
+stop_msg: "`🚫` | *Bài hát đã:* `Stopped`"
+
+shuffle_msg: "`🔀` | *Hàng đợi đã:* `Shuffled`"
+
+switch_enable: Đã kích hoạt
+switch_disable: Đã vô hiệu hóa
+repeat_msg: "`🔁` | *Loop has been:* `%{loop}`"
+
+volup_msg: "`🔊` | *Chuyển âm lượng thành:* `%{volume}%`"
+voldown_msg: "`🔈` | *Chuyển âm lượng thành:* `%{volume}%`"
+
+replay_msg: "`⏮` | *Bài hát đã:* `Replayed`"
+
+queue_author: "Hàng đợi - %{guild}"
+queue_description: "*Đang chơi bài*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*Rest of queue*:%{list_song}"
+queue_footer: "Trang • %{page}/%{pages} | %{queue_lang} • Nhạc | %{total_duration} • Total duration"
+
+clear_msg: "`📛` | *Hàng đợi đã:* `Cleared`"
+
+
+##### On QueueEnd Event #####
+queue_end_desc: "`📛` | *Bài hát đã:* `Ended`"
+
+
+##### On Track get error!! Event #####
+error_desc: "`❌` | *Bài hát bị lỗi:* `Đã tự động bỏ qua`"
+
+
+##### On Track get stuck!! Event #####
+stuck_desc: "`❌` | *Bài hát đã bị kẹt (lỗi băng thông):* `Đã tự động bỏ qua`"
+
+
+##### On Bot get move Event #####
+
+# On player get discoconnect
+dis_title: "Mất kết nối"
+dis_desc: "*Tôi đã bị mất kết nối tại <#%{voice}>*"
+
+# On player get move! = (detroy player)
+leave_title: "Di chuyển"
+leave_desc: "*Tôi đã bị di chuyển, đã tự động ngắt kết nối*"
+player_end: "Ngắt kết nối kênh đàm thoại <#%{leave}> vì bạn để tôi có một mình à ;<"
+download_title: "Tải xuống:"
