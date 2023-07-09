@@ -2,7 +2,7 @@ import { Manager } from '../manager.js';
 
 export function handler(client: Manager) {
   const loadFile = [
-    "loadEvents",
+    "loadEvents.js",
   ]
   loadFile.forEach(async x => {
     const load = await import(`../handlers/${x}`)
