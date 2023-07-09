@@ -1,7 +1,8 @@
-import { Manager } from "../manager";
-const { QuickDB, MySQLDriver } = require("quick.db");
+import { Manager } from "../manager.js";
+import { db_credentials_type } from "../types/db_connect.js";
+import { QuickDB, MySQLDriver } from "quick.db";
 
-export async function SQLConnectDriver(client: Manager, db_config: any) {
+export async function SQLConnectDriver(client: Manager, db_config: db_credentials_type) {
   const config = db_config.MYSQL
     
   const mysqlDriver = new MySQLDriver({

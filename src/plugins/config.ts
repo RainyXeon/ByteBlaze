@@ -1,10 +1,10 @@
 import { load } from 'js-yaml'
 import fs  from 'fs'
-import { prase } from "./prase"
+import { prase } from "./prase.js"
 
 const file = fs.readFileSync('./application.yml', 'utf8')
 const yaml_files = prase(file)
-let doc
+let doc: any
 
 try {
   const res = load(yaml_files);
@@ -13,4 +13,4 @@ try {
   console.log(e);
 }
 
-module.exports = doc
+export default doc

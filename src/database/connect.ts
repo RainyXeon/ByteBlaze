@@ -1,17 +1,17 @@
-import { Manager } from "../manager";
+import { Manager } from "../manager.js";
 import {
   JSONDriver,
   MongoDriver,
   SQLDriver
-} from "../drivers/index"
-import { handler } from "./handler"
+} from "../drivers/index.js"
+import { handler } from "./handler.js"
 
 export async function connectDB(client: Manager) {
     try {
         const db_config = client.config.features.DATABASE
 
         function load_file() {
-            handler(client)
+          handler(client)
         }
 
         if (

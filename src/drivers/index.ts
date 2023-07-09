@@ -1,6 +1,6 @@
-import { MongoConnectDriver } from "./MongoDriver"
-import { JSONConnectDriver } from "./JSONDriver"
-import { SQLConnectDriver } from "./SQLDriver"
+import { MongoConnectDriver } from "./MongoDriver.js"
+import { JSONConnectDriver } from "./JSONDriver.js"
+import { SQLConnectDriver } from "./SQLDriver.js"
 
 const JSONDriver = JSONConnectDriver
 const MongoDriver = MongoConnectDriver

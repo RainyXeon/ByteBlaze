@@ -2,11 +2,12 @@
   "name": "byteblaze",
   "version": "1.0.0",
   "description": "A versatile and powerful music bot for Discord that brings rhythm and melody to your server. This is a big upgrade of Cylane!",
-  "main": "./src/index.js",
+  "exports": "./dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/bot.js",
-    "dev": "nodemon ./src/index.ts"
+    "start": "node --esm dist/bot.js",
+    "dev": "nodemon esm ./src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,18 @@
   "bugs": {
     "url": "https://github.com/RainyXeon/ByteBlaze/issues"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/RainyXeon/ByteBlaze#readme",
   "dependencies": {
+    "@hammerhq/localization": "^0.1.5",
     "chalk": "^4.1.2",
+    "chillout": "^5.0.0",
+    "common-tags": "^1.8.2",
     "discord.js": "^14.11.0",
+    "esm": "^3.2.25",
+    "express": "^4.18.2",
     "js-yaml": "^4.1.0",
     "kazagumo": "^2.3.2",
     "kazagumo-deezer": "^1.2.2",
@@ -31,15 +40,23 @@
     "kazagumo-spotify": "^1.2.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "path": "^0.12.7",
+    "pretty-ms": "^8.0.0",
     "quick.db": "^9.1.6",
+    "recursive-readdir": "^2.2.3",
     "shoukaku": "^3.4.0",
+    "stuffs": "^0.1.27",
     "winston": "^3.9.0",
-    "write-file-atomic": "^5.0.1"
+    "write-file-atomic": "^5.0.1",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
+    "@types/chillout": "^5.0.1",
+    "@types/common-tags": "^1.8.1",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.4.1",
+    "@types/recursive-readdir": "^2.2.1",
     "dotenv": "^16.3.1",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
