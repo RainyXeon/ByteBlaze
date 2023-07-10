@@ -10,8 +10,9 @@ import Deezer from 'kazagumo-deezer';
 import Nico from 'kazagumo-nico';
 import { Connectors } from "shoukaku";
 import { Kazagumo, Plugins } from "kazagumo";
-import check_lavalink_server from "./lava_scrap/check_lavalink_server.js"
-
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class Manager extends Client {
   // Interface
@@ -71,7 +72,7 @@ export class Manager extends Client {
     this.color = this.config.bot.EMBED_COLOR || "#2b2d31";
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",
-      directory: resolve("./src/languages"),
+      directory: resolve(join(__dirname, "languages")),
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.prefix || "d!"
     this.shard_status = false
@@ -115,7 +116,6 @@ export class Manager extends Client {
             new Plugins.PlayerMoved(this)
           ],
     }, new Connectors.DiscordJS(this), this.config.lavalink.NODES, this.config.features.AUTOFIX_LAVALINK ? { reconnectTries: 0 } : this.config.lavalink.SHOUKAKU_OPTIONS);
-
     connectDB(this)
   }
 

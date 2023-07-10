@@ -2,7 +2,6 @@ import { readdirSync } from 'fs';
 import { Manager } from '../manager.js';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { Shoukaku } from 'shoukaku';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default async (client: Manager) => {

@@ -1,7 +1,7 @@
 import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
 import { Manager } from "../../manager.js";
-import { APIActionRowComponent, ButtonStyle, TextChannel } from "discord.js";
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, APIMessageActionRowComponent } from "discord.js";
+import { ButtonStyle, TextChannel } from "discord.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import formatduration from '../../structures/FormatDuration.js';
 import { QueueDuration } from "../../structures/QueueDuration.js";
 
