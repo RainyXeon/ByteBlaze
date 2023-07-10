@@ -14,3 +14,11 @@ export type LavalinkUsingDataType = {
   secure: boolean,
   name: string
 }
+
+export type Headers = {
+  'Client-Name': string,
+  'User-Agent': string,
+  'Authorization': string,
+  'User-Id': string,
+  'Resume-Key': string,
+}

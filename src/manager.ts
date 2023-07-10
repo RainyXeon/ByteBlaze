@@ -5,6 +5,13 @@ import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import configData from "./plugins/config.js"
 import winstonLogger from "./plugins/logger.js"
+import Spotify from 'kazagumo-spotify';
+import Deezer from 'kazagumo-deezer';
+import Nico from 'kazagumo-nico';
+import { Connectors } from "shoukaku";
+import { Kazagumo, Plugins } from "kazagumo";
+import check_lavalink_server from "./lava_scrap/check_lavalink_server.js"
+
 
 export class Manager extends Client {
   // Interface
@@ -22,12 +29,18 @@ export class Manager extends Client {
   lavalink_using: LavalinkUsingDataType[]
   fixing_nodes: boolean
   used_lavalink: LavalinkUsingDataType[]
+  manager: Kazagumo
   slash: Collection<string, any>
   commands: Collection<string, any>
   premiums: Collection<string, any>
   interval: Collection<string, any>
   sent_queue: Collection<string, any>
   aliases: Collection<string, any>
+  websocket: any
+  UpdateMusic: any
+  UpdateQueueMsg: any
+  enSwitch: any
+  diSwitch: any
 
   // Main class
   constructor() {
@@ -76,6 +89,32 @@ export class Manager extends Client {
     this.interval = new Collection()
     this.sent_queue = new Collection()
     this.aliases = new Collection()
+
+    this.manager = new Kazagumo({
+      defaultSearchEngine: "youtube", 
+      // MAKE SURE YOU HAVE THIS
+      send: (guildId, payload) => {
+          const guild = this.guilds.cache.get(guildId);
+          if (guild) guild.shard.send(payload);
+      },
+      plugins: this.config.lavalink.ENABLE_SPOTIFY ? [
+            new Spotify({
+              clientId: this.config.SPOTIFY_ID,
+              clientSecret: this.config.SPOTIFY_SECRET,
+              playlistPageLimit: 1, // optional ( 100 tracks per page )
+              albumPageLimit: 1, // optional ( 50 tracks per page )
+              searchLimit: 10, // optional ( track search limit. Max 50 )
+              searchMarket: 'US', // optional || default: US ( Enter the country you live in. [ Can only be of 2 letters. For eg: US, IN, EN ] )//
+            }),
+            new Deezer(),
+            new Nico({ searchLimit: 10 }),
+            new Plugins.PlayerMoved(this)
+          ] : [
+            new Deezer(),
+            new Nico({ searchLimit: 10 }),
+            new Plugins.PlayerMoved(this)
+          ],
+    }, new Connectors.DiscordJS(this), this.config.lavalink.NODES, this.config.features.AUTOFIX_LAVALINK ? { reconnectTries: 0 } : this.config.lavalink.SHOUKAKU_OPTIONS);
 
     connectDB(this)
   }

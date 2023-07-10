@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default async (client: Manager) => {
     const loadcommand = async (dirs: string) =>{
         const events = readdirSync(join(__dirname, "..", "events", dirs)).filter(d => {
-            if (d.endsWith(".js")) {
+            if (d.endsWith(".ts")) {
                 return d
             } else if (d.endsWith(".js")) {
                 return d

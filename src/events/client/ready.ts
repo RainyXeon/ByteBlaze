@@ -1,13 +1,14 @@
-import { EmbedBuilder, ApplicationCommandOptionType, PermissionsBitField, ChannelType, version, TextChannel } from 'discord.js';
+import { EmbedBuilder, version, TextChannel } from 'discord.js';
 import { Manager } from '../../manager.js';
 import ms from 'pretty-ms';
-import { stripIndents } from "common-tags";
+import { Deploy } from '../../plugins/autoDeploy.js';
 
 export default async (client: Manager) => {
     client.logger.info(`Logged in ${client.user!.tag}`)
 
-    // Auto Deploy
-    // require("../../plugins/autoDeploy.js")(client)
+    // Auto deploy
+    Deploy(client)
+
     const users = await client.db.get("premium");
     if (users) Object.keys(users).forEach(async (key, index) => {
         client.premiums.set(users[key].id, users[key])

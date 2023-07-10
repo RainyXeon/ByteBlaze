@@ -5,7 +5,7 @@ import path from "path";
 import readdirRecursive from "recursive-readdir";
 import { ApplicationCommandOptionType, ApplicationCommandManager } from 'discord.js';
 
-module.exports = async (client: Manager) => {
+export async function Deploy(client: Manager) {
   let command = [];
 
   if (!client.config.features.AUTO_DEPLOY) return client.logger.info("Auto deploy disabled. Exiting auto deploy...")
