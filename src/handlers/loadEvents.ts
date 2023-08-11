@@ -20,6 +20,6 @@ export default async (client: Manager) => {
             client.on(eName, evt.default.bind(null, client));
         }
     };
-    ["client"].forEach((x) => loadcommand(x));
+    ["client", "guild"].forEach((x) => loadcommand(x));
     client.logger.info('Client Events Loaded!');
 };

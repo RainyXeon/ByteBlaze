@@ -6,6 +6,7 @@ export function handler(client: Manager) {
     "loadNodeEvents.js",
     "loadCheck.js",
     "loadPlayer.js",
+    "loadCommand.js"
   ]
   loadFile.forEach(async x => {
     const load = await import(`../handlers/${x}`)

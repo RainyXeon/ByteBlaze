@@ -4,7 +4,7 @@ import getLavalinkServer from "./get_lavalink_server.js"
 import Websocket from "ws"
 
 export default async (client: Manager) => {
-  client.logger.info("Running check lavalink server from [https://lavalink.darrennathanael.com/] source")
+  client.logger.lavalink("Running check lavalink server from [https://lavalink.darrennathanael.com/] source")
 
   const lavalink_data = await getLavalinkServer()
   const lavalink_list = []
@@ -46,7 +46,6 @@ export default async (client: Manager) => {
         name: `${config.host}:${config.port}`,
         online: true
       }) 
-      client.logger.online(`Server: ${url}`)
     }).catch(err => {
       client.lavalink_list.push({
         host: config.host,
@@ -56,7 +55,6 @@ export default async (client: Manager) => {
         name: `${config.host}:${config.port}`,
         online: false
       }) 
-      client.logger.offline(`Server: ${url}`)
     });
 
   }

@@ -2,7 +2,7 @@ import { Manager } from "../manager.js"
 const regex = /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/
 
 export default async (client: Manager) => {
-  client.logger.info("----- Starting autofix lavalink... -----")
+  client.logger.lavalink("----- Starting autofix lavalink... -----")
 
   if (
     client.manager.shoukaku.nodes.size !== 0

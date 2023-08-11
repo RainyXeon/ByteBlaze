@@ -91,6 +91,13 @@ export class Manager extends Client {
     this.sent_queue = new Collection()
     this.aliases = new Collection()
 
+    process.on("unhandledRejection", (error) =>
+    this.logger.log({ level: "error", message: error }),
+    );
+    process.on("uncaughtException", (error) =>
+      this.logger.log({ level: "error", message: error }),
+    );
+
     this.manager = new Kazagumo({
       defaultSearchEngine: "youtube", 
       // MAKE SURE YOU HAVE THIS

@@ -14,6 +14,7 @@ function filterLog(info: any) {
   const error = chalk.hex("#e12885")
   const online = chalk.hex("#00FF7F")
   const offline = chalk.hex("#E00064")
+  const lavalink = chalk.hex("#ffc61c")
   
 
   switch (info.level) {
@@ -29,6 +30,8 @@ function filterLog(info: any) {
       return online(info.level.toUpperCase().padEnd(7))
     case "offline":
       return offline(info.level.toUpperCase().padEnd(7))
+    case "lavalink":
+      return lavalink(info.level.toUpperCase().padEnd(7))
   }
 }
 
@@ -52,7 +55,8 @@ const logger = createLogger({
     info: 2,
     online: 3,
     offline: 4,
-    debug: 5
+    lavalink: 5,
+    debug: 6
   },
 
 	transports: [
