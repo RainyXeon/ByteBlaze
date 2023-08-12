@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder } from "discord.js";
 
-const command = {
+export default {
   name: "restart",
   description: "Shuts down the client!",
   category: "Admin",
@@ -11,7 +11,13 @@ const command = {
   usage: "",
   aliases: [],
 
-  run: async (client: Manager, message: Message, args: string[], language: string, prefix: string) => {
+  run: async (
+    client: Manager,
+    message: Message,
+    args: string[],
+    language: string,
+    prefix: string,
+  ) => {
     const restart = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "restart_msg")}`,
@@ -27,5 +33,3 @@ const command = {
     process.exit();
   },
 };
-
-export default command

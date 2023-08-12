@@ -21,31 +21,33 @@ lavalink:
     secret: a98a98s9a89as98a9s8a98
 
   DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
-  
+
   NP_REALTIME: false # Enable this if you want to use realtime duation in nowplaying command
 
   LEAVE_TIMEOUT: 100 # The number of leave time you want
 
   # You can add more lavalink server!
-  NODES: [
+  NODES:
+    [
+      {
+        url: "localhost:2333",
+        name: "Lavalink_Server",
+        auth: "youshallnotpass",
+        secure: false,
+      },
+    ]
+  SHOUKAKU_OPTIONS:
     {
-      url: "localhost:2333",
-      name: "Lavalink_Server",
-      auth: "youshallnotpass",
-      secure: false
+      moveOnDisconnect: true,
+      resumable: true,
+      resumableTimeout: 600,
+      reconnectTries: Infinity,
+      restTimeout: 3000,
     }
-  ]
-  SHOUKAKU_OPTIONS: {
-    moveOnDisconnect: true,
-    resumable: true,
-    resumableTimeout: 600,
-    reconnectTries: Infinity,
-    restTimeout: 3000
-  }
 
 features:
   DATABASE:
-  # Note: You can't enable all or 2 databases. It will return to JSON database
+    # Note: You can't enable all or 2 databases. It will return to JSON database
     JSON:
       enable: true
       path: "./cylane.database.json"
@@ -53,24 +55,24 @@ features:
       enable: false
       # Your mongo_uri, you can get it from here: https://www.mongodb.com/
       uri: mongodb://127.0.0.1:27017/dreamvast
-    MYSQL: 
+    MYSQL:
       enable: false
       host: "localhost"
       user: "me"
       password: "secret"
       database: "my_db"
-  
-  SHARD_SYSTEM: 
+
+  SHARD_SYSTEM:
     enable: false # If you want to use shard system, change it to `true`
     totalShards: 3 # you can set to every number you want but for save mode, use 'auto' option
     totalClusters: 1 # you can set to every number you want but for save mode, use 'auto' option
     shardsPerClusters: 2
-    mode: 'worker' # you can also choose "process"
+    mode: "worker" # you can also choose "process"
 
   MESSAGE_CONTENT:
     enable: true
     prefix: "d!" # The prefix you want
-  
+
   AUTO_DEPLOY: true
   AUTO_REMOVE_DUPLICATE: true
   AUTOFIX_LAVALINK: true # Fix the lavalink server when the current is down
@@ -83,7 +85,7 @@ features:
     enable: false
     port: 8080
     auth: false
-    trusted: ['http://localhost:3000']
+    trusted: ["http://localhost:3000"]
 
   # Your id or friend id (disable global command)
   DEV_ID: []

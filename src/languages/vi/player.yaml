@@ -40,18 +40,14 @@ queue_footer: "Trang • %{page}/%{pages} | %{queue_lang} • Nhạc | %{total_d
 
 clear_msg: "`📛` | *Hàng đợi đã:* `Cleared`"
 
-
 ##### On QueueEnd Event #####
 queue_end_desc: "`📛` | *Bài hát đã:* `Ended`"
-
 
 ##### On Track get error!! Event #####
 error_desc: "`❌` | *Bài hát bị lỗi:* `Đã tự động bỏ qua`"
 
-
 ##### On Track get stuck!! Event #####
 stuck_desc: "`❌` | *Bài hát đã bị kẹt (lỗi băng thông):* `Đã tự động bỏ qua`"
-
 
 ##### On Bot get move Event #####
 

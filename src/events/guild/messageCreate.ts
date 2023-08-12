@@ -6,9 +6,12 @@ import { stripIndents } from "common-tags";
 export default async (client: Manager, message: Message) => {
   if (message.author.bot || message.channel.type == ChannelType.DM) return;
 
-  let guildModel = await client.db.get(`language.guild_${message.guild!.id}`)
+  let guildModel = await client.db.get(`language.guild_${message.guild!.id}`);
   if (!guildModel) {
-      guildModel = await client.db.set(`language.guild_${message.guild!.id}`, client.config.bot.LANGUAGE)
+    guildModel = await client.db.set(
+      `language.guild_${message.guild!.id}`,
+      client.config.bot.LANGUAGE,
+    );
   }
 
   const language = guildModel;
@@ -30,7 +33,7 @@ export default async (client: Manager, message: Message) => {
       .setAuthor({
         name: `${client.i18n.get(language, "help", "wel", {
           bot: message.guild!.members.me!.displayName,
-        })}`
+        })}`,
       })
       // ${client.i18n.get(language, "help", "ver", {
       //   botver: await import("../../../package.json").version,
@@ -38,8 +41,7 @@ export default async (client: Manager, message: Message) => {
       // ${client.i18n.get(language, "help", "djs", {
       //   djsver: await import("../../../package.json").dependencies["discord.js"],
       // })}
-      .setColor(client.color)
-      .setDescription(stripIndents`
+      .setColor(client.color).setDescription(stripIndents`
         ${client.i18n.get(language, "help", "intro1", {
           bot: message.guild!.members.me!.displayName,
         })}
@@ -58,9 +60,10 @@ export default async (client: Manager, message: Message) => {
         })}
         `);
     await message.channel.send({ embeds: [mention_embed] });
-    return
+    return;
   }
-  const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapeRegex = (str: string) =>
+    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const prefixRegex = new RegExp(
     `^(<@!?${client.user!.id}>|${escapeRegex(PREFIX)})\\s*`,
   );

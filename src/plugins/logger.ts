@@ -1,52 +1,55 @@
-import { createLogger, transports, format, addColors } from 'winston';
+import { createLogger, transports, format, addColors } from "winston";
 const { combine, timestamp, prettyPrint, printf, colorize } = format;
 import moment from "moment";
-import chalk from "chalk"
+import chalk from "chalk";
 
 const timezoned = () => {
-    return moment().format("DD-MM-YYYY hh:mm:ss")
-}
+  return moment().format("DD-MM-YYYY hh:mm:ss");
+};
 
 function filterLog(info: any) {
-  const info_print = chalk.hex('#00CFF0')
-  const debug = chalk.hex("#F5A900")
-  const warning = chalk.hex("#FBEC5D")
-  const error = chalk.hex("#e12885")
-  const online = chalk.hex("#00FF7F")
-  const offline = chalk.hex("#E00064")
-  const lavalink = chalk.hex("#ffc61c")
-  
+  const info_print = chalk.hex("#00CFF0");
+  const debug = chalk.hex("#F5A900");
+  const warning = chalk.hex("#FBEC5D");
+  const error = chalk.hex("#e12885");
+  const online = chalk.hex("#00FF7F");
+  const offline = chalk.hex("#E00064");
+  const lavalink = chalk.hex("#ffc61c");
 
   switch (info.level) {
     case "info":
-      return info_print(info.level.toUpperCase().padEnd(7))
+      return info_print(info.level.toUpperCase().padEnd(7));
     case "debug":
-      return debug(info.level.toUpperCase().padEnd(7))
+      return debug(info.level.toUpperCase().padEnd(7));
     case "warn":
-      return warning(info.level.toUpperCase().padEnd(7))
+      return warning(info.level.toUpperCase().padEnd(7));
     case "error":
-      return error(info.level.toUpperCase().padEnd(7))
+      return error(info.level.toUpperCase().padEnd(7));
     case "online":
-      return online(info.level.toUpperCase().padEnd(7))
+      return online(info.level.toUpperCase().padEnd(7));
     case "offline":
-      return offline(info.level.toUpperCase().padEnd(7))
+      return offline(info.level.toUpperCase().padEnd(7));
     case "lavalink":
-      return lavalink(info.level.toUpperCase().padEnd(7))
+      return lavalink(info.level.toUpperCase().padEnd(7));
   }
 }
 
-const time = chalk.hex('#00ddc0');
-const message = chalk.hex("#86cecb")
+const time = chalk.hex("#00ddc0");
+const message = chalk.hex("#86cecb");
 
-
-const customFormat = format.combine(timestamp({ format: timezoned }), printf((info: any) => {
-	return `${time(info.timestamp)} - ${filterLog(info)} - ${message(info.message)}`
-}))
+const customFormat = format.combine(
+  timestamp({ format: timezoned }),
+  printf((info: any) => {
+    return `${time(info.timestamp)} - ${filterLog(info)} - ${message(
+      info.message,
+    )}`;
+  }),
+);
 
 const fileFormat = format.combine(
   timestamp({ format: timezoned }),
   prettyPrint(),
-)
+);
 
 const logger = createLogger({
   levels: {
@@ -56,43 +59,43 @@ const logger = createLogger({
     online: 3,
     offline: 4,
     lavalink: 5,
-    debug: 6
+    debug: 6,
   },
 
-	transports: [
+  transports: [
     new transports.Console({
-      level: 'debug',
+      level: "debug",
       format: customFormat,
     }),
 
     new transports.Console({
-      level: 'error',
+      level: "error",
       format: fileFormat,
     }),
 
     new transports.File({
-      level: 'info',
-      filename: './logs/info.log',
-      format: fileFormat
+      level: "info",
+      filename: "./logs/info.log",
+      format: fileFormat,
     }),
 
     new transports.File({
-      level: 'error',
-      filename: './logs/error.log',
-      format: fileFormat
+      level: "error",
+      filename: "./logs/error.log",
+      format: fileFormat,
     }),
 
     new transports.File({
-      level: 'warn',
-      filename: './logs/warn.log',
-      format: fileFormat
+      level: "warn",
+      filename: "./logs/warn.log",
+      format: fileFormat,
     }),
     new transports.File({
-      level: 'debug',
-      filename: './logs/debug.log',
-      format: fileFormat
+      level: "debug",
+      filename: "./logs/debug.log",
+      format: fileFormat,
     }),
-	]
+  ],
 });
 
 export default logger;

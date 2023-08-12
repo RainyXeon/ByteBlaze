@@ -5,9 +5,9 @@ export default async (client: Manager) => {
   const update = await import("./Player/loadUpdate.js");
   const content = await import("./Player/loadContent.js");
   const setup = await import("./Player/loadSetup.js");
-  event.default(client)
-  update.default(client)
-  content.default(client)
-  setup.default(client)
-  client.logger.info('Shoukaku Player Events Loaded!');
+  event.default(client);
+  update.default(client);
+  content.default(client);
+  setup.default(client);
+  client.logger.info("Shoukaku Player Events Loaded!");
 };

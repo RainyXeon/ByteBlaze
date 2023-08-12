@@ -40,18 +40,14 @@ queue_footer: "Page • %{page}/%{pages} | %{queue_lang} • Song | %{total_dura
 
 clear_msg: "`📛` | *Queue has been:* `Cleared`"
 
-
 ##### On QueueEnd Event #####
 queue_end_desc: "`📛` | *Song has been:* `Ended`"
-
 
 ##### On Track get error!! Event #####
 error_desc: "`❌` | *Song has error:* `Auto-Skipped`"
 
-
 ##### On Track get stuck!! Event #####
 stuck_desc: "`❌` | *Song has stuck:* `Auto-Skipped`"
-
 
 ##### On Bot get move Event #####
 

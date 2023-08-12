@@ -29,9 +29,7 @@ prefix_set: "`🔧` | *Prefix has been set to:* `%{prefix}`"
 prefix_change: "`🔧` | *Prefix has been change to:* `%{prefix}`"
 prefix_error: "An error occured while setting the prefix!"
 
-
 arg_error: "Please specify a `%{text}`!"
 
 page_title: "Online: 🟢 / Offline: 🔴"
 page_footer: "Page • %{page}/%{pages}"
-

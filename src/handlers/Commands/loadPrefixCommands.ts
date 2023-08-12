@@ -2,10 +2,9 @@ import chillout from "chillout";
 import readdirRecursive from "recursive-readdir";
 import { resolve, relative } from "path";
 import { Manager } from "../../manager.js";
-import { join, dirname } from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import { join, dirname } from "path";
+import { fileURLToPath, pathToFileURL } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 
 export default async (client: Manager) => {
   let commandPath = resolve(join(__dirname, "..", "..", "commands", "prefix"));
@@ -14,7 +13,7 @@ export default async (client: Manager) => {
   await chillout.forEach(commandFiles, async (commandFile) => {
     const rltPath = relative(__dirname, commandFile);
     const preload_command = await import(pathToFileURL(commandFile).toString());
-    const command = preload_command.default
+    const command = preload_command.default;
 
     if (!command.name?.length) {
       client.logger.warn(
@@ -33,7 +32,9 @@ export default async (client: Manager) => {
     client.commands.set(command.name, command);
 
     if (command.aliases && command.aliases.length !== 0)
-      command.aliases.forEach((a: string) => client.aliases.set(a, command.name));
+      command.aliases.forEach((a: string) =>
+        client.aliases.set(a, command.name),
+      );
 
     //   console.log(`[INFO] "${command.type == "CHAT_INPUT" ? `/${command.name.join(" ")}` : `${command.name[0]}`}" ${command.name[1] || ""}  ${command.name[2] || ""} The interaction has been uploaded. (it took ${Date.now() - start}ms)`);
   });
