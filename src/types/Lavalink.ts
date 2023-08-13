@@ -22,3 +22,5 @@ export type Headers = {
   "User-Id": string;
   "Resume-Key": string;
 };
+
+export type KazagumoLoopMode = "none" | "queue" | "track" | undefined;
