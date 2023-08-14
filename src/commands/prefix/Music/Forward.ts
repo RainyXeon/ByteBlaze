@@ -4,7 +4,7 @@ import { Manager } from "../../../manager.js";
 const fastForwardNum = 10;
 
 // Main code
-module.exports = {
+export default {
   name: "forward",
   description: "Forward timestamp in the song!",
   category: "Music",
