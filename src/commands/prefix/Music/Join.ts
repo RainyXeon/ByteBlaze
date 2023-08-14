@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 
 // Main code
-module.exports = {
+export default {
   name: "join",
   description: "Make the bot join the voice channel.",
   category: "Music",

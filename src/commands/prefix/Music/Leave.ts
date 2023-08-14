@@ -2,7 +2,7 @@ import { Manager } from "../../../manager.js";
 import { EmbedBuilder, Message } from "discord.js";
 
 // Main code
-module.exports = {
+export default {
   name: "leave",
   description: "Make the bot leave the voice channel.",
   category: "Music",
