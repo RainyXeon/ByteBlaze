@@ -46,8 +46,6 @@ export default async (
   const song = player.queue.current;
   const position = player.shoukaku.position;
 
-  console.log(player.queue);
-
   const TotalDuration = QueueDuration(player);
 
   if (client.websocket && client.config.features.WEBSOCKET.enable) {

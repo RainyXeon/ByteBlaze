@@ -1,10 +1,8 @@
 import { load } from "js-yaml";
-import fs from "fs";
-import { prase } from "./prase.js";
-
-const file = fs.readFileSync("./application.yml", "utf8");
-const yaml_files = prase(file);
+import { prase } from "./prase/index.js";
 let doc: any;
+
+const yaml_files = prase("./application.yml");
 
 try {
   const res = load(yaml_files);
