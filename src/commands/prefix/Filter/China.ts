@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
 
-module.exports = {
+export default {
   name: "china",
   description: "Turning on china filter",
   category: "Filter",
