@@ -1,5 +1,5 @@
 import { createLogger, transports, format, addColors } from "winston";
-const { combine, timestamp, prettyPrint, printf, colorize } = format;
+const { timestamp, prettyPrint, printf } = format;
 import moment from "moment";
 import chalk from "chalk";
 
@@ -18,19 +18,19 @@ function filterLog(info: any) {
 
   switch (info.level) {
     case "info":
-      return info_print(info.level.toUpperCase().padEnd(7));
+      return info_print(info.level.toUpperCase().padEnd(8));
     case "debug":
-      return debug(info.level.toUpperCase().padEnd(7));
+      return debug(info.level.toUpperCase().padEnd(8));
     case "warn":
-      return warning(info.level.toUpperCase().padEnd(7));
+      return warning(info.level.toUpperCase().padEnd(8));
     case "error":
-      return error(info.level.toUpperCase().padEnd(7));
+      return error(info.level.toUpperCase().padEnd(8));
     case "online":
-      return online(info.level.toUpperCase().padEnd(7));
+      return online(info.level.toUpperCase().padEnd(8));
     case "offline":
-      return offline(info.level.toUpperCase().padEnd(7));
+      return offline(info.level.toUpperCase().padEnd(8));
     case "lavalink":
-      return lavalink(info.level.toUpperCase().padEnd(7));
+      return lavalink(info.level.toUpperCase().padEnd(8));
   }
 }
 

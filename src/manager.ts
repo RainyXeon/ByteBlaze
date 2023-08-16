@@ -136,7 +136,7 @@ export class Manager extends Client {
       new Connectors.DiscordJS(this),
       this.config.lavalink.NODES,
       this.config.features.AUTOFIX_LAVALINK
-        ? { reconnectTries: 0 }
+        ? { reconnectTries: 0, restTimeout: 3000 }
         : this.config.lavalink.SHOUKAKU_OPTIONS,
     );
     connectDB(this);

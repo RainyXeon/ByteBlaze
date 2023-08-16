@@ -5,14 +5,12 @@ import {
   EmbedBuilder,
   CommandInteractionOptionResolver,
   AutocompleteInteraction,
-  AnySelectMenuInteraction,
-  ButtonInteraction,
-  ModalSubmitInteraction,
 } from "discord.js";
 import { Manager } from "../../manager.js";
+import { GlobalInteraction } from "../../types/Interaction.js";
 
 /**
- * @param {CommandInteraction} interaction
+ * @param {GlobalInteraction} interaction
  */
 
 const REGEX = [
@@ -25,15 +23,7 @@ const REGEX = [
   /^https?:\/\/(?:www\.|secure\.|sp\.)?nicovideo\.jp\/watch\/([a-z]{2}[0-9]+)/,
 ];
 
-export default async (
-  client: Manager,
-  interaction:
-    | CommandInteraction
-    | AnySelectMenuInteraction
-    | ButtonInteraction
-    | ModalSubmitInteraction
-    | AutocompleteInteraction,
-) => {
+export default async (client: Manager, interaction: GlobalInteraction) => {
   if (
     interaction.isCommand() ||
     interaction.isContextMenuCommand() ||

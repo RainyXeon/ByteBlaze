@@ -5,7 +5,7 @@ const destDir = `./dist/languages/`;
 
 // To copy a folder or file, select overwrite accordingly
 try {
-  fse.copySync(srcDir, destDir, { overwrite: true | false });
+  fse.copySync(srcDir, destDir, { overwrite: true });
   console.log('Copied language package from "src" directory successfully!');
 } catch (err) {
   console.error(err);

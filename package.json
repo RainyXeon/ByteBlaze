@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm-run-all build:typescript copy:languages:packages",
     "build:typescript": "tsc",
-    "copy:languages:packages": "node ./helper/copyFiles.js",
+    "copy:languages:packages": "ts-node ./helper/copyFiles.ts",
     "start": "node ./dist/index.js",
     "dev": "nodemon ./src/index.ts"
   },
