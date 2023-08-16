@@ -3,228 +3,236 @@ import { EmbedBuilder, Client, Message } from "discord.js";
 import { convertTime } from "../../structures/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../structures/QueueDuration.js";
+import { GlobalInteraction } from "../../types/Interaction.js";
 
 /**
  * @param {Client} client
  */
 export default async (client: Manager) => {
   try {
-    client.on("interactionCreate", async (interaction: any) => {
-      if (!interaction.guild || interaction.user.bot) return;
-      if (interaction.isButton()) {
-        const { customId, member } = interaction;
-        let voiceMember = interaction.guild.members.cache.get(member.id);
-        let channel = voiceMember.voice.channel;
+    client.on(
+      "interactionCreate",
+      async (interaction: GlobalInteraction | any) => {
+        if (!interaction.guild || interaction.user.bot) return;
+        if (interaction.isButton()) {
+          const { customId, member } = interaction;
+          let voiceMember = interaction.guild.members.cache.get(member.id);
+          let channel = voiceMember.voice.channel;
 
-        let player = await client.manager.players.get(interaction.guild.id);
-        if (!player) return;
+          let player = await client.manager.players.get(interaction.guild.id);
+          if (!player) return;
 
-        const playChannel = client.channels.cache.get(player.textId);
-        if (!playChannel) return;
+          const playChannel = client.channels.cache.get(player.textId);
+          if (!playChannel) return;
 
-        let guildModel = await client.db.get(
-          `language.guild_${player.guildId}`,
-        );
-        if (!guildModel) {
-          guildModel = await client.db.set(
+          let guildModel = await client.db.get(
             `language.guild_${player.guildId}`,
-            client.config.bot.LANGUAGE,
           );
+          if (!guildModel) {
+            guildModel = await client.db.set(
+              `language.guild_${player.guildId}`,
+              client.config.bot.LANGUAGE,
+            );
+          }
+
+          const language = guildModel;
+
+          switch (customId) {
+            case "sprevious":
+              {
+                if (!channel) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (
+                  interaction.guild.members.me.voice.channel &&
+                  !interaction.guild.members.me.voice.channel.equals(channel)
+                ) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (!player || !player.queue.previous) {
+                  return interaction.reply(
+                    `${client.i18n.get(
+                      language,
+                      "music",
+                      "previous_notfound",
+                    )}`,
+                  );
+                } else {
+                  await player.queue.unshift(player.queue.previous);
+                  await player.skip();
+
+                  const embed = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "music", "previous_msg")}`,
+                    )
+                    .setColor(client.color);
+
+                  interaction.reply({ embeds: [embed] });
+                }
+              }
+              break;
+
+            case "sskip":
+              {
+                if (!channel) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (
+                  interaction.guild.members.me.voice.channel &&
+                  !interaction.guild.members.me.voice.channel.equals(channel)
+                ) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (!player) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_player")}`,
+                  );
+                } else {
+                }
+                if (player.queue.size == 0) {
+                  await player.destroy();
+                  await client.UpdateMusic(player);
+
+                  const embed = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "music", "skip_msg")}`,
+                    )
+                    .setColor(client.color);
+
+                  interaction.reply({ embeds: [embed] });
+                } else {
+                  await player.skip();
+
+                  const embed = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "music", "skip_msg")}`,
+                    )
+                    .setColor(client.color);
+
+                  interaction.reply({ embeds: [embed] });
+                }
+              }
+              break;
+
+            case "sstop":
+              {
+                if (!channel) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (
+                  interaction.guild.members.me.voice.channel &&
+                  !interaction.guild.members.me.voice.channel.equals(channel)
+                ) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (!player) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_player")}`,
+                  );
+                } else {
+                  await player.destroy();
+                  await client.UpdateMusic(player);
+
+                  const embed = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "player", "stop_msg")}`,
+                    )
+                    .setColor(client.color);
+
+                  interaction.reply({ embeds: [embed] });
+                }
+              }
+              break;
+
+            case "spause":
+              {
+                if (!channel) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (
+                  interaction.guild.members.me.voice.channel &&
+                  !interaction.guild.members.me.voice.channel.equals(channel)
+                ) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_voice")}`,
+                  );
+                } else if (!player) {
+                  return interaction.reply(
+                    `${client.i18n.get(language, "noplayer", "no_player")}`,
+                  );
+                } else {
+                  await player.pause(!player.paused);
+                  const uni = player.paused
+                    ? `${client.i18n.get(language, "player", "switch_pause")}`
+                    : `${client.i18n.get(language, "player", "switch_resume")}`;
+
+                  const embed = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "player", "pause_msg", {
+                        pause: uni,
+                      })}`,
+                    )
+                    .setColor(client.color);
+
+                  interaction.reply({ embeds: [embed] });
+                }
+              }
+              break;
+
+            case "sloop":
+              {
+                if (!player) {
+                  return;
+                }
+                const loop_mode = {
+                  none: "none",
+                  track: "track",
+                  queue: "queue",
+                };
+
+                if (player.loop === "queue") {
+                  await player.setLoop(
+                    loop_mode.none as "none" | "queue" | "track",
+                  );
+
+                  const unloopall = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "music", "unloopall")}`,
+                    )
+                    .setColor(client.color);
+                  return await interaction.reply({
+                    content: " ",
+                    embeds: [unloopall],
+                  });
+                } else if (player.loop === "none") {
+                  await player.setLoop(
+                    loop_mode.queue as "none" | "queue" | "track",
+                  );
+                  const loopall = new EmbedBuilder()
+                    .setDescription(
+                      `${client.i18n.get(language, "music", "loopall")}`,
+                    )
+                    .setColor(client.color);
+                  return await interaction.reply({
+                    content: " ",
+                    embeds: [loopall],
+                  });
+                }
+              }
+              break;
+            default:
+              break;
+          }
         }
-
-        const language = guildModel;
-
-        switch (customId) {
-          case "sprevious":
-            {
-              if (!channel) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (
-                interaction.guild.members.me.voice.channel &&
-                !interaction.guild.members.me.voice.channel.equals(channel)
-              ) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (!player || !player.queue.previous) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "music", "previous_notfound")}`,
-                );
-              } else {
-                await player.queue.unshift(player.queue.previous);
-                await player.skip();
-
-                const embed = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "music", "previous_msg")}`,
-                  )
-                  .setColor(client.color);
-
-                interaction.reply({ embeds: [embed] });
-              }
-            }
-            break;
-
-          case "sskip":
-            {
-              if (!channel) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (
-                interaction.guild.members.me.voice.channel &&
-                !interaction.guild.members.me.voice.channel.equals(channel)
-              ) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (!player) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_player")}`,
-                );
-              } else {
-              }
-              if (player.queue.size == 0) {
-                await player.destroy();
-                await client.UpdateMusic(player);
-
-                const embed = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "music", "skip_msg")}`,
-                  )
-                  .setColor(client.color);
-
-                interaction.reply({ embeds: [embed] });
-              } else {
-                await player.skip();
-
-                const embed = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "music", "skip_msg")}`,
-                  )
-                  .setColor(client.color);
-
-                interaction.reply({ embeds: [embed] });
-              }
-            }
-            break;
-
-          case "sstop":
-            {
-              if (!channel) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (
-                interaction.guild.members.me.voice.channel &&
-                !interaction.guild.members.me.voice.channel.equals(channel)
-              ) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (!player) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_player")}`,
-                );
-              } else {
-                await player.destroy();
-                await client.UpdateMusic(player);
-
-                const embed = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "player", "stop_msg")}`,
-                  )
-                  .setColor(client.color);
-
-                interaction.reply({ embeds: [embed] });
-              }
-            }
-            break;
-
-          case "spause":
-            {
-              if (!channel) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (
-                interaction.guild.members.me.voice.channel &&
-                !interaction.guild.members.me.voice.channel.equals(channel)
-              ) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_voice")}`,
-                );
-              } else if (!player) {
-                return interaction.reply(
-                  `${client.i18n.get(language, "noplayer", "no_player")}`,
-                );
-              } else {
-                await player.pause(!player.paused);
-                const uni = player.paused
-                  ? `${client.i18n.get(language, "player", "switch_pause")}`
-                  : `${client.i18n.get(language, "player", "switch_resume")}`;
-
-                const embed = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "player", "pause_msg", {
-                      pause: uni,
-                    })}`,
-                  )
-                  .setColor(client.color);
-
-                interaction.reply({ embeds: [embed] });
-              }
-            }
-            break;
-
-          case "sloop":
-            {
-              if (!player) {
-                return;
-              }
-              const loop_mode = {
-                none: "none",
-                track: "track",
-                queue: "queue",
-              };
-
-              if (player.loop === "queue") {
-                await player.setLoop(
-                  loop_mode.none as "none" | "queue" | "track",
-                );
-
-                const unloopall = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "music", "unloopall")}`,
-                  )
-                  .setColor(client.color);
-                return await interaction.reply({
-                  content: " ",
-                  embeds: [unloopall],
-                });
-              } else if (player.loop === "none") {
-                await player.setLoop(
-                  loop_mode.queue as "none" | "queue" | "track",
-                );
-                const loopall = new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(language, "music", "loopall")}`,
-                  )
-                  .setColor(client.color);
-                return await interaction.reply({
-                  content: " ",
-                  embeds: [loopall],
-                });
-              }
-            }
-            break;
-          default:
-            break;
-        }
-      }
-    });
+      },
+    );
   } catch (e) {
     console.log(e);
   }
@@ -233,7 +241,7 @@ export default async (client: Manager) => {
    * @param {Message} message
    */
 
-  client.on("messageCreate", async (message: any) => {
+  client.on("messageCreate", async (message: Message | any) => {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.get(`setup.guild_${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
@@ -281,7 +289,7 @@ export default async (client: Manager) => {
     if (!voiceChannel)
       return message.channel
         .send(`${client.i18n.get(language, "noplayer", "no_voice")}`)
-        .then((msg: any) => {
+        .then((msg: Message) => {
           setTimeout(() => {
             msg.delete();
           }, 4000);

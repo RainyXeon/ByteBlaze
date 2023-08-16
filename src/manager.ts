@@ -3,6 +3,9 @@ import {
   GatewayIntentBits,
   Collection,
   ColorResolvable,
+  ActionRowBuilder,
+  ButtonBuilder,
+  Message,
 } from "discord.js";
 import { connectDB } from "./database/connect.js";
 import { I18n } from "@hammerhq/localization";
@@ -14,9 +17,10 @@ import Spotify from "kazagumo-spotify";
 import Deezer from "kazagumo-deezer";
 import Nico from "kazagumo-nico";
 import { Connectors } from "shoukaku";
-import { Kazagumo, Plugins } from "kazagumo";
+import { Kazagumo, KazagumoPlayer, Plugins } from "kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { QuickDB } from "quick.db";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class Manager extends Client {
@@ -24,7 +28,7 @@ export class Manager extends Client {
   token: string;
   config: any;
   logger: any;
-  db: any;
+  db!: QuickDB;
   owner: string;
   dev: string[];
   color: ColorResolvable;
@@ -43,10 +47,10 @@ export class Manager extends Client {
   sent_queue: Collection<string, any>;
   aliases: Collection<string, any>;
   websocket: any;
-  UpdateMusic: any;
-  UpdateQueueMsg: any;
-  enSwitch: any;
-  diSwitch: any;
+  UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  enSwitch!: ActionRowBuilder<ButtonBuilder>;
+  diSwitch!: ActionRowBuilder<ButtonBuilder>;
 
   // Main class
   constructor() {
