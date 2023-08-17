@@ -2,7 +2,7 @@ import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { Manager } from "../../../manager.js";
 
 export default {
-  name: ["sudo", "bot", "restart"],
+  name: ["sudo", "restart"],
   description: "Shuts down the client!",
   category: "Admin",
   owner: true,

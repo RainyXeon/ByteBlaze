@@ -2,6 +2,7 @@ import { ChannelType, Message } from "discord.js";
 import { Manager } from "../../manager.js";
 import { PermissionsBitField, EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
+import fs from "fs";
 
 export default async (client: Manager, message: Message) => {
   if (message.author.bot || message.channel.type == ChannelType.DM) return;
@@ -56,6 +57,14 @@ export default async (client: Manager, message: Message) => {
           prefix: `\`${PREFIX}\``,
         })}
         ${client.i18n.get(language, "help", "intro4")}
+        ${client.i18n.get(language, "help", "ver", {
+          botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+            .version,
+        })}
+        ${client.i18n.get(language, "help", "djs", {
+          djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+            .dependencies["discord.js"],
+        })}
         ${client.i18n.get(language, "help", "lavalink", { aver: "v3.0-beta" })}
         ${client.i18n.get(language, "help", "help1", {
           help: `\`${PREFIX}help\` / \`/help\``,

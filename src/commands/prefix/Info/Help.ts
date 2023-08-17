@@ -8,6 +8,7 @@ import {
 } from "discord.js";
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
+import fs from "fs";
 
 export default {
   name: "help",
@@ -92,6 +93,14 @@ export default {
             ${client.i18n.get(language, "help", "intro4")}
             ${client.i18n.get(language, "help", "lavalink", {
               aver: "v3.0-beta",
+            })}
+            ${client.i18n.get(language, "help", "ver", {
+              botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+                .version,
+            })}
+            ${client.i18n.get(language, "help", "djs", {
+              djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+                .dependencies["discord.js"],
             })}
             `,
       )
