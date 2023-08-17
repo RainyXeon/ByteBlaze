@@ -6,6 +6,11 @@ import { stripIndents } from "common-tags";
 export default async (client: Manager, message: Message) => {
   if (message.author.bot || message.channel.type == ChannelType.DM) return;
 
+  if (!client.is_db_connected)
+    return client.logger.warn(
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!",
+    );
+
   let guildModel = await client.db.get(`language.guild_${message.guild!.id}`);
   if (!guildModel) {
     guildModel = await client.db.set(

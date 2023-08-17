@@ -1,13 +1,20 @@
+import { MongoConnectDriver } from "./MongoDriver.js";
+import { JSONConnectDriver } from "./JSONDriver.js";
+import { SQLConnectDriver } from "./SQLDriver.js";
 import { Manager } from "../manager.js";
-import { JSONDriver, MongoDriver, SQLDriver } from "../drivers/index.js";
-import { handler } from "./handler.js";
+import { loadDatabase } from "./init.js";
+
+const JSONDriver = JSONConnectDriver;
+const MongoDriver = MongoConnectDriver;
+const SQLDriver = SQLConnectDriver;
 
 export async function connectDB(client: Manager) {
   try {
     const db_config = client.config.features.DATABASE;
 
-    function load_file() {
-      handler(client);
+    function load_db() {
+      client.is_db_connected = true;
+      loadDatabase(client);
     }
 
     if (
@@ -16,7 +23,7 @@ export async function connectDB(client: Manager) {
       !db_config.MONGO_DB.enable
     ) {
       await JSONDriver(client, db_config).then(async () => {
-        await load_file();
+        await load_db();
       });
       return;
     }
@@ -27,7 +34,7 @@ export async function connectDB(client: Manager) {
       !db_config.MYSQL.enable
     ) {
       await MongoDriver(client, db_config).then(async () => {
-        await load_file();
+        await load_db();
       });
       return;
     }
@@ -38,12 +45,12 @@ export async function connectDB(client: Manager) {
       !db_config.MONGO_DB.enable
     ) {
       await SQLDriver(client, db_config).then(async () => {
-        await load_file();
+        await load_db();
       });
       return;
     } else {
       await JSONDriver(client, db_config).then(async () => {
-        await load_file();
+        await load_db();
       });
       return;
     }

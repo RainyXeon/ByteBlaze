@@ -7,7 +7,7 @@ import {
   ButtonBuilder,
   Message,
 } from "discord.js";
-import { connectDB } from "./database/connect.js";
+import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
@@ -51,6 +51,7 @@ export class Manager extends Client {
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
+  is_db_connected: boolean;
 
   // Main class
   constructor() {
@@ -101,6 +102,7 @@ export class Manager extends Client {
     this.interval = new Collection();
     this.sent_queue = new Collection();
     this.aliases = new Collection();
+    this.is_db_connected = false;
 
     process.on("unhandledRejection", (error) =>
       this.logger.log({ level: "error", message: error }),
@@ -143,11 +145,23 @@ export class Manager extends Client {
         ? { reconnectTries: 0, restTimeout: 3000 }
         : this.config.lavalink.SHOUKAKU_OPTIONS,
     );
+
+    const loadFile = [
+      "loadEvents.js",
+      "loadNodeEvents.js",
+      "loadCheck.js",
+      "loadPlayer.js",
+      "loadCommand.js",
+    ];
+    loadFile.forEach(async (x) => {
+      const load = await import(`./handlers/${x}`);
+      load.default(this);
+    });
+
     connectDB(this);
   }
 
   connect() {
     super.login(this.token);
-    return;
   }
 }

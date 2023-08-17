@@ -8,6 +8,11 @@ export default async (
   player: KazagumoPlayer,
   data: TrackStuckEvent,
 ) => {
+  if (!client.is_db_connected)
+    return client.logger.warn(
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!",
+    );
+
   const guild = await client.guilds.cache.get(player.guildId);
 
   const channel = client.channels.cache.get(player.textId) as TextChannel;

@@ -1,3 +1,4 @@
+import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../manager.js";
 import chillout from "chillout";
 import { makeSureFolderExists } from "stuffs";
@@ -29,10 +30,16 @@ export async function Deploy(client: Manager) {
     return !state;
   });
 
-  await chillout.forEach(interactionFilePaths, (interactionFilePath: any) => {
-    const cmd = require(interactionFilePath);
-    store.push(cmd);
-  });
+  await chillout.forEach(
+    interactionFilePaths,
+    async (interactionFilePath: any) => {
+      const pre_cmd = await import(
+        pathToFileURL(interactionFilePath).toString()
+      );
+      const cmd = pre_cmd.default;
+      return store.push(cmd);
+    },
+  );
 
   store = store.sort((a: any, b: any) => a.name.length - b.name.length);
   command = store.reduce((all: any, current: any) => {

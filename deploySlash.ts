@@ -1,3 +1,4 @@
+import { pathToFileURL } from "url";
 import { plsParseArgs } from "plsargs";
 const args = plsParseArgs(process.argv.slice(2));
 import chillout from "chillout";
@@ -50,17 +51,25 @@ import { Routes } from "discord-api-types/v10";
       return !state;
     });
 
-    await chillout.forEach(interactionFilePaths, (interactionFilePath) => {
-      const cmd = require(interactionFilePath);
-      console.log(
-        `Interaction "${
-          cmd.type == "CHAT_INPUT" ? `/${cmd.name.join(" ")}` : `${cmd.name[0]}`
-        }" ${cmd.name[1] || ""} ${
-          cmd.name[2] || ""
-        } added to the transform list!`,
-      );
-      store.push(cmd);
-    });
+    await chillout.forEach(
+      interactionFilePaths,
+      async (interactionFilePath) => {
+        const pre_cmd = await import(
+          pathToFileURL(interactionFilePath).toString()
+        );
+        const cmd = pre_cmd.default;
+        console.log(
+          `Interaction "${
+            cmd.type == "CHAT_INPUT"
+              ? `/${cmd.name.join(" ")}`
+              : `${cmd.name[0]}`
+          }" ${cmd.name[1] || ""} ${
+            cmd.name[2] || ""
+          } added to the transform list!`,
+        );
+        store.push(cmd);
+      },
+    );
 
     store = store.sort((a: any, b: any) => a.name.length - b.name.length);
 

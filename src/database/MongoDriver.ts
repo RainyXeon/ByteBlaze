@@ -7,13 +7,7 @@ export async function MongoConnectDriver(
   db_config: db_credentials_type,
 ) {
   const mongoDriver = new MongoDriver(db_config.MONGO_DB.uri);
-
-  try {
-    await mongoDriver.connect().then(async () => {
-      client.logger.info("Connected to the database! [MONGO DB]");
-      return (client.db = new QuickDB({ driver: mongoDriver }));
-    });
-  } catch (err) {
-    client.logger.log({ level: "error", message: err });
-  }
+  await mongoDriver.connect();
+  client.logger.info("Connected to the database! [MONGO DB]");
+  client.db = new QuickDB({ driver: mongoDriver, normalKeys: true });
 }

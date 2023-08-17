@@ -8,6 +8,11 @@ export default async (
   track: KazagumoTrack,
   message: string,
 ) => {
+  if (!client.is_db_connected)
+    return client.logger.warn(
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!",
+    );
+
   const guild = await client.guilds.cache.get(player.guildId);
 
   client.logger.log({ level: "error", message: message });
