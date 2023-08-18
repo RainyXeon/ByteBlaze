@@ -1,5 +1,5 @@
-import { Manager } from "../manager.js";
-import { db_credentials_type } from "../types/db_connect.js";
+import { Manager } from "../../manager.js";
+import { db_credentials_type } from "../../types/db_connect.js";
 import { QuickDB, MySQLDriver } from "quick.db";
 
 export async function SQLConnectDriver(

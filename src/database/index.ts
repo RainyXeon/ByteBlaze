@@ -1,8 +1,8 @@
-import { MongoConnectDriver } from "./MongoDriver.js";
-import { JSONConnectDriver } from "./JSONDriver.js";
-import { SQLConnectDriver } from "./SQLDriver.js";
+import { MongoConnectDriver } from "./driver/MongoDriver.js";
+import { JSONConnectDriver } from "./driver/JSONDriver.js";
+import { SQLConnectDriver } from "./driver/SQLDriver.js";
 import { Manager } from "../manager.js";
-import { loadDatabase } from "./init.js";
+import { handler } from "./handler.js";
 
 const JSONDriver = JSONConnectDriver;
 const MongoDriver = MongoConnectDriver;
@@ -14,7 +14,7 @@ export async function connectDB(client: Manager) {
 
     function load_db() {
       client.is_db_connected = true;
-      loadDatabase(client);
+      handler(client);
     }
 
     if (

@@ -24,7 +24,7 @@ export default async (client: Manager) => {
       const channel = client.channels.cache.get(data.text);
       const voice = client.channels.cache.get(data.voice);
       if (!channel || !voice) return client.db.delete(`autoreconnect.${key}`);
-      const player = await client.manager.createPlayer({
+      await client.manager.createPlayer({
         guildId: data.guild,
         voiceId: data.voice,
         textId: data.text,

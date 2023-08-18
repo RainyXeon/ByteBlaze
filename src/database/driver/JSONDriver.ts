@@ -1,6 +1,6 @@
-import { Manager } from "../manager.js";
+import { Manager } from "../../manager.js";
 import { QuickDB, JSONDriver } from "quick.db";
-import { db_credentials_type } from "../types/db_connect.js";
+import { db_credentials_type } from "../../types/db_connect.js";
 
 export async function JSONConnectDriver(
   client: Manager,
