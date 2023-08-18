@@ -22,5 +22,5 @@ export default async (client: Manager) => {
     }
   };
   ["client", "guild"].forEach((x) => loadcommand(x));
-  client.logger.info("Client Events Loaded!");
+  client.logger.loader("Client Events Loaded!");
 };

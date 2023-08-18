@@ -1,20 +1,23 @@
-import { ButtonStyle, Message } from "discord.js";
+import {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  version,
+  CommandInteraction,
+  ButtonStyle,
+} from "discord.js";
 import { Manager } from "../../../manager.js";
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 export default {
-  name: "invite",
+  name: ["invite"],
   description: "Shows the invite information of the Bot",
   category: "Info",
-  usage: "",
-  aliases: [],
   run: async (
+    interaction: CommandInteraction,
     client: Manager,
-    message: Message,
-    args: string[],
     language: string,
-    prefix: string,
   ) => {
+    await interaction.deferReply({ ephemeral: false });
     const invite = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "inv_title", {
@@ -47,6 +50,6 @@ export default {
         ),
     );
 
-    await message.reply({ embeds: [invite], components: [row2] });
+    await interaction.editReply({ embeds: [invite], components: [row2] });
   },
 };

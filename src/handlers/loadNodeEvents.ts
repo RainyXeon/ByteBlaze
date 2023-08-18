@@ -20,5 +20,5 @@ export default async (client: Manager) => {
     client.manager.shoukaku.on(eName as "raw", evt.default.bind(null, client));
   }
 
-  client.logger.info("Lavalink Server Events Loaded!");
+  client.logger.loader("Lavalink Server Events Loaded!");
 };

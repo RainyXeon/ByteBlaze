@@ -7,7 +7,10 @@ import {
   AutocompleteInteraction,
 } from "discord.js";
 import { Manager } from "../../manager.js";
-import { GlobalInteraction } from "../../types/Interaction.js";
+import {
+  AutocompleteInteractionChoices,
+  GlobalInteraction,
+} from "../../types/Interaction.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -87,7 +90,10 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     });
 
     // Push Function
-    async function AutoCompletePush(url: string, choice: any) {
+    async function AutoCompletePush(
+      url: string,
+      choice: AutocompleteInteractionChoices[],
+    ) {
       const Random =
         client.config.lavalink.DEFAULT[
           Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
@@ -128,7 +134,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         (interaction as CommandInteraction).commandName + command.name[1] ==
           "playlist" + "add"
       ) {
-        let choice: any = [];
+        let choice: AutocompleteInteractionChoices[] = [];
         const url = (interaction as CommandInteraction).options.get(
           "search",
         )!.value;
@@ -137,7 +143,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         (interaction as CommandInteraction).commandName + command.name[1] ==
         "playlist" + "edit"
       ) {
-        let choice: any = [];
+        let choice: AutocompleteInteractionChoices[] = [];
         const url = (interaction as CommandInteraction).options.get(
           "add",
         )!.value;

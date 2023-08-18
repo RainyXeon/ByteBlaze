@@ -12,3 +12,8 @@ export type GlobalInteraction =
   | ButtonInteraction
   | ModalSubmitInteraction
   | AutocompleteInteraction;
+
+export type AutocompleteInteractionChoices = {
+  name: string;
+  value: string;
+};

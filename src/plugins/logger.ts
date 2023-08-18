@@ -8,6 +8,7 @@ const timezoned = () => {
 };
 
 function filterLog(info: any) {
+  const pad = 11;
   const info_print = chalk.hex("#00CFF0");
   const debug = chalk.hex("#F5A900");
   const warning = chalk.hex("#FBEC5D");
@@ -15,22 +16,28 @@ function filterLog(info: any) {
   const online = chalk.hex("#00FF7F");
   const offline = chalk.hex("#E00064");
   const lavalink = chalk.hex("#ffc61c");
+  const loader = chalk.hex("#4402f7");
+  const data_loader = chalk.hex("#f7f702");
 
   switch (info.level) {
     case "info":
-      return info_print(info.level.toUpperCase().padEnd(8));
+      return info_print(info.level.toUpperCase().padEnd(pad));
     case "debug":
-      return debug(info.level.toUpperCase().padEnd(8));
+      return debug(info.level.toUpperCase().padEnd(pad));
     case "warn":
-      return warning(info.level.toUpperCase().padEnd(8));
+      return warning(info.level.toUpperCase().padEnd(pad));
     case "error":
-      return error(info.level.toUpperCase().padEnd(8));
+      return error(info.level.toUpperCase().padEnd(pad));
     case "online":
-      return online(info.level.toUpperCase().padEnd(8));
+      return online(info.level.toUpperCase().padEnd(pad));
     case "offline":
-      return offline(info.level.toUpperCase().padEnd(8));
+      return offline(info.level.toUpperCase().padEnd(pad));
     case "lavalink":
-      return lavalink(info.level.toUpperCase().padEnd(8));
+      return lavalink(info.level.toUpperCase().padEnd(pad));
+    case "loader":
+      return loader(info.level.toUpperCase().padEnd(pad));
+    case "data_loader":
+      return data_loader(info.level.toUpperCase().padEnd(pad));
   }
 }
 
@@ -59,7 +66,9 @@ const logger = createLogger({
     online: 3,
     offline: 4,
     lavalink: 5,
-    debug: 6,
+    loader: 6,
+    data_loader: 7,
+    debug: 8,
   },
 
   transports: [
@@ -88,11 +97,6 @@ const logger = createLogger({
     new transports.File({
       level: "warn",
       filename: "./logs/warn.log",
-      format: fileFormat,
-    }),
-    new transports.File({
-      level: "debug",
-      filename: "./logs/debug.log",
       format: fileFormat,
     }),
   ],

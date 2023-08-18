@@ -9,5 +9,5 @@ export default async (client: Manager) => {
   update.default(client);
   content.default(client);
   setup.default(client);
-  client.logger.info("Shoukaku Player Events Loaded!");
+  client.logger.loader("Shoukaku Player Events Loaded!");
 };

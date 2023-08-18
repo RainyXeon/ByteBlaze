@@ -1,19 +1,27 @@
+import chalk from "chalk";
 import { Manager } from "../../manager.js";
 
 export default async (client: Manager) => {
-  client.logger.info("[Lavalink Data Loader]: Setting up data for lavalink...");
-  client.logger.info("Auto ReConnect Collecting player 24/7 data");
+  const lavalink = chalk.hex("#ffc61c");
+  const lavalink_mess = lavalink("Lavalink: ");
+  client.logger.data_loader(lavalink_mess + `Setting up data for lavalink...`);
+  client.logger.data_loader(
+    lavalink_mess + `Auto ReConnect Collecting player 24/7 data`,
+  );
   const maindata = await client.db.get(`autoreconnect`);
   if (!maindata) {
-    client.logger.info(`Auto ReConnect found in 0 servers!`);
-    client.logger.info(
-      "[Lavalink Data Loader]: Setting up data for lavalink complete!",
+    client.logger.data_loader(
+      lavalink_mess + `Auto ReConnect found in 0 servers!`,
+    );
+    client.logger.data_loader(
+      lavalink_mess + `Setting up data for lavalink complete!`,
     );
     return;
   }
 
-  client.logger.info(
-    `Auto ReConnect found in ${Object.keys(maindata).length} servers!`,
+  client.logger.data_loader(
+    lavalink_mess +
+      `Auto ReConnect found in ${Object.keys(maindata).length} servers!`,
   );
   if (Object.keys(maindata).length === 0) return;
 
@@ -34,7 +42,7 @@ export default async (client: Manager) => {
       index * 5000;
   });
 
-  client.logger.info(
-    "[Lavalink Data Loader]: Setting up data for lavalink complete!",
+  client.logger.data_loader(
+    lavalink_mess + `Setting up data for lavalink complete!`,
   );
 };

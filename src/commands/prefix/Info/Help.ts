@@ -135,7 +135,8 @@ export default {
       let filter = (i: any) =>
         i.isStringSelectMenu() &&
         i.user &&
-        i.message.author.id == client.user!.id;
+        i.message.author.id == client.user!.id &&
+        console.log(i);
       let collector = await msg.createMessageComponentCollector({
         filter,
         time: 60000,

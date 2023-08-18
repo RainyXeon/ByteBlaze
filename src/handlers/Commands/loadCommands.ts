@@ -44,7 +44,7 @@ export default async (client: Manager) => {
     //   console.log(`[INFO] "${command.type == "CHAT_INPUT" ? `/${command.name.join(" ")}` : `${command.name[0]}`}" ${command.name[1] || ""}  ${command.name[2] || ""} The interaction has been uploaded. (it took ${Date.now() - start}ms)`);
   });
   if (client.slash.size) {
-    client.logger.info(`${client.slash.size} Interactions Loaded!`);
+    client.logger.loader(`${client.slash.size} Interactions Loaded!`);
   } else {
     client.logger.warn(`No interactions loaded, is everything ok?`);
   }

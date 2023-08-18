@@ -1,9 +1,12 @@
 import ms from "pretty-ms";
 import { EmbedBuilder, TextChannel, version } from "discord.js";
 import { Manager } from "../../manager.js";
+import chalk from "chalk";
 
 export default async (client: Manager) => {
-  client.logger.info("[Client Data Loader]: Setting up data for client...");
+  const Client = chalk.hex("#02f75c");
+  const client_mess = Client("Client: ");
+  client.logger.data_loader(client_mess + "Setting up data for client...");
   const users = await client.db.get("premium");
   if (users)
     Object.keys(users).forEach(async (key, index) => {
@@ -83,7 +86,7 @@ export default async (client: Manager) => {
 
   client.interval.set("MAIN", info);
 
-  client.logger.info(
-    "[Client Data Loader]: Setting up data for client complete!",
+  client.logger.data_loader(
+    client_mess + "Setting up data for client complete!",
   );
 };

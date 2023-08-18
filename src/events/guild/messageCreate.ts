@@ -82,7 +82,9 @@ export default async (client: Manager, message: Message) => {
     `^(<@!?${client.user!.id}>|${escapeRegex(PREFIX)})\\s*`,
   );
   if (!prefixRegex.test(message.content)) return;
-  const [matchedPrefix]: any = message.content.match(prefixRegex);
+  const [matchedPrefix] = message.content.match(
+    prefixRegex,
+  ) as RegExpMatchArray;
   const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
   const cmd = args.shift()!.toLowerCase();
 

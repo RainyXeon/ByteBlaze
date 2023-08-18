@@ -8,6 +8,7 @@ export default async (
   data: TrackExceptionEvent,
 ) => {
   client.logger.error(`Player get exception ${data}`);
+  client.logger.log({ level: "error", message: data });
   await player.destroy();
   if (client.websocket)
     client.websocket.send(

@@ -39,7 +39,7 @@ export default async (client: Manager) => {
     //   console.log(`[INFO] "${command.type == "CHAT_INPUT" ? `/${command.name.join(" ")}` : `${command.name[0]}`}" ${command.name[1] || ""}  ${command.name[2] || ""} The interaction has been uploaded. (it took ${Date.now() - start}ms)`);
   });
   if (client.commands.size) {
-    client.logger.info(`${client.commands.size} Prefix Command Loaded!`);
+    client.logger.loader(`${client.commands.size} Prefix Command Loaded!`);
   } else {
     client.logger.warn(`No prefix command loaded, is everything ok?`);
   }
