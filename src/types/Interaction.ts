@@ -44,6 +44,7 @@ export type CommandInterface = {
   category: string;
   owner?: boolean;
   premium?: boolean;
+  lavalink?: boolean;
   options: CommandOptionInterface[];
   defaultPermission?: undefined | typeof PermissionFlagsBits;
   run: (

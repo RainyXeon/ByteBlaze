@@ -47,6 +47,7 @@
     "kazagumo-nico": "^1.1.5",
     "kazagumo-spotify": "^1.2.0",
     "lodash": "^4.17.21",
+    "lyric-api": "^1.0.1",
     "lyrics-finder": "^21.7.0",
     "markdown-it": "^13.0.1",
     "moment": "^2.29.4",
