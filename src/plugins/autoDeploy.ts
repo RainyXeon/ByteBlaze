@@ -51,7 +51,6 @@ export async function Deploy(client: Manager) {
   );
   command = store.reduce(
     (all: UploadCommandInterface[], current: CommandInterface) => {
-      console.log(current);
       switch (current.name.length) {
         case 1: {
           all.push({
@@ -65,7 +64,6 @@ export async function Deploy(client: Manager) {
         }
         case 2: {
           let baseItem = all.find((i: UploadCommandInterface) => {
-            console.log(i);
             return i.name == current.name[0] && i.type == current.type;
           });
           if (!baseItem) {

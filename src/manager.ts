@@ -11,7 +11,7 @@ import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
-import configData from "./plugins/config.js";
+import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
 import Spotify from "kazagumo-spotify";
 import Deezer from "kazagumo-deezer";
@@ -22,6 +22,8 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+winstonLogger.info("Booting client...");
 
 export class Manager extends Client {
   // Interface
@@ -61,7 +63,7 @@ export class Manager extends Client {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
-      intents: configData.features.MESSAGE_CONTENT.enable
+      intents: configData.default.features.MESSAGE_CONTENT.enable
         ? [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildVoiceStates,
@@ -75,8 +77,7 @@ export class Manager extends Client {
           ],
     });
     this.logger = winstonLogger;
-    this.logger.info("Booting client...");
-    this.config = configData;
+    this.config = configData.default;
 
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
