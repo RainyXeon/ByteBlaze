@@ -48,7 +48,7 @@ export const SlashPage = async (
   });
   if (pages.length == 0) return;
 
-  const filter = (m: any) => m.user.id === interaction.user.id;
+  const filter = (m: any) => m.author.id === interaction.user.id;
   const collector = await curPage.createMessageComponentCollector({
     filter,
     time: timeout,

@@ -15,7 +15,7 @@ function convertTime(duration: number) {
   }
 }
 
-function convertNumber(number: any, decPlaces: any) {
+function convertNumber(number: number, decPlaces: number) {
   decPlaces = Math.pow(10, decPlaces);
 
   var abbrev = ["K", "M", "B", "T"];
@@ -31,7 +31,9 @@ function convertNumber(number: any, decPlaces: any) {
         i++;
       }
 
-      number += abbrev[i];
+      let res = String(number);
+
+      res += abbrev[i];
 
       break;
     }
@@ -48,16 +50,16 @@ function chunk(arr: Array<any>, size: number) {
   return temp;
 }
 
-function convertHmsToMs(hms: any) {
+function convertHmsToMs(hms: string) {
   if (hms.length < 3) {
     const a = hms.split(":");
-    return (hms = +a[0] * 1000);
+    return (hms = String(+a[0] * 1000));
   } else if (hms.length < 6) {
     const a = hms.split(":");
-    return (hms = (+a[0] * 60 + +a[1]) * 1000);
+    return (hms = String((+a[0] * 60 + +a[1]) * 1000));
   } else {
     const a = hms.split(":");
-    return (hms = (+a[0] * 60 * 60 + +a[1] * 60 + +a[2]) * 1000);
+    return (hms = String((+a[0] * 60 * 60 + +a[1] * 60 + +a[2]) * 1000));
   }
 }
 

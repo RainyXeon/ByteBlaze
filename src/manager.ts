@@ -26,7 +26,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export class Manager extends Client {
   // Interface
   token: string;
-  config: any;
+  config: Record<string, any>;
   logger: any;
   db!: QuickDB;
   owner: string;

@@ -4,6 +4,7 @@ import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();
 import fse from "fs-extra";
 import logger from "../plugins/logger.js";
+import Token from "markdown-it/lib/token.js";
 
 function parseBoolean(value: string) {
   if (typeof value === "string") {
@@ -25,7 +26,7 @@ export default async () => {
   function getLavalinkServerInfo(data: string) {
     var result = md.parse(data, "");
 
-    result.filter(async (data: any) => {
+    result.filter(async (data: Token) => {
       if (data.tag == "code") {
         filter_data.push(data.content);
       }

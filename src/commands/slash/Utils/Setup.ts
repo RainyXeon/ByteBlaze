@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 
-module.exports = {
+export default {
   name: ["settings", "setup"],
   description: "Setup channel song request",
   category: "Utils",

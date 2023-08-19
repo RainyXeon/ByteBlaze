@@ -3,11 +3,17 @@ const { timestamp, prettyPrint, printf } = format;
 import moment from "moment";
 import chalk from "chalk";
 
+type InfoDataType = {
+  message: string;
+  level: string;
+  timestamp?: string;
+};
+
 const timezoned = () => {
   return moment().format("DD-MM-YYYY hh:mm:ss");
 };
 
-function filterLog(info: any) {
+function filterLog(info: InfoDataType) {
   const pad = 11;
   const info_print = chalk.hex("#00CFF0");
   const debug = chalk.hex("#F5A900");
@@ -46,7 +52,7 @@ const message = chalk.hex("#86cecb");
 
 const customFormat = format.combine(
   timestamp({ format: timezoned }),
-  printf((info: any) => {
+  printf((info: InfoDataType) => {
     return `${time(info.timestamp)} - ${filterLog(info)} - ${message(
       info.message,
     )}`;

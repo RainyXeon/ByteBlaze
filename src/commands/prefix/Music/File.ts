@@ -1,4 +1,9 @@
-import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
+import {
+  Attachment,
+  EmbedBuilder,
+  Message,
+  PermissionsBitField,
+} from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 
