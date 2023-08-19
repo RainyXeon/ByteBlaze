@@ -1,35 +1,42 @@
-import { EmbedBuilder, Message } from "discord.js";
-import { NormalPlaylist } from "../../../structures/PageQueue.js";
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  CommandInteraction,
+  CommandInteractionOptionResolver,
+} from "discord.js";
+import { SlashPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
 import { PlaylistInterface } from "../../../types/Playlist.js";
 
 export default {
-  name: "playlist-all",
+  name: ["playlist", "all"],
   description: "View all your playlists",
   category: "Playlist",
-  usage: "<number>",
-  aliases: ["pl-all"],
-
+  options: [
+    {
+      name: "page",
+      description: "The page you want to view",
+      required: false,
+      type: ApplicationCommandOptionType.Integer,
+    },
+  ],
   run: async (
+    interaction: CommandInteraction,
     client: Manager,
-    message: Message,
-    args: string[],
     language: string,
-    prefix: string,
   ) => {
-    const number = args[0] ? args[0] : null;
-    if (number && isNaN(+number))
-      return message.channel.send(
-        `${client.i18n.get(language, "music", "number_invalid")}`,
-      );
-
+    await interaction.deferReply({ ephemeral: false });
+    const number = (
+      interaction.options as CommandInteractionOptionResolver
+    ).getInteger("page");
     const playlists: PlaylistInterface[] = [];
+
     const fullList = await client.db.get("playlist");
 
     Object.keys(fullList)
       .filter(function (key) {
-        return fullList[key].owner == message.author.id;
+        return fullList[key].owner == interaction.user.id;
       })
       .forEach(async (key, index) => {
         playlists.push(fullList[key]);
@@ -61,9 +68,9 @@ export default {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.i18n.get(language, "playlist", "view_embed_title", {
-            user: message.author.username,
+            user: interaction.user.username,
           })}`,
-          iconURL: message.author.displayAvatarURL(),
+          iconURL: interaction.user.displayAvatarURL(),
         })
         .setDescription(`${str == "" ? "  Nothing" : "\n" + str}`)
         .setColor(client.color)
@@ -79,9 +86,9 @@ export default {
     }
     if (!number) {
       if (pages.length == pagesNum && playlists.length > 10) {
-        NormalPlaylist(
+        SlashPlaylist(
           client,
-          message,
+          interaction,
           pages,
           30000,
           playlists.length,
@@ -89,16 +96,16 @@ export default {
         );
         return (playlists.length = 0);
       } else {
-        await message.channel.send({ embeds: [pages[0]] });
+        await interaction.editReply({ embeds: [pages[0]] });
         return (playlists.length = 0);
       }
     } else {
-      if (isNaN(+number))
-        return message.channel.send({
+      if (isNaN(number))
+        return interaction.editReply({
           content: `${client.i18n.get(language, "playlist", "view_notnumber")}`,
         });
-      if (Number(number) > pagesNum)
-        return message.channel.send({
+      if (number > pagesNum)
+        return interaction.editReply({
           content: `${client.i18n.get(
             language,
             "playlist",
@@ -108,8 +115,8 @@ export default {
             },
           )}`,
         });
-      const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
-      await message.channel.send({ embeds: [pages[pageNum]] });
+      const pageNum = number == 0 ? 1 : number - 1;
+      await interaction.editReply({ embeds: [pages[pageNum]] });
       return (playlists.length = 0);
     }
   },

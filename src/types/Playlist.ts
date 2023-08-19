@@ -4,7 +4,7 @@ export interface PlaylistInterface {
   owner: string;
   tracks?: PlaylistTrackInterface[];
   private: boolean;
-  created: Date | number;
+  created: number;
   description?: string | null;
 }
 
