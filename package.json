@@ -52,6 +52,7 @@
     "markdown-it": "^13.0.1",
     "moment": "^2.29.4",
     "mongoose": "^6.9.1",
+    "mysql2": "^3.6.0",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",
     "plsargs": "^0.1.6",
