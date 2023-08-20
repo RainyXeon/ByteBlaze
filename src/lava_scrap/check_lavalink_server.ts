@@ -9,8 +9,6 @@ export default async (client: Manager) => {
   );
 
   const lavalink_data = await getLavalinkServer();
-  const lavalink_list = [];
-  const version = 3;
 
   function checkServerStatus(url: string, headers: Headers) {
     return new Promise((resolve, reject) => {

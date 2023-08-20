@@ -13,6 +13,8 @@ import {
   CommandInterface,
   UploadCommandInterface,
 } from "../types/Interaction.js";
+import { join, dirname } from "path";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function Deploy(client: Manager) {
   let command = [];
@@ -20,7 +22,9 @@ export async function Deploy(client: Manager) {
   if (!client.config.features.AUTO_DEPLOY)
     return client.logger.info("Auto deploy disabled. Exiting auto deploy...");
 
-  let interactionsFolder = path.resolve("./src/commands/slash");
+  let interactionsFolder = path.resolve(
+    join(__dirname, "..", "commands", "slash"),
+  );
 
   await makeSureFolderExists(interactionsFolder);
 

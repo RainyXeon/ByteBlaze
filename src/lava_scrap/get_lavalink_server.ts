@@ -71,7 +71,10 @@ export default async () => {
     fse
       .outputFile(".cylane/lavalink_no_ssl.md", res.data)
       .then(() => {
-        logger.info("New cache has been created!");
+        logger.log({
+          level: "lavalink",
+          message: "New cache has been created!",
+        });
       })
       .catch((err: Error) => {
         logger.error(err);
@@ -79,7 +82,10 @@ export default async () => {
 
     return getLavalinkServerInfo(res.data);
   } else if (fse.existsSync("./.cylane")) {
-    logger.info("Cache found. Now using for speed up");
+    logger.log({
+      level: "lavalink",
+      message: "Cache found. Now using for speed up",
+    });
     const data = await fse.readFile("./.cylane/lavalink_no_ssl.md", {
       encoding: "utf8",
     });

@@ -41,7 +41,7 @@ export default {
 
     const tracks = (
       interaction.options as CommandInteractionOptionResolver
-    ).getNumber("position");
+    ).getInteger("position");
     if (tracks == 0)
       return interaction.editReply(
         `${client.i18n.get(language, "music", "removetrack_already")}`,

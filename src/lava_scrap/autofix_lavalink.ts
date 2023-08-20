@@ -2,9 +2,7 @@ import { Manager } from "../manager.js";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
-export default async (client: Manager) => {
-  client.logger.lavalink("----- Starting autofix lavalink... -----");
-
+async function check_lavalink(client: Manager) {
   if (
     client.manager.shoukaku.nodes.size !== 0 &&
     client.lavalink_using.length == 0
@@ -63,4 +61,13 @@ export default async (client: Manager) => {
     secure: node_info.secure,
     name: `${node_info.host}:${node_info.port}`,
   });
+}
+
+export default async (client: Manager) => {
+  client.logger.lavalink("----- Starting autofix lavalink... -----");
+  if (client.lavalink_list.length == 0)
+    (await import("./check_lavalink_server.js")).default(client).then(() => {
+      return check_lavalink(client);
+    });
+  else return check_lavalink(client);
 };

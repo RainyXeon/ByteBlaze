@@ -21,6 +21,7 @@ import { Kazagumo, KazagumoPlayer, Plugins } from "kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
+import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -147,10 +148,16 @@ export class Manager extends Client {
         : this.config.lavalink.SHOUKAKU_OPTIONS,
     );
 
+    if (this.config.features.AUTOFIX_LAVALINK) {
+      check_lavalink_server(this);
+      setInterval(async () => {
+        check_lavalink_server(this);
+      }, 1800000);
+    }
+
     const loadFile = [
       "loadEvents.js",
       "loadNodeEvents.js",
-      "loadCheck.js",
       "loadPlayer.js",
       "loadCommand.js",
     ];
