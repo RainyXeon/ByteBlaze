@@ -62,13 +62,6 @@ features:
       password: "secret"
       database: "my_db"
 
-  SHARD_SYSTEM:
-    enable: false # If you want to use shard system, change it to `true`
-    totalShards: 3 # you can set to every number you want but for save mode, use 'auto' option
-    totalClusters: 1 # you can set to every number you want but for save mode, use 'auto' option
-    shardsPerClusters: 2
-    mode: "worker" # you can also choose "process"
-
   MESSAGE_CONTENT:
     enable: true
     prefix: "d!" # The prefix you want

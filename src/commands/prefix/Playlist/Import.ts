@@ -97,7 +97,7 @@ export default {
     }
 
     const totalDuration = convertTime(
-      playlist.tracks!.reduce((acc, cur) => acc + cur.length, 0),
+      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0),
     );
 
     const msg = await message.channel.send(

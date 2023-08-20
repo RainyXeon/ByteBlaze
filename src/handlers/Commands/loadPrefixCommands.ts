@@ -12,8 +12,8 @@ export default async (client: Manager) => {
 
   await chillout.forEach(commandFiles, async (commandFile) => {
     const rltPath = relative(__dirname, commandFile);
-    const preload_command = await import(pathToFileURL(commandFile).toString());
-    const command = preload_command.default;
+    const command = (await import(pathToFileURL(commandFile).toString()))
+      .default;
 
     if (!command.name?.length) {
       client.logger.warn(

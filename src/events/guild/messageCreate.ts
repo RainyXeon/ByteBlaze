@@ -41,12 +41,6 @@ export default async (client: Manager, message: Message) => {
           bot: message.guild!.members.me!.displayName,
         })}`,
       })
-      // ${client.i18n.get(language, "help", "ver", {
-      //   botver: await import("../../../package.json").version,
-      // })}
-      // ${client.i18n.get(language, "help", "djs", {
-      //   djsver: await import("../../../package.json").dependencies["discord.js"],
-      // })}
       .setColor(client.color).setDescription(stripIndents`
         ${client.i18n.get(language, "help", "intro1", {
           bot: message.guild!.members.me!.displayName,

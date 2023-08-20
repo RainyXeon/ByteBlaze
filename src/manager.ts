@@ -22,6 +22,8 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
 import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
+import { AliveServer } from "./plugins/aliveServer.js";
+import WebSocket from "ws";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -55,6 +57,7 @@ export class Manager extends Client {
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   is_db_connected: boolean;
+  wss: any;
 
   // Main class
   constructor() {
@@ -96,6 +99,14 @@ export class Manager extends Client {
     this.lavalink_using = [];
     this.fixing_nodes = false;
     this.used_lavalink = [];
+
+    this.wss = this.config.features.WEBSOCKET.enable
+      ? new WebSocket.Server({ port: this.config.features.WEBSOCKET.port })
+      : undefined;
+
+    this.config.features.WEBSOCKET.enable
+      ? (this.wss.message = new Collection())
+      : undefined;
 
     // Collections
     this.slash = new Collection();
@@ -155,15 +166,20 @@ export class Manager extends Client {
       }, 1800000);
     }
 
+    if (this.config.features.ALIVE_SERVER.enable) {
+      AliveServer();
+    }
     const loadFile = [
       "loadEvents.js",
       "loadNodeEvents.js",
       "loadPlayer.js",
+      "loadWebsocket.js",
       "loadCommand.js",
     ];
+    if (!this.config.features.WEBSOCKET.enable)
+      loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
     loadFile.forEach(async (x) => {
-      const load = await import(`./handlers/${x}`);
-      load.default(this);
+      (await import(`./handlers/${x}`)).default(this);
     });
 
     connectDB(this);

@@ -5,14 +5,9 @@ import chillout from "chillout";
 import { makeSureFolderExists } from "stuffs";
 import path from "path";
 import readdirRecursive from "recursive-readdir";
-import config from "./src/plugins/config.js";
-import {
-  ApplicationCommandOptionType,
-  REST,
-  ApplicationCommandManager,
-  RESTPostAPIApplicationCommandsJSONBody,
-} from "discord.js";
-import { APIGatewayBotInfo, Routes } from "discord-api-types/v10";
+import * as config from "./src/plugins/config.js";
+import { ApplicationCommandOptionType, REST } from "discord.js";
+import { Routes } from "discord-api-types/v10";
 import {
   CommandInterface,
   UploadCommandInterface,
@@ -20,7 +15,7 @@ import {
 import { BotInfoType } from "./src/types/User.js";
 
 (async () => {
-  let command: any = [];
+  let command: UploadCommandInterface[] = [];
 
   let cleared =
     args.get(0) == "guild"
@@ -60,10 +55,9 @@ import { BotInfoType } from "./src/types/User.js";
     await chillout.forEach(
       interactionFilePaths,
       async (interactionFilePath) => {
-        const pre_cmd = await import(
-          pathToFileURL(interactionFilePath).toString()
-        );
-        const cmd = pre_cmd.default;
+        const cmd = (
+          await import(pathToFileURL(interactionFilePath).toString())
+        ).default;
         console.log(
           `Interaction "${
             cmd.type == "CHAT_INPUT"
@@ -203,7 +197,7 @@ import { BotInfoType } from "./src/types/User.js";
 
   console.log("Total: " + command.length);
 
-  const rest = new REST({ version: "10" }).setToken(config.bot.TOKEN);
+  const rest = new REST({ version: "10" }).setToken(config.default.bot.TOKEN);
   const client = await rest.get(Routes.user());
 
   console.info(

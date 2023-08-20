@@ -11,8 +11,8 @@ export interface PlaylistInterface {
 export interface PlaylistTrackInterface {
   title: string | null;
   uri: string;
-  length: number;
+  length?: number;
   thumbnail?: string | null;
   author?: string | null;
-  requester?: string | null;
+  requester?: string | null | unknown;
 }

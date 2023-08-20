@@ -42,10 +42,8 @@ export async function Deploy(client: Manager) {
   await chillout.forEach(
     interactionFilePaths,
     async (interactionFilePath: string) => {
-      const pre_cmd = await import(
-        pathToFileURL(interactionFilePath).toString()
-      );
-      const cmd = pre_cmd.default;
+      const cmd = (await import(pathToFileURL(interactionFilePath).toString()))
+        .default;
       return store.push(cmd);
     },
   );

@@ -14,10 +14,8 @@ export default async (client: Manager) => {
 
   await chillout.forEach(interactionFiles, async (interactionFile) => {
     const rltPath = relative(__dirname, interactionFile);
-    const preload_command = await import(
-      pathToFileURL(interactionFile).toString()
-    );
-    const command = preload_command.default;
+    const command = (await import(pathToFileURL(interactionFile).toString()))
+      .default;
 
     if (command.name.length > 3) {
       client.logger.warn(
