@@ -53,8 +53,8 @@ Java 11-13 **[Download JDK13](http://www.mediafire.com/file/m6gk7aoq96db8g0/file
 ## 📚 Installation
 
 ```
-git clone https://github.com/RainyXeon/Cylane
-cd Cylane
+git clone https://github.com/RainyXeon/ByteBlaze
+cd ByteBlaze
 Start.bat
 ```
 
@@ -66,7 +66,7 @@ Start.bat
 Copy or Rename `application.example.yml` to `application.yml` and fill out the values:
 
 ```yaml
-# Cylane config file via .yaml
+# ByteBlaze config file via .yaml
 # Version 3.0
 # You can use ${} to pass an enviroment varible from .env file
 # Eg:
