@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  lavalink:
+    image: fredboat/lavalink:dev
+    container_name: lavalink
+    hostname: lavalink
+    restart: unless-stopped
+    networks:
+      - lavalink-net
+    volumes:
+      - ./docker/application.yml:/opt/Lavalink/application.yml:ro
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mongodb:
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: byteblaze
+      MONGO_INITDB_ROOT_PASSWORD: cylane
+    restart: on-failure
+    networks:
+      - mongodb-net
+    volumes:
+      - mongodb_data:/data/db
+    hostname: mongodb
+
+  byteblaze:
+    build: .
+    image: byteblaze:latest
+    container_name: byteblaze
+    restart: unless-stopped
+    networks:
+      - lavalink-net
+      - mongodb-net
+    depends_on:
+      - lavalink
+      - mongodb
+    environment:
+      - DOCKER_COMPOSE_MODE=true
+      # Database
+      - MONGO_URI=mongodb://byteblaze:cylane@mongodb:27017/streamhatchet?directConnection=true&authSource=admin&replicaSet=replicaset&retryWrites=true
+      # Lavalink
+      - NODE_URL=lavalink:2333
+      - NODE_AUTH=dreamvast
+
+networks:
+  lavalink-net:
+  mongodb-net:
+
+volumes:
+  mongodb_data:
