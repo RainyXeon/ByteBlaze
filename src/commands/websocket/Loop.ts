@@ -1,4 +1,5 @@
 import { Manager } from "../../manager.js";
+import { KazagumoLoopMode } from "../../types/Lavalink.js";
 
 export default {
   name: "loop",
@@ -9,14 +10,19 @@ export default {
       return ws.send(
         JSON.stringify({ error: "0x100", message: "No player on this guild" }),
       );
-    if (!json.status)
-      return ws.send(
-        JSON.stringify({
-          error: "0x125",
-          message: "Missing status!",
-          guild: player.guildId,
-        }),
-      );
+    if (!json.status) {
+      if (!json.mode) {
+        return ws.send(
+          JSON.stringify({
+            error: "0x125",
+            message: "Missing status as mode!",
+            guild: player.guildId,
+          }),
+        );
+      }
+      await player.setLoop(json.mode as KazagumoLoopMode);
+      return;
+    }
 
     if (json.status == "none") {
       await player.setLoop("track");

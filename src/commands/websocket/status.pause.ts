@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 
 export default {
-  name: "pause_status",
+  name: "status.pause",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
     if (!player)

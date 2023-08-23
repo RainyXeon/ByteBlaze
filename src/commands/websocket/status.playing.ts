@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 
 export default {
-  name: "playing_status",
+  name: "status.playing",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
     if (!player)

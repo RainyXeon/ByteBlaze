@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 
 export default {
-  name: "member_status",
+  name: "status.member",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     if (!json.user)
       return ws.send(

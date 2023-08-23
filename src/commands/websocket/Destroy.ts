@@ -10,7 +10,5 @@ export default {
       );
 
     player.destroy();
-
-    ws.send(JSON.stringify({ guild: player.guildId, op: "player_destroy" }));
   },
 };

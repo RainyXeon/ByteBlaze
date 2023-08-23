@@ -33,26 +33,8 @@ export default {
       const res = await player.search(json.tracks[0].uri, {
         requester: Member,
       });
-      if (player.playing) for (let track of res.tracks) player.queue.add(track);
-      else player.play(res.tracks[0]);
+      for (let track of res.tracks) player.queue.add(track);
       if (!player.playing) await player.play();
-
-      const song = player.queue.current;
-
-      ws.send(
-        JSON.stringify({
-          op: "player_start",
-          guild: json.guild,
-          current: {
-            title: song!.title,
-            uri: song!.uri,
-            length: song!.length,
-            thumbnail: song!.thumbnail,
-            author: song!.author,
-            requester: song!.requester,
-          },
-        }),
-      );
 
       return;
     } else if (json.query) {
@@ -61,23 +43,6 @@ export default {
         for (let track of res.tracks) player.queue.add(track);
 
       if (!player.playing && !player.paused) player.play();
-
-      const song = player.queue.current;
-
-      ws.send(
-        JSON.stringify({
-          op: "player_start",
-          guild: json.guild,
-          current: {
-            title: song!.title,
-            uri: song!.uri,
-            length: song!.length,
-            thumbnail: song!.thumbnail,
-            author: song!.author,
-            requester: song!.requester,
-          },
-        }),
-      );
     }
   },
 };

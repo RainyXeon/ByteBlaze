@@ -24,7 +24,5 @@ export default {
       textId: String(channel?.id),
       deaf: true,
     });
-
-    ws.send(JSON.stringify({ guild: json.guild, op: "player_create" }));
   },
 };

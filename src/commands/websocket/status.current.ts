@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { PlaylistTrackInterface } from "../../types/Playlist.js";
 
 export default {
-  name: "current_track_status",
+  name: "status.current_track",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
 
