@@ -36,7 +36,7 @@ export default async (
   if (!channel) return;
 
   let data = await client.db.get(`setup.guild_${channel.guild.id}`);
-  if (player.textId === data.channel.id) return;
+  if (data && player.textId === data.channel.id) return;
 
   let guildModel = await client.db.get(`language.guild_${channel.guild.id}`);
   if (!guildModel) {
