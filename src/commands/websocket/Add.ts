@@ -34,15 +34,14 @@ export default {
         requester: Member,
       });
       for (let track of res.tracks) player.queue.add(track);
-      if (!player.playing) await player.play();
+      if (!player.playing) return await player.play();
 
       return;
     } else if (json.query) {
       const res = await player.search(json.query, { requester: Member });
       if (res.type === "PLAYLIST" || res.type === "SEARCH")
-        for (let track of res.tracks) player.queue.add(track);
-
-      if (!player.playing && !player.paused) player.play();
+      for (let track of res.tracks) player.queue.add(track);
+      if (!player.playing && !player.paused) return player.play();
     }
   },
 };

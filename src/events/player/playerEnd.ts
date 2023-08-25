@@ -1,7 +1,6 @@
 import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
-
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
     return client.logger.warn(
