@@ -39,6 +39,6 @@ For installation and config guide, please check out the wiki tab or [click here!
 ## 💫 Special thanks
 - [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
 - [@Pain6900](https://github.com/Pain6900) [My friend]
-- [@Adivise](https://github.com/Adivise) [Framework]
+- [@Adivise](https://github.com/Adivise) [Original source]
 - [@mrstebo](https://github.com/mrstebo) [env praser]
 - And everyone who starred and contribute my project 💖
