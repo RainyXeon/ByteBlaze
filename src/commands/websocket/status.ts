@@ -41,6 +41,15 @@ export default {
         });
       });
 
+    await webqueue.unshift({
+      title: song!.title,
+      uri: song!.uri,
+      length: song!.length,
+      thumbnail: song!.thumbnail,
+      author: song!.author,
+      requester: song!.requester,
+    });
+
     return ws.send(
       JSON.stringify({
         op: "status",
@@ -49,6 +58,7 @@ export default {
         member: !Member.voice.channel || !Member.voice ? false : true,
         pause: player.paused,
         playing: playerState(),
+        position: player.shoukaku.position,
         current: song
           ? {
               title: song.title,

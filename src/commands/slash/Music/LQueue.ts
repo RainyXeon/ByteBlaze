@@ -1,6 +1,5 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoopMode } from "../../../types/Lavalink.js";
 
 // Main code
 export default {
@@ -13,11 +12,6 @@ export default {
     language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
-    const loop_mode = {
-      none: "none",
-      track: "track",
-      queue: "queue",
-    };
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "loopall_loading")}`,
     );
@@ -33,7 +27,7 @@ export default {
       return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     if (player.loop === "queue") {
-      await player.setLoop(loop_mode.none as KazagumoLoopMode);
+      await player.setLoop("none");
 
       const unloopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
@@ -41,7 +35,7 @@ export default {
 
       return msg.edit({ content: " ", embeds: [unloopall] });
     } else if (player.loop === "none") {
-      await player.setLoop(loop_mode.queue as KazagumoLoopMode);
+      await player.setLoop("queue");
 
       const loopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "loopall")}`)

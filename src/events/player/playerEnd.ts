@@ -39,6 +39,8 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (player.queue.length) return;
 
+  if (player.loop !== "none") return;
+
   let guildModel = await client.db.get(`language.guild_${player.guildId}`);
   if (!guildModel) {
     guildModel = await client.db.set(

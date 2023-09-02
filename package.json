@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npm-run-all build:typescript copy:languages:packages",
-    "build:typescript": "tsc",
+    "build:typescript": "tsc --build --verbose",
     "copy:languages:packages": "tsx ./helper/copyFiles.ts",
     "start": "node ./dist/index.js",
     "start:docker": "tsx ./src/index.ts",

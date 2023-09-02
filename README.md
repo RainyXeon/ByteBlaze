@@ -34,9 +34,11 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 - [x] JSON
 
 ## ⚙️ Guide
+
 For installation and config guide, please check out the wiki tab or [click here!](https://github.com/RainyXeon/ByteBlaze/wiki)
 
 ## 💫 Special thanks
+
 - [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
 - [@Pain6900](https://github.com/Pain6900) [My friend]
 - [@Adivise](https://github.com/Adivise) [Original source]

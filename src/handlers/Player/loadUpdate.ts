@@ -1,8 +1,5 @@
 import { Manager } from "../../manager.js";
-import {
-  EmbedBuilder,
-  TextChannel,
-} from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import formatDuration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { KazagumoPlayer } from "kazagumo";
@@ -10,7 +7,7 @@ import { KazagumoPlayer } from "kazagumo";
 export default async (client: Manager) => {
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
     let data = await client.db.get(`setup.guild_${player.guildId}`);
-    if (!data) return
+    if (!data) return;
     if (data.enable === false) return;
 
     let channel = (await client.channels.cache.get(
@@ -93,7 +90,7 @@ export default async (client: Manager) => {
    */
   client.UpdateMusic = async function (player: KazagumoPlayer) {
     let data = await client.db.get(`setup.guild_${player.guildId}`);
-    if (!data) return
+    if (!data) return;
     if (data.enable === false) return;
 
     let channel = (await client.channels.cache.get(
