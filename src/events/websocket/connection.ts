@@ -6,11 +6,36 @@ export default async (client: Manager, ws: WebSocket, request: any) => {
 
   const verificationOrigin = request.headers.origin;
 
+  const baseURL = request.protocol + "://" + request.headers.host + "/";
+
+  const reqUrl = new URL(request.url, baseURL);
+
+  if (
+    reqUrl.searchParams.get("secret") !==
+    client.config.features.WEBSOCKET.secret
+  ) {
+    ws.close();
+    ws.send(
+      JSON.stringify({
+        error: `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`,
+      }),
+    );
+    client.logger.info(
+      `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`,
+    );
+    return;
+  }
+
   if (
     client.config.features.WEBSOCKET.auth &&
     !client.config.features.WEBSOCKET.trusted.includes(verificationOrigin)
   ) {
     ws.close();
+    ws.send(
+      JSON.stringify({
+        error: `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`,
+      }),
+    );
     client.logger.info(
       `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`,
     );

@@ -25,7 +25,6 @@ import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
 import { AliveServer } from "./plugins/aliveServer.js";
 import WebSocket from "ws";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import { createServer } from 'https';
 
 winstonLogger.info("Booting client...");
 
@@ -102,10 +101,10 @@ export class Manager extends Client {
     this.used_lavalink = [];
 
     this.wss = this.config.features.WEBSOCKET.enable
-      ? new WebSocket.Server({ 
-        port: this.config.features.WEBSOCKET.port,
-        host: this.config.features.WEBSOCKET.host
-      })
+      ? new WebSocket.Server({
+          port: this.config.features.WEBSOCKET.port,
+          host: this.config.features.WEBSOCKET.host,
+        })
       : undefined;
 
     this.config.features.WEBSOCKET.enable
@@ -127,6 +126,15 @@ export class Manager extends Client {
     process.on("uncaughtException", (error) =>
       this.logger.log({ level: "error", message: error }),
     );
+
+    if (
+      this.config.features.WEBSOCKET.enable &&
+      (!this.config.features.WEBSOCKET.secret ||
+        this.config.features.WEBSOCKET.secret.length == 0)
+    ) {
+      this.logger.error("Must have secret in your ws config for secure!");
+      process.exit();
+    }
 
     this.manager = new Kazagumo(
       {
