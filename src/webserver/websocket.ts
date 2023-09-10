@@ -1,18 +1,21 @@
-import { WebSocket } from "ws";
-import { Manager } from "../../manager.js";
+import { Request } from "express";
+import WebSocket from "ws";
+import { Manager } from "../manager.js";
 
-export default async (client: Manager, ws: WebSocket, request: any) => {
+export async function websocket(client: Manager, ws: WebSocket, req: Request) {
+  client.websocket = ws;
+
   client.logger.info("Connected to client!");
 
-  const verificationOrigin = request.headers.origin;
+  const verificationOrigin = req.headers.origin;
 
-  const baseURL = request.protocol + "://" + request.headers.host + "/";
+  const baseURL = req.protocol + "://" + req.headers.host + "/";
 
-  const reqUrl = new URL(request.url, baseURL);
+  const reqUrl = new URL(req.url, baseURL);
 
   if (
     reqUrl.searchParams.get("secret") !==
-    client.config.features.WEBSOCKET.secret
+    client.config.features.WEB_SERVER.websocket.secret
   ) {
     ws.close();
     ws.send(
@@ -27,8 +30,10 @@ export default async (client: Manager, ws: WebSocket, request: any) => {
   }
 
   if (
-    client.config.features.WEBSOCKET.auth &&
-    !client.config.features.WEBSOCKET.trusted.includes(verificationOrigin)
+    client.config.features.WEB_SERVER.websocket.auth &&
+    !client.config.features.WEB_SERVER.websocket.trusted.includes(
+      verificationOrigin,
+    )
   ) {
     ws.close();
     ws.send(
@@ -42,17 +47,17 @@ export default async (client: Manager, ws: WebSocket, request: any) => {
     return;
   }
 
-  if (!client.config.features.WEBSOCKET.auth)
+  if (!client.config.features.WEB_SERVER.websocket.auth)
     client.logger.warn(
       `[UNSECURE] Connected to client (${verificationOrigin})`,
     );
 
-  if (client.config.features.WEBSOCKET.auth)
+  if (client.config.features.WEB_SERVER.websocket.auth)
     client.logger.info(`Connected to client (${verificationOrigin})`);
 
   ws.on("message", (message) => {
     const json = JSON.parse(String(message));
-    const req = client.wss.message.get(json.message);
+    const req = client.ws_message?.get(json.message);
 
     if (!req) return;
     if (req) {
@@ -71,6 +76,5 @@ export default async (client: Manager, ws: WebSocket, request: any) => {
   ws.on("error", (error) => {
     ws.send(JSON.stringify({ error: error }));
   });
-
-  client.websocket = ws;
-};
+  ws.on("close", () => client.logger.info("Closed connection to client"));
+}

@@ -33,7 +33,7 @@ export default {
       requester: song!.requester,
     });
 
-    await client.websocket.send(
+    await client.websocket?.send(
       JSON.stringify({
         op: "player_queue",
         guild: player.guildId,

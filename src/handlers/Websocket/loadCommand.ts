@@ -16,10 +16,10 @@ export default async (client: Manager) => {
   });
   for (let file of events) {
     const evt = (await import(`../../commands/websocket/${file}`)).default;
-    client.wss.message.set(evt.name, evt);
+    client.ws_message!.set(evt.name, evt);
   }
-  if (client.wss.message.size) {
-    client.logger.info(`${client.wss.message.size} Websocket Request Loaded!`);
+  if (client.ws_message?.size) {
+    client.logger.info(`${client.ws_message?.size} Websocket Request Loaded!`);
   } else {
     client.logger.warn(`No websocket request file loaded, is websocket ok?`);
   }

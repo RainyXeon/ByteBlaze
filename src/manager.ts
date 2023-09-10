@@ -22,7 +22,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
 import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
-import { AliveServer } from "./plugins/aliveServer.js";
+import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -51,13 +51,13 @@ export class Manager extends Client {
   interval: Collection<string, any>;
   sent_queue: Collection<string, any>;
   aliases: Collection<string, any>;
-  websocket: any;
+  websocket?: WebSocket;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   is_db_connected: boolean;
-  wss: any;
+  ws_message?: Collection<string, any>;
 
   // Main class
   constructor() {
@@ -100,15 +100,8 @@ export class Manager extends Client {
     this.fixing_nodes = false;
     this.used_lavalink = [];
 
-    this.wss = this.config.features.WEBSOCKET.enable
-      ? new WebSocket.Server({
-          port: this.config.features.WEBSOCKET.port,
-          host: this.config.features.WEBSOCKET.host,
-        })
-      : undefined;
-
-    this.config.features.WEBSOCKET.enable
-      ? (this.wss.message = new Collection())
+    this.config.features.WEB_SERVER.websocket.enable
+      ? (this.ws_message = new Collection())
       : undefined;
 
     // Collections
@@ -128,9 +121,9 @@ export class Manager extends Client {
     );
 
     if (
-      this.config.features.WEBSOCKET.enable &&
-      (!this.config.features.WEBSOCKET.secret ||
-        this.config.features.WEBSOCKET.secret.length == 0)
+      this.config.features.WEB_SERVER.websocket.enable &&
+      (!this.config.features.WEB_SERVER.websocket.secret ||
+        this.config.features.WEB_SERVER.websocket.secret.length == 0)
     ) {
       this.logger.error("Must have secret in your ws config for secure!");
       process.exit();
@@ -178,8 +171,8 @@ export class Manager extends Client {
       }, 1800000);
     }
 
-    if (this.config.features.ALIVE_SERVER.enable) {
-      AliveServer();
+    if (this.config.features.WEB_SERVER.enable) {
+      WebServer(this);
     }
     const loadFile = [
       "loadEvents.js",
@@ -188,7 +181,7 @@ export class Manager extends Client {
       "loadWebsocket.js",
       "loadCommand.js",
     ];
-    if (!this.config.features.WEBSOCKET.enable)
+    if (!this.config.features.WEB_SERVER.websocket.enable)
       loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
     loadFile.forEach(async (x) => {
       (await import(`./handlers/${x}`)).default(this);
