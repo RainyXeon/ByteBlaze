@@ -13,11 +13,10 @@ import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
-import Spotify from "kazagumo-spotify";
-import Deezer from "kazagumo-deezer";
-import Nico from "kazagumo-nico";
-import { Connectors } from "shoukaku";
-import { Kazagumo, KazagumoPlayer, Plugins } from "kazagumo";
+import { DisTube } from 'distube'
+import { SpotifyPlugin } from '@distube/spotify'
+import { SoundCloudPlugin } from '@distube/soundcloud'
+import { YtDlpPlugin } from '@distube/yt-dlp'
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
@@ -44,7 +43,7 @@ export class Manager extends Client {
   lavalink_using: LavalinkUsingDataType[];
   fixing_nodes: boolean;
   used_lavalink: LavalinkUsingDataType[];
-  manager: Kazagumo;
+  manager: DisTube;
   slash: Collection<string, any>;
   commands: Collection<string, any>;
   premiums: Collection<string, any>;
@@ -52,8 +51,8 @@ export class Manager extends Client {
   sent_queue: Collection<string, any>;
   aliases: Collection<string, any>;
   websocket?: WebSocket;
-  UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
-  UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  UpdateMusic!: (player: any) => Promise<void | Message<true>>;
+  UpdateQueueMsg!: (player: any) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   is_db_connected: boolean;
@@ -129,63 +128,44 @@ export class Manager extends Client {
       process.exit();
     }
 
-    this.manager = new Kazagumo(
-      {
-        defaultSearchEngine: "youtube",
-        // MAKE SURE YOU HAVE THIS
-        send: (guildId, payload) => {
-          const guild = this.guilds.cache.get(guildId);
-          if (guild) guild.shard.send(payload);
-        },
-        plugins: this.config.lavalink.ENABLE_SPOTIFY
-          ? [
-              new Spotify({
-                clientId: this.config.SPOTIFY_ID,
-                clientSecret: this.config.SPOTIFY_SECRET,
-                playlistPageLimit: 1, // optional ( 100 tracks per page )
-                albumPageLimit: 1, // optional ( 50 tracks per page )
-                searchLimit: 10, // optional ( track search limit. Max 50 )
-                searchMarket: "US", // optional || default: US ( Enter the country you live in. [ Can only be of 2 letters. For eg: US, IN, EN ] )//
-              }),
-              new Deezer(),
-              new Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this),
-            ]
-          : [
-              new Deezer(),
-              new Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this),
-            ],
-      },
-      new Connectors.DiscordJS(this),
-      this.config.lavalink.NODES,
-      this.config.features.AUTOFIX_LAVALINK
-        ? { reconnectTries: 0, restTimeout: 3000 }
-        : this.config.lavalink.SHOUKAKU_OPTIONS,
-    );
+    this.manager = new DisTube(this, {
+      leaveOnStop: false,
+      emitNewSongOnly: true,
+      emitAddSongWhenCreatingQueue: false,
+      emitAddListWhenCreatingQueue: false,
+      plugins: [
+        new SpotifyPlugin({
+          emitEventsAfterFetching: true
+        }),
+        new SoundCloudPlugin(),
+        new YtDlpPlugin()
+      ]
+    })
 
-    if (this.config.features.AUTOFIX_LAVALINK) {
-      check_lavalink_server(this);
-      setInterval(async () => {
-        check_lavalink_server(this);
-      }, 1800000);
-    }
+    console.log(this.manager)
 
-    if (this.config.features.WEB_SERVER.enable) {
-      WebServer(this);
-    }
-    const loadFile = [
-      "loadEvents.js",
-      "loadNodeEvents.js",
-      "loadPlayer.js",
-      "loadWebsocket.js",
-      "loadCommand.js",
-    ];
-    if (!this.config.features.WEB_SERVER.websocket.enable)
-      loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
-    loadFile.forEach(async (x) => {
-      (await import(`./handlers/${x}`)).default(this);
-    });
+    // if (this.config.features.AUTOFIX_LAVALINK) {
+    //   check_lavalink_server(this);
+    //   setInterval(async () => {
+    //     check_lavalink_server(this);
+    //   }, 1800000);
+    // }
+
+    // if (this.config.features.WEB_SERVER.enable) {
+    //   WebServer(this);
+    // }
+    // const loadFile = [
+    //   "loadEvents.js",
+    //   "loadNodeEvents.js",
+    //   "loadPlayer.js",
+    //   "loadWebsocket.js",
+    //   "loadCommand.js",
+    // ];
+    // if (!this.config.features.WEB_SERVER.websocket.enable)
+    //   loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
+    // loadFile.forEach(async (x) => {
+    //   (await import(`./handlers/${x}`)).default(this);
+    // });
 
     connectDB(this);
   }
