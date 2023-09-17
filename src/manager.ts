@@ -20,7 +20,6 @@ import { YtDlpPlugin } from '@distube/yt-dlp'
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
-import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 const __dirname = dirname(fileURLToPath(import.meta.url));
