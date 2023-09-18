@@ -16,6 +16,7 @@ export default async (client: Manager, name: string) => {
 	if (res == null) {
 		res = regex_no_port.exec(data["url"])
 	}
+	console.log(res, data["url"])
     client.lavalink_using.push({
       host: res![2],
       port: Number(res![3]) | 0,
