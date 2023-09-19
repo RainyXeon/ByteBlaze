@@ -70,10 +70,6 @@ features:
   AUTO_REMOVE_DUPLICATE: true
   AUTOFIX_LAVALINK: true # Fix the lavalink server when the current is down
 
-  ALIVE_SERVER:
-    enable: false
-    port: 3000
-
   WEB_SERVER:
     enable: false # Must enable this before using ws
     port: 3000
