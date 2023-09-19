@@ -129,7 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-application.yml
+app.yml
 cylane.database.json
 .cylane
 

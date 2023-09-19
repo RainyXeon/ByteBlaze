@@ -4,7 +4,7 @@ import { config } from "dotenv";
 config();
 let doc;
 
-const yaml_files = prase("./application.yml");
+const yaml_files = prase("./app.yml");
 
 try {
   const res = load(yaml_files);
