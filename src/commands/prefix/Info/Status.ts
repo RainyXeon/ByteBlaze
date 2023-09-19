@@ -51,7 +51,10 @@ export default {
         },
         {
           name: "User Count",
-          value: `\`\`\`${client.users.cache.size} users\`\`\``,
+          value: `\`\`\`${client.guilds.cache.reduce(
+            (a, b) => a + b.memberCount,
+            0,
+          )} users\`\`\``,
           inline: true,
         },
         {
@@ -61,7 +64,10 @@ export default {
         },
         {
           name: "Cached Data",
-          value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
+          value: `\`\`\`${client.guilds.cache.reduce(
+            (a, b) => a + b.memberCount,
+            0,
+          )} users\n${client.emojis.cache.size} emojis\`\`\``,
           inline: true,
         },
         { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },

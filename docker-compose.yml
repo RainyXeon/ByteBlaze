@@ -2,7 +2,7 @@ version: "3"
 
 services:
   lavalink:
-    image: fredboat/lavalink:dev
+    image: fredboat/lavalink:dev-v3
     container_name: lavalink
     hostname: lavalink
     restart: unless-stopped
