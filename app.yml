@@ -1,0 +1,75 @@
+# Cylane config file via .yaml
+
+bot:
+  TOKEN: ${TOKEN}
+  EMBED_COLOR: "#2b2d31"
+  OWNER_ID: "898728768791789628"
+  LANGUAGE: en
+  LIMIT_TRACK: 50
+  LIMIT_PLAYLIST: 20
+
+lavalink:
+  SPOTIFY:
+    enable: true
+    id: 3f15039bdc974708b3f23443fc8a04a4
+    secret: f0e65e15a67d4486a4ab97c74d49bcde
+
+  DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
+  NP_REALTIME: false
+  LEAVE_TIMEOUT: 100
+  NODES: [
+    {
+      url: ${NODE_URL},
+      name: ${NODE_NAME},
+      auth: ${NODE_AUTH},
+      secure: ${NODE_SECURE}
+    }
+  ]
+  SHOUKAKU_OPTIONS: {
+    moveOnDisconnect: true,
+    resumable: true,
+    resumableTimeout: 600,
+    reconnectTries: Infinity,
+    restTimeout: 3000
+  }
+
+features:
+  DATABASE:
+    
+    JSON:
+      enable: false
+      path: "./cylane.database.json"
+    MONGO_DB:
+      enable: true
+      uri: ${MONGO_URI}
+    MYSQL: 
+      enable: false
+      host: ${MYSQL_HOST}
+      user: ${MYSQL_USERNAME}
+      password: ${MYSQL_PASSWORD}
+      database: ${MYSQL_DATABASE}
+
+  MESSAGE_CONTENT:
+    enable: true
+    prefix: "d!"
+  
+  AUTO_DEPLOY: true
+  AUTO_REMOVE_DUPLICATE: true
+  AUTOFIX_LAVALINK: true
+
+  ALIVE_SERVER:
+    enable: false
+    port: 3000
+
+  WEB_SERVER:
+    enable: true # Must enable this before using ws
+    port: 3000
+    websocket: 
+      enable: true
+      host: "0.0.0.0" # Default is 0.0.0.0
+      secret: "-19023454588-0934825" # You must add your secret key to use ws. A secret key is anything you want
+      auth: false
+      trusted: ["http://localhost:3000"]
+
+  
+  DEV_ID: []
