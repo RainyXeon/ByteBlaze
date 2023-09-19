@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder } from "discord.js";
+
 export default async (client: Manager, name: string, error: Error) => {
   if (client.used_lavalink.length != 0 && client.used_lavalink[0].name == name)
     return;

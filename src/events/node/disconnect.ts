@@ -1,6 +1,5 @@
 import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
-import { EmbedBuilder } from "discord.js";
 
 export default async (
   client: Manager,

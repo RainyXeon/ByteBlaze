@@ -1,4 +1,3 @@
-import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 
 export default async (
