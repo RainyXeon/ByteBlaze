@@ -1,4 +1,5 @@
 import { Manager } from "../manager.js";
+import { LavalinkDataType } from "../types/Lavalink.js";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
@@ -37,7 +38,7 @@ async function check_lavalink(client: Manager) {
   }
 
   // Fix when have lavalink
-  const online_list: any = [];
+  const online_list: LavalinkDataType[] = [];
 
   client.lavalink_list.filter(async (data) => {
     if (data.online == true) return online_list.push(data);

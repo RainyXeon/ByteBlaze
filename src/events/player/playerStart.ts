@@ -227,23 +227,22 @@ export default async (
     components: [row, row2],
   });
 
-  const filter = (message: any) => {
-    if (
-      message.guild!.members.me!.voice.channel &&
-      message.guild!.members.me!.voice.channelId ===
-        message.member!.voice.channelId
-    )
-      return true;
-    else {
-      message.reply({
-        content: `${client.i18n.get(language, "player", "join_voice")}`,
-        ephemeral: true,
-      });
-      return false;
-    }
-  };
   const collector = await nplaying.createMessageComponentCollector({
-    filter,
+    filter: (message) => {
+      if (
+        message.guild!.members.me!.voice.channel &&
+        message.guild!.members.me!.voice.channelId ===
+          message.member!.voice.channelId
+      )
+        return true;
+      else {
+        message.reply({
+          content: `${client.i18n.get(language, "player", "join_voice")}`,
+          ephemeral: true,
+        });
+        return false;
+      }
+    },
     time: song!.length,
   });
 

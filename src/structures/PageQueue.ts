@@ -2,9 +2,11 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  CacheType,
   CommandInteraction,
   EmbedBuilder,
   Message,
+  UserSelectMenuInteraction,
 } from "discord.js";
 import { Manager } from "../manager.js";
 
@@ -48,9 +50,8 @@ export const SlashPage = async (
   });
   if (pages.length == 0) return;
 
-  const filter = (m: any) => m.author.id === interaction.user.id;
   const collector = await curPage.createMessageComponentCollector({
-    filter,
+    filter: (m) => m.user.id === interaction.user.id,
     time: timeout,
   });
 
@@ -137,9 +138,8 @@ export const SlashPlaylist = async (
   });
   if (pages.length == 0) return;
 
-  const filter = (m: any) => m.user.id === interaction.user.id;
   const collector = await curPage.createMessageComponentCollector({
-    filter,
+    filter: (m) => m.user.id === interaction.user.id,
     time: timeout,
   });
 
@@ -224,12 +224,12 @@ export const NormalPage = async (
   });
   if (pages.length == 0) return;
 
-  const filter = (interaction: any) =>
+
+  const collector = await curPage.createMessageComponentCollector({
+    filter: (interaction) =>
     interaction.user.id === message.author.id
       ? true
-      : false && interaction.deferUpdate();
-  const collector = await curPage.createMessageComponentCollector({
-    filter,
+      : false && interaction.deferUpdate(),
     time: timeout,
   });
 
@@ -314,12 +314,11 @@ export const NormalPlaylist = async (
   });
   if (pages.length == 0) return;
 
-  const filter = (interaction: any) =>
+  const collector = await curPage.createMessageComponentCollector({
+    filter: (interaction) =>
     interaction.user.id === message.author.id
       ? true
-      : false && interaction.deferUpdate();
-  const collector = await curPage.createMessageComponentCollector({
-    filter,
+      : false && interaction.deferUpdate(),
     time: timeout,
   });
 

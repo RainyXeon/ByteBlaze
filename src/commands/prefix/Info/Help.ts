@@ -132,13 +132,11 @@ export default {
     ]);
 
     message.reply({ embeds: [embed], components: [row] }).then(async (msg) => {
-      let filter = (i: any) =>
+      let collector = await msg.createMessageComponentCollector({
+        filter: (i) =>
         i.isStringSelectMenu() &&
         i.user &&
-        i.message.author.id == client.user!.id &&
-        console.log(i);
-      let collector = await msg.createMessageComponentCollector({
-        filter,
+        i.message.author.id == client.user!.id,
         time: 60000,
       });
       collector.on("collect", async (m) => {
