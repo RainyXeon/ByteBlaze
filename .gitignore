@@ -131,6 +131,6 @@ dist
 
 app.yml
 cylane.database.json
-.cylane
+.cylane/
 
 .env
