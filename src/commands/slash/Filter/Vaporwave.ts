@@ -1,37 +1,37 @@
-import { CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
-import delay from "delay";
-import { Manager } from "../../../manager.js";
+import { CommandInteraction, EmbedBuilder, GuildMember } from 'discord.js'
+import delay from 'delay'
+import { Manager } from '../../../manager.js'
 
 export default {
-  name: ["filter", "vaporwave"],
-  description: "Turning on vaporwave filter",
-  category: "Filter",
+  name: ['filter', 'vaporwave'],
+  description: 'Turning on vaporwave filter',
+  category: 'Filter',
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string,
+    language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: false })
 
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, "filters", "filter_loading", {
-        name: "vaporwave",
-      })}`,
-    );
+      `${client.i18n.get(language, 'filters', 'filter_loading', {
+        name: 'vaporwave',
+      })}`
+    )
 
-    const player = client.manager.players.get(interaction.guild!.id);
+    const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-    const { channel } = (interaction.member as GuildMember).voice;
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+    const { channel } = (interaction.member as GuildMember).voice
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
 
     const data = {
-      op: "filters",
+      op: 'filters',
       guildId: interaction.guild!.id,
       equalizer: [
         { band: 0, gain: 0 },
@@ -52,19 +52,19 @@ export default {
       timescale: {
         pitch: 0.55,
       },
-    };
+    }
 
-    await player["send"](data);
+    await player['send'](data)
 
     const vaporwaved = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, "filters", "filter_on", {
-          name: "vaporwave",
-        })}`,
+        `${client.i18n.get(language, 'filters', 'filter_on', {
+          name: 'vaporwave',
+        })}`
       )
-      .setColor(client.color);
+      .setColor(client.color)
 
-    await delay(2000);
-    msg.edit({ content: " ", embeds: [vaporwaved] });
+    await delay(2000)
+    msg.edit({ content: ' ', embeds: [vaporwaved] })
   },
-};
+}

@@ -1,23 +1,23 @@
-import { Manager } from "../../manager.js";
+import { Manager } from '../../manager.js'
 
 export default {
-  name: "play",
+  name: 'play',
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
-    const player = client.manager.players.get(json.guild);
+    const player = client.manager.players.get(json.guild)
 
     if (!player)
       return ws.send(
-        JSON.stringify({ error: "0x100", message: "No player on this guild" }),
-      );
+        JSON.stringify({ error: '0x100', message: 'No player on this guild' })
+      )
 
-    if (player.playing) return;
+    if (player.playing) return
     if (player.queue.size == 0) {
-      player.destroy();
+      player.destroy()
       return ws.send(
-        JSON.stringify({ guild: player.guildId, op: "player_destroy" }),
-      );
+        JSON.stringify({ guild: player.guildId, op: 'player_destroy' })
+      )
     }
 
-    if (!player.playing) player.play();
+    if (!player.playing) player.play()
   },
-};
+}

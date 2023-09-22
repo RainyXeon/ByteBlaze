@@ -1,12 +1,12 @@
-import { EmbedBuilder, Message } from "discord.js";
-import delay from "delay";
-import { Manager } from "../../../manager.js";
+import { EmbedBuilder, Message } from 'discord.js'
+import delay from 'delay'
+import { Manager } from '../../../manager.js'
 
 export default {
-  name: "superbass",
-  description: "Turning on superbass filter",
-  category: "Filter",
-  usage: "",
+  name: 'superbass',
+  description: 'Turning on superbass filter',
+  category: 'Filter',
+  usage: '',
   aliases: [],
 
   run: async (
@@ -14,26 +14,26 @@ export default {
     message: Message,
     args: string[],
     language: string,
-    prefix: string,
+    prefix: string
   ) => {
     const msg = await message.channel.send(
-      `${client.i18n.get(language, "filters", "filter_loading", {
-        name: "superbass",
-      })}`,
-    );
+      `${client.i18n.get(language, 'filters', 'filter_loading', {
+        name: 'superbass',
+      })}`
+    )
 
-    const player = client.manager.players.get(message.guild!.id);
+    const player = client.manager.players.get(message.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-    const { channel } = message.member!.voice;
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+    const { channel } = message.member!.voice
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
 
     const data = {
-      op: "filters",
+      op: 'filters',
       guildId: message.guild!.id,
       equalizer: [
         { band: 0, gain: 0.2 },
@@ -51,19 +51,19 @@ export default {
         { band: 12, gain: 0 },
         { band: 13, gain: 0 },
       ],
-    };
+    }
 
-    await player["send"](data);
+    await player['send'](data)
 
     const sbed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, "filters", "filter_on", {
-          name: "superbass",
-        })}`,
+        `${client.i18n.get(language, 'filters', 'filter_on', {
+          name: 'superbass',
+        })}`
       )
-      .setColor(client.color);
+      .setColor(client.color)
 
-    await delay(2000);
-    msg.edit({ content: " ", embeds: [sbed] });
+    await delay(2000)
+    msg.edit({ content: ' ', embeds: [sbed] })
   },
-};
+}

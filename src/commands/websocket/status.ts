@@ -1,33 +1,33 @@
-import { Manager } from "../../manager.js";
-import { PlaylistTrackInterface } from "../../types/Playlist.js";
+import { Manager } from '../../manager.js'
+import { PlaylistTrackInterface } from '../../types/Playlist.js'
 
 export default {
-  name: "status",
+  name: 'status',
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     if (!json.user)
       return ws.send(
-        JSON.stringify({ error: "0x115", message: "No user's id provided" }),
-      );
+        JSON.stringify({ error: '0x115', message: "No user's id provided" })
+      )
     if (!json.guild)
       return ws.send(
-        JSON.stringify({ error: "0x120", message: "No guild's id provided" }),
-      );
-    const player = client.manager.players.get(json.guild);
+        JSON.stringify({ error: '0x120', message: "No guild's id provided" })
+      )
+    const player = client.manager.players.get(json.guild)
     if (!player)
       return ws.send(
-        JSON.stringify({ error: "0x100", message: "No player on this guild" }),
-      );
+        JSON.stringify({ error: '0x100', message: 'No player on this guild' })
+      )
 
-    const Guild = await client.guilds.fetch(json.guild);
-    const Member = await Guild.members.fetch(json.user);
+    const Guild = await client.guilds.fetch(json.guild)
+    const Member = await Guild.members.fetch(json.user)
 
     function playerState() {
-      if (player!.state == 5) return false;
-      else if (player!.state == 1) return true;
+      if (player!.state == 5) return false
+      else if (player!.state == 1) return true
     }
 
-    const song = player.queue.current;
-    let webqueue: PlaylistTrackInterface[] = [];
+    const song = player.queue.current
+    let webqueue: PlaylistTrackInterface[] = []
 
     if (player.queue)
       player.queue.forEach((track) => {
@@ -38,8 +38,8 @@ export default {
           thumbnail: track.thumbnail,
           author: track.author,
           requester: track.requester, // Just case can push
-        });
-      });
+        })
+      })
 
     await webqueue.unshift({
       title: song!.title,
@@ -48,11 +48,11 @@ export default {
       thumbnail: song!.thumbnail,
       author: song!.author,
       requester: song!.requester,
-    });
+    })
 
     return ws.send(
       JSON.stringify({
-        op: "status",
+        op: 'status',
         guild: player.guildId,
         loop: player.loop,
         member: !Member.voice.channel || !Member.voice ? false : true,
@@ -70,7 +70,7 @@ export default {
             }
           : null,
         queue: webqueue ? webqueue : null,
-      }),
-    );
+      })
+    )
   },
-};
+}

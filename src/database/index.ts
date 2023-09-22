@@ -1,20 +1,20 @@
-import { MongoConnectDriver } from "./driver/MongoDriver.js";
-import { JSONConnectDriver } from "./driver/JSONDriver.js";
-import { SQLConnectDriver } from "./driver/SQLDriver.js";
-import { Manager } from "../manager.js";
-import { handler } from "./handler.js";
+import { MongoConnectDriver } from './driver/MongoDriver.js'
+import { JSONConnectDriver } from './driver/JSONDriver.js'
+import { SQLConnectDriver } from './driver/SQLDriver.js'
+import { Manager } from '../manager.js'
+import { handler } from './handler.js'
 
-const JSONDriver = JSONConnectDriver;
-const MongoDriver = MongoConnectDriver;
-const SQLDriver = SQLConnectDriver;
+const JSONDriver = JSONConnectDriver
+const MongoDriver = MongoConnectDriver
+const SQLDriver = SQLConnectDriver
 
 export async function connectDB(client: Manager) {
   try {
-    const db_config = client.config.features.DATABASE;
+    const db_config = client.config.features.DATABASE
 
     function load_db() {
-      client.is_db_connected = true;
-      handler(client);
+      client.is_db_connected = true
+      handler(client)
     }
 
     if (
@@ -23,9 +23,9 @@ export async function connectDB(client: Manager) {
       !db_config.MONGO_DB.enable
     ) {
       await JSONDriver(client, db_config).then(async () => {
-        await load_db();
-      });
-      return;
+        await load_db()
+      })
+      return
     }
 
     if (
@@ -34,9 +34,9 @@ export async function connectDB(client: Manager) {
       !db_config.MYSQL.enable
     ) {
       await MongoDriver(client, db_config).then(async () => {
-        await load_db();
-      });
-      return;
+        await load_db()
+      })
+      return
     }
 
     if (
@@ -45,16 +45,16 @@ export async function connectDB(client: Manager) {
       !db_config.MONGO_DB.enable
     ) {
       await SQLDriver(client, db_config).then(async () => {
-        await load_db();
-      });
-      return;
+        await load_db()
+      })
+      return
     } else {
       await JSONDriver(client, db_config).then(async () => {
-        await load_db();
-      });
-      return;
+        await load_db()
+      })
+      return
     }
   } catch (error) {
-    return client.logger.log({ level: "error", message: error });
+    return client.logger.log({ level: 'error', message: error })
   }
 }

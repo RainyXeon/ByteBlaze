@@ -6,8 +6,8 @@
 
 bot:
   TOKEN: Your token
-  EMBED_COLOR: "#2b2d31"
-  OWNER_ID: "Your id"
+  EMBED_COLOR: '#2b2d31'
+  OWNER_ID: 'Your id'
   LANGUAGE: en # You can set it to vi, en, th,...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
@@ -20,7 +20,7 @@ lavalink:
     id: a98a98s9a89as98a9s8a98
     secret: a98a98s9a89as98a9s8a98
 
-  DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
+  DEFAULT: ['yorushika', 'yoasobi', 'tuyu', 'hinkik']
 
   NP_REALTIME: false # Enable this if you want to use realtime duation in nowplaying command
 
@@ -30,9 +30,9 @@ lavalink:
   NODES:
     [
       {
-        url: "localhost:2333",
-        name: "Lavalink_Server",
-        auth: "youshallnotpass",
+        url: 'localhost:2333',
+        name: 'Lavalink_Server',
+        auth: 'youshallnotpass',
         secure: false,
       },
     ]
@@ -50,21 +50,21 @@ features:
     # Note: You can't enable all or 2 databases. It will return to JSON database
     JSON:
       enable: true
-      path: "./cylane.database.json"
+      path: './cylane.database.json'
     MONGO_DB:
       enable: false
       # Your mongo_uri, you can get it from here: https://www.mongodb.com/
       uri: mongodb://127.0.0.1:27017/dreamvast
     MYSQL:
       enable: false
-      host: "localhost"
-      user: "me"
-      password: "secret"
-      database: "my_db"
+      host: 'localhost'
+      user: 'me'
+      password: 'secret'
+      database: 'my_db'
 
   MESSAGE_CONTENT:
     enable: true
-    prefix: "d!" # The prefix you want
+    prefix: 'd!' # The prefix you want
 
   AUTO_DEPLOY: true
   AUTO_REMOVE_DUPLICATE: true
@@ -75,10 +75,10 @@ features:
     port: 3000
     websocket:
       enable: false
-      host: "0.0.0.0" # Default is 0.0.0.0
-      secret: "-19023454588-0934825" # You must add your secret key to use ws. A secret key is anything you want
+      host: '0.0.0.0' # Default is 0.0.0.0
+      secret: '-19023454588-0934825' # You must add your secret key to use ws. A secret key is anything you want
       auth: false
-      trusted: ["http://localhost:3000"]
+      trusted: ['http://localhost:3000']
 
   # Your id or friend id (disable global command)
   DEV_ID: []

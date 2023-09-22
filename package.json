@@ -30,7 +30,10 @@
   "nodemonConfig": {
     "ignore": [
       "*.database.json"
-    ]
+    ],
+    "execMap": {
+      "ts": "tsx"
+    }
   },
   "homepage": "https://github.com/RainyXeon/ByteBlaze#readme",
   "dependencies": {
@@ -61,6 +64,7 @@
     "markdown-it": "^13.0.1",
     "moment": "^2.29.4",
     "mongoose": "^6.9.1",
+    "musicard": "^1.5.1",
     "mysql2": "^3.6.0",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",

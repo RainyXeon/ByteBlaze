@@ -1,60 +1,60 @@
-import { Manager } from "../../manager.js";
-import { KazagumoLoopMode } from "../../types/Lavalink.js";
+import { Manager } from '../../manager.js'
+import { KazagumoLoopMode } from '../../types/Lavalink.js'
 
 export default {
-  name: "loop",
+  name: 'loop',
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
-    const player = client.manager.players.get(json.guild);
+    const player = client.manager.players.get(json.guild)
 
     if (!player)
       return ws.send(
-        JSON.stringify({ error: "0x100", message: "No player on this guild" }),
-      );
+        JSON.stringify({ error: '0x100', message: 'No player on this guild' })
+      )
     if (!json.status) {
       if (!json.mode) {
         return ws.send(
           JSON.stringify({
-            error: "0x125",
-            message: "Missing status as mode!",
+            error: '0x125',
+            message: 'Missing status as mode!',
             guild: player.guildId,
-          }),
-        );
+          })
+        )
       }
-      await player.setLoop(json.mode as KazagumoLoopMode);
-      return;
+      await player.setLoop(json.mode as KazagumoLoopMode)
+      return
     }
 
-    if (json.status == "none") {
-      await player.setLoop("track");
+    if (json.status == 'none') {
+      await player.setLoop('track')
       ws.send(
         JSON.stringify({
           guild: player.guildId,
-          op: "loop_queue",
-          status: "track",
-        }),
-      );
+          op: 'loop_queue',
+          status: 'track',
+        })
+      )
     }
 
-    if (json.status == "track") {
-      await player.setLoop("queue");
+    if (json.status == 'track') {
+      await player.setLoop('queue')
       ws.send(
         JSON.stringify({
           guild: player.guildId,
-          op: "loop_queue",
-          status: "queue",
-        }),
-      );
+          op: 'loop_queue',
+          status: 'queue',
+        })
+      )
     }
 
-    if (json.status == "queue") {
-      await player.setLoop("none");
+    if (json.status == 'queue') {
+      await player.setLoop('none')
       ws.send(
         JSON.stringify({
           guild: player.guildId,
-          op: "loop_queue",
-          status: "none",
-        }),
-      );
+          op: 'loop_queue',
+          status: 'none',
+        })
+      )
     }
   },
-};
+}

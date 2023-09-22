@@ -5,42 +5,42 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from "discord.js";
-import { Manager } from "../../../manager.js";
+} from 'discord.js'
+import { Manager } from '../../../manager.js'
 
 export default {
-  name: ["ping"],
-  description: "Shows the ping information of the Bot",
-  category: "Info",
+  name: ['ping'],
+  description: 'Shows the ping information of the Bot',
+  category: 'Info',
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string,
+    language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: false })
     const ping = new EmbedBuilder()
       .setTitle(
-        `${client.i18n.get(language, "info", "ping_title")}` +
-          client.user!.username,
+        `${client.i18n.get(language, 'info', 'ping_title')}` +
+          client.user!.username
       )
       .setDescription(
-        `${client.i18n.get(language, "info", "ping_desc", {
+        `${client.i18n.get(language, 'info', 'ping_desc', {
           ping: String(client.ws.ping),
-        })}`,
+        })}`
       )
       .setTimestamp()
-      .setColor(client.color);
+      .setColor(client.color)
     const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setLabel("Invite Me")
+        .setLabel('Invite Me')
         .setStyle(ButtonStyle.Link)
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`,
-        ),
-    );
+          }&permissions=8&scope=bot%20applications.commands`
+        )
+    )
 
-    await interaction.editReply({ embeds: [ping], components: [row3] });
+    await interaction.editReply({ embeds: [ping], components: [row3] })
   },
-};
+}

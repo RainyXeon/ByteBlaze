@@ -1,14 +1,14 @@
-import { EmbedBuilder, Message } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { Manager } from "../../../manager.js";
-const fastForwardNum = 10;
+import { EmbedBuilder, Message } from 'discord.js'
+import formatDuration from '../../../structures/FormatDuration.js'
+import { Manager } from '../../../manager.js'
+const fastForwardNum = 10
 
 // Main code
 export default {
-  name: "forward",
-  description: "Forward timestamp in the song!",
-  category: "Music",
-  usage: "<seconds>",
+  name: 'forward',
+  description: 'Forward timestamp in the song!',
+  category: 'Music',
+  usage: '<seconds>',
   aliases: [],
 
   run: async (
@@ -16,80 +16,80 @@ export default {
     message: Message,
     args: string[],
     language: string,
-    prefix: string,
+    prefix: string
   ) => {
-    const value = args[0];
+    const value = args[0]
 
     const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "forward_loading")}`,
-    );
+      `${client.i18n.get(language, 'music', 'forward_loading')}`
+    )
 
-    const player = client.manager.players.get(message.guild!.id);
+    const player = client.manager.players.get(message.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-    const { channel } = message.member!.voice;
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+    const { channel } = message.member!.voice
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
 
-    const song = player.queue.current;
-    const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const song = player.queue.current
+    const song_position = player.shoukaku.position
+    const CurrentDuration = formatDuration(song_position)
 
     if (value && !isNaN(+value)) {
       if (song_position + Number(value) * 1000 < song!.length!) {
-        player["send"]({
-          op: "seek",
+        player['send']({
+          op: 'seek',
           guildId: message.guild!.id,
           position: song_position + Number(value) * 1000,
-        });
+        })
 
         const forward1 = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "forward_msg", {
+            `${client.i18n.get(language, 'music', 'forward_msg', {
               duration: CurrentDuration,
-            })}`,
+            })}`
           )
-          .setColor(client.color);
+          .setColor(client.color)
 
-        msg.edit({ content: " ", embeds: [forward1] });
+        msg.edit({ content: ' ', embeds: [forward1] })
       } else {
         return msg.edit(
-          `${client.i18n.get(language, "music", "forward_beyond")}`,
-        );
+          `${client.i18n.get(language, 'music', 'forward_beyond')}`
+        )
       }
     } else if (value && isNaN(+value)) {
       return msg.edit(
-        `${client.i18n.get(language, "music", "forward_invalid", {
+        `${client.i18n.get(language, 'music', 'forward_invalid', {
           prefix: prefix,
-        })}`,
-      );
+        })}`
+      )
     }
 
     if (!value) {
       if (song_position + fastForwardNum * 1000 < song!.length!) {
-        player["send"]({
-          op: "seek",
+        player['send']({
+          op: 'seek',
           guildId: message.guild!.id,
           position: song_position + fastForwardNum * 1000,
-        });
+        })
 
         const forward2 = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "forward_msg", {
+            `${client.i18n.get(language, 'music', 'forward_msg', {
               duration: CurrentDuration,
-            })}`,
+            })}`
           )
-          .setColor(client.color);
+          .setColor(client.color)
 
-        msg.edit({ content: " ", embeds: [forward2] });
+        msg.edit({ content: ' ', embeds: [forward2] })
       } else {
         return msg.edit(
-          `${client.i18n.get(language, "music", "forward_beyond")}`,
-        );
+          `${client.i18n.get(language, 'music', 'forward_beyond')}`
+        )
       }
     }
   },
-};
+}

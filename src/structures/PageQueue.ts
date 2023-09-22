@@ -7,8 +7,8 @@ import {
   EmbedBuilder,
   Message,
   UserSelectMenuInteraction,
-} from "discord.js";
-import { Manager } from "../manager.js";
+} from 'discord.js'
+import { Manager } from '../manager.js'
 
 export const SlashPage = async (
   client: Manager,
@@ -17,27 +17,27 @@ export const SlashPage = async (
   timeout: number,
   queueLength: number,
   queueDuration: number,
-  language: string,
+  language: string
 ) => {
   if (!interaction && !(interaction as any).channel)
-    throw new Error("Channel is inaccessible.");
-  if (!pages) throw new Error("Pages are not given.");
+    throw new Error('Channel is inaccessible.')
+  if (!pages) throw new Error('Pages are not given.')
 
   const row1 = new ButtonBuilder()
-    .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setCustomId('back')
+    .setLabel('⬅')
+    .setStyle(ButtonStyle.Primary)
   const row2 = new ButtonBuilder()
-    .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+    .setCustomId('next')
+    .setLabel('➡')
+    .setStyle(ButtonStyle.Primary)
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-  let page = 0;
+  let page = 0
   const curPage = await interaction.editReply({
     embeds: [
       pages[page].setFooter({
-        text: `${client.i18n.get(language, "music", "queue_footer", {
+        text: `${client.i18n.get(language, 'music', 'queue_footer', {
           page: String(page + 1),
           pages: String(pages.length),
           queue_lang: String(queueLength),
@@ -47,25 +47,25 @@ export const SlashPage = async (
     ],
     components: [row],
     allowedMentions: { repliedUser: false },
-  });
-  if (pages.length == 0) return;
+  })
+  if (pages.length == 0) return
 
   const collector = await curPage.createMessageComponentCollector({
     filter: (m) => m.user.id === interaction.user.id,
     time: timeout,
-  });
+  })
 
-  collector.on("collect", async (interaction) => {
-    if (!interaction.deferred) await interaction.deferUpdate();
-    if (interaction.customId === "back") {
-      page = page > 0 ? --page : pages.length - 1;
-    } else if (interaction.customId === "next") {
-      page = page + 1 < pages.length ? ++page : 0;
+  collector.on('collect', async (interaction) => {
+    if (!interaction.deferred) await interaction.deferUpdate()
+    if (interaction.customId === 'back') {
+      page = page > 0 ? --page : pages.length - 1
+    } else if (interaction.customId === 'next') {
+      page = page + 1 < pages.length ? ++page : 0
     }
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "music", "queue_footer", {
+          text: `${client.i18n.get(language, 'music', 'queue_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             queue_lang: String(queueLength),
@@ -74,18 +74,18 @@ export const SlashPage = async (
         }),
       ],
       components: [row],
-    });
-  });
+    })
+  })
 
-  collector.on("end", () => {
+  collector.on('end', () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true),
-    );
+      row2.setDisabled(true)
+    )
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "music", "queue_footer", {
+          text: `${client.i18n.get(language, 'music', 'queue_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             queue_lang: String(queueLength),
@@ -94,11 +94,11 @@ export const SlashPage = async (
         }),
       ],
       components: [disabled],
-    });
-  });
+    })
+  })
 
-  return curPage;
-};
+  return curPage
+}
 
 export const SlashPlaylist = async (
   client: Manager,
@@ -106,27 +106,27 @@ export const SlashPlaylist = async (
   pages: EmbedBuilder[],
   timeout: number,
   queueLength: number,
-  language: string,
+  language: string
 ) => {
   if (!interaction && !(interaction as any).channel)
-    throw new Error("Channel is inaccessible.");
-  if (!pages) throw new Error("Pages are not given.");
+    throw new Error('Channel is inaccessible.')
+  if (!pages) throw new Error('Pages are not given.')
 
   const row1 = new ButtonBuilder()
-    .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setCustomId('back')
+    .setLabel('⬅')
+    .setStyle(ButtonStyle.Primary)
   const row2 = new ButtonBuilder()
-    .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+    .setCustomId('next')
+    .setLabel('➡')
+    .setStyle(ButtonStyle.Primary)
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-  let page = 0;
+  let page = 0
   const curPage = await interaction.editReply({
     embeds: [
       pages[page].setFooter({
-        text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+        text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
           page: String(page + 1),
           pages: String(pages.length),
           songs: String(queueLength),
@@ -135,25 +135,25 @@ export const SlashPlaylist = async (
     ],
     components: [row],
     allowedMentions: { repliedUser: false },
-  });
-  if (pages.length == 0) return;
+  })
+  if (pages.length == 0) return
 
   const collector = await curPage.createMessageComponentCollector({
     filter: (m) => m.user.id === interaction.user.id,
     time: timeout,
-  });
+  })
 
-  collector.on("collect", async (interaction) => {
-    if (!interaction.deferred) await interaction.deferUpdate();
-    if (interaction.customId === "back") {
-      page = page > 0 ? --page : pages.length - 1;
-    } else if (interaction.customId === "next") {
-      page = page + 1 < pages.length ? ++page : 0;
+  collector.on('collect', async (interaction) => {
+    if (!interaction.deferred) await interaction.deferUpdate()
+    if (interaction.customId === 'back') {
+      page = page > 0 ? --page : pages.length - 1
+    } else if (interaction.customId === 'next') {
+      page = page + 1 < pages.length ? ++page : 0
     }
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+          text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             songs: String(queueLength),
@@ -161,17 +161,17 @@ export const SlashPlaylist = async (
         }),
       ],
       components: [row],
-    });
-  });
-  collector.on("end", () => {
+    })
+  })
+  collector.on('end', () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true),
-    );
+      row2.setDisabled(true)
+    )
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+          text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             songs: String(queueLength),
@@ -179,10 +179,10 @@ export const SlashPlaylist = async (
         }),
       ],
       components: [disabled],
-    });
-  });
-  return curPage;
-};
+    })
+  })
+  return curPage
+}
 
 export const NormalPage = async (
   client: Manager,
@@ -191,27 +191,27 @@ export const NormalPage = async (
   timeout: number,
   queueLength: number,
   queueDuration: number,
-  language: string,
+  language: string
 ) => {
   if (!message && !(message as any).channel)
-    throw new Error("Channel is inaccessible.");
-  if (!pages) throw new Error("Pages are not given.");
+    throw new Error('Channel is inaccessible.')
+  if (!pages) throw new Error('Pages are not given.')
 
   const row1 = new ButtonBuilder()
-    .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setCustomId('back')
+    .setLabel('⬅')
+    .setStyle(ButtonStyle.Primary)
   const row2 = new ButtonBuilder()
-    .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+    .setCustomId('next')
+    .setLabel('➡')
+    .setStyle(ButtonStyle.Primary)
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-  let page = 0;
+  let page = 0
   const curPage = await message.channel.send({
     embeds: [
       pages[page].setFooter({
-        text: `${client.i18n.get(language, "music", "queue_footer", {
+        text: `${client.i18n.get(language, 'music', 'queue_footer', {
           page: String(page + 1),
           pages: String(pages.length),
           queue_lang: String(queueLength),
@@ -221,29 +221,28 @@ export const NormalPage = async (
     ],
     components: [row],
     allowedMentions: { repliedUser: false },
-  });
-  if (pages.length == 0) return;
-
+  })
+  if (pages.length == 0) return
 
   const collector = await curPage.createMessageComponentCollector({
     filter: (interaction) =>
-    interaction.user.id === message.author.id
-      ? true
-      : false && interaction.deferUpdate(),
+      interaction.user.id === message.author.id
+        ? true
+        : false && interaction.deferUpdate(),
     time: timeout,
-  });
+  })
 
-  collector.on("collect", async (interaction) => {
-    if (!interaction.deferred) await interaction.deferUpdate();
-    if (interaction.customId === "back") {
-      page = page > 0 ? --page : pages.length - 1;
-    } else if (interaction.customId === "next") {
-      page = page + 1 < pages.length ? ++page : 0;
+  collector.on('collect', async (interaction) => {
+    if (!interaction.deferred) await interaction.deferUpdate()
+    if (interaction.customId === 'back') {
+      page = page > 0 ? --page : pages.length - 1
+    } else if (interaction.customId === 'next') {
+      page = page + 1 < pages.length ? ++page : 0
     }
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "music", "queue_footer", {
+          text: `${client.i18n.get(language, 'music', 'queue_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             queue_lang: String(queueLength),
@@ -252,17 +251,17 @@ export const NormalPage = async (
         }),
       ],
       components: [row],
-    });
-  });
-  collector.on("end", () => {
+    })
+  })
+  collector.on('end', () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true),
-    );
+      row2.setDisabled(true)
+    )
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "music", "queue_footer", {
+          text: `${client.i18n.get(language, 'music', 'queue_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             queue_lang: String(queueLength),
@@ -271,10 +270,10 @@ export const NormalPage = async (
         }),
       ],
       components: [disabled],
-    });
-  });
-  return curPage;
-};
+    })
+  })
+  return curPage
+}
 
 export const NormalPlaylist = async (
   client: Manager,
@@ -282,27 +281,27 @@ export const NormalPlaylist = async (
   pages: EmbedBuilder[],
   timeout: number,
   queueLength: number,
-  language: string,
+  language: string
 ) => {
   if (!message && !(message as any).channel)
-    throw new Error("Channel is inaccessible.");
-  if (!pages) throw new Error("Pages are not given.");
+    throw new Error('Channel is inaccessible.')
+  if (!pages) throw new Error('Pages are not given.')
 
   const row1 = new ButtonBuilder()
-    .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setCustomId('back')
+    .setLabel('⬅')
+    .setStyle(ButtonStyle.Primary)
   const row2 = new ButtonBuilder()
-    .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+    .setCustomId('next')
+    .setLabel('➡')
+    .setStyle(ButtonStyle.Primary)
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-  let page = 0;
+  let page = 0
   const curPage = await message.channel.send({
     embeds: [
       pages[page].setFooter({
-        text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+        text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
           page: String(page + 1),
           pages: String(pages.length),
           songs: String(queueLength),
@@ -311,28 +310,28 @@ export const NormalPlaylist = async (
     ],
     components: [row],
     allowedMentions: { repliedUser: false },
-  });
-  if (pages.length == 0) return;
+  })
+  if (pages.length == 0) return
 
   const collector = await curPage.createMessageComponentCollector({
     filter: (interaction) =>
-    interaction.user.id === message.author.id
-      ? true
-      : false && interaction.deferUpdate(),
+      interaction.user.id === message.author.id
+        ? true
+        : false && interaction.deferUpdate(),
     time: timeout,
-  });
+  })
 
-  collector.on("collect", async (interaction) => {
-    if (!interaction.deferred) await interaction.deferUpdate();
-    if (interaction.customId === "back") {
-      page = page > 0 ? --page : pages.length - 1;
-    } else if (interaction.customId === "next") {
-      page = page + 1 < pages.length ? ++page : 0;
+  collector.on('collect', async (interaction) => {
+    if (!interaction.deferred) await interaction.deferUpdate()
+    if (interaction.customId === 'back') {
+      page = page > 0 ? --page : pages.length - 1
+    } else if (interaction.customId === 'next') {
+      page = page + 1 < pages.length ? ++page : 0
     }
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+          text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             songs: String(queueLength),
@@ -340,17 +339,17 @@ export const NormalPlaylist = async (
         }),
       ],
       components: [row],
-    });
-  });
-  collector.on("end", () => {
+    })
+  })
+  collector.on('end', () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true),
-    );
+      row2.setDisabled(true)
+    )
     curPage.edit({
       embeds: [
         pages[page].setFooter({
-          text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
+          text: `${client.i18n.get(language, 'playlist', 'view_embed_footer', {
             page: String(page + 1),
             pages: String(pages.length),
             songs: String(queueLength),
@@ -358,7 +357,7 @@ export const NormalPlaylist = async (
         }),
       ],
       components: [disabled],
-    });
-  });
-  return curPage;
-};
+    })
+  })
+  return curPage
+}

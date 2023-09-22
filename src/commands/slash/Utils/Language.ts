@@ -4,17 +4,17 @@ import {
   PermissionsBitField,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from "discord.js";
-import { Manager } from "../../../manager.js";
+} from 'discord.js'
+import { Manager } from '../../../manager.js'
 
 export default {
-  name: ["settings", "language"],
-  description: "Change the language for the bot",
-  category: "Utils",
+  name: ['settings', 'language'],
+  description: 'Change the language for the bot',
+  category: 'Utils',
   options: [
     {
-      name: "input",
-      description: "The new language",
+      name: 'input',
+      description: 'The new language',
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -22,57 +22,57 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string,
+    language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: false })
     const input = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("input");
+    ).getString('input')
 
     if (
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-        PermissionsBitField.Flags.ManageGuild,
+        PermissionsBitField.Flags.ManageGuild
       )
     )
       return interaction.editReply(
-        `${client.i18n.get(language, "utilities", "lang_perm")}`,
-      );
-    const languages = client.i18n.getLocales();
+        `${client.i18n.get(language, 'utilities', 'lang_perm')}`
+      )
+    const languages = client.i18n.getLocales()
 
     if (!languages.includes(input as string))
       return interaction.editReply(
-        `${client.i18n.get(language, "utilities", "provide_lang", {
-          languages: languages.join(", "),
-        })}`,
-      );
+        `${client.i18n.get(language, 'utilities', 'provide_lang', {
+          languages: languages.join(', '),
+        })}`
+      )
 
     const newLang = await client.db.get(
-      `language.guild_${interaction.guild!.id}`,
-    );
+      `language.guild_${interaction.guild!.id}`
+    )
 
     if (!newLang) {
-      await client.db.set(`language.guild_${interaction.guild!.id}`, input);
+      await client.db.set(`language.guild_${interaction.guild!.id}`, input)
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "utilities", "lang_set", {
+          `${client.i18n.get(language, 'utilities', 'lang_set', {
             language: String(input),
-          })}`,
+          })}`
         )
-        .setColor(client.color);
+        .setColor(client.color)
 
-      return interaction.editReply({ content: " ", embeds: [embed] });
+      return interaction.editReply({ content: ' ', embeds: [embed] })
     } else if (newLang) {
-      await client.db.set(`language.guild_${interaction.guild!.id}`, input);
+      await client.db.set(`language.guild_${interaction.guild!.id}`, input)
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "utilities", "lang_change", {
+          `${client.i18n.get(language, 'utilities', 'lang_change', {
             language: String(input),
-          })}`,
+          })}`
         )
-        .setColor(client.color);
+        .setColor(client.color)
 
-      return interaction.editReply({ content: " ", embeds: [embed] });
+      return interaction.editReply({ content: ' ', embeds: [embed] })
     }
   },
-};
+}

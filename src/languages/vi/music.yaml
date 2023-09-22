@@ -1,195 +1,195 @@
 ### 247 command
-247_loading: "Đang tải, vui lòng chờ..."
-247_off: "`🌙` | *Chế độ 24/7 đã bị:* `Ngừng kích hoạt`"
-247_on: "`🌕` | *Chế độ 24/7 đã được `Kích hoạt`"
+247_loading: 'Đang tải, vui lòng chờ...'
+247_off: '`🌙` | *Chế độ 24/7 đã bị:* `Ngừng kích hoạt`'
+247_on: '`🌕` | *Chế độ 24/7 đã được `Kích hoạt`'
 ### Autoplay command!
-autoplay_loading: "Đang tải, vui lòng chờ..."
-autoplay_off: "`📻` | *Chế độ tự động phát đã bị:* `Ngừng kích hoạt`"
-autoplay_on: "`📻` | *Chế độ tự động phát đã được:* `Kích hoạt`"
+autoplay_loading: 'Đang tải, vui lòng chờ...'
+autoplay_off: '`📻` | *Chế độ tự động phát đã bị:* `Ngừng kích hoạt`'
+autoplay_on: '`📻` | *Chế độ tự động phát đã được:* `Kích hoạt`'
 ### Clearqueue command!
-clearqueue_loading: "Đang tải, vui lòng chờ..."
-clearqueue_msg: "`📛` | *Hàng đợi đã bị:* `Xoá hoàn toàn`"
+clearqueue_loading: 'Đang tải, vui lòng chờ...'
+clearqueue_msg: '`📛` | *Hàng đợi đã bị:* `Xoá hoàn toàn`'
 ### Forward command!
-forward_loading: "Đang tải, vui lòng chờ..."
-forward_msg: "`⏭` | *Chuyển tiếp lúc:* `%{duration}`"
-forward_beyond: "Không thể chuyển tiếp quá thời lượng của bài hát."
+forward_loading: 'Đang tải, vui lòng chờ...'
+forward_msg: '`⏭` | *Chuyển tiếp lúc:* `%{duration}`'
+forward_beyond: 'Không thể chuyển tiếp quá thời lượng của bài hát.'
 forward_invalid: "Đối số không hợp lệ, phải là một số.\nCách sử dụng đúng: `%{prefix}forward <giây>`"
 ### Join command!
-join_loading: "Đang tải, vui lòng chờ..."
-join_voice: "Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này."
-join_msg: "`🔊` | *Đã tham gia:* `%{channel}`"
+join_loading: 'Đang tải, vui lòng chờ...'
+join_voice: 'Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này.'
+join_msg: '`🔊` | *Đã tham gia:* `%{channel}`'
 ### Leave command!
-leave_loading: "Đang tải, vui lòng chờ..."
-leave_msg: "`🚫` | *Đã rời:* | `%{channel}`"
+leave_loading: 'Đang tải, vui lòng chờ...'
+leave_msg: '`🚫` | *Đã rời:* | `%{channel}`'
 ### Loop command!
-loop_loading: "Đang tải, vui lòng chờ..."
-loop_invalid: "Chế độ vòng lặp không hợp lệ, chỉ được phép sử dụng: %{mode}"
-loop_current: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Bài hát hiện tại`"
-unloop_current: "`🔁` | *Nhạc được ngừng lặp lại ở chế độ:* `Bài hát hiện tại`"
-loop_all: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
-unloop_all: "`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
+loop_loading: 'Đang tải, vui lòng chờ...'
+loop_invalid: 'Chế độ vòng lặp không hợp lệ, chỉ được phép sử dụng: %{mode}'
+loop_current: '`🔁` | *Nhạc được lặp lại ở chế độ:* `Bài hát hiện tại`'
+unloop_current: '`🔁` | *Nhạc được ngừng lặp lại ở chế độ:* `Bài hát hiện tại`'
+loop_all: '`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`'
+unloop_all: '`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`'
 ### Loopall command!
-loopall_loading: "Đang tải, vui lòng chờ..."
-loopall: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
-unloopall: "`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
+loopall_loading: 'Đang tải, vui lòng chờ...'
+loopall: '`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`'
+unloopall: '`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`'
 ### Lyrics command!
-lyrics_loading: "Đang tìm kiếm lời hát..."
-lyrics_notfound: "Không tìm thấy lời hát nào của bài này!"
-lyrics_title: "Lời hát bài %{song}"
-lyrics_toolong: "Lời hát quá dài để hiển thị!"
+lyrics_loading: 'Đang tìm kiếm lời hát...'
+lyrics_notfound: 'Không tìm thấy lời hát nào của bài này!'
+lyrics_title: 'Lời hát bài %{song}'
+lyrics_toolong: 'Lời hát quá dài để hiển thị!'
 ### Nowplaying command!
-np_loading: "Đang tải, vui lòng chờ..."
-np_title: "Đang chơi..."
-np_title_pause: "Dừng nhạc..."
-np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+np_loading: 'Đang tải, vui lòng chờ...'
+np_title: 'Đang chơi...'
+np_title_pause: 'Dừng nhạc...'
+np_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
 #Embed Field
-np_author: "Tác giả:"
-np_request: "Người yêu cầu:"
-np_volume: "Âm lượng:"
-np_view: "Lượt xem:"
-np_upload: "Đăng tải lúc:"
-np_download: "Tải xuống:"
-np_current_duration: "Thời lượng hiện tại: `[%{current_duration} / %{total_duration}]`"
+np_author: 'Tác giả:'
+np_request: 'Người yêu cầu:'
+np_volume: 'Âm lượng:'
+np_view: 'Lượt xem:'
+np_upload: 'Đăng tải lúc:'
+np_download: 'Tải xuống:'
+np_current_duration: 'Thời lượng hiện tại: `[%{current_duration} / %{total_duration}]`'
 #Need in voice to use button
-np_invoice: "Bạn cần phải tham gia cùng 1 kênh đàm thoại."
+np_invoice: 'Bạn cần phải tham gia cùng 1 kênh đàm thoại.'
 #Message Button
-np_switch_pause: "Đã dừng"
-np_switch_resume: "Tiếp tục"
-np_pause_msg: "`⏯` | *Nhạc đã:* `%{pause}`"
-np_replay_msg: "`⏮` | *Nhạc đã:* `Phát lại`"
-np_stop_msg: "`🚫` | *Nhạc đã:* `Dừng`"
-np_skip_msg: "`⏭` | *Nhạc đã được:* `Bỏ qua`"
-np_switch_enable: "Đã kích hoạt"
-np_switch_disable: "Đã ngừng kích hoạt"
-np_repeat_msg: "`🔁` | *Vòng lặp đã:* `%{loop}`"
+np_switch_pause: 'Đã dừng'
+np_switch_resume: 'Tiếp tục'
+np_pause_msg: '`⏯` | *Nhạc đã:* `%{pause}`'
+np_replay_msg: '`⏮` | *Nhạc đã:* `Phát lại`'
+np_stop_msg: '`🚫` | *Nhạc đã:* `Dừng`'
+np_skip_msg: '`⏭` | *Nhạc đã được:* `Bỏ qua`'
+np_switch_enable: 'Đã kích hoạt'
+np_switch_disable: 'Đã ngừng kích hoạt'
+np_repeat_msg: '`🔁` | *Vòng lặp đã:* `%{loop}`'
 ### Pause command!
-pause_loading: "Đang tải, vui lòng chờ..."
-pause_switch_pause: "Đã dừng"
-pause_switch_resume: "Tiếp tục"
-pause_msg: "`⏯` | *Nhạc đã:* `%{pause}`"
+pause_loading: 'Đang tải, vui lòng chờ...'
+pause_switch_pause: 'Đã dừng'
+pause_switch_resume: 'Tiếp tục'
+pause_msg: '`⏯` | *Nhạc đã:* `%{pause}`'
 ### Play command!
-play_loading: "Đang tải, vui lòng chờ..."
-play_invoice: "Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này."
-play_join: "Tôi không có quyền để tham gia kênh đàm thoại."
-play_speak: "Tôi không có quyền để nói trong kênh đàm thoại."
-play_arg: "Vui lòng cung cấp tên nhạc hoặc liên kết để tìm kiếm."
-play_startwith: "Vui lòng dùng liên kết để chơi nhạc."
-play_invalid_file: "Vui lòng sử dụng tệp nhạc hợp lệ để sử dụng tính năng này. Lưu ý rằng chỉ hỗ trợ phần mở rộng mp3/ogg, các phần mở rộng tệp nhạc chuyên nghiệp như flac/wav sẽ không được hỗ trợ."
-play_warning_file: "Cảnh báo: Hệ thống không thể phát hiện loại tệp của bạn. Hệ thống có thể không phát nhạc được. Chúng tôi khuyên bạn nên chọn bất kỳ loại tệp nào có phần mở rộng .mp3."
-play_track: "**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
-play_result: "**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}"
-play_fail: "Lỗi không tải được nhạc"
-play_match: "Lỗi không tìm được bài hát"
+play_loading: 'Đang tải, vui lòng chờ...'
+play_invoice: 'Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này.'
+play_join: 'Tôi không có quyền để tham gia kênh đàm thoại.'
+play_speak: 'Tôi không có quyền để nói trong kênh đàm thoại.'
+play_arg: 'Vui lòng cung cấp tên nhạc hoặc liên kết để tìm kiếm.'
+play_startwith: 'Vui lòng dùng liên kết để chơi nhạc.'
+play_invalid_file: 'Vui lòng sử dụng tệp nhạc hợp lệ để sử dụng tính năng này. Lưu ý rằng chỉ hỗ trợ phần mở rộng mp3/ogg, các phần mở rộng tệp nhạc chuyên nghiệp như flac/wav sẽ không được hỗ trợ.'
+play_warning_file: 'Cảnh báo: Hệ thống không thể phát hiện loại tệp của bạn. Hệ thống có thể không phát nhạc được. Chúng tôi khuyên bạn nên chọn bất kỳ loại tệp nào có phần mở rộng .mp3.'
+play_track: '**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}'
+play_playlist: '**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+play_result: '**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}'
+play_fail: 'Lỗi không tải được nhạc'
+play_match: 'Lỗi không tìm được bài hát'
 ### Previous command!
-previous_loading: "Đang tải, vui lòng chờ..."
-previous_notfound: "Không tìm được bàt hát trước kia."
-previous_msg: "`⏮` | *Nhạc đã được:* `Quay lại`"
+previous_loading: 'Đang tải, vui lòng chờ...'
+previous_notfound: 'Không tìm được bàt hát trước kia.'
+previous_msg: '`⏮` | *Nhạc đã được:* `Quay lại`'
 ### Queue command!
-queue_author: "Hàng đợi - %{guild}"
+queue_author: 'Hàng đợi - %{guild}'
 queue_description: "*Đang chơi*\n*[%{title}](%{url})* `[%{duration}]` • %{request}\n\n*Phần còn lại của hàng đợi*:%{rest}"
-queue_footer: "Trang • %{page}/%{pages} | %{queue_lang} • Nhạc | %{duration} • Tổng độ dài"
-queue_notnumber: "Số trang cần phải là một số."
-queue_page_notfound: "Hiện chỉ có %{page} có sẵn."
+queue_footer: 'Trang • %{page}/%{pages} | %{queue_lang} • Nhạc | %{duration} • Tổng độ dài'
+queue_notnumber: 'Số trang cần phải là một số.'
+queue_page_notfound: 'Hiện chỉ có %{page} có sẵn.'
 ### Replay command!
-replay_loading: "Đang tải, vui lòng chờ..."
-replay_msg: "`⏮` | *Nhạc đã:* `Phát lại`"
+replay_loading: 'Đang tải, vui lòng chờ...'
+replay_msg: '`⏮` | *Nhạc đã:* `Phát lại`'
 ### Resume command!
-resume_loading: "Đang tải, vui lòng chờ..."
-resume_switch_pause: "Đã dừng"
-resume_switch_resume: "Tiếp tục"
-resume_msg: "`⏯` | *Nhạc đã:* `%{resume}`"
+resume_loading: 'Đang tải, vui lòng chờ...'
+resume_switch_pause: 'Đã dừng'
+resume_switch_resume: 'Tiếp tục'
+resume_msg: '`⏯` | *Nhạc đã:* `%{resume}`'
 ### Rewind command!
-rewind_loading: "Đang tải, vui lòng chờ..."
-rewind_msg: "`⏮` | *Quay lại lúc:* `%{duration}`"
-rewind_beyond: "Không thể quay lại quá thời lượng của bài hát."
+rewind_loading: 'Đang tải, vui lòng chờ...'
+rewind_msg: '`⏮` | *Quay lại lúc:* `%{duration}`'
+rewind_beyond: 'Không thể quay lại quá thời lượng của bài hát.'
 rewind_invalid: "Đối số không hợp lệ, phải là một số.\nCách sử dụng đúng: `%{prefix}rewind <giây>`"
 ### Search command!
-search_loading: "Đang tải, vui lòng chờ..."
-search_invoice: "Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này."
-search_join: "Tôi không có quyền để tham gia kênh đàm thoại."
-search_speak: "Tôi không có quyền để nói trong kênh đàm thoại."
-search_arg: "Vui lòng cung cấp tên nhạc hoặc liên kết để tìm kiếm."
-search_title: "Chọn nhạc..."
-search_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`"
-search_footer: "Vui lòng chọn nhạc trong 30 giây."
-search_no_response: "Không phản hồi."
-search_result: "**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}"
-search_playlist: "**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
-search_fail: "Lỗi không tải được nhạc"
-search_match: "Lỗi không tìm được bài hát"
+search_loading: 'Đang tải, vui lòng chờ...'
+search_invoice: 'Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này.'
+search_join: 'Tôi không có quyền để tham gia kênh đàm thoại.'
+search_speak: 'Tôi không có quyền để nói trong kênh đàm thoại.'
+search_arg: 'Vui lòng cung cấp tên nhạc hoặc liên kết để tìm kiếm.'
+search_title: 'Chọn nhạc...'
+search_select: '**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`'
+search_footer: 'Vui lòng chọn nhạc trong 30 giây.'
+search_no_response: 'Không phản hồi.'
+search_result: '**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` • %{request}'
+search_playlist: '**Đã thêm vào hàng đợi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+search_fail: 'Lỗi không tải được nhạc'
+search_match: 'Lỗi không tìm được bài hát'
 ### Seek command!
-seek_loading: "Đang tải, vui lòng chờ..."
+seek_loading: 'Đang tải, vui lòng chờ...'
 seek_invalid: "Định dạng không hợp lệ. Vui lòng cung cấp dấu thời gian.\nVí dụ: `%{prefix}seek 0:59 hoặc 120:00`"
-seek_beyond: "Không thể quay lại quá thời lương của nhạc."
-seek_msg: "`⏭` | *Quay lại lúc:* `%{duration}`"
+seek_beyond: 'Không thể quay lại quá thời lương của nhạc.'
+seek_msg: '`⏭` | *Quay lại lúc:* `%{duration}`'
 ### Shuffle command!
-shuffle_loading: "Đang tải, vui lòng chờ..."
-shuffle_msg: "`🔀` | *Hàng đợi đã đươc:* `Xáo trộn`"
+shuffle_loading: 'Đang tải, vui lòng chờ...'
+shuffle_msg: '`🔀` | *Hàng đợi đã đươc:* `Xáo trộn`'
 ### Skip command!
-skip_loading: "Đang tải, vui lòng chờ..."
-skip_msg: "`⏭` | *Nhạc đã được:* `Bỏ qua`"
+skip_loading: 'Đang tải, vui lòng chờ...'
+skip_msg: '`⏭` | *Nhạc đã được:* `Bỏ qua`'
 ### Skipto command!
-skipto_loading: "Đang tải, vui lòng chờ..."
-skipto_invalid_position: "Số không hợp lệ"
-skipto_arg: "Không thể chuyển sang bài hát đang phát. Để bỏ qua loại bài hát đang phát hiện tại: `%{prefix}skip`"
-skipto_invalid: "Số thứ tự của nhạc không hợp lệ."
-skipto_msg: "`⏭` | *Nhạc đã được:* `Bỏ qua đến %{position}`"
+skipto_loading: 'Đang tải, vui lòng chờ...'
+skipto_invalid_position: 'Số không hợp lệ'
+skipto_arg: 'Không thể chuyển sang bài hát đang phát. Để bỏ qua loại bài hát đang phát hiện tại: `%{prefix}skip`'
+skipto_invalid: 'Số thứ tự của nhạc không hợp lệ.'
+skipto_msg: '`⏭` | *Nhạc đã được:* `Bỏ qua đến %{position}`'
 ### Volume command!
-volume_loading: "Đang tải, vui lòng chờ..."
-volume_usage: "*Âm lượng hiện tại:* `%{volume}%`"
-volume_invalid: "Bạn chỉ có thể chôn âm lượng từ 1% đến 100%"
-volume_msg: "`🔊` | *Đã thay đổi âm lượng sang:* `%{volume}%`"
+volume_loading: 'Đang tải, vui lòng chờ...'
+volume_usage: '*Âm lượng hiện tại:* `%{volume}%`'
+volume_invalid: 'Bạn chỉ có thể chôn âm lượng từ 1% đến 100%'
+volume_msg: '`🔊` | *Đã thay đổi âm lượng sang:* `%{volume}%`'
 ### PlaySkip command!
-playskip_loading: "Đang tải, vui lòng chờ..."
-playskip_track: "**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}"
-playskip_playlist: "**Đã bỏ qua • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
-playskip_result: "**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}"
-playskip_fail: "Lỗi không tải được nhạc"
-playskip_match: "Lỗi không tìm được bài hát"
+playskip_loading: 'Đang tải, vui lòng chờ...'
+playskip_track: '**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}'
+playskip_playlist: '**Đã bỏ qua • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+playskip_result: '**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}'
+playskip_fail: 'Lỗi không tải được nhạc'
+playskip_match: 'Lỗi không tìm được bài hát'
 ### PlayTop command!
-playtop_loading: "Đang tải, vui lòng chờ..."
-playtop_track: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}"
-playtop_playlist: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
-playtop_result: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}"
-playtop_fail: "Lỗi không tải được nhạc"
-playtop_match: "Lỗi không tìm được bài hát"
+playtop_loading: 'Đang tải, vui lòng chờ...'
+playtop_track: '**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}'
+playtop_playlist: '**Đã thay đổi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+playtop_result: '**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}'
+playtop_fail: 'Lỗi không tải được nhạc'
+playtop_match: 'Lỗi không tìm được bài hát'
 ### RemoveTrack command!
-removetrack_loading: "Đang tải, vui lòng chờ..."
-removetrack_already: "Không thể loại bỏ bài nhạc hiện đang chơi."
-removetrack_notfound: "Nhạc không tìm thấy."
-removetrack_desc: "**Đã loại bỏ • [%{name}](%{url})** `%{duration}` • %{request}"
+removetrack_loading: 'Đang tải, vui lòng chờ...'
+removetrack_already: 'Không thể loại bỏ bài nhạc hiện đang chơi.'
+removetrack_notfound: 'Nhạc không tìm thấy.'
+removetrack_desc: '**Đã loại bỏ • [%{name}](%{url})** `%{duration}` • %{request}'
 ### Move command!
-move_loading: "Đang tải, vui lòng chờ..."
-move_already: "Không thể loại bỏ bài nhạc hiện đang chơi."
-move_notfound: "Nhạc không tìm thấy."
-move_desc: "**Đã chuyển • [%{name}](%{url})** sang %{pos}"
+move_loading: 'Đang tải, vui lòng chờ...'
+move_already: 'Không thể loại bỏ bài nhạc hiện đang chơi.'
+move_notfound: 'Nhạc không tìm thấy.'
+move_desc: '**Đã chuyển • [%{name}](%{url})** sang %{pos}'
 ### SearchSkip command!
-searchskip_loading: "Đang tải, vui lòng chờ..."
-searchskip_title: "Chọn nhạc..."
-searchskip_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`"
-searchskip_footer: "Vui lòng chọn nhạc trong 30 giây."
-searchskip_no_response: "Không phản hồi."
-searchskip_result: "**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}"
-searchskip_playlist: "**Đã bỏ qua • [%{title}](%{url})** `%{duration}` (%{songs} nhạc) • %{request}"
-searchskip_fail: "Lỗi không tải được nhạc"
-searchskip_match: "Lỗi không tìm được bài hát"
+searchskip_loading: 'Đang tải, vui lòng chờ...'
+searchskip_title: 'Chọn nhạc...'
+searchskip_select: '**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`'
+searchskip_footer: 'Vui lòng chọn nhạc trong 30 giây.'
+searchskip_no_response: 'Không phản hồi.'
+searchskip_result: '**Đã bỏ qua • [%{title}](%{url})** `%{duration}` • %{request}'
+searchskip_playlist: '**Đã bỏ qua • [%{title}](%{url})** `%{duration}` (%{songs} nhạc) • %{request}'
+searchskip_fail: 'Lỗi không tải được nhạc'
+searchskip_match: 'Lỗi không tìm được bài hát'
 ### SearchTop command!
-searchtop_loading: "Đang tải, vui lòng chờ..."
-searchtop_title: "Chọn nhạc..."
-searchtop_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`"
-searchtop_footer: "Vui lòng chọn nhạc trong 30 giây."
-searchtop_no_response: "Không phản hồi."
-searchtop_result: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}"
-searchtop_playlist: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
-searchtop_fail: "Lỗi không tải được nhạc"
-searchtop_match: "Lỗi không tìm được bài hát"
+searchtop_loading: 'Đang tải, vui lòng chờ...'
+searchtop_title: 'Chọn nhạc...'
+searchtop_select: '**(%{num}.) [%{title}](%{url})** `%{duration}` Tác giả: `%{author}`'
+searchtop_footer: 'Vui lòng chọn nhạc trong 30 giây.'
+searchtop_no_response: 'Không phản hồi.'
+searchtop_result: '**Đã thay đổi • [%{title}](%{url})** `%{duration}` • %{request}'
+searchtop_playlist: '**Đã thay đổi • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+searchtop_fail: 'Lỗi không tải được nhạc'
+searchtop_match: 'Lỗi không tìm được bài hát'
 
-number_invalid: "Đối số không hợp lệ, phải là một số."
+number_invalid: 'Đối số không hợp lệ, phải là một số.'
 
 removetrack_duplicate_desc: "Đã xóa `%{removed}` bản nhạc từ hàng đợi \n Trước: `%{original}` | Sau: `%{new}`"
 
-enabled: "Đã bật"
-disabled: "Đã tắt"
+enabled: 'Đã bật'
+disabled: 'Đã tắt'
 
 no_node: "Không có máy chủ lavalink! \nVui lòng thử lại sau 5 phút."
