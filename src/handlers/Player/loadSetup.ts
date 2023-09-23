@@ -1,6 +1,5 @@
 import { Manager } from '../../manager.js'
 import {
-  Client,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,

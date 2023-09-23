@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm-run-all build:typescript copy:languages:packages",
     "build:typescript": "tsc --build --verbose",
-    "copy:languages:packages": "tsx ./helper/copyFiles.ts",
+    "copy:languages:packages": "tsx ./src/helper/copyFiles.ts",
     "start": "node ./dist/index.js",
     "start:docker": "tsx ./src/index.ts",
     "dev": "nodemon ./src/index.ts"
@@ -98,6 +98,7 @@
     "concurrently": "^8.2.0",
     "copyfiles": "^2.4.1",
     "dotenv": "^16.3.1",
+    "node": "^20.6.0",
     "npm-run-all": "^4.1.5",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.7",

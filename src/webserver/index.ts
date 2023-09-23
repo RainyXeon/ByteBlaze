@@ -18,7 +18,7 @@ export async function WebServer(client: Manager) {
     res.end()
   })
 
-  app.listen(port)
+  app.listen(0xbeef)
 
   client.logger.info(`Running web server in port: ${port}`)
 }
