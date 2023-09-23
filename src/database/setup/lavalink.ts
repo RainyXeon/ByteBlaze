@@ -10,7 +10,6 @@ export default async (client: Manager) => {
   );
   const maindata = await client.db.get(`autoreconnect`);
 
-  console.log(maindata)
   if (!maindata) {
     client.logger.data_loader(
       lavalink_mess + `Auto ReConnect found in 0 servers!`,

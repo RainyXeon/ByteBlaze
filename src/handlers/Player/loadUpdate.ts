@@ -37,7 +37,16 @@ export default async (client: Manager) => {
         })}`
     )
 
+    const current_song = `${client.i18n.get(language, 'setup', 'setup_content_queue', {
+      index: `${1}`,
+      title: player.queue.current!.title,
+      duration: formatDuration(player.queue.current!.length),
+      request: `${player.queue.current!.requester}`,
+    })}`
+
     await songStrings.push(...queuedSongs)
+
+    await songStrings.unshift(current_song)
 
     const Str = songStrings.slice(0, 10).join('\n')
 

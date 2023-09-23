@@ -278,7 +278,6 @@ export default async (client: Manager) => {
     if (message.author.bot) return
 
     const song = message.cleanContent
-    await message.delete()
     if (!song) return
 
     let voiceChannel = await message.member.voice.channel
@@ -303,6 +302,8 @@ export default async (client: Manager) => {
 
     const result = await player.search(song, { requester: message.author })
     const tracks = result.tracks
+
+    await message.delete()
 
     if (!result.tracks.length)
       return msg.edit({

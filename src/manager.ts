@@ -137,15 +137,14 @@ export class Manager extends Client {
           const guild = this.guilds.cache.get(guildId)
           if (guild) guild.shard.send(payload)
         },
-        plugins: this.config.lavalink.ENABLE_SPOTIFY
+        plugins: this.config.lavalink.SPOTIFY.enable
           ? [
               new Spotify({
-                clientId: this.config.SPOTIFY_ID,
-                clientSecret: this.config.SPOTIFY_SECRET,
+                clientId: this.config.lavalink.SPOTIFY.id,
+                clientSecret: this.config.lavalink.SPOTIFY.secret,
                 playlistPageLimit: 1, // optional ( 100 tracks per page )
                 albumPageLimit: 1, // optional ( 50 tracks per page )
                 searchLimit: 10, // optional ( track search limit. Max 50 )
-                searchMarket: 'US', // optional || default: US ( Enter the country you live in. [ Can only be of 2 letters. For eg: US, IN, EN ] )//
               }),
               new Deezer(),
               new Nico({ searchLimit: 10 }),
