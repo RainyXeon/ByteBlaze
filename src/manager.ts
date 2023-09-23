@@ -16,6 +16,7 @@ import winstonLogger from './plugins/logger.js'
 import Spotify from 'kazagumo-spotify'
 import Deezer from 'kazagumo-deezer'
 import Nico from 'kazagumo-nico'
+import Apple from 'kazagumo-apple'
 import { Connectors } from 'shoukaku'
 import { Kazagumo, KazagumoPlayer, Plugins } from 'kazagumo'
 import { join, dirname } from 'path'
@@ -149,11 +150,13 @@ export class Manager extends Client {
               new Deezer(),
               new Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
+              new Apple({ countryCode: "us" })
             ]
           : [
               new Deezer(),
               new Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
+              new Apple({ countryCode: "us" })
             ],
       },
       new Connectors.DiscordJS(this),

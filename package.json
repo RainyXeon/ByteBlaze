@@ -55,6 +55,7 @@
     "humanize-duration": "^3.29.0",
     "js-yaml": "^4.1.0",
     "kazagumo": "^2.3.2",
+    "kazagumo-apple": "^1.1.1",
     "kazagumo-deezer": "^1.2.2",
     "kazagumo-nico": "^1.1.5",
     "kazagumo-spotify": "github:RainyXeon/kazagumo-spotify",
