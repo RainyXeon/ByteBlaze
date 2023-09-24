@@ -324,6 +324,7 @@ export default async (client: Manager) => {
     const TotalDuration = QueueDuration(player);
 
     if (result.type === "PLAYLIST") {
+      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "music", "play_playlist", {
@@ -337,6 +338,7 @@ export default async (client: Manager) => {
         .setColor(client.color);
       msg.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
+      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
@@ -349,6 +351,7 @@ export default async (client: Manager) => {
         .setColor(client.color);
       msg.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
+      if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: result.tracks[0].title,
