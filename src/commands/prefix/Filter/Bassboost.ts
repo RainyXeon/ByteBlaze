@@ -1,12 +1,12 @@
-import { Manager } from './../../../manager.js'
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
-import delay from 'delay'
+import { Manager } from "./../../../manager.js"
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
+import delay from "delay"
 
 export default {
-  name: 'bassboost',
-  description: 'Turning on bassboost filter',
-  category: 'Filter',
-  usage: '<number>',
+  name: "bassboost",
+  description: "Turning on bassboost filter",
+  category: "Filter",
+  usage: "<number>",
   aliases: [],
 
   run: async (
@@ -19,13 +19,13 @@ export default {
     const value = args[0]
     if (value && isNaN(+value))
       return message.channel.send(
-        `${client.i18n.get(language, 'music', 'number_invalid')}`
+        `${client.i18n.get(language, "music", "number_invalid")}`
       )
 
     const player = client.manager.players.get(message.guild!.id)
     if (!player)
       return message.channel.send(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
     const { channel } = message.member!.voice
     if (
@@ -33,12 +33,12 @@ export default {
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
       return message.channel.send(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     if (!value) {
       const data = {
-        op: 'filters',
+        op: "filters",
         guildId: message.guild!.id,
         equalizer: [
           { band: 0, gain: 0.1 },
@@ -58,35 +58,35 @@ export default {
         ],
       }
 
-      await player['send'](data)
+      await player["send"](data)
 
       const msg1 = await message.channel.send(
-        `${client.i18n.get(language, 'filters', 'filter_loading', {
-          name: client.commands.get('bassboost').config.name,
+        `${client.i18n.get(language, "filters", "filter_loading", {
+          name: client.commands.get("bassboost").config.name,
         })}`
       )
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'filters', 'filter_on', {
-            name: client.commands.get('bassboost').config.name,
+          `${client.i18n.get(language, "filters", "filter_on", {
+            name: client.commands.get("bassboost").config.name,
           })}`
         )
         .setColor(client.color)
 
       await delay(2000)
-      return msg1.edit({ content: ' ', embeds: [embed] })
+      return msg1.edit({ content: " ", embeds: [embed] })
     }
 
     if (isNaN(+value))
       return message.channel.send(
-        `${client.i18n.get(language, 'filters', 'filter_number')}`
+        `${client.i18n.get(language, "filters", "filter_number")}`
       )
     if (Number(value) > 10 || Number(value) < -10)
       return message.channel.send(
-        `${client.i18n.get(language, 'filters', 'bassboost_limit')}`
+        `${client.i18n.get(language, "filters", "bassboost_limit")}`
       )
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: message.guild!.id,
       equalizer: [
         { band: 0, gain: Number(value) / 10 },
@@ -105,21 +105,21 @@ export default {
         { band: 13, gain: 0 },
       ],
     }
-    await player['send'](data)
+    await player["send"](data)
     const msg2 = await message.channel.send(
-      `${client.i18n.get(language, 'filters', 'bassboost_loading', {
+      `${client.i18n.get(language, "filters", "bassboost_loading", {
         amount: value,
       })}`
     )
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'bassboost_set', {
+        `${client.i18n.get(language, "filters", "bassboost_set", {
           amount: value,
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    return msg2.edit({ content: ' ', embeds: [embed] })
+    return msg2.edit({ content: " ", embeds: [embed] })
   },
 }

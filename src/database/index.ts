@@ -1,8 +1,8 @@
-import { MongoConnectDriver } from './driver/MongoDriver.js'
-import { JSONConnectDriver } from './driver/JSONDriver.js'
-import { SQLConnectDriver } from './driver/SQLDriver.js'
-import { Manager } from '../manager.js'
-import { handler } from './handler.js'
+import { MongoConnectDriver } from "./driver/MongoDriver.js"
+import { JSONConnectDriver } from "./driver/JSONDriver.js"
+import { SQLConnectDriver } from "./driver/SQLDriver.js"
+import { Manager } from "../manager.js"
+import { handler } from "./handler.js"
 
 const JSONDriver = JSONConnectDriver
 const MongoDriver = MongoConnectDriver
@@ -55,6 +55,6 @@ export async function connectDB(client: Manager) {
       return
     }
   } catch (error) {
-    return client.logger.log({ level: 'error', message: error })
+    return client.logger.log({ level: "error", message: error })
   }
 }

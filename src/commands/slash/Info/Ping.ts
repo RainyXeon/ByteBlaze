@@ -5,13 +5,13 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['ping'],
-  description: 'Shows the ping information of the Bot',
-  category: 'Info',
+  name: ["ping"],
+  description: "Shows the ping information of the Bot",
+  category: "Info",
   run: async (
     interaction: CommandInteraction,
     client: Manager,
@@ -20,11 +20,11 @@ export default {
     await interaction.deferReply({ ephemeral: false })
     const ping = new EmbedBuilder()
       .setTitle(
-        `${client.i18n.get(language, 'info', 'ping_title')}` +
+        `${client.i18n.get(language, "info", "ping_title")}` +
           client.user!.username
       )
       .setDescription(
-        `${client.i18n.get(language, 'info', 'ping_desc', {
+        `${client.i18n.get(language, "info", "ping_desc", {
           ping: String(client.ws.ping),
         })}`
       )
@@ -32,7 +32,7 @@ export default {
       .setColor(client.color)
     const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setLabel('Invite Me')
+        .setLabel("Invite Me")
         .setStyle(ButtonStyle.Link)
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${

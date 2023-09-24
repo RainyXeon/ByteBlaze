@@ -1,15 +1,15 @@
-import { EmbedBuilder, CommandInteraction, GuildMember } from 'discord.js'
-import { convertTime } from '../../../structures/ConvertTime.js'
-import { Manager } from '../../../manager.js'
-import { KazagumoTrack } from 'kazagumo'
+import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js"
+import { convertTime } from "../../../structures/ConvertTime.js"
+import { Manager } from "../../../manager.js"
+import { KazagumoTrack } from "kazagumo"
 
 let OriginalQueueLength: null | number
 
 // Main code
 export default {
-  name: ['remove-duplicate'],
-  description: 'Remove duplicated song from queue',
-  category: 'Music',
+  name: ["remove-duplicate"],
+  description: "Remove duplicated song from queue",
+  category: "Music",
   run: async (
     interaction: CommandInteraction,
     client: Manager,
@@ -19,14 +19,14 @@ export default {
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = (interaction.member as GuildMember).voice
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     OriginalQueueLength = player.queue.length
 
@@ -47,7 +47,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'music', 'removetrack_duplicate_desc', {
+        `${client.i18n.get(language, "music", "removetrack_duplicate_desc", {
           original: String(OriginalQueueLength),
           new: String(unique.length),
           removed: String(OriginalQueueLength - unique.length),

@@ -1,25 +1,25 @@
-import { KazagumoTrack } from 'kazagumo'
+import { KazagumoTrack } from "kazagumo"
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,
   GuildMember,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 const TrackAdd: KazagumoTrack[] = []
 const TrackExist: string[] = []
 let Result: KazagumoTrack[] | null = null
 
 export default {
-  name: ['playlist', 'save', 'queue'],
-  description: 'Save the current queue to a playlist',
-  category: 'Playlist',
+  name: ["playlist", "save", "queue"],
+  description: "Save the current queue to a playlist",
+  category: "Playlist",
   options: [
     {
-      name: 'name',
-      description: 'The name of the playlist',
+      name: "name",
+      description: "The name of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -33,9 +33,9 @@ export default {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('name')
-    const Plist = value!.replace(/_/g, ' ')
-    const fullList = await client.db.get('playlist')
+    ).getString("name")
+    const Plist = value!.replace(/_/g, " ")
+    const fullList = await client.db.get("playlist")
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
@@ -48,17 +48,17 @@ export default {
 
     if (!playlist)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'savequeue_notfound')}`
+        `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
       )
     if (playlist.owner !== interaction.user.id)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'savequeue_owner')}`
+        `${client.i18n.get(language, "playlist", "savequeue_owner")}`
       )
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
 
     const { channel } = (interaction.member as GuildMember).voice
@@ -68,7 +68,7 @@ export default {
         interaction.guild!.members.me!.voice.channel
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     const queue = player.queue.map((track) => track)
@@ -90,7 +90,7 @@ export default {
     if (Result!.length == 0) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'playlist', 'savequeue_no_new_saved', {
+          `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
             name: Plist,
           })}`
         )
@@ -100,7 +100,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'playlist', 'savequeue_saved', {
+        `${client.i18n.get(language, "playlist", "savequeue_saved", {
           name: Plist,
           tracks: String(Result!.length),
         })}`

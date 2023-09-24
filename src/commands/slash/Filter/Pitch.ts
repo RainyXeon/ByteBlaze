@@ -2,19 +2,19 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
-import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
-import delay from 'delay'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js"
+import delay from "delay"
 
 export default {
-  name: ['filter', 'pitch'],
-  description: 'Sets the pitch of the song.',
-  category: 'Filter',
+  name: ["filter", "pitch"],
+  description: "Sets the pitch of the song.",
+  category: "Filter",
   options: [
     {
-      name: 'amount',
-      description: 'The amount of pitch to change the song by.',
+      name: "amount",
+      description: "The amount of pitch to change the song by.",
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
@@ -28,12 +28,12 @@ export default {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger('amount')
+    ).getInteger("amount")
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
     const { channel } = (interaction.member as GuildMember).voice
     if (
@@ -42,39 +42,39 @@ export default {
         interaction.guild?.members.me!.voice.channel
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     if (value! < 0)
       return interaction.editReply(
-        `${client.i18n.get(language, 'filters', 'filter_greater')}`
+        `${client.i18n.get(language, "filters", "filter_greater")}`
       )
     if (value! > 10)
       return interaction.editReply(
-        `${client.i18n.get(language, 'filters', 'filter_less')}`
+        `${client.i18n.get(language, "filters", "filter_less")}`
       )
 
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: interaction.guild.id,
       timescale: { pitch: value },
     }
 
-    await player['send'](data)
+    await player["send"](data)
 
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'filters', 'pitch_loading', {
+      `${client.i18n.get(language, "filters", "pitch_loading", {
         amount: String(value),
       })}`
     )
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'pitch_on', {
+        `${client.i18n.get(language, "filters", "pitch_on", {
           amount: String(value),
         })}`
       )
       .setColor(client.color)
     await delay(2000)
-    msg.edit({ content: ' ', embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] })
   },
 }

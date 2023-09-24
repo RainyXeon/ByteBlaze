@@ -1,5 +1,5 @@
-import { KazagumoPlayer } from 'kazagumo'
-import { Manager } from '../../manager.js'
+import { KazagumoPlayer } from "kazagumo"
+import { Manager } from "../../manager.js"
 
 export default async (
   client: Manager,
@@ -14,6 +14,6 @@ export default async (
   client.logger.debug(`Lavalink ${name}: Disconnected`)
   if (client.config.features.AUTOFIX_LAVALINK && !client.fixing_nodes) {
     client.fixing_nodes = true
-    ;(await import('../../lava_scrap/autofix_lavalink.js')).default(client)
+    ;(await import("../../lava_scrap/autofix_lavalink.js")).default(client)
   }
 }

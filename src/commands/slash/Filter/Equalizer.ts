@@ -4,18 +4,18 @@ import {
   GuildMember,
   CommandInteractionOptionResolver,
   ApplicationCommandOptionType,
-} from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['filter', 'equalizer'],
-  description: 'Custom Equalizer!',
-  category: 'Filter',
+  name: ["filter", "equalizer"],
+  description: "Custom Equalizer!",
+  category: "Filter",
   options: [
     {
-      name: 'bands',
-      description: 'Number of bands to use (max 14 bands.)',
+      name: "bands",
+      description: "Number of bands to use (max 14 bands.)",
       type: ApplicationCommandOptionType.String,
     },
   ],
@@ -27,11 +27,11 @@ export default {
     await interaction.deferReply({ ephemeral: false })
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('bands')
+    ).getString("bands")
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
     const { channel } = (interaction.member as GuildMember).voice
     if (
@@ -40,51 +40,51 @@ export default {
         interaction.guild?.members.me!.voice.channel
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     if (!value) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, 'filters', 'eq_author')}`,
-          iconURL: `${client.i18n.get(language, 'filters', 'eq_icon')}`,
+          name: `${client.i18n.get(language, "filters", "eq_author")}`,
+          iconURL: `${client.i18n.get(language, "filters", "eq_icon")}`,
         })
         .setColor(client.color)
-        .setDescription(`${client.i18n.get(language, 'filters', 'eq_desc')}`)
+        .setDescription(`${client.i18n.get(language, "filters", "eq_desc")}`)
         .addFields({
-          name: `${client.i18n.get(language, 'filters', 'eq_field_title')}`,
-          value: `${client.i18n.get(language, 'filters', 'eq_field_value', {
-            prefix: '/',
+          name: `${client.i18n.get(language, "filters", "eq_field_title")}`,
+          value: `${client.i18n.get(language, "filters", "eq_field_value", {
+            prefix: "/",
           })}`,
           inline: false,
         })
         .setFooter({
-          text: `${client.i18n.get(language, 'filters', 'eq_footer', {
-            prefix: '/',
+          text: `${client.i18n.get(language, "filters", "eq_footer", {
+            prefix: "/",
           })}`,
         })
       return interaction.editReply({ embeds: [embed] })
-    } else if (value == 'off' || value == 'reset') {
+    } else if (value == "off" || value == "reset") {
       const data = {
-        op: 'filters',
+        op: "filters",
         guildId: interaction.guild.id,
       }
-      return player['send'](data)
+      return player["send"](data)
     }
 
     const bands = value.split(/[ ]+/)
-    let bandsStr = ''
+    let bandsStr = ""
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break
       if (isNaN(+bands[i]))
         return interaction.editReply(
-          `${client.i18n.get(language, 'filters', 'eq_number', {
+          `${client.i18n.get(language, "filters", "eq_number", {
             num: String(i + 1),
           })}`
         )
       if (Number(bands[i]) > 10)
         return interaction.editReply(
-          `${client.i18n.get(language, 'filters', 'eq_than', {
+          `${client.i18n.get(language, "filters", "eq_than", {
             num: String(i + 1),
           })}`
         )
@@ -93,28 +93,28 @@ export default {
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break
       const data = {
-        op: 'filters',
+        op: "filters",
         guildId: interaction.guild.id,
         equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
       }
-      player['send'](data)
+      player["send"](data)
       bandsStr += `${bands[i]} `
     }
 
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'filters', 'eq_loading', {
+      `${client.i18n.get(language, "filters", "eq_loading", {
         bands: bandsStr,
       })}`
     )
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'eq_on', {
+        `${client.i18n.get(language, "filters", "eq_on", {
           bands: bandsStr,
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    return msg.edit({ content: ' ', embeds: [embed] })
+    return msg.edit({ content: " ", embeds: [embed] })
   },
 }

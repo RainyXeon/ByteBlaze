@@ -1,20 +1,20 @@
-import readline from './readline.js'
-import _ from 'lodash'
-import { config } from 'dotenv'
+import readline from "./readline.js"
+import _ from "lodash"
+import { config } from "dotenv"
 config()
 
-const boolean = ['true', 'false', 'null', 'undefined']
+const boolean = ["true", "false", "null", "undefined"]
 
 function parseBoolean(value: string) {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     value = value.trim().toLowerCase()
   }
   switch (value) {
-    case 'true':
+    case "true":
       return true
-    case 'null':
-      return 'null'
-    case 'undefined':
+    case "null":
+      return "null"
+    case "undefined":
       return undefined
     default:
       return false
@@ -47,5 +47,5 @@ export function prase(path: string) {
     }
   }
 
-  return res_array.join('\r\n')
+  return res_array.join("\r\n")
 }

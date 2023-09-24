@@ -1,14 +1,14 @@
-import chillout from 'chillout'
-import readdirRecursive from 'recursive-readdir'
-import { resolve, relative } from 'path'
-import { Manager } from '../../manager.js'
-import { join, dirname } from 'path'
-import { fileURLToPath, pathToFileURL } from 'url'
+import chillout from "chillout"
+import readdirRecursive from "recursive-readdir"
+import { resolve, relative } from "path"
+import { Manager } from "../../manager.js"
+import { join, dirname } from "path"
+import { fileURLToPath, pathToFileURL } from "url"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async (client: Manager) => {
   let interactionsPath = resolve(
-    join(__dirname, '..', '..', 'commands', 'slash')
+    join(__dirname, "..", "..", "commands", "slash")
   )
   let interactionFiles = await readdirRecursive(interactionsPath)
 

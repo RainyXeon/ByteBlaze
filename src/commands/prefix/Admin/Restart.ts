@@ -1,14 +1,14 @@
-import { Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
-import { EmbedBuilder } from 'discord.js'
+import { Message } from "discord.js"
+import { Manager } from "../../../manager.js"
+import { EmbedBuilder } from "discord.js"
 
 export default {
-  name: 'restart',
-  description: 'Shuts down the client!',
-  category: 'Admin',
-  accessableby: 'Owner',
+  name: "restart",
+  description: "Shuts down the client!",
+  category: "Admin",
+  accessableby: "Owner",
   owner: true,
-  usage: '',
+  usage: "",
   aliases: [],
 
   run: async (
@@ -20,7 +20,7 @@ export default {
   ) => {
     const restart = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'utilities', 'restart_msg')}`
+        `${client.i18n.get(language, "utilities", "restart_msg")}`
       )
       .setColor(client.color)
       .setFooter({

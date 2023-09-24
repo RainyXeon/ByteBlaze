@@ -1,20 +1,20 @@
-import { Request } from 'express'
-import WebSocket from 'ws'
-import { Manager } from '../manager.js'
+import { Request } from "express"
+import WebSocket from "ws"
+import { Manager } from "../manager.js"
 
 export async function websocket(client: Manager, ws: WebSocket, req: Request) {
   client.websocket = ws
 
-  client.logger.info('Connected to client!')
+  client.logger.info("Connected to client!")
 
   const verificationOrigin = req.headers.origin
 
-  const baseURL = req.protocol + '://' + req.headers.host + '/'
+  const baseURL = req.protocol + "://" + req.headers.host + "/"
 
   const reqUrl = new URL(req.url, baseURL)
 
   if (
-    reqUrl.searchParams.get('secret') !==
+    reqUrl.searchParams.get("secret") !==
     client.config.features.WEB_SERVER.websocket.secret
   ) {
     ws.close()
@@ -53,7 +53,7 @@ export async function websocket(client: Manager, ws: WebSocket, req: Request) {
   if (client.config.features.WEB_SERVER.websocket.auth)
     client.logger.info(`Connected to client (${verificationOrigin})`)
 
-  ws.on('message', (message) => {
+  ws.on("message", (message) => {
     const json = JSON.parse(String(message))
     const req = client.ws_message?.get(json.message)
 
@@ -64,15 +64,15 @@ export async function websocket(client: Manager, ws: WebSocket, req: Request) {
         req.run(client, json, ws)
       } catch (error) {
         client.logger.log({
-          level: 'error',
+          level: "error",
           message: error,
         })
         ws.send(JSON.stringify({ error: error }))
       }
     }
   })
-  ws.on('error', (error) => {
+  ws.on("error", (error) => {
     ws.send(JSON.stringify({ error: error }))
   })
-  ws.on('close', () => client.logger.info('Closed connection to client'))
+  ws.on("close", () => client.logger.info("Closed connection to client"))
 }

@@ -5,19 +5,19 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 // Main code
 export default {
-  name: ['mp3'],
-  description: 'Play the music file for the bot',
-  category: 'Music',
+  name: ["mp3"],
+  description: "Play the music file for the bot",
+  category: "Music",
   lavalink: true,
   options: [
     {
-      name: 'file',
-      description: 'The music file to play',
+      name: "file",
+      description: "The music file to play",
       type: ApplicationCommandOptionType.Attachment,
     },
   ],
@@ -31,33 +31,33 @@ export default {
 
     const file = await (
       interaction.options as CommandInteractionOptionResolver
-    ).getAttachment('file')
+    ).getAttachment("file")
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'music', 'play_loading', {
+      `${client.i18n.get(language, "music", "play_loading", {
         result: file!.name,
       })}`
     )
     const { channel } = (interaction.member as GuildMember).voice
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, 'music', 'play_invoice')}`)
+      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`)
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Connect)
     )
-      return msg.edit(`${client.i18n.get(language, 'music', 'play_join')}`)
+      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`)
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Speak)
     )
-      return msg.edit(`${client.i18n.get(language, 'music', 'play_speak')}`)
-    if (file!.contentType !== 'audio/mpeg' && file!.contentType !== 'audio/ogg')
+      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`)
+    if (file!.contentType !== "audio/mpeg" && file!.contentType !== "audio/ogg")
       return msg.edit(
-        `${client.i18n.get(language, 'music', 'play_invalid_file')}`
+        `${client.i18n.get(language, "music", "play_invalid_file")}`
       )
     if (!file!.contentType)
-      msg.edit(`${client.i18n.get(language, 'music', 'play_warning_file')}`)
+      msg.edit(`${client.i18n.get(language, "music", "play_warning_file")}`)
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -74,50 +74,50 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        content: `${client.i18n.get(language, 'music', 'play_match')}`,
+        content: `${client.i18n.get(language, "music", "play_match")}`,
       })
-    if (result.type === 'PLAYLIST')
+    if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track)
-    else if (player.playing && result.type === 'SEARCH')
+    else if (player.playing && result.type === "SEARCH")
       player.queue.add(tracks[0])
-    else if (player.playing && result.type !== 'SEARCH')
+    else if (player.playing && result.type !== "SEARCH")
       for (let track of tracks) player.queue.add(track)
     else player.play(tracks[0])
 
-    if (result.type === 'PLAYLIST') {
+    if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'music', 'play_playlist', {
+          `${client.i18n.get(language, "music", "play_playlist", {
             title: file!.name,
             url: String(file?.proxyURL),
             length: String(tracks.length),
           })}`
         )
         .setColor(client.color)
-      msg.edit({ content: ' ', embeds: [embed] })
+      msg.edit({ content: " ", embeds: [embed] })
       if (!player.playing) player.play()
-    } else if (result.type === 'TRACK') {
+    } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'music', 'play_track', {
+          `${client.i18n.get(language, "music", "play_track", {
             title: file!.name,
             url: String(file?.proxyURL),
           })}`
         )
         .setColor(client.color)
-      msg.edit({ content: ' ', embeds: [embed] })
+      msg.edit({ content: " ", embeds: [embed] })
       if (!player.playing) player.play()
-    } else if (result.type === 'SEARCH') {
+    } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(language, 'music', 'play_result', {
+        `${client.i18n.get(language, "music", "play_result", {
           title: file!.name,
           url: String(file?.proxyURL),
         })}`
       )
-      msg.edit({ content: ' ', embeds: [embed] })
+      msg.edit({ content: " ", embeds: [embed] })
       if (!player.playing) player.play()
     } else {
-      msg.edit(`${client.i18n.get(language, 'music', 'play_match')}`)
+      msg.edit(`${client.i18n.get(language, "music", "play_match")}`)
       player.destroy()
     }
   },

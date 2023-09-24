@@ -1,4 +1,4 @@
-import fse from 'fs-extra'
+import fse from "fs-extra"
 const { copySync } = fse
 
 const srcDir = `./src/languages/`

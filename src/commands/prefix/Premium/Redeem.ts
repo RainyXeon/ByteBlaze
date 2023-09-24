@@ -1,12 +1,12 @@
-import { EmbedBuilder, Message } from 'discord.js'
-import moment from 'moment'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, Message } from "discord.js"
+import moment from "moment"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'redeem',
-  description: 'Redeem your premium!',
-  category: 'Premium',
-  usage: '<input>',
+  name: "redeem",
+  description: "Redeem your premium!",
+  category: "Premium",
+  usage: "<input>",
   aliases: [],
 
   run: async (
@@ -24,7 +24,7 @@ export default {
           new EmbedBuilder()
             .setColor(client.color)
             .setDescription(
-              `${client.i18n.get(language, 'premium', 'redeem_invalid')}`
+              `${client.i18n.get(language, "premium", "redeem_invalid")}`
             ),
         ],
       })
@@ -35,7 +35,7 @@ export default {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_already')}`
+          `${client.i18n.get(language, "premium", "redeem_already")}`
         )
       return message.channel.send({ embeds: [embed] })
     }
@@ -43,15 +43,15 @@ export default {
     const premium = await client.db.get(`code.pmc_${input.toUpperCase()}`)
     if (premium) {
       const expires = moment(premium.expiresAt).format(
-        'do/MMMM/YYYY (HH:mm:ss)'
+        "do/MMMM/YYYY (HH:mm:ss)"
       )
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, 'premium', 'redeem_title')}`,
+          name: `${client.i18n.get(language, "premium", "redeem_title")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_desc', {
+          `${client.i18n.get(language, "premium", "redeem_desc", {
             expires: expires,
             plan: premium.plan,
           })}`
@@ -75,7 +75,7 @@ export default {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_invalid')}`
+          `${client.i18n.get(language, "premium", "redeem_invalid")}`
         )
       return message.channel.send({ embeds: [embed] })
     }

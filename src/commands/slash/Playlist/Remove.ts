@@ -3,23 +3,23 @@ import {
   CommandInteraction,
   ApplicationCommandOptionType,
   CommandInteractionOptionResolver,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['playlist', 'remove'],
-  description: 'Remove a song from a playlist',
-  category: 'Playlist',
+  name: ["playlist", "remove"],
+  description: "Remove a song from a playlist",
+  category: "Playlist",
   options: [
     {
-      name: 'name',
-      description: 'The name of the playlist',
+      name: "name",
+      description: "The name of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
     {
-      name: 'postion',
-      description: 'The position of the song',
+      name: "postion",
+      description: "The position of the song",
       required: true,
       type: ApplicationCommandOptionType.Integer,
     },
@@ -33,13 +33,13 @@ export default {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('name')
+    ).getString("name")
     const pos = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger('postion')
+    ).getInteger("postion")
 
-    const Plist = value!.replace(/_/g, ' ')
-    const fullList = await client.db.get('playlist')
+    const Plist = value!.replace(/_/g, " ")
+    const fullList = await client.db.get("playlist")
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
@@ -52,11 +52,11 @@ export default {
 
     if (!playlist)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'remove_notfound')}`
+        `${client.i18n.get(language, "playlist", "remove_notfound")}`
       )
     if (playlist.owner !== interaction.user.id)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'remove_owner')}`
+        `${client.i18n.get(language, "playlist", "remove_owner")}`
       )
 
     const position = pos
@@ -64,7 +64,7 @@ export default {
     const song = playlist.tracks[position! - 1]
     if (!song)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'remove_song_notfound')}`
+        `${client.i18n.get(language, "playlist", "remove_song_notfound")}`
       )
 
     await client.db.pull(
@@ -74,7 +74,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'playlist', 'remove_removed', {
+        `${client.i18n.get(language, "playlist", "remove_removed", {
           name: Plist,
           position: String(pos),
         })}`

@@ -4,21 +4,21 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   GuildMember,
-} from 'discord.js'
-import formatDuration from '../../../structures/FormatDuration.js'
-import { convertTime } from '../../../structures/ConvertTime.js'
-import { SlashPage } from '../../../structures/PageQueue.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import formatDuration from "../../../structures/FormatDuration.js"
+import { convertTime } from "../../../structures/ConvertTime.js"
+import { SlashPage } from "../../../structures/PageQueue.js"
+import { Manager } from "../../../manager.js"
 
 // Main code
 export default {
-  name: ['queue'],
-  description: 'Show the queue of songs.',
-  category: 'Music',
+  name: ["queue"],
+  description: "Show the queue of songs.",
+  category: "Music",
   options: [
     {
-      name: 'page',
-      description: 'Page number to show.',
+      name: "page",
+      description: "Page number to show.",
       type: ApplicationCommandOptionType.Number,
       required: false,
     },
@@ -31,12 +31,12 @@ export default {
     await interaction.deferReply({ ephemeral: false })
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger('page')
+    ).getInteger("page")
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
     const { channel } = (interaction.member as GuildMember)!.voice
     if (
@@ -45,7 +45,7 @@ export default {
         interaction.guild!.members.me!.voice.channel
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     const song = player.queue.current
@@ -77,11 +77,11 @@ export default {
 
     const pages = []
     for (let i = 0; i < pagesNum; i++) {
-      const str = songStrings.slice(i * 10, i * 10 + 10).join('')
+      const str = songStrings.slice(i * 10, i * 10 + 10).join("")
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, 'music', 'queue_author', {
+          name: `${client.i18n.get(language, "music", "queue_author", {
             guild: interaction.guild!.name,
           })}`,
           iconURL: interaction.guild!.iconURL() as string,
@@ -89,16 +89,16 @@ export default {
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, 'music', 'queue_description', {
+          `${client.i18n.get(language, "music", "queue_description", {
             title: song!.title,
             url: song!.uri,
             request: String(song!.requester),
             duration: formatDuration(song!.length),
-            rest: str == '' ? '  Nothing' : '\n' + str,
+            rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(language, 'music', 'queue_footer', {
+          text: `${client.i18n.get(language, "music", "queue_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(player.queue.length),
@@ -124,11 +124,11 @@ export default {
     } else {
       if (isNaN(value))
         return interaction.editReply(
-          `${client.i18n.get(language, 'music', 'queue_notnumber')}`
+          `${client.i18n.get(language, "music", "queue_notnumber")}`
         )
       if (value > pagesNum)
         return interaction.editReply(
-          `${client.i18n.get(language, 'music', 'queue_page_notfound', {
+          `${client.i18n.get(language, "music", "queue_page_notfound", {
             page: String(pagesNum),
           })}`
         )

@@ -1,12 +1,12 @@
-import { ButtonStyle, Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from 'discord.js'
+import { ButtonStyle, Message } from "discord.js"
+import { Manager } from "../../../manager.js"
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
 
 export default {
-  name: 'ping',
-  description: 'Shows the ping information of the Bot',
-  category: 'Info',
-  usage: '',
+  name: "ping",
+  description: "Shows the ping information of the Bot",
+  category: "Info",
+  usage: "",
   aliases: [],
   run: async (
     client: Manager,
@@ -17,11 +17,11 @@ export default {
   ) => {
     const ping = new EmbedBuilder()
       .setTitle(
-        `${client.i18n.get(language, 'info', 'ping_title')}` +
+        `${client.i18n.get(language, "info", "ping_title")}` +
           client.user!.username
       )
       .setDescription(
-        `${client.i18n.get(language, 'info', 'ping_desc', {
+        `${client.i18n.get(language, "info", "ping_desc", {
           ping: String(client.ws.ping),
         })}`
       )
@@ -29,7 +29,7 @@ export default {
       .setColor(client.color)
     const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setLabel('Invite Me')
+        .setLabel("Invite Me")
         .setStyle(ButtonStyle.Link)
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${

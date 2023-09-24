@@ -1,208 +1,208 @@
 ### 247 command!
-247_loading: 'Loading please wait...'
-247_off: '`🌙` | *Mode 24/7 has been:* `Deactivated`'
-247_on: '`🌕` | *Mode 24/7 has been:* `Activated`'
+247_loading: "Loading please wait..."
+247_off: "`🌙` | *Mode 24/7 has been:* `Deactivated`"
+247_on: "`🌕` | *Mode 24/7 has been:* `Activated`"
 
 ### Autoplay command!
-autoplay_loading: 'Loading please wait...'
-autoplay_off: '`📻` | **Autoplay has been:** `Deactivated`'
-autoplay_on: '`📻` | **Autoplay has been:** `Activated`'
+autoplay_loading: "Loading please wait..."
+autoplay_off: "`📻` | **Autoplay has been:** `Deactivated`"
+autoplay_on: "`📻` | **Autoplay has been:** `Activated`"
 
 ### Clearqueue command!
-clearqueue_loading: 'Loading please wait...'
-clearqueue_msg: '`📛` | **Queue has been:** `Cleared`'
+clearqueue_loading: "Loading please wait..."
+clearqueue_msg: "`📛` | **Queue has been:** `Cleared`"
 
 ### Forward command!
-forward_loading: 'Loading please wait...'
-forward_msg: '`⏭` | **Forward to:** `%{duration}`'
+forward_loading: "Loading please wait..."
+forward_msg: "`⏭` | **Forward to:** `%{duration}`"
 forward_beyond: "Cannot forward beyond the song's duration."
 forward_invalid: "Invalid argument, must be a number.\nCorrect Usage: `%{prefix}forward <seconds>`"
 
 ### Join command!
-join_loading: 'Loading please wait...'
-join_voice: 'You need to be in a voice channel to use the join command.'
-join_msg: '`🔊` | **Joined:** `%{channel}`'
+join_loading: "Loading please wait..."
+join_voice: "You need to be in a voice channel to use the join command."
+join_msg: "`🔊` | **Joined:** `%{channel}`"
 
 ### Leave command!
-leave_loading: 'Loading please wait...'
-leave_msg: '`🚫` | **Left:** | `%{channel}`'
+leave_loading: "Loading please wait..."
+leave_msg: "`🚫` | **Left:** | `%{channel}`"
 
 ### Loop command!
-loop_loading: 'Loading please wait...'
-loop_invalid: 'Invalid loop mode, only %{mode}'
-loop_current: '`🔁` | **Song is loop:** `Current`'
-unloop_current: '`🔁` | **Song is unloop:** `Current`'
-loop_all: '`🔁` | **Song is loop:** `All`'
-unloop_all: '`🔁` | **Song is unloop:** `All`'
+loop_loading: "Loading please wait..."
+loop_invalid: "Invalid loop mode, only %{mode}"
+loop_current: "`🔁` | **Song is loop:** `Current`"
+unloop_current: "`🔁` | **Song is unloop:** `Current`"
+loop_all: "`🔁` | **Song is loop:** `All`"
+unloop_all: "`🔁` | **Song is unloop:** `All`"
 
 ### Loopall command!
-loopall_loading: 'Loading please wait...'
-loopall: '`🔁` | **Song is loop:** `All`'
-unloopall: '`🔁` | **Song is unloop:** `All`'
+loopall_loading: "Loading please wait..."
+loopall: "`🔁` | **Song is loop:** `All`"
+unloopall: "`🔁` | **Song is unloop:** `All`"
 
 ### Lyrics command!
-lyrics_loading: 'Searching for lyrics...'
+lyrics_loading: "Searching for lyrics..."
 lyrics_notfound: "Couldn't find any lyrics for that song!"
-lyrics_title: 'Lyrics for %{song}'
-lyrics_toolong: 'Lyrics too long to display!'
+lyrics_title: "Lyrics for %{song}"
+lyrics_toolong: "Lyrics too long to display!"
 
 ### Nowplaying command!
-np_loading: 'Loading please wait...'
+np_loading: "Loading please wait..."
 
-np_title: 'Now playing...'
-np_title_pause: 'Song pause...'
-np_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
+np_title: "Now playing..."
+np_title_pause: "Song pause..."
+np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 
 # Embed Field
-np_author: 'Author:'
-np_request: 'Requester:'
-np_volume: 'Volume:'
-np_view: 'Views:'
-np_upload: 'Upload At:'
-np_download: 'Download:'
-np_current_duration: 'Current Duration: `[%{current_duration} / %{total_duration}]`'
+np_author: "Author:"
+np_request: "Requester:"
+np_volume: "Volume:"
+np_view: "Views:"
+np_upload: "Upload At:"
+np_download: "Download:"
+np_current_duration: "Current Duration: `[%{current_duration} / %{total_duration}]`"
 
 # Need in voice to use button
-np_invoice: 'You need to be in a same/voice channel.'
+np_invoice: "You need to be in a same/voice channel."
 
 # Message Button
-np_switch_pause: 'Paused'
-np_switch_resume: 'Resumed'
-np_pause_msg: '`⏯` | **Song has been:** `%{pause}`'
+np_switch_pause: "Paused"
+np_switch_resume: "Resumed"
+np_pause_msg: "`⏯` | **Song has been:** `%{pause}`"
 
-np_replay_msg: '`⏮` | **Song has been:** `Replayed`'
+np_replay_msg: "`⏮` | **Song has been:** `Replayed`"
 
-np_stop_msg: '`🚫` | **Song has been:** `Stopped`'
+np_stop_msg: "`🚫` | **Song has been:** `Stopped`"
 
-np_skip_msg: '`⏭` | **Song has been:** `Skipped`'
+np_skip_msg: "`⏭` | **Song has been:** `Skipped`"
 
-np_switch_enable: 'Enabled'
-np_switch_disable: 'Disabled'
-np_repeat_msg: '`🔁` | *Loop has been:* `%{loop}`'
+np_switch_enable: "Enabled"
+np_switch_disable: "Disabled"
+np_repeat_msg: "`🔁` | *Loop has been:* `%{loop}`"
 
 ### Pause command!
-pause_loading: 'Loading please wait...'
-pause_switch_pause: 'Paused'
-pause_switch_resume: 'Resumed'
-pause_msg: '`⏯` | **Song has been:** `%{pause}`'
+pause_loading: "Loading please wait..."
+pause_switch_pause: "Paused"
+pause_switch_resume: "Resumed"
+pause_msg: "`⏯` | **Song has been:** `%{pause}`"
 
 ### Play command!
-play_loading: '🔍 **Searching...** `%{result}`'
-play_invoice: 'You need to be in a voice channel to use command.'
+play_loading: "🔍 **Searching...** `%{result}`"
+play_invoice: "You need to be in a voice channel to use command."
 play_join: "I don't have permission to join your voice channel."
 play_speak: "I don't have permission to speak in your voice channel."
-play_arg: 'Please provide a song name or link to search.'
-play_startwith: 'Please use link to play music.'
-play_invalid_file: 'Please use a valid music file to use this feature. Note that only mp3/ogg extension is supported, professional music file extensions like flac/wav will not be supported.'
-play_warning_file: 'Warning: The system cannot detect your file type. The system may not be able to play music. We recommend that you choose any file type with .mp3 extension. '
+play_arg: "Please provide a song name or link to search."
+play_startwith: "Please use link to play music."
+play_invalid_file: "Please use a valid music file to use this feature. Note that only mp3/ogg extension is supported, professional music file extensions like flac/wav will not be supported."
+play_warning_file: "Warning: The system cannot detect your file type. The system may not be able to play music. We recommend that you choose any file type with .mp3 extension. "
 
-play_track: '**Queued • [%{title}](%{url})** `%{duration}` • %{request}'
-play_playlist: '**Queued • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
-play_result: '**Queued • [%{title}](%{url})** `%{duration}` • %{request}'
+play_track: "**Queued • [%{title}](%{url})** `%{duration}` • %{request}"
+play_playlist: "**Queued • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
+play_result: "**Queued • [%{title}](%{url})** `%{duration}` • %{request}"
 
-play_fail: 'Error loading track failed'
-play_match: 'Error song not matches'
+play_fail: "Error loading track failed"
+play_match: "Error song not matches"
 
 ### Previous command!
-previous_loading: 'Loading please wait...'
-previous_notfound: 'No previous song/s found.'
-previous_msg: '`⏮` | *Song has been:* `Previous`'
+previous_loading: "Loading please wait..."
+previous_notfound: "No previous song/s found."
+previous_msg: "`⏮` | *Song has been:* `Previous`"
 
 ### Queue command!
-queue_author: 'Queue - %{guild}'
+queue_author: "Queue - %{guild}"
 queue_description: "*Currently Playing*\n*[%{title}](%{url})* `[%{duration}]` • %{request}\n\n*Rest of queue*:%{rest}"
-queue_footer: 'Page • %{page}/%{pages} | %{queue_lang} • Song | %{duration} • Total duration'
-queue_notnumber: 'Page must be a number.'
-queue_page_notfound: 'There are only %{page} pages available.'
+queue_footer: "Page • %{page}/%{pages} | %{queue_lang} • Song | %{duration} • Total duration"
+queue_notnumber: "Page must be a number."
+queue_page_notfound: "There are only %{page} pages available."
 
 ### Replay command!
-replay_loading: 'Loading please wait...'
-replay_msg: '`⏮` | **Song has been:** `Replayed`'
+replay_loading: "Loading please wait..."
+replay_msg: "`⏮` | **Song has been:** `Replayed`"
 
 ### Resume command!
-resume_loading: 'Loading please wait...'
-resume_switch_pause: 'Paused'
-resume_switch_resume: 'Resumed'
-resume_msg: '`⏯` | **Song has been:** `%{resume}`'
+resume_loading: "Loading please wait..."
+resume_switch_pause: "Paused"
+resume_switch_resume: "Resumed"
+resume_msg: "`⏯` | **Song has been:** `%{resume}`"
 
 ### Rewind command!
-rewind_loading: 'Loading please wait...'
-rewind_msg: '`⏮` | **Rewind to:** `%{duration}`'
+rewind_loading: "Loading please wait..."
+rewind_msg: "`⏮` | **Rewind to:** `%{duration}`"
 rewind_beyond: "Cannot rewind beyond the song's duration."
 rewind_invalid: "Invalid argument, must be a number.\nCorrect Usage: `%{prefix}rewind <seconds>`"
 
 ### RemoveTrack command!
-removetrack_loading: 'Loading please wait...'
+removetrack_loading: "Loading please wait..."
 
-removetrack_already: 'Cannot remove a song that is already playing.'
-removetrack_notfound: 'Song not found.'
+removetrack_already: "Cannot remove a song that is already playing."
+removetrack_notfound: "Song not found."
 
-removetrack_desc: '**Removed • [%{name}](%{url})** `%{duration}` • %{request}'
+removetrack_desc: "**Removed • [%{name}](%{url})** `%{duration}` • %{request}"
 
 ### RemoveTrack command!
 removetrack_duplicate_desc: "Removed `%{removed}` tracks from queue \n Before: `%{original}` | After: `%{new}`"
 
 ### Search command!
-search_loading: 'Loading please wait...'
-search_invoice: 'You need to be in a voice channel to use command.'
+search_loading: "Loading please wait..."
+search_invoice: "You need to be in a voice channel to use command."
 search_join: "I don't have permission to join your voice channel."
 search_speak: "I don't have permission to speak in your voice channel."
-search_arg: 'Please provide a song name or link to search.'
+search_arg: "Please provide a song name or link to search."
 
-search_title: 'Song Selection...'
-search_select: '**(%{num}.) [%{title}](%{url})** `%{duration}` Author: `%{author}`'
-search_footer: 'Please select a song in 30 seconds.'
-search_no_response: 'No response.'
+search_title: "Song Selection..."
+search_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Author: `%{author}`"
+search_footer: "Please select a song in 30 seconds."
+search_no_response: "No response."
 
-search_result: '**Queued • [%{title}](%{url})** `%{duration}` • %{request}'
-search_playlist: '**Queued • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}'
+search_result: "**Queued • [%{title}](%{url})** `%{duration}` • %{request}"
+search_playlist: "**Queued • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
 
-search_fail: 'Error loading track failed'
-search_match: 'Error song not matches'
+search_fail: "Error loading track failed"
+search_match: "Error song not matches"
 
 ### Seek command!
-seek_loading: 'Loading please wait...'
+seek_loading: "Loading please wait..."
 seek_invalid: "Invalid format. Please provide a timestamp.\nExample: `%{prefix}seek 0:59 or 120:00`"
-seek_beyond: 'Cannot seek beyond length of song.'
-seek_msg: '`⏭` | **Seeked to:** `%{duration}`'
+seek_beyond: "Cannot seek beyond length of song."
+seek_msg: "`⏭` | **Seeked to:** `%{duration}`"
 
 ### Shuffle command!
-shuffle_loading: 'Loading please wait...'
-shuffle_msg: '`🔀` | **Queue has been:** `Shuffled`'
+shuffle_loading: "Loading please wait..."
+shuffle_msg: "`🔀` | **Queue has been:** `Shuffled`"
 
 ### Skip command!
-skip_loading: 'Loading please wait...'
-skip_msg: '`⏭` | **Song has been:** `Skipped`'
+skip_loading: "Loading please wait..."
+skip_msg: "`⏭` | **Song has been:** `Skipped`"
 
 ### Skipto command!
-skipto_loading: 'Loading please wait...'
-skipto_invalid_position: 'Invalid number'
-skipto_arg: 'Cannot skip to a song that is already playing. To skip the current playing song type: `%{prefix}skip`'
-skipto_invalid: 'The song number is invalid.'
-skipto_msg: '`⏭` | *Song has been:* `Skipto %{position}`'
+skipto_loading: "Loading please wait..."
+skipto_invalid_position: "Invalid number"
+skipto_arg: "Cannot skip to a song that is already playing. To skip the current playing song type: `%{prefix}skip`"
+skipto_invalid: "The song number is invalid."
+skipto_msg: "`⏭` | *Song has been:* `Skipto %{position}`"
 
 ### Volume command!
-volume_loading: 'Loading please wait...'
-volume_usage: '*Current volume:* `%{volume}%`'
-volume_invalid: 'You may only set the volume to 1% - 100%'
-volume_msg: '`🔊` | **Change volume to:** `%{volume}%`'
+volume_loading: "Loading please wait..."
+volume_usage: "*Current volume:* `%{volume}%`"
+volume_invalid: "You may only set the volume to 1% - 100%"
+volume_msg: "`🔊` | **Change volume to:** `%{volume}%`"
 
 ### Radio command!
 radio_invalid: "Invalid number. Please choose a number from 1-34 \nFor radio list, please type /music radio"
-radio_invoice: 'You need to be in a voice channel to use command.'
+radio_invoice: "You need to be in a voice channel to use command."
 radio_join: "I don't have permission to join your voice channel."
 radio_speak: "I don't have permission to speak in your voice channel."
-radio_loading: 'Loading please wait...'
-radio_track: '**Queued • [%{title}](%{url})** `%{duration}` • %{request}'
-radio_match: 'This radio has been down, link error or broken. Please report this error to XeonDex </>#0017 to fix!'
+radio_loading: "Loading please wait..."
+radio_track: "**Queued • [%{title}](%{url})** `%{duration}` • %{request}"
+radio_match: "This radio has been down, link error or broken. Please report this error to XeonDex </>#0017 to fix!"
 
 ### Stop command!
-stop_loading: 'Loading please wait...'
-stop_msg: '`⏯` | **Stopped and clear the queue.**'
+stop_loading: "Loading please wait..."
+stop_msg: "`⏯` | **Stopped and clear the queue.**"
 
-number_invalid: 'Invalid argument, must be a number.'
+number_invalid: "Invalid argument, must be a number."
 
-enabled: 'Enabled'
-disabled: 'Disabled'
+enabled: "Enabled"
+disabled: "Disabled"
 
 no_node: "No lavalink server avalible! \nPlease try again after 5 minutes."

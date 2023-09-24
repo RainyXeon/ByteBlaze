@@ -1,25 +1,25 @@
-import { Manager } from '../../manager.js'
+import { Manager } from "../../manager.js"
 
 export default {
-  name: 'add',
+  name: "add",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     if (!json.user)
       return ws.send(
-        JSON.stringify({ error: '0x115', message: "No user's id provided" })
+        JSON.stringify({ error: "0x115", message: "No user's id provided" })
       )
     if (!json.guild)
       return ws.send(
-        JSON.stringify({ error: '0x120', message: "No guild's id provided" })
+        JSON.stringify({ error: "0x120", message: "No guild's id provided" })
       )
     if (json.tracks && json.query)
       return ws.send(
-        JSON.stringify({ error: '0x110', message: 'Only 1 - 2 params' })
+        JSON.stringify({ error: "0x110", message: "Only 1 - 2 params" })
       )
 
     const Guild = client.guilds.cache.get(json.guild)
     const Member = Guild!.members.cache.get(json.user)
     const channel =
-      Guild!.channels.cache.find((channel) => channel.name === 'general') ||
+      Guild!.channels.cache.find((channel) => channel.name === "general") ||
       Guild!.channels.cache.first()
 
     const player = await client.manager.createPlayer({
@@ -39,7 +39,7 @@ export default {
       return
     } else if (json.query) {
       const res = await player.search(json.query, { requester: Member })
-      if (res.type === 'PLAYLIST' || res.type === 'SEARCH')
+      if (res.type === "PLAYLIST" || res.type === "SEARCH")
         for (let track of res.tracks) player.queue.add(track)
       if (!player.playing && !player.paused) return player.play()
     }

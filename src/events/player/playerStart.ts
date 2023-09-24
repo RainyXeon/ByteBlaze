@@ -1,9 +1,9 @@
-import { KazagumoPlayer, KazagumoTrack } from 'kazagumo'
-import { Manager } from '../../manager.js'
-import { ButtonStyle, TextChannel } from 'discord.js'
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from 'discord.js'
-import formatduration from '../../structures/FormatDuration.js'
-import { QueueDuration } from '../../structures/QueueDuration.js'
+import { KazagumoPlayer, KazagumoTrack } from "kazagumo"
+import { Manager } from "../../manager.js"
+import { ButtonStyle, TextChannel } from "discord.js"
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
+import formatduration from "../../structures/FormatDuration.js"
+import { QueueDuration } from "../../structures/QueueDuration.js"
 
 export default async (
   client: Manager,
@@ -12,7 +12,7 @@ export default async (
 ) => {
   if (!client.is_db_connected)
     return client.logger.warn(
-      'The database is not yet connected so this event will temporarily not execute. Please try again later!'
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     )
 
   const guild = await client.guilds.cache.get(player.guildId)
@@ -20,7 +20,7 @@ export default async (
 
   let Control = await client.db.get(`control.guild_${player.guildId}`)
   if (!Control) {
-    await client.db.set(`control.guild_${player.guildId}`, 'disable')
+    await client.db.set(`control.guild_${player.guildId}`, "disable")
     Control = client.db.get(`control.guild_${player.guildId}`)
   }
 
@@ -40,7 +40,7 @@ export default async (
 
   let guildModel = await client.db.get(`language.guild_${channel.guild.id}`)
   if (!guildModel) {
-    guildModel = await client.db.set(`language.guild_${channel.guild.id}`, 'en')
+    guildModel = await client.db.set(`language.guild_${channel.guild.id}`, "en")
   }
 
   const language = guildModel
@@ -76,7 +76,7 @@ export default async (
     if (client.websocket && client.config.features.WEBSOCKET.enable)
       await client.websocket.send(
         JSON.stringify({
-          op: 'player_start',
+          op: "player_start",
           guild: player.guildId,
           current: {
             title: song!.title,
@@ -92,7 +92,7 @@ export default async (
     if (!client.sent_queue.get(player.guildId)) {
       client.websocket.send(
         JSON.stringify({
-          op: 'player_queue',
+          op: "player_queue",
           guild: player.guildId,
           queue: webqueue || [],
         })
@@ -101,12 +101,12 @@ export default async (
     }
   }
 
-  if (Control === 'disable') return
+  if (Control === "disable") return
 
   const embeded = new EmbedBuilder()
     .setAuthor({
-      name: `${client.i18n.get(language, 'player', 'track_title')}`,
-      iconURL: `${client.i18n.get(language, 'player', 'track_icon')}`,
+      name: `${client.i18n.get(language, "player", "track_title")}`,
+      iconURL: `${client.i18n.get(language, "player", "track_icon")}`,
     })
     .setDescription(`**[${track.title}](${track.uri})**`)
     .setColor(client.color)
@@ -115,44 +115,44 @@ export default async (
     )
     .addFields([
       {
-        name: `${client.i18n.get(language, 'player', 'author_title')}`,
+        name: `${client.i18n.get(language, "player", "author_title")}`,
         value: `${song!.author}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'request_title')}`,
+        name: `${client.i18n.get(language, "player", "request_title")}`,
         value: `${song!.requester}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'volume_title')}`,
+        name: `${client.i18n.get(language, "player", "volume_title")}`,
         value: `${player.volume * 100}%`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'queue_title')}`,
+        name: `${client.i18n.get(language, "player", "queue_title")}`,
         value: `${player.queue.length}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'duration_title')}`,
+        name: `${client.i18n.get(language, "player", "duration_title")}`,
         value: `${formatduration(song!.length)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'total_duration_title')}`,
+        name: `${client.i18n.get(language, "player", "total_duration_title")}`,
         value: `${formatduration(TotalDuration)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'download_title')}`,
+        name: `${client.i18n.get(language, "player", "download_title")}`,
         value: `**[${
           song!.title
         } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
         inline: false,
       },
       {
-        name: `${client.i18n.get(language, 'player', 'current_duration_title', {
+        name: `${client.i18n.get(language, "player", "current_duration_title", {
           current_duration: formatduration(song!.length),
         })}`,
         value: `\`\`\`🔴 | 🎶──────────────────────────────\`\`\``,
@@ -163,55 +163,55 @@ export default async (
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
-      .setCustomId('pause')
-      .setEmoji('⏯')
+      .setCustomId("pause")
+      .setEmoji("⏯")
       .setStyle(ButtonStyle.Success),
 
     new ButtonBuilder()
-      .setCustomId('replay')
-      .setEmoji('⬅')
+      .setCustomId("replay")
+      .setEmoji("⬅")
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()
-      .setCustomId('stop')
-      .setEmoji('✖')
+      .setCustomId("stop")
+      .setEmoji("✖")
       .setStyle(ButtonStyle.Danger),
 
     new ButtonBuilder()
-      .setCustomId('skip')
-      .setEmoji('➡')
+      .setCustomId("skip")
+      .setEmoji("➡")
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()
-      .setCustomId('loop')
-      .setEmoji('🔄')
+      .setCustomId("loop")
+      .setEmoji("🔄")
       .setStyle(ButtonStyle.Success),
   ])
 
   const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
-      .setCustomId('shuffle')
-      .setEmoji('🔀')
+      .setCustomId("shuffle")
+      .setEmoji("🔀")
       .setStyle(ButtonStyle.Success),
 
     new ButtonBuilder()
-      .setCustomId('voldown')
-      .setEmoji('🔉')
+      .setCustomId("voldown")
+      .setEmoji("🔉")
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()
-      .setCustomId('clear')
-      .setEmoji('🗑')
+      .setCustomId("clear")
+      .setEmoji("🗑")
       .setStyle(ButtonStyle.Danger),
 
     new ButtonBuilder()
-      .setCustomId('volup')
-      .setEmoji('🔊')
+      .setCustomId("volup")
+      .setEmoji("🔊")
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()
-      .setCustomId('queue')
-      .setEmoji('📋')
+      .setCustomId("queue")
+      .setEmoji("📋")
       .setStyle(ButtonStyle.Success),
   ])
 
@@ -234,7 +234,7 @@ export default async (
         return true
       else {
         message.reply({
-          content: `${client.i18n.get(language, 'player', 'join_voice')}`,
+          content: `${client.i18n.get(language, "player", "join_voice")}`,
           ephemeral: true,
         })
         return false
@@ -243,16 +243,16 @@ export default async (
     time: song!.length,
   })
 
-  collector.on('collect', async (message: any) => {
+  collector.on("collect", async (message: any) => {
     const id = message.customId
-    if (id === 'pause') {
+    if (id === "pause") {
       if (!player) {
         collector.stop()
       }
       await player.pause(!player.paused)
       const uni = player.paused
-        ? `${client.i18n.get(language, 'player', 'switch_pause')}`
-        : `${client.i18n.get(language, 'player', 'switch_resume')}`
+        ? `${client.i18n.get(language, "player", "switch_pause")}`
+        : `${client.i18n.get(language, "player", "switch_resume")}`
 
       if (client.websocket && client.config.features.WEBSOCKET.enable)
         await client.websocket.send(
@@ -264,14 +264,14 @@ export default async (
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'player', 'pause_msg', {
+          `${client.i18n.get(language, "player", "pause_msg", {
             pause: uni,
           })}`
         )
         .setColor(client.color)
 
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'skip') {
+    } else if (id === "skip") {
       if (!player) {
         collector.stop()
       }
@@ -280,18 +280,18 @@ export default async (
       if (client.websocket && client.config.features.WEBSOCKET.enable)
         await client.websocket.send(
           JSON.stringify({
-            op: 'skip_track',
+            op: "skip_track",
             guild: player.guildId,
           })
         )
 
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, 'player', 'skip_msg')}`)
+        .setDescription(`${client.i18n.get(language, "player", "skip_msg")}`)
         .setColor(client.color)
 
       await nplaying.edit({ embeds: [embeded], components: [] })
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'stop') {
+    } else if (id === "stop") {
       if (!player) {
         collector.stop()
       }
@@ -299,7 +299,7 @@ export default async (
       if (client.websocket && client.config.features.WEBSOCKET.enable)
         await client.websocket.send(
           JSON.stringify({
-            op: 'player_destroy',
+            op: "player_destroy",
             guild: player.guildId,
           })
         )
@@ -307,54 +307,54 @@ export default async (
       await player.destroy()
 
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, 'player', 'stop_msg')}`)
+        .setDescription(`${client.i18n.get(language, "player", "stop_msg")}`)
         .setColor(client.color)
 
       await nplaying.edit({ embeds: [embeded], components: [] })
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'shuffle') {
+    } else if (id === "shuffle") {
       if (!player) {
         collector.stop()
       }
       await player.queue.shuffle()
 
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, 'player', 'shuffle_msg')}`)
+        .setDescription(`${client.i18n.get(language, "player", "shuffle_msg")}`)
         .setColor(client.color)
 
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'loop') {
+    } else if (id === "loop") {
       if (!player) {
         collector.stop()
       }
       const loop_mode = {
-        none: 'none',
-        track: 'track',
-        queue: 'queue',
+        none: "none",
+        track: "track",
+        queue: "queue",
       }
 
-      if (player.loop === 'queue') {
-        await player.setLoop(loop_mode.none as 'none' | 'queue' | 'track')
+      if (player.loop === "queue") {
+        await player.setLoop(loop_mode.none as "none" | "queue" | "track")
 
         const unloopall = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, 'music', 'unloopall')}`)
+          .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
           .setColor(client.color)
-        return await message.reply({ content: ' ', embeds: [unloopall] })
-      } else if (player.loop === 'none') {
-        await player.setLoop(loop_mode.queue as 'none' | 'queue' | 'track')
+        return await message.reply({ content: " ", embeds: [unloopall] })
+      } else if (player.loop === "none") {
+        await player.setLoop(loop_mode.queue as "none" | "queue" | "track")
         const loopall = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, 'music', 'loopall')}`)
+          .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
           .setColor(client.color)
-        return await message.reply({ content: ' ', embeds: [loopall] })
+        return await message.reply({ content: " ", embeds: [loopall] })
       }
-    } else if (id === 'volup') {
+    } else if (id === "volup") {
       if (!player) {
         collector.stop()
       }
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'player', 'volup_msg', {
+          `${client.i18n.get(language, "player", "volup_msg", {
             volume: `${player.volume * 100 + 10}`,
           })}`
         )
@@ -365,14 +365,14 @@ export default async (
 
       await player.setVolume(player.volume * 100 + 10)
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'voldown') {
+    } else if (id === "voldown") {
       if (!player) {
         collector.stop()
       }
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'player', 'voldown_msg', {
+          `${client.i18n.get(language, "player", "voldown_msg", {
             volume: `${player.volume * 100 - 10}`,
           })}`
         )
@@ -384,22 +384,22 @@ export default async (
       await player.setVolume(player.volume * 100 - 10)
 
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'replay') {
+    } else if (id === "replay") {
       if (!player) {
         collector.stop()
       }
-      await player['send']({
-        op: 'seek',
+      await player["send"]({
+        op: "seek",
         guildId: message.guild.id,
         position: 0,
       })
 
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, 'player', 'replay_msg')}`)
+        .setDescription(`${client.i18n.get(language, "player", "replay_msg")}`)
         .setColor(client.color)
 
       message.reply({ embeds: [embed], ephemeral: true })
-    } else if (id === 'queue') {
+    } else if (id === "queue") {
       if (!player) {
         collector.stop()
       }
@@ -425,11 +425,11 @@ export default async (
 
       const pages = []
       for (let i = 0; i < pagesNum; i++) {
-        const str = songStrings.slice(i * 10, i * 10 + 10).join('')
+        const str = songStrings.slice(i * 10, i * 10 + 10).join("")
 
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(language, 'player', 'queue_author', {
+            name: `${client.i18n.get(language, "player", "queue_author", {
               guild: message.guild.name,
             })}`,
             iconURL: message.guild.iconURL({ dynamic: true }),
@@ -437,16 +437,16 @@ export default async (
           .setThumbnail(thumbnail)
           .setColor(client.color)
           .setDescription(
-            `${client.i18n.get(language, 'player', 'queue_description', {
+            `${client.i18n.get(language, "player", "queue_description", {
               track: song!.title,
               track_url: song!.uri,
               duration: formatduration(position),
               requester: `${song!.requester}`,
-              list_song: str == '' ? '  Nothing' : '\n' + str,
+              list_song: str == "" ? "  Nothing" : "\n" + str,
             })}`
           )
           .setFooter({
-            text: `${client.i18n.get(language, 'player', 'queue_footer', {
+            text: `${client.i18n.get(language, "player", "queue_footer", {
               page: `${i + 1}`,
               pages: `${pagesNum}`,
               queue_lang: `${player.queue.length}`,
@@ -457,21 +457,21 @@ export default async (
         pages.push(embed)
       }
       message.reply({ embeds: [pages[0]], ephemeral: true })
-    } else if (id === 'clear') {
+    } else if (id === "clear") {
       if (!player) {
         collector.stop()
       }
       await player.queue.clear()
 
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, 'player', 'clear_msg')}`)
+        .setDescription(`${client.i18n.get(language, "player", "clear_msg")}`)
         .setColor(client.color)
 
       message.reply({ embeds: [embed], ephemeral: true })
     }
   })
-  collector.on('end', async (collected: any, reason: string) => {
-    if (reason === 'time') {
+  collector.on("end", async (collected: any, reason: string) => {
+    if (reason === "time") {
       nplaying.edit({ embeds: [embeded], components: [] })
     }
   })

@@ -1,12 +1,12 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'playlist-delete',
-  description: 'Delete a playlist',
-  category: 'Playlist',
-  usage: '<playlist_name>',
-  aliases: ['pl-delete'],
+  name: "playlist-delete",
+  description: "Delete a playlist",
+  category: "Playlist",
+  usage: "<playlist_name>",
+  aliases: ["pl-delete"],
 
   run: async (
     client: Manager,
@@ -18,11 +18,11 @@ export default {
     const value = args[0] ? args[0] : null
     if (value == null)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'invalid')}`
+        `${client.i18n.get(language, "playlist", "invalid")}`
       )
-    const Plist = value!.replace(/_/g, ' ')
+    const Plist = value!.replace(/_/g, " ")
 
-    const fullList = await client.db.get('playlist')
+    const fullList = await client.db.get("playlist")
 
     const filter_level_1 = Object.keys(fullList).filter(function (key) {
       return (
@@ -34,17 +34,17 @@ export default {
 
     if (!playlist)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'delete_notfound')}`
+        `${client.i18n.get(language, "playlist", "delete_notfound")}`
       )
     if (playlist.owner !== message.author.id)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'delete_owner')}`
+        `${client.i18n.get(language, "playlist", "delete_owner")}`
       )
 
     await client.db.delete(`playlist.${filter_level_1[0]}`)
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'playlist', 'delete_deleted', {
+        `${client.i18n.get(language, "playlist", "delete_deleted", {
           name: Plist,
         })}`
       )

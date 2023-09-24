@@ -1,5 +1,5 @@
-import { Manager } from '../manager.js'
-import { LavalinkDataType } from '../types/Lavalink.js'
+import { Manager } from "../manager.js"
+import { LavalinkDataType } from "../types/Lavalink.js"
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/
 
@@ -9,12 +9,12 @@ async function check_lavalink(client: Manager) {
     client.lavalink_using.length == 0
   ) {
     client.manager.shoukaku.nodes.forEach((data, index) => {
-      const res = regex.exec(data['url'])
+      const res = regex.exec(data["url"])
       client.lavalink_using.push({
         host: res![2],
         port: Number(res![3]),
-        pass: data['auth'],
-        secure: res![1] == 'ws://' ? false : true,
+        pass: data["auth"],
+        secure: res![1] == "ws://" ? false : true,
         name: index,
       })
     })
@@ -65,9 +65,9 @@ async function check_lavalink(client: Manager) {
 }
 
 export default async (client: Manager) => {
-  client.logger.lavalink('----- Starting autofix lavalink... -----')
+  client.logger.lavalink("----- Starting autofix lavalink... -----")
   if (client.lavalink_list.length == 0)
-    (await import('./check_lavalink_server.js')).default(client).then(() => {
+    (await import("./check_lavalink_server.js")).default(client).then(() => {
       return check_lavalink(client)
     })
   else return check_lavalink(client)

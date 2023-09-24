@@ -1,10 +1,10 @@
-import { KazagumoPlayer } from 'kazagumo'
-import { Manager } from '../../manager.js'
-import { EmbedBuilder, Client, TextChannel } from 'discord.js'
+import { KazagumoPlayer } from "kazagumo"
+import { Manager } from "../../manager.js"
+import { EmbedBuilder, Client, TextChannel } from "discord.js"
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
     return client.logger.warn(
-      'The database is not yet connected so this event will temporarily not execute. Please try again later!'
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     )
 
   const guild = await client.guilds.cache.get(player.guildId)
@@ -15,7 +15,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
     await client.websocket.send(
       JSON.stringify({
-        op: 'player_end',
+        op: "player_end",
         guild: player.guildId,
         track: song
           ? {
@@ -39,7 +39,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (player.queue.length) return
 
-  if (player.loop !== 'none') return
+  if (player.loop !== "none") return
 
   let guildModel = await client.db.get(`language.guild_${player.guildId}`)
   if (!guildModel) {
@@ -59,12 +59,12 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   const embed = new EmbedBuilder()
     .setColor(client.color)
-    .setDescription(`${client.i18n.get(language, 'player', 'queue_end_desc')}`)
+    .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`)
 
   if (channel) channel.send({ embeds: [embed] })
   player.destroy()
   if (client.websocket)
     client.websocket.send(
-      JSON.stringify({ op: 'player_destroy', guild: player.guildId })
+      JSON.stringify({ op: "player_destroy", guild: player.guildId })
     )
 }

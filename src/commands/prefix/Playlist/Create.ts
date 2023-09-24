@@ -1,13 +1,13 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
-import id from 'voucher-code-generator'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
+import id from "voucher-code-generator"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'playlist-create',
-  description: 'Create a new playlist',
-  category: 'Playlist',
-  usage: '<playlist_name> <playlist_description>',
-  aliases: ['pl-create'],
+  name: "playlist-create",
+  description: "Create a new playlist",
+  category: "Playlist",
+  usage: "<playlist_name> <playlist_description>",
+  aliases: ["pl-create"],
 
   run: async (
     client: Manager,
@@ -21,24 +21,24 @@ export default {
 
     if (value == null || !value)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'invalid')}`
+        `${client.i18n.get(language, "playlist", "invalid")}`
       )
 
     if (value.length > 16)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'create_toolong')}`
+        `${client.i18n.get(language, "playlist", "create_toolong")}`
       )
     if (des && des.length > 1000)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'des_toolong')}`
+        `${client.i18n.get(language, "playlist", "des_toolong")}`
       )
 
-    const PlaylistName = value.replace(/_/g, ' ')
+    const PlaylistName = value.replace(/_/g, " ")
     const msg = await message.channel.send(
-      `${client.i18n.get(language, 'playlist', 'create_loading')}`
+      `${client.i18n.get(language, "playlist", "create_loading")}`
     )
 
-    const fullList = await client.db.get('playlist')
+    const fullList = await client.db.get("playlist")
 
     const Limit = Object.keys(fullList)
       .filter(function (key) {
@@ -64,19 +64,19 @@ export default {
       }, {})
 
     if (Object.keys(Exist).length !== 0) {
-      msg.edit(`${client.i18n.get(language, 'playlist', 'create_name_exist')}`)
+      msg.edit(`${client.i18n.get(language, "playlist", "create_name_exist")}`)
       return
     }
     if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
       msg.edit(
-        `${client.i18n.get(language, 'playlist', 'create_limit_playlist', {
+        `${client.i18n.get(language, "playlist", "create_limit_playlist", {
           limit: client.config.bot.LIMIT_PLAYLIST,
         })}`
       )
       return
     }
 
-    const idgen = id.generate({ length: 8, prefix: 'playlist-' })
+    const idgen = id.generate({ length: 8, prefix: "playlist-" })
 
     await client.db.set(`playlist.pid_${idgen}`, {
       id: idgen[0],
@@ -90,11 +90,11 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'playlist', 'create_created', {
+        `${client.i18n.get(language, "playlist", "create_created", {
           playlist: PlaylistName,
         })}`
       )
       .setColor(client.color)
-    msg.edit({ content: ' ', embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] })
   },
 }

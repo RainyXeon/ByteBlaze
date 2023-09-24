@@ -1,13 +1,13 @@
-import ms from 'pretty-ms'
-import { EmbedBuilder, TextChannel, version } from 'discord.js'
-import { Manager } from '../../manager.js'
-import chalk from 'chalk'
+import ms from "pretty-ms"
+import { EmbedBuilder, TextChannel, version } from "discord.js"
+import { Manager } from "../../manager.js"
+import chalk from "chalk"
 
 export default async (client: Manager) => {
-  const Client = chalk.hex('#02f75c')
-  const client_mess = Client('Client: ')
-  client.logger.data_loader(client_mess + 'Setting up data for client...')
-  const users = await client.db.get('premium')
+  const Client = chalk.hex("#02f75c")
+  const client_mess = Client("Client: ")
+  client.logger.data_loader(client_mess + "Setting up data for client...")
+  const users = await client.db.get("premium")
   if (users)
     Object.keys(users).forEach(async (key, index) => {
       client.premiums.set(users[key].id, users[key])
@@ -29,20 +29,20 @@ export default async (client: Manager) => {
 
     if (!SetupChannel) return
     const fetched_info = new EmbedBuilder()
-      .setTitle(client.user!.tag + ' Status')
+      .setTitle(client.user!.tag + " Status")
       .addFields([
         {
-          name: 'Uptime',
+          name: "Uptime",
           value: `\`\`\`${ms(client.uptime!)}\`\`\``,
           inline: true,
         },
         {
-          name: 'WebSocket Ping',
+          name: "WebSocket Ping",
           value: `\`\`\`${client.ws.ping}ms\`\`\``,
           inline: true,
         },
         {
-          name: 'Memory',
+          name: "Memory",
           value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
             2
           )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
@@ -51,26 +51,26 @@ export default async (client: Manager) => {
           inline: true,
         },
         {
-          name: 'Guild Count',
+          name: "Guild Count",
           value: `\`\`\`${client.guilds.cache.size} guilds\`\`\``,
           inline: true,
         },
         {
-          name: 'User Count',
+          name: "User Count",
           value: `\`\`\`${client.users.cache.size} users\`\`\``,
           inline: true,
         },
         {
-          name: 'Node',
+          name: "Node",
           value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
           inline: true,
         },
         {
-          name: 'Cached Data',
+          name: "Cached Data",
           value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
           inline: true,
         },
-        { name: 'Discord.js', value: `\`\`\`${version}\`\`\``, inline: true },
+        { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
       ])
       .setTimestamp()
       .setColor(client.color)
@@ -84,9 +84,9 @@ export default async (client: Manager) => {
     })
   }, 5000)
 
-  client.interval.set('MAIN', info)
+  client.interval.set("MAIN", info)
 
   client.logger.data_loader(
-    client_mess + 'Setting up data for client complete!'
+    client_mess + "Setting up data for client complete!"
   )
 }

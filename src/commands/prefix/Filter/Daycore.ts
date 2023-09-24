@@ -1,12 +1,12 @@
-import { EmbedBuilder, Message } from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, Message } from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'daycore',
-  description: 'Turning on daycore filter',
-  category: 'Filter',
-  usage: '',
+  name: "daycore",
+  description: "Turning on daycore filter",
+  category: "Filter",
+  usage: "",
   aliases: [],
 
   run: async (
@@ -17,23 +17,23 @@ export default {
     prefix: string
   ) => {
     const msg = await message.channel.send(
-      `${client.i18n.get(language, 'filters', 'filter_loading', {
-        name: 'daycore',
+      `${client.i18n.get(language, "filters", "filter_loading", {
+        name: "daycore",
       })}`
     )
 
     const player = client.manager.players.get(message.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = message.member!.voice
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: message.guild!.id,
       equalizer: [
         { band: 0, gain: 0 },
@@ -57,17 +57,17 @@ export default {
       },
     }
 
-    await player['send'](data)
+    await player["send"](data)
 
     const daycored = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'filter_on', {
-          name: 'daycore',
+        `${client.i18n.get(language, "filters", "filter_on", {
+          name: "daycore",
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    msg.edit({ content: ' ', embeds: [daycored] })
+    msg.edit({ content: " ", embeds: [daycored] })
   },
 }

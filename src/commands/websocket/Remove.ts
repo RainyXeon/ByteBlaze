@@ -1,12 +1,12 @@
-import { Manager } from '../../manager.js'
+import { Manager } from "../../manager.js"
 
 export default {
-  name: 'remove',
+  name: "remove",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild)
     if (!player)
       return ws.send(
-        JSON.stringify({ error: '0x100', message: 'No player on this guild' })
+        JSON.stringify({ error: "0x100", message: "No player on this guild" })
       )
 
     const index = player.queue.map((e) => e.uri).indexOf(json.uri)
@@ -18,7 +18,7 @@ export default {
 
       ws.send(
         JSON.stringify({
-          op: 'removed_track',
+          op: "removed_track",
           guild: player.guildId,
           uri: removed.uri,
         })

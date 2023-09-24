@@ -1,12 +1,12 @@
-import { EmbedBuilder, Message } from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, Message } from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'pop',
-  description: 'Turning on pop filter',
-  category: 'Filter',
-  usage: '',
+  name: "pop",
+  description: "Turning on pop filter",
+  category: "Filter",
+  usage: "",
   aliases: [],
 
   run: async (
@@ -17,23 +17,23 @@ export default {
     prefix: string
   ) => {
     const msg = await message.channel.send(
-      `${client.i18n.get(language, 'filters', 'filter_loading', {
-        name: 'pop',
+      `${client.i18n.get(language, "filters", "filter_loading", {
+        name: "pop",
       })}`
     )
 
     const player = client.manager.players.get(message.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = message.member!.voice
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: message.guild!.id,
       equalizer: [
         { band: 0, gain: 0.65 },
@@ -53,17 +53,17 @@ export default {
       ],
     }
 
-    await player['send'](data)
+    await player["send"](data)
 
     const popped = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'filter_on', {
-          name: 'pop',
+        `${client.i18n.get(language, "filters", "filter_on", {
+          name: "pop",
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    msg.edit({ content: ' ', embeds: [popped] })
+    msg.edit({ content: " ", embeds: [popped] })
   },
 }

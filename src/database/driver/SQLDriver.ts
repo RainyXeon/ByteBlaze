@@ -1,6 +1,6 @@
-import { Manager } from '../../manager.js'
-import { db_credentials_type } from '../../types/db_connect.js'
-import { QuickDB, MySQLDriver } from 'quick.db'
+import { Manager } from "../../manager.js"
+import { db_credentials_type } from "../../types/db_connect.js"
+import { QuickDB, MySQLDriver } from "quick.db"
 
 export async function SQLConnectDriver(
   client: Manager,
@@ -17,10 +17,10 @@ export async function SQLConnectDriver(
 
   try {
     await mysqlDriver.connect().then(async () => {
-      client.logger.info('Connected to the database! [MYSQL]')
+      client.logger.info("Connected to the database! [MYSQL]")
       client.db = new QuickDB({ driver: mysqlDriver })
     })
   } catch (error) {
-    client.logger.log({ level: 'error', message: error })
+    client.logger.log({ level: "error", message: error })
   }
 }

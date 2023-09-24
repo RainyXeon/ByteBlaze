@@ -4,18 +4,18 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
   ApplicationCommandOptionType,
-} from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['filter', 'bassboost'],
-  description: 'Turning on bassboost filter',
-  category: 'Filter',
+  name: ["filter", "bassboost"],
+  description: "Turning on bassboost filter",
+  category: "Filter",
   options: [
     {
-      name: 'amount',
-      description: 'The amount of the bassboost',
+      name: "amount",
+      description: "The amount of the bassboost",
       type: ApplicationCommandOptionType.Integer,
     },
   ],
@@ -27,11 +27,11 @@ export default {
     await interaction.deferReply({ ephemeral: false })
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger('amount')
+    ).getInteger("amount")
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_player')}`
+        `${client.i18n.get(language, "noplayer", "no_player")}`
       )
     const { channel } = (interaction.member as GuildMember).voice
     if (
@@ -40,12 +40,12 @@ export default {
         interaction.guild!.members.me!.voice.channel
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'noplayer', 'no_voice')}`
+        `${client.i18n.get(language, "noplayer", "no_voice")}`
       )
 
     if (!value) {
       const data = {
-        op: 'filters',
+        op: "filters",
         guildId: interaction.guild!.id,
         equalizer: [
           { band: 0, gain: 0.1 },
@@ -65,35 +65,35 @@ export default {
         ],
       }
 
-      await player['send'](data)
+      await player["send"](data)
 
       const msg1 = await interaction.editReply(
-        `${client.i18n.get(language, 'filters', 'filter_loading', {
-          name: client.commands.get('bassboost').config.name,
+        `${client.i18n.get(language, "filters", "filter_loading", {
+          name: client.commands.get("bassboost").config.name,
         })}`
       )
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'filters', 'filter_on', {
-            name: client.commands.get('bassboost').config.name,
+          `${client.i18n.get(language, "filters", "filter_on", {
+            name: client.commands.get("bassboost").config.name,
           })}`
         )
         .setColor(client.color)
 
       await delay(2000)
-      return msg1.edit({ content: ' ', embeds: [embed] })
+      return msg1.edit({ content: " ", embeds: [embed] })
     }
 
     if (isNaN(value))
       return interaction.editReply(
-        `${client.i18n.get(language, 'filters', 'filter_number')}`
+        `${client.i18n.get(language, "filters", "filter_number")}`
       )
     if (value > 10 || value < -10)
       return interaction.editReply(
-        `${client.i18n.get(language, 'filters', 'bassboost_limit')}`
+        `${client.i18n.get(language, "filters", "bassboost_limit")}`
       )
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: interaction.guild!.id,
       equalizer: [
         { band: 0, gain: value / 10 },
@@ -112,21 +112,21 @@ export default {
         { band: 13, gain: 0 },
       ],
     }
-    await player['send'](data)
+    await player["send"](data)
     const msg2 = await interaction.editReply(
-      `${client.i18n.get(language, 'filters', 'bassboost_loading', {
+      `${client.i18n.get(language, "filters", "bassboost_loading", {
         amount: String(value),
       })}`
     )
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'bassboost_set', {
+        `${client.i18n.get(language, "filters", "bassboost_set", {
           amount: String(value),
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    return msg2.edit({ content: ' ', embeds: [embed] })
+    return msg2.edit({ content: " ", embeds: [embed] })
   },
 }

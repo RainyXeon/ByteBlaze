@@ -3,13 +3,13 @@ import {
   ApplicationCommandType,
   ContextMenuCommandInteraction,
   GuildMember,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['Shuffle'],
+  name: ["Shuffle"],
   type: ApplicationCommandType.Message,
-  category: 'Context',
+  category: "Context",
   /**
    * @param {ContextMenuInteraction} interaction
    */
@@ -20,26 +20,26 @@ export default {
   ) => {
     await interaction.deferReply({ ephemeral: false })
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'music', 'shuffle_loading')}`
+      `${client.i18n.get(language, "music", "shuffle_loading")}`
     )
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = (interaction.member as GuildMember)!.voice
     if (
       !channel ||
       (interaction.member as GuildMember)!.voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     await player.queue.shuffle()
 
     const shuffle = new EmbedBuilder()
-      .setDescription(`${client.i18n.get(language, 'music', 'shuffle_msg')}`)
+      .setDescription(`${client.i18n.get(language, "music", "shuffle_msg")}`)
       .setColor(client.color)
 
-    msg.edit({ content: ' ', embeds: [shuffle] })
+    msg.edit({ content: " ", embeds: [shuffle] })
   },
 }

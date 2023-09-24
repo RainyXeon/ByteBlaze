@@ -1,12 +1,12 @@
-import { ButtonStyle, Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from 'discord.js'
+import { ButtonStyle, Message } from "discord.js"
+import { Manager } from "../../../manager.js"
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
 
 export default {
-  name: 'invite',
-  description: 'Shows the invite information of the Bot',
-  category: 'Info',
-  usage: '',
+  name: "invite",
+  description: "Shows the invite information of the Bot",
+  category: "Info",
+  usage: "",
   aliases: [],
   run: async (
     client: Manager,
@@ -17,19 +17,19 @@ export default {
   ) => {
     const invite = new EmbedBuilder()
       .setTitle(
-        `${client.i18n.get(language, 'info', 'inv_title', {
+        `${client.i18n.get(language, "info", "inv_title", {
           username: client.user!.username,
         })}`
       )
       .setDescription(
-        `${client.i18n.get(language, 'info', 'inv_desc', {
+        `${client.i18n.get(language, "info", "inv_desc", {
           username: client.user!.username,
         })}`
       )
       .addFields([
         {
-          name: 'ByteBlaze',
-          value: 'https://github.com/RainyXeon/ByteBlaze',
+          name: "ByteBlaze",
+          value: "https://github.com/RainyXeon/ByteBlaze",
           inline: false,
         },
       ])
@@ -38,7 +38,7 @@ export default {
 
     const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setLabel('Invite Me')
+        .setLabel("Invite Me")
         .setStyle(ButtonStyle.Link)
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${

@@ -1,6 +1,6 @@
-import { KazagumoPlayer } from 'kazagumo'
-import { Manager } from '../../manager.js'
-import { PlayerUpdate } from 'shoukaku'
+import { KazagumoPlayer } from "kazagumo"
+import { Manager } from "../../manager.js"
+import { PlayerUpdate } from "shoukaku"
 
 export default async (
   client: Manager,
@@ -10,7 +10,7 @@ export default async (
   if (client.websocket)
     client.websocket.send(
       JSON.stringify({
-        op: 'sync_position',
+        op: "sync_position",
         guild: player.guildId,
         position: player.shoukaku.position,
       })

@@ -1,15 +1,15 @@
-import { Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
+import { Message } from "discord.js"
+import { Manager } from "../../../manager.js"
 
-import { EmbedBuilder, PermissionsBitField } from 'discord.js'
+import { EmbedBuilder, PermissionsBitField } from "discord.js"
 
 export default {
-  name: 'language',
-  aliases: ['setlang', 'lang'],
-  usage: '<language>',
-  category: 'Utils',
-  description: 'Change the language for the bot',
-  accessableby: 'Members',
+  name: "language",
+  aliases: ["setlang", "lang"],
+  usage: "<language>",
+  category: "Utils",
+  description: "Change the language for the bot",
+  accessableby: "Members",
 
   run: async (
     client: Manager,
@@ -21,18 +21,18 @@ export default {
     const languages = client.i18n.getLocales()
     if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'lang_perm')}`
+        `${client.i18n.get(language, "utilities", "lang_perm")}`
       )
     if (!args[0])
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'provide_lang', {
-          languages: languages.join(', '),
+        `${client.i18n.get(language, "utilities", "provide_lang", {
+          languages: languages.join(", "),
         })}`
       )
     if (!languages.includes(args[0]))
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'provide_lang', {
-          languages: languages.join(', '),
+        `${client.i18n.get(language, "utilities", "provide_lang", {
+          languages: languages.join(", "),
         })}`
       )
 
@@ -41,7 +41,7 @@ export default {
       await client.db.set(`language.guild_${message.guild!.id}`, args[0])
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'utilities', 'lang_set', {
+          `${client.i18n.get(language, "utilities", "lang_set", {
             language: args[0],
           })}`
         )
@@ -52,7 +52,7 @@ export default {
       await client.db.set(`language.guild_${message.guild!.id}`, args[0])
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'utilities', 'lang_change', {
+          `${client.i18n.get(language, "utilities", "lang_change", {
             language: args[0],
           })}`
         )

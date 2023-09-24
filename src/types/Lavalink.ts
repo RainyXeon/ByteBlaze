@@ -16,11 +16,11 @@ export type LavalinkUsingDataType = {
 }
 
 export type Headers = {
-  'Client-Name': string
-  'User-Agent': string
+  "Client-Name": string
+  "User-Agent": string
   Authorization: string
-  'User-Id': string
-  'Resume-Key': string
+  "User-Id": string
+  "Resume-Key": string
 }
 
-export type KazagumoLoopMode = 'none' | 'queue' | 'track' | undefined
+export type KazagumoLoopMode = "none" | "queue" | "track" | undefined

@@ -4,21 +4,21 @@ function convertTime(duration: number) {
     minutes: string | number = parseInt(`${(duration / (1000 * 60)) % 60}`),
     hours: string | number = parseInt(`${(duration / (1000 * 60 * 60)) % 24}`)
 
-  hours = hours < 10 ? '0' + hours : hours
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  seconds = seconds < 10 ? '0' + seconds : seconds
+  hours = hours < 10 ? "0" + hours : hours
+  minutes = minutes < 10 ? "0" + minutes : minutes
+  seconds = seconds < 10 ? "0" + seconds : seconds
 
   if (duration < 3600000) {
-    return minutes + ':' + seconds
+    return minutes + ":" + seconds
   } else {
-    return hours + ':' + minutes + ':' + seconds
+    return hours + ":" + minutes + ":" + seconds
   }
 }
 
 function convertNumber(number: number, decPlaces: number) {
   decPlaces = Math.pow(10, decPlaces)
 
-  var abbrev = ['K', 'M', 'B', 'T']
+  var abbrev = ["K", "M", "B", "T"]
 
   for (var i = abbrev.length - 1; i >= 0; i--) {
     var size = Math.pow(10, (i + 1) * 3)
@@ -52,13 +52,13 @@ function chunk(arr: Array<any>, size: number) {
 
 function convertHmsToMs(hms: string) {
   if (hms.length < 3) {
-    const a = hms.split(':')
+    const a = hms.split(":")
     return (hms = String(+a[0] * 1000))
   } else if (hms.length < 6) {
-    const a = hms.split(':')
+    const a = hms.split(":")
     return (hms = String((+a[0] * 60 + +a[1]) * 1000))
   } else {
-    const a = hms.split(':')
+    const a = hms.split(":")
     return (hms = String((+a[0] * 60 * 60 + +a[1] * 60 + +a[2]) * 1000))
   }
 }

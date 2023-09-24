@@ -1,15 +1,15 @@
-import { Message } from 'discord.js'
-import { EmbedBuilder } from 'discord.js'
-import { convertTime } from '../../../structures/ConvertTime.js'
-import { Manager } from '../../../manager.js'
+import { Message } from "discord.js"
+import { EmbedBuilder } from "discord.js"
+import { convertTime } from "../../../structures/ConvertTime.js"
+import { Manager } from "../../../manager.js"
 
 // Main code
 export default {
-  name: 'remove',
-  description: 'Remove song from queue.',
-  category: 'Music',
-  usage: '<position>',
-  aliases: ['rm'],
+  name: "remove",
+  description: "Remove song from queue.",
+  category: "Music",
+  usage: "<position>",
+  aliases: ["rm"],
 
   run: async (
     client: Manager,
@@ -19,30 +19,30 @@ export default {
     prefix: string
   ) => {
     const msg = await message.channel.send(
-      `${client.i18n.get(language, 'music', 'pause_loading')}`
+      `${client.i18n.get(language, "music", "pause_loading")}`
     )
     const player = client.manager.players.get(message.guild!.id)
 
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = message.member!.voice
 
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     const tracks = args[0]
     if (tracks && isNaN(+tracks))
-      return msg.edit(`${client.i18n.get(language, 'music', 'number_invalid')}`)
+      return msg.edit(`${client.i18n.get(language, "music", "number_invalid")}`)
     if (Number(tracks) == 0)
       return msg.edit(
-        `${client.i18n.get(language, 'music', 'removetrack_already')}`
+        `${client.i18n.get(language, "music", "removetrack_already")}`
       )
     if (Number(tracks) > player.queue.length)
       return msg.edit(
-        `${client.i18n.get(language, 'music', 'removetrack_notfound')}`
+        `${client.i18n.get(language, "music", "removetrack_notfound")}`
       )
 
     const song = player.queue[Number(tracks) - 1]
@@ -51,7 +51,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'music', 'removetrack_desc', {
+        `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
           url: song.uri,
           duration: convertTime(player.shoukaku.position),

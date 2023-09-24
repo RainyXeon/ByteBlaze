@@ -3,17 +3,17 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['playlist', 'view'],
-  description: 'Public or private a playlist',
-  category: 'Playlist',
+  name: ["playlist", "view"],
+  description: "Public or private a playlist",
+  category: "Playlist",
   options: [
     {
-      name: 'name',
-      description: 'The name of the playlist',
+      name: "name",
+      description: "The name of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -27,10 +27,10 @@ export default {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('name')
-    const PName = value!.replace(/_/g, ' ')
+    ).getString("name")
+    const PName = value!.replace(/_/g, " ")
 
-    const fullList = await client.db.get('playlist')
+    const fullList = await client.db.get("playlist")
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
@@ -43,11 +43,11 @@ export default {
 
     if (!playlist)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'public_notfound')}`
+        `${client.i18n.get(language, "playlist", "public_notfound")}`
       )
     if (playlist.owner !== interaction.user.id)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'public_owner')}`
+        `${client.i18n.get(language, "playlist", "public_owner")}`
       )
 
     const Public = Object.keys(fullList)
@@ -61,11 +61,11 @@ export default {
 
     if (Public !== null || undefined || false)
       return interaction.editReply(
-        `${client.i18n.get(language, 'playlist', 'public_already')}`
+        `${client.i18n.get(language, "playlist", "public_already")}`
       )
 
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'playlist', 'public_loading')}`
+      `${client.i18n.get(language, "playlist", "public_loading")}`
     )
 
     client.db.set(
@@ -79,11 +79,11 @@ export default {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'playlist', 'public_success', {
-          view: playlist_now == true ? 'Private' : 'Public',
+        `${client.i18n.get(language, "playlist", "public_success", {
+          view: playlist_now == true ? "Private" : "Public",
         })}`
       )
       .setColor(client.color)
-    msg.edit({ content: ' ', embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] })
   },
 }

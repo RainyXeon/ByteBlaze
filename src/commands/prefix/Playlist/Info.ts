@@ -1,19 +1,19 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
-import { convertTime } from '../../../structures/ConvertTime.js'
-import { StartQueueDuration } from '../../../structures/QueueDuration.js'
-import { stripIndents } from 'common-tags'
-import humanizeDuration from 'humanize-duration'
-import { PlaylistInterface } from '../../../types/Playlist.js'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
+import { convertTime } from "../../../structures/ConvertTime.js"
+import { StartQueueDuration } from "../../../structures/QueueDuration.js"
+import { stripIndents } from "common-tags"
+import humanizeDuration from "humanize-duration"
+import { PlaylistInterface } from "../../../types/Playlist.js"
+import { Manager } from "../../../manager.js"
 
 let info: PlaylistInterface | null
 
 export default {
-  name: 'playlist-info',
-  description: 'Check the playlist infomation',
-  category: 'Playlist',
-  usage: '<playlist_name_or_id>',
-  aliases: ['pl-info'],
+  name: "playlist-info",
+  description: "Check the playlist infomation",
+  category: "Playlist",
+  usage: "<playlist_name_or_id>",
+  aliases: ["pl-info"],
 
   run: async (
     client: Manager,
@@ -27,14 +27,14 @@ export default {
 
     if (value == null || id == null)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'invalid')}`
+        `${client.i18n.get(language, "playlist", "invalid")}`
       )
 
     if (id) info = await client.db.get(`playlist.pid_${id}`)
     if (value) {
-      const Plist = value.replace(/_/g, ' ')
+      const Plist = value.replace(/_/g, " ")
 
-      const fullList = await client.db.get('playlist')
+      const fullList = await client.db.get("playlist")
 
       const pid = Object.keys(fullList).filter(function (key) {
         return (
@@ -47,19 +47,19 @@ export default {
     }
     if (!id && !value)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'no_id_or_name')}`
+        `${client.i18n.get(language, "playlist", "no_id_or_name")}`
       )
     if (id && value)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'got_id_and_name')}`
+        `${client.i18n.get(language, "playlist", "got_id_and_name")}`
       )
     if (!info)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'invalid')}`
+        `${client.i18n.get(language, "playlist", "invalid")}`
       )
     if (info.private && info.owner !== message.author.id) {
       message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'import_private')}`
+        `${client.i18n.get(language, "playlist", "import_private")}`
       )
       return
     }
@@ -71,50 +71,50 @@ export default {
 
     const embed = new EmbedBuilder()
       .setTitle(
-        `${client.i18n.get(language, 'playlist', 'info_title', {
+        `${client.i18n.get(language, "playlist", "info_title", {
           name: info.name,
         })}`
       )
       .addFields([
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_name')}`,
+          name: `${client.i18n.get(language, "playlist", "info_name")}`,
           value: `${info.name}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_id')}`,
+          name: `${client.i18n.get(language, "playlist", "info_id")}`,
           value: `${info.id}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_total')}`,
+          name: `${client.i18n.get(language, "playlist", "info_total")}`,
           value: `${info.tracks!.length}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_created')}`,
+          name: `${client.i18n.get(language, "playlist", "info_created")}`,
           value: `${created}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_private')}`,
+          name: `${client.i18n.get(language, "playlist", "info_private")}`,
           value: `${
             info.private
-              ? client.i18n.get(language, 'playlist', 'enabled')
-              : client.i18n.get(language, 'playlist', 'disabled')
+              ? client.i18n.get(language, "playlist", "enabled")
+              : client.i18n.get(language, "playlist", "disabled")
           }`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_owner')}`,
+          name: `${client.i18n.get(language, "playlist", "info_owner")}`,
           value: `${name.username}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, 'playlist', 'info_des')}`,
+          name: `${client.i18n.get(language, "playlist", "info_des")}`,
           value: `${
             info.description === null
-              ? client.i18n.get(language, 'playlist', 'no_des')
+              ? client.i18n.get(language, "playlist", "no_des")
               : info.description
           }`,
         },

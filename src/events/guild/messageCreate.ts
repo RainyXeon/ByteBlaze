@@ -1,15 +1,15 @@
-import { ChannelType, Message } from 'discord.js'
-import { Manager } from '../../manager.js'
-import { PermissionsBitField, EmbedBuilder } from 'discord.js'
-import { stripIndents } from 'common-tags'
-import fs from 'fs'
+import { ChannelType, Message } from "discord.js"
+import { Manager } from "../../manager.js"
+import { PermissionsBitField, EmbedBuilder } from "discord.js"
+import { stripIndents } from "common-tags"
+import fs from "fs"
 
 export default async (client: Manager, message: Message) => {
   if (message.author.bot || message.channel.type == ChannelType.DM) return
 
   if (!client.is_db_connected)
     return client.logger.warn(
-      'The database is not yet connected so this event will temporarily not execute. Please try again later!'
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     )
 
   let guildModel = await client.db.get(`language.guild_${message.guild!.id}`)
@@ -37,33 +37,33 @@ export default async (client: Manager, message: Message) => {
   if (message.content.match(mention)) {
     const mention_embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(language, 'help', 'wel', {
+        name: `${client.i18n.get(language, "help", "wel", {
           bot: message.guild!.members.me!.displayName,
         })}`,
       })
       .setColor(client.color).setDescription(stripIndents`
-        ${client.i18n.get(language, 'help', 'intro1', {
+        ${client.i18n.get(language, "help", "intro1", {
           bot: message.guild!.members.me!.displayName,
         })}
-        ${client.i18n.get(language, 'help', 'intro2')}
-        ${client.i18n.get(language, 'help', 'intro3')}
-        ${client.i18n.get(language, 'help', 'prefix', {
+        ${client.i18n.get(language, "help", "intro2")}
+        ${client.i18n.get(language, "help", "intro3")}
+        ${client.i18n.get(language, "help", "prefix", {
           prefix: `\`${PREFIX}\``,
         })}
-        ${client.i18n.get(language, 'help', 'intro4')}
-        ${client.i18n.get(language, 'help', 'ver', {
-          botver: JSON.parse(await fs.readFileSync('package.json', 'utf-8'))
+        ${client.i18n.get(language, "help", "intro4")}
+        ${client.i18n.get(language, "help", "ver", {
+          botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
             .version,
         })}
-        ${client.i18n.get(language, 'help', 'djs', {
-          djsver: JSON.parse(await fs.readFileSync('package.json', 'utf-8'))
-            .dependencies['discord.js'],
+        ${client.i18n.get(language, "help", "djs", {
+          djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+            .dependencies["discord.js"],
         })}
-        ${client.i18n.get(language, 'help', 'lavalink', { aver: 'v3.0-beta' })}
-        ${client.i18n.get(language, 'help', 'help1', {
+        ${client.i18n.get(language, "help", "lavalink", { aver: "v3.0-beta" })}
+        ${client.i18n.get(language, "help", "help1", {
           help: `\`${PREFIX}help\` / \`/help\``,
         })}
-        ${client.i18n.get(language, 'help', 'help2', {
+        ${client.i18n.get(language, "help", "help2", {
           botinfo: `\`${PREFIX}status\` / \`/status\``,
         })}
         `)
@@ -71,7 +71,7 @@ export default async (client: Manager, message: Message) => {
     return
   }
   const escapeRegex = (str: string) =>
-    str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
   const prefixRegex = new RegExp(
     `^(<@!?${client.user!.id}>|${escapeRegex(PREFIX)})\\s*`
   )
@@ -90,7 +90,7 @@ export default async (client: Manager, message: Message) => {
     )
   )
     return await message.author.dmChannel!.send(
-      `${client.i18n.get(language, 'interaction', 'no_perms')}`
+      `${client.i18n.get(language, "interaction", "no_perms")}`
     )
   if (
     !message.guild!.members.me!.permissions.has(
@@ -104,12 +104,12 @@ export default async (client: Manager, message: Message) => {
     )
   )
     return await message.channel.send(
-      `${client.i18n.get(language, 'interaction', 'no_perms')}`
+      `${client.i18n.get(language, "interaction", "no_perms")}`
     )
 
   if (command.owner && message.author.id != client.owner)
     return message.channel.send(
-      `${client.i18n.get(language, 'interaction', 'owner_only')}`
+      `${client.i18n.get(language, "interaction", "owner_only")}`
     )
 
   try {
@@ -118,28 +118,28 @@ export default async (client: Manager, message: Message) => {
       if (!user || !user.isPremium) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(language, 'nopremium', 'premium_author')}`,
+            name: `${client.i18n.get(language, "nopremium", "premium_author")}`,
             iconURL: client.user!.displayAvatarURL(),
           })
           .setDescription(
-            `${client.i18n.get(language, 'nopremium', 'premium_desc')}`
+            `${client.i18n.get(language, "nopremium", "premium_desc")}`
           )
           .setColor(client.color)
           .setTimestamp()
 
-        return message.channel.send({ content: ' ', embeds: [embed] })
+        return message.channel.send({ content: " ", embeds: [embed] })
       }
     }
   } catch (err) {
     client.logger.error(err)
     return message.channel.send({
-      content: `${client.i18n.get(language, 'nopremium', 'premium_error')}`,
+      content: `${client.i18n.get(language, "nopremium", "premium_error")}`,
     })
   }
 
   if (command.lavalink) {
     if (client.lavalink_using.length == 0)
-      return message.reply(`${client.i18n.get(language, 'music', 'no_node')}`)
+      return message.reply(`${client.i18n.get(language, "music", "no_node")}`)
   }
 
   if (command) {
@@ -150,8 +150,8 @@ export default async (client: Manager, message: Message) => {
       message.channel.send({
         content: `${client.i18n.get(
           language,
-          'interaction',
-          'error'
+          "interaction",
+          "error"
         )}\n ${error}`,
       })
     }

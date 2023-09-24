@@ -1,21 +1,21 @@
-import { Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
+import { Message } from "discord.js"
+import { Manager } from "../../../manager.js"
 import {
   EmbedBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
-} from 'discord.js'
-import { readdirSync } from 'fs'
-import { stripIndents } from 'common-tags'
-import fs from 'fs'
+} from "discord.js"
+import { readdirSync } from "fs"
+import { stripIndents } from "common-tags"
+import fs from "fs"
 
 export default {
-  name: 'help',
-  description: 'Displays all commands that the bot has.',
-  category: 'Info',
-  usage: '+ <commamnd_name>',
-  aliases: ['h'],
+  name: "help",
+  description: "Displays all commands that the bot has.",
+  category: "Info",
+  usage: "+ <commamnd_name>",
+  aliases: ["h"],
   run: async (
     client: Manager,
     message: Message,
@@ -40,7 +40,7 @@ export default {
         return message.channel.send({
           embeds: [
             embed
-              .setTitle('Invalid Command.')
+              .setTitle("Invalid Command.")
               .setDescription(
                 `Do \`${prefix}help\` for the list of the commands.`
               ),
@@ -52,24 +52,24 @@ export default {
               command.name.slice(0, 1).toUpperCase() + command.name.slice(1)
             }
             **Description:** ${
-              command.description || 'No Description provided.'
+              command.description || "No Description provided."
             }
             **Usage:** ${
               command.usage
                 ? `\`${prefix}${command.name} ${command.usage}\``
-                : 'No Usage'
+                : "No Usage"
             }
-            **Accessible by:** ${command.accessableby || 'Members'}
+            **Accessible by:** ${command.accessableby || "Members"}
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0
-                ? command.aliases.join(', ')
-                : 'None.'
+                ? command.aliases.join(", ")
+                : "None."
             }`)
 
       return message.channel.send({ embeds: [embed] })
     }
 
-    const category = readdirSync('./src/commands/prefix')
+    const category = readdirSync("./src/commands/prefix")
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -79,28 +79,28 @@ export default {
         iconURL: message.guild!.iconURL() as string,
       })
       .setDescription(
-        stripIndents`${client.i18n.get(language, 'help', 'welcome', {
+        stripIndents`${client.i18n.get(language, "help", "welcome", {
           bot: message.guild!.members.me!.displayName,
         })}
-            ${client.i18n.get(language, 'help', 'intro1', {
+            ${client.i18n.get(language, "help", "intro1", {
               bot: message.guild!.members.me!.displayName,
             })}
-            ${client.i18n.get(language, 'help', 'intro2')}
-            ${client.i18n.get(language, 'help', 'intro3')}
-            ${client.i18n.get(language, 'help', 'prefix', {
+            ${client.i18n.get(language, "help", "intro2")}
+            ${client.i18n.get(language, "help", "intro3")}
+            ${client.i18n.get(language, "help", "prefix", {
               prefix: `\`${prefix}\``,
             })}
-            ${client.i18n.get(language, 'help', 'intro4')}
-            ${client.i18n.get(language, 'help', 'lavalink', {
-              aver: 'v3.0-beta',
+            ${client.i18n.get(language, "help", "intro4")}
+            ${client.i18n.get(language, "help", "lavalink", {
+              aver: "v3.0-beta",
             })}
-            ${client.i18n.get(language, 'help', 'ver', {
-              botver: JSON.parse(await fs.readFileSync('package.json', 'utf-8'))
+            ${client.i18n.get(language, "help", "ver", {
+              botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
                 .version,
             })}
-            ${client.i18n.get(language, 'help', 'djs', {
-              djsver: JSON.parse(await fs.readFileSync('package.json', 'utf-8'))
-                .dependencies['discord.js'],
+            ${client.i18n.get(language, "help", "djs", {
+              djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+                .dependencies["discord.js"],
             })}
             `
       )
@@ -115,9 +115,9 @@ export default {
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
       new StringSelectMenuBuilder()
-        .setCustomId('help-category')
+        .setCustomId("help-category")
         .setPlaceholder(
-          `${client.i18n.get(language, 'utilities', 'help_desc')}`
+          `${client.i18n.get(language, "utilities", "help_desc")}`
         )
         .setMaxValues(1)
         .setMinValues(1)
@@ -139,13 +139,13 @@ export default {
           i.message.author.id == client.user!.id,
         time: 60000,
       })
-      collector.on('collect', async (m) => {
+      collector.on("collect", async (m) => {
         if (m.isStringSelectMenu()) {
-          if (m.customId === 'help-category') {
+          if (m.customId === "help-category") {
             await m.deferUpdate()
             let [directory] = m.values
 
-            const cmd = client.commands.filter((c) => c.name === 'music')
+            const cmd = client.commands.filter((c) => c.name === "music")
 
             const embed = new EmbedBuilder()
               .setAuthor({
@@ -164,7 +164,7 @@ export default {
                 value: `${client.commands
                   .filter((c) => c.category === directory)
                   .map((c) => `\`${c.name}\``)
-                  .join(', ')}`,
+                  .join(", ")}`,
                 inline: false,
               })
               .setFooter({
@@ -179,11 +179,11 @@ export default {
         }
       })
 
-      collector.on('end', async (collected, reason) => {
-        if (reason === 'time') {
+      collector.on("end", async (collected, reason) => {
+        if (reason === "time") {
           const timed = new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, 'utilities', 'help_timeout', {
+              `${client.i18n.get(language, "utilities", "help_timeout", {
                 prefix: prefix,
               })}`
             )

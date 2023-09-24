@@ -5,12 +5,12 @@ import {
   EmbedBuilder,
   CommandInteractionOptionResolver,
   AutocompleteInteraction,
-} from 'discord.js'
-import { Manager } from '../../manager.js'
+} from "discord.js"
+import { Manager } from "../../manager.js"
 import {
   AutocompleteInteractionChoices,
   GlobalInteraction,
-} from '../../types/Interaction.js'
+} from "../../types/Interaction.js"
 
 /**
  * @param {GlobalInteraction} interaction
@@ -37,7 +37,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     if (!client.is_db_connected)
       return client.logger.warn(
-        'The database is not yet connected so this event will temporarily not execute. Please try again later!'
+        "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       )
 
     let guildModel = await client.db.get(
@@ -52,14 +52,14 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     const language = guildModel
 
-    let subCommandName = ''
+    let subCommandName = ""
     try {
       subCommandName = (
         (interaction as CommandInteraction)
           .options as CommandInteractionOptionResolver
       ).getSubcommand()
     } catch {}
-    let subCommandGroupName = ''
+    let subCommandGroupName = ""
     try {
       subCommandGroupName = (
         (interaction as CommandInteraction)
@@ -109,8 +109,8 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
       } else {
         if (client.lavalink_using.length == 0) {
           choice.push({
-            name: `${client.i18n.get(language, 'music', 'no_node')}`,
-            value: `${client.i18n.get(language, 'music', 'no_node')}`,
+            name: `${client.i18n.get(language, "music", "no_node")}`,
+            value: `${client.i18n.get(language, "music", "no_node")}`,
           })
           return
         }
@@ -130,22 +130,22 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
       Number(interaction.type) == InteractionType.ApplicationCommandAutocomplete
     ) {
       if (
-        (interaction as CommandInteraction).commandName == 'play' ||
+        (interaction as CommandInteraction).commandName == "play" ||
         (interaction as CommandInteraction).commandName + command.name[1] ==
-          'playlist' + 'add'
+          "playlist" + "add"
       ) {
         let choice: AutocompleteInteractionChoices[] = []
         const url = (interaction as CommandInteraction).options.get(
-          'search'
+          "search"
         )!.value
         return AutoCompletePush(url as string, choice)
       } else if (
         (interaction as CommandInteraction).commandName + command.name[1] ==
-        'playlist' + 'edit'
+        "playlist" + "edit"
       ) {
         let choice: AutocompleteInteractionChoices[] = []
         const url = (interaction as CommandInteraction).options.get(
-          'add'
+          "add"
         )!.value
         return AutoCompletePush(url as string, choice)
       }
@@ -155,16 +155,16 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     const msg_cmd = [
       `[COMMAND] ${command.name[0]}`,
-      `${command.name[1] || ''}`,
-      `${command.name[2] || ''}`,
+      `${command.name[1] || ""}`,
+      `${command.name[2] || ""}`,
       `used by ${interaction.user.tag} from ${interaction.guild.name} (${interaction.guild.id})`,
     ]
 
-    client.logger.info(`${msg_cmd.join(' ')}`)
+    client.logger.info(`${msg_cmd.join(" ")}`)
 
     if (command.owner && interaction.user.id != client.owner)
       return interaction.reply(
-        `${client.i18n.get(language, 'interaction', 'owner_only')}`
+        `${client.i18n.get(language, "interaction", "owner_only")}`
       )
 
     try {
@@ -175,24 +175,24 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
             .setAuthor({
               name: `${client.i18n.get(
                 language,
-                'nopremium',
-                'premium_author'
+                "nopremium",
+                "premium_author"
               )}`,
               iconURL: client.user!.displayAvatarURL(),
             })
             .setDescription(
-              `${client.i18n.get(language, 'nopremium', 'premium_desc')}`
+              `${client.i18n.get(language, "nopremium", "premium_desc")}`
             )
             .setColor(client.color)
             .setTimestamp()
 
-          return interaction.reply({ content: ' ', embeds: [embed] })
+          return interaction.reply({ content: " ", embeds: [embed] })
         }
       }
     } catch (err) {
       client.logger.error(err)
       return interaction.reply({
-        content: `${client.i18n.get(language, 'nopremium', 'premium_error')}`,
+        content: `${client.i18n.get(language, "nopremium", "premium_error")}`,
       })
     }
 
@@ -202,7 +202,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
       )
     )
       return interaction.user.dmChannel!.send(
-        `${client.i18n.get(language, 'interaction', 'no_perms')}`
+        `${client.i18n.get(language, "interaction", "no_perms")}`
       )
     if (
       !interaction.guild.members.me!.permissions.has(
@@ -216,16 +216,16 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
       )
     )
       return interaction.reply(
-        `${client.i18n.get(language, 'interaction', 'no_perms')}`
+        `${client.i18n.get(language, "interaction", "no_perms")}`
       )
-    if (!((interaction as CommandInteraction).commandName == 'help')) {
+    if (!((interaction as CommandInteraction).commandName == "help")) {
       if (
         !interaction.guild.members.me!.permissions.has(
           PermissionsBitField.Flags.Speak
         )
       )
         return interaction.reply(
-          `${client.i18n.get(language, 'interaction', 'no_perms')}`
+          `${client.i18n.get(language, "interaction", "no_perms")}`
         )
       if (
         !interaction.guild.members.me!.permissions.has(
@@ -233,7 +233,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         )
       )
         return interaction.reply(
-          `${client.i18n.get(language, 'interaction', 'no_perms')}`
+          `${client.i18n.get(language, "interaction", "no_perms")}`
         )
       if (
         !interaction.guild.members.me!.permissions.has(
@@ -241,7 +241,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         )
       )
         return interaction.reply(
-          `${client.i18n.get(language, 'interaction', 'no_perms')}`
+          `${client.i18n.get(language, "interaction", "no_perms")}`
         )
       if (
         !interaction.guild.members.me!.permissions.has(
@@ -249,14 +249,14 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         )
       )
         return await interaction.reply(
-          `${client.i18n.get(language, 'interaction', 'no_perms')}`
+          `${client.i18n.get(language, "interaction", "no_perms")}`
         )
     }
 
     if (command.lavalink) {
       if (client.lavalink_using.length == 0)
         return interaction.reply(
-          `${client.i18n.get(language, 'music', 'no_node')}`
+          `${client.i18n.get(language, "music", "no_node")}`
         )
     }
 
@@ -266,14 +266,14 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         command.run(interaction, client, language)
       } catch (error) {
         client.logger.log({
-          level: 'error',
+          level: "error",
           message: error,
         })
         return interaction.editReply({
           content: `${client.i18n.get(
             language,
-            'interaction',
-            'error'
+            "interaction",
+            "error"
           )}\n ${error}`,
         })
       }

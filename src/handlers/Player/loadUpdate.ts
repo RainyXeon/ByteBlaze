@@ -1,8 +1,8 @@
-import { Manager } from '../../manager.js'
-import { EmbedBuilder, TextChannel } from 'discord.js'
-import formatDuration from '../../structures/FormatDuration.js'
-import { QueueDuration } from '../../structures/QueueDuration.js'
-import { KazagumoPlayer } from 'kazagumo'
+import { Manager } from "../../manager.js"
+import { EmbedBuilder, TextChannel } from "discord.js"
+import formatDuration from "../../structures/FormatDuration.js"
+import { QueueDuration } from "../../structures/QueueDuration.js"
+import { KazagumoPlayer } from "kazagumo"
 
 export default async (client: Manager) => {
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
@@ -29,7 +29,7 @@ export default async (client: Manager) => {
     const songStrings = []
     const queuedSongs = player.queue.map(
       (song, i) =>
-        `${client.i18n.get(language, 'setup', 'setup_content_queue', {
+        `${client.i18n.get(language, "setup", "setup_content_queue", {
           index: `${i + 1}`,
           title: song.title,
           duration: formatDuration(song.length),
@@ -37,18 +37,23 @@ export default async (client: Manager) => {
         })}`
     )
 
-    const current_song = `${client.i18n.get(language, 'setup', 'setup_content_queue', {
-      index: `${1}`,
-      title: player.queue.current!.title,
-      duration: formatDuration(player.queue.current!.length),
-      request: `${player.queue.current!.requester}`,
-    })}`
+    const current_song = `${client.i18n.get(
+      language,
+      "setup",
+      "setup_content_queue",
+      {
+        index: `${1}`,
+        title: player.queue.current!.title,
+        duration: formatDuration(player.queue.current!.length),
+        request: `${player.queue.current!.requester}`,
+      }
+    )}`
 
     await songStrings.push(...queuedSongs)
 
     await songStrings.unshift(current_song)
 
-    const Str = songStrings.slice(0, 10).join('\n')
+    const Str = songStrings.slice(0, 10).join("\n")
 
     const TotalDuration = QueueDuration(player)
 
@@ -57,11 +62,11 @@ export default async (client: Manager) => {
 
     let embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(language, 'setup', 'setup_author')}`,
-        iconURL: `${client.i18n.get(language, 'setup', 'setup_author_icon')}`,
+        name: `${client.i18n.get(language, "setup", "setup_author")}`,
+        iconURL: `${client.i18n.get(language, "setup", "setup_author_icon")}`,
       })
       .setDescription(
-        `${client.i18n.get(language, 'setup', 'setup_desc', {
+        `${client.i18n.get(language, "setup", "setup_desc", {
           title: cSong!.title,
           url: cSong!.uri,
           duration: formatDuration(cSong!.length),
@@ -69,9 +74,17 @@ export default async (client: Manager) => {
         })}`
       ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
       .setColor(client.color)
-      .setImage(`${cSong!.thumbnail}`)
+      .setImage(
+        `${
+          cSong!.thumbnail
+            ? cSong!.thumbnail
+            : `https://cdn.discordapp.com/avatars/${client.user!.id}/${
+                client.user!.avatar
+              }.jpeg?size=300`
+        }`
+      )
       .setFooter({
-        text: `${client.i18n.get(language, 'setup', 'setup_footer', {
+        text: `${client.i18n.get(language, "setup", "setup_footer", {
           songs: `${player.queue.size}`,
           volume: `${player.volume}`,
           duration: qDuration,
@@ -80,10 +93,10 @@ export default async (client: Manager) => {
 
     return await playMsg
       .edit({
-        content: `${client.i18n.get(language, 'setup', 'setup_content')}\n${
-          Str == ''
-            ? `${client.i18n.get(language, 'setup', 'setup_content_empty')}`
-            : '\n' + Str
+        content: `${client.i18n.get(language, "setup", "setup_content")}\n${
+          Str == ""
+            ? `${client.i18n.get(language, "setup", "setup_content_empty")}`
+            : "\n" + Str
         }`,
         embeds: [embed],
         components: [client.enSwitch],
@@ -116,12 +129,12 @@ export default async (client: Manager) => {
 
     const language = guildModel
 
-    const queueMsg = `${client.i18n.get(language, 'setup', 'setup_queuemsg')}`
+    const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`
 
     const playEmbed = new EmbedBuilder()
       .setColor(client.color)
       .setAuthor({
-        name: `${client.i18n.get(language, 'setup', 'setup_playembed_author')}`,
+        name: `${client.i18n.get(language, "setup", "setup_playembed_author")}`,
       })
       .setImage(
         `https://cdn.discordapp.com/avatars/${client.user!.id}/${
@@ -129,12 +142,12 @@ export default async (client: Manager) => {
         }.jpeg?size=300`
       )
       .setDescription(
-        `${client.i18n.get(language, 'setup', 'setup_playembed_desc', {
+        `${client.i18n.get(language, "setup", "setup_playembed_desc", {
           clientId: client.user!.id,
         })}`
       )
       .setFooter({
-        text: `${client.i18n.get(language, 'setup', 'setup_playembed_footer')}`,
+        text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}`,
       })
 
     return await playMsg

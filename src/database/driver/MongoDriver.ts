@@ -1,6 +1,6 @@
-import { Manager } from '../../manager.js'
-import { db_credentials_type } from '../../types/db_connect.js'
-import { QuickDB, MongoDriver } from 'quick.db'
+import { Manager } from "../../manager.js"
+import { db_credentials_type } from "../../types/db_connect.js"
+import { QuickDB, MongoDriver } from "quick.db"
 
 export async function MongoConnectDriver(
   client: Manager,
@@ -8,6 +8,6 @@ export async function MongoConnectDriver(
 ) {
   const mongoDriver = new MongoDriver(db_config.MONGO_DB.uri)
   await mongoDriver.connect()
-  client.logger.info('Connected to the database! [MONGO DB]')
+  client.logger.info("Connected to the database! [MONGO DB]")
   client.db = new QuickDB({ driver: mongoDriver, normalKeys: true })
 }

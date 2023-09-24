@@ -1,4 +1,4 @@
-import delay from 'delay'
+import delay from "delay"
 import {
   PermissionsBitField,
   EmbedBuilder,
@@ -6,8 +6,8 @@ import {
   GuildMember,
   Role,
   TextChannel,
-} from 'discord.js'
-import { Manager } from '../../manager.js'
+} from "discord.js"
+import { Manager } from "../../manager.js"
 
 export default async (
   client: Manager,
@@ -16,7 +16,7 @@ export default async (
 ) => {
   if (!client.is_db_connected)
     return client.logger.warn(
-      'The database is not yet connected so this event will temporarily not execute. Please try again later!'
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     )
 
   let data = await client.db.get(`autoreconnect.guild_${newState.guild.id}`)
@@ -25,7 +25,7 @@ export default async (
     if (client.websocket)
       client.websocket.send(
         JSON.stringify({
-          op: 'voice_state_update_join',
+          op: "voice_state_update_join",
           guild: newState.guild.id,
         })
       )
@@ -34,7 +34,7 @@ export default async (
     if (client.websocket)
       client.websocket.send(
         JSON.stringify({
-          op: 'voice_state_update_leave',
+          op: "voice_state_update_leave",
           guild: newState.guild.id,
         })
       )
@@ -44,7 +44,7 @@ export default async (
   if (!guildModel) {
     guildModel = await client.db.set(
       `language.guild_${newState.guild.id}`,
-      'en'
+      "en"
     )
   }
   const language = guildModel
@@ -57,7 +57,7 @@ export default async (
 
   if (
     newState.channelId &&
-    String(newState.channel!.type) == 'GUILD_STAGE_VOICE' &&
+    String(newState.channel!.type) == "GUILD_STAGE_VOICE" &&
     newState.guild.members.me!.voice.suppress
   ) {
     if (
@@ -101,7 +101,7 @@ export default async (
         newPlayer ? player.destroy() : true
         const TimeoutEmbed = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, 'player', 'player_end', {
+            `${client.i18n.get(language, "player", "player_end", {
               leave: vcRoom,
             })}`
           )

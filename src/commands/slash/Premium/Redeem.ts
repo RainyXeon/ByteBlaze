@@ -3,18 +3,18 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from 'discord.js'
-import moment from 'moment'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import moment from "moment"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['redeem'],
-  description: 'Redeem your premium!',
-  category: 'Premium',
+  name: ["redeem"],
+  description: "Redeem your premium!",
+  category: "Premium",
   options: [
     {
-      name: 'code',
-      description: 'The code you want to redeem',
+      name: "code",
+      description: "The code you want to redeem",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -28,7 +28,7 @@ export default {
 
     const input = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('code')
+    ).getString("code")
 
     let member = await client.db.get(`premium.user_${interaction.user.id}`)
 
@@ -36,29 +36,29 @@ export default {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_already')}`
+          `${client.i18n.get(language, "premium", "redeem_already")}`
         )
       return interaction.editReply({ embeds: [embed] })
     }
 
     const premium = await client.db.get(`code.pmc_${input!.toUpperCase()}`)
 
-    if (input == 'pmc_thedreamvastghost')
+    if (input == "pmc_thedreamvastghost")
       return interaction.editReply(
-        'WU9VIENBTidUIERPIFRISVMgRk9SIEZSRUUgUFJFTUlVTQotIFJhaW55WGVvbiAt'
+        "WU9VIENBTidUIERPIFRISVMgRk9SIEZSRUUgUFJFTUlVTQotIFJhaW55WGVvbiAt"
       )
 
     if (premium) {
       const expires = moment(premium.expiresAt).format(
-        'do/MMMM/YYYY (HH:mm:ss)'
+        "do/MMMM/YYYY (HH:mm:ss)"
       )
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, 'premium', 'redeem_title')}`,
+          name: `${client.i18n.get(language, "premium", "redeem_title")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_desc', {
+          `${client.i18n.get(language, "premium", "redeem_desc", {
             expires: expires,
             plan: premium.plan,
           })}`
@@ -83,7 +83,7 @@ export default {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'redeem_invalid')}`
+          `${client.i18n.get(language, "premium", "redeem_invalid")}`
         )
       return interaction.editReply({ embeds: [embed] })
     }

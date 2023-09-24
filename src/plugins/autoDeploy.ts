@@ -1,41 +1,41 @@
-import { fileURLToPath, pathToFileURL } from 'url'
-import { Manager } from '../manager.js'
-import chillout from 'chillout'
-import { makeSureFolderExists } from 'stuffs'
-import path from 'path'
-import readdirRecursive from 'recursive-readdir'
+import { fileURLToPath, pathToFileURL } from "url"
+import { Manager } from "../manager.js"
+import chillout from "chillout"
+import { makeSureFolderExists } from "stuffs"
+import path from "path"
+import readdirRecursive from "recursive-readdir"
 import {
   ApplicationCommandOptionType,
   ApplicationCommandManager,
   ApplicationCommandDataResolvable,
-} from 'discord.js'
+} from "discord.js"
 import {
   CommandInterface,
   UploadCommandInterface,
-} from '../types/Interaction.js'
-import { join, dirname } from 'path'
+} from "../types/Interaction.js"
+import { join, dirname } from "path"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export async function Deploy(client: Manager) {
   let command = []
 
   if (!client.config.features.AUTO_DEPLOY)
-    return client.logger.info('Auto deploy disabled. Exiting auto deploy...')
+    return client.logger.info("Auto deploy disabled. Exiting auto deploy...")
 
   let interactionsFolder = path.resolve(
-    join(__dirname, '..', 'commands', 'slash')
+    join(__dirname, "..", "commands", "slash")
   )
 
   await makeSureFolderExists(interactionsFolder)
 
   let store: CommandInterface[] = []
 
-  client.logger.info('Auto deploy enabled. Reading interaction files...')
+  client.logger.info("Auto deploy enabled. Reading interaction files...")
 
   let interactionFilePaths = await readdirRecursive(interactionsFolder)
 
   interactionFilePaths = interactionFilePaths.filter((i: string) => {
-    let state = path.basename(i).startsWith('-')
+    let state = path.basename(i).startsWith("-")
     return !state
   })
 
@@ -161,7 +161,7 @@ export async function Deploy(client: Manager) {
   )
 
   if (command.length === 0)
-    return client.logger.info('No interactions loaded. Exiting auto deploy...')
+    return client.logger.info("No interactions loaded. Exiting auto deploy...")
   await client.application!.commands.set(
     command as ApplicationCommandDataResolvable[]
   )

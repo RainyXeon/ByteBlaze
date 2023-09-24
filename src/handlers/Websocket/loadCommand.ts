@@ -1,16 +1,16 @@
-import { Manager } from '../../manager.js'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { readdirSync } from 'fs'
+import { Manager } from "../../manager.js"
+import { join, dirname } from "path"
+import { fileURLToPath } from "url"
+import { readdirSync } from "fs"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async (client: Manager) => {
   const events = readdirSync(
-    join(__dirname, '..', '..', 'commands', 'websocket')
+    join(__dirname, "..", "..", "commands", "websocket")
   ).filter((d: string) => {
-    if (d.endsWith('.ts')) {
+    if (d.endsWith(".ts")) {
       return d
-    } else if (d.endsWith('.js')) {
+    } else if (d.endsWith(".js")) {
       return d
     }
   })

@@ -1,13 +1,13 @@
-import { EmbedBuilder, Message } from 'discord.js'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, Message } from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'premium-remove',
-  description: 'Remove premium from members!',
-  category: 'Premium',
+  name: "premium-remove",
+  description: "Remove premium from members!",
+  category: "Premium",
   owner: true,
-  usage: '<mention or id>',
-  aliases: ['prm'],
+  usage: "<mention or id>",
+  aliases: ["prm"],
 
   run: async (
     client: Manager,
@@ -24,14 +24,14 @@ export default {
 
     if (!id && !mentions)
       return message.channel.send({
-        content: `${client.i18n.get(language, 'premium', 'remove_no_params')}`,
+        content: `${client.i18n.get(language, "premium", "remove_no_params")}`,
       })
     if (id && mentions)
       return message.channel.send({
         content: `${client.i18n.get(
           language,
-          'premium',
-          'remove_only_params'
+          "premium",
+          "remove_only_params"
         )}`,
       })
 
@@ -40,7 +40,7 @@ export default {
 
     if (!db)
       return message.channel.send({
-        content: `${client.i18n.get(language, 'premium', 'remove_404', {
+        content: `${client.i18n.get(language, "premium", "remove_404", {
           userid: id as string,
         })}`,
       })
@@ -60,7 +60,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'remove_desc', {
+          `${client.i18n.get(language, "premium", "remove_desc", {
             user: mentions?.username as string,
           })}`
         )
@@ -69,7 +69,7 @@ export default {
     } else {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'remove_already', {
+          `${client.i18n.get(language, "premium", "remove_already", {
             user: mentions?.username as string,
           })}`
         )

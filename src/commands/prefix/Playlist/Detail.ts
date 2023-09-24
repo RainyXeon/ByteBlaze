@@ -1,15 +1,15 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
-import formatDuration from '../../../structures/FormatDuration.js'
-import { NormalPage } from '../../../structures/PageQueue.js'
-import { Manager } from '../../../manager.js'
-import { PlaylistTrackInterface } from '../../../types/Playlist.js'
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
+import formatDuration from "../../../structures/FormatDuration.js"
+import { NormalPage } from "../../../structures/PageQueue.js"
+import { Manager } from "../../../manager.js"
+import { PlaylistTrackInterface } from "../../../types/Playlist.js"
 
 export default {
-  name: 'playlist-detail',
-  description: 'Detail a playlist',
-  category: 'Playlist',
-  usage: '<playlist_name> <number>',
-  aliases: ['pl-detail'],
+  name: "playlist-detail",
+  description: "Detail a playlist",
+  category: "Playlist",
+  usage: "<playlist_name> <number>",
+  aliases: ["pl-detail"],
 
   run: async (
     client: Manager,
@@ -23,12 +23,12 @@ export default {
 
     if (number && isNaN(+number))
       return message.channel.send(
-        `${client.i18n.get(language, 'music', 'number_invalid')}`
+        `${client.i18n.get(language, "music", "number_invalid")}`
       )
 
-    const Plist = value!.replace(/_/g, ' ')
+    const Plist = value!.replace(/_/g, " ")
 
-    const fullList = await client.db.get('playlist')
+    const fullList = await client.db.get("playlist")
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
@@ -40,11 +40,11 @@ export default {
 
     if (!playlist)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'detail_notfound')}`
+        `${client.i18n.get(language, "playlist", "detail_notfound")}`
       )
     if (playlist.private && playlist.owner !== message.author.id)
       return message.channel.send(
-        `${client.i18n.get(language, 'playlist', 'detail_private')}`
+        `${client.i18n.get(language, "playlist", "detail_private")}`
       )
 
     let pagesNum = Math.ceil(playlist.tracks.length / 10)
@@ -54,7 +54,7 @@ export default {
     for (let i = 0; i < playlist.tracks.length; i++) {
       const playlists = playlist.tracks[i]
       playlistStrings.push(
-        `${client.i18n.get(language, 'playlist', 'detail_track', {
+        `${client.i18n.get(language, "playlist", "detail_track", {
           num: String(i + 1),
           title: playlists.title,
           url: playlists.uri,
@@ -77,18 +77,18 @@ export default {
       const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`)
       const embed = new EmbedBuilder() //${playlist.name}'s Playlists
         .setAuthor({
-          name: `${client.i18n.get(language, 'playlist', 'detail_embed_title', {
+          name: `${client.i18n.get(language, "playlist", "detail_embed_title", {
             name: playlist.name,
           })}`,
           iconURL: message.author.displayAvatarURL(),
         })
-        .setDescription(`${str == '' ? '  Nothing' : '\n' + str}`)
+        .setDescription(`${str == "" ? "  Nothing" : "\n" + str}`)
         .setColor(client.color) //Page • ${i + 1}/${pagesNum} | ${playlist.tracks.length} • Songs | ${totalDuration} • Total duration
         .setFooter({
           text: `${client.i18n.get(
             language,
-            'playlist',
-            'detail_embed_footer',
+            "playlist",
+            "detail_embed_footer",
             {
               page: String(i + 1),
               pages: String(pagesNum),
@@ -115,11 +115,11 @@ export default {
     } else {
       if (isNaN(+number))
         return message.channel.send(
-          `${client.i18n.get(language, 'playlist', 'detail_notnumber')}`
+          `${client.i18n.get(language, "playlist", "detail_notnumber")}`
         )
       if (Number(number) > pagesNum)
         return message.channel.send(
-          `${client.i18n.get(language, 'playlist', 'detail_page_notfound', {
+          `${client.i18n.get(language, "playlist", "detail_page_notfound", {
             page: String(pagesNum),
           })}`
         )

@@ -3,7 +3,7 @@ server: # REST and WS server
   address: 0.0.0.0
 lavalink:
   server:
-    password: 'dreamvast'
+    password: "dreamvast"
     sources:
       youtube: true
       bandcamp: true
@@ -41,8 +41,8 @@ metrics:
     endpoint: /metrics
 
 sentry:
-  dsn: ''
-  environment: ''
+  dsn: ""
+  environment: ""
 #  tags:
 #    some_key: some_value
 #    another_key: another_value

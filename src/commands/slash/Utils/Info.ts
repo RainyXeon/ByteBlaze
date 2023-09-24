@@ -7,28 +7,28 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   TextChannel,
-} from 'discord.js'
-import ms from 'pretty-ms'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import ms from "pretty-ms"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['settings', 'status'],
-  description: 'Create bot status channel',
-  category: 'Utils',
+  name: ["settings", "status"],
+  description: "Create bot status channel",
+  category: "Utils",
   options: [
     {
-      name: 'type',
-      description: 'Type of channel',
+      name: "type",
+      description: "Type of channel",
       type: ApplicationCommandOptionType.String,
       required: true,
       choices: [
         {
-          name: 'Create',
-          value: 'create',
+          name: "Create",
+          value: "create",
         },
         {
-          name: 'Delete',
-          value: 'delete',
+          name: "Delete",
+          value: "delete",
         },
       ],
     },
@@ -45,38 +45,38 @@ export default {
       )
     )
       return interaction.editReply(
-        `${client.i18n.get(language, 'utilities', 'lang_perm')}`
+        `${client.i18n.get(language, "utilities", "lang_perm")}`
       )
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
-        'type'
-      ) === 'create'
+        "type"
+      ) === "create"
     ) {
       const parent = await interaction.guild!.channels.create({
         name: `${client.user!.username} Status`,
         type: ChannelType.GuildCategory,
       })
       const textChannel = await interaction.guild!.channels.create({
-        name: 'bot-status',
+        name: "bot-status",
         type: ChannelType.GuildText,
         parent: parent.id,
       })
 
       const info = new EmbedBuilder()
-        .setTitle(client.user!.tag + ' Status')
+        .setTitle(client.user!.tag + " Status")
         .addFields([
           {
-            name: 'Uptime',
+            name: "Uptime",
             value: `\`\`\`${ms(client.uptime as number)}\`\`\``,
             inline: true,
           },
           {
-            name: 'WebSocket Ping',
+            name: "WebSocket Ping",
             value: `\`\`\`${client.ws.ping}ms\`\`\``,
             inline: true,
           },
           {
-            name: 'Memory',
+            name: "Memory",
             value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
               2
             )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
@@ -85,26 +85,26 @@ export default {
             inline: true,
           },
           {
-            name: 'Guild Count',
+            name: "Guild Count",
             value: `\`\`\`${client.guilds.cache.size} guilds\`\`\``,
             inline: true,
           },
           {
-            name: 'User Count',
+            name: "User Count",
             value: `\`\`\`${client.users.cache.size} users\`\`\``,
             inline: true,
           },
           {
-            name: 'Node',
+            name: "Node",
             value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
             inline: true,
           },
           {
-            name: 'Cached Data',
+            name: "Cached Data",
             value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
             inline: true,
           },
-          { name: 'Discord.js', value: `\`\`\`${version}\`\`\``, inline: true },
+          { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
         ])
         .setTimestamp()
         .setColor(client.color)
@@ -123,7 +123,7 @@ export default {
       }
       await client.db.set(`status.guild_${interaction.guild!.id}`, data)
 
-      const interval_info = await client.interval.get('MAIN')
+      const interval_info = await client.interval.get("MAIN")
 
       if (!interval_info) {
         const interval_online = setInterval(async () => {
@@ -132,20 +132,20 @@ export default {
           )
           if (!SetupChannel) return
           const fetched_info = new EmbedBuilder()
-            .setTitle(client.user!.tag + ' Status')
+            .setTitle(client.user!.tag + " Status")
             .addFields([
               {
-                name: 'Uptime',
+                name: "Uptime",
                 value: `\`\`\`${ms(client.uptime as number)}\`\`\``,
                 inline: true,
               },
               {
-                name: 'WebSocket Ping',
+                name: "WebSocket Ping",
                 value: `\`\`\`${client.ws.ping}ms\`\`\``,
                 inline: true,
               },
               {
-                name: 'Memory',
+                name: "Memory",
                 value: `\`\`\`${(
                   process.memoryUsage().rss /
                   1024 /
@@ -158,27 +158,27 @@ export default {
                 inline: true,
               },
               {
-                name: 'Guild Count',
+                name: "Guild Count",
                 value: `\`\`\`${client.guilds.cache.size} guilds\`\`\``,
                 inline: true,
               },
               {
-                name: 'User Count',
+                name: "User Count",
                 value: `\`\`\`${client.users.cache.size} users\`\`\``,
                 inline: true,
               },
               {
-                name: 'Node',
+                name: "Node",
                 value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
                 inline: true,
               },
               {
-                name: 'Cached Data',
+                name: "Cached Data",
                 value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
                 inline: true,
               },
               {
-                name: 'Discord.js',
+                name: "Discord.js",
                 value: `\`\`\`${version}\`\`\``,
                 inline: true,
               },
@@ -195,12 +195,12 @@ export default {
           })
         }, 5000)
 
-        await client.interval.set('MAIN', interval_online)
+        await client.interval.set("MAIN", interval_online)
       }
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_msg', {
+          `${client.i18n.get(language, "setup", "setup_msg", {
             channel: String(textChannel),
           })}`
         )
@@ -210,8 +210,8 @@ export default {
 
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
-        'type'
-      ) === 'delete'
+        "type"
+      ) === "delete"
     ) {
       const SetupChannel = await client.db.get(
         `status.guild_${interaction.guild!.id}`
@@ -219,7 +219,7 @@ export default {
 
       const embed_none = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_deleted', {
+          `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: String(undefined),
           })}`
         )
@@ -236,7 +236,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_deleted', {
+          `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: String(fetchedTextChannel),
           })}`
         )
@@ -250,9 +250,9 @@ export default {
       const deleted_data = {
         guild: interaction.guild!.id,
         enable: false,
-        channel: '',
-        statmsg: '',
-        category: '',
+        channel: "",
+        statmsg: "",
+        category: "",
       }
 
       return client.db.set(

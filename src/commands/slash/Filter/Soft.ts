@@ -1,11 +1,11 @@
-import { CommandInteraction, EmbedBuilder, GuildMember } from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+import { CommandInteraction, EmbedBuilder, GuildMember } from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['filter', 'soft'],
-  description: 'Turning on soft filter',
-  category: 'Filter',
+  name: ["filter", "soft"],
+  description: "Turning on soft filter",
+  category: "Filter",
   run: async (
     interaction: CommandInteraction,
     client: Manager,
@@ -14,24 +14,24 @@ export default {
     await interaction.deferReply({ ephemeral: false })
 
     const msg = await interaction.editReply(
-      `${client.i18n.get(language, 'filters', 'filter_loading', {
-        name: 'soft',
+      `${client.i18n.get(language, "filters", "filter_loading", {
+        name: "soft",
       })}`
     )
 
     const player = client.manager.players.get(interaction.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = (interaction.member as GuildMember).voice
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: interaction.guild!.id,
       equalizer: [
         { band: 0, gain: 0 },
@@ -51,17 +51,17 @@ export default {
       ],
     }
 
-    await player['send'](data)
+    await player["send"](data)
 
     const softed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'filter_on', {
-          name: 'soft',
+        `${client.i18n.get(language, "filters", "filter_on", {
+          name: "soft",
         })}`
       )
       .setColor(client.color)
 
     await delay(2000)
-    msg.edit({ content: ' ', embeds: [softed] })
+    msg.edit({ content: " ", embeds: [softed] })
   },
 }

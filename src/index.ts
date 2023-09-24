@@ -1,3 +1,3 @@
-import { Manager } from './manager.js'
+import { Manager } from "./manager.js"
 const client = new Manager()
 client.connect()

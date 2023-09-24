@@ -1,13 +1,13 @@
-author: '%{bot} Help Command'
-welcome: '**Welcome to %{bot}!**'
-intro1: '・**%{bot}** is an advanced music bot with rich features.'
-intro2: '・Powered by RainyXeon/Cylane'
-intro3: '・Partnered with **1st services**'
-prefix: '・Bot prefix is: %{prefix}'
-intro4: '・Bot info:'
-ver: '・**Bot:** `%{botver}`'
-djs: '・**Discord.js:** `%{djsver}`'
-lavalink: '・**Autofix:** `%{aver}`'
-help1: '・To get started type: %{help}'
-help2: '・To get more info type: %{botinfo}'
-wel: 'Welcome to %{bot}!'
+author: "%{bot} Help Command"
+welcome: "**Welcome to %{bot}!**"
+intro1: "・**%{bot}** is an advanced music bot with rich features."
+intro2: "・Powered by RainyXeon/Cylane"
+intro3: "・Partnered with **1st services**"
+prefix: "・Bot prefix is: %{prefix}"
+intro4: "・Bot info:"
+ver: "・**Bot:** `%{botver}`"
+djs: "・**Discord.js:** `%{djsver}`"
+lavalink: "・**Autofix:** `%{aver}`"
+help1: "・To get started type: %{help}"
+help2: "・To get more info type: %{botinfo}"
+wel: "Welcome to %{bot}!"

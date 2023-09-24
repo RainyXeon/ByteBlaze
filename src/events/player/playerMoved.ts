@@ -1,5 +1,5 @@
-import { KazagumoPlayer, PlayerMovedChannels, PlayerMovedState } from 'kazagumo'
-import { Manager } from '../../manager.js'
+import { KazagumoPlayer, PlayerMovedChannels, PlayerMovedState } from "kazagumo"
+import { Manager } from "../../manager.js"
 
 export default async (
   client: Manager,

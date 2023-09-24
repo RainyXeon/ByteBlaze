@@ -1,12 +1,12 @@
-import { EmbedBuilder, Message } from 'discord.js'
-import delay from 'delay'
-import { Manager } from '../../../manager.js'
+import { EmbedBuilder, Message } from "discord.js"
+import delay from "delay"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'nightcore',
-  description: 'Turning on nightcore filter',
-  category: 'Filter',
-  usage: '',
+  name: "nightcore",
+  description: "Turning on nightcore filter",
+  category: "Filter",
+  usage: "",
   aliases: [],
 
   run: async (
@@ -17,23 +17,23 @@ export default {
     prefix: string
   ) => {
     const msg = await message.channel.send(
-      `${client.i18n.get(language, 'filters', 'filter_loading', {
-        name: 'nightcore',
+      `${client.i18n.get(language, "filters", "filter_loading", {
+        name: "nightcore",
       })}`
     )
 
     const player = client.manager.players.get(message.guild!.id)
     if (!player)
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_player')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
     const { channel } = message.member!.voice
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, 'noplayer', 'no_voice')}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
 
     const data = {
-      op: 'filters',
+      op: "filters",
       guildId: message.guild!.id,
       timescale: {
         speed: 1.05,
@@ -42,16 +42,16 @@ export default {
       },
     }
 
-    await player['send'](data)
+    await player["send"](data)
 
     const nightcored = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, 'filters', 'filter_on', {
-          name: 'nightcore',
+        `${client.i18n.get(language, "filters", "filter_on", {
+          name: "nightcore",
         })}`
       )
       .setColor(client.color)
 
-    msg.edit({ content: ' ', embeds: [nightcored] })
+    msg.edit({ content: " ", embeds: [nightcored] })
   },
 }

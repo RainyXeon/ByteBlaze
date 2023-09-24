@@ -1,14 +1,14 @@
-import { Manager } from '../../manager.js'
-import { PlaylistTrackInterface } from '../../types/Playlist.js'
+import { Manager } from "../../manager.js"
+import { PlaylistTrackInterface } from "../../types/Playlist.js"
 
 export default {
-  name: 'status.current_track',
+  name: "status.current_track",
   run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild)
 
     if (!player)
       return ws.send(
-        JSON.stringify({ error: '0x100', message: 'No player on this guild' })
+        JSON.stringify({ error: "0x100", message: "No player on this guild" })
       )
 
     const song = player.queue.current
@@ -27,7 +27,7 @@ export default {
 
     return ws.send(
       JSON.stringify({
-        op: 'player_start',
+        op: "player_start",
         guild: player.guildId,
         current: {
           title: song!.title,

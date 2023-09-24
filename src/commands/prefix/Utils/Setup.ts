@@ -3,15 +3,15 @@ import {
   PermissionsBitField,
   ChannelType,
   Message,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: 'setup',
-  description: 'Setup channel song request',
-  category: 'Utils',
-  aliases: ['setup-channel'],
-  usage: '<create or delete>',
+  name: "setup",
+  description: "Setup channel song request",
+  category: "Utils",
+  aliases: ["setup-channel"],
+  usage: "<create or delete>",
 
   run: async (
     client: Manager,
@@ -20,41 +20,41 @@ export default {
     language: string,
     prefix: string
   ) => {
-    let option = ['create', 'delete']
+    let option = ["create", "delete"]
     if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'lang_perm')}`
+        `${client.i18n.get(language, "utilities", "lang_perm")}`
       )
     if (!args[0] || !option.includes(args[0]))
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'arg_error', {
-          text: '(create or delete)',
+        `${client.i18n.get(language, "utilities", "arg_error", {
+          text: "(create or delete)",
         })}`
       )
 
     const choose = args[0]
 
-    if (choose === 'create') {
+    if (choose === "create") {
       const parent = await message.guild!.channels.create({
         name: `${client.user!.username} Music Zone`,
         type: ChannelType.GuildCategory,
       })
 
       const textChannel = await message.guild!.channels.create({
-        name: 'song-request',
+        name: "song-request",
         type: ChannelType.GuildText,
-        topic: `${client.i18n.get(language, 'setup', 'setup_topic')}`,
+        topic: `${client.i18n.get(language, "setup", "setup_topic")}`,
         parent: parent.id,
       })
-      const queueMsg = `${client.i18n.get(language, 'setup', 'setup_queuemsg')}`
+      const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`
 
       const playEmbed = new EmbedBuilder()
         .setColor(client.color)
         .setAuthor({
           name: `${client.i18n.get(
             language,
-            'setup',
-            'setup_playembed_author'
+            "setup",
+            "setup_playembed_author"
           )}`,
         })
         .setImage(
@@ -63,13 +63,13 @@ export default {
           }.jpeg?size=300`
         )
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_playembed_desc')}`
+          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`
         )
         .setFooter({
           text: `${client.i18n.get(
             language,
-            'setup',
-            'setup_playembed_footer'
+            "setup",
+            "setup_playembed_footer"
           )}`,
         })
 
@@ -99,7 +99,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_msg', {
+          `${client.i18n.get(language, "setup", "setup_msg", {
             channel: textChannel.name,
           })}`
         )
@@ -107,14 +107,14 @@ export default {
       return message.channel.send({ embeds: [embed] })
     }
 
-    if (choose === 'delete') {
+    if (choose === "delete") {
       const SetupChannel = await client.db.get(
         `setup.guild_${message.guild!.id}`
       )
 
       const embed_none = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_deleted', {
+          `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: String(undefined),
           })}`
         )
@@ -134,7 +134,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'setup', 'setup_deleted', {
+          `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: fetchedTextChannel?.name as string,
           })}`
         )
@@ -148,10 +148,10 @@ export default {
       const deleted_data = {
         guild: message.guild!.id,
         enable: false,
-        channel: '',
-        playmsg: '',
-        voice: '',
-        category: '',
+        channel: "",
+        playmsg: "",
+        voice: "",
+        category: "",
       }
 
       await client.db.set(`setup.guild_${deleted_data.guild}`, deleted_data)

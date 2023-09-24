@@ -6,28 +6,28 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-} from 'discord.js'
-import { connectDB } from './database/index.js'
-import { I18n } from '@hammerhq/localization'
-import { resolve } from 'path'
-import { LavalinkDataType, LavalinkUsingDataType } from './types/Lavalink.js'
-import * as configData from './plugins/config.js'
-import winstonLogger from './plugins/logger.js'
-import Spotify from 'kazagumo-spotify'
-import Deezer from 'kazagumo-deezer'
-import Nico from 'kazagumo-nico'
-import Apple from 'kazagumo-apple'
-import { Connectors } from 'shoukaku'
-import { Kazagumo, KazagumoPlayer, Plugins } from 'kazagumo'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { QuickDB } from 'quick.db'
-import check_lavalink_server from './lava_scrap/check_lavalink_server.js'
-import { WebServer } from './webserver/index.js'
-import WebSocket from 'ws'
+} from "discord.js"
+import { connectDB } from "./database/index.js"
+import { I18n } from "@hammerhq/localization"
+import { resolve } from "path"
+import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js"
+import * as configData from "./plugins/config.js"
+import winstonLogger from "./plugins/logger.js"
+import Spotify from "kazagumo-spotify"
+import Deezer from "kazagumo-deezer"
+import Nico from "kazagumo-nico"
+import Apple from "kazagumo-apple"
+import { Connectors } from "shoukaku"
+import { Kazagumo, KazagumoPlayer, Plugins } from "kazagumo"
+import { join, dirname } from "path"
+import { fileURLToPath } from "url"
+import { QuickDB } from "quick.db"
+import check_lavalink_server from "./lava_scrap/check_lavalink_server.js"
+import { WebServer } from "./webserver/index.js"
+import WebSocket from "ws"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-winstonLogger.info('Booting client...')
+winstonLogger.info("Booting client...")
 
 export class Manager extends Client {
   // Interface
@@ -63,9 +63,9 @@ export class Manager extends Client {
   // Main class
   constructor() {
     super({
-      shards: 'auto',
+      shards: "auto",
       allowedMentions: {
-        parse: ['roles', 'users', 'everyone'],
+        parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
       intents: configData.default.features.MESSAGE_CONTENT.enable
@@ -87,12 +87,12 @@ export class Manager extends Client {
     this.token = this.config.bot.TOKEN
     this.owner = this.config.bot.OWNER_ID
     this.dev = this.config.bot.DEV_ID
-    this.color = this.config.bot.EMBED_COLOR || '#2b2d31'
+    this.color = this.config.bot.EMBED_COLOR || "#2b2d31"
     this.i18n = new I18n({
-      defaultLocale: this.config.bot.LANGUAGE || 'en',
-      directory: resolve(join(__dirname, 'languages')),
+      defaultLocale: this.config.bot.LANGUAGE || "en",
+      directory: resolve(join(__dirname, "languages")),
     })
-    this.prefix = this.config.features.MESSAGE_CONTENT.prefix || 'd!'
+    this.prefix = this.config.features.MESSAGE_CONTENT.prefix || "d!"
     this.shard_status = false
 
     // Auto fix lavalink varibles
@@ -114,11 +114,11 @@ export class Manager extends Client {
     this.aliases = new Collection()
     this.is_db_connected = false
 
-    process.on('unhandledRejection', (error) =>
-      this.logger.log({ level: 'error', message: error })
+    process.on("unhandledRejection", (error) =>
+      this.logger.log({ level: "error", message: error })
     )
-    process.on('uncaughtException', (error) =>
-      this.logger.log({ level: 'error', message: error })
+    process.on("uncaughtException", (error) =>
+      this.logger.log({ level: "error", message: error })
     )
 
     if (
@@ -126,13 +126,13 @@ export class Manager extends Client {
       (!this.config.features.WEB_SERVER.websocket.secret ||
         this.config.features.WEB_SERVER.websocket.secret.length == 0)
     ) {
-      this.logger.error('Must have secret in your ws config for secure!')
+      this.logger.error("Must have secret in your ws config for secure!")
       process.exit()
     }
 
     this.manager = new Kazagumo(
       {
-        defaultSearchEngine: 'youtube',
+        defaultSearchEngine: "youtube",
         // MAKE SURE YOU HAVE THIS
         send: (guildId, payload) => {
           const guild = this.guilds.cache.get(guildId)
@@ -150,13 +150,13 @@ export class Manager extends Client {
               new Deezer(),
               new Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
-              new Apple({ countryCode: "us" })
+              new Apple({ countryCode: "us" }),
             ]
           : [
               new Deezer(),
               new Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
-              new Apple({ countryCode: "us" })
+              new Apple({ countryCode: "us" }),
             ],
       },
       new Connectors.DiscordJS(this),
@@ -177,14 +177,14 @@ export class Manager extends Client {
       WebServer(this)
     }
     const loadFile = [
-      'loadEvents.js',
-      'loadNodeEvents.js',
-      'loadPlayer.js',
-      'loadWebsocket.js',
-      'loadCommand.js',
+      "loadEvents.js",
+      "loadNodeEvents.js",
+      "loadPlayer.js",
+      "loadWebsocket.js",
+      "loadCommand.js",
     ]
     if (!this.config.features.WEB_SERVER.websocket.enable)
-      loadFile.splice(loadFile.indexOf('loadWebsocket.js'), 1)
+      loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1)
     loadFile.forEach(async (x) => {
       ;(await import(`./handlers/${x}`)).default(this)
     })

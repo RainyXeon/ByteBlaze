@@ -1,10 +1,10 @@
-import { load } from 'js-yaml'
-import { prase } from './prase/index.js'
-import { config } from 'dotenv'
+import { load } from "js-yaml"
+import { prase } from "./prase/index.js"
+import { config } from "dotenv"
 config()
 let doc
 
-const yaml_files = prase('./app.yml')
+const yaml_files = prase("./app.yml")
 
 try {
   const res = load(yaml_files)

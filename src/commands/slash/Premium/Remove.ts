@@ -3,24 +3,24 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from 'discord.js'
-import { Manager } from '../../../manager.js'
+} from "discord.js"
+import { Manager } from "../../../manager.js"
 
 export default {
-  name: ['premium', 'remove'],
-  description: 'Remove premium from members!',
-  category: 'Premium',
+  name: ["premium", "remove"],
+  description: "Remove premium from members!",
+  category: "Premium",
   owner: true,
   options: [
     {
-      name: 'target',
-      description: 'Mention a user want to remove!',
+      name: "target",
+      description: "Mention a user want to remove!",
       required: false,
       type: ApplicationCommandOptionType.User,
     },
     {
-      name: 'id',
-      description: 'The user id you want to remove!',
+      name: "id",
+      description: "The user id you want to remove!",
       required: false,
       type: ApplicationCommandOptionType.String,
     },
@@ -34,22 +34,22 @@ export default {
 
     await interaction.deferReply({ ephemeral: false })
 
-    const mentions = interaction.options.getUser('target')
+    const mentions = interaction.options.getUser("target")
 
     const id = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString('id')
+    ).getString("id")
 
     if (!id && !mentions)
       return interaction.editReply({
-        content: `${client.i18n.get(language, 'premium', 'remove_no_params')}`,
+        content: `${client.i18n.get(language, "premium", "remove_no_params")}`,
       })
     if (id && mentions)
       return interaction.editReply({
         content: `${client.i18n.get(
           language,
-          'premium',
-          'remove_only_params'
+          "premium",
+          "remove_only_params"
         )}`,
       })
     if (id && !mentions) db = await client.db.get(`premium.user_${id}`)
@@ -57,7 +57,7 @@ export default {
 
     if (!db)
       return interaction.editReply({
-        content: `${client.i18n.get(language, 'premium', 'remove_404', {
+        content: `${client.i18n.get(language, "premium", "remove_404", {
           userid: String(id),
         })}`,
       })
@@ -77,7 +77,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'remove_desc', {
+          `${client.i18n.get(language, "premium", "remove_desc", {
             user: String(mentions),
           })}`
         )
@@ -87,7 +87,7 @@ export default {
     } else {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, 'premium', 'remove_already', {
+          `${client.i18n.get(language, "premium", "remove_already", {
             user: String(mentions),
           })}`
         )

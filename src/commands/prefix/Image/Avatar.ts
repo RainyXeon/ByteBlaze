@@ -1,17 +1,17 @@
-import { Manager } from '../../../manager.js'
+import { Manager } from "../../../manager.js"
 
 import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-} from 'discord.js'
+} from "discord.js"
 
 export default {
-  name: 'avatar',
+  name: "avatar",
   description: "Show your or someone else's profile picture",
-  category: 'Image',
-  usage: '<mention>',
+  category: "Image",
+  usage: "<mention>",
   aliases: [],
 
   run: async (
@@ -25,14 +25,14 @@ export default {
 
     if (!value)
       return message.channel.send(
-        `${client.i18n.get(language, 'utilities', 'arg_error', {
-          text: '@mention',
+        `${client.i18n.get(language, "utilities", "arg_error", {
+          text: "@mention",
         })}`
       )
 
     if (value) {
       const embed = new EmbedBuilder()
-        .setTitle(value.username + ' ' + value.discriminator)
+        .setTitle(value.username + " " + value.discriminator)
         .setImage(
           `https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`
         )
@@ -45,9 +45,9 @@ export default {
     } else {
       const embed = new EmbedBuilder()
         .setTitle(
-          message.author.username + message.author.discriminator == '0'
-            ? ''
-            : '#' + message.author.discriminator
+          message.author.username + message.author.discriminator == "0"
+            ? ""
+            : "#" + message.author.discriminator
         )
         .setImage(
           `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.jpeg?size=300`
