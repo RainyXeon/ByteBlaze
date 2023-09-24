@@ -112,10 +112,6 @@ export default async (
       iconURL: `${client.i18n.get(language, "player", "track_icon")}`,
     })
     .setDescription(`**[${track.title}](${track.uri})**`)
-    .setColor(client.color)
-    .setThumbnail(
-      `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-    )
     .addFields([
       {
         name: `${client.i18n.get(language, "player", "author_title")}`,
@@ -128,23 +124,8 @@ export default async (
         inline: true,
       },
       {
-        name: `${client.i18n.get(language, "player", "volume_title")}`,
-        value: `${player.volume * 100}%`,
-        inline: true,
-      },
-      {
-        name: `${client.i18n.get(language, "player", "queue_title")}`,
-        value: `${player.queue.length}`,
-        inline: true,
-      },
-      {
         name: `${client.i18n.get(language, "player", "duration_title")}`,
         value: `${formatduration(song!.length)}`,
-        inline: true,
-      },
-      {
-        name: `${client.i18n.get(language, "player", "total_duration_title")}`,
-        value: `${formatduration(TotalDuration)}`,
         inline: true,
       },
       {
@@ -154,14 +135,16 @@ export default async (
         } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
         inline: false,
       },
-      {
-        name: `${client.i18n.get(language, "player", "current_duration_title", {
-          current_duration: formatduration(song!.length),
-        })}`,
-        value: `\`\`\`🔴 | 🎶──────────────────────────────\`\`\``,
-        inline: false,
-      },
     ])
+    .setColor(client.color)
+    .setThumbnail(
+      `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
+    )
+    .setFooter({
+      text: `${client.i18n.get(language, "player", "queue_title")} ${
+        player.queue.length + 1
+      }`,
+    })
     .setTimestamp();
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents([

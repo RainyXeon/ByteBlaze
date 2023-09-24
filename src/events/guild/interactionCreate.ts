@@ -10,7 +10,9 @@ import { Manager } from "../../manager.js";
 import {
   AutocompleteInteractionChoices,
   GlobalInteraction,
+  NoAutoInteraction,
 } from "../../types/Interaction.js";
+import yts from "yt-search";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -31,7 +33,8 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     interaction.isCommand() ||
     interaction.isContextMenuCommand() ||
     interaction.isModalSubmit() ||
-    interaction.isChatInputCommand()
+    interaction.isChatInputCommand() ||
+    interaction.isAutocomplete()
   ) {
     if (!interaction.guild || interaction.user.bot) return;
 
@@ -163,7 +166,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     client.logger.info(`${msg_cmd.join(" ")}`);
 
     if (command.owner && interaction.user.id != client.owner)
-      return interaction.reply(
+      return (interaction as NoAutoInteraction).reply(
         `${client.i18n.get(language, "interaction", "owner_only")}`
       );
 
@@ -186,12 +189,15 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
             .setColor(client.color)
             .setTimestamp();
 
-          return interaction.reply({ content: " ", embeds: [embed] });
+          return (interaction as NoAutoInteraction).reply({
+            content: " ",
+            embeds: [embed],
+          });
         }
       }
     } catch (err) {
       client.logger.error(err);
-      return interaction.reply({
+      return (interaction as NoAutoInteraction).reply({
         content: `${client.i18n.get(language, "nopremium", "premium_error")}`,
       });
     }
@@ -215,7 +221,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         PermissionsBitField.Flags.EmbedLinks
       )
     )
-      return interaction.reply(
+      return (interaction as NoAutoInteraction).reply(
         `${client.i18n.get(language, "interaction", "no_perms")}`
       );
     if (!((interaction as CommandInteraction).commandName == "help")) {
@@ -224,7 +230,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
           PermissionsBitField.Flags.Speak
         )
       )
-        return interaction.reply(
+        return (interaction as NoAutoInteraction).reply(
           `${client.i18n.get(language, "interaction", "no_perms")}`
         );
       if (
@@ -232,7 +238,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
           PermissionsBitField.Flags.Connect
         )
       )
-        return interaction.reply(
+        return (interaction as NoAutoInteraction).reply(
           `${client.i18n.get(language, "interaction", "no_perms")}`
         );
       if (
@@ -240,7 +246,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
           PermissionsBitField.Flags.ManageMessages
         )
       )
-        return interaction.reply(
+        return (interaction as NoAutoInteraction).reply(
           `${client.i18n.get(language, "interaction", "no_perms")}`
         );
       if (
@@ -248,14 +254,14 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
           PermissionsBitField.Flags.ManageChannels
         )
       )
-        return await interaction.reply(
+        return await (interaction as NoAutoInteraction).reply(
           `${client.i18n.get(language, "interaction", "no_perms")}`
         );
     }
 
     if (command.lavalink) {
       if (client.lavalink_using.length == 0)
-        return interaction.reply(
+        return (interaction as NoAutoInteraction).reply(
           `${client.i18n.get(language, "music", "no_node")}`
         );
     }
@@ -269,7 +275,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
           level: "error",
           message: error,
         });
-        return interaction.editReply({
+        return (interaction as NoAutoInteraction).editReply({
           content: `${client.i18n.get(
             language,
             "interaction",

@@ -17,6 +17,12 @@ export type GlobalInteraction =
   | ModalSubmitInteraction
   | AutocompleteInteraction;
 
+export type NoAutoInteraction =
+  | CommandInteraction
+  | AnySelectMenuInteraction
+  | ButtonInteraction
+  | ModalSubmitInteraction;
+
 export type AutocompleteInteractionChoices = {
   name: string;
   value: string;

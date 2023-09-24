@@ -39,6 +39,12 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   const language = guildModel;
 
+  const embed = new EmbedBuilder()
+    .setColor(client.color)
+    .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`);
+
+  if (channel) channel.send({ embeds: [embed] });
+
   /////////// Update Music Setup ///////////
 
   await client.UpdateMusic(player);
