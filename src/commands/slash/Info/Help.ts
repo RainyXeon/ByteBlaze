@@ -5,11 +5,11 @@ import {
   StringSelectMenuOptionBuilder,
   CommandInteraction,
   AnyComponentBuilder,
-} from "discord.js"
-import { readdirSync } from "fs"
-import { stripIndents } from "common-tags"
-import { Manager } from "../../../manager.js"
-import fs from "fs"
+} from "discord.js";
+import { readdirSync } from "fs";
+import { stripIndents } from "common-tags";
+import { Manager } from "../../../manager.js";
+import fs from "fs";
 
 export default {
   name: ["help"],
@@ -20,9 +20,9 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
-    const category = readdirSync("./src/commands/slash")
+    const category = readdirSync("./src/commands/slash");
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -54,7 +54,7 @@ export default {
             `
       )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
       new StringSelectMenuBuilder()
@@ -69,10 +69,10 @@ export default {
           category.map((category) => {
             return new StringSelectMenuOptionBuilder()
               .setLabel(category)
-              .setValue(category)
+              .setValue(category);
           })
         ),
-    ])
+    ]);
 
     interaction
       .editReply({ embeds: [embed], components: [row] })
@@ -83,14 +83,14 @@ export default {
             i.user &&
             i.message.author.id == client.user!.id,
           time: 60000,
-        })
+        });
         collector.on("collect", async (m) => {
           if (m.isStringSelectMenu()) {
             if (m.customId === "help-category") {
-              await m.deferUpdate()
-              let [directory] = m.values
+              await m.deferUpdate();
+              let [directory] = m.values;
 
-              const cmd = client.slash.filter((c) => c.name === "music")
+              const cmd = client.slash.filter((c) => c.name === "music");
 
               const embed = new EmbedBuilder()
                 .setAuthor({
@@ -117,12 +117,12 @@ export default {
                     interaction.guild!.members.me!.displayName
                   } | Total Commands: ${client.slash.size}`,
                   iconURL: client.user!.displayAvatarURL(),
-                })
+                });
 
-              msg.edit({ embeds: [embed] })
+              msg.edit({ embeds: [embed] });
             }
           }
-        })
+        });
 
         collector.on("end", async (collected, reason) => {
           if (reason === "time") {
@@ -132,11 +132,11 @@ export default {
                   prefix: "/",
                 })}`
               )
-              .setColor(client.color)
+              .setColor(client.color);
 
-            msg.edit({ embeds: [timed], components: [] })
+            msg.edit({ embeds: [timed], components: [] });
           }
-        })
-      })
+        });
+      });
   },
-}
+};

@@ -1,13 +1,13 @@
-import { ButtonStyle, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { ButtonStyle, Message } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   version,
-} from "discord.js"
-import ms from "pretty-ms"
+} from "discord.js";
+import ms from "pretty-ms";
 
 export default {
   name: "status",
@@ -73,7 +73,7 @@ export default {
         { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
       ])
       .setTimestamp()
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
@@ -84,7 +84,7 @@ export default {
             client.user!.id
           }&permissions=8&scope=bot%20applications.commands`
         )
-    )
-    await message.reply({ embeds: [info], components: [row] })
+    );
+    await message.reply({ embeds: [info], components: [row] });
   },
-}
+};

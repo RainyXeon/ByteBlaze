@@ -1,11 +1,11 @@
-import { Manager } from "../../../manager.js"
+import { Manager } from "../../../manager.js";
 
 import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-} from "discord.js"
+} from "discord.js";
 
 export default {
   name: "avatar",
@@ -21,14 +21,14 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const value = message.mentions.users.first()
+    const value = message.mentions.users.first();
 
     if (!value)
       return message.channel.send(
         `${client.i18n.get(language, "utilities", "arg_error", {
           text: "@mention",
         })}`
-      )
+      );
 
     if (value) {
       const embed = new EmbedBuilder()
@@ -40,8 +40,8 @@ export default {
         .setFooter({
           text: `© ${message.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
-        })
-      await message.channel.send({ embeds: [embed] })
+        });
+      await message.channel.send({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setTitle(
@@ -56,8 +56,8 @@ export default {
         .setFooter({
           text: `© ${message.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
-        })
-      await message.channel.send({ embeds: [embed] })
+        });
+      await message.channel.send({ embeds: [embed] });
     }
   },
-}
+};

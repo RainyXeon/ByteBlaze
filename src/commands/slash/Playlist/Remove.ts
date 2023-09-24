@@ -3,8 +3,8 @@ import {
   CommandInteraction,
   ApplicationCommandOptionType,
   CommandInteractionOptionResolver,
-} from "discord.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["playlist", "remove"],
@@ -29,48 +29,48 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name")
+    ).getString("name");
     const pos = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger("postion")
+    ).getInteger("postion");
 
-    const Plist = value!.replace(/_/g, " ")
-    const fullList = await client.db.get("playlist")
+    const Plist = value!.replace(/_/g, " ");
+    const fullList = await client.db.get("playlist");
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
         fullList[key].owner == interaction.user.id &&
         fullList[key].name == Plist
-      )
-    })
+      );
+    });
 
-    const playlist = fullList[pid[0]]
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "remove_notfound")}`
-      )
+      );
     if (playlist.owner !== interaction.user.id)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "remove_owner")}`
-      )
+      );
 
-    const position = pos
+    const position = pos;
 
-    const song = playlist.tracks[position! - 1]
+    const song = playlist.tracks[position! - 1];
     if (!song)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "remove_song_notfound")}`
-      )
+      );
 
     await client.db.pull(
       `playlist.${pid[0]}.tracks`,
       playlist.tracks[position! - 1]
-    )
+    );
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -79,7 +79,7 @@ export default {
           position: String(pos),
         })}`
       )
-      .setColor(client.color)
-    interaction.editReply({ embeds: [embed] })
+      .setColor(client.color);
+    interaction.editReply({ embeds: [embed] });
   },
-}
+};

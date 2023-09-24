@@ -1,14 +1,14 @@
-import { Message } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { Message } from "discord.js";
+import { Manager } from "../../../manager.js";
 import {
   EmbedBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
-} from "discord.js"
-import { readdirSync } from "fs"
-import { stripIndents } from "common-tags"
-import fs from "fs"
+} from "discord.js";
+import { readdirSync } from "fs";
+import { stripIndents } from "common-tags";
+import fs from "fs";
 
 export default {
   name: "help",
@@ -31,11 +31,11 @@ export default {
         })
         .setDescription(`The bot prefix is: \`${prefix} or /\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-        .setColor(client.color)
+        .setColor(client.color);
 
       let command = client.commands.get(
         client.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase()
-      )
+      );
       if (!command)
         return message.channel.send({
           embeds: [
@@ -45,7 +45,7 @@ export default {
                 `Do \`${prefix}help\` for the list of the commands.`
               ),
           ],
-        })
+        });
 
       embed.setDescription(stripIndents`The client's prefix is: \`${prefix}\`\n
             **Command:** ${
@@ -64,12 +64,12 @@ export default {
               command.aliases && command.aliases.length !== 0
                 ? command.aliases.join(", ")
                 : "None."
-            }`)
+            }`);
 
-      return message.channel.send({ embeds: [embed] })
+      return message.channel.send({ embeds: [embed] });
     }
 
-    const category = readdirSync("./src/commands/prefix")
+    const category = readdirSync("./src/commands/prefix");
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -111,7 +111,7 @@ export default {
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
-      })
+      });
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
       new StringSelectMenuBuilder()
@@ -126,10 +126,10 @@ export default {
           category.map((category: string) => {
             return new StringSelectMenuOptionBuilder()
               .setLabel(category)
-              .setValue(category)
+              .setValue(category);
           })
         ),
-    ])
+    ]);
 
     message.reply({ embeds: [embed], components: [row] }).then(async (msg) => {
       let collector = await msg.createMessageComponentCollector({
@@ -138,14 +138,14 @@ export default {
           i.user &&
           i.message.author.id == client.user!.id,
         time: 60000,
-      })
+      });
       collector.on("collect", async (m) => {
         if (m.isStringSelectMenu()) {
           if (m.customId === "help-category") {
-            await m.deferUpdate()
-            let [directory] = m.values
+            await m.deferUpdate();
+            let [directory] = m.values;
 
-            const cmd = client.commands.filter((c) => c.name === "music")
+            const cmd = client.commands.filter((c) => c.name === "music");
 
             const embed = new EmbedBuilder()
               .setAuthor({
@@ -172,12 +172,12 @@ export default {
                   message.guild!.members.me!.displayName
                 } | Total Commands: ${client.commands.size}`,
                 iconURL: client.user!.displayAvatarURL(),
-              })
+              });
 
-            msg.edit({ embeds: [embed] })
+            msg.edit({ embeds: [embed] });
           }
         }
-      })
+      });
 
       collector.on("end", async (collected, reason) => {
         if (reason === "time") {
@@ -187,11 +187,11 @@ export default {
                 prefix: prefix,
               })}`
             )
-            .setColor(client.color)
+            .setColor(client.color);
 
-          msg.edit({ embeds: [timed], components: [] })
+          msg.edit({ embeds: [timed], components: [] });
         }
-      })
-    })
+      });
+    });
   },
-}
+};

@@ -1,9 +1,9 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo"
-import { Manager } from "../../manager.js"
-import { ButtonStyle, TextChannel } from "discord.js"
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
-import formatduration from "../../structures/FormatDuration.js"
-import { QueueDuration } from "../../structures/QueueDuration.js"
+import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
+import { Manager } from "../../manager.js";
+import { ButtonStyle, TextChannel } from "discord.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
+import formatduration from "../../structures/FormatDuration.js";
+import { QueueDuration } from "../../structures/QueueDuration.js";
 
 export default async (
   client: Manager,
@@ -13,45 +13,48 @@ export default async (
   if (!client.is_db_connected)
     return client.logger.warn(
       "The database is not yet connected so this event will temporarily not execute. Please try again later!"
-    )
+    );
 
-  const guild = await client.guilds.cache.get(player.guildId)
-  client.logger.info(`Player Started in @ ${guild!.name} / ${player.guildId}`)
+  const guild = await client.guilds.cache.get(player.guildId);
+  client.logger.info(`Player Started in @ ${guild!.name} / ${player.guildId}`);
 
-  let Control = await client.db.get(`control.guild_${player.guildId}`)
+  let Control = await client.db.get(`control.guild_${player.guildId}`);
   if (!Control) {
-    await client.db.set(`control.guild_${player.guildId}`, "disable")
-    Control = client.db.get(`control.guild_${player.guildId}`)
+    await client.db.set(`control.guild_${player.guildId}`, "disable");
+    Control = client.db.get(`control.guild_${player.guildId}`);
   }
 
-  if (!player) return
+  if (!player) return;
 
   /////////// Update Music Setup ///////////
 
-  await client.UpdateQueueMsg(player)
+  await client.UpdateQueueMsg(player);
 
   /////////// Update Music Setup ///////////
 
-  const channel = client.channels.cache.get(player.textId) as TextChannel
-  if (!channel) return
+  const channel = client.channels.cache.get(player.textId) as TextChannel;
+  if (!channel) return;
 
-  let data = await client.db.get(`setup.guild_${channel.guild.id}`)
-  if (data && player.textId === data.channel.id) return
+  let data = await client.db.get(`setup.guild_${channel.guild.id}`);
+  if (data && player.textId === data.channel.id) return;
 
-  let guildModel = await client.db.get(`language.guild_${channel.guild.id}`)
+  let guildModel = await client.db.get(`language.guild_${channel.guild.id}`);
   if (!guildModel) {
-    guildModel = await client.db.set(`language.guild_${channel.guild.id}`, "en")
+    guildModel = await client.db.set(
+      `language.guild_${channel.guild.id}`,
+      "en"
+    );
   }
 
-  const language = guildModel
+  const language = guildModel;
 
-  const song = player.queue.current
-  const position = player.shoukaku.position
+  const song = player.queue.current;
+  const position = player.shoukaku.position;
 
-  const TotalDuration = QueueDuration(player)
+  const TotalDuration = QueueDuration(player);
 
   if (client.websocket && client.config.features.WEBSOCKET.enable) {
-    let webqueue = []
+    let webqueue = [];
 
     player.queue.forEach((track) => {
       webqueue.push({
@@ -61,8 +64,8 @@ export default async (
         thumbnail: track.thumbnail,
         author: track.author,
         requester: track.requester, // Just case can push
-      })
-    })
+      });
+    });
 
     await webqueue.unshift({
       title: song!.title,
@@ -71,7 +74,7 @@ export default async (
       thumbnail: song!.thumbnail,
       author: song!.author,
       requester: song!.requester,
-    })
+    });
 
     if (client.websocket && client.config.features.WEBSOCKET.enable)
       await client.websocket.send(
@@ -87,7 +90,7 @@ export default async (
             requester: song!.requester,
           },
         })
-      )
+      );
 
     if (!client.sent_queue.get(player.guildId)) {
       client.websocket.send(
@@ -96,12 +99,12 @@ export default async (
           guild: player.guildId,
           queue: webqueue || [],
         })
-      )
-      client.sent_queue.set(player.guildId, true)
+      );
+      client.sent_queue.set(player.guildId, true);
     }
   }
 
-  if (Control === "disable") return
+  if (Control === "disable") return;
 
   const embeded = new EmbedBuilder()
     .setAuthor({
@@ -159,7 +162,7 @@ export default async (
         inline: false,
       },
     ])
-    .setTimestamp()
+    .setTimestamp();
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
@@ -186,7 +189,7 @@ export default async (
       .setCustomId("loop")
       .setEmoji("🔄")
       .setStyle(ButtonStyle.Success),
-  ])
+  ]);
 
   const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
@@ -213,16 +216,16 @@ export default async (
       .setCustomId("queue")
       .setEmoji("📋")
       .setStyle(ButtonStyle.Success),
-  ])
+  ]);
 
   const playing_channel = (await client.channels.cache.get(
     player.textId
-  )) as TextChannel
+  )) as TextChannel;
 
   const nplaying = await playing_channel.send({
     embeds: [embeded],
     components: [row, row2],
-  })
+  });
 
   const collector = await nplaying.createMessageComponentCollector({
     filter: (message) => {
@@ -231,28 +234,28 @@ export default async (
         message.guild!.members.me!.voice.channelId ===
           message.member!.voice.channelId
       )
-        return true
+        return true;
       else {
         message.reply({
           content: `${client.i18n.get(language, "player", "join_voice")}`,
           ephemeral: true,
-        })
-        return false
+        });
+        return false;
       }
     },
     time: song!.length,
-  })
+  });
 
   collector.on("collect", async (message: any) => {
-    const id = message.customId
+    const id = message.customId;
     if (id === "pause") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
-      await player.pause(!player.paused)
+      await player.pause(!player.paused);
       const uni = player.paused
         ? `${client.i18n.get(language, "player", "switch_pause")}`
-        : `${client.i18n.get(language, "player", "switch_resume")}`
+        : `${client.i18n.get(language, "player", "switch_resume")}`;
 
       if (client.websocket && client.config.features.WEBSOCKET.enable)
         await client.websocket.send(
@@ -260,7 +263,7 @@ export default async (
             op: player.paused ? 3 : 4,
             guild: player.guildId,
           })
-        )
+        );
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -268,14 +271,14 @@ export default async (
             pause: uni,
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
-      message.reply({ embeds: [embed], ephemeral: true })
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "skip") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
-      await player.skip()
+      await player.skip();
 
       if (client.websocket && client.config.features.WEBSOCKET.enable)
         await client.websocket.send(
@@ -283,17 +286,17 @@ export default async (
             op: "skip_track",
             guild: player.guildId,
           })
-        )
+        );
 
       const embed = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "player", "skip_msg")}`)
-        .setColor(client.color)
+        .setColor(client.color);
 
-      await nplaying.edit({ embeds: [embeded], components: [] })
-      message.reply({ embeds: [embed], ephemeral: true })
+      await nplaying.edit({ embeds: [embeded], components: [] });
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "stop") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
 
       if (client.websocket && client.config.features.WEBSOCKET.enable)
@@ -302,54 +305,54 @@ export default async (
             op: "player_destroy",
             guild: player.guildId,
           })
-        )
+        );
 
-      await player.destroy()
+      await player.destroy();
 
       const embed = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "player", "stop_msg")}`)
-        .setColor(client.color)
+        .setColor(client.color);
 
-      await nplaying.edit({ embeds: [embeded], components: [] })
-      message.reply({ embeds: [embed], ephemeral: true })
+      await nplaying.edit({ embeds: [embeded], components: [] });
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "shuffle") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
-      await player.queue.shuffle()
+      await player.queue.shuffle();
 
       const embed = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "player", "shuffle_msg")}`)
-        .setColor(client.color)
+        .setColor(client.color);
 
-      message.reply({ embeds: [embed], ephemeral: true })
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "loop") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
       const loop_mode = {
         none: "none",
         track: "track",
         queue: "queue",
-      }
+      };
 
       if (player.loop === "queue") {
-        await player.setLoop(loop_mode.none as "none" | "queue" | "track")
+        await player.setLoop(loop_mode.none as "none" | "queue" | "track");
 
         const unloopall = new EmbedBuilder()
           .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
-          .setColor(client.color)
-        return await message.reply({ content: " ", embeds: [unloopall] })
+          .setColor(client.color);
+        return await message.reply({ content: " ", embeds: [unloopall] });
       } else if (player.loop === "none") {
-        await player.setLoop(loop_mode.queue as "none" | "queue" | "track")
+        await player.setLoop(loop_mode.queue as "none" | "queue" | "track");
         const loopall = new EmbedBuilder()
           .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
-          .setColor(client.color)
-        return await message.reply({ content: " ", embeds: [loopall] })
+          .setColor(client.color);
+        return await message.reply({ content: " ", embeds: [loopall] });
       }
     } else if (id === "volup") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
 
       const embed = new EmbedBuilder()
@@ -358,16 +361,16 @@ export default async (
             volume: `${player.volume * 100 + 10}`,
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
       if (player.volume * 100 == 100)
-        return message.reply({ embeds: [embed], ephemeral: true })
+        return message.reply({ embeds: [embed], ephemeral: true });
 
-      await player.setVolume(player.volume * 100 + 10)
-      message.reply({ embeds: [embed], ephemeral: true })
+      await player.setVolume(player.volume * 100 + 10);
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "voldown") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
 
       const embed = new EmbedBuilder()
@@ -376,56 +379,56 @@ export default async (
             volume: `${player.volume * 100 - 10}`,
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
       if (player.volume * 100 == 0)
-        return message.reply({ embeds: [embed], ephemeral: true })
+        return message.reply({ embeds: [embed], ephemeral: true });
 
-      await player.setVolume(player.volume * 100 - 10)
+      await player.setVolume(player.volume * 100 - 10);
 
-      message.reply({ embeds: [embed], ephemeral: true })
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "replay") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
       await player["send"]({
         op: "seek",
         guildId: message.guild.id,
         position: 0,
-      })
+      });
 
       const embed = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "player", "replay_msg")}`)
-        .setColor(client.color)
+        .setColor(client.color);
 
-      message.reply({ embeds: [embed], ephemeral: true })
+      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "queue") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
-      const song = player.queue.current
-      const qduration = `${formatduration(song!.length)}`
+      const song = player.queue.current;
+      const qduration = `${formatduration(song!.length)}`;
       const thumbnail = `https://img.youtube.com/vi/${
         song!.identifier
-      }/hqdefault.jpg`
+      }/hqdefault.jpg`;
 
-      let pagesNum = Math.ceil(player.queue.length / 10)
-      if (pagesNum === 0) pagesNum = 1
+      let pagesNum = Math.ceil(player.queue.length / 10);
+      if (pagesNum === 0) pagesNum = 1;
 
-      const songStrings = []
+      const songStrings = [];
       for (let i = 0; i < player.queue.length; i++) {
-        const song = player.queue[i]
+        const song = player.queue[i];
         songStrings.push(
           `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatduration(
             song.length
           )}]\`
             `
-        )
+        );
       }
 
-      const pages = []
+      const pages = [];
       for (let i = 0; i < pagesNum; i++) {
-        const str = songStrings.slice(i * 10, i * 10 + 10).join("")
+        const str = songStrings.slice(i * 10, i * 10 + 10).join("");
 
         const embed = new EmbedBuilder()
           .setAuthor({
@@ -452,27 +455,27 @@ export default async (
               queue_lang: `${player.queue.length}`,
               total_duration: qduration,
             })}`,
-          })
+          });
 
-        pages.push(embed)
+        pages.push(embed);
       }
-      message.reply({ embeds: [pages[0]], ephemeral: true })
+      message.reply({ embeds: [pages[0]], ephemeral: true });
     } else if (id === "clear") {
       if (!player) {
-        collector.stop()
+        collector.stop();
       }
-      await player.queue.clear()
+      await player.queue.clear();
 
       const embed = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "player", "clear_msg")}`)
-        .setColor(client.color)
+        .setColor(client.color);
 
-      message.reply({ embeds: [embed], ephemeral: true })
+      message.reply({ embeds: [embed], ephemeral: true });
     }
-  })
+  });
   collector.on("end", async (collected: any, reason: string) => {
     if (reason === "time") {
-      nplaying.edit({ embeds: [embeded], components: [] })
+      nplaying.edit({ embeds: [embeded], components: [] });
     }
-  })
-}
+  });
+};

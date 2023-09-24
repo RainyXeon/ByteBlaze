@@ -1,6 +1,6 @@
-import { Message } from "discord.js"
-import { Manager } from "../../../manager.js"
-import { EmbedBuilder } from "discord.js"
+import { Message } from "discord.js";
+import { Manager } from "../../../manager.js";
+import { EmbedBuilder } from "discord.js";
 
 export default {
   name: "restart",
@@ -26,10 +26,10 @@ export default {
       .setFooter({
         text: `© ${message.guild!.members.me!.displayName}`,
         iconURL: client.user!.displayAvatarURL(),
-      })
+      });
 
-    await message.channel.send({ embeds: [restart] })
+    await message.channel.send({ embeds: [restart] });
 
-    process.exit()
+    process.exit();
   },
-}
+};

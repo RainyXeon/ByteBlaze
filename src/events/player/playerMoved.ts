@@ -1,5 +1,9 @@
-import { KazagumoPlayer, PlayerMovedChannels, PlayerMovedState } from "kazagumo"
-import { Manager } from "../../manager.js"
+import {
+  KazagumoPlayer,
+  PlayerMovedChannels,
+  PlayerMovedState,
+} from "kazagumo";
+import { Manager } from "../../manager.js";
 
 export default async (
   client: Manager,
@@ -7,7 +11,7 @@ export default async (
   state: PlayerMovedState,
   channels: PlayerMovedChannels
 ) => {
-  const guild = await client.guilds.cache.get(player.guildId)
-  client.logger.info(`Player Moved in @ ${guild!.name} / ${player.guildId}`)
-  return player.setVoiceChannel(player.voiceId!)
-}
+  const guild = await client.guilds.cache.get(player.guildId);
+  client.logger.info(`Player Moved in @ ${guild!.name} / ${player.guildId}`);
+  return player.setVoiceChannel(player.voiceId!);
+};

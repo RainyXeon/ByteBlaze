@@ -1,17 +1,17 @@
-import { KazagumoPlayer } from "kazagumo"
-import { Manager } from "../../manager.js"
-import { EmbedBuilder, Client, TextChannel } from "discord.js"
+import { KazagumoPlayer } from "kazagumo";
+import { Manager } from "../../manager.js";
+import { EmbedBuilder, Client, TextChannel } from "discord.js";
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
     return client.logger.warn(
       "The database is not yet connected so this event will temporarily not execute. Please try again later!"
-    )
+    );
 
-  const guild = await client.guilds.cache.get(player.guildId)
-  client.logger.info(`Player End in @ ${guild!.name} / ${player.guildId}`)
+  const guild = await client.guilds.cache.get(player.guildId);
+  client.logger.info(`Player End in @ ${guild!.name} / ${player.guildId}`);
 
   if (client.websocket) {
-    const song = player.queue.previous
+    const song = player.queue.previous;
 
     await client.websocket.send(
       JSON.stringify({
@@ -28,43 +28,43 @@ export default async (client: Manager, player: KazagumoPlayer) => {
             }
           : null,
       })
-    )
+    );
   }
 
-  let data = await client.db.get(`autoreconnect.guild_${player.guildId}`)
-  const channel = client.channels.cache.get(player.textId) as TextChannel
-  if (!channel) return
+  let data = await client.db.get(`autoreconnect.guild_${player.guildId}`);
+  const channel = client.channels.cache.get(player.textId) as TextChannel;
+  if (!channel) return;
 
-  if (data) return
+  if (data) return;
 
-  if (player.queue.length) return
+  if (player.queue.length) return;
 
-  if (player.loop !== "none") return
+  if (player.loop !== "none") return;
 
-  let guildModel = await client.db.get(`language.guild_${player.guildId}`)
+  let guildModel = await client.db.get(`language.guild_${player.guildId}`);
   if (!guildModel) {
     guildModel = await client.db.set(
       `language.guild_${player.guildId}`,
       client.config.bot.LANGUAGE
-    )
+    );
   }
 
-  const language = guildModel
+  const language = guildModel;
 
   /////////// Update Music Setup ///////////
 
-  await client.UpdateMusic(player)
+  await client.UpdateMusic(player);
 
   /////////// Update Music Setup ///////////
 
   const embed = new EmbedBuilder()
     .setColor(client.color)
-    .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`)
+    .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`);
 
-  if (channel) channel.send({ embeds: [embed] })
-  player.destroy()
+  if (channel) channel.send({ embeds: [embed] });
+  player.destroy();
   if (client.websocket)
     client.websocket.send(
       JSON.stringify({ op: "player_destroy", guild: player.guildId })
-    )
-}
+    );
+};

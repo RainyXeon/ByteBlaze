@@ -1,5 +1,5 @@
-import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -12,21 +12,21 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "join_loading")}`
-    )
-    const { channel } = (interaction.member as GuildMember).voice
+    );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
 
     await client.manager.createPlayer({
       guildId: interaction.guild!.id,
       voiceId: (interaction.member as GuildMember).voice.channel!.id,
       textId: interaction.channel!.id,
       deaf: true,
-    })
+    });
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -34,8 +34,8 @@ export default {
           channel: channel.name,
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

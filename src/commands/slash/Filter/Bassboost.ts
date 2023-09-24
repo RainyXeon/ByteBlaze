@@ -4,9 +4,9 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
   ApplicationCommandOptionType,
-} from "discord.js"
-import delay from "delay"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import delay from "delay";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["filter", "bassboost"],
@@ -24,16 +24,16 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger("amount")
-    const player = client.manager.players.get(interaction.guild!.id)
+    ).getInteger("amount");
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_player")}`
-      )
-    const { channel } = (interaction.member as GuildMember).voice
+      );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
@@ -41,7 +41,7 @@ export default {
     )
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_voice")}`
-      )
+      );
 
     if (!value) {
       const data = {
@@ -63,35 +63,35 @@ export default {
           { band: 12, gain: 0.1 },
           { band: 13, gain: 0.1 },
         ],
-      }
+      };
 
-      await player["send"](data)
+      await player["send"](data);
 
       const msg1 = await interaction.editReply(
         `${client.i18n.get(language, "filters", "filter_loading", {
           name: client.commands.get("bassboost").config.name,
         })}`
-      )
+      );
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "filters", "filter_on", {
             name: client.commands.get("bassboost").config.name,
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
-      await delay(2000)
-      return msg1.edit({ content: " ", embeds: [embed] })
+      await delay(2000);
+      return msg1.edit({ content: " ", embeds: [embed] });
     }
 
     if (isNaN(value))
       return interaction.editReply(
         `${client.i18n.get(language, "filters", "filter_number")}`
-      )
+      );
     if (value > 10 || value < -10)
       return interaction.editReply(
         `${client.i18n.get(language, "filters", "bassboost_limit")}`
-      )
+      );
     const data = {
       op: "filters",
       guildId: interaction.guild!.id,
@@ -111,22 +111,22 @@ export default {
         { band: 12, gain: 0 },
         { band: 13, gain: 0 },
       ],
-    }
-    await player["send"](data)
+    };
+    await player["send"](data);
     const msg2 = await interaction.editReply(
       `${client.i18n.get(language, "filters", "bassboost_loading", {
         amount: String(value),
       })}`
-    )
+    );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "bassboost_set", {
           amount: String(value),
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    await delay(2000)
-    return msg2.edit({ content: " ", embeds: [embed] })
+    await delay(2000);
+    return msg2.edit({ content: " ", embeds: [embed] });
   },
-}
+};

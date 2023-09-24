@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["sudo", "restart"],
@@ -11,12 +11,12 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     if (interaction.user.id != client.owner)
       return interaction.editReply({
         content: `${client.i18n.get(language, "interaction", "owner_only")}`,
-      })
+      });
 
     const restart = new EmbedBuilder()
       .setDescription(
@@ -26,10 +26,10 @@ export default {
       .setFooter({
         text: `© ${interaction.guild!.members.me!.displayName}`,
         iconURL: client.user!.displayAvatarURL(),
-      })
+      });
 
-    await interaction.editReply({ embeds: [restart] })
+    await interaction.editReply({ embeds: [restart] });
 
-    process.exit()
+    process.exit();
   },
-}
+};

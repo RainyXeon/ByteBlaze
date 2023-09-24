@@ -3,12 +3,12 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from "discord.js"
-import humanizeDuration from "humanize-duration"
-import { Manager } from "../../../manager.js"
-import { PlaylistInterface } from "../../../types/Playlist.js"
+} from "discord.js";
+import humanizeDuration from "humanize-duration";
+import { Manager } from "../../../manager.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 
-let info: PlaylistInterface | null
+let info: PlaylistInterface | null;
 
 export default {
   name: ["playlist", "info"],
@@ -31,51 +31,51 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name")
+    ).getString("name");
     const id = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("id")
+    ).getString("id");
 
-    if (id) info = await client.db.get(`playlist.pid_${id}`)
+    if (id) info = await client.db.get(`playlist.pid_${id}`);
     if (value) {
-      const Plist = value.replace(/_/g, " ")
+      const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist")
+      const fullList = await client.db.get("playlist");
 
       const pid = Object.keys(fullList).filter(function (key) {
         return (
           fullList[key].owner == interaction.user.id &&
           fullList[key].name == Plist
-        )
-      })
+        );
+      });
 
-      info = fullList[pid[0]]
+      info = fullList[pid[0]];
     }
 
     if (!id && !value)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-      )
+      );
     if (id && value)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-      )
+      );
     if (!info)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "invalid")}`
-      )
+      );
     if (info.private && info.owner !== interaction.user.id) {
       interaction.editReply(
         `${client.i18n.get(language, "playlist", "import_private")}`
-      )
-      return
+      );
+      return;
     }
-    const created = humanizeDuration(Date.now() - info.created, { largest: 1 })
+    const created = humanizeDuration(Date.now() - info.created, { largest: 1 });
 
-    const name = await client.users.fetch(info.owner)
+    const name = await client.users.fetch(info.owner);
 
     const embed = new EmbedBuilder()
       .setTitle(
@@ -127,9 +127,9 @@ export default {
           }`,
         },
       ])
-      .setColor(client.color)
-    await interaction.editReply({ embeds: [embed] })
+      .setColor(client.color);
+    await interaction.editReply({ embeds: [embed] });
 
-    info = null
+    info = null;
   },
-}
+};

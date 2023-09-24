@@ -1,5 +1,5 @@
-import { Manager } from "../../../manager.js"
-import { EmbedBuilder, Message } from "discord.js"
+import { Manager } from "../../../manager.js";
+import { EmbedBuilder, Message } from "discord.js";
 
 // Main code
 export default {
@@ -18,21 +18,21 @@ export default {
   ) => {
     const msg = await message.channel.send(
       `${client.i18n.get(language, "music", "clearqueue_loading")}`
-    )
-    const player = client.manager.players.get(message.guild!.id)
+    );
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = message.member!.voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
-    await player.queue.clear()
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+    await player.queue.clear();
 
     const cleared = new EmbedBuilder()
       .setDescription(`${client.i18n.get(language, "music", "clearqueue_msg")}`)
-      .setColor(client.color)
-    msg.edit({ content: " ", embeds: [cleared] })
+      .setColor(client.color);
+    msg.edit({ content: " ", embeds: [cleared] });
   },
-}
+};

@@ -1,6 +1,6 @@
-import { ButtonStyle, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
+import { ButtonStyle, Message } from "discord.js";
+import { Manager } from "../../../manager.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 export default {
   name: "invite",
@@ -34,7 +34,7 @@ export default {
         },
       ])
       .setTimestamp()
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
@@ -45,8 +45,8 @@ export default {
             client.user!.id
           }&permissions=8&scope=bot%20applications.commands`
         )
-    )
+    );
 
-    await message.reply({ embeds: [invite], components: [row2] })
+    await message.reply({ embeds: [invite], components: [row2] });
   },
-}
+};

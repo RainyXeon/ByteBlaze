@@ -1,5 +1,5 @@
-import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -11,26 +11,26 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "resume_loading")}`
-    )
+    );
 
-    const player = client.manager.players.get(interaction.guild!.id)
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = (interaction.member as GuildMember).voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
-    await player.pause(false)
+    await player.pause(false);
     const uni = player.paused
       ? `${client.i18n.get(language, "music", "resume_switch_pause")}`
-      : `${client.i18n.get(language, "music", "resume_switch_resume")}`
+      : `${client.i18n.get(language, "music", "resume_switch_resume")}`;
 
     if (client.websocket)
       await client.websocket.send(
@@ -38,7 +38,7 @@ export default {
           op: player.paused ? 3 : 4,
           guild: interaction.guild!.id,
         })
-      )
+      );
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -46,8 +46,8 @@ export default {
           resume: uni,
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

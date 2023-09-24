@@ -3,9 +3,9 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from "discord.js"
-import moment from "moment"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import moment from "moment";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["redeem"],
@@ -24,34 +24,34 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     const input = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("code")
+    ).getString("code");
 
-    let member = await client.db.get(`premium.user_${interaction.user.id}`)
+    let member = await client.db.get(`premium.user_${interaction.user.id}`);
 
     if (member && member.isPremium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
           `${client.i18n.get(language, "premium", "redeem_already")}`
-        )
-      return interaction.editReply({ embeds: [embed] })
+        );
+      return interaction.editReply({ embeds: [embed] });
     }
 
-    const premium = await client.db.get(`code.pmc_${input!.toUpperCase()}`)
+    const premium = await client.db.get(`code.pmc_${input!.toUpperCase()}`);
 
     if (input == "pmc_thedreamvastghost")
       return interaction.editReply(
         "WU9VIENBTidUIERPIFRISVMgRk9SIEZSRUUgUFJFTUlVTQotIFJhaW55WGVvbiAt"
-      )
+      );
 
     if (premium) {
       const expires = moment(premium.expiresAt).format(
         "do/MMMM/YYYY (HH:mm:ss)"
-      )
+      );
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.i18n.get(language, "premium", "redeem_title")}`,
@@ -64,7 +64,7 @@ export default {
           })}`
         )
         .setColor(client.color)
-        .setTimestamp()
+        .setTimestamp();
 
       const data = {
         id: interaction.user.id,
@@ -73,19 +73,19 @@ export default {
         redeemedAt: Date.now(),
         expiresAt: premium.expiresAt,
         plan: premium.plan,
-      }
+      };
 
-      await client.db.set(`premium.user_${interaction.user.id}`, data)
-      await interaction.editReply({ embeds: [embed] })
-      await client.premiums.set(interaction.user.id, data)
-      return client.db.delete(`code.pmc_${input!.toUpperCase()}`)
+      await client.db.set(`premium.user_${interaction.user.id}`, data);
+      await interaction.editReply({ embeds: [embed] });
+      await client.premiums.set(interaction.user.id, data);
+      return client.db.delete(`code.pmc_${input!.toUpperCase()}`);
     } else {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
           `${client.i18n.get(language, "premium", "redeem_invalid")}`
-        )
-      return interaction.editReply({ embeds: [embed] })
+        );
+      return interaction.editReply({ embeds: [embed] });
     }
   },
-}
+};

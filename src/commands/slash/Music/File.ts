@@ -5,8 +5,8 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-} from "discord.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -26,38 +26,38 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
-    let player = client.manager.players.get(interaction.guild!.id)
+    await interaction.deferReply({ ephemeral: false });
+    let player = client.manager.players.get(interaction.guild!.id);
 
     const file = await (
       interaction.options as CommandInteractionOptionResolver
-    ).getAttachment("file")
+    ).getAttachment("file");
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "play_loading", {
         result: file!.name,
       })}`
-    )
-    const { channel } = (interaction.member as GuildMember).voice
+    );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Connect)
     )
-      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Speak)
     )
-      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
     if (file!.contentType !== "audio/mpeg" && file!.contentType !== "audio/ogg")
       return msg.edit(
         `${client.i18n.get(language, "music", "play_invalid_file")}`
-      )
+      );
     if (!file!.contentType)
-      msg.edit(`${client.i18n.get(language, "music", "play_warning_file")}`)
+      msg.edit(`${client.i18n.get(language, "music", "play_warning_file")}`);
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -65,24 +65,24 @@ export default {
         voiceId: (interaction.member as GuildMember).voice.channel!.id,
         textId: interaction.channel!.id,
         deaf: true,
-      })
+      });
 
     const result = await player.search(file!.proxyURL, {
       requester: interaction.user,
-    })
-    const tracks = result.tracks
+    });
+    const tracks = result.tracks;
 
     if (!result.tracks.length)
       return msg.edit({
         content: `${client.i18n.get(language, "music", "play_match")}`,
-      })
+      });
     if (result.type === "PLAYLIST")
-      for (let track of tracks) player.queue.add(track)
+      for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH")
-      player.queue.add(tracks[0])
+      player.queue.add(tracks[0]);
     else if (player.playing && result.type !== "SEARCH")
-      for (let track of tracks) player.queue.add(track)
-    else player.play(tracks[0])
+      for (let track of tracks) player.queue.add(track);
+    else player.play(tracks[0]);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -93,9 +93,9 @@ export default {
             length: String(tracks.length),
           })}`
         )
-        .setColor(client.color)
-      msg.edit({ content: " ", embeds: [embed] })
-      if (!player.playing) player.play()
+        .setColor(client.color);
+      msg.edit({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -104,21 +104,21 @@ export default {
             url: String(file?.proxyURL),
           })}`
         )
-        .setColor(client.color)
-      msg.edit({ content: " ", embeds: [embed] })
-      if (!player.playing) player.play()
+        .setColor(client.color);
+      msg.edit({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: file!.name,
           url: String(file?.proxyURL),
         })}`
-      )
-      msg.edit({ content: " ", embeds: [embed] })
-      if (!player.playing) player.play()
+      );
+      msg.edit({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     } else {
-      msg.edit(`${client.i18n.get(language, "music", "play_match")}`)
-      player.destroy()
+      msg.edit(`${client.i18n.get(language, "music", "play_match")}`);
+      player.destroy();
     }
   },
-}
+};

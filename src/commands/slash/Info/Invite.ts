@@ -5,8 +5,8 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from "discord.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["invite"],
@@ -17,7 +17,7 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const invite = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "inv_title", {
@@ -37,7 +37,7 @@ export default {
         },
       ])
       .setTimestamp()
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
@@ -48,8 +48,8 @@ export default {
             client.user!.id
           }&permissions=8&scope=bot%20applications.commands`
         )
-    )
+    );
 
-    await interaction.editReply({ embeds: [invite], components: [row2] })
+    await interaction.editReply({ embeds: [invite], components: [row2] });
   },
-}
+};

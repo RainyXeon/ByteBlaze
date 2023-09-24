@@ -1,6 +1,6 @@
-import { EmbedBuilder, Message } from "discord.js"
-import moment from "moment"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, Message } from "discord.js";
+import moment from "moment";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: "profile",
@@ -16,10 +16,12 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const PremiumPlan = await client.db.get(`premium.user_${message.author.id}`)
+    const PremiumPlan = await client.db.get(
+      `premium.user_${message.author.id}`
+    );
     const expires = moment(PremiumPlan.expiresAt).format(
       "do/MMMM/YYYY (HH:mm:ss)"
-    )
+    );
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -34,8 +36,8 @@ export default {
         })}`
       )
       .setColor(client.color)
-      .setTimestamp()
+      .setTimestamp();
 
-    return message.channel.send({ embeds: [embed] })
+    return message.channel.send({ embeds: [embed] });
   },
-}
+};

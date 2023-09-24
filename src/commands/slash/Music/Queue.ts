@@ -4,11 +4,11 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   GuildMember,
-} from "discord.js"
-import formatDuration from "../../../structures/FormatDuration.js"
-import { convertTime } from "../../../structures/ConvertTime.js"
-import { SlashPage } from "../../../structures/PageQueue.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import formatDuration from "../../../structures/FormatDuration.js";
+import { convertTime } from "../../../structures/ConvertTime.js";
+import { SlashPage } from "../../../structures/PageQueue.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -28,17 +28,17 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger("page")
+    ).getInteger("page");
 
-    const player = client.manager.players.get(interaction.guild!.id)
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_player")}`
-      )
-    const { channel } = (interaction.member as GuildMember)!.voice
+      );
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
@@ -46,38 +46,38 @@ export default {
     )
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_voice")}`
-      )
+      );
 
-    const song = player.queue.current
+    const song = player.queue.current;
     function fixedduration() {
-      const current = player!.queue.current!.length ?? 0
+      const current = player!.queue.current!.length ?? 0;
       return player!.queue.reduce(
         (acc, cur) => acc + (cur.length || 0),
         current
-      )
+      );
     }
-    const qduration = `${formatDuration(fixedduration())}`
+    const qduration = `${formatDuration(fixedduration())}`;
     const thumbnail = `https://img.youtube.com/vi/${
       song!.identifier
-    }/hqdefault.jpg`
+    }/hqdefault.jpg`;
 
-    let pagesNum = Math.ceil(player.queue.length / 10)
-    if (pagesNum === 0) pagesNum = 1
+    let pagesNum = Math.ceil(player.queue.length / 10);
+    if (pagesNum === 0) pagesNum = 1;
 
-    const songStrings = []
+    const songStrings = [];
     for (let i = 0; i < player.queue.length; i++) {
-      const song = player.queue[i]
+      const song = player.queue[i];
       songStrings.push(
         `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatDuration(
           song.length
         )}]\`
                     `
-      )
+      );
     }
 
-    const pages = []
+    const pages = [];
     for (let i = 0; i < pagesNum; i++) {
-      const str = songStrings.slice(i * 10, i * 10 + 10).join("")
+      const str = songStrings.slice(i * 10, i * 10 + 10).join("");
 
       const embed = new EmbedBuilder()
         .setAuthor({
@@ -104,9 +104,9 @@ export default {
             queue_lang: String(player.queue.length),
             duration: qduration,
           })}`,
-        })
+        });
 
-      pages.push(embed)
+      pages.push(embed);
     }
 
     if (!value) {
@@ -119,21 +119,21 @@ export default {
           player.queue.length,
           Number(qduration),
           language
-        )
-      else return interaction.editReply({ embeds: [pages[0]] })
+        );
+      else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(value))
         return interaction.editReply(
           `${client.i18n.get(language, "music", "queue_notnumber")}`
-        )
+        );
       if (value > pagesNum)
         return interaction.editReply(
           `${client.i18n.get(language, "music", "queue_page_notfound", {
             page: String(pagesNum),
           })}`
-        )
-      const pageNum = value == 0 ? 1 : value - 1
-      return interaction.editReply({ embeds: [pages[pageNum]] })
+        );
+      const pageNum = value == 0 ? 1 : value - 1;
+      return interaction.editReply({ embeds: [pages[pageNum]] });
     }
   },
-}
+};

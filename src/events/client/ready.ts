@@ -1,20 +1,20 @@
-import { Manager } from "../../manager.js"
-import { Deploy } from "../../plugins/autoDeploy.js"
+import { Manager } from "../../manager.js";
+import { Deploy } from "../../plugins/autoDeploy.js";
 
 export default async (client: Manager) => {
-  client.logger.info(`Logged in ${client.user!.tag}`)
+  client.logger.info(`Logged in ${client.user!.tag}`);
   // Auto deploy
-  Deploy(client)
+  Deploy(client);
 
-  let guilds = client.guilds.cache.size
-  let members = client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
-  let channels = client.channels.cache.size
+  let guilds = client.guilds.cache.size;
+  let members = client.guilds.cache.reduce((a, b) => a + b.memberCount, 0);
+  let channels = client.channels.cache.size;
 
   const activities = [
     `with ${guilds} servers! | /music radio`,
     `with ${members} users! | /music play`,
     `with ${channels} users! | /filter nightcore`,
-  ]
+  ];
 
   setInterval(() => {
     client.user!.setPresence({
@@ -25,6 +25,6 @@ export default async (client: Manager) => {
         },
       ],
       status: "online",
-    })
-  }, 15000)
-}
+    });
+  }, 15000);
+};

@@ -4,8 +4,8 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-} from "discord.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -25,35 +25,37 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getNumber("amount")
+    ).getNumber("amount");
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "volume_loading")}`
-    )
+    );
 
-    const player = client.manager.players.get(interaction.guild!.id)
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = (interaction.member as GuildMember).voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     if (!value)
       return msg.edit(
         `${client.i18n.get(language, "music", "volume_usage", {
           volume: String(player.volume),
         })}`
-      )
+      );
     if (Number(value) <= 0 || Number(value) > 100)
-      return msg.edit(`${client.i18n.get(language, "music", "volume_invalid")}`)
+      return msg.edit(
+        `${client.i18n.get(language, "music", "volume_invalid")}`
+      );
 
-    await player.setVolume(Number(value))
+    await player.setVolume(Number(value));
 
     const changevol = new EmbedBuilder()
       .setDescription(
@@ -61,8 +63,8 @@ export default {
           volume: String(value),
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [changevol] })
+    msg.edit({ content: " ", embeds: [changevol] });
   },
-}
+};

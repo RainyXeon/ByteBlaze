@@ -1,5 +1,5 @@
-import { Manager } from "../../manager.js"
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js"
+import { Manager } from "../../manager.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
 /**
  *
@@ -28,7 +28,7 @@ export default async (client: Manager) => {
       .setStyle(ButtonStyle.Success)
       .setCustomId("sloop")
       .setEmoji("🔄"),
-  ])
+  ]);
 
   client.diSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
@@ -56,5 +56,5 @@ export default async (client: Manager) => {
       .setCustomId("sloop")
       .setEmoji("🔄")
       .setDisabled(true),
-  ])
-}
+  ]);
+};

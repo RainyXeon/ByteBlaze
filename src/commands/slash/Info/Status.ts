@@ -5,9 +5,9 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from "discord.js"
-import ms from "pretty-ms"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import ms from "pretty-ms";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["status"],
@@ -18,7 +18,7 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const info = new EmbedBuilder()
       .setTitle(client.user!.tag + " Status")
       .addFields([
@@ -70,7 +70,7 @@ export default {
         { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
       ])
       .setTimestamp()
-      .setColor(client.color)
+      .setColor(client.color);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setLabel("Invite Me")
@@ -80,7 +80,7 @@ export default {
             client.user!.id
           }&permissions=8&scope=bot%20applications.commands`
         )
-    )
-    await interaction.editReply({ embeds: [info], components: [row] })
+    );
+    await interaction.editReply({ embeds: [info], components: [row] });
   },
-}
+};

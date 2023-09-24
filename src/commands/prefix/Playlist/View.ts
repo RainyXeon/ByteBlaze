@@ -1,5 +1,9 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Message,
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: "playlist-view",
@@ -15,57 +19,57 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const value = args[0] ? args[0] : null
+    const value = args[0] ? args[0] : null;
     if (value == null)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "invalid")}`
-      )
-    const PName = value!.replace(/_/g, " ")
+      );
+    const PName = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist")
+    const fullList = await client.db.get("playlist");
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
         fullList[key].owner == message.author.id && fullList[key].name == PName
-      )
-    })
+      );
+    });
 
-    const playlist = fullList[pid[0]]
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "public_notfound")}`
-      )
+      );
     if (playlist.owner !== message.author.id)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "public_owner")}`
-      )
+      );
 
     const Public = Object.keys(fullList)
       .filter(function (key) {
-        return fullList[key].private == false && fullList[key].name == PName
+        return fullList[key].private == false && fullList[key].name == PName;
         // to cast back from an array of keys to the object, with just the passing ones
       })
       .forEach(async (key) => {
-        return fullList[key]
-      })
+        return fullList[key];
+      });
     if (Public !== null || undefined || false)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "public_already")}`
-      )
+      );
 
     const msg = await message.channel.send(
       `${client.i18n.get(language, "playlist", "public_loading")}`
-    )
+    );
 
     client.db.set(
       `playlist.pid_${playlist.id}.private`,
       playlist.private == true ? false : true
-    )
+    );
 
     const playlist_now = await client.db.get(
       `playlist.pid_${playlist.id}.private`
-    )
+    );
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -73,7 +77,7 @@ export default {
           view: playlist_now == true ? "Private" : "Public",
         })}`
       )
-      .setColor(client.color)
-    msg.edit({ content: " ", embeds: [embed] })
+      .setColor(client.color);
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

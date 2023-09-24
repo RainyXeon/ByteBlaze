@@ -1,7 +1,7 @@
-import { EmbedBuilder, Message, PermissionsBitField } from "discord.js"
-import formatDuration from "../../../structures/FormatDuration.js"
-import { Manager } from "../../../manager.js"
-const rewindNum = 10
+import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
+import formatDuration from "../../../structures/FormatDuration.js";
+import { Manager } from "../../../manager.js";
+const rewindNum = 10;
 
 // Main code
 export default {
@@ -19,24 +19,26 @@ export default {
   ) => {
     const msg = await message.channel.send(
       `${client.i18n.get(language, "music", "rewind_loading")}`
-    )
-    const value = args[0]
+    );
+    const value = args[0];
 
     if (value && isNaN(+value))
-      return msg.edit(`${client.i18n.get(language, "music", "number_invalid")}`)
+      return msg.edit(
+        `${client.i18n.get(language, "music", "number_invalid")}`
+      );
 
-    const player = client.manager.players.get(message.guild!.id)
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = message.member!.voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
-    const song_position = player.shoukaku.position
-    const CurrentDuration = formatDuration(song_position)
+    const song_position = player.shoukaku.position;
+    const CurrentDuration = formatDuration(song_position);
 
     if (value && !isNaN(+value)) {
       if (song_position - Number(value) * 1000 > 0) {
@@ -44,7 +46,7 @@ export default {
           op: "seek",
           guildId: message.guild!.id,
           position: song_position - Number(value) * 1000,
-        })
+        });
 
         const rewind1 = new EmbedBuilder()
           .setDescription(
@@ -52,20 +54,20 @@ export default {
               duration: CurrentDuration,
             })}`
           )
-          .setColor(client.color)
+          .setColor(client.color);
 
-        msg.edit({ content: " ", embeds: [rewind1] })
+        msg.edit({ content: " ", embeds: [rewind1] });
       } else {
         return msg.edit(
           `${client.i18n.get(language, "music", "rewind_beyond")}`
-        )
+        );
       }
     } else if (value && isNaN(+value)) {
       return msg.edit(
         `${client.i18n.get(language, "music", "rewind_invalid", {
           prefix: prefix,
         })}`
-      )
+      );
     }
 
     if (!value) {
@@ -74,7 +76,7 @@ export default {
           op: "seek",
           guildId: message.guild!.id,
           position: song_position - rewindNum * 1000,
-        })
+        });
 
         const rewind2 = new EmbedBuilder()
           .setDescription(
@@ -82,14 +84,14 @@ export default {
               duration: CurrentDuration,
             })}`
           )
-          .setColor(client.color)
+          .setColor(client.color);
 
-        msg.edit({ content: " ", embeds: [rewind2] })
+        msg.edit({ content: " ", embeds: [rewind2] });
       } else {
         return msg.edit(
           `${client.i18n.get(language, "music", "rewind_beyond")}`
-        )
+        );
       }
     }
   },
-}
+};

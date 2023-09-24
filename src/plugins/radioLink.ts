@@ -42,4 +42,4 @@ export const Radiostations = [
 
   "radio90-cieszyn http://streams2.radio90.pl:8000/radio90_128kbps_stereo.mp3", //Polska
   "Fama-Radio http://stream2.nadaje.com:8076/,stream.mp3", //Polska
-]
+];

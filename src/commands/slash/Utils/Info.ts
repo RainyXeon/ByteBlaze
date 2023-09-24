@@ -7,9 +7,9 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   TextChannel,
-} from "discord.js"
-import ms from "pretty-ms"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import ms from "pretty-ms";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["settings", "status"],
@@ -38,7 +38,7 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     if (
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
         PermissionsBitField.Flags.ManageGuild
@@ -46,7 +46,7 @@ export default {
     )
       return interaction.editReply(
         `${client.i18n.get(language, "utilities", "lang_perm")}`
-      )
+      );
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
         "type"
@@ -55,12 +55,12 @@ export default {
       const parent = await interaction.guild!.channels.create({
         name: `${client.user!.username} Status`,
         type: ChannelType.GuildCategory,
-      })
+      });
       const textChannel = await interaction.guild!.channels.create({
         name: "bot-status",
         type: ChannelType.GuildText,
         parent: parent.id,
-      })
+      });
 
       const info = new EmbedBuilder()
         .setTitle(client.user!.tag + " Status")
@@ -107,12 +107,12 @@ export default {
           { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
         ])
         .setTimestamp()
-        .setColor(client.color)
+        .setColor(client.color);
 
       const channel_msg = await textChannel.send({
         content: ``,
         embeds: [info],
-      })
+      });
 
       const data = {
         guild: interaction.guild!.id,
@@ -120,17 +120,17 @@ export default {
         channel: textChannel.id,
         statmsg: channel_msg.id,
         category: parent.id,
-      }
-      await client.db.set(`status.guild_${interaction.guild!.id}`, data)
+      };
+      await client.db.set(`status.guild_${interaction.guild!.id}`, data);
 
-      const interval_info = await client.interval.get("MAIN")
+      const interval_info = await client.interval.get("MAIN");
 
       if (!interval_info) {
         const interval_online = setInterval(async () => {
           const SetupChannel = await client.db.get(
             `status.guild_${interaction.guild!.id}.enable`
-          )
-          if (!SetupChannel) return
+          );
+          if (!SetupChannel) return;
           const fetched_info = new EmbedBuilder()
             .setTitle(client.user!.tag + " Status")
             .addFields([
@@ -184,18 +184,18 @@ export default {
               },
             ])
             .setTimestamp()
-            .setColor(client.color)
+            .setColor(client.color);
 
           SetupChannel.forEach(async (g: any) => {
-            const fetch_channel = await client.channels.fetch(g.channel)
-            const text_channel = fetch_channel! as TextChannel
-            const interval_text = await text_channel.messages!.fetch(g.statmsg)
-            if (!fetch_channel) return
-            await interval_text.edit({ content: ``, embeds: [fetched_info] })
-          })
-        }, 5000)
+            const fetch_channel = await client.channels.fetch(g.channel);
+            const text_channel = fetch_channel! as TextChannel;
+            const interval_text = await text_channel.messages!.fetch(g.statmsg);
+            if (!fetch_channel) return;
+            await interval_text.edit({ content: ``, embeds: [fetched_info] });
+          });
+        }, 5000);
 
-        await client.interval.set("MAIN", interval_online)
+        await client.interval.set("MAIN", interval_online);
       }
 
       const embed = new EmbedBuilder()
@@ -204,8 +204,8 @@ export default {
             channel: String(textChannel),
           })}`
         )
-        .setColor(client.color)
-      return interaction.followUp({ embeds: [embed] })
+        .setColor(client.color);
+      return interaction.followUp({ embeds: [embed] });
     }
 
     if (
@@ -215,7 +215,7 @@ export default {
     ) {
       const SetupChannel = await client.db.get(
         `status.guild_${interaction.guild!.id}`
-      )
+      );
 
       const embed_none = new EmbedBuilder()
         .setDescription(
@@ -223,16 +223,16 @@ export default {
             channel: String(undefined),
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
-      if (!SetupChannel) return interaction.editReply({ embeds: [embed_none] })
+      if (!SetupChannel) return interaction.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = interaction.guild!.channels.cache.get(
         SetupChannel.channel
-      )
+      );
       const fetchedCategory = interaction.guild!.channels.cache.get(
         SetupChannel.category
-      )
+      );
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -240,12 +240,12 @@ export default {
             channel: String(fetchedTextChannel),
           })}`
         )
-        .setColor(client.color)
+        .setColor(client.color);
 
-      await interaction.editReply({ embeds: [embed] })
+      await interaction.editReply({ embeds: [embed] });
 
-      if (fetchedTextChannel) await fetchedTextChannel.delete()
-      if (fetchedCategory) await fetchedCategory.delete()
+      if (fetchedTextChannel) await fetchedTextChannel.delete();
+      if (fetchedCategory) await fetchedCategory.delete();
 
       const deleted_data = {
         guild: interaction.guild!.id,
@@ -253,12 +253,12 @@ export default {
         channel: "",
         statmsg: "",
         category: "",
-      }
+      };
 
       return client.db.set(
         `status.guild_${interaction.guild!.id}`,
         deleted_data
-      )
+      );
     }
   },
-}
+};

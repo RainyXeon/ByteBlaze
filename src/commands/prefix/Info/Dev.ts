@@ -1,6 +1,6 @@
-import { ButtonStyle, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js"
+import { ButtonStyle, Message } from "discord.js";
+import { Manager } from "../../../manager.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 export default {
   name: "developer",
@@ -19,7 +19,7 @@ export default {
       .setTitle(`${client.i18n.get(language, "info", "dev_title")}`)
       .setDescription(`${client.i18n.get(language, "info", "dev_desc")}`)
       .setFooter({ text: `${client.i18n.get(language, "info", "dev_foot")}` })
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row1 = new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
@@ -39,8 +39,8 @@ export default {
           .setLabel("Support Server")
           .setStyle(ButtonStyle.Link)
           .setURL("https://discord.com/invite/xHvsCMjnhU")
-      )
+      );
 
-    await message.reply({ embeds: [xeondex], components: [row1] })
+    await message.reply({ embeds: [xeondex], components: [row1] });
   },
-}
+};

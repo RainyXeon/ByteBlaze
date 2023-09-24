@@ -1,6 +1,6 @@
-import { KazagumoPlayer } from "kazagumo"
-import { Manager } from "../../manager.js"
-import { PlayerUpdate } from "shoukaku"
+import { KazagumoPlayer } from "kazagumo";
+import { Manager } from "../../manager.js";
+import { PlayerUpdate } from "shoukaku";
 
 export default async (
   client: Manager,
@@ -14,5 +14,5 @@ export default async (
         guild: player.guildId,
         position: player.shoukaku.position,
       })
-    )
-}
+    );
+};

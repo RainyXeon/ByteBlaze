@@ -5,8 +5,8 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from "discord.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["ping"],
@@ -17,7 +17,7 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const ping = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "ping_title")}` +
@@ -29,7 +29,7 @@ export default {
         })}`
       )
       .setTimestamp()
-      .setColor(client.color)
+      .setColor(client.color);
     const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setLabel("Invite Me")
@@ -39,8 +39,8 @@ export default {
             client.user!.id
           }&permissions=8&scope=bot%20applications.commands`
         )
-    )
+    );
 
-    await interaction.editReply({ embeds: [ping], components: [row3] })
+    await interaction.editReply({ embeds: [ping], components: [row3] });
   },
-}
+};

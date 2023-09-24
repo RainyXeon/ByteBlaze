@@ -3,10 +3,10 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
   CommandInteractionOptionResolver,
-} from "discord.js"
-import moment from "moment"
-import voucher_codes from "voucher-code-generator"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import moment from "moment";
+import voucher_codes from "voucher-code-generator";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["premium", "generate"],
@@ -50,44 +50,44 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     const name = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("plan")
+    ).getString("plan");
     const camount = (
       interaction.options as CommandInteractionOptionResolver
-    ).getNumber("amount")
+    ).getNumber("amount");
 
-    let codes = []
+    let codes = [];
 
-    const plan = name
-    const plans = ["daily", "weekly", "monthly", "yearly"]
+    const plan = name;
+    const plans = ["daily", "weekly", "monthly", "yearly"];
 
-    let time
-    if (plan === "daily") time = Date.now() + 86400000
-    if (plan === "weekly") time = Date.now() + 86400000 * 7
-    if (plan === "monthly") time = Date.now() + 86400000 * 30
-    if (plan === "yearly") time = Date.now() + 86400000 * 365
+    let time;
+    if (plan === "daily") time = Date.now() + 86400000;
+    if (plan === "weekly") time = Date.now() + 86400000 * 7;
+    if (plan === "monthly") time = Date.now() + 86400000 * 30;
+    if (plan === "yearly") time = Date.now() + 86400000 * 365;
 
-    let amount = camount
-    if (!amount) amount = 1
+    let amount = camount;
+    if (!amount) amount = 1;
 
     for (var i = 0; i < amount; i++) {
       const codePremium = voucher_codes.generate({
         pattern: "#############-#########-######",
-      })
+      });
 
-      const code = codePremium.toString().toUpperCase()
-      const find = await client.db.get(`code.pmc_${code}`)
+      const code = codePremium.toString().toUpperCase();
+      const find = await client.db.get(`code.pmc_${code}`);
 
       if (!find) {
         await client.db.set(`code.pmc_${code}`, {
           code: code,
           plan: plan,
           expiresAt: time,
-        })
-        codes.push(`${i + 1} - ${code}`)
+        });
+        codes.push(`${i + 1} - ${code}`);
       }
     }
 
@@ -111,8 +111,8 @@ export default {
           prefix: "/",
         })}`,
         iconURL: interaction.user.displayAvatarURL(),
-      })
+      });
 
-    interaction.editReply({ embeds: [embed] })
+    interaction.editReply({ embeds: [embed] });
   },
-}
+};

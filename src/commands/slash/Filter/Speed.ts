@@ -4,9 +4,9 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
-} from "discord.js"
-import delay from "delay"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import delay from "delay";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["filter", "speed"],
@@ -25,18 +25,18 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger("amount")
+    ).getInteger("amount");
 
-    const player = client.manager.players.get(interaction.guild!.id)
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_player")}`
-      )
-    const { channel } = (interaction.member as GuildMember).voice
+      );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
       (interaction.member as GuildMember).voice.channel !==
@@ -44,38 +44,38 @@ export default {
     )
       return interaction.editReply(
         `${client.i18n.get(language, "noplayer", "no_voice")}`
-      )
+      );
 
     if (value! < 0)
       return interaction.editReply(
         `${client.i18n.get(language, "filters", "filter_greater")}`
-      )
+      );
     if (value! > 10)
       return interaction.editReply(
         `${client.i18n.get(language, "filters", "filter_less")}`
-      )
+      );
 
     const data = {
       op: "filters",
       guildId: interaction.guild.id,
       timescale: { speed: value },
-    }
+    };
 
-    await player["send"](data)
+    await player["send"](data);
 
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "filters", "speed_loading", {
         amount: String(value),
       })}`
-    )
+    );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "speed_on", {
           amount: String(value),
         })}`
       )
-      .setColor(client.color)
-    await delay(2000)
-    msg.edit({ content: " ", embeds: [embed] })
+      .setColor(client.color);
+    await delay(2000);
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

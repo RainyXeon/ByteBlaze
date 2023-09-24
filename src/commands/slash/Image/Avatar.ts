@@ -1,6 +1,6 @@
-import { CommandInteraction } from "discord.js"
-import { Manager } from "../../../manager.js"
-import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js"
+import { CommandInteraction } from "discord.js";
+import { Manager } from "../../../manager.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: ["avatar"],
@@ -19,8 +19,8 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
-    const value = interaction.options.getUser("user")
+    await interaction.deferReply({ ephemeral: false });
+    const value = interaction.options.getUser("user");
 
     if (value) {
       const embed = new EmbedBuilder()
@@ -32,8 +32,8 @@ export default {
         .setFooter({
           text: `© ${interaction.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
-        })
-      await interaction.editReply({ embeds: [embed] })
+        });
+      await interaction.editReply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setTitle(
@@ -46,8 +46,8 @@ export default {
         .setFooter({
           text: `© ${interaction.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
-        })
-      await interaction.editReply({ embeds: [embed] })
+        });
+      await interaction.editReply({ embeds: [embed] });
     }
   },
-}
+};

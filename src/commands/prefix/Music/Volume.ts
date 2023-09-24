@@ -1,5 +1,5 @@
-import { EmbedBuilder, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, Message } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -18,32 +18,36 @@ export default {
   ) => {
     const msg = await message.channel.send(
       `${client.i18n.get(language, "music", "volume_loading")}`
-    )
+    );
 
-    const value = args[0]
+    const value = args[0];
     if (value && isNaN(+value))
-      return msg.edit(`${client.i18n.get(language, "music", "number_invalid")}`)
+      return msg.edit(
+        `${client.i18n.get(language, "music", "number_invalid")}`
+      );
 
-    const player = client.manager.players.get(message.guild!.id)
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = message.member!.voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     if (!value)
       return msg.edit(
         `${client.i18n.get(language, "music", "volume_usage", {
           volume: String(player.volume),
         })}`
-      )
+      );
     if (Number(value) <= 0 || Number(value) > 100)
-      return msg.edit(`${client.i18n.get(language, "music", "volume_invalid")}`)
+      return msg.edit(
+        `${client.i18n.get(language, "music", "volume_invalid")}`
+      );
 
-    await player.setVolume(Number(value))
+    await player.setVolume(Number(value));
 
     const changevol = new EmbedBuilder()
       .setDescription(
@@ -51,8 +55,8 @@ export default {
           volume: value,
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [changevol] })
+    msg.edit({ content: " ", embeds: [changevol] });
   },
-}
+};

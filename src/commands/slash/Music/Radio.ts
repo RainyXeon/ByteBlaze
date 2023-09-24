@@ -4,10 +4,10 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
   PermissionsBitField,
-} from "discord.js"
-import { Radiostations } from "../../../plugins/radioLink.js"
-import { convertTime } from "../../../structures/ConvertTime.js"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { Radiostations } from "../../../plugins/radioLink.js";
+import { convertTime } from "../../../structures/ConvertTime.js";
+import { Manager } from "../../../manager.js";
 // Main code
 export default {
   name: ["radio"],
@@ -26,28 +26,30 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "music", "radio_loading")}`
-    )
+    );
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getInteger("number")
-    const { channel } = (interaction.member as GuildMember).voice
+    ).getInteger("number");
+    const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "search_invoice")}`)
+      return msg.edit(
+        `${client.i18n.get(language, "music", "search_invoice")}`
+      );
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Connect)
     )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Speak)
     )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
 
     const resultsEmbed = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "radio", "available_radio")}`) //
@@ -231,12 +233,12 @@ export default {
       ])
       .setColor(client.color)
       .setFooter({ text: `/radio <1-34>` })
-      .setTimestamp()
+      .setTimestamp();
 
     if (!value) {
-      return msg.edit({ content: " ", embeds: [resultsEmbed] })
+      return msg.edit({ content: " ", embeds: [resultsEmbed] });
     } else if (Number(value) > 34 || Number(value) < 0) {
-      return msg.edit({ content: " ", embeds: [resultsEmbed] })
+      return msg.edit({ content: " ", embeds: [resultsEmbed] });
     }
 
     const player = await client.manager.createPlayer({
@@ -244,24 +246,24 @@ export default {
       voiceId: (interaction.member as GuildMember).voice.channel!.id,
       textId: interaction.channel!.id,
       deaf: true,
-    })
+    });
 
-    let i
+    let i;
 
     for (i = 1; i <= 1 + Radiostations.length; i++) {
       if (Number(value) === Number(i)) {
-        break
+        break;
       }
     }
 
-    const args2 = Radiostations[i - 1].split(` `)
+    const args2 = Radiostations[i - 1].split(` `);
 
-    const song = args2[1]
+    const song = args2[1];
 
-    const res = await player.search(song, { requester: interaction.user })
+    const res = await player.search(song, { requester: interaction.user });
 
     if (res.type == "TRACK") {
-      player.queue.add(res.tracks[0])
+      player.queue.add(res.tracks[0]);
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
@@ -271,9 +273,9 @@ export default {
             request: String(res.tracks[0].requester),
           })}`
         )
-        .setColor(client.color)
-      msg.edit({ content: " ", embeds: [embed] })
-      if (!player.playing) player.play()
+        .setColor(client.color);
+      msg.edit({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     }
   },
-}
+};

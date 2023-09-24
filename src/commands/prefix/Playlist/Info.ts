@@ -1,12 +1,16 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
-import { convertTime } from "../../../structures/ConvertTime.js"
-import { StartQueueDuration } from "../../../structures/QueueDuration.js"
-import { stripIndents } from "common-tags"
-import humanizeDuration from "humanize-duration"
-import { PlaylistInterface } from "../../../types/Playlist.js"
-import { Manager } from "../../../manager.js"
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Message,
+} from "discord.js";
+import { convertTime } from "../../../structures/ConvertTime.js";
+import { StartQueueDuration } from "../../../structures/QueueDuration.js";
+import { stripIndents } from "common-tags";
+import humanizeDuration from "humanize-duration";
+import { PlaylistInterface } from "../../../types/Playlist.js";
+import { Manager } from "../../../manager.js";
 
-let info: PlaylistInterface | null
+let info: PlaylistInterface | null;
 
 export default {
   name: "playlist-info",
@@ -22,52 +26,52 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const value = args[0] ? args[0] : null
-    const id = value ? null : args[0]
+    const value = args[0] ? args[0] : null;
+    const id = value ? null : args[0];
 
     if (value == null || id == null)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "invalid")}`
-      )
+      );
 
-    if (id) info = await client.db.get(`playlist.pid_${id}`)
+    if (id) info = await client.db.get(`playlist.pid_${id}`);
     if (value) {
-      const Plist = value.replace(/_/g, " ")
+      const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist")
+      const fullList = await client.db.get("playlist");
 
       const pid = Object.keys(fullList).filter(function (key) {
         return (
           fullList[key].owner == message.author.id &&
           fullList[key].name == Plist
-        )
-      })
+        );
+      });
 
-      info = fullList[pid[0]]
+      info = fullList[pid[0]];
     }
     if (!id && !value)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-      )
+      );
     if (id && value)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-      )
+      );
     if (!info)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "invalid")}`
-      )
+      );
     if (info.private && info.owner !== message.author.id) {
       message.channel.send(
         `${client.i18n.get(language, "playlist", "import_private")}`
-      )
-      return
+      );
+      return;
     }
     const created = humanizeDuration(Date.now() - Number(info.created), {
       largest: 1,
-    })
+    });
 
-    const name = await client.users.fetch(info.owner)
+    const name = await client.users.fetch(info.owner);
 
     const embed = new EmbedBuilder()
       .setTitle(
@@ -119,7 +123,7 @@ export default {
           }`,
         },
       ])
-      .setColor(client.color)
-    message.channel.send({ embeds: [embed] })
+      .setColor(client.color);
+    message.channel.send({ embeds: [embed] });
   },
-}
+};

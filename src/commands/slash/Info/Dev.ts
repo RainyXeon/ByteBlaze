@@ -5,9 +5,9 @@ import {
   version,
   CommandInteraction,
   ButtonStyle,
-} from "discord.js"
-import ms from "pretty-ms"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import ms from "pretty-ms";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: ["developer"],
@@ -18,12 +18,12 @@ export default {
     client: Manager,
     language: string
   ) => {
-    await interaction.deferReply({ ephemeral: false })
+    await interaction.deferReply({ ephemeral: false });
     const xeondex = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "info", "dev_title")}`)
       .setDescription(`${client.i18n.get(language, "info", "dev_desc")}`)
       .setFooter({ text: `${client.i18n.get(language, "info", "dev_foot")}` })
-      .setColor(client.color)
+      .setColor(client.color);
 
     const row1 = new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
@@ -37,8 +37,8 @@ export default {
           .setLabel("Support Server")
           .setStyle(ButtonStyle.Link)
           .setURL("https://discord.com/invite/xHvsCMjnhU")
-      )
+      );
 
-    await interaction.editReply({ embeds: [xeondex], components: [row1] })
+    await interaction.editReply({ embeds: [xeondex], components: [row1] });
   },
-}
+};

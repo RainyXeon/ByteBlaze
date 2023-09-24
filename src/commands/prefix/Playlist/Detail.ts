@@ -1,8 +1,12 @@
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js"
-import formatDuration from "../../../structures/FormatDuration.js"
-import { NormalPage } from "../../../structures/PageQueue.js"
-import { Manager } from "../../../manager.js"
-import { PlaylistTrackInterface } from "../../../types/Playlist.js"
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  Message,
+} from "discord.js";
+import formatDuration from "../../../structures/FormatDuration.js";
+import { NormalPage } from "../../../structures/PageQueue.js";
+import { Manager } from "../../../manager.js";
+import { PlaylistTrackInterface } from "../../../types/Playlist.js";
 
 export default {
   name: "playlist-detail",
@@ -18,41 +22,41 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const value = args[0] ? args[0] : null
-    const number = args[1]
+    const value = args[0] ? args[0] : null;
+    const number = args[1];
 
     if (number && isNaN(+number))
       return message.channel.send(
         `${client.i18n.get(language, "music", "number_invalid")}`
-      )
+      );
 
-    const Plist = value!.replace(/_/g, " ")
+    const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist")
+    const fullList = await client.db.get("playlist");
 
     const pid = Object.keys(fullList).filter(function (key) {
       return (
         fullList[key].owner == message.author.id && fullList[key].name == Plist
-      )
-    })
+      );
+    });
 
-    const playlist = fullList[pid[0]]
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "detail_notfound")}`
-      )
+      );
     if (playlist.private && playlist.owner !== message.author.id)
       return message.channel.send(
         `${client.i18n.get(language, "playlist", "detail_private")}`
-      )
+      );
 
-    let pagesNum = Math.ceil(playlist.tracks.length / 10)
-    if (pagesNum === 0) pagesNum = 1
+    let pagesNum = Math.ceil(playlist.tracks.length / 10);
+    if (pagesNum === 0) pagesNum = 1;
 
-    const playlistStrings = []
+    const playlistStrings = [];
     for (let i = 0; i < playlist.tracks.length; i++) {
-      const playlists = playlist.tracks[i]
+      const playlists = playlist.tracks[i];
       playlistStrings.push(
         `${client.i18n.get(language, "playlist", "detail_track", {
           num: String(i + 1),
@@ -62,7 +66,7 @@ export default {
           duration: formatDuration(playlists.length),
         })}
                 `
-      )
+      );
     }
 
     const totalDuration = formatDuration(
@@ -70,11 +74,11 @@ export default {
         (acc: number, cur: PlaylistTrackInterface) => acc + cur.length!,
         0
       )
-    )
+    );
 
-    const pages = []
+    const pages = [];
     for (let i = 0; i < pagesNum; i++) {
-      const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`)
+      const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`);
       const embed = new EmbedBuilder() //${playlist.name}'s Playlists
         .setAuthor({
           name: `${client.i18n.get(language, "playlist", "detail_embed_title", {
@@ -96,9 +100,9 @@ export default {
               duration: totalDuration,
             }
           )}`,
-        })
+        });
 
-      pages.push(embed)
+      pages.push(embed);
     }
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks.length > 10)
@@ -110,21 +114,21 @@ export default {
           playlist.tracks.length,
           Number(totalDuration),
           language
-        )
-      else return message.channel.send({ embeds: [pages[0]] })
+        );
+      else return message.channel.send({ embeds: [pages[0]] });
     } else {
       if (isNaN(+number))
         return message.channel.send(
           `${client.i18n.get(language, "playlist", "detail_notnumber")}`
-        )
+        );
       if (Number(number) > pagesNum)
         return message.channel.send(
           `${client.i18n.get(language, "playlist", "detail_page_notfound", {
             page: String(pagesNum),
           })}`
-        )
-      const pageNum = Number(number) == 0 ? 1 : Number(number) - 1
-      return message.channel.send({ embeds: [pages[pageNum]] })
+        );
+      const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
+      return message.channel.send({ embeds: [pages[pageNum]] });
     }
   },
-}
+};

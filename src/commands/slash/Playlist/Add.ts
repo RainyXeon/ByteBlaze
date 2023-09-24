@@ -3,13 +3,13 @@ import {
   CommandInteraction,
   ApplicationCommandOptionType,
   CommandInteractionOptionResolver,
-} from "discord.js"
-import { convertTime } from "../../../structures/ConvertTime.js"
-import { StartQueueDuration } from "../../../structures/QueueDuration.js"
-import { KazagumoTrack } from "kazagumo"
-import { Manager } from "../../../manager.js"
+} from "discord.js";
+import { convertTime } from "../../../structures/ConvertTime.js";
+import { StartQueueDuration } from "../../../structures/QueueDuration.js";
+import { KazagumoTrack } from "kazagumo";
+import { Manager } from "../../../manager.js";
 
-const TrackAdd: KazagumoTrack[] = []
+const TrackAdd: KazagumoTrack[] = [];
 
 export default {
   name: ["playlist", "add"],
@@ -41,35 +41,35 @@ export default {
           "search"
         )
       ) {
-        await interaction.deferReply({ ephemeral: false })
+        await interaction.deferReply({ ephemeral: false });
         const value = (
           interaction.options as CommandInteractionOptionResolver
-        ).getString("name")
+        ).getString("name");
         const input = (
           interaction.options as CommandInteractionOptionResolver
-        ).getString("search")
+        ).getString("search");
 
-        const PlaylistName = value!.replace(/_/g, " ")
-        const Inputed = input
+        const PlaylistName = value!.replace(/_/g, " ");
+        const Inputed = input;
 
         const msg = await interaction.editReply(
           `${client.i18n.get(language, "playlist", "add_loading")}`
-        )
+        );
         const result = await client.manager.search(input as string, {
           requester: interaction.user,
-        })
-        const tracks = result.tracks
+        });
+        const tracks = result.tracks;
 
         if (!result.tracks.length)
           return msg.edit({
             content: `${client.i18n.get(language, "music", "add_match")}`,
-          })
+          });
         if (result.type === "PLAYLIST")
-          for (let track of tracks) TrackAdd.push(track)
-        else TrackAdd.push(tracks[0])
+          for (let track of tracks) TrackAdd.push(track);
+        else TrackAdd.push(tracks[0]);
 
-        const Duration = convertTime(tracks[0].length as number)
-        const TotalDuration = StartQueueDuration(tracks)
+        const Duration = convertTime(tracks[0].length as number);
+        const TotalDuration = StartQueueDuration(tracks);
 
         if (result.type === "PLAYLIST") {
           const embed = new EmbedBuilder()
@@ -82,8 +82,8 @@ export default {
                 user: String(interaction.user),
               })}`
             )
-            .setColor(client.color)
-          msg.edit({ content: " ", embeds: [embed] })
+            .setColor(client.color);
+          msg.edit({ content: " ", embeds: [embed] });
         } else if (result.type === "TRACK") {
           const embed = new EmbedBuilder()
             .setDescription(
@@ -94,8 +94,8 @@ export default {
                 user: String(interaction.user),
               })}`
             )
-            .setColor(client.color)
-          msg.edit({ content: " ", embeds: [embed] })
+            .setColor(client.color);
+          msg.edit({ content: " ", embeds: [embed] });
         } else if (result.type === "SEARCH") {
           const embed = new EmbedBuilder()
             .setDescription(
@@ -106,50 +106,50 @@ export default {
                 user: String(interaction.user),
               })}`
             )
-            .setColor(client.color)
-          msg.edit({ content: " ", embeds: [embed] })
+            .setColor(client.color);
+          msg.edit({ content: " ", embeds: [embed] });
         } else {
           //The playlist link is invalid.
           return msg.edit(
             `${client.i18n.get(language, "playlist", "add_match")}`
-          )
+          );
         }
 
-        const fullList = await client.db.get("playlist")
+        const fullList = await client.db.get("playlist");
 
         const pid = Object.keys(fullList).filter(function (key) {
           return (
             fullList[key].owner == interaction.user.id &&
             fullList[key].name == PlaylistName
-          )
-        })
+          );
+        });
 
-        const playlist = fullList[pid[0]]
+        const playlist = fullList[pid[0]];
 
         if (!playlist) {
           interaction.followUp(
             `${client.i18n.get(language, "playlist", "public_notfound")}`
-          )
-          TrackAdd.length = 0
-          return
+          );
+          TrackAdd.length = 0;
+          return;
         }
         if (playlist.owner !== interaction.user.id) {
           interaction.followUp(
             `${client.i18n.get(language, "playlist", "add_owner")}`
-          )
-          TrackAdd.length = 0
-          return
+          );
+          TrackAdd.length = 0;
+          return;
         }
 
-        const LimitTrack = playlist.tracks.length + TrackAdd.length
+        const LimitTrack = playlist.tracks.length + TrackAdd.length;
         if (LimitTrack > client.config.bot.LIMIT_TRACK) {
           interaction.followUp(
             `${client.i18n.get(language, "playlist", "add_limit_track", {
               limit: client.config.bot.LIMIT_TRACK,
             })}`
-          )
-          TrackAdd.length = 0
-          return
+          );
+          TrackAdd.length = 0;
+          return;
         }
 
         TrackAdd.forEach(async (track) => {
@@ -160,8 +160,8 @@ export default {
             thumbnail: track.thumbnail,
             author: track.author,
             requester: track.requester, // Just case can push
-          })
-        })
+          });
+        });
 
         const embed = new EmbedBuilder()
           .setDescription(
@@ -170,10 +170,10 @@ export default {
               playlist: PlaylistName,
             })}`
           )
-          .setColor(client.color)
-        interaction.followUp({ content: " ", embeds: [embed] })
-        TrackAdd.length = 0
+          .setColor(client.color);
+        interaction.followUp({ content: " ", embeds: [embed] });
+        TrackAdd.length = 0;
       }
     } catch (e) {}
   },
-}
+};

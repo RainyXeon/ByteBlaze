@@ -1,5 +1,5 @@
-import { EmbedBuilder, Message } from "discord.js"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, Message } from "discord.js";
+import { Manager } from "../../../manager.js";
 
 // Main code
 export default {
@@ -19,17 +19,17 @@ export default {
   ) => {
     const msg = await message.channel.send(
       `${client.i18n.get(language, "music", "join_loading")}`
-    )
-    const { channel } = message.member!.voice
+    );
+    const { channel } = message.member!.voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
 
     await client.manager.createPlayer({
       guildId: message.guild!.id,
       voiceId: message.member!.voice.channel!.id,
       textId: message.channel.id,
       deaf: true,
-    })
+    });
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -37,8 +37,8 @@ export default {
           channel: channel.name,
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [embed] })
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

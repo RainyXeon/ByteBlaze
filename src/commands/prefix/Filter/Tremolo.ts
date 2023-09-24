@@ -1,6 +1,6 @@
-import { EmbedBuilder, Message } from "discord.js"
-import delay from "delay"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, Message } from "discord.js";
+import delay from "delay";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: "tremolo",
@@ -20,17 +20,17 @@ export default {
       `${client.i18n.get(language, "filters", "filter_loading", {
         name: "tremolo",
       })}`
-    )
+    );
 
-    const player = client.manager.players.get(message.guild!.id)
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = message.member!.voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     const data = {
       op: "filters",
@@ -39,9 +39,9 @@ export default {
         frequency: 4.0,
         depth: 0.75,
       },
-    }
+    };
 
-    await player["send"](data)
+    await player["send"](data);
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -49,9 +49,9 @@ export default {
           name: "trembolo",
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    await delay(2000)
-    msg.edit({ content: " ", embeds: [embed] })
+    await delay(2000);
+    msg.edit({ content: " ", embeds: [embed] });
   },
-}
+};

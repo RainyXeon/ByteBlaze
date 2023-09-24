@@ -1,13 +1,13 @@
-import { Manager } from "../../../manager.js"
+import { Manager } from "../../../manager.js";
 import {
   EmbedBuilder,
   PermissionsBitField,
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-} from "discord.js"
-import FormatDuration from "../../../structures/FormatDuration.js"
-import { QueueDuration } from "../../../structures/QueueDuration.js"
+} from "discord.js";
+import FormatDuration from "../../../structures/FormatDuration.js";
+import { QueueDuration } from "../../../structures/QueueDuration.js";
 
 // Main code
 export default {
@@ -21,25 +21,25 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const realtime = client.config.lavalink.NP_REALTIME
+    const realtime = client.config.lavalink.NP_REALTIME;
     const msg = await message.channel.send(
       `${client.i18n.get(language, "music", "np_loading")}`
-    )
-    const player = client.manager.players.get(message.guild!.id)
+    );
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
 
-    const song = player.queue.current
-    const position = player.shoukaku.position
-    const CurrentDuration = FormatDuration(position)
-    const TotalDuration = FormatDuration(song!.length)
+    const song = player.queue.current;
+    const position = player.shoukaku.position;
+    const CurrentDuration = FormatDuration(position);
+    const TotalDuration = FormatDuration(song!.length);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
       `https://cdn.discordapp.com/avatars/${client.user!.id}/${
         client.user!.avatar
-      }.jpeg`
-    const Part = Math.floor((position / song!.length!) * 30)
-    const Emoji = player.playing ? "🔴 |" : "⏸ |"
+      }.jpeg`;
+    const Part = Math.floor((position / song!.length!) * 30);
+    const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
     const embeded = new EmbedBuilder()
       .setAuthor({
@@ -106,19 +106,19 @@ export default {
           inline: false,
         },
       ])
-      .setTimestamp()
+      .setTimestamp();
 
-    const NEmbed = await msg.edit({ content: " ", embeds: [embeded] })
-    var interval = null
+    const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
+    var interval = null;
 
     if (realtime === "true") {
       interval = setInterval(async () => {
-        if (!player.playing) return
-        const CurrentDuration = FormatDuration(position)
-        const Part = Math.floor((position / song!.length!) * 30)
-        const Emoji = player.playing ? "🔴 |" : "⏸ |"
+        if (!player.playing) return;
+        const CurrentDuration = FormatDuration(position);
+        const Part = Math.floor((position / song!.length!) * 30);
+        const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
-        ;(embeded as any).fields[6] = {
+        (embeded as any).fields[6] = {
           name: `${client.i18n.get(language, "music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
@@ -126,13 +126,13 @@ export default {
           value: `\`\`\`${Emoji} ${
             "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
           }\`\`\``,
-        }
+        };
 
-        if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] })
-      }, 5000)
+        if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
+      }, 5000);
     } else if (realtime === "false") {
-      if (!player.playing) return
-      if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] })
+      if (!player.playing) return;
+      if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
     }
   },
-}
+};

@@ -1,6 +1,6 @@
-import { EmbedBuilder, Message } from "discord.js"
-import delay from "delay"
-import { Manager } from "../../../manager.js"
+import { EmbedBuilder, Message } from "discord.js";
+import delay from "delay";
+import { Manager } from "../../../manager.js";
 
 export default {
   name: "nightcore",
@@ -20,17 +20,17 @@ export default {
       `${client.i18n.get(language, "filters", "filter_loading", {
         name: "nightcore",
       })}`
-    )
+    );
 
-    const player = client.manager.players.get(message.guild!.id)
+    const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`)
-    const { channel } = message.member!.voice
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     const data = {
       op: "filters",
@@ -40,9 +40,9 @@ export default {
         pitch: 1.125,
         rate: 1.05,
       },
-    }
+    };
 
-    await player["send"](data)
+    await player["send"](data);
 
     const nightcored = new EmbedBuilder()
       .setDescription(
@@ -50,8 +50,8 @@ export default {
           name: "nightcore",
         })}`
       )
-      .setColor(client.color)
+      .setColor(client.color);
 
-    msg.edit({ content: " ", embeds: [nightcored] })
+    msg.edit({ content: " ", embeds: [nightcored] });
   },
-}
+};
