@@ -10,7 +10,6 @@ import {
 import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
-import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
 import { DisTube } from 'distube'
@@ -38,10 +37,6 @@ export class Manager extends Client {
   i18n: I18n;
   prefix: string;
   shard_status: boolean;
-  lavalink_list: LavalinkDataType[];
-  lavalink_using: LavalinkUsingDataType[];
-  fixing_nodes: boolean;
-  used_lavalink: LavalinkUsingDataType[];
   manager: DisTube;
   slash: Collection<string, any>;
   commands: Collection<string, any>;
@@ -92,11 +87,6 @@ export class Manager extends Client {
     this.prefix = this.config.features.MESSAGE_CONTENT.prefix || "d!";
     this.shard_status = false;
 
-    // Auto fix lavalink varibles
-    this.lavalink_list = [];
-    this.lavalink_using = [];
-    this.fixing_nodes = false;
-    this.used_lavalink = [];
 
     this.config.features.WEB_SERVER.websocket.enable
       ? (this.ws_message = new Collection())
@@ -141,30 +131,20 @@ export class Manager extends Client {
       ]
     })
 
-    console.log(this.manager)
-
-    // if (this.config.features.AUTOFIX_LAVALINK) {
-    //   check_lavalink_server(this);
-    //   setInterval(async () => {
-    //     check_lavalink_server(this);
-    //   }, 1800000);
-    // }
-
-    // if (this.config.features.WEB_SERVER.enable) {
-    //   WebServer(this);
-    // }
-    // const loadFile = [
-    //   "loadEvents.js",
-    //   "loadNodeEvents.js",
-    //   "loadPlayer.js",
-    //   "loadWebsocket.js",
-    //   "loadCommand.js",
-    // ];
-    // if (!this.config.features.WEB_SERVER.websocket.enable)
-    //   loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
-    // loadFile.forEach(async (x) => {
-    //   (await import(`./handlers/${x}`)).default(this);
-    // });
+    if (this.config.features.WEB_SERVER.enable) {
+      WebServer(this);
+    }
+    const loadFile = [
+      "loadEvents.js",
+      "loadPlayer.js",
+      "loadWebsocket.js",
+      // "loadCommand.js",
+    ];
+    if (!this.config.features.WEB_SERVER.websocket.enable)
+      loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
+    loadFile.forEach(async (x) => {
+      (await import(`./handlers/${x}`)).default(this);
+    });
 
     connectDB(this);
   }
