@@ -12,7 +12,7 @@ export default async (
     return;
   if (players) players.map((player: KazagumoPlayer) => player.destroy());
   client.logger.debug(`Lavalink ${name}: Disconnected`);
-  if (client.config.features.AUTOFIX_LAVALINK && !client.fixing_nodes) {
+  if (client.config.features.AUTOFIX_LAVALINK.enable && !client.fixing_nodes) {
     client.fixing_nodes = true;
     (await import("../../lava_scrap/autofix_lavalink.js")).default(client);
   }

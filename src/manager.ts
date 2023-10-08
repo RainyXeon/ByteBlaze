@@ -12,6 +12,7 @@ import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
+import * as metadataFile from "./plugins/metadata.js";
 import winstonLogger from "./plugins/logger.js";
 import Spotify from "kazagumo-spotify";
 import Deezer from "kazagumo-deezer";
@@ -25,6 +26,7 @@ import { QuickDB } from "quick.db";
 import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
+import { Metadata } from "./types/Metadata.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -32,6 +34,7 @@ winstonLogger.info("Booting client...");
 export class Manager extends Client {
   // Interface
   token: string;
+  metadata: Metadata;
   config: Record<string, any>;
   logger: any;
   db!: QuickDB;
@@ -40,6 +43,7 @@ export class Manager extends Client {
   color: ColorResolvable;
   i18n: I18n;
   prefix: string;
+  is_db_connected: boolean;
   shard_status: boolean;
   lavalink_list: LavalinkDataType[];
   lavalink_using: LavalinkUsingDataType[];
@@ -53,12 +57,11 @@ export class Manager extends Client {
   sent_queue: Collection<string, any>;
   aliases: Collection<string, any>;
   websocket?: WebSocket;
+  ws_message?: Collection<string, any>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
-  is_db_connected: boolean;
-  ws_message?: Collection<string, any>;
 
   // Main class
   constructor() {
@@ -83,7 +86,7 @@ export class Manager extends Client {
     });
     this.logger = winstonLogger;
     this.config = configData.default;
-
+    this.metadata = metadataFile.default;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.dev = this.config.bot.DEV_ID;
@@ -101,6 +104,7 @@ export class Manager extends Client {
     this.fixing_nodes = false;
     this.used_lavalink = [];
 
+    // Ws varible
     this.config.features.WEB_SERVER.websocket.enable
       ? (this.ws_message = new Collection())
       : undefined;
@@ -161,12 +165,16 @@ export class Manager extends Client {
       },
       new Connectors.DiscordJS(this),
       this.config.lavalink.NODES,
-      this.config.features.AUTOFIX_LAVALINK
-        ? { reconnectTries: 0, restTimeout: 3000 }
+      this.config.features.AUTOFIX_LAVALINK.enable
+        ? {
+            reconnectTries:
+              this.config.features.AUTOFIX_LAVALINK.reconnectTries,
+            restTimeout: this.config.features.AUTOFIX_LAVALINK.restTimeout,
+          }
         : this.config.lavalink.SHOUKAKU_OPTIONS
     );
 
-    if (this.config.features.AUTOFIX_LAVALINK) {
+    if (this.config.features.AUTOFIX_LAVALINK.enable) {
       check_lavalink_server(this);
       setInterval(async () => {
         check_lavalink_server(this);

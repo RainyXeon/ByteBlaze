@@ -11,8 +11,4 @@ export default async (
   client.logger.debug(
     `Lavalink ${name}: Closed, Code ${code}, Reason ${reason || "No reason"}`
   );
-  if (client.config.features.AUTOFIX_LAVALINK && !client.fixing_nodes) {
-    client.fixing_nodes = true;
-    (await import("../../lava_scrap/autofix_lavalink.js")).default(client);
-  }
 };

@@ -68,7 +68,10 @@ features:
 
   AUTO_DEPLOY: true
   AUTO_REMOVE_DUPLICATE: true
-  AUTOFIX_LAVALINK: true # Fix the lavalink server when the current is down
+  AUTOFIX_LAVALINK: # Fix the lavalink server when the current is down
+    enable: true
+    reconnectTries: 5
+    restTimeout: 3000
 
   WEB_SERVER:
     enable: false # Must enable this before using ws
