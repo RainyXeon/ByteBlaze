@@ -69,13 +69,13 @@ export default {
 
       const msg1 = await interaction.editReply(
         `${client.i18n.get(language, "filters", "filter_loading", {
-          name: client.commands.get("bassboost").config.name,
+          name: "bassboost",
         })}`
       );
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "filters", "filter_on", {
-            name: client.commands.get("bassboost").config.name,
+            name: "bassboost",
           })}`
         )
         .setColor(client.color);

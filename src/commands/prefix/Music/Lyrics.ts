@@ -50,7 +50,7 @@ export default {
           `${client.i18n.get(language, "music", "lyrics_notfound")}`
         );
     } catch (err) {
-      client.logger.log({ level: "error", message: err });
+      client.logger.log({ level: "error", message: String(err) });
       return msg.edit(
         `${client.i18n.get(language, "music", "lyrics_notfound")}`
       );

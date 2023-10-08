@@ -134,7 +134,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     ) {
       if (
         (interaction as CommandInteraction).commandName == "play" ||
-        (interaction as CommandInteraction).commandName + command.name[1] ==
+        (interaction as CommandInteraction).commandName + command!.name[1] ==
           "playlist" + "add"
       ) {
         let choice: AutocompleteInteractionChoices[] = [];
@@ -143,7 +143,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         )!.value;
         return AutoCompletePush(url as string, choice);
       } else if (
-        (interaction as CommandInteraction).commandName + command.name[1] ==
+        (interaction as CommandInteraction).commandName + command!.name[1] ==
         "playlist" + "edit"
       ) {
         let choice: AutocompleteInteractionChoices[] = [];

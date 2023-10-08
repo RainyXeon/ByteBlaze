@@ -3,7 +3,7 @@ import delay from "delay";
 import { Manager } from "../../../manager.js";
 
 export default {
-  name: ["filter", "karaoke"],
+  name: ["karaoke"],
   description: "Turning on karaoke filter",
   category: "Filter",
   run: async (

@@ -1,8 +1,9 @@
 import { Manager } from "../../manager.js";
+import { JSON_MESSAGE } from "../../types/Websocket.js";
 
 export default {
   name: "search",
-  run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
+  run: async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     const result = await client.manager.search(json.query, {
       engine: json.source ? json.source : "soundcloud",
       requester: null,

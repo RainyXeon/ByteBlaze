@@ -55,6 +55,6 @@ export async function connectDB(client: Manager) {
       return;
     }
   } catch (error) {
-    return client.logger.log({ level: "error", message: error });
+    return client.logger.log({ level: "error", message: String(error) });
   }
 }

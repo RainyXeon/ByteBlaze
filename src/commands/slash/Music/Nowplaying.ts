@@ -103,7 +103,7 @@ export default {
     const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
     var interval = null;
 
-    if (realtime === "true") {
+    if (realtime) {
       interval = setInterval(async () => {
         if (!player.playing) return;
         const CurrentDuration = formatDuration(position);
@@ -122,7 +122,7 @@ export default {
 
         if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
       }, 5000);
-    } else if (realtime === "false") {
+    } else if (!realtime) {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
     }

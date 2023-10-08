@@ -32,7 +32,7 @@ export async function websocket(client: Manager, ws: WebSocket, req: Request) {
   if (
     client.config.features.WEB_SERVER.websocket.auth &&
     !client.config.features.WEB_SERVER.websocket.trusted.includes(
-      verificationOrigin
+      verificationOrigin as string
     )
   ) {
     ws.close();

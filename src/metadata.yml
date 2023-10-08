@@ -1,8 +1,0 @@
-# THIS IS THE METADATA BOT FILE
-# Do NOT delete this file of it will crash
-# Changes to this file may cause incorrect behavior
-# You will be responsible for this when changing any content in the file.
-
-version: "2.0.1"
-autofix: "3.0.1-beta"
-codename: "Hatsuharu"

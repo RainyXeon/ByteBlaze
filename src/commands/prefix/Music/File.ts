@@ -1,5 +1,6 @@
 import {
   Attachment,
+  Collection,
   EmbedBuilder,
   Message,
   PermissionsBitField,

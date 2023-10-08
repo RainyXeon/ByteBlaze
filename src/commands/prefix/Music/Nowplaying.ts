@@ -5,6 +5,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Message,
+  Embed,
 } from "discord.js";
 import FormatDuration from "../../../structures/FormatDuration.js";
 import { QueueDuration } from "../../../structures/QueueDuration.js";
@@ -111,14 +112,14 @@ export default {
     const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
     var interval = null;
 
-    if (realtime === "true") {
+    if (realtime) {
       interval = setInterval(async () => {
         if (!player.playing) return;
         const CurrentDuration = FormatDuration(position);
         const Part = Math.floor((position / song!.length!) * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
-        (embeded as any).fields[6] = {
+        (embeded as unknown as Embed).fields[6] = {
           name: `${client.i18n.get(language, "music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
@@ -130,7 +131,7 @@ export default {
 
         if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
       }, 5000);
-    } else if (realtime === "false") {
+    } else if (!realtime) {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
     }

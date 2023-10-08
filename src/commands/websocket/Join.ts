@@ -1,8 +1,9 @@
 import { Manager } from "../../manager.js";
+import { JSON_MESSAGE } from "../../types/Websocket.js";
 
 export default {
   name: "join",
-  run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
+  run: async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     if (!json.user)
       return ws.send(
         JSON.stringify({ error: "0x115", message: "No user's id provided" })

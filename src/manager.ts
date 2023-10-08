@@ -12,7 +12,6 @@ import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
-import * as metadataFile from "./plugins/metadata.js";
 import winstonLogger from "./plugins/logger.js";
 import Spotify from "kazagumo-spotify";
 import Deezer from "kazagumo-deezer";
@@ -27,6 +26,10 @@ import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./types/Metadata.js";
+import { client_metadata } from "./metadata.js";
+import { PrefixCommand, SlashCommand, WsCommand } from "./types/Command.js";
+import { Config } from "./types/Config.js";
+import { PremiumUser } from "./types/User.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -35,7 +38,7 @@ export class Manager extends Client {
   // Interface
   token: string;
   metadata: Metadata;
-  config: Record<string, any>;
+  config: Config;
   logger: any;
   db!: QuickDB;
   owner: string;
@@ -50,14 +53,14 @@ export class Manager extends Client {
   fixing_nodes: boolean;
   used_lavalink: LavalinkUsingDataType[];
   manager: Kazagumo;
-  slash: Collection<string, any>;
-  commands: Collection<string, any>;
-  premiums: Collection<string, any>;
-  interval: Collection<string, any>;
-  sent_queue: Collection<string, any>;
-  aliases: Collection<string, any>;
+  slash: Collection<string, SlashCommand>;
+  commands: Collection<string, PrefixCommand>;
+  premiums: Collection<string, PremiumUser>;
+  interval: Collection<string, NodeJS.Timer>;
+  sent_queue: Collection<string, boolean>;
+  aliases: Collection<string, string>;
   websocket?: WebSocket;
-  ws_message?: Collection<string, any>;
+  ws_message?: Collection<string, WsCommand>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -86,11 +89,11 @@ export class Manager extends Client {
     });
     this.logger = winstonLogger;
     this.config = configData.default;
-    this.metadata = metadataFile.default;
+    this.metadata = client_metadata
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
-    this.dev = this.config.bot.DEV_ID;
-    this.color = this.config.bot.EMBED_COLOR || "#2b2d31";
+    this.dev = this.config.features.DEV_ID;
+    this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",
       directory: resolve(join(__dirname, "languages")),
@@ -119,10 +122,10 @@ export class Manager extends Client {
     this.is_db_connected = false;
 
     process.on("unhandledRejection", (error) =>
-      this.logger.log({ level: "error", message: error })
+      this.logger.log({ level: "error", message: String(error) })
     );
     process.on("uncaughtException", (error) =>
-      this.logger.log({ level: "error", message: error })
+      this.logger.log({ level: "error", message: String(error) })
     );
 
     if (

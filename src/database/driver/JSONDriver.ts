@@ -1,10 +1,10 @@
 import { Manager } from "../../manager.js";
 import { QuickDB, JSONDriver } from "quick.db";
-import { db_credentials_type } from "../../types/db_connect.js";
+import { Database } from "../../types/Config.js"
 
 export async function JSONConnectDriver(
   client: Manager,
-  db_config: db_credentials_type
+  db_config: Database
 ) {
   const jsonDriver = new JSONDriver(
     db_config.JSON.path || "./cylane.database.json"

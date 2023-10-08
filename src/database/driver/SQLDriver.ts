@@ -1,10 +1,10 @@
 import { Manager } from "../../manager.js";
-import { db_credentials_type } from "../../types/db_connect.js";
+import { Database } from "../../types/Config.js"
 import { QuickDB, MySQLDriver } from "quick.db";
 
 export async function SQLConnectDriver(
   client: Manager,
-  db_config: db_credentials_type
+  db_config: Database
 ) {
   const config = db_config.MYSQL;
 
@@ -21,6 +21,6 @@ export async function SQLConnectDriver(
       client.db = new QuickDB({ driver: mysqlDriver });
     });
   } catch (error) {
-    client.logger.log({ level: "error", message: error });
+    client.logger.log({ level: "error", message: String(error) });
   }
 }

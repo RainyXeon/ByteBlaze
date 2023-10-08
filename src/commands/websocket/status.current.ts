@@ -1,9 +1,10 @@
 import { Manager } from "../../manager.js";
 import { PlaylistTrackInterface } from "../../types/Playlist.js";
+import { JSON_MESSAGE } from "../../types/Websocket.js";
 
 export default {
   name: "status.current_track",
-  run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
+  run: async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
 
     if (!player)

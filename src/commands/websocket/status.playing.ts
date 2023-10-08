@@ -1,8 +1,9 @@
 import { Manager } from "../../manager.js";
+import { JSON_MESSAGE } from "../../types/Websocket.js";
 
 export default {
   name: "status.playing",
-  run: async (client: Manager, json: Record<string, any>, ws: WebSocket) => {
+  run: async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
     if (!player)
       return ws.send(

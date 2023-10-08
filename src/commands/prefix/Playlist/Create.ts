@@ -74,7 +74,7 @@ export default {
     if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
       msg.edit(
         `${client.i18n.get(language, "playlist", "create_limit_playlist", {
-          limit: client.config.bot.LIMIT_PLAYLIST,
+          limit: String(client.config.bot.LIMIT_PLAYLIST),
         })}`
       );
       return;

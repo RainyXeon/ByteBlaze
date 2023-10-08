@@ -118,7 +118,7 @@ export default {
     if (LimitTrack > client.config.bot.LIMIT_TRACK) {
       message.channel.send(
         `${client.i18n.get(language, "playlist", "add_limit_track", {
-          limit: client.config.bot.LIMIT_TRACK,
+          limit: String(client.config.bot.LIMIT_TRACK),
         })}`
       );
       TrackAdd.length = 0;
