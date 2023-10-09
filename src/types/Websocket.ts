@@ -1,1 +1,1 @@
-export type JSON_MESSAGE = Record<string, any>
+export type JSON_MESSAGE = Record<string, any>;

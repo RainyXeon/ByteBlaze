@@ -86,7 +86,8 @@ export default async (client: Manager, message: Message) => {
   const cmd = args.shift()!.toLowerCase();
 
   const command =
-    client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd) as string);
+    client.commands.get(cmd) ||
+    client.commands.get(client.aliases.get(cmd) as string);
   if (!command) return;
 
   if (

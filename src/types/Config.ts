@@ -1,54 +1,54 @@
 export interface Config {
-  bot:      Bot;
+  bot: Bot;
   lavalink: Lavalink;
   features: Features;
 }
 
 export interface Bot {
-  TOKEN:          string;
-  EMBED_COLOR:    string;
-  OWNER_ID:       string;
-  LANGUAGE:       string;
-  LIMIT_TRACK:    number;
+  TOKEN: string;
+  EMBED_COLOR: string;
+  OWNER_ID: string;
+  LANGUAGE: string;
+  LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;
 }
 
 export interface Features {
-  DATABASE:         Database;
-  SHARD_SYSTEM:     ShardSystem;
-  MESSAGE_CONTENT:  MessageContent;
-  AUTO_DEPLOY:      boolean;
+  DATABASE: Database;
+  SHARD_SYSTEM: ShardSystem;
+  MESSAGE_CONTENT: MessageContent;
+  AUTO_DEPLOY: boolean;
   AUTOFIX_LAVALINK: AutofixLavalink;
-  WEB_SERVER:       WebServer;
-  DEV_ID:           any[];
+  WEB_SERVER: WebServer;
+  DEV_ID: string[];
 }
 
 export interface AutofixLavalink {
-  enable:         boolean;
+  enable: boolean;
   reconnectTries: number;
-  restTimeout:    number;
+  restTimeout: number;
 }
 
 export interface Database {
-  JSON:     JSON;
+  JSON: JSON;
   MONGO_DB: MongoDB;
-  MYSQL:    Mysql;
+  MYSQL: Mysql;
 }
 
 export interface JSON {
   enable: boolean;
-  path:   string;
+  path: string;
 }
 
 export interface MongoDB {
   enable: boolean;
-  uri:    string;
+  uri: string;
 }
 
 export interface Mysql {
-  enable:   boolean;
-  host:     string;
-  user:     string;
+  enable: boolean;
+  host: string;
+  user: string;
   password: string;
   database: string;
 }
@@ -59,53 +59,53 @@ export interface MessageContent {
 }
 
 export interface ShardSystem {
-  enable:            boolean;
-  totalShards:       number;
-  totalClusters:     number;
+  enable: boolean;
+  totalShards: number;
+  totalClusters: number;
   shardsPerClusters: number;
-  mode:              string;
+  mode: string;
 }
 
 export interface WebServer {
-  enable:    boolean;
-  port:      number;
+  enable: boolean;
+  port: number;
   websocket: Websocket;
 }
 
 export interface Websocket {
-  enable:  boolean;
-  host:    string;
-  secret:  string;
-  auth:    boolean;
+  enable: boolean;
+  host: string;
+  secret: string;
+  auth: boolean;
   trusted: string[];
 }
 
 export interface Lavalink {
-  SPOTIFY:          Spotify;
-  DEFAULT:          string[];
-  NP_REALTIME:      boolean;
-  LEAVE_TIMEOUT:    number;
-  NODES:            Node[];
+  SPOTIFY: Spotify;
+  DEFAULT: string[];
+  NP_REALTIME: boolean;
+  LEAVE_TIMEOUT: number;
+  NODES: Node[];
   SHOUKAKU_OPTIONS: ShoukakuOptions;
 }
 
 export interface Node {
-  url:    string;
-  name:   string;
-  auth:   string;
+  url: string;
+  name: string;
+  auth: string;
   secure: boolean;
 }
 
 export interface ShoukakuOptions {
   moveOnDisconnect: boolean;
-  resumable:        boolean;
+  resumable: boolean;
   resumableTimeout: number;
-  reconnectTries:   number;
-  restTimeout:      number;
+  reconnectTries: number;
+  restTimeout: number;
 }
 
 export interface Spotify {
   enable: boolean;
-  id:     string;
+  id: string;
   secret: string;
 }

@@ -10,6 +10,7 @@ import {
 } from "discord.js";
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
+import { SetupInfoChannel } from "../../../types/Setup.js";
 
 export default {
   name: ["settings", "status"],
@@ -186,7 +187,7 @@ export default {
             .setTimestamp()
             .setColor(client.color);
 
-          SetupChannel.forEach(async (g: any) => {
+          SetupChannel.forEach(async (g: SetupInfoChannel) => {
             const fetch_channel = await client.channels.fetch(g.channel);
             const text_channel = fetch_channel! as TextChannel;
             const interval_text = await text_channel.messages!.fetch(g.statmsg);

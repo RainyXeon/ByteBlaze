@@ -22,9 +22,9 @@ export type BotInfoType = {
 };
 
 export type PremiumUser = {
-  id: string,
-  isPremium: boolean,
-  redeemedAt: number | null,
-  expiresAt: number | null,
-  plan: string | null
-}
+  id: string;
+  isPremium: boolean;
+  redeemedAt: number | null;
+  expiresAt: number | null;
+  plan: string | null;
+};

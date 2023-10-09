@@ -89,7 +89,7 @@ export class Manager extends Client {
     });
     this.logger = winstonLogger;
     this.config = configData.default;
-    this.metadata = client_metadata
+    this.metadata = client_metadata;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.dev = this.config.features.DEV_ID;

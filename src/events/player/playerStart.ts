@@ -240,7 +240,10 @@ export default async (
         ? `${client.i18n.get(language, "player", "switch_pause")}`
         : `${client.i18n.get(language, "player", "switch_resume")}`;
 
-      if (client.websocket && client.config.features.WEB_SERVER.websocket.enable)
+      if (
+        client.websocket &&
+        client.config.features.WEB_SERVER.websocket.enable
+      )
         await client.websocket.send(
           JSON.stringify({
             op: player.paused ? 3 : 4,
@@ -263,7 +266,10 @@ export default async (
       }
       await player.skip();
 
-      if (client.websocket && client.config.features.WEB_SERVER.websocket.enable)
+      if (
+        client.websocket &&
+        client.config.features.WEB_SERVER.websocket.enable
+      )
         await client.websocket.send(
           JSON.stringify({
             op: "skip_track",
@@ -282,7 +288,10 @@ export default async (
         collector.stop();
       }
 
-      if (client.websocket && client.config.features.WEB_SERVER.websocket.enable)
+      if (
+        client.websocket &&
+        client.config.features.WEB_SERVER.websocket.enable
+      )
         await client.websocket.send(
           JSON.stringify({
             op: "player_destroy",

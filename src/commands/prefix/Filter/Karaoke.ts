@@ -36,10 +36,10 @@ export default {
       op: "filters",
       guildId: message.guild!.id,
       karaoke: {
-          level: 1.0,
-          monoLevel: 1.0,
-          filterBand: 220.0,
-          filterWidth: 100.0,
+        level: 1.0,
+        monoLevel: 1.0,
+        filterBand: 220.0,
+        filterWidth: 100.0,
       },
     };
 
