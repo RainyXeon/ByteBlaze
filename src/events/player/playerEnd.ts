@@ -37,7 +37,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (data) return;
 
-  if (player.queue.length) return;
+  if (player.queue.length || player!.queue!.current) return;
 
   if (player.loop !== "none") return;
 
