@@ -96,7 +96,13 @@ export default async (client: Manager, message: Message) => {
     )
   )
     return await message.author.dmChannel!.send(
-      `${client.i18n.get(language, "interaction", "no_perms")}`
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
+            .setColor(client.color)
+        ]
+      }
     );
   if (
     !message.guild!.members.me!.permissions.has(
@@ -110,12 +116,24 @@ export default async (client: Manager, message: Message) => {
     )
   )
     return await message.channel.send(
-      `${client.i18n.get(language, "interaction", "no_perms")}`
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
+            .setColor(client.color)
+        ]
+      }
     );
 
   if (command.owner && message.author.id != client.owner)
     return message.channel.send(
-      `${client.i18n.get(language, "interaction", "owner_only")}`
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "interaction", "owner_only")}`)
+            .setColor(client.color)
+        ]
+      }
     );
 
   try {
@@ -138,14 +156,27 @@ export default async (client: Manager, message: Message) => {
     }
   } catch (err) {
     client.logger.error(err);
-    return message.channel.send({
-      content: `${client.i18n.get(language, "nopremium", "premium_error")}`,
-    });
+    return message.channel.send(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "nopremium", "premium_error")}`,)
+            .setColor(client.color)
+        ]
+      }
+    );
   }
 
-  if (command.lavalink) {
-    if (client.lavalink_using.length == 0)
-      return message.reply(`${client.i18n.get(language, "music", "no_node")}`);
+  if (command.lavalink && client.lavalink_using.length == 0) {
+    return message.channel.send(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "music", "no_node")}`)
+            .setColor(client.color)
+        ]
+      }
+    );
   }
 
   if (command) {
