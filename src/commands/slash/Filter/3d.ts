@@ -6,6 +6,10 @@ export default {
   name: ["filter", "3d"],
   description: "Turning on 3d filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

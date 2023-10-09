@@ -7,6 +7,10 @@ export default {
   name: ["filter", "pop"],
   description: "Turning on pop filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

@@ -12,6 +12,10 @@ export default {
   name: ["filter", "equalizer"],
   description: "Custom Equalizer!",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "bands",

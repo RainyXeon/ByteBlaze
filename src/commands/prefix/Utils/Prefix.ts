@@ -8,7 +8,11 @@ export default {
   usage: "<input>",
   category: "Utils",
   description: "Change the prefix for the bot",
-  accessableby: "Members",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
+
   run: async (
     client: Manager,
     message: Message,
@@ -16,10 +20,6 @@ export default {
     language: string,
     prefix: string
   ) => {
-    if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "prefix_perm")}`
-      );
     if (!args[0])
       return message.channel.send(
         `${client.i18n.get(language, "utilities", "prefix_arg")}`

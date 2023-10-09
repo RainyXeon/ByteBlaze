@@ -6,6 +6,10 @@ export default {
   name: ["loopall"],
   description: "Loop all songs in queue!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

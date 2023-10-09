@@ -16,6 +16,10 @@ export default {
   category: "Playlist",
   usage: "<playlist_name> <url_or_name>",
   aliases: ["pl-add"],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

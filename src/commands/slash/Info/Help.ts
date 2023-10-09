@@ -15,6 +15,10 @@ export default {
   name: ["help"],
   description: "Displays all commands that the bot has.",
   category: "Info",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

@@ -13,6 +13,9 @@ export default {
   description: "Generate a premium code!",
   category: "Premium",
   owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "plan",

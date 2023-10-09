@@ -15,6 +15,12 @@ export default {
   name: "nowplaying",
   description: "Display the song currently playing.",
   category: "Music",
+  usage: "",
+  aliases: ["np"],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     client: Manager,
     message: Message,

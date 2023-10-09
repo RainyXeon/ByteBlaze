@@ -14,7 +14,11 @@ export default {
   name: ["play"],
   description: "Play a song from any types",
   category: "Music",
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
+
   options: [
     {
       name: "search",

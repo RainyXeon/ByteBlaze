@@ -5,6 +5,10 @@ export default {
   name: ["pause"],
   description: "Pause the music!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

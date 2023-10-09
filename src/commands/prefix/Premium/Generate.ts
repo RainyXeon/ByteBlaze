@@ -11,6 +11,10 @@ export default {
   usage: "<type> <number>",
   aliases: ["pg"],
   owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
+
   run: async (
     client: Manager,
     message: Message,

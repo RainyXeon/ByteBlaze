@@ -11,6 +11,10 @@ export default {
   name: ["filter", "pitch"],
   description: "Sets the pitch of the song.",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "amount",

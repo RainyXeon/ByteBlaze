@@ -12,6 +12,10 @@ export default {
   name: ["filter", "speed"],
   description: "Sets the speed of the song.",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "amount",

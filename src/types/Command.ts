@@ -9,11 +9,12 @@ export type PrefixCommand = {
   description: string;
   category: string;
   accessableby: string;
-  owner?: boolean;
   usage: string;
   aliases: string[];
   premium?: boolean;
   lavalink?: boolean;
+  owner?: boolean;
+  isManager?: boolean;
   run: (
     client: Manager,
     message: Message,
@@ -31,6 +32,7 @@ export type SlashCommand = {
   owner?: boolean;
   premium?: boolean;
   lavalink?: boolean;
+  isManager?: boolean;
   run: (
     interaction: GlobalInteraction,
     client: Manager,

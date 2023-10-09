@@ -6,7 +6,10 @@ export default {
   name: ["join"],
   description: "Make the bot join the voice channel.",
   category: "Music",
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

@@ -14,6 +14,10 @@ export default {
   name: ["forward"],
   description: "Forward timestamp in the song!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "seconds",

@@ -12,6 +12,10 @@ export default {
   name: ["loop"],
   description: "Loop song in queue type all/current!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "type",

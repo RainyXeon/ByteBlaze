@@ -41,20 +41,42 @@ export default async (client: Manager) => {
             case "sprevious":
               {
                 if (!channel) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (
                   interaction.guild.members.me.voice.channel &&
                   !interaction.guild.members.me.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (!player || !player.queue.previous) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "music", "previous_notfound")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(
+                            language,
+                            "music",
+                            "previous_notfound"
+                          )}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else {
                   await player.queue.unshift(player.queue.previous);
                   await player.skip();
@@ -73,20 +95,42 @@ export default async (client: Manager) => {
             case "sskip":
               {
                 if (!channel) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (
                   interaction.guild.members.me.voice.channel &&
                   !interaction.guild.members.me.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (!player) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_player")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(
+                            language,
+                            "noplayer",
+                            "no_player"
+                          )}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else {
                 }
                 if (player.queue.size == 0) {
@@ -117,20 +161,42 @@ export default async (client: Manager) => {
             case "sstop":
               {
                 if (!channel) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (
                   interaction.guild.members.me.voice.channel &&
                   !interaction.guild.members.me.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (!player) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_player")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(
+                            language,
+                            "noplayer",
+                            "no_player"
+                          )}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else {
                   await player.destroy();
                   await client.UpdateMusic(player);
@@ -149,20 +215,42 @@ export default async (client: Manager) => {
             case "spause":
               {
                 if (!channel) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (
                   interaction.guild.members.me.voice.channel &&
                   !interaction.guild.members.me.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_voice")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(language, "noplayer", "no_voice")}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else if (!player) {
-                  return interaction.reply(
-                    `${client.i18n.get(language, "noplayer", "no_player")}`
-                  );
+                  return interaction.reply({
+                    embeds: [
+                      new EmbedBuilder()
+                        .setDescription(
+                          `${client.i18n.get(
+                            language,
+                            "noplayer",
+                            "no_player"
+                          )}`
+                        )
+                        .setColor(client.color),
+                    ],
+                  });
                 } else {
                   await player.pause(!player.paused);
                   const uni = player.paused
@@ -283,7 +371,15 @@ export default async (client: Manager) => {
     let voiceChannel = await message.member.voice.channel;
     if (!voiceChannel)
       return message.channel
-        .send(`${client.i18n.get(language, "noplayer", "no_voice")}`)
+        .send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        })
         .then((msg: Message) => {
           setTimeout(() => {
             msg.delete();

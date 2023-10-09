@@ -7,6 +7,10 @@ export default {
   name: ["nowplaying"],
   description: "Display the song currently playing.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

@@ -10,6 +10,10 @@ export default {
   category: "Music",
   usage: "<position>",
   aliases: ["rm"],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

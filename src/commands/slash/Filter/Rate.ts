@@ -11,6 +11,10 @@ export default {
   name: ["filter", "rate"],
   description: "Sets the rate of the song.",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "amount",

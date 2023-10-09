@@ -11,6 +11,9 @@ export default {
   description: "Remove premium from members!",
   category: "Premium",
   owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "target",

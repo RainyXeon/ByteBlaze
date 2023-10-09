@@ -10,6 +10,10 @@ export default {
   name: ["playlist", "remove"],
   description: "Remove a song from a playlist",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "name",

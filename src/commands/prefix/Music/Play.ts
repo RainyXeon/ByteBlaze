@@ -9,7 +9,10 @@ export default {
   category: "Music",
   usage: "<name_or_url>",
   aliases: ["p", "pl", "pp"],
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

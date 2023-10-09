@@ -16,6 +16,10 @@ export default {
   category: "Info",
   usage: "+ <commamnd_name>",
   aliases: ["h"],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     client: Manager,
     message: Message,
@@ -59,7 +63,13 @@ export default {
                 ? `\`${prefix}${command.name} ${command.usage}\``
                 : "No Usage"
             }
-            **Accessible by:** ${command.accessableby || "Members"}
+            **Accessible by:** ${
+              command.isManager
+                ? "Guild Manager"
+                : command.owner
+                ? "Owner"
+                : "Members"
+            }
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0
                 ? command.aliases.join(", ")

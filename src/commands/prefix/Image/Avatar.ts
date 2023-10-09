@@ -13,6 +13,10 @@ export default {
   category: "Image",
   usage: "<mention>",
   aliases: [],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

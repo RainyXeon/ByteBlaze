@@ -16,6 +16,10 @@ export default {
   name: ["playlist", "save", "queue"],
   description: "Save the current queue to a playlist",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "name",

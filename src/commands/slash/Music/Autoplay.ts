@@ -6,6 +6,10 @@ export default {
   name: ["autoplay"],
   description: "Autoplay music (Random play songs)",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

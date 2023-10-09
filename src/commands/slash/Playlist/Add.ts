@@ -15,6 +15,10 @@ export default {
   name: ["playlist", "add"],
   description: "Add song to a playlist",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "name",

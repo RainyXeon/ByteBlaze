@@ -62,7 +62,7 @@ export default async (
         .catch(() => {});
     }
   }
-  
+
   if (
     Number(interaction.type) == InteractionType.ApplicationCommandAutocomplete
   ) {
@@ -81,9 +81,7 @@ export default async (
       "playlist" + "edit"
     ) {
       let choice: AutocompleteInteractionChoices[] = [];
-      const url = (interaction as CommandInteraction).options.get(
-        "add"
-      )!.value;
+      const url = (interaction as CommandInteraction).options.get("add")!.value;
       return AutoCompletePush(url as string, choice);
     }
   }

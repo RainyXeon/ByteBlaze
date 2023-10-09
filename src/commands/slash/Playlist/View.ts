@@ -10,6 +10,10 @@ export default {
   name: ["playlist", "view"],
   description: "Public or private a playlist",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "name",

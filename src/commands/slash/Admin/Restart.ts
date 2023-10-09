@@ -6,6 +6,9 @@ export default {
   description: "Shuts down the client!",
   category: "Admin",
   owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

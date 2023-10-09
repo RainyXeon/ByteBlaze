@@ -86,7 +86,8 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     if (
       Number(interaction.type) == InteractionType.ApplicationCommandAutocomplete
-    ) return client.emit("autoComplete", interaction, language, command)
+    )
+      return client.emit("autoComplete", interaction, language, command);
 
     const msg_cmd = [
       `[COMMAND] ${command.name[0]}`,
@@ -139,15 +140,15 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         PermissionsBitField.Flags.SendMessages
       )
     )
-      return interaction.user.dmChannel!.send(
-        {
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
-              .setColor(client.color)
-          ]
-        }
-      );
+      return interaction.user.dmChannel!.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "interaction", "no_perms")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (
       !interaction.guild.members.me!.permissions.has(
         PermissionsBitField.Flags.ViewChannel
@@ -159,85 +160,94 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         PermissionsBitField.Flags.EmbedLinks
       )
     )
-      return (interaction as NoAutoInteraction).reply(
-        {
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(        `${client.i18n.get(language, "interaction", "no_perms")}`)
-              .setColor(client.color)
-          ]
-        }
-      );
+      return (interaction as NoAutoInteraction).reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "interaction", "no_perms")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (!((interaction as CommandInteraction).commandName == "help")) {
       if (
         !interaction.guild.members.me!.permissions.has(
           PermissionsBitField.Flags.Speak
         )
       )
-        return (interaction as NoAutoInteraction).reply(
-          {
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
-                .setColor(client.color)
-            ]
-          }
-        );
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "interaction", "no_perms")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (
         !interaction.guild.members.me!.permissions.has(
           PermissionsBitField.Flags.Connect
         )
       )
-        return (interaction as NoAutoInteraction).reply(
-          {
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
-                .setColor(client.color)
-            ]
-          }
-        );
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "interaction", "no_perms")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (
         !interaction.guild.members.me!.permissions.has(
           PermissionsBitField.Flags.ManageMessages
         )
       )
-        return (interaction as NoAutoInteraction).reply(
-          {
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
-                .setColor(client.color)
-            ]
-          }
-        );
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "interaction", "no_perms")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (
         !interaction.guild.members.me!.permissions.has(
           PermissionsBitField.Flags.ManageChannels
         )
       )
-        return await (interaction as NoAutoInteraction).reply(
-          {
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "interaction", "no_perms")}`)
-                .setColor(client.color)
-            ]
-          }
-        );
+        return await (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "interaction", "no_perms")}`
+              )
+              .setColor(client.color),
+          ],
+        });
     }
+
+    if (
+      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
+        PermissionsBitField.Flags.ManageGuild
+      )
+    )
+      return (interaction as NoAutoInteraction).reply(
+        `${client.i18n.get(language, "utilities", "lang_perm")}`
+      );
 
     if (command.lavalink) {
       if (client.lavalink_using.length == 0)
-        return (interaction as NoAutoInteraction).reply(
-          {
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "no_node")}`)
-                .setColor(client.color)
-            ]
-          }
-        );
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "music", "no_node")}`
+              )
+              .setColor(client.color),
+          ],
+        });
     }
 
     if (!command) return;

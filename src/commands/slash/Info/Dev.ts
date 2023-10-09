@@ -13,6 +13,10 @@ export default {
   name: ["developer"],
   description: "Shows the developer information of the Bot (Credit)",
   category: "Info",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

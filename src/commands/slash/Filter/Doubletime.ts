@@ -6,6 +6,10 @@ export default {
   name: ["filter", "doubletime"],
   description: "Turning on doubletime filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

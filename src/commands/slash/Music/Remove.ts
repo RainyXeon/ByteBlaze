@@ -13,6 +13,10 @@ export default {
   name: ["remove"],
   description: "Remove song from queue",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "position",

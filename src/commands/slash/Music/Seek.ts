@@ -14,6 +14,10 @@ export default {
   name: ["seek"],
   description: "Seek timestamp in the song!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "time",

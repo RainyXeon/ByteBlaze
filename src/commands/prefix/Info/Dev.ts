@@ -8,6 +8,10 @@ export default {
   category: "Info",
   usage: "",
   aliases: ["dev"],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     client: Manager,
     message: Message,

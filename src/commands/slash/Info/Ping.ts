@@ -12,6 +12,10 @@ export default {
   name: ["ping"],
   description: "Shows the ping information of the Bot",
   category: "Info",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

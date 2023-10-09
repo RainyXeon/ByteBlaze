@@ -12,7 +12,11 @@ import { Manager } from "../../../manager.js";
 export default {
   name: ["radio"],
   description: "Play radio in voice channel",
-  lavalink: true,
+  category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "number",

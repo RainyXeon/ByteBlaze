@@ -11,6 +11,10 @@ export default {
   name: ["playlist", "create"],
   description: "Create a new playlist",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "name",

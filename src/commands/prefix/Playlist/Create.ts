@@ -12,6 +12,10 @@ export default {
   category: "Playlist",
   usage: "<playlist_name> <playlist_description>",
   aliases: ["pl-create"],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

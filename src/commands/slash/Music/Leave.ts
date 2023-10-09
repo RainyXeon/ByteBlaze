@@ -6,6 +6,10 @@ export default {
   name: ["leave"],
   description: "Make the bot leave the voice channel.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

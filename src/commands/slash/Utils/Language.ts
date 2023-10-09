@@ -11,6 +11,10 @@ export default {
   name: ["settings", "language"],
   description: "Change the language for the bot",
   category: "Utils",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
   options: [
     {
       name: "input",
@@ -29,14 +33,6 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("input");
 
-    if (
-      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-        PermissionsBitField.Flags.ManageGuild
-      )
-    )
-      return interaction.editReply(
-        `${client.i18n.get(language, "utilities", "lang_perm")}`
-      );
     const languages = client.i18n.getLocales();
 
     if (!languages.includes(input as string))

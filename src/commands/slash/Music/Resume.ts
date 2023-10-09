@@ -6,6 +6,10 @@ export default {
   name: ["resume"],
   description: "Resume the music!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

@@ -14,6 +14,10 @@ export default {
   name: ["lyrics"],
   description: "Display lyrics of a song.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "input",

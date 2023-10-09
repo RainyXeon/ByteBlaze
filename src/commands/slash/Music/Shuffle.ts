@@ -6,6 +6,10 @@ export default {
   name: ["shuffle"],
   description: "Shuffle song in queue!",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

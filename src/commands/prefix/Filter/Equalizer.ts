@@ -12,6 +12,11 @@ export default {
   category: "Filter",
   usage: "<number>",
   aliases: [],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
+
   run: async (
     client: Manager,
     message: Message,
@@ -22,22 +27,41 @@ export default {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.channel.send(
-        `${client.i18n.get(language, "music", "number_invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "number_invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_player")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const { channel } = message.member!.voice;
     if (
       !channel ||
-      message.member!.voice.channel !== message.guild?.members.me!.voice.channel
+      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_voice")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (!value) {
       const embed = new EmbedBuilder()
@@ -63,7 +87,7 @@ export default {
     } else if (value == "off" || value == "reset") {
       const data = {
         op: "filters",
-        guildId: message.guild.id,
+        guildId: message.guild!.id,
       };
       return player["send"](data);
     }
@@ -73,35 +97,53 @@ export default {
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
       if (isNaN(+bands[i]))
-        return message.channel.send(
-          `${client.i18n.get(language, "filters", "eq_number", {
-            num: String(i + 1),
-          })}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "filters", "eq_number", {
+                  num: String(i + 1),
+                })}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (Number(bands[i]) > 10)
-        return message.channel.send(
-          `${client.i18n.get(language, "filters", "eq_than", {
-            num: String(i + 1),
-          })}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "filters", "eq_than", {
+                  num: String(i + 1),
+                })}`
+              )
+              .setColor(client.color),
+          ],
+        });
     }
 
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
       const data = {
         op: "filters",
-        guildId: message.guild.id,
+        guildId: message.guild!.id,
         equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
       };
       player["send"](data);
       bandsStr += `${bands[i]} `;
     }
 
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "filters", "eq_loading", {
-        bands: bandsStr,
-      })}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "filters", "eq_loading", {
+              bands: bandsStr,
+            })}`
+          )
+          .setColor(client.color),
+      ],
+    });
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "eq_on", {

@@ -13,6 +13,10 @@ export default {
   name: ["playlist", "all"],
   description: "View all your playlists",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "page",

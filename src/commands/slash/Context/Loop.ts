@@ -7,6 +7,10 @@ export default {
   name: ["Loop"],
   type: ApplicationCommandType.Message,
   category: "Context",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     interaction: ContextMenuCommandInteraction,

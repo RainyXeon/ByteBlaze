@@ -7,9 +7,12 @@ export default {
   description: "Shuts down the client!",
   category: "Admin",
   accessableby: "Owner",
-  owner: true,
   usage: "",
   aliases: [],
+  owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

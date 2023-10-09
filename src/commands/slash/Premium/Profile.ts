@@ -6,7 +6,10 @@ export default {
   name: ["profile"],
   description: "View your premium profile!",
   category: "Premium",
+  owner: false,
   premium: true,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

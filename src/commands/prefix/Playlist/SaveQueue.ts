@@ -16,6 +16,10 @@ export default {
   category: "Playlist",
   usage: "<playlist_name>",
   aliases: ["pl-sq", "pl-save-queue", "pl-save"],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

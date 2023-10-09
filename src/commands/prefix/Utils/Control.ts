@@ -8,7 +8,10 @@ export default {
   usage: "<input>",
   category: "Utils",
   description: "Change the player mode for the bot",
-  accessableby: "Members",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
 
   run: async (
     client: Manager,
@@ -17,11 +20,6 @@ export default {
     language: string,
     prefix: string
   ) => {
-    if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "control_perm")}`
-      );
-
     const db = await client.db.get(`control.guild_${message.guild!.id}`);
     const embed = new EmbedBuilder()
       .setDescription(

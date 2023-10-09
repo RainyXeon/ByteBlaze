@@ -11,6 +11,10 @@ export default {
   name: ["redeem"],
   description: "Redeem your premium!",
   category: "Premium",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "code",

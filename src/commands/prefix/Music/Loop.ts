@@ -8,6 +8,10 @@ export default {
   category: "Music",
   usage: "<mode>",
   aliases: [],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

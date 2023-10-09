@@ -13,6 +13,11 @@ export default {
   name: ["Play"],
   type: ApplicationCommandType.Message,
   category: "Context",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
+
   /**
    * @param {ContextMenuInteraction} interaction
    */

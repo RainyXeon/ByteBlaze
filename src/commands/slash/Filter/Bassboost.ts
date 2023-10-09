@@ -12,6 +12,10 @@ export default {
   name: ["filter", "bassboost"],
   description: "Turning on bassboost filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "amount",

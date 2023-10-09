@@ -9,7 +9,10 @@ export default {
   usage: "<language>",
   category: "Utils",
   description: "Change the language for the bot",
-  accessableby: "Members",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
 
   run: async (
     client: Manager,
@@ -19,10 +22,6 @@ export default {
     prefix: string
   ) => {
     const languages = client.i18n.getLocales();
-    if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "lang_perm")}`
-      );
     if (!args[0])
       return message.channel.send(
         `${client.i18n.get(language, "utilities", "provide_lang", {

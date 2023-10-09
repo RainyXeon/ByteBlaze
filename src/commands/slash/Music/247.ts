@@ -5,6 +5,10 @@ export default {
   name: ["247"],
   description: "24/7 in voice channel",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

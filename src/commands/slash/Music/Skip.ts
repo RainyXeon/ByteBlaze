@@ -6,6 +6,10 @@ export default {
   name: ["skip"],
   description: "Skips the song currently playing.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

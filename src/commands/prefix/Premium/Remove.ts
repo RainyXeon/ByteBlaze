@@ -5,9 +5,12 @@ export default {
   name: "premium-remove",
   description: "Remove premium from members!",
   category: "Premium",
-  owner: true,
   usage: "<mention or id>",
   aliases: ["prm"],
+  owner: true,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

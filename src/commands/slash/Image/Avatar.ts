@@ -6,6 +6,10 @@ export default {
   name: ["avatar"],
   description: "Show your or someone else's profile picture",
   category: "Image",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "user",

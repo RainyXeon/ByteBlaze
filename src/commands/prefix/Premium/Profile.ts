@@ -8,7 +8,11 @@ export default {
   category: "Premium",
   usage: "",
   aliases: [],
+  owner: false,
   premium: true,
+  lavalink: false,
+  isManager: false,
+
   run: async (
     client: Manager,
     message: Message,

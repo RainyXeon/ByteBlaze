@@ -16,6 +16,10 @@ export default {
   name: ["settings", "status"],
   description: "Create bot status channel",
   category: "Utils",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
   options: [
     {
       name: "type",
@@ -40,14 +44,6 @@ export default {
     language: string
   ) => {
     await interaction.deferReply({ ephemeral: false });
-    if (
-      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-        PermissionsBitField.Flags.ManageGuild
-      )
-    )
-      return interaction.editReply(
-        `${client.i18n.get(language, "utilities", "lang_perm")}`
-      );
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
         "type"

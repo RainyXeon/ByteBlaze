@@ -6,6 +6,10 @@ export default {
   name: ["filter", "daycore"],
   description: "Turning on daycore filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

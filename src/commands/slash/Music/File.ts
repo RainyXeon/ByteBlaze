@@ -13,7 +13,10 @@ export default {
   name: ["mp3"],
   description: "Play the music file for the bot",
   category: "Music",
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
   options: [
     {
       name: "file",

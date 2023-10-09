@@ -12,7 +12,10 @@ export default {
   name: ["lofi"],
   description: "Play a lofi radio station",
   category: "Music",
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

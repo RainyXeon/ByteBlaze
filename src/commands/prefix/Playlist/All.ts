@@ -10,6 +10,10 @@ export default {
   category: "Playlist",
   usage: "<number>",
   aliases: ["pl-all"],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

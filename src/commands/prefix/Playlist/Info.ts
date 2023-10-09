@@ -18,6 +18,10 @@ export default {
   category: "Playlist",
   usage: "<playlist_name_or_id>",
   aliases: ["pl-info"],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

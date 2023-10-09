@@ -13,6 +13,10 @@ export default {
   name: ["status"],
   description: "Shows the status information of the Bot",
   category: "Info",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

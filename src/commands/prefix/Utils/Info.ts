@@ -16,6 +16,10 @@ export default {
   category: "Utils",
   aliases: ["sc"],
   usage: "<create or delete>",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: true,
 
   run: async (
     client: Manager,
@@ -25,10 +29,6 @@ export default {
     prefix: string
   ) => {
     let option = ["create", "delete"];
-    if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "lang_perm")}`
-      );
     if (!args[0] || !option.includes(args[0]))
       return message.channel.send(
         `${client.i18n.get(language, "utilities", "arg_error", {

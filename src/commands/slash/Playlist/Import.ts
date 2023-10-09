@@ -15,7 +15,10 @@ export default {
   name: ["playlist", "import"],
   description: "Import a playlist to queue.",
   category: "Playlist",
+  owner: false,
+  premium: false,
   lavalink: true,
+  isManager: false,
   options: [
     {
       name: "name",

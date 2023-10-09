@@ -15,6 +15,10 @@ export default {
   name: ["queue"],
   description: "Show the queue of songs.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "page",

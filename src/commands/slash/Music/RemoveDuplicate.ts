@@ -10,6 +10,10 @@ export default {
   name: ["remove-duplicate"],
   description: "Remove duplicated song from queue",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

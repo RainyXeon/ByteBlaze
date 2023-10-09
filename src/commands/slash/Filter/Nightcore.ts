@@ -8,6 +8,10 @@ export default {
   name: ["filter", "nightcore"],
   description: "Turning on nightcore filter",
   category: "Filter",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

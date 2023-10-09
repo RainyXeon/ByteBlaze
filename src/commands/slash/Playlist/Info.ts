@@ -14,6 +14,10 @@ export default {
   name: ["playlist", "info"],
   description: "Check the playlist infomation",
   category: "Playlist",
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
   options: [
     {
       name: "name",

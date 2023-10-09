@@ -6,6 +6,10 @@ export default {
   name: ["previous"],
   description: "Play the previous song in the queue.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,

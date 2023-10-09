@@ -10,6 +10,10 @@ export default {
   category: "Music",
   usage: "<time_format. Ex: 999:59>",
   aliases: [],
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
 
   run: async (
     client: Manager,

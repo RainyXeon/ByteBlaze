@@ -8,6 +8,10 @@ export default {
   category: "Premium",
   usage: "<input>",
   aliases: [],
+  owner: false,
+  premium: false,
+  lavalink: false,
+  isManager: false,
 
   run: async (
     client: Manager,

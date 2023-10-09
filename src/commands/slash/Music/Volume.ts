@@ -12,6 +12,10 @@ export default {
   name: ["volume"],
   description: "Adjusts the volume of the bot.",
   category: "Music",
+  owner: false,
+  premium: false,
+  lavalink: true,
+  isManager: false,
   options: [
     {
       name: "amount",
