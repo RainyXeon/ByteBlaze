@@ -20,16 +20,30 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "leave_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "leave_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
     const player = client.manager.players.get(message.guild!.id);
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     await player!.destroy();
 

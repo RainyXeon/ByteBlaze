@@ -30,17 +30,29 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null || !value)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const input = args[1];
 
     const PlaylistName = value!.replace(/_/g, " ");
     const Inputed = input;
 
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "playlist", "add_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "add_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
     const result = await client.manager.search(input, {
       requester: message.author,
     });
@@ -111,20 +123,32 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (playlist.owner !== message.author.id) {
-      message.channel.send(
-        `${client.i18n.get(language, "playlist", "add_owner")}`
-      );
+      message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
       TrackAdd.length = 0;
       return;
     }
     const LimitTrack = playlist.tracks.length + TrackAdd.length;
 
     if (LimitTrack > client.config.bot.LIMIT_TRACK) {
-      message.channel.send(
-        `${client.i18n.get(language, "playlist", "add_limit_track", {
-          limit: String(client.config.bot.LIMIT_TRACK),
-        })}`
-      );
+      message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_limit_track", {
+                limit: String(client.config.bot.LIMIT_TRACK),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
       TrackAdd.length = 0;
       return;
     }

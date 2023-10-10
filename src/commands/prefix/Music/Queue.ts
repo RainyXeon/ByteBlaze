@@ -26,23 +26,41 @@ export default {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.channel.send(
-        `${client.i18n.get(language, "music", "number_invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "number_invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_player")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_voice")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const song = player.queue.current;
     function fixedduration() {
@@ -119,15 +137,27 @@ export default {
       else return message.channel.send({ embeds: [pages[0]] });
     } else {
       if (isNaN(+value))
-        return message.channel.send(
-          `${client.i18n.get(language, "music", "queue_notnumber")}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "music", "queue_notnumber")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (Number(value) > pagesNum)
-        return message.channel.send(
-          `${client.i18n.get(language, "music", "queue_page_notfound", {
-            page: String(pagesNum),
-          })}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "music", "queue_page_notfound", {
+                  page: String(pagesNum),
+                })}`
+              )
+              .setColor(client.color),
+          ],
+        });
       const pageNum = Number(value) == 0 ? 1 : Number(value) - 1;
       return message.channel.send({ embeds: [pages[pageNum]] });
     }

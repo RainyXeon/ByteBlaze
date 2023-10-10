@@ -20,12 +20,26 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "join_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "join_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
     const { channel } = message.member!.voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "join_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     await client.manager.createPlayer({
       guildId: message.guild!.id,

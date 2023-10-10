@@ -26,19 +26,41 @@ export default {
       track: "track",
       queue: "queue",
     };
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "loopall_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "loopall_loading")}`
-    );
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (player.loop === "queue") {
       await player.setLoop(loop_mode.none as KazagumoLoopMode);

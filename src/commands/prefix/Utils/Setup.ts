@@ -26,11 +26,17 @@ export default {
   ) => {
     let option = ["create", "delete"];
     if (!args[0] || !option.includes(args[0]))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "arg_error", {
-          text: "(create or delete)",
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "arg_error", {
+                text: "(create or delete)",
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const choose = args[0];
 

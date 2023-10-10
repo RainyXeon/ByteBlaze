@@ -24,27 +24,32 @@ export default {
     let player = client.manager.players.get(message.guild!.id);
     const value = args[0];
 
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "play_loading", {
-        result: value,
-      })}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "play_loading", {
+              result: value,
+            })}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const { channel } = message.member!.voice;
-    if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
     if (
-      !message
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Connect)
+      !channel ||
+      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-    if (
-      !message
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Speak)
-    )
-      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -59,7 +64,13 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        content: `${client.i18n.get(language, "music", "play_match")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "play_match")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);

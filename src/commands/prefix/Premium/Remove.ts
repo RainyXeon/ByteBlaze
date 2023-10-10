@@ -27,7 +27,13 @@ export default {
 
     if (!id && !mentions)
       return message.channel.send({
-        content: `${client.i18n.get(language, "premium", "remove_no_params")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "premium", "remove_no_params")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (id && mentions)
       return message.channel.send({

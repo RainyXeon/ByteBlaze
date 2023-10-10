@@ -21,13 +21,25 @@ export default {
     prefix: string
   ) => {
     if (!args[0])
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "prefix_arg")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "prefix_arg")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (args[0].length > 10)
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "prefix_length")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "prefix_length")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const newPrefix = await client.db.get(`prefix.guild_${message.guild!.id}`);
 

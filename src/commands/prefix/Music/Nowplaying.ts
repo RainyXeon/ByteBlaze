@@ -29,12 +29,26 @@ export default {
     prefix: string
   ) => {
     const realtime = client.config.lavalink.NP_REALTIME;
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "np_loading")}`
-    );
+
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "np_loading")}`)
+          .setColor(client.color),
+      ],
+    });
+
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const song = player.queue.current;
     const position = player.shoukaku.position;
@@ -116,7 +130,7 @@ export default {
       .setTimestamp();
 
     const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
-    var interval = null;
+    let interval = null;
 
     if (realtime) {
       interval = setInterval(async () => {

@@ -28,11 +28,17 @@ export default {
     const value = message.mentions.users.first();
 
     if (!value)
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "arg_error", {
-          text: "@mention",
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "arg_error", {
+                text: "@mention",
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (value) {
       const embed = new EmbedBuilder()

@@ -23,17 +23,29 @@ export default {
   ) => {
     const languages = client.i18n.getLocales();
     if (!args[0])
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "provide_lang", {
-          languages: languages.join(", "),
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "provide_lang", {
+                languages: languages.join(", "),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (!languages.includes(args[0]))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "provide_lang", {
-          languages: languages.join(", "),
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "provide_lang", {
+                languages: languages.join(", "),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const newLang = await client.db.get(`language.guild_${message.guild!.id}`);
     if (!newLang) {

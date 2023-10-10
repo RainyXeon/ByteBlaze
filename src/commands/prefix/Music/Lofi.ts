@@ -21,26 +21,28 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "radio_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "radio_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
     const value = "http://stream.laut.fm/lofi.m3u";
 
     const { channel } = message.member!.voice;
     if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "radio_invoice")}`);
-    if (
-      !message
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Connect)
-    )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
-    if (
-      !message
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Speak)
-    )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "radio_invoice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = await client.manager.createPlayer({
       guildId: message.guild!.id,
@@ -54,7 +56,13 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        content: `${client.i18n.get(language, "music", "radio_match")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "radio_match")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);

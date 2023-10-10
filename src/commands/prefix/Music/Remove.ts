@@ -22,34 +22,73 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "music", "pause_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "pause_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
+
     const player = client.manager.players.get(message.guild!.id);
-
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const { channel } = message.member!.voice;
-
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const tracks = args[0];
     if (tracks && isNaN(+tracks))
-      return msg.edit(
-        `${client.i18n.get(language, "music", "number_invalid")}`
-      );
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "number_invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (Number(tracks) == 0)
-      return msg.edit(
-        `${client.i18n.get(language, "music", "removetrack_already")}`
-      );
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "removetrack_already")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (Number(tracks) > player.queue.length)
-      return msg.edit(
-        `${client.i18n.get(language, "music", "removetrack_notfound")}`
-      );
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "removetrack_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const song = player.queue[Number(tracks) - 1];
 

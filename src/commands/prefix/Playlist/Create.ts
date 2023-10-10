@@ -28,23 +28,47 @@ export default {
     const des = args[1];
 
     if (value == null || !value)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (value.length > 16)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "create_toolong")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "create_toolong")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (des && des.length > 1000)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "des_toolong")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "des_toolong")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const PlaylistName = value.replace(/_/g, " ");
-    const msg = await message.channel.send(
-      `${client.i18n.get(language, "playlist", "create_loading")}`
-    );
+    const msg = await message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "create_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const fullList = await client.db.get("playlist");
 
@@ -72,15 +96,27 @@ export default {
       }, {});
 
     if (Object.keys(Exist).length !== 0) {
-      msg.edit(`${client.i18n.get(language, "playlist", "create_name_exist")}`);
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "create_name_exist")}`
+            )
+            .setColor(client.color),
+        ],
+      });
       return;
     }
     if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
-      msg.edit(
-        `${client.i18n.get(language, "playlist", "create_limit_playlist", {
-          limit: String(client.config.bot.LIMIT_PLAYLIST),
-        })}`
-      );
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "create_name_exist")}`
+            )
+            .setColor(client.color),
+        ],
+      });
       return;
     }
 

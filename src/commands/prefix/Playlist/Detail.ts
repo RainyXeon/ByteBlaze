@@ -30,9 +30,15 @@ export default {
     const number = args[1];
 
     if (number && isNaN(+number))
-      return message.channel.send(
-        `${client.i18n.get(language, "music", "number_invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "number_invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const Plist = value!.replace(/_/g, " ");
 
@@ -47,13 +53,25 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "detail_notfound")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.private && playlist.owner !== message.author.id)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "detail_private")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_private")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     let pagesNum = Math.ceil(playlist.tracks.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -122,15 +140,32 @@ export default {
       else return message.channel.send({ embeds: [pages[0]] });
     } else {
       if (isNaN(+number))
-        return message.channel.send(
-          `${client.i18n.get(language, "playlist", "detail_notnumber")}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "detail_notnumber")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (Number(number) > pagesNum)
-        return message.channel.send(
-          `${client.i18n.get(language, "playlist", "detail_page_notfound", {
-            page: String(pagesNum),
-          })}`
-        );
+        return message.channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(
+                  language,
+                  "playlist",
+                  "detail_page_notfound",
+                  {
+                    page: String(pagesNum),
+                  }
+                )}`
+              )
+              .setColor(client.color),
+          ],
+        });
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
       return message.channel.send({ embeds: [pages[pageNum]] });
     }

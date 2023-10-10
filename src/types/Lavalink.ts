@@ -24,3 +24,9 @@ export type Headers = {
 };
 
 export type KazagumoLoopMode = "none" | "queue" | "track" | undefined;
+
+export const KazagumoLoop = {
+  none: "none" as KazagumoLoopMode,
+  queue: "queue" as KazagumoLoopMode,
+  track: "track" as KazagumoLoopMode,
+};

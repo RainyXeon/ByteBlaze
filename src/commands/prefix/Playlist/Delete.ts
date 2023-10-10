@@ -25,9 +25,15 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const Plist = value!.replace(/_/g, " ");
 
     const fullList = await client.db.get("playlist");
@@ -41,13 +47,25 @@ export default {
     const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
 
     if (!playlist)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "delete_notfound")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "delete_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.owner !== message.author.id)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "delete_owner")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "delete_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     await client.db.delete(`playlist.${filter_level_1[0]}`);
     const embed = new EmbedBuilder()

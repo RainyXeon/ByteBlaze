@@ -30,9 +30,15 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const Plist = value!.replace(/_/g, " ");
     const fullList = await client.db.get("playlist");
 
@@ -45,28 +51,52 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.owner !== message.author.id)
-      return message.channel.send(
-        `${client.i18n.get(language, "playlist", "savequeue_owner")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "savequeue_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_player")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send(
-        `${client.i18n.get(language, "noplayer", "no_voice")}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;

@@ -28,17 +28,29 @@ export default {
     const camount = args[1];
 
     if (!name || !plans.includes(name))
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "arg_error", {
-          text: plans.join(", "),
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "arg_error", {
+                text: plans.join(", "),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (!camount)
-      return message.channel.send(
-        `${client.i18n.get(language, "utilities", "arg_error", {
-          text: "number",
-        })}`
-      );
+      return message.channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "arg_error", {
+                text: "number",
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     let codes = [];
 
