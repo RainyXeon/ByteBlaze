@@ -38,10 +38,7 @@ export default {
       );
 
     const { channel } = message.member!.voice;
-    if (
-      !channel ||
-      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
-    )
+    if (!channel)
       return msg.edit({
         embeds: [
           new EmbedBuilder()

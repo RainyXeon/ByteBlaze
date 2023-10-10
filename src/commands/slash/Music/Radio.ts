@@ -45,11 +45,7 @@ export default {
     });
 
     const { channel } = (interaction.member as GuildMember)!.voice;
-    if (
-      !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
-        interaction.guild!.members.me!.voice.channel
-    )
+    if (!channel)
       return msg.edit({
         embeds: [
           new EmbedBuilder()
