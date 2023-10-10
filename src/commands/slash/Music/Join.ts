@@ -17,12 +17,31 @@ export default {
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "music", "join_loading")}`
-    );
-    const { channel } = (interaction.member as GuildMember).voice;
-    if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "join_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
+
+    const { channel } = (interaction.member as GuildMember)!.voice;
+    if (
+      !channel ||
+      (interaction.member as GuildMember)!.voice.channel !==
+        interaction.guild!.members.me!.voice.channel
+    )
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     await client.manager.createPlayer({
       guildId: interaction.guild!.id,

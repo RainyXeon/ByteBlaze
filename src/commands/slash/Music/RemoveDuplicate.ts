@@ -19,18 +19,43 @@ export default {
     client: Manager,
     language: string
   ) => {
-    const msg = await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: false });
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "removetrack_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-    const { channel } = (interaction.member as GuildMember).voice;
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
-      (interaction.member as GuildMember).voice.channel !==
+      (interaction.member as GuildMember)!.voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     OriginalQueueLength = player.queue.length;
 

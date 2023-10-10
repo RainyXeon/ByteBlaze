@@ -18,12 +18,25 @@ export default {
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const realtime = client.config.lavalink.NP_REALTIME;
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "music", "np_loading")}`
-    );
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "np_loading")}`)
+          .setColor(client.color),
+      ],
+    });
+
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const song = player.queue.current;
     const position = player.shoukaku.position;

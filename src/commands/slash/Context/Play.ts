@@ -36,28 +36,33 @@ export default {
         `${client.i18n.get(language, "music", "play_startwith")}`
       );
 
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "music", "play_loading", {
-        result: value,
-      })}`
-    );
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "play_loading", {
+              result: value,
+            })}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const { channel } = (interaction.member as GuildMember)!.voice;
-    if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
     if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Connect)
+      !channel ||
+      (interaction.member as GuildMember)!.voice.channel !==
+        interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-    if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Speak)
-    )
-      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
-
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     const player = await client.manager.createPlayer({
       guildId: interaction.guild!.id,
       voiceId: (interaction.member as GuildMember)!.voice.channel!.id,

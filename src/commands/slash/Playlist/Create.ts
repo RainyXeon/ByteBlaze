@@ -41,18 +41,36 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("description");
     if (value!.length > 16)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "create_toolong")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "create_toolong")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (des && des.length > 1000)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "des_toolong")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "des_toolong")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const PlaylistName = value!.replace(/_/g, " ");
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "playlist", "create_loading")}`
-    );
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "create_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const fullList = await client.db.get("playlist");
 
@@ -80,15 +98,32 @@ export default {
       }, {});
 
     if (Object.keys(Exist).length !== 0)
-      return msg.edit(
-        `${client.i18n.get(language, "playlist", "create_name_exist")}`
-      );
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "create_name_exist")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
-      msg.edit(
-        `${client.i18n.get(language, "playlist", "create_limit_playlist", {
-          limit: String(client.config.bot.LIMIT_PLAYLIST),
-        })}`
-      );
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                language,
+                "playlist",
+                "create_limit_playlist",
+                {
+                  limit: String(client.config.bot.LIMIT_PLAYLIST),
+                }
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
       return;
     }
 

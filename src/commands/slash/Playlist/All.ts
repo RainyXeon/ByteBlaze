@@ -106,18 +106,25 @@ export default {
     } else {
       if (isNaN(number))
         return interaction.editReply({
-          content: `${client.i18n.get(language, "playlist", "view_notnumber")}`,
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "view_notnumber")}`
+              )
+              .setColor(client.color),
+          ],
         });
       if (number > pagesNum)
         return interaction.editReply({
-          content: `${client.i18n.get(
-            language,
-            "playlist",
-            "view_page_notfound",
-            {
-              page: String(pagesNum),
-            }
-          )}`,
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "view_page_notfound", {
+                  page: String(pagesNum),
+                })}`
+              )
+              .setColor(client.color),
+          ],
         });
       const pageNum = number == 0 ? 1 : number - 1;
       await interaction.editReply({ embeds: [pages[pageNum]] });

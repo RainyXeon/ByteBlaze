@@ -7,6 +7,7 @@ import {
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { Manager } from "../../../manager.js";
+const value = "http://stream.laut.fm/lofi.m3u";
 
 export default {
   name: ["lofi"],
@@ -22,26 +23,31 @@ export default {
     language: string
   ) => {
     await interaction.deferReply({ ephemeral: false });
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "music", "radio_loading")}`
-    );
-    const value = "http://stream.laut.fm/lofi.m3u";
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "music", "radio_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
-    const { channel } = (interaction.member as GuildMember).voice;
-    if (!channel)
-      return msg.edit(`${client.i18n.get(language, "music", "radio_invoice")}`);
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Connect)
+      !channel ||
+      (interaction.member as GuildMember)!.voice.channel !==
+        interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
-    if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Speak)
-    )
-      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = await client.manager.createPlayer({
       guildId: interaction.guild!.id,

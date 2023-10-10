@@ -44,35 +44,37 @@ export default {
         const value = (
           interaction.options as CommandInteractionOptionResolver
         ).get("search")!.value;
-        const msg = await interaction.editReply(
-          `${client.i18n.get(language, "music", "play_loading", {
-            result: String(
-              (interaction.options as CommandInteractionOptionResolver).get(
-                "search"
-              )!.value
-            ),
-          })}`
-        );
+        const msg = await interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "music", "play_loading", {
+                  result: String(
+                    (
+                      interaction.options as CommandInteractionOptionResolver
+                    ).get("search")!.value
+                  ),
+                })}`
+              )
+              .setColor(client.color),
+          ],
+        });
 
-        const { channel } = (interaction.member as GuildMember).voice;
-        if (!channel)
-          return msg.edit(
-            `${client.i18n.get(language, "music", "play_invoice")}`
-          );
+        const { channel } = (interaction.member as GuildMember)!.voice;
         if (
-          !interaction
-            .guild!.members.cache.get(client.user!.id)!
-            .permissions.has(PermissionsBitField.Flags.Connect)
+          !channel ||
+          (interaction.member as GuildMember)!.voice.channel !==
+            interaction.guild!.members.me!.voice.channel
         )
-          return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-        if (
-          !interaction
-            .guild!.members.cache.get(client.user!.id)!
-            .permissions.has(PermissionsBitField.Flags.Speak)
-        )
-          return msg.edit(
-            `${client.i18n.get(language, "music", "play_speak")}`
-          );
+          return msg.edit({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "noplayer", "no_voice")}`
+                )
+                .setColor(client.color),
+            ],
+          });
 
         if (!player)
           player = await client.manager.createPlayer({
@@ -89,7 +91,13 @@ export default {
 
         if (!result.tracks.length)
           return msg.edit({
-            content: `${client.i18n.get(language, "music", "play_match")}`,
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "music", "play_match")}`
+                )
+                .setColor(client.color),
+            ],
           });
         if (result.type === "PLAYLIST")
           for (let track of tracks) player.queue.add(track);

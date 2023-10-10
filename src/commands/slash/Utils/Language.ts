@@ -36,11 +36,17 @@ export default {
     const languages = client.i18n.getLocales();
 
     if (!languages.includes(input as string))
-      return interaction.editReply(
-        `${client.i18n.get(language, "utilities", "provide_lang", {
-          languages: languages.join(", "),
-        })}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "utilities", "provide_lang", {
+                languages: languages.join(", "),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const newLang = await client.db.get(
       `language.guild_${interaction.guild!.id}`

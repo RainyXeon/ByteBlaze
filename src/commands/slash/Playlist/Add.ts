@@ -56,9 +56,15 @@ export default {
         const PlaylistName = value!.replace(/_/g, " ");
         const Inputed = input;
 
-        const msg = await interaction.editReply(
-          `${client.i18n.get(language, "playlist", "add_loading")}`
-        );
+        const msg = await interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "add_loading")}`
+              )
+              .setColor(client.color),
+          ],
+        });
         const result = await client.manager.search(input as string, {
           requester: interaction.user,
         });
@@ -66,7 +72,13 @@ export default {
 
         if (!result.tracks.length)
           return msg.edit({
-            content: `${client.i18n.get(language, "music", "add_match")}`,
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "music", "add_match")}`
+                )
+                .setColor(client.color),
+            ],
           });
         if (result.type === "PLAYLIST")
           for (let track of tracks) TrackAdd.push(track);
@@ -114,9 +126,15 @@ export default {
           msg.edit({ content: " ", embeds: [embed] });
         } else {
           //The playlist link is invalid.
-          return msg.edit(
-            `${client.i18n.get(language, "playlist", "add_match")}`
-          );
+          return msg.edit({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "playlist", "add_match")}`
+                )
+                .setColor(client.color),
+            ],
+          });
         }
 
         const fullList = await client.db.get("playlist");
@@ -131,27 +149,45 @@ export default {
         const playlist = fullList[pid[0]];
 
         if (!playlist) {
-          interaction.followUp(
-            `${client.i18n.get(language, "playlist", "public_notfound")}`
-          );
+          interaction.followUp({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "playlist", "public_notfound")}`
+                )
+                .setColor(client.color),
+            ],
+          });
           TrackAdd.length = 0;
           return;
         }
         if (playlist.owner !== interaction.user.id) {
-          interaction.followUp(
-            `${client.i18n.get(language, "playlist", "add_owner")}`
-          );
+          interaction.followUp({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "playlist", "add_owner")}`
+                )
+                .setColor(client.color),
+            ],
+          });
           TrackAdd.length = 0;
           return;
         }
 
         const LimitTrack = playlist.tracks.length + TrackAdd.length;
         if (LimitTrack > client.config.bot.LIMIT_TRACK) {
-          interaction.followUp(
-            `${client.i18n.get(language, "playlist", "add_limit_track", {
-              limit: String(client.config.bot.LIMIT_TRACK),
-            })}`
-          );
+          interaction.followUp({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "playlist", "add_limit_track", {
+                    limit: String(client.config.bot.LIMIT_TRACK),
+                  })}`
+                )
+                .setColor(client.color),
+            ],
+          });
           TrackAdd.length = 0;
           return;
         }

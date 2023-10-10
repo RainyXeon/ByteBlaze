@@ -45,7 +45,13 @@ export default {
 
     if (!id && !mentions)
       return interaction.editReply({
-        content: `${client.i18n.get(language, "premium", "remove_no_params")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "premium", "remove_no_params")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (id && mentions)
       return interaction.editReply({
@@ -61,9 +67,15 @@ export default {
 
     if (!db)
       return interaction.editReply({
-        content: `${client.i18n.get(language, "premium", "remove_404", {
-          userid: String(id),
-        })}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "premium", "remove_404", {
+                userid: String(id),
+              })}`
+            )
+            .setColor(client.color),
+        ],
       });
 
     if (db.isPremium) {

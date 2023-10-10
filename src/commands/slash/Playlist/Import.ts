@@ -46,27 +46,15 @@ export default {
     ).getString("id");
     const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "import_voice")}`
-      );
-    if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissionsIn(channel)
-        .has(PermissionsBitField.Flags.Connect)
-    )
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "import_join")}`
-      );
-    if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissionsIn(channel)
-        .has(PermissionsBitField.Flags.Speak)
-    )
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "import_speak")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = await client.manager.createPlayer({
       guildId: interaction.guild!.id,
@@ -94,22 +82,46 @@ export default {
       playlist = fullList[pid[0]];
     }
     if (!id && !value)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (id && value)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (!playlist)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (playlist.private && playlist.owner !== interaction.user.id) {
-      interaction.editReply(
-        `${client.i18n.get(language, "playlist", "import_private")}`
-      );
+      interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_private")}`
+            )
+            .setColor(client.color),
+        ],
+      });
       return;
     }
 
@@ -117,9 +129,15 @@ export default {
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "playlist", "import_loading")}`
-    );
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "import_loading")}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const res = await player.search(playlist.tracks![i].uri, {

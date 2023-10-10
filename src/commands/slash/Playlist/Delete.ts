@@ -46,13 +46,25 @@ export default {
     const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
 
     if (!playlist)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "delete_notfound")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "delete_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.owner !== interaction.user.id)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "delete_owner")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "delete_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.id == "thedreamvastghost0923849084") return;
 
     await client.db.delete(`playlist.pid_${filter_level_1}`);

@@ -16,11 +16,6 @@ export default {
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
-    if (interaction.user.id != client.owner)
-      return interaction.editReply({
-        content: `${client.i18n.get(language, "interaction", "owner_only")}`,
-      });
-
     const restart = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "restart_msg")}`

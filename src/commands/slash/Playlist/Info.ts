@@ -60,21 +60,46 @@ export default {
     }
 
     if (!id && !value)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (id && value)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (!info)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "invalid")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     if (info.private && info.owner !== interaction.user.id) {
-      interaction.editReply(
-        `${client.i18n.get(language, "playlist", "import_private")}`
-      );
+      interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_private")}`
+            )
+            .setColor(client.color),
+        ],
+      });
       return;
     }
     const created = humanizeDuration(Date.now() - info.created, { largest: 1 });

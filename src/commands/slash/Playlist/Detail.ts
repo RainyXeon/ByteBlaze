@@ -62,13 +62,25 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "detail_notfound")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.private && playlist.owner !== interaction.user.id)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "detail_private")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_private")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     let pagesNum = Math.ceil(playlist.tracks.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -138,15 +150,32 @@ export default {
       else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(number))
-        return interaction.editReply(
-          `${client.i18n.get(language, "playlist", "detail_notnumber")}`
-        );
+        return interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "detail_notnumber")}`
+              )
+              .setColor(client.color),
+          ],
+        });
       if (number > pagesNum)
-        return interaction.editReply(
-          `${client.i18n.get(language, "playlist", "detail_page_notfound", {
-            page: String(pagesNum),
-          })}`
-        );
+        return interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(
+                  language,
+                  "playlist",
+                  "detail_page_notfound",
+                  {
+                    page: String(pagesNum),
+                  }
+                )}`
+              )
+              .setColor(client.color),
+          ],
+        });
       const pageNum = number == 0 ? 1 : number - 1;
       return interaction.editReply({ embeds: [pages[pageNum]] });
     }

@@ -51,29 +51,52 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.owner !== interaction.user.id)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "savequeue_owner")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "savequeue_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return interaction.editReply(
-        `${client.i18n.get(language, "noplayer", "no_player")}`
-      );
-
-    const { channel } = (interaction.member as GuildMember).voice;
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
-      (interaction.member as GuildMember).voice.channel !==
+      (interaction.member as GuildMember)!.voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return interaction.editReply(
-        `${client.i18n.get(language, "noplayer", "no_voice")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;

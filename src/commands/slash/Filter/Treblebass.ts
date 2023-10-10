@@ -17,22 +17,44 @@ export default {
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
-    const msg = await interaction.editReply(
-      `${client.i18n.get(language, "filters", "filter_loading", {
-        name: "treblebass",
-      })}`
-    );
+    const msg = await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "filters", "filter_loading", {
+              name: "treblebass",
+            })}`
+          )
+          .setColor(client.color),
+      ],
+    });
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-    const { channel } = (interaction.member as GuildMember).voice;
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
-      (interaction.member as GuildMember).voice.channel !==
+      (interaction.member as GuildMember)!.voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const data = {
       op: "filters",

@@ -46,13 +46,25 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "public_notfound")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "public_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     if (playlist.owner !== interaction.user.id)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "public_owner")}`
-      );
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "public_owner")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const Public = Object.keys(fullList)
       .filter(function (key) {
