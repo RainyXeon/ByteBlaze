@@ -6,6 +6,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Message,
+  ComponentEmojiResolvable,
 } from "discord.js";
 import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
@@ -30,6 +31,9 @@ import { client_metadata } from "./metadata.js";
 import { PrefixCommand, SlashCommand, WsCommand } from "./types/Command.js";
 import { Config } from "./types/Config.js";
 import { PremiumUser } from "./types/User.js";
+import { IconType } from "./types/Emoji.js";
+import { NormalModeIcons } from "./assets/normalMode.js";
+import { SafeModeIcons } from "./assets/safeMode.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -65,6 +69,7 @@ export class Manager extends Client {
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
+  icons: IconType;
 
   // Main class
   constructor() {
@@ -120,6 +125,11 @@ export class Manager extends Client {
     this.sent_queue = new Collection();
     this.aliases = new Collection();
     this.is_db_connected = false;
+
+    // Icons setup
+    this.icons = this.config.bot.SAFE_ICONS_MODE
+      ? SafeModeIcons
+      : NormalModeIcons;
 
     process.on("unhandledRejection", (error) =>
       this.logger.log({ level: "error", message: String(error) })

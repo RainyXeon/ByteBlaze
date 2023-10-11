@@ -25,12 +25,12 @@ export const SlashPage = async (
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_previous)
+    .setStyle(ButtonStyle.Secondary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_next)
+    .setStyle(ButtonStyle.Secondary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
@@ -114,12 +114,12 @@ export const SlashPlaylist = async (
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_previous)
+    .setStyle(ButtonStyle.Secondary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_next)
+    .setStyle(ButtonStyle.Secondary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
@@ -199,12 +199,12 @@ export const NormalPage = async (
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_previous)
+    .setStyle(ButtonStyle.Secondary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_next)
+    .setStyle(ButtonStyle.Secondary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
@@ -289,12 +289,12 @@ export const NormalPlaylist = async (
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setLabel("⬅")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_previous)
+    .setStyle(ButtonStyle.Secondary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setLabel("➡")
-    .setStyle(ButtonStyle.Primary);
+    .setEmoji(client.icons.arrow_next)
+    .setStyle(ButtonStyle.Secondary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;

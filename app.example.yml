@@ -11,6 +11,7 @@ bot:
   LANGUAGE: en # You can set it to vi, en, th,...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
+  SAFE_ICONS_MODE: false # If the new icon doesn't appears, try change this to true
 
 lavalink:
   SPOTIFY:

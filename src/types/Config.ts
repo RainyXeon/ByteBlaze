@@ -11,6 +11,7 @@ export interface Bot {
   LANGUAGE: string;
   LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;
+  SAFE_ICONS_MODE: boolean;
 }
 
 export interface Features {
