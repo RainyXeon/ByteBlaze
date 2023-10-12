@@ -1,9 +1,15 @@
 import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
 import { Manager } from "../../manager.js";
-import { ButtonComponent, ButtonStyle, TextChannel } from "discord.js";
+import {
+  AttachmentBuilder,
+  ButtonComponent,
+  ButtonStyle,
+  TextChannel,
+} from "discord.js";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import formatduration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
+import { musicCard } from "musicard";
 
 export default async (
   client: Manager,
@@ -106,40 +112,39 @@ export default async (
 
   if (Control === "disable") return;
 
+  const card = new musicCard()
+    .setName(String(song?.title))
+    .setAuthor(String(song?.author))
+    .setColor(String(client.color))
+    .setTheme("classic")
+    .setBrightness(50)
+    .setThumbnail(
+      track.thumbnail
+        ? track.thumbnail
+        : `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
+    )
+    .setProgress(10)
+    .setStartTime("0:00")
+    .setEndTime(formatduration(song!.length));
+
+  const cardBuffer = await card.build();
+
+  const attachment = new AttachmentBuilder(cardBuffer, {
+    name: "musiccard.png",
+  });
+
   const embeded = new EmbedBuilder()
-    .setAuthor({
-      name: `${client.i18n.get(language, "player", "track_title")}`,
-      iconURL: `${client.i18n.get(language, "player", "track_icon")}`,
-    })
-    .setDescription(`**[${track.title}](${track.uri})**`)
+    .setImage(`attachment://${attachment.name}`)
     .addFields([
       {
-        name: `${client.i18n.get(language, "player", "author_title")}`,
-        value: `${song!.author}`,
-        inline: true,
-      },
-      {
-        name: `${client.i18n.get(language, "player", "request_title")}`,
-        value: `${song!.requester}`,
-        inline: true,
-      },
-      {
-        name: `${client.i18n.get(language, "player", "duration_title")}`,
-        value: `${formatduration(song!.length)}`,
-        inline: true,
-      },
-      {
         name: `${client.i18n.get(language, "player", "download_title")}`,
-        value: `**[${
-          song!.title
-        } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
+        value: `**[${song?.title} y2mate.com](https://www.y2mate.com/youtube/${
+          song!.identifier
+        })**`,
         inline: false,
       },
     ])
     .setColor(client.color)
-    .setThumbnail(
-      `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-    )
     .setFooter({
       text: `${client.i18n.get(language, "player", "queue_title")} ${
         player.queue.length + 1
@@ -235,6 +240,7 @@ export default async (
   const nplaying = await playing_channel.send({
     embeds: [embeded],
     components: [row, row2],
+    files: [attachment],
   });
 
   const collector = await nplaying.createMessageComponentCollector({
