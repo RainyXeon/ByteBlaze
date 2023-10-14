@@ -52,9 +52,12 @@ export default async (
         return;
       }
       await client.manager.search(url || Random).then((result) => {
+        if (result.tracks.length == 0 || !result.tracks) {
+          return choice.push({ name: "Error song not matches", value: url });
+        }
         for (let i = 0; i < 10; i++) {
           const x = result.tracks[i];
-          choice.push({ name: x.title, value: x.uri });
+          choice.push({ name: x.title || "Unknown track name", value: x.uri });
         }
       });
       await (interaction as AutocompleteInteraction)

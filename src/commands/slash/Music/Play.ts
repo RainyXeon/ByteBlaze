@@ -80,6 +80,17 @@ export default {
             deaf: true,
           });
 
+        if (!(value as string))
+          return msg.edit({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "music", "play_match")}`
+                )
+                .setColor(client.color),
+            ],
+          });
+
         const result = await player.search(value as string, {
           requester: interaction.user,
         });

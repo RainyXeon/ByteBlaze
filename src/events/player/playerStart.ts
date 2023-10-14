@@ -5,6 +5,7 @@ import {
   ButtonComponent,
   ButtonStyle,
   TextChannel,
+  User,
 } from "discord.js";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import formatduration from "../../structures/FormatDuration.js";
@@ -125,7 +126,8 @@ export default async (
     )
     .setProgress(10)
     .setStartTime("0:00")
-    .setEndTime(formatduration(song!.length));
+    .setEndTime(formatduration(song!.length))
+    .setRequester((song?.requester as User).username);
 
   const cardBuffer = await card.build();
 
@@ -238,7 +240,7 @@ export default async (
   )) as TextChannel;
 
   const nplaying = await playing_channel.send({
-    embeds: [embeded],
+    // embeds: [embeded],
     components: [row, row2],
     files: [attachment],
   });
@@ -280,11 +282,11 @@ export default async (
 
       player.paused
         ? nplaying.edit({
-            embeds: [embeded],
+            files: [attachment],
             components: [edited_row, row2],
           })
         : nplaying.edit({
-            embeds: [embeded],
+            files: [attachment],
             components: [row, row2],
           });
 
@@ -329,7 +331,7 @@ export default async (
         .setDescription(`${client.i18n.get(language, "player", "skip_msg")}`)
         .setColor(client.color);
 
-      await nplaying.edit({ embeds: [embeded], components: [] });
+      await nplaying.edit({ files: [attachment], components: [] });
       message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "stop") {
       if (!player) {
@@ -353,7 +355,7 @@ export default async (
         .setDescription(`${client.i18n.get(language, "player", "stop_msg")}`)
         .setColor(client.color);
 
-      await nplaying.edit({ embeds: [embeded], components: [] });
+      await nplaying.edit({ files: [attachment], components: [] });
       message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "shuffle") {
       if (!player) {
@@ -515,7 +517,7 @@ export default async (
   });
   collector.on("end", async (collected: any, reason: string) => {
     if (reason === "time") {
-      nplaying.edit({ embeds: [embeded], components: [] });
+      nplaying.edit({ files: [attachment], components: [] });
     }
   });
 };
