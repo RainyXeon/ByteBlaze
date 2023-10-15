@@ -1,6 +1,7 @@
 import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
+import { clearMsg } from "../../functions/clearMsg.js";
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
     return client.logger.warn(
@@ -37,9 +38,11 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (data) return;
 
-  if (player.queue.length || player!.queue!.current) return;
 
-  if (player.loop !== "none") return;
+  if (player.queue.length || player!.queue!.current) return clearMsg(client, channel, player)
+
+
+  if (player.loop !== "none") return clearMsg(client, channel, player)
 
   let guildModel = await client.db.get(`language.guild_${player.guildId}`);
   if (!guildModel) {
@@ -61,7 +64,11 @@ export default async (client: Manager, player: KazagumoPlayer) => {
     .setColor(client.color)
     .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`);
 
-  if (channel) channel.send({ embeds: [embed] });
+  if (channel) {
+    const msg = await channel.send({ embeds: [embed] });
+    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+  }
+
   player.destroy();
   if (client.websocket)
     client.websocket.send(

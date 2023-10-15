@@ -107,7 +107,10 @@ export default async (
           )
           .setColor(client.color);
         try {
-          if (leaveEmbed) leaveEmbed.send({ embeds: [TimeoutEmbed] });
+          if (leaveEmbed) {
+            const msg = await leaveEmbed.send({ embeds: [TimeoutEmbed] });
+            setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+          }
         } catch (error) {
           client.logger.error(error);
         }

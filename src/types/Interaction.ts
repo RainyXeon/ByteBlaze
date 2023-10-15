@@ -6,6 +6,12 @@ import {
   ModalSubmitInteraction,
   ApplicationCommandType,
   PermissionFlagsBits,
+  InteractionCollector,
+  StringSelectMenuInteraction,
+  UserSelectMenuInteraction,
+  RoleSelectMenuInteraction,
+  MentionableSelectMenuInteraction,
+  ChannelSelectMenuInteraction,
 } from "discord.js";
 import { Manager } from "../manager.js";
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
@@ -67,3 +73,12 @@ export type UploadCommandInterface = {
   defaultPermission?: undefined | typeof PermissionFlagsBits;
   options?: CommandOptionInterface[];
 };
+
+
+export type ActionCollector = 
+  ButtonInteraction<"cached">
+  | StringSelectMenuInteraction<"cached"> 
+  | UserSelectMenuInteraction<"cached"> 
+  | RoleSelectMenuInteraction<"cached"> 
+  | MentionableSelectMenuInteraction<"cached"> 
+  | ChannelSelectMenuInteraction<"cached">

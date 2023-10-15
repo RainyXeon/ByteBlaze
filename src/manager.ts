@@ -62,6 +62,7 @@ export class Manager extends Client {
   premiums: Collection<string, PremiumUser>;
   interval: Collection<string, NodeJS.Timer>;
   sent_queue: Collection<string, boolean>;
+  nplaying_msg: Collection<string, string>;
   aliases: Collection<string, string>;
   websocket?: WebSocket;
   ws_message?: Collection<string, WsCommand>;
@@ -124,6 +125,7 @@ export class Manager extends Client {
     this.interval = new Collection();
     this.sent_queue = new Collection();
     this.aliases = new Collection();
+    this.nplaying_msg = new Collection();
     this.is_db_connected = false;
 
     // Icons setup

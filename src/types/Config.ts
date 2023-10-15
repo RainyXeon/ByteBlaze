@@ -12,6 +12,7 @@ export interface Bot {
   LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;
   SAFE_ICONS_MODE: boolean;
+  DELETE_MSG_TIMEOUT: number;
 }
 
 export interface Features {

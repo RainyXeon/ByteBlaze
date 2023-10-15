@@ -38,7 +38,10 @@ export default async (
     .setColor(client.color)
     .setDescription(`${client.i18n.get(language, "player", "error_desc")}`);
 
-  channel.send({ embeds: [embed] });
+    if (channel) {
+      const msg = await channel.send({ embeds: [embed] });
+      setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+    }
 
   client.logger.error(
     `Track Stuck in ${guild!.name} / ${player.guildId}. Auto-Leaved!`

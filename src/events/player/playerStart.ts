@@ -2,15 +2,17 @@ import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
 import { Manager } from "../../manager.js";
 import {
   AttachmentBuilder,
-  ButtonComponent,
-  ButtonStyle,
+  ComponentType,
   TextChannel,
   User,
 } from "discord.js";
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import formatduration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { musicCard } from "musicard";
+import { playerRowOne, playerRowOneEdited, playerRowTwo } from "../../functions/playerControlButton.js";
+import { replyInteraction } from "../../functions/replyInteraction.js";
+import { KazagumoLoop } from "../../types/Lavalink.js";
 
 export default async (
   client: Manager,
@@ -22,7 +24,7 @@ export default async (
       "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     );
 
-  const guild = await client.guilds.cache.get(player.guildId);
+  const guild = client.guilds.cache.get(player.guildId);
   client.logger.info(`Player Started in @ ${guild!.name} / ${player.guildId}`);
 
   let Control = await client.db.get(`control.guild_${player.guildId}`);
@@ -74,7 +76,7 @@ export default async (
       });
     });
 
-    await webqueue.unshift({
+    webqueue.unshift({
       title: song!.title,
       uri: song!.uri,
       length: song!.length,
@@ -84,7 +86,7 @@ export default async (
     });
 
     if (client.websocket && client.config.features.WEB_SERVER.websocket.enable)
-      await client.websocket.send(
+      client.websocket.send(
         JSON.stringify({
           op: "player_start",
           guild: player.guildId,
@@ -154,104 +156,24 @@ export default async (
     })
     .setTimestamp();
 
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents([
-    new ButtonBuilder()
-      .setCustomId("stop")
-      .setEmoji(client.icons.stop)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("replay")
-      .setEmoji(client.icons.previous)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("pause")
-      .setEmoji(client.icons.pause)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("skip")
-      .setEmoji(client.icons.skip)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("loop")
-      .setEmoji(client.icons.loop)
-      .setStyle(ButtonStyle.Secondary),
-  ]);
-
-  const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents([
-    new ButtonBuilder()
-      .setCustomId("shuffle")
-      .setEmoji(client.icons.shuffle)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("voldown")
-      .setEmoji(client.icons.voldown)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("clear")
-      .setEmoji(client.icons.delete)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("volup")
-      .setEmoji(client.icons.volup)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("queue")
-      .setEmoji(client.icons.queue)
-      .setStyle(ButtonStyle.Secondary),
-  ]);
-
-  const edited_row = new ActionRowBuilder<ButtonBuilder>().addComponents([
-    new ButtonBuilder()
-      .setCustomId("stop")
-      .setEmoji(client.icons.stop)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("replay")
-      .setEmoji(client.icons.previous)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("pause")
-      .setEmoji(client.icons.play)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("skip")
-      .setEmoji(client.icons.skip)
-      .setStyle(ButtonStyle.Secondary),
-
-    new ButtonBuilder()
-      .setCustomId("loop")
-      .setEmoji(client.icons.loop)
-      .setStyle(ButtonStyle.Secondary),
-  ]);
-
-  const playing_channel = (await client.channels.cache.get(
+  const playing_channel = client.channels.cache.get(
     player.textId
-  )) as TextChannel;
+  ) as TextChannel;
 
   const nplaying = await playing_channel.send({
     // embeds: [embeded],
-    components: [row, row2],
+    components: [playerRowOne, playerRowTwo],
     files: [attachment],
   });
 
-  const collector = await nplaying.createMessageComponentCollector({
+  client.nplaying_msg.set(player.guildId, nplaying.id)
+
+  const collector = nplaying.createMessageComponentCollector({
+    componentType: ComponentType.Button,
     filter: (message) => {
-      if (
-        message.guild!.members.me!.voice.channel &&
+      if (message.guild!.members.me!.voice.channel &&
         message.guild!.members.me!.voice.channelId ===
-          message.member!.voice.channelId
-      )
+        message.member!.voice.channelId)
         return true;
       else {
         message.reply({
@@ -264,75 +186,69 @@ export default async (
     time: song!.length,
   });
 
+  collector.on("end", async (collected: any, reason: string) => {
+    if (reason === "time") {
+      nplaying.edit({ files: [attachment], components: [] });
+    }
+  });
+
   collector.on("collect", async (message: any) => {
     const id = message.customId;
     if (id === "pause") {
-      ButtonComponent;
       if (!player) {
         collector.stop();
       }
-      await player.pause(!player.paused);
+      player.pause(!player.paused);
       const uni = player.paused
         ? `${client.i18n.get(language, "player", "switch_pause")}`
         : `${client.i18n.get(language, "player", "switch_resume")}`;
 
-      console.log();
-
-      await message.message.components[0].components[2].data.emoji;
-
       player.paused
         ? nplaying.edit({
             files: [attachment],
-            components: [edited_row, row2],
+            components: [playerRowOneEdited, playerRowTwo],
           })
         : nplaying.edit({
             files: [attachment],
-            components: [row, row2],
+            components: [playerRowOne, playerRowTwo],
           });
 
       if (
         client.websocket &&
         client.config.features.WEB_SERVER.websocket.enable
       )
-        await client.websocket.send(
+        client.websocket.send(
           JSON.stringify({
             op: player.paused ? 3 : 4,
             guild: player.guildId,
           })
         );
 
-      const embed = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "player", "pause_msg", {
-            pause: uni,
-          })}`
-        )
-        .setColor(client.color);
+      await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "pause_msg", {
+        pause: uni,
+      })}`)
 
-      message.reply({ embeds: [embed], ephemeral: true });
     } else if (id === "skip") {
       if (!player) {
         collector.stop();
       }
-      await player.skip();
+      player.skip();
 
       if (
         client.websocket &&
         client.config.features.WEB_SERVER.websocket.enable
       )
-        await client.websocket.send(
+        client.websocket.send(
           JSON.stringify({
             op: "skip_track",
             guild: player.guildId,
           })
         );
 
-      const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "player", "skip_msg")}`)
-        .setColor(client.color);
-
-      await nplaying.edit({ files: [attachment], components: [] });
-      message.reply({ embeds: [embed], ephemeral: true });
+      await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "skip_msg")}`
+      )
     } else if (id === "stop") {
       if (!player) {
         collector.stop();
@@ -342,32 +258,27 @@ export default async (
         client.websocket &&
         client.config.features.WEB_SERVER.websocket.enable
       )
-        await client.websocket.send(
+        client.websocket.send(
           JSON.stringify({
             op: "player_destroy",
             guild: player.guildId,
           })
         );
 
-      await player.destroy();
+      player.destroy();
 
-      const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "player", "stop_msg")}`)
-        .setColor(client.color);
-
-      await nplaying.edit({ files: [attachment], components: [] });
-      message.reply({ embeds: [embed], ephemeral: true });
+      await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "stop_msg")}`
+      )
     } else if (id === "shuffle") {
       if (!player) {
         collector.stop();
       }
-      await player.queue.shuffle();
+      player.queue.shuffle();
 
-      const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "player", "shuffle_msg")}`)
-        .setColor(client.color);
-
-      message.reply({ embeds: [embed], ephemeral: true });
+      await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "shuffle_msg")}`
+      )
     } else if (id === "loop") {
       if (!player) {
         collector.stop();
@@ -379,56 +290,54 @@ export default async (
       };
 
       if (player.loop === "queue") {
-        await player.setLoop(loop_mode.none as "none" | "queue" | "track");
+        player.setLoop(KazagumoLoop.none);
 
-        const unloopall = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
-          .setColor(client.color);
-        return await message.reply({ content: " ", embeds: [unloopall] });
+        return await replyInteraction(client, message, 
+          `${client.i18n.get(language, "music", "unloopall")}`
+        )
       } else if (player.loop === "none") {
-        await player.setLoop(loop_mode.queue as "none" | "queue" | "track");
-        const loopall = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
-          .setColor(client.color);
-        return await message.reply({ content: " ", embeds: [loopall] });
+        player.setLoop(KazagumoLoop.queue);
+        return await replyInteraction(client, message, 
+          `${client.i18n.get(language, "music", "loopall")}`
+        )
       }
     } else if (id === "volup") {
       if (!player) {
         collector.stop();
       }
 
-      const embed = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "player", "volup_msg", {
-            volume: `${player.volume * 100 + 10}`,
-          })}`
-        )
-        .setColor(client.color);
+      const reply_msg = `${client.i18n.get(language, "player", "volup_msg", {
+        volume: `${player.volume * 100 + 10}`,
+      })}`
 
       if (player.volume * 100 == 100)
-        return message.reply({ embeds: [embed], ephemeral: true });
+        return await replyInteraction(client, message, 
+          reply_msg
+        )
 
-      await player.setVolume(player.volume * 100 + 10);
-      message.reply({ embeds: [embed], ephemeral: true });
+      player.setVolume(player.volume * 100 + 10);
+      return await replyInteraction(client, message, 
+        reply_msg
+      )
     } else if (id === "voldown") {
       if (!player) {
         collector.stop();
       }
 
-      const embed = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "player", "voldown_msg", {
-            volume: `${player.volume * 100 - 10}`,
-          })}`
-        )
-        .setColor(client.color);
+      const reply_msg = `${client.i18n.get(language, "player", "voldown_msg", {
+        volume: `${player.volume * 100 - 10}`,
+      })}`
 
       if (player.volume * 100 == 0)
-        return message.reply({ embeds: [embed], ephemeral: true });
+        return await replyInteraction(client, message, 
+          reply_msg
+        )
 
-      await player.setVolume(player.volume * 100 - 10);
+      player.setVolume(player.volume * 100 - 10);
 
-      message.reply({ embeds: [embed], ephemeral: true });
+      return await replyInteraction(client, message, 
+        reply_msg
+      )
     } else if (id === "replay") {
       if (!player) {
         collector.stop();
@@ -439,11 +348,9 @@ export default async (
         position: 0,
       });
 
-      const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "player", "replay_msg")}`)
-        .setColor(client.color);
-
-      message.reply({ embeds: [embed], ephemeral: true });
+      return await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "replay_msg")}`
+      )
     } else if (id === "queue") {
       if (!player) {
         collector.stop();
@@ -506,18 +413,11 @@ export default async (
       if (!player) {
         collector.stop();
       }
-      await player.queue.clear();
+      player.queue.clear();
 
-      const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "player", "clear_msg")}`)
-        .setColor(client.color);
-
-      message.reply({ embeds: [embed], ephemeral: true });
-    }
-  });
-  collector.on("end", async (collected: any, reason: string) => {
-    if (reason === "time") {
-      nplaying.edit({ files: [attachment], components: [] });
+      return await replyInteraction(client, message, 
+        `${client.i18n.get(language, "player", "clear_msg")}`
+      )
     }
   });
 };

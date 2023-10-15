@@ -1,6 +1,7 @@
 import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
+import { clearMsg } from "../../functions/clearMsg.js";
 
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
@@ -43,7 +44,11 @@ export default async (client: Manager, player: KazagumoPlayer) => {
     .setColor(client.color)
     .setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`);
 
-  if (channel) channel.send({ embeds: [embed] });
+  if (channel) {
+    const msg = await channel.send({ embeds: [embed] });
+    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+    clearMsg(client, channel, player)
+  }
 
   /////////// Update Music Setup ///////////
 

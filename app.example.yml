@@ -12,6 +12,7 @@ bot:
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
   SAFE_ICONS_MODE: false # If the new icon doesn't appears, try change this to true
+  DELETE_MSG_TIMEOUT: 3000 
 
 lavalink:
   SPOTIFY:
