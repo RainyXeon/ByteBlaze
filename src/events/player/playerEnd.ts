@@ -38,11 +38,10 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (data) return;
 
+  if (player.queue.length || player!.queue!.current)
+    return clearMsg(client, channel, player);
 
-  if (player.queue.length || player!.queue!.current) return clearMsg(client, channel, player)
-
-
-  if (player.loop !== "none") return clearMsg(client, channel, player)
+  if (player.loop !== "none") return clearMsg(client, channel, player);
 
   let guildModel = await client.db.get(`language.guild_${player.guildId}`);
   if (!guildModel) {
@@ -66,7 +65,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (channel) {
     const msg = await channel.send({ embeds: [embed] });
-    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT);
   }
 
   player.destroy();

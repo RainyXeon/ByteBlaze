@@ -10,7 +10,11 @@ import { EmbedBuilder } from "discord.js";
 import formatduration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { musicCard } from "musicard";
-import { playerRowOne, playerRowOneEdited, playerRowTwo } from "../../functions/playerControlButton.js";
+import {
+  playerRowOne,
+  playerRowOneEdited,
+  playerRowTwo,
+} from "../../functions/playerControlButton.js";
 import { replyInteraction } from "../../functions/replyInteraction.js";
 import { KazagumoLoop } from "../../types/Lavalink.js";
 
@@ -138,17 +142,39 @@ export default async (
   });
 
   const embeded = new EmbedBuilder()
-    .setImage(`attachment://${attachment.name}`)
+    .setAuthor({
+      name: `${client.i18n.get(language, "player", "track_title")}`,
+      iconURL: `${client.i18n.get(language, "player", "track_icon")}`,
+    })
+    .setDescription(`**[${track.title}](${track.uri})**`)
     .addFields([
       {
+        name: `${client.i18n.get(language, "player", "author_title")}`,
+        value: `${song!.author}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "request_title")}`,
+        value: `${song!.requester}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "duration_title")}`,
+        value: `${formatduration(song!.length)}`,
+        inline: true,
+      },
+      {
         name: `${client.i18n.get(language, "player", "download_title")}`,
-        value: `**[${song?.title} y2mate.com](https://www.y2mate.com/youtube/${
-          song!.identifier
-        })**`,
+        value: `**[${
+          song!.title
+        } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
         inline: false,
       },
     ])
     .setColor(client.color)
+    .setThumbnail(
+      `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
+    )
     .setFooter({
       text: `${client.i18n.get(language, "player", "queue_title")} ${
         player.queue.length + 1
@@ -161,19 +187,21 @@ export default async (
   ) as TextChannel;
 
   const nplaying = await playing_channel.send({
-    // embeds: [embeded],
+    embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
     components: [playerRowOne, playerRowTwo],
-    files: [attachment],
+    files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
   });
 
-  client.nplaying_msg.set(player.guildId, nplaying.id)
+  client.nplaying_msg.set(player.guildId, nplaying.id);
 
   const collector = nplaying.createMessageComponentCollector({
     componentType: ComponentType.Button,
     filter: (message) => {
-      if (message.guild!.members.me!.voice.channel &&
+      if (
+        message.guild!.members.me!.voice.channel &&
         message.guild!.members.me!.voice.channelId ===
-        message.member!.voice.channelId)
+          message.member!.voice.channelId
+      )
         return true;
       else {
         message.reply({
@@ -224,11 +252,13 @@ export default async (
           })
         );
 
-      await replyInteraction(client, message, 
+      await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "pause_msg", {
-        pause: uni,
-      })}`)
-
+          pause: uni,
+        })}`
+      );
     } else if (id === "skip") {
       if (!player) {
         collector.stop();
@@ -246,9 +276,11 @@ export default async (
           })
         );
 
-      await replyInteraction(client, message, 
+      await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "skip_msg")}`
-      )
+      );
     } else if (id === "stop") {
       if (!player) {
         collector.stop();
@@ -267,18 +299,22 @@ export default async (
 
       player.destroy();
 
-      await replyInteraction(client, message, 
+      await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "stop_msg")}`
-      )
+      );
     } else if (id === "shuffle") {
       if (!player) {
         collector.stop();
       }
       player.queue.shuffle();
 
-      await replyInteraction(client, message, 
+      await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "shuffle_msg")}`
-      )
+      );
     } else if (id === "loop") {
       if (!player) {
         collector.stop();
@@ -292,14 +328,18 @@ export default async (
       if (player.loop === "queue") {
         player.setLoop(KazagumoLoop.none);
 
-        return await replyInteraction(client, message, 
+        return await replyInteraction(
+          client,
+          message,
           `${client.i18n.get(language, "music", "unloopall")}`
-        )
+        );
       } else if (player.loop === "none") {
         player.setLoop(KazagumoLoop.queue);
-        return await replyInteraction(client, message, 
+        return await replyInteraction(
+          client,
+          message,
           `${client.i18n.get(language, "music", "loopall")}`
-        )
+        );
       }
     } else if (id === "volup") {
       if (!player) {
@@ -308,17 +348,13 @@ export default async (
 
       const reply_msg = `${client.i18n.get(language, "player", "volup_msg", {
         volume: `${player.volume * 100 + 10}`,
-      })}`
+      })}`;
 
       if (player.volume * 100 == 100)
-        return await replyInteraction(client, message, 
-          reply_msg
-        )
+        return await replyInteraction(client, message, reply_msg);
 
       player.setVolume(player.volume * 100 + 10);
-      return await replyInteraction(client, message, 
-        reply_msg
-      )
+      return await replyInteraction(client, message, reply_msg);
     } else if (id === "voldown") {
       if (!player) {
         collector.stop();
@@ -326,18 +362,14 @@ export default async (
 
       const reply_msg = `${client.i18n.get(language, "player", "voldown_msg", {
         volume: `${player.volume * 100 - 10}`,
-      })}`
+      })}`;
 
       if (player.volume * 100 == 0)
-        return await replyInteraction(client, message, 
-          reply_msg
-        )
+        return await replyInteraction(client, message, reply_msg);
 
       player.setVolume(player.volume * 100 - 10);
 
-      return await replyInteraction(client, message, 
-        reply_msg
-      )
+      return await replyInteraction(client, message, reply_msg);
     } else if (id === "replay") {
       if (!player) {
         collector.stop();
@@ -348,9 +380,11 @@ export default async (
         position: 0,
       });
 
-      return await replyInteraction(client, message, 
+      return await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "replay_msg")}`
-      )
+      );
     } else if (id === "queue") {
       if (!player) {
         collector.stop();
@@ -415,9 +449,11 @@ export default async (
       }
       player.queue.clear();
 
-      return await replyInteraction(client, message, 
+      return await replyInteraction(
+        client,
+        message,
         `${client.i18n.get(language, "player", "clear_msg")}`
-      )
+      );
     }
   });
 };

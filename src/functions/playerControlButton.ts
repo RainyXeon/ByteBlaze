@@ -4,10 +4,9 @@ import { SafeModeIcons } from "../assets/safeMode.js";
 import * as configData from "../plugins/config.js";
 import { Config } from "../types/Config.js";
 
+const data: Config = configData.default;
 
-const data: Config = configData.default
-
-let icons = data.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons
+let icons = data.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
 const playerRowOne = new ActionRowBuilder<ButtonBuilder>().addComponents([
   new ButtonBuilder()
@@ -90,8 +89,4 @@ const playerRowOneEdited = new ActionRowBuilder<ButtonBuilder>().addComponents([
     .setStyle(ButtonStyle.Secondary),
 ]);
 
-export {
-  playerRowOne,
-  playerRowOneEdited,
-  playerRowTwo
-}
+export { playerRowOne, playerRowOneEdited, playerRowTwo };

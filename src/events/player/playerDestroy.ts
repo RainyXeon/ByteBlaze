@@ -46,8 +46,8 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (channel) {
     const msg = await channel.send({ embeds: [embed] });
-    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
-    clearMsg(client, channel, player)
+    setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT);
+    clearMsg(client, channel, player);
   }
 
   /////////// Update Music Setup ///////////

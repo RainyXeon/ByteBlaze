@@ -109,7 +109,10 @@ export default async (
         try {
           if (leaveEmbed) {
             const msg = await leaveEmbed.send({ embeds: [TimeoutEmbed] });
-            setTimeout(async () => msg.delete(), client.config.bot.DELETE_MSG_TIMEOUT)
+            setTimeout(
+              async () => msg.delete(),
+              client.config.bot.DELETE_MSG_TIMEOUT
+            );
           }
         } catch (error) {
           client.logger.error(error);
