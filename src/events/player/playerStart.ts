@@ -217,7 +217,11 @@ export default async (
 
   collector.on("end", async (collected: ButtonInteraction, reason: string) => {
     if (reason === "time") {
-      nplaying.edit({ files: [attachment], components: [] });
+      nplaying.edit({
+        embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
+        files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+        components: [],
+      });
     }
   });
 
@@ -234,12 +238,14 @@ export default async (
 
       player.paused
         ? nplaying.edit({
-            files: [attachment],
+            embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
+            files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
             components: [playerRowOneEdited, playerRowTwo],
           })
         : nplaying.edit({
-            files: [attachment],
-            components: [playerRowOne, playerRowTwo],
+            embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
+            files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+            components: [playerRowOneEdited, playerRowTwo],
           });
 
       if (
