@@ -2,6 +2,7 @@ import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
 import { Manager } from "../../manager.js";
 import {
   AttachmentBuilder,
+  ButtonInteraction,
   ComponentType,
   TextChannel,
   User,
@@ -214,13 +215,13 @@ export default async (
     time: song!.length,
   });
 
-  collector.on("end", async (collected: any, reason: string) => {
+  collector.on("end", async (collected: ButtonInteraction, reason: string) => {
     if (reason === "time") {
       nplaying.edit({ files: [attachment], components: [] });
     }
   });
 
-  collector.on("collect", async (message: any) => {
+  collector.on("collect", async (message: ButtonInteraction) => {
     const id = message.customId;
     if (id === "pause") {
       if (!player) {
@@ -376,7 +377,7 @@ export default async (
       }
       await player["send"]({
         op: "seek",
-        guildId: message.guild.id,
+        guildId: message.guild!.id,
         position: 0,
       });
 
@@ -416,9 +417,9 @@ export default async (
         const embed = new EmbedBuilder()
           .setAuthor({
             name: `${client.i18n.get(language, "player", "queue_author", {
-              guild: message.guild.name,
+              guild: message.guild!.name,
             })}`,
-            iconURL: message.guild.iconURL({ dynamic: true }),
+            iconURL: String(message.guild!.iconURL()),
           })
           .setThumbnail(thumbnail)
           .setColor(client.color)
