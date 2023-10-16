@@ -73,11 +73,3 @@ export type UploadCommandInterface = {
   defaultPermission?: undefined | typeof PermissionFlagsBits;
   options?: CommandOptionInterface[];
 };
-
-export type ActionCollector =
-  | ButtonInteraction<"cached">
-  | StringSelectMenuInteraction<"cached">
-  | UserSelectMenuInteraction<"cached">
-  | RoleSelectMenuInteraction<"cached">
-  | MentionableSelectMenuInteraction<"cached">
-  | ChannelSelectMenuInteraction<"cached">;

@@ -1,5 +1,11 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Client, Message } from "discord.js";
+import {
+  EmbedBuilder,
+  Client,
+  Message,
+  Awaitable,
+  GuildMember,
+} from "discord.js";
 import { convertTime } from "../../structures/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../structures/QueueDuration.js";
@@ -12,12 +18,14 @@ export default async (client: Manager) => {
   try {
     client.on(
       "interactionCreate",
-      async (interaction: GlobalInteraction | any) => {
+      async (interaction: GlobalInteraction): Promise<void> => {
         if (!interaction.guild || interaction.user.bot) return;
         if (interaction.isButton()) {
           const { customId, member } = interaction;
-          let voiceMember = interaction.guild.members.cache.get(member.id);
-          let channel = voiceMember.voice.channel;
+          let voiceMember = interaction.guild.members.cache.get(
+            (member as GuildMember)!.id
+          );
+          let channel = voiceMember!.voice.channel;
 
           let player = await client.manager.players.get(interaction.guild.id);
           if (!player) return;
@@ -41,7 +49,7 @@ export default async (client: Manager) => {
             case "sprevious":
               {
                 if (!channel) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -50,11 +58,12 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (
-                  interaction.guild.members.me.voice.channel &&
-                  !interaction.guild.members.me.voice.channel.equals(channel)
+                  interaction.guild.members.me!.voice.channel &&
+                  !interaction.guild.members.me!.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -63,8 +72,9 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (!player || !player.queue.previous) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -77,6 +87,7 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else {
                   await player.queue.unshift(player.queue.previous);
                   await player.skip();
@@ -95,7 +106,7 @@ export default async (client: Manager) => {
             case "sskip":
               {
                 if (!channel) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -104,11 +115,12 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (
-                  interaction.guild.members.me.voice.channel &&
-                  !interaction.guild.members.me.voice.channel.equals(channel)
+                  interaction.guild.members.me!.voice.channel &&
+                  !interaction.guild.members.me!.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -117,8 +129,9 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (!player) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -131,6 +144,7 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else {
                 }
                 if (player.queue.size == 0) {
@@ -161,7 +175,7 @@ export default async (client: Manager) => {
             case "sstop":
               {
                 if (!channel) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -170,11 +184,12 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (
-                  interaction.guild.members.me.voice.channel &&
-                  !interaction.guild.members.me.voice.channel.equals(channel)
+                  interaction.guild.members.me!.voice.channel &&
+                  !interaction.guild.members.me!.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -183,8 +198,9 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (!player) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -197,6 +213,7 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else {
                   await player.destroy();
                   await client.UpdateMusic(player);
@@ -215,7 +232,7 @@ export default async (client: Manager) => {
             case "spause":
               {
                 if (!channel) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -224,11 +241,12 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (
-                  interaction.guild.members.me.voice.channel &&
-                  !interaction.guild.members.me.voice.channel.equals(channel)
+                  interaction.guild.members.me!.voice.channel &&
+                  !interaction.guild.members.me!.voice.channel.equals(channel)
                 ) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -237,8 +255,9 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else if (!player) {
-                  return interaction.reply({
+                  interaction.reply({
                     embeds: [
                       new EmbedBuilder()
                         .setDescription(
@@ -251,6 +270,7 @@ export default async (client: Manager) => {
                         .setColor(client.color),
                     ],
                   });
+                  return;
                 } else {
                   await player.pause(!player.paused);
                   const uni = player.paused
@@ -291,10 +311,11 @@ export default async (client: Manager) => {
                       `${client.i18n.get(language, "music", "unloopall")}`
                     )
                     .setColor(client.color);
-                  return await interaction.reply({
+                  await interaction.reply({
                     content: " ",
                     embeds: [unloopall],
                   });
+                  return;
                 } else if (player.loop === "none") {
                   await player.setLoop(
                     loop_mode.queue as "none" | "queue" | "track"
@@ -304,10 +325,11 @@ export default async (client: Manager) => {
                       `${client.i18n.get(language, "music", "loopall")}`
                     )
                     .setColor(client.color);
-                  return await interaction.reply({
+                  await interaction.reply({
                     content: " ",
                     embeds: [loopall],
                   });
+                  return;
                 }
               }
               break;
@@ -325,7 +347,7 @@ export default async (client: Manager) => {
    * @param {Message} message
    */
 
-  client.on("messageCreate", async (message: Message | any) => {
+  client.on("messageCreate", async (message: Message): Promise<void> => {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.get(`setup.guild_${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
@@ -368,7 +390,7 @@ export default async (client: Manager) => {
     const song = message.cleanContent;
     if (!song) return;
 
-    let voiceChannel = await message.member.voice.channel;
+    let voiceChannel = await message.member!.voice.channel;
     if (!voiceChannel)
       return message.channel
         .send({
@@ -391,7 +413,7 @@ export default async (client: Manager) => {
     if (!player)
       player = await client.manager.createPlayer({
         guildId: message.guild.id,
-        voiceId: message.member.voice.channel.id,
+        voiceId: message.member!.voice.channel!.id,
         textId: message.channel.id,
         deaf: true,
       });
@@ -401,14 +423,16 @@ export default async (client: Manager) => {
 
     await message.delete();
 
-    if (!result.tracks.length)
-      return msg.edit({
+    if (!result.tracks.length) {
+      msg.edit({
         content: `${client.i18n.get(
           language,
           "setup",
           "setup_content"
         )}\n${`${client.i18n.get(language, "setup", "setup_content_empty")}`}`,
       });
+      return;
+    }
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH")

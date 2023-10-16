@@ -19,7 +19,7 @@ export const SlashPage = async (
   queueDuration: number,
   language: string
 ) => {
-  if (!interaction && !(interaction as any).channel)
+  if (!interaction && !(interaction as CommandInteraction).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
@@ -108,7 +108,7 @@ export const SlashPlaylist = async (
   queueLength: number,
   language: string
 ) => {
-  if (!interaction && !(interaction as any).channel)
+  if (!interaction && !(interaction as CommandInteraction).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
@@ -193,7 +193,7 @@ export const NormalPage = async (
   queueDuration: number,
   language: string
 ) => {
-  if (!message && !(message as any).channel)
+  if (!message && !(message as Message).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
@@ -283,7 +283,7 @@ export const NormalPlaylist = async (
   queueLength: number,
   language: string
 ) => {
-  if (!message && !(message as any).channel)
+  if (!message && !(message as Message).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 

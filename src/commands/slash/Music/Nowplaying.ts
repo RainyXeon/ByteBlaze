@@ -127,7 +127,7 @@ export default {
         const Part = Math.floor((position / song!.length!) * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
-        (embeded as any).fields[6] = {
+        embeded.data.fields![6] = {
           name: `${client.i18n.get(language, "music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
