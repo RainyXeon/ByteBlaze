@@ -14,7 +14,7 @@ import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
-import Spotify from "kazagumo-spotify";
+import Spotify from "better-kazagumo-spotify";
 import Deezer from "kazagumo-deezer";
 import Nico from "kazagumo-nico";
 import Apple from "kazagumo-apple";
