@@ -14,6 +14,7 @@ export interface Bot {
   SAFE_ICONS_MODE: boolean;
   DELETE_MSG_TIMEOUT: number;
   SAFE_PLAYER_MODE: boolean;
+  DEBUG_MODE: boolean;
 }
 
 export interface Features {
