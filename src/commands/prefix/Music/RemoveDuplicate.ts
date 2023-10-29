@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "kazagumo";
+import { KazagumoTrack } from "better-kazagumo";
 
 // Main code
 export default {

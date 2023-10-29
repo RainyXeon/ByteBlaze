@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "kazagumo";
+import { KazagumoPlayer } from "better-kazagumo";
 import { Manager } from "../../manager.js";
 import { PlayerUpdate } from "shoukaku";
 

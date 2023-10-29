@@ -6,7 +6,6 @@ import {
   GuildMember,
 } from "discord.js";
 import axios from "axios";
-import { fetch } from "lyric-api";
 import { Manager } from "../../../manager.js";
 
 // Main code

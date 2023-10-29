@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import formatDuration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-import { KazagumoPlayer } from "kazagumo";
+import { KazagumoPlayer } from "better-kazagumo";
 
 export default async (client: Manager) => {
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
