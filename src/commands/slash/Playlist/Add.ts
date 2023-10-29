@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { KazagumoTrack } from "kazagumo";
+import { KazagumoTrack } from "better-kazagumo";
 import { Manager } from "../../../manager.js";
 
 const TrackAdd: KazagumoTrack[] = [];

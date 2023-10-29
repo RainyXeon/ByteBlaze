@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoQueue, KazagumoTrack } from "kazagumo";
+import { KazagumoPlayer, KazagumoQueue, KazagumoTrack } from "better-kazagumo";
 
 function QueueDuration(player: KazagumoPlayer) {
   const current = player.queue.current!.length ?? 0;

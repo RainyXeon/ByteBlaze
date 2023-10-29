@@ -1,7 +1,7 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "kazagumo";
+import { KazagumoTrack } from "better-kazagumo";
 
 let OriginalQueueLength: null | number;
 

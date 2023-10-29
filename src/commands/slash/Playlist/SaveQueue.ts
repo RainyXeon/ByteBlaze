@@ -1,4 +1,4 @@
-import { KazagumoTrack } from "kazagumo";
+import { KazagumoTrack } from "better-kazagumo";
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,

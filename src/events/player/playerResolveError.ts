@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo";
+import { KazagumoPlayer, KazagumoTrack } from "better-kazagumo";
 import { Manager } from "../../manager.js";
 import { TextChannel, EmbedBuilder } from "discord.js";
 

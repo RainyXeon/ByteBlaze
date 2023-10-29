@@ -6,7 +6,6 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-  ComponentEmojiResolvable,
 } from "discord.js";
 import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
@@ -14,12 +13,11 @@ import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
-import Spotify from "better-kazagumo-spotify";
-import Deezer from "kazagumo-deezer";
-import Nico from "kazagumo-nico";
-import Apple from "kazagumo-apple";
+// import Deezer from "kazagumo-deezer";
+// import Nico from "kazagumo-nico";
+// import Apple from "kazagumo-apple";
 import { Connectors } from "shoukaku";
-import { Kazagumo, KazagumoPlayer, Plugins } from "kazagumo";
+import { Kazagumo, KazagumoPlayer, Plugins } from "better-kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
@@ -159,23 +157,23 @@ export class Manager extends Client {
         },
         plugins: this.config.lavalink.SPOTIFY.enable
           ? [
-              new Spotify({
+              new Plugins.Spotify({
                 clientId: this.config.lavalink.SPOTIFY.id,
                 clientSecret: this.config.lavalink.SPOTIFY.secret,
                 playlistPageLimit: 1, // optional ( 100 tracks per page )
                 albumPageLimit: 1, // optional ( 50 tracks per page )
                 searchLimit: 10, // optional ( track search limit. Max 50 )
               }),
-              new Deezer(),
-              new Nico({ searchLimit: 10 }),
+              new Plugins.Deezer(),
+              new Plugins.Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
-              new Apple({ countryCode: "us" }),
+              new Plugins.Apple({ countryCode: "us" }),
             ]
           : [
-              new Deezer(),
-              new Nico({ searchLimit: 10 }),
+              new Plugins.Deezer(),
+              new Plugins.Nico({ searchLimit: 10 }),
               new Plugins.PlayerMoved(this),
-              new Apple({ countryCode: "us" }),
+              new Plugins.Apple({ countryCode: "us" }),
             ],
       },
       new Connectors.DiscordJS(this),
@@ -188,6 +186,10 @@ export class Manager extends Client {
           }
         : this.config.lavalink.SHOUKAKU_OPTIONS
     );
+
+    this.manager.on("debug" as any, (logs) => {
+      if (this.config.bot.DEBUG_MODE) return this.logger.debug(logs);
+    });
 
     if (this.config.features.AUTOFIX_LAVALINK.enable) {
       check_lavalink_server(this);
