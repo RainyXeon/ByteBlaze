@@ -208,7 +208,7 @@ export const NormalPage = async (
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
-  const curPage = await message.channel.send({
+  const curPage = await message.reply({
     embeds: [
       pages[page].setFooter({
         text: `${client.i18n.get(language, "music", "queue_footer", {
@@ -298,7 +298,7 @@ export const NormalPlaylist = async (
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
-  const curPage = await message.channel.send({
+  const curPage = await message.reply({
     embeds: [
       pages[page].setFooter({
         text: `${client.i18n.get(language, "playlist", "view_embed_footer", {

@@ -70,7 +70,7 @@ export default async (client: Manager, message: Message) => {
           codename: client.metadata.codename,
         })}
         `);
-    await message.channel.send({ embeds: [mention_embed] });
+    await message.reply({ embeds: [mention_embed] });
     return;
   }
   const escapeRegex = (str: string) =>
@@ -115,7 +115,7 @@ export default async (client: Manager, message: Message) => {
       PermissionsBitField.Flags.EmbedLinks
     )
   )
-    return await message.channel.send({
+    return await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -126,7 +126,7 @@ export default async (client: Manager, message: Message) => {
     });
 
   if (command.owner && message.author.id != client.owner)
-    return message.channel.send({
+    return message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -140,7 +140,7 @@ export default async (client: Manager, message: Message) => {
     command.isManager &&
     !message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild)
   )
-    return message.channel.send({
+    return message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -165,12 +165,12 @@ export default async (client: Manager, message: Message) => {
           .setColor(client.color)
           .setTimestamp();
 
-        return message.channel.send({ content: " ", embeds: [embed] });
+        return message.reply({ content: " ", embeds: [embed] });
       }
     }
   } catch (err) {
     client.logger.error(err);
-    return message.channel.send({
+    return message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -182,7 +182,7 @@ export default async (client: Manager, message: Message) => {
   }
 
   if (command.lavalink && client.lavalink_using.length == 0) {
-    return message.channel.send({
+    return message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(`${client.i18n.get(language, "music", "no_node")}`)
@@ -196,7 +196,7 @@ export default async (client: Manager, message: Message) => {
       command.run(client, message, args, language, PREFIX);
     } catch (error) {
       client.logger.error(error);
-      message.channel.send({
+      message.reply({
         content: `${client.i18n.get(
           language,
           "interaction",

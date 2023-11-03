@@ -28,7 +28,7 @@ export default {
     const value = message.mentions.users.first();
 
     if (!value)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -51,7 +51,7 @@ export default {
           text: `© ${message.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
-      await message.channel.send({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setTitle(
@@ -67,7 +67,7 @@ export default {
           text: `© ${message.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
-      await message.channel.send({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
     }
   },
 };

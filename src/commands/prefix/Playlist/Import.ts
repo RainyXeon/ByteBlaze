@@ -30,7 +30,7 @@ export default {
     const value = args[0] ? args[0] : null;
 
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -42,7 +42,7 @@ export default {
 
     const { channel } = message.member!.voice;
     if (!channel)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -78,7 +78,7 @@ export default {
     }
 
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -89,7 +89,7 @@ export default {
       });
 
     if (playlist.private && playlist.owner !== message.author.id) {
-      message.channel.send({
+      message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -105,7 +105,7 @@ export default {
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

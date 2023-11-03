@@ -30,7 +30,7 @@ export default {
   ) => {
     const realtime = client.config.lavalink.NP_REALTIME;
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(`${client.i18n.get(language, "music", "np_loading")}`)

@@ -21,7 +21,7 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

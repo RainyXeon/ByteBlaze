@@ -21,7 +21,7 @@ export default {
     prefix: string
   ) => {
     if (!args[0])
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -31,7 +31,7 @@ export default {
         ],
       });
     if (args[0].length > 10)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -54,7 +54,7 @@ export default {
         )
         .setColor(client.color);
 
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     } else if (newPrefix) {
       await client.db.set(`prefix.guild_${message.guild!.id}`, args[0]);
 
@@ -66,7 +66,7 @@ export default {
         )
         .setColor(client.color);
 
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
   },
 };

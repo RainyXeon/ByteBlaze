@@ -30,7 +30,7 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null || !value)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -44,7 +44,7 @@ export default {
     const PlaylistName = value!.replace(/_/g, " ");
     const Inputed = input;
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -123,7 +123,7 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (playlist.owner !== message.author.id) {
-      message.channel.send({
+      message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -138,7 +138,7 @@ export default {
     const LimitTrack = playlist.tracks.length + TrackAdd.length;
 
     if (LimitTrack > client.config.bot.LIMIT_TRACK) {
-      message.channel.send({
+      message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -173,7 +173,7 @@ export default {
       )
       .setColor(client.color);
 
-    message.channel.send({ content: " ", embeds: [embed] });
+    message.reply({ content: " ", embeds: [embed] });
     TrackAdd.length = 0;
   },
 };

@@ -23,7 +23,7 @@ export default {
     const input = args[0];
 
     if (!input)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setColor(client.color)
@@ -41,7 +41,7 @@ export default {
         .setDescription(
           `${client.i18n.get(language, "premium", "redeem_already")}`
         );
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
 
     const premium = await client.db.get(`code.pmc_${input.toUpperCase()}`);
@@ -72,7 +72,7 @@ export default {
         plan: premium.plan,
       };
       await client.db.set(`premium.user_${new_data.id}`, new_data);
-      await message.channel.send({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
       await client.db.delete(`code.pmc_${input.toUpperCase()}`);
       return client.premiums.set(String(message.author.id), new_data);
     } else {
@@ -81,7 +81,7 @@ export default {
         .setDescription(
           `${client.i18n.get(language, "premium", "redeem_invalid")}`
         );
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
   },
 };

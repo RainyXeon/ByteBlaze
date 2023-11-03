@@ -25,7 +25,7 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -47,7 +47,7 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -57,7 +57,7 @@ export default {
         ],
       });
     if (playlist.owner !== message.author.id)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -76,7 +76,7 @@ export default {
         return fullList[key];
       });
     if (Public !== null || undefined || false)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -86,7 +86,7 @@ export default {
         ],
       });
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

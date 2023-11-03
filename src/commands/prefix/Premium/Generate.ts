@@ -28,7 +28,7 @@ export default {
     const camount = args[1];
 
     if (!name || !plans.includes(name))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -40,7 +40,7 @@ export default {
         ],
       });
     if (!camount)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -105,6 +105,6 @@ export default {
         iconURL: message.author.displayAvatarURL(),
       });
 
-    message.channel.send({ embeds: [embed] });
+    message.reply({ embeds: [embed] });
   },
 };

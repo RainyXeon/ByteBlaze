@@ -41,7 +41,7 @@ export default {
         client.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase()
       );
       if (!command)
-        return message.channel.send({
+        return message.reply({
           embeds: [
             embed
               .setTitle("Invalid Command.")
@@ -76,7 +76,7 @@ export default {
                 : "None."
             }`);
 
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
 
     const category = readdirSync("./src/commands/prefix");

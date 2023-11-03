@@ -29,7 +29,7 @@ export default {
     const des = args[1];
 
     if (value == null || !value)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -40,7 +40,7 @@ export default {
       });
 
     if (value.length > 16)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -50,7 +50,7 @@ export default {
         ],
       });
     if (des && des.length > 1000)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -61,7 +61,7 @@ export default {
       });
 
     const PlaylistName = value.replace(/_/g, " ");
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

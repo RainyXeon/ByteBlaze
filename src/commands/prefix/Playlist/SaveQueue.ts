@@ -30,7 +30,7 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -51,7 +51,7 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -61,7 +61,7 @@ export default {
         ],
       });
     if (playlist.owner !== message.author.id)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -73,7 +73,7 @@ export default {
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -88,7 +88,7 @@ export default {
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -122,7 +122,7 @@ export default {
           })}`
         )
         .setColor(client.color);
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
 
     const embed = new EmbedBuilder()
@@ -133,7 +133,7 @@ export default {
         })}`
       )
       .setColor(client.color);
-    await message.channel.send({ embeds: [embed] });
+    await message.reply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
       await client.db.push(`playlist.${pid[0]}.tracks`, {

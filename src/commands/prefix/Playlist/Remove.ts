@@ -26,7 +26,7 @@ export default {
     const value = args[0] ? args[0] : null;
     const pos = args[1];
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -37,7 +37,7 @@ export default {
       });
 
     if (pos && isNaN(+pos))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -58,7 +58,7 @@ export default {
 
     const playlist = fullList[pid[0]];
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -68,7 +68,7 @@ export default {
         ],
       });
     if (playlist.owner !== message.author.id)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -81,7 +81,7 @@ export default {
     const position = pos;
     const song = playlist.tracks[Number(position) - 1];
     if (!song)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -102,6 +102,6 @@ export default {
         })}`
       )
       .setColor(client.color);
-    message.channel.send({ embeds: [embed] });
+    message.reply({ embeds: [embed] });
   },
 };

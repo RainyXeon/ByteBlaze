@@ -26,7 +26,7 @@ export default {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -38,7 +38,7 @@ export default {
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -52,7 +52,7 @@ export default {
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -134,10 +134,10 @@ export default {
           Number(qduration),
           language
         );
-      else return message.channel.send({ embeds: [pages[0]] });
+      else return message.reply({ embeds: [pages[0]] });
     } else {
       if (isNaN(+value))
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -147,7 +147,7 @@ export default {
           ],
         });
       if (Number(value) > pagesNum)
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -159,7 +159,7 @@ export default {
           ],
         });
       const pageNum = Number(value) == 0 ? 1 : Number(value) - 1;
-      return message.channel.send({ embeds: [pages[pageNum]] });
+      return message.reply({ embeds: [pages[pageNum]] });
     }
   },
 };

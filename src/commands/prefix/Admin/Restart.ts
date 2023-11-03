@@ -31,7 +31,7 @@ export default {
         iconURL: client.user!.displayAvatarURL(),
       });
 
-    await message.channel.send({ embeds: [restart] });
+    await message.reply({ embeds: [restart] });
 
     process.exit();
   },

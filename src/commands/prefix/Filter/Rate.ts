@@ -27,13 +27,13 @@ export default {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.channel.send(
+      return message.reply(
         `${client.i18n.get(language, "music", "number_invalid")}`
       );
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -47,7 +47,7 @@ export default {
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -58,7 +58,7 @@ export default {
       });
 
     if (Number(value) < 0)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -68,7 +68,7 @@ export default {
         ],
       });
     if (Number(value) > 10)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -86,7 +86,7 @@ export default {
 
     await player["send"](data);
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

@@ -23,7 +23,7 @@ export default {
   ) => {
     const value = args[0];
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

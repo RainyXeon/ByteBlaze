@@ -32,7 +32,7 @@ export default {
       )
       .setColor(client.color);
 
-    await message.channel.send({ embeds: [embed] });
+    await message.reply({ embeds: [embed] });
     await client.db.set(
       `control.guild_${message.guild!.id}`,
       db == "enable" ? "disable" : "enable"

@@ -33,7 +33,7 @@ export default {
     const value = args[0] ? args[0] : null;
 
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -59,7 +59,7 @@ export default {
     }
 
     if (!info)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -69,7 +69,7 @@ export default {
         ],
       });
     if (info.private && info.owner !== message.author.id) {
-      message.channel.send({
+      message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -137,6 +137,6 @@ export default {
         },
       ])
       .setColor(client.color);
-    message.channel.send({ embeds: [embed] });
+    message.reply({ embeds: [embed] });
   },
 };

@@ -42,6 +42,6 @@ export default {
       .setColor(client.color)
       .setTimestamp();
 
-    return message.channel.send({ embeds: [embed] });
+    return message.reply({ embeds: [embed] });
   },
 };

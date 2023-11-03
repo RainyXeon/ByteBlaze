@@ -27,7 +27,7 @@ export default {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -39,7 +39,7 @@ export default {
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -53,7 +53,7 @@ export default {
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -83,7 +83,7 @@ export default {
             prefix: "/",
           })}`,
         });
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     } else if (value == "off" || value == "reset") {
       const data = {
         op: "filters",
@@ -97,7 +97,7 @@ export default {
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
       if (isNaN(+bands[i]))
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -109,7 +109,7 @@ export default {
           ],
         });
       if (Number(bands[i]) > 10)
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -133,7 +133,7 @@ export default {
       bandsStr += `${bands[i]} `;
     }
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

@@ -23,7 +23,7 @@ export default {
   ) => {
     const languages = client.i18n.getLocales();
     if (!args[0])
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -35,7 +35,7 @@ export default {
         ],
       });
     if (!languages.includes(args[0]))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -58,7 +58,7 @@ export default {
         )
         .setColor(client.color);
 
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     } else if (newLang) {
       await client.db.set(`language.guild_${message.guild!.id}`, args[0]);
       const embed = new EmbedBuilder()
@@ -69,7 +69,7 @@ export default {
         )
         .setColor(client.color);
 
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
   },
 };

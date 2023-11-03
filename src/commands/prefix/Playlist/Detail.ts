@@ -30,7 +30,7 @@ export default {
     const number = args[1];
 
     if (number && isNaN(+number))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -53,7 +53,7 @@ export default {
     const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -63,7 +63,7 @@ export default {
         ],
       });
     if (playlist.private && playlist.owner !== message.author.id)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -137,10 +137,10 @@ export default {
           Number(totalDuration),
           language
         );
-      else return message.channel.send({ embeds: [pages[0]] });
+      else return message.reply({ embeds: [pages[0]] });
     } else {
       if (isNaN(+number))
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -150,7 +150,7 @@ export default {
           ],
         });
       if (Number(number) > pagesNum)
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -167,7 +167,7 @@ export default {
           ],
         });
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
-      return message.channel.send({ embeds: [pages[pageNum]] });
+      return message.reply({ embeds: [pages[pageNum]] });
     }
   },
 };

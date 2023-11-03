@@ -20,7 +20,7 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -61,7 +61,7 @@ export default {
     const mode = args[0];
 
     if (!mode_array.includes(mode))
-      return message.channel.send(
+      return message.reply(
         `${client.i18n.get(language, "music", "loop_invalid", {
           mode: mode_array.join(", "),
         })}`

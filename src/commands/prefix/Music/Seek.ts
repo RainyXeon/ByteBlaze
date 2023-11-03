@@ -27,7 +27,7 @@ export default {
 
     console.log(time_regex.test(time), time.split(/:/));
     if (!time_regex.test(time))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -44,7 +44,7 @@ export default {
       console.log(value);
     }
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

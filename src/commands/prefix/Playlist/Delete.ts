@@ -25,7 +25,7 @@ export default {
   ) => {
     const value = args[0] ? args[0] : null;
     if (value == null)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -47,7 +47,7 @@ export default {
     const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
 
     if (!playlist)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -57,7 +57,7 @@ export default {
         ],
       });
     if (playlist.owner !== message.author.id)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -75,6 +75,6 @@ export default {
         })}`
       )
       .setColor(client.color);
-    message.channel.send({ embeds: [embed] });
+    message.reply({ embeds: [embed] });
   },
 };

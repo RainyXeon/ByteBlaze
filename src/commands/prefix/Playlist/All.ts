@@ -24,7 +24,7 @@ export default {
   ) => {
     const number = args[0] ? args[0] : null;
     if (number && isNaN(+number))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -99,12 +99,12 @@ export default {
         );
         return (playlists.length = 0);
       } else {
-        await message.channel.send({ embeds: [pages[0]] });
+        await message.reply({ embeds: [pages[0]] });
         return (playlists.length = 0);
       }
     } else {
       if (isNaN(+number))
-        return message.channel.send({
+        return message.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -114,7 +114,7 @@ export default {
           ],
         });
       if (Number(number) > pagesNum)
-        return message.channel.send({
+        return message.reply({
           content: `${client.i18n.get(
             language,
             "playlist",
@@ -125,7 +125,7 @@ export default {
           )}`,
         });
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
-      await message.channel.send({ embeds: [pages[pageNum]] });
+      await message.reply({ embeds: [pages[pageNum]] });
       return (playlists.length = 0);
     }
   },

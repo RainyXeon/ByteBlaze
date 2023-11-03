@@ -26,11 +26,11 @@ export default {
   ) => {
     const value = args[0];
     if (value && isNaN(+value))
-      return message.channel.send(
+      return message.reply(
         `${client.i18n.get(language, "music", "number_invalid")}`
       );
 
-    const msg = await message.channel.send({
+    const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -92,7 +92,7 @@ export default {
 
       await player["send"](data);
 
-      const msg1 = await message.channel.send({
+      const msg1 = await message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -116,7 +116,7 @@ export default {
     }
 
     if (isNaN(+value))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -126,7 +126,7 @@ export default {
         ],
       });
     if (Number(value) > 10 || Number(value) < -10)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -156,7 +156,7 @@ export default {
       ],
     };
     await player["send"](data);
-    const msg2 = await message.channel.send({
+    const msg2 = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

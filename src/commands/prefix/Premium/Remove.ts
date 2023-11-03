@@ -26,7 +26,7 @@ export default {
     const id = args[0] && mentions ? undefined : args[0];
 
     if (!id && !mentions)
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -36,7 +36,7 @@ export default {
         ],
       });
     if (id && mentions)
-      return message.channel.send({
+      return message.reply({
         content: `${client.i18n.get(
           language,
           "premium",
@@ -49,7 +49,7 @@ export default {
       db = await client.db.get(`premium.user_${mentions.id}`);
 
     if (!db)
-      return message.channel.send({
+      return message.reply({
         content: `${client.i18n.get(language, "premium", "remove_404", {
           userid: id as string,
         })}`,
@@ -75,7 +75,7 @@ export default {
           })}`
         )
         .setColor(client.color);
-      message.channel.send({ embeds: [embed] });
+      message.reply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -85,7 +85,7 @@ export default {
         )
         .setColor(client.color);
 
-      message.channel.send({ embeds: [embed] });
+      message.reply({ embeds: [embed] });
     }
   },
 };

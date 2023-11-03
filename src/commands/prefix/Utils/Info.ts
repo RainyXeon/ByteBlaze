@@ -30,7 +30,7 @@ export default {
   ) => {
     let option = ["create", "delete"];
     if (!args[0] || !option.includes(args[0]))
-      return message.channel.send({
+      return message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -200,7 +200,7 @@ export default {
           })}`
         )
         .setColor(client.color);
-      return message.channel.send({ embeds: [embed] });
+      return message.reply({ embeds: [embed] });
     }
 
     if (choose === "delete") {
@@ -216,7 +216,7 @@ export default {
         )
         .setColor(client.color);
 
-      if (!SetupChannel) return message.channel.send({ embeds: [embed_none] });
+      if (!SetupChannel) return message.reply({ embeds: [embed_none] });
 
       const fetchedTextChannel = message.guild!.channels.cache.get(
         SetupChannel.channel
@@ -232,7 +232,7 @@ export default {
           })}`
         )
         .setColor(client.color);
-      await message.channel.send({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
 
       if (fetchedTextChannel) await fetchedTextChannel.delete();
       if (fetchedCategory) await fetchedCategory.delete();
