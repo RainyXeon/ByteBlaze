@@ -13,9 +13,7 @@ import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
-// import Deezer from "kazagumo-deezer";
-// import Nico from "kazagumo-nico";
-// import Apple from "kazagumo-apple";
+import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { Connectors } from "shoukaku";
 import { Kazagumo, KazagumoPlayer, Plugins } from "better-kazagumo";
 import { join, dirname } from "path";
@@ -69,11 +67,13 @@ export class Manager extends Client {
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
+  cluster: ClusterClient<Client>;
 
   // Main class
   constructor() {
     super({
-      shards: "auto",
+      shards: getInfo().SHARD_LIST, // An array of shards that will get spawned
+      shardCount: getInfo().TOTAL_SHARDS, // Total number of shards
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
@@ -125,6 +125,7 @@ export class Manager extends Client {
     this.aliases = new Collection();
     this.nplaying_msg = new Collection();
     this.is_db_connected = false;
+    this.cluster = new ClusterClient(this); // initialize the Client, so we access the .broadcastEval()
 
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE

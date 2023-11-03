@@ -29,6 +29,9 @@ dependencies:
   discord-api-types:
     specifier: ^0.37.62
     version: 0.37.62
+  discord-hybrid-sharding:
+    specifier: ^2.1.3
+    version: 2.1.3
   discord.js:
     specifier: ^14.13.0
     version: 14.13.0
@@ -2500,6 +2503,14 @@ packages:
 
   /discord-api-types@0.37.62:
     resolution: {integrity: sha512-KpLQ6TiylGSSHj8AQW8Hz1ek1MkBbQUWs4gZhWH0rvSsWSj9tfav6EIitSxbFmqveqfu8oiPFI7vgFE4kBhTcQ==}
+    dev: false
+
+  /discord-hybrid-sharding@2.1.3:
+    resolution: {integrity: sha512-yPBjhvPpV1k+iOGUgohVhtQFpIHuspbq/wFa+VoGDqyujjjsZImDq2TXsBclnThDfMrsSIE47uf2aLMhm8QqBA==}
+    dependencies:
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /discord.js@14.13.0:
