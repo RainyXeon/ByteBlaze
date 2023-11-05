@@ -1,8 +1,13 @@
 import { ClusterManager } from "discord-hybrid-sharding";
-import * as config from "./plugins/config.js";
+import * as configData from "./plugins/config.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { config } from "dotenv";
+config();
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+process.env.IS_SHARING = "true";
 
 const manager = new ClusterManager(join(__dirname, "index.js"), {
   totalShards: 7, // or 'auto'
@@ -10,7 +15,7 @@ const manager = new ClusterManager(join(__dirname, "index.js"), {
   shardsPerClusters: 2,
   // totalClusters: 7,
   mode: "process", // you can also choose "worker"
-  token: config.default.bot.TOKEN,
+  token: configData.default.bot.TOKEN,
 });
 
 manager.on("clusterCreate", (cluster) =>

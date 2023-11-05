@@ -30,6 +30,9 @@ import { PremiumUser } from "./types/User.js";
 import { IconType } from "./types/Emoji.js";
 import { NormalModeIcons } from "./assets/normalMode.js";
 import { SafeModeIcons } from "./assets/safeMode.js";
+import { config } from "dotenv";
+config();
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 winstonLogger.info("Booting client...");
@@ -67,13 +70,16 @@ export class Manager extends Client {
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
-  cluster: ClusterClient<Client>;
+  cluster?: ClusterClient<Client>;
 
   // Main class
   constructor() {
     super({
-      shards: getInfo().SHARD_LIST, // An array of shards that will get spawned
-      shardCount: getInfo().TOTAL_SHARDS, // Total number of shards
+      // shards: getInfo().SHARD_LIST, // An array of shards that will get spawned
+      // shardCount: getInfo().TOTAL_SHARDS, // Total number of shards
+      shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
+      shardCount:
+        process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
@@ -125,7 +131,13 @@ export class Manager extends Client {
     this.aliases = new Collection();
     this.nplaying_msg = new Collection();
     this.is_db_connected = false;
-    this.cluster = new ClusterClient(this); // initialize the Client, so we access the .broadcastEval()
+
+    // Sharing
+    this.cluster =
+      process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
+
+    // Remove support for musicard, implements doc check at wiki
+    this.config.bot.SAFE_PLAYER_MODE = true;
 
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE

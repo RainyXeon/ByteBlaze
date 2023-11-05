@@ -10,7 +10,7 @@ import {
 import { EmbedBuilder } from "discord.js";
 import formatduration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-import { musicCard } from "musicard";
+// import { musicCard } from "musicard";
 import {
   playerRowOne,
   playerRowOneEdited,
@@ -120,27 +120,27 @@ export default async (
 
   if (Control === "disable") return;
 
-  const card = new musicCard()
-    .setName(String(song?.title))
-    .setAuthor(String(song?.author))
-    .setColor(String(client.color))
-    .setTheme("classic")
-    .setBrightness(50)
-    .setThumbnail(
-      track.thumbnail
-        ? track.thumbnail
-        : `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-    )
-    .setProgress(10)
-    .setStartTime("0:00")
-    .setEndTime(formatduration(song!.length))
-    .setRequester((song?.requester as User).username);
+  // const card = new musicCard()
+  //   .setName(String(song?.title))
+  //   .setAuthor(String(song?.author))
+  //   .setColor(String(client.color))
+  //   .setTheme("classic")
+  //   .setBrightness(50)
+  //   .setThumbnail(
+  //     track.thumbnail
+  //       ? track.thumbnail
+  //       : `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
+  //   )
+  //   .setProgress(10)
+  //   .setStartTime("0:00")
+  //   .setEndTime(formatduration(song!.length))
+  //   .setRequester((song?.requester as User).username);
 
-  const cardBuffer = await card.build();
+  // const cardBuffer = await card.build();
 
-  const attachment = new AttachmentBuilder(cardBuffer, {
-    name: "musiccard.png",
-  });
+  // const attachment = new AttachmentBuilder(cardBuffer, {
+  //   name: "musiccard.png",
+  // });
 
   const embeded = new EmbedBuilder()
     .setAuthor({
@@ -190,7 +190,7 @@ export default async (
   const nplaying = await playing_channel.send({
     embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
     components: [playerRowOne, playerRowTwo],
-    files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+    // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
   });
 
   client.nplaying_msg.set(player.guildId, nplaying.id);
@@ -219,7 +219,7 @@ export default async (
     if (reason === "time") {
       nplaying.edit({
         embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-        files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+        // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
         components: [],
       });
     }
@@ -239,12 +239,12 @@ export default async (
       player.paused
         ? nplaying.edit({
             embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-            files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+            // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
             components: [playerRowOneEdited, playerRowTwo],
           })
         : nplaying.edit({
             embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-            files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+            // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
             components: [playerRowOneEdited, playerRowTwo],
           });
 
