@@ -14,6 +14,6 @@ export default async (
   client.logger.debug(`Lavalink ${name}: Disconnected`);
   if (client.config.features.AUTOFIX_LAVALINK.enable && !client.fixing_nodes) {
     client.fixing_nodes = true;
-    (await import("../../lava_scrap/autofix_lavalink.js")).default(client);
+    (await import("../../lavaScrap/autofixLavalink.js")).default(client);
   }
 };

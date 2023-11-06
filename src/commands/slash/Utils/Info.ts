@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
-import { SetupInfoChannel } from "../../../types/Setup.js";
+import { SetupInfoChannel } from "../../../@types/Setup.js";
 
 export default {
   name: ["settings", "status"],

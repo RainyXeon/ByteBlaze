@@ -9,7 +9,7 @@ import {
 import { convertTime } from "../../structures/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-import { GlobalInteraction } from "../../types/Interaction.js";
+import { GlobalInteraction } from "../../@types/Interaction.js";
 
 /**
  * @param {Client} client

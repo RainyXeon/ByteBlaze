@@ -1,7 +1,7 @@
 import { load } from "js-yaml";
 import { prase } from "./prase/index.js";
 import { config } from "dotenv";
-import { Config } from "../types/Config.js";
+import { Config } from "../@types/Config.js";
 config();
 let doc;
 

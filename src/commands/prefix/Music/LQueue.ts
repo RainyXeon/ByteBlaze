@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoopMode } from "../../../types/Lavalink.js";
+import { KazagumoLoopMode } from "../../../@types/Lavalink.js";
 
 // Main code
 export default {

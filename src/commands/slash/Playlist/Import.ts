@@ -7,7 +7,7 @@ import {
   GuildMember,
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
-import { PlaylistInterface } from "../../../types/Playlist.js";
+import { PlaylistInterface } from "../../../@types/Playlist.js";
 import { Manager } from "../../../manager.js";
 let playlist: PlaylistInterface | null;
 

@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { QuickDB, JSONDriver } from "quick.db";
-import { Database } from "../../types/Config.js";
+import { Database } from "../../@types/Config.js";
 
 export async function JSONConnectDriver(client: Manager, db_config: Database) {
   const jsonDriver = new JSONDriver(

@@ -12,7 +12,7 @@ import {
 import {
   CommandInterface,
   UploadCommandInterface,
-} from "../types/Interaction.js";
+} from "../@types/Interaction.js";
 import { join, dirname } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

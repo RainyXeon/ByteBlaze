@@ -1,5 +1,5 @@
 import { Manager } from "../manager.js";
-import { LavalinkDataType } from "../types/Lavalink.js";
+import { LavalinkDataType } from "../@types/Lavalink.js";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
@@ -67,7 +67,7 @@ async function check_lavalink(client: Manager) {
 export default async (client: Manager) => {
   client.logger.lavalink("----- Starting autofix lavalink... -----");
   if (client.lavalink_list.length == 0)
-    (await import("./check_lavalink_server.js")).default(client).then(() => {
+    (await import("./checkLavalinkServer.js")).default(client).then(() => {
       return check_lavalink(client);
     });
   else return check_lavalink(client);

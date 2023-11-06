@@ -12,7 +12,8 @@
     "start:shard": "node ./dist/shard.js",
     "start:docker": "tsx ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
-    "build:prettier": "prettier -w ./src"
+    "build:prettier": "prettier -w ./src",
+    "build:lint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -92,9 +93,15 @@
     "@types/voucher-code-generator": "^1.1.2",
     "@types/ws": "^8.5.8",
     "@types/yt-search": "^2.10.2",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "dotenv": "^16.3.1",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
     "esm": "^3.2.25",
     "node": "^21.1.0",
     "npm-run-all": "^4.1.5",

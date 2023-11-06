@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import { NormalPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../types/Playlist.js";
+import { PlaylistInterface } from "../../../@types/Playlist.js";
 
 export default {
   name: "playlist-all",

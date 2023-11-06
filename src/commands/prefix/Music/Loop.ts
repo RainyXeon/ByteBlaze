@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoop } from "../../../types/Lavalink.js";
+import { KazagumoLoop } from "../../../@types/Lavalink.js";
 
 export default {
   name: "loop",

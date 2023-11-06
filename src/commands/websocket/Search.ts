@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { JSON_MESSAGE } from "../../types/Websocket.js";
+import { JSON_MESSAGE } from "../../@types/Websocket.js";
 
 export default {
   name: "search",

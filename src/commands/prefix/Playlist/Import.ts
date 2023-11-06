@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../types/Playlist.js";
+import { PlaylistInterface } from "../../../@types/Playlist.js";
 let playlist: PlaylistInterface | null;
 
 export default {

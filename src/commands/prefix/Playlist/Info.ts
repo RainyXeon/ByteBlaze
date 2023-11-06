@@ -7,7 +7,7 @@ import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { stripIndents } from "common-tags";
 import humanizeDuration from "humanize-duration";
-import { PlaylistInterface } from "../../../types/Playlist.js";
+import { PlaylistInterface } from "../../../@types/Playlist.js";
 import { Manager } from "../../../manager.js";
 
 let info: PlaylistInterface | null;

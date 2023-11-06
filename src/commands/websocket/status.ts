@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
-import { PlaylistTrackInterface } from "../../types/Playlist.js";
-import { JSON_MESSAGE } from "../../types/Websocket.js";
+import { PlaylistTrackInterface } from "../../@types/Playlist.js";
+import { JSON_MESSAGE } from "../../@types/Websocket.js";
 
 export default {
   name: "status",

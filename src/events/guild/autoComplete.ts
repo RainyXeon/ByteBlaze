@@ -7,8 +7,8 @@ import {
 import {
   AutocompleteInteractionChoices,
   GlobalInteraction,
-} from "../../types/Interaction.js";
-import { SlashCommand } from "../../types/Command.js";
+} from "../../@types/Interaction.js";
+import { SlashCommand } from "../../@types/Command.js";
 
 const REGEX = [
   /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,

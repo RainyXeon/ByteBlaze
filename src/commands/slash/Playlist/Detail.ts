@@ -10,7 +10,7 @@ import { Manager } from "../../../manager.js";
 import {
   PlaylistInterface,
   PlaylistTrackInterface,
-} from "../../../types/Playlist.js";
+} from "../../../@types/Playlist.js";
 
 export default {
   name: ["playlist", "detail"],

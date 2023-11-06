@@ -10,7 +10,7 @@ import {
 import { connectDB } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
-import { LavalinkDataType, LavalinkUsingDataType } from "./types/Lavalink.js";
+import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import * as configData from "./plugins/config.js";
 import winstonLogger from "./plugins/logger.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
@@ -19,15 +19,15 @@ import { Kazagumo, KazagumoPlayer, Plugins } from "better-kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { QuickDB } from "quick.db";
-import check_lavalink_server from "./lava_scrap/check_lavalink_server.js";
+import check_lavalink_server from "./lavaScrap/checkLavalinkServer.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
-import { Metadata } from "./types/Metadata.js";
+import { Metadata } from "./@types/Metadata.js";
 import { client_metadata } from "./metadata.js";
-import { PrefixCommand, SlashCommand, WsCommand } from "./types/Command.js";
-import { Config } from "./types/Config.js";
-import { PremiumUser } from "./types/User.js";
-import { IconType } from "./types/Emoji.js";
+import { PrefixCommand, SlashCommand, WsCommand } from "./@types/Command.js";
+import { Config } from "./@types/Config.js";
+import { PremiumUser } from "./@types/User.js";
+import { IconType } from "./@types/Emoji.js";
 import { NormalModeIcons } from "./assets/normalMode.js";
 import { SafeModeIcons } from "./assets/safeMode.js";
 import { config } from "dotenv";
@@ -71,6 +71,7 @@ export class Manager extends Client {
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
   cluster?: ClusterClient<Client>;
+  database: any;
 
   // Main class
   constructor() {

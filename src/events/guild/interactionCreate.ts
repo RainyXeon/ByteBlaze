@@ -11,7 +11,7 @@ import {
   AutocompleteInteractionChoices,
   GlobalInteraction,
   NoAutoInteraction,
-} from "../../types/Interaction.js";
+} from "../../@types/Interaction.js";
 import yts from "yt-search";
 
 /**

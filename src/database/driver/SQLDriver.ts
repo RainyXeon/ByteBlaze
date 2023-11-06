@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { Database } from "../../types/Config.js";
+import { Database } from "../../@types/Config.js";
 import { QuickDB, MySQLDriver } from "quick.db";
 
 export async function SQLConnectDriver(client: Manager, db_config: Database) {

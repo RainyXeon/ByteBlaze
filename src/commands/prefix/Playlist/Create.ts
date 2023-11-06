@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import id from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../types/Playlist.js";
+import { PlaylistInterface } from "../../../@types/Playlist.js";
 
 export default {
   name: "playlist-create",

@@ -1,6 +1,6 @@
 import { Manager } from "../manager.js";
-import { Headers } from "../types/Lavalink.js";
-import getLavalinkServer from "./get_lavalink_server.js";
+import { Headers } from "../@types/Lavalink.js";
+import getLavalinkServer from "./getLavalinkServer.js";
 import Websocket from "ws";
 
 export default async (client: Manager) => {

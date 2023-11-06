@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
-import { KazagumoLoopMode } from "../../types/Lavalink.js";
-import { JSON_MESSAGE } from "../../types/Websocket.js";
+import { KazagumoLoopMode } from "../../@types/Lavalink.js";
+import { JSON_MESSAGE } from "../../@types/Websocket.js";
 
 export default {
   name: "loop",

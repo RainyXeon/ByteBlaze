@@ -6,7 +6,7 @@ import {
 import formatDuration from "../../../structures/FormatDuration.js";
 import { NormalPage } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
-import { PlaylistTrackInterface } from "../../../types/Playlist.js";
+import { PlaylistTrackInterface } from "../../../@types/Playlist.js";
 
 export default {
   name: "playlist-detail",

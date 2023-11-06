@@ -1,7 +1,7 @@
 import { ContextMenuCommandInteraction, GuildMember } from "discord.js";
 import { EmbedBuilder, ApplicationCommandType } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoopMode } from "../../../types/Lavalink.js";
+import { KazagumoLoopMode } from "../../../@types/Lavalink.js";
 
 export default {
   name: ["Loop"],

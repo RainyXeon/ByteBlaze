@@ -6,7 +6,7 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoop, KazagumoLoopMode } from "../../../types/Lavalink.js";
+import { KazagumoLoop, KazagumoLoopMode } from "../../../@types/Lavalink.js";
 
 export default {
   name: ["loop"],

@@ -17,7 +17,7 @@ import {
   playerRowTwo,
 } from "../../functions/playerControlButton.js";
 import { replyInteraction } from "../../functions/replyInteraction.js";
-import { KazagumoLoop } from "../../types/Lavalink.js";
+import { KazagumoLoop } from "../../@types/Lavalink.js";
 
 export default async (
   client: Manager,

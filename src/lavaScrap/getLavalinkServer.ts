@@ -1,4 +1,4 @@
-import { LavalinkDataType } from "../types/Lavalink.js";
+import { LavalinkDataType } from "../@types/Lavalink.js";
 import axios from "axios";
 import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();

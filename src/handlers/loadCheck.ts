@@ -1,5 +1,5 @@
 import { Manager } from "../manager.js";
-import check_lavalink_server from "../lava_scrap/check_lavalink_server.js";
+import check_lavalink_server from "../lavaScrap/checkLavalinkServer.js";
 
 export default async (client: Manager) => {
   if (client.config.features.AUTOFIX_LAVALINK.enable) {
