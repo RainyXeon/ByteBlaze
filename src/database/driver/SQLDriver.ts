@@ -6,6 +6,7 @@ import { TableSetup } from "./TableSetup.js";
 export async function SQLConnectDriver(client: Manager, db_config: Database) {
   const config = db_config.MYSQL;
 
+  const start = Date.now()
   const mysqlDriver = new MySQLDriver({
     host: config.host,
     user: config.user,
@@ -15,7 +16,8 @@ export async function SQLConnectDriver(client: Manager, db_config: Database) {
 
   try {
     await mysqlDriver.connect().then(async () => {
-      client.logger.info("Connected to the database! [MYSQL]");
+      const end = Date.now()
+      client.logger.info(`Connected to the database! [MYSQL] [${end - start}ms]`);
       TableSetup(client, mysqlDriver);
     });
   } catch (error) {
