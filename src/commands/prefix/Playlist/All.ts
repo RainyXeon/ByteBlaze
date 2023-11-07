@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import { NormalPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 
 export default {
   name: "playlist-all",
@@ -34,15 +34,15 @@ export default {
         ],
       });
 
-    const playlists: PlaylistInterface[] = [];
-    const fullList = await client.db.get("playlist");
+    const playlists: Playlist[] = [];
+    const fullList = await client.db.playlist.all();
 
-    Object.keys(fullList)
-      .filter(function (key) {
-        return fullList[key].owner == message.author.id;
+    fullList
+      .filter((data) => {
+        return data.value.owner == message.author.id;
       })
-      .forEach(async (key, index) => {
-        playlists.push(fullList[key]);
+      .forEach((data) => {
+        playlists.push(data.value);
       });
 
     let pagesNum = Math.ceil(playlists.length / 10);

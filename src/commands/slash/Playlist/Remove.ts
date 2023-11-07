@@ -43,16 +43,15 @@ export default {
     ).getInteger("postion");
 
     const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
+    const pid = fullList.filter(function (data) {
       return (
-        fullList[key].owner == interaction.user.id &&
-        fullList[key].name == Plist
+        data.value.owner == interaction.user.id && data.value.name == Plist
       );
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = pid[0].value;
 
     if (!playlist)
       return interaction.editReply({
@@ -80,7 +79,7 @@ export default {
 
     const position = pos;
 
-    const song = playlist.tracks[position! - 1];
+    const song = playlist.tracks![position! - 1];
     if (!song)
       return interaction.editReply({
         embeds: [
@@ -92,9 +91,9 @@ export default {
         ],
       });
 
-    await client.db.pull(
-      `playlist.${pid[0]}.tracks`,
-      playlist.tracks[position! - 1]
+    await client.db.playlist.pull(
+      `${pid[0].id}.tracks`,
+      playlist.tracks![position! - 1]
     );
 
     const embed = new EmbedBuilder()

@@ -48,12 +48,10 @@ export default {
         ],
       });
 
-    const newLang = await client.db.get(
-      `language.guild_${interaction.guild!.id}`
-    );
+    const newLang = await client.db.language.get(`${interaction.guild!.id}`);
 
     if (!newLang) {
-      await client.db.set(`language.guild_${interaction.guild!.id}`, input);
+      await client.db.language.set(`${interaction.guild!.id}`, input);
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "utilities", "lang_set", {
@@ -64,7 +62,7 @@ export default {
 
       return interaction.editReply({ content: " ", embeds: [embed] });
     } else if (newLang) {
-      await client.db.set(`language.guild_${interaction.guild!.id}`, input);
+      await client.db.language.set(`${interaction.guild!.id}`, input);
 
       const embed = new EmbedBuilder()
         .setDescription(

@@ -61,9 +61,8 @@ export default {
           "remove_only_params"
         )}`,
       });
-    if (id && !mentions) db = await client.db.get(`premium.user_${id}`);
-    if (mentions && !id)
-      db = await client.db.get(`premium.user_${mentions.id}`);
+    if (id && !mentions) db = await client.db.premium.get(`${id}`);
+    if (mentions && !id) db = await client.db.premium.get(`${mentions.id}`);
 
     if (!db)
       return interaction.editReply({
@@ -87,7 +86,7 @@ export default {
         plan: null,
       };
 
-      await client.db.set(`premium.user_${data.id}`, data);
+      await client.db.premium.set(`${data.id}`, data);
 
       await client.premiums.set(id || mentions!.id, data);
 

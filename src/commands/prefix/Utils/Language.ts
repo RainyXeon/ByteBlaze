@@ -47,9 +47,9 @@ export default {
         ],
       });
 
-    const newLang = await client.db.get(`language.guild_${message.guild!.id}`);
+    const newLang = await client.db.language.get(`l${message.guild!.id}`);
     if (!newLang) {
-      await client.db.set(`language.guild_${message.guild!.id}`, args[0]);
+      await client.db.language.set(`${message.guild!.id}`, args[0]);
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "utilities", "lang_set", {
@@ -60,7 +60,7 @@ export default {
 
       return message.reply({ embeds: [embed] });
     } else if (newLang) {
-      await client.db.set(`language.guild_${message.guild!.id}`, args[0]);
+      await client.db.language.set(`${message.guild!.id}`, args[0]);
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "utilities", "lang_change", {

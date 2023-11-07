@@ -31,6 +31,7 @@ import { IconType } from "./@types/Emoji.js";
 import { NormalModeIcons } from "./assets/normalMode.js";
 import { SafeModeIcons } from "./assets/safeMode.js";
 import { config } from "dotenv";
+import { DatabaseTable } from "./database/@types.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -43,7 +44,7 @@ export class Manager extends Client {
   metadata: Metadata;
   config: Config;
   logger: any;
-  db!: QuickDB;
+  db!: DatabaseTable;
   owner: string;
   dev: string[];
   color: ColorResolvable;
@@ -71,7 +72,6 @@ export class Manager extends Client {
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
   cluster?: ClusterClient<Client>;
-  database: any;
 
   // Main class
   constructor() {

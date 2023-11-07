@@ -34,7 +34,7 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("code");
 
-    let member = await client.db.get(`premium.user_${interaction.user.id}`);
+    let member = await client.db.premium.get(`${interaction.user.id}`);
 
     if (member && member.isPremium) {
       const embed = new EmbedBuilder()
@@ -45,7 +45,7 @@ export default {
       return interaction.editReply({ embeds: [embed] });
     }
 
-    const premium = await client.db.get(`code.pmc_${input!.toUpperCase()}`);
+    const premium = await client.db.premium.get(`${input!.toUpperCase()}`);
 
     if (input == "pmc_thedreamvastghost")
       return interaction.editReply(
@@ -79,10 +79,10 @@ export default {
         plan: premium.plan,
       };
 
-      await client.db.set(`premium.user_${interaction.user.id}`, data);
+      await client.db.premium.set(`${interaction.user.id}`, data);
       await interaction.editReply({ embeds: [embed] });
       await client.premiums.set(interaction.user.id, data);
-      return client.db.delete(`code.pmc_${input!.toUpperCase()}`);
+      return client.db.code.delete(`${input!.toUpperCase()}`);
     } else {
       const embed = new EmbedBuilder()
         .setColor(client.color)

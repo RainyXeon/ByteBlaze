@@ -7,22 +7,22 @@ export default async (client: Manager) => {
   const Client = chalk.hex("#02f75c");
   const client_mess = Client("Client: ");
   client.logger.data_loader(client_mess + "Setting up data for client...");
-  const users = await client.db.get("premium");
-  if (users)
-    Object.keys(users).forEach(async (key, index) => {
-      client.premiums.set(users[key].id, users[key]);
+  const users = await client.db.premium.all();
+  if (users && users.length !== 0)
+    users.forEach(async (data) => {
+      client.premiums.set(data.value.id, data.value);
     });
 
   const info = setInterval(async () => {
     const SetupChannel = new Map();
-    const prepare = await client.db.get(`status`);
-    if (!prepare) return;
-    Object.keys(prepare).forEach(async (key, index) => {
-      if (prepare[key].enable == true) {
-        SetupChannel.set(prepare[key].guild, {
-          channel: prepare[key].channel,
-          category: prepare[key].category,
-          statmsg: prepare[key].statmsg,
+    const prepare = await client.db.status.all();
+    if (!prepare || prepare.length == 0) return;
+    prepare.forEach(async (data) => {
+      if (data.value.enable == true) {
+        SetupChannel.set(data.value.guild, {
+          channel: data.value.channel,
+          category: data.value.category,
+          statmsg: data.value.statmsg,
         });
       }
     });

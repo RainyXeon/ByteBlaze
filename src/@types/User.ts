@@ -1,5 +1,3 @@
-import { User } from "discord.js";
-
 export type BotInfoType = {
   id: string;
   username: string;

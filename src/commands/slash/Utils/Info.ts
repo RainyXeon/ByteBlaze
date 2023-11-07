@@ -118,14 +118,14 @@ export default {
         statmsg: channel_msg.id,
         category: parent.id,
       };
-      await client.db.set(`status.guild_${interaction.guild!.id}`, data);
+      await client.db.status.set(`${interaction.guild!.id}`, data);
 
       const interval_info = await client.interval.get("MAIN");
 
       if (!interval_info) {
         const interval_online = setInterval(async () => {
-          const SetupChannel = await client.db.get(
-            `status.guild_${interaction.guild!.id}.enable`
+          const SetupChannel = await client.db.status.get(
+            `${interaction.guild!.id}.enable`
           );
           if (!SetupChannel) return;
           const fetched_info = new EmbedBuilder()
@@ -183,13 +183,15 @@ export default {
             .setTimestamp()
             .setColor(client.color);
 
-          SetupChannel.forEach(async (g: SetupInfoChannel) => {
-            const fetch_channel = await client.channels.fetch(g.channel);
-            const text_channel = fetch_channel! as TextChannel;
-            const interval_text = await text_channel.messages!.fetch(g.statmsg);
-            if (!fetch_channel) return;
-            await interval_text.edit({ content: ``, embeds: [fetched_info] });
-          });
+          const fetch_channel = await client.channels.fetch(
+            SetupChannel.channel
+          );
+          const text_channel = fetch_channel! as TextChannel;
+          const interval_text = await text_channel.messages!.fetch(
+            SetupChannel.statmsg
+          );
+          if (!fetch_channel) return;
+          await interval_text.edit({ content: ``, embeds: [fetched_info] });
         }, 5000);
 
         await client.interval.set("MAIN", interval_online);
@@ -210,8 +212,8 @@ export default {
         "type"
       ) === "delete"
     ) {
-      const SetupChannel = await client.db.get(
-        `status.guild_${interaction.guild!.id}`
+      const SetupChannel = await client.db.status.get(
+        `${interaction.guild!.id}`
       );
 
       const embed_none = new EmbedBuilder()
@@ -252,10 +254,7 @@ export default {
         category: "",
       };
 
-      return client.db.set(
-        `status.guild_${interaction.guild!.id}`,
-        deleted_data
-      );
+      return client.db.status.set(`${interaction.guild!.id}`, deleted_data);
     }
   },
 };

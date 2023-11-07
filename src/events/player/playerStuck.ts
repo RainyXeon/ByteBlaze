@@ -18,12 +18,9 @@ export default async (
   const channel = client.channels.cache.get(player.textId) as TextChannel;
   if (!channel) return;
 
-  let guildModel = await client.db.get(`language.guild_${channel.guild.id}`);
+  let guildModel = await client.db.language.get(`${channel.guild.id}`);
   if (!guildModel) {
-    guildModel = await client.db.set(
-      `language.guild_${channel.guild.id}`,
-      "en"
-    );
+    guildModel = await client.db.language.set(`${channel.guild.id}`, "en");
   }
 
   const language = guildModel;

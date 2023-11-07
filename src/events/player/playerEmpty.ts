@@ -8,7 +8,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
     );
 
   const guild = await client.guilds.cache.get(player.guildId);
-  let data = await client.db.get(`autoreconnect.guild_${player.guildId}`);
+  let data = await client.db.language.get(`${player.guildId}`);
 
   if (player.data.get("autoplay") === true) {
     const requester = player.data.get("requester");

@@ -39,16 +39,15 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("name");
     const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
+    const pid = fullList.filter(function (data) {
       return (
-        fullList[key].owner == interaction.user.id &&
-        fullList[key].name == Plist
+        data.value.owner == interaction.user.id && data.value.name == Plist
       );
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = pid[0].value;
 
     if (!playlist)
       return interaction.editReply({
@@ -104,7 +103,7 @@ export default {
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
-    if (!playlist && playlist.tracks.length === 0) Result = TrackAdd;
+    if (!playlist) Result = TrackAdd;
 
     if (playlist.tracks) {
       for (let i = 0; i < playlist.tracks.length; i++) {
@@ -136,7 +135,7 @@ export default {
     await interaction.editReply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.push(`playlist.${pid[0]}.tracks`, {
+      await client.db.playlist.push(`${pid[0].id}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

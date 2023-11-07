@@ -7,9 +7,9 @@ export default async (client: Manager) => {
   client.logger.data_loader(
     client_mess + "Setting up data table for avoid error..."
   );
-  const fullList = await client.db.get("playlist");
-  if (!fullList)
-    await client.db.set(`playlist.pid_thedreamvastghost0923849084`, {
+  const fullList = await client.db.playlist.all();
+  if (!fullList || fullList.length == 0)
+    await client.db.playlist.set(`playlist.pid_thedreamvastghost0923849084`, {
       id: "thedreamvastghost0923849084",
       name: "TheDreamvastGhost",
       owner: client.owner,
@@ -19,10 +19,10 @@ export default async (client: Manager) => {
       description: null,
     });
 
-  const code = client.db.get("code");
+  const code = await client.db.code.all();
 
-  if (!code)
-    await client.db.set(`code.pmc_thedreamvastghost`, {
+  if (!code || code.length == 0)
+    await client.db.code.set(`thedreamvastghost`, {
       code: "pmc_thedreamvastghost",
       plan: null,
       expiresAt: null,

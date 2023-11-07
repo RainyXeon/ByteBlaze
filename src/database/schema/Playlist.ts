@@ -1,14 +1,14 @@
-export interface PlaylistInterface {
+export interface Playlist {
   id: string;
   name: string;
   owner: string;
-  tracks?: PlaylistTrackInterface[];
+  tracks?: PlaylistTrack[];
   private: boolean;
   created: number;
   description?: string | null;
 }
 
-export interface PlaylistTrackInterface {
+export interface PlaylistTrack {
   title: string | null;
   uri: string;
   length?: number;

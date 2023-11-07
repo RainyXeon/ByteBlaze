@@ -32,10 +32,10 @@ export default async (
   const guild = client.guilds.cache.get(player.guildId);
   client.logger.info(`Player Started in @ ${guild!.name} / ${player.guildId}`);
 
-  let Control = await client.db.get(`control.guild_${player.guildId}`);
+  let Control = await client.db.control.get(`${player.guildId}`);
   if (!Control) {
-    await client.db.set(`control.guild_${player.guildId}`, "disable");
-    Control = client.db.get(`control.guild_${player.guildId}`);
+    await client.db.control.set(`${player.guildId}`, "disable");
+    Control = await client.db.control.get(`${player.guildId}`);
   }
 
   if (!player) return;
@@ -49,12 +49,12 @@ export default async (
   const channel = client.channels.cache.get(player.textId) as TextChannel;
   if (!channel) return;
 
-  let data = await client.db.get(`setup.guild_${channel.guild.id}`);
-  if (data && player.textId === data.channel.id) return;
+  let data = await client.db.setup.get(`${channel.guild.id}`);
+  if (data && player.textId === data.channel) return;
 
-  let guildModel = await client.db.get(`language.guild_${channel.guild.id}`);
+  let guildModel = await client.db.language.get(`${channel.guild.id}`);
   if (!guildModel) {
-    guildModel = await client.db.set(
+    guildModel = await client.db.language.set(
       `language.guild_${channel.guild.id}`,
       "en"
     );

@@ -71,10 +71,10 @@ export default {
       });
 
       const code = codePremium.toString().toUpperCase();
-      const find = await client.db.get(`code.pmc_${code}`);
+      const find = await client.db.code.get(`${code}`);
 
       if (!find) {
-        await client.db.set(`code.pmc_${code}`, {
+        await client.db.code.set(`${code}`, {
           code: code,
           plan: plan,
           expiresAt: time,

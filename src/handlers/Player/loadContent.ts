@@ -33,12 +33,10 @@ export default async (client: Manager) => {
           const playChannel = client.channels.cache.get(player.textId);
           if (!playChannel) return;
 
-          let guildModel = await client.db.get(
-            `language.guild_${player.guildId}`
-          );
+          let guildModel = await client.db.language.get(`${player.guildId}`);
           if (!guildModel) {
-            guildModel = await client.db.set(
-              `language.guild_${player.guildId}`,
+            guildModel = await client.db.language.set(
+              `${player.guildId}`,
               client.config.bot.LANGUAGE
             );
           }
@@ -349,11 +347,11 @@ export default async (client: Manager) => {
 
   client.on("messageCreate", async (message: Message): Promise<void> => {
     if (!message.guild || !message.guild.available) return;
-    let database = await client.db.get(`setup.guild_${message.guild.id}`);
+    let database = await client.db.setup.get(`${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
 
     if (!database)
-      await client.db.set(`setup.guild_${message.guild.id}`, {
+      await client.db.setup.set(`${message.guild.id}`, {
         enable: false,
         channel: "",
         playmsg: "",
@@ -361,20 +359,20 @@ export default async (client: Manager) => {
         category: "",
       });
 
-    database = await client.db.get(`setup.guild_${message.guild.id}`);
+    database = await client.db.setup.get(`${message.guild.id}`);
 
-    if (!database.enable) return;
+    if (!database!.enable) return;
 
-    let channel = await message.guild.channels.cache.get(database.channel);
+    let channel = await message.guild.channels.cache.get(database!.channel);
     if (!channel) return;
 
-    if (database.channel != message.channel.id) return;
+    if (database!.channel != message.channel.id) return;
 
-    let guildModel = await client.db.get(`language.guild_${message.guild.id}`);
+    let guildModel = await client.db.language.get(`${message.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.set(
-        `language.guild_${message.guild.id}`,
-        "en"
+      guildModel = await client.db.language.set(
+        `${message.guild.id}`,
+        client.config.bot.LANGUAGE
       );
     }
 
@@ -408,7 +406,7 @@ export default async (client: Manager) => {
           }, 4000);
         });
 
-    let msg = await message.channel.messages.fetch(database.playmsg);
+    let msg = await message.channel.messages.fetch(database!.playmsg);
 
     if (!player)
       player = await client.manager.createPlayer({

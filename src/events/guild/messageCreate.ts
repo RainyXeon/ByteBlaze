@@ -12,10 +12,10 @@ export default async (client: Manager, message: Message) => {
       "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     );
 
-  let guildModel = await client.db.get(`language.guild_${message.guild!.id}`);
+  let guildModel = await client.db.language.get(`${message.guild!.id}`);
   if (!guildModel) {
-    guildModel = await client.db.set(
-      `language.guild_${message.guild!.id}`,
+    guildModel = await client.db.language.set(
+      `${message.guild!.id}`,
       client.config.bot.LANGUAGE
     );
   }
@@ -26,12 +26,12 @@ export default async (client: Manager, message: Message) => {
 
   const mention = new RegExp(`^<@!?${client.user!.id}>( |)$`);
 
-  const GuildPrefix = await client.db.get(`prefix.guild_${message.guild!.id}`);
+  const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
   if (GuildPrefix) PREFIX = GuildPrefix;
   else if (!GuildPrefix) {
-    await client.db.set(`prefix.guild_${message.guild!.id}`, client.prefix);
-    const newPrefix = await client.db.get(`prefix.guild_${message.guild!.id}`);
-    PREFIX = newPrefix;
+    await client.db.language.set(`${message.guild!.id}`, client.prefix);
+    const newPrefix = await client.db.language.get(`${message.guild!.id}`);
+    PREFIX = String(newPrefix);
   }
 
   if (message.content.match(mention)) {

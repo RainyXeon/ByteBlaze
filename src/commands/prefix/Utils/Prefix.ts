@@ -41,10 +41,10 @@ export default {
         ],
       });
 
-    const newPrefix = await client.db.get(`prefix.guild_${message.guild!.id}`);
+    const newPrefix = await client.db.prefix.get(`${message.guild!.id}`);
 
     if (!newPrefix) {
-      await client.db.set(`prefix.guild_${message.guild!.id}`, args[0]);
+      await client.db.prefix.set(`${message.guild!.id}`, args[0]);
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -56,7 +56,7 @@ export default {
 
       return message.reply({ embeds: [embed] });
     } else if (newPrefix) {
-      await client.db.set(`prefix.guild_${message.guild!.id}`, args[0]);
+      await client.db.prefix.set(`${message.guild!.id}`, args[0]);
 
       const embed = new EmbedBuilder()
         .setDescription(

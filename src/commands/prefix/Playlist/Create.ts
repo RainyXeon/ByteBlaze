@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import id from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 
 export default {
   name: "playlist-create",
@@ -71,32 +71,19 @@ export default {
       ],
     });
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const Limit = Object.keys(fullList)
-      .filter(function (key) {
-        return fullList[key].owner == message.author.id;
-        // to cast back from an array of keys to the object, with just the passing ones
-      })
-      .reduce(function (obj: any, key) {
-        obj[key] = fullList[key];
-        return obj;
-      }, {});
+    const Limit = fullList.filter((data) => {
+      return data.value.owner == message.author.id;
+    });
 
-    const Exist = Object.keys(fullList)
-      .filter(function (key) {
-        return (
-          fullList[key].owner == message.author.id &&
-          fullList[key].name == PlaylistName
-        );
-        // to cast back from an array of keys to the object, with just the passing ones
-      })
-      .reduce(function (obj: any, key) {
-        obj[key] = fullList[key];
-        return obj;
-      }, {});
+    const Exist = fullList.filter(function (data) {
+      return (
+        data.value.owner == message.author.id && data.value.name == PlaylistName
+      );
+    });
 
-    if (Object.keys(Exist).length !== 0) {
+    if (Exist.length !== 0) {
       msg.edit({
         embeds: [
           new EmbedBuilder()
@@ -108,7 +95,7 @@ export default {
       });
       return;
     }
-    if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
+    if (Limit.length >= client.config.bot.LIMIT_PLAYLIST) {
       msg.edit({
         embeds: [
           new EmbedBuilder()
@@ -123,7 +110,7 @@ export default {
 
     const idgen = id.generate({ length: 8, prefix: "playlist-" });
 
-    await client.db.set(`playlist.pid_${idgen}`, {
+    await client.db.playlist.set(`${idgen}`, {
       id: idgen[0],
       name: PlaylistName,
       owner: message.author.id,

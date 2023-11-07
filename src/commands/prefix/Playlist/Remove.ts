@@ -48,15 +48,13 @@ export default {
       });
 
     const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
-      return (
-        fullList[key].owner == message.author.id && fullList[key].name == Plist
-      );
+    const filter_level_1 = fullList.filter(function (data) {
+      return data.value.owner == message.author.id && data.value.name == Plist;
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
     if (!playlist)
       return message.reply({
         embeds: [
@@ -79,7 +77,7 @@ export default {
       });
 
     const position = pos;
-    const song = playlist.tracks[Number(position) - 1];
+    const song = playlist.tracks![Number(position) - 1];
     if (!song)
       return message.reply({
         embeds: [
@@ -90,9 +88,9 @@ export default {
             .setColor(client.color),
         ],
       });
-    await client.db.pull(
-      `playlist.${pid[0]}.tracks`,
-      playlist.tracks[Number(position) - 1]
+    await client.db.playlist.pull(
+      `${filter_level_1[0].id}.tracks`,
+      playlist.tracks![Number(position) - 1]
     );
     const embed = new EmbedBuilder()
       .setDescription(

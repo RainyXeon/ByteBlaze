@@ -40,15 +40,13 @@ export default {
         ],
       });
     const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
-      return (
-        fullList[key].owner == message.author.id && fullList[key].name == Plist
-      );
+    const filter_level_1 = fullList.filter(function (data) {
+      return data.value.owner == message.author.id && data.value.name == Plist;
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
 
     if (!playlist)
       return message.reply({
@@ -104,7 +102,7 @@ export default {
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
-    if (!playlist && playlist.tracks.length === 0) Result = TrackAdd;
+    if (!playlist) Result = TrackAdd;
 
     if (playlist.tracks) {
       for (let i = 0; i < playlist.tracks.length; i++) {
@@ -136,7 +134,7 @@ export default {
     await message.reply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.push(`playlist.${pid[0]}.tracks`, {
+      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

@@ -19,7 +19,7 @@ export default async (
       "The database is not yet connected so this event will temporarily not execute. Please try again later!"
     );
 
-  let data = await client.db.get(`autoreconnect.guild_${newState.guild.id}`);
+  let data = await client.db.autoreconnect.get(`${newState.guild.id}`);
 
   if (oldState.channel === null && oldState.id !== client.user!.id) {
     if (client.websocket)
@@ -40,12 +40,9 @@ export default async (
       );
   }
 
-  let guildModel = await client.db.get(`language.guild_${newState.guild.id}`);
+  let guildModel = await client.db.language.get(`${newState.guild.id}`);
   if (!guildModel) {
-    guildModel = await client.db.set(
-      `language.guild_${newState.guild.id}`,
-      "en"
-    );
+    guildModel = await client.db.language.set(`${newState.guild.id}`, "en");
   }
   const language = guildModel;
 

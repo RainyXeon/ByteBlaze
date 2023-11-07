@@ -36,15 +36,13 @@ export default {
       });
     const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const filter_level_1 = Object.keys(fullList).filter(function (key) {
-      return (
-        fullList[key].owner == message.author.id && fullList[key].name == Plist
-      );
+    const filter_level_1 = fullList.filter(function (data) {
+      return data.value.owner == message.author.id && data.value.name == Plist;
     });
 
-    const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
 
     if (!playlist)
       return message.reply({
@@ -67,7 +65,7 @@ export default {
         ],
       });
 
-    await client.db.delete(`playlist.${filter_level_1[0]}`);
+    await client.db.playlist.delete(`playlist.${filter_level_1[0].id}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "delete_deleted", {

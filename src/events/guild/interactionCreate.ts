@@ -33,12 +33,10 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    let guildModel = await client.db.get(
-      `language.guild_${interaction.guild.id}`
-    );
+    let guildModel = await client.db.language.get(`${interaction.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.set(
-        `language.guild_${interaction.guild.id}`,
+      guildModel = await client.db.language.set(
+        `${interaction.guild.id}`,
         client.config.bot.LANGUAGE
       );
     }

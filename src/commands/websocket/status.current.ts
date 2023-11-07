@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { PlaylistTrackInterface } from "../../@types/Playlist.js";
+import { PlaylistTrack } from "../../database/schema/Playlist.js";
 import { JSON_MESSAGE } from "../../@types/Websocket.js";
 
 export default {
@@ -13,7 +13,7 @@ export default {
       );
 
     const song = player.queue.current;
-    let webqueue: PlaylistTrackInterface[] = [];
+    let webqueue: PlaylistTrack[] = [];
 
     player.queue.forEach((track) => {
       webqueue.push({

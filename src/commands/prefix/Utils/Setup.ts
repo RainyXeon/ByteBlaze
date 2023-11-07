@@ -105,7 +105,7 @@ export default {
         category: parent.id,
       };
 
-      await client.db.set(`setup.guild_${message.guild!.id}`, new_data);
+      await client.db.setup.set(`${message.guild!.id}`, new_data);
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -118,9 +118,7 @@ export default {
     }
 
     if (choose === "delete") {
-      const SetupChannel = await client.db.get(
-        `setup.guild_${message.guild!.id}`
-      );
+      const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
         .setDescription(
@@ -164,7 +162,7 @@ export default {
         category: "",
       };
 
-      await client.db.set(`setup.guild_${deleted_data.guild}`, deleted_data);
+      await client.db.setup.set(`${deleted_data.guild}`, deleted_data);
 
       return message.reply({ embeds: [embed] });
     }

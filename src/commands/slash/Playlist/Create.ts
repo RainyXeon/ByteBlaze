@@ -72,30 +72,18 @@ export default {
       ],
     });
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const Limit = Object.keys(fullList)
-      .filter(function (key) {
-        return fullList[key].owner == interaction.user.id;
-        // to cast back from an array of keys to the object, with just the passing ones
-      })
-      .reduce(function (obj: any, key) {
-        obj[key] = fullList[key];
-        return obj;
-      }, {});
+    const Limit = fullList.filter((data) => {
+      return data.value.owner == interaction.user.id;
+    });
 
-    const Exist = Object.keys(fullList)
-      .filter(function (key) {
-        return (
-          fullList[key].owner == interaction.user.id &&
-          fullList[key].name == PlaylistName
-        );
-        // to cast back from an array of keys to the object, with just the passing ones
-      })
-      .reduce(function (obj: any, key) {
-        obj[key] = fullList[key];
-        return obj;
-      }, {});
+    const Exist = fullList.filter(function (data) {
+      return (
+        data.value.owner == interaction.user.id &&
+        data.value.name == PlaylistName
+      );
+    });
 
     if (Object.keys(Exist).length !== 0)
       return msg.edit({
@@ -129,7 +117,7 @@ export default {
 
     const idgen = id.generate({ length: 8, prefix: "playlist-" });
 
-    await client.db.set(`playlist.pid_${idgen}`, {
+    await client.db.playlist.set(`${idgen}`, {
       id: idgen[0],
       name: PlaylistName,
       owner: interaction.user.id,

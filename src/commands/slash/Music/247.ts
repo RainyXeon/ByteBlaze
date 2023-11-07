@@ -52,18 +52,16 @@ export default {
         ],
       });
 
-    let data = await client.db.get(
-      `autoreconnect.guild_${interaction.guild!.id}`
-    );
+    let data = await client.db.autoreconnect.get(`${interaction.guild!.id}`);
 
     if (data) {
-      await client.db.delete(`autoreconnect.guild_${interaction.guild!.id}`);
+      await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
     } else if (!data) {
-      await client.db.set(`autoreconnect.guild_${interaction.guild!.id}`, {
+      await client.db.autoreconnect.set(`${interaction.guild!.id}`, {
         guild: player.guildId,
         text: player.textId,
         voice: player.voiceId,

@@ -20,10 +20,8 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const PremiumPlan = await client.db.get(
-      `premium.user_${message.author.id}`
-    );
-    const expires = moment(PremiumPlan.expiresAt).format(
+    const PremiumPlan = await client.db.premium.get(`${message.author.id}`);
+    const expires = moment(PremiumPlan!.expiresAt).format(
       "do/MMMM/YYYY (HH:mm:ss)"
     );
 
@@ -35,7 +33,7 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "premium", "profile_desc", {
           user: message.author.tag,
-          plan: PremiumPlan.plan,
+          plan: PremiumPlan!.plan,
           expires: expires,
         })}`
       )

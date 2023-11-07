@@ -59,7 +59,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",
     "moment": "^2.29.4",
-    "mongoose": "^8.0.0",
+    "mongoose": "^6.9.1",
     "mysql2": "^3.6.3",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",

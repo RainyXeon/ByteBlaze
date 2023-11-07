@@ -7,7 +7,7 @@ import {
 import { SlashPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 
 export default {
   name: ["playlist", "all"],
@@ -34,16 +34,16 @@ export default {
     const number = (
       interaction.options as CommandInteractionOptionResolver
     ).getInteger("page");
-    const playlists: PlaylistInterface[] = [];
+    const playlists: Playlist[] = [];
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    Object.keys(fullList)
-      .filter(function (key) {
-        return fullList[key].owner == interaction.user.id;
+    fullList
+      .filter(function (data) {
+        return data.value.owner == interaction.user.id;
       })
-      .forEach(async (key, index) => {
-        playlists.push(fullList[key]);
+      .forEach(async (data) => {
+        playlists.push(data.value);
       });
 
     let pagesNum = Math.ceil(playlists.length / 10);

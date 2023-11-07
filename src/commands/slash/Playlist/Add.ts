@@ -137,16 +137,16 @@ export default {
           });
         }
 
-        const fullList = await client.db.get("playlist");
+        const fullList = await client.db.playlist.all();
 
-        const pid = Object.keys(fullList).filter(function (key) {
+        const pid = fullList.filter(function (data) {
           return (
-            fullList[key].owner == interaction.user.id &&
-            fullList[key].name == PlaylistName
+            data.value.owner == interaction.user.id &&
+            data.value.name == PlaylistName
           );
         });
 
-        const playlist = fullList[pid[0]];
+        const playlist = await client.db.playlist.get(pid[0].id);
 
         if (!playlist) {
           interaction.followUp({
@@ -175,7 +175,7 @@ export default {
           return;
         }
 
-        const LimitTrack = playlist.tracks.length + TrackAdd.length;
+        const LimitTrack = playlist.tracks!.length + TrackAdd.length;
         if (LimitTrack > client.config.bot.LIMIT_TRACK) {
           interaction.followUp({
             embeds: [
@@ -193,7 +193,7 @@ export default {
         }
 
         TrackAdd.forEach(async (track) => {
-          await client.db.push(`playlist.${pid[0]}.tracks`, {
+          await client.db.playlist.push(`${pid[0].id}.tracks`, {
             title: track.title,
             uri: track.uri,
             length: track.length,

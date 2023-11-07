@@ -6,7 +6,7 @@ import { KazagumoPlayer } from "better-kazagumo";
 
 export default async (client: Manager) => {
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
-    let data = await client.db.get(`setup.guild_${player.guildId}`);
+    let data = await client.db.setup.get(`${player.guildId}`);
     if (!data) return;
     if (data.enable === false) return;
 
@@ -18,9 +18,9 @@ export default async (client: Manager) => {
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.get(`language.guild_${player.guildId}`);
+    let guildModel = await client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.set(
+      guildModel = await client.db.language.set(
         `language.guild_${player.guildId}`,
         client.config.bot.LANGUAGE
       );
@@ -111,7 +111,7 @@ export default async (client: Manager) => {
    * @param {Player} player
    */
   client.UpdateMusic = async function (player: KazagumoPlayer) {
-    let data = await client.db.get(`setup.guild_${player.guildId}`);
+    let data = await client.db.setup.get(`${player.guildId}`);
     if (!data) return;
     if (data.enable === false) return;
 
@@ -123,9 +123,9 @@ export default async (client: Manager) => {
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.get(`language.guild_${player.guildId}`);
+    let guildModel = await client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.set(
+      guildModel = await client.db.language.set(
         `language.guild_${player.guildId}`,
         client.config.bot.LANGUAGE
       );

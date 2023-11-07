@@ -7,10 +7,10 @@ import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { stripIndents } from "common-tags";
 import humanizeDuration from "humanize-duration";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 import { Manager } from "../../../manager.js";
 
-let info: PlaylistInterface | null;
+let info: Playlist | null;
 
 export default {
   name: "playlist-info",
@@ -46,16 +46,15 @@ export default {
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist");
+      const fullList = await client.db.playlist.all();
 
-      const pid = Object.keys(fullList).filter(function (key) {
+      const filter_level_1 = fullList.filter(function (data) {
         return (
-          fullList[key].owner == message.author.id &&
-          fullList[key].name == Plist
+          data.value.owner == message.author.id && data.value.name == Plist
         );
       });
 
-      info = fullList[pid[0]];
+      info = filter_level_1[0].value
     }
 
     if (!info)

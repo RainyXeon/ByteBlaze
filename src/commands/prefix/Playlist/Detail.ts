@@ -6,7 +6,7 @@ import {
 import formatDuration from "../../../structures/FormatDuration.js";
 import { NormalPage } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
-import { PlaylistTrackInterface } from "../../../@types/Playlist.js";
+import { PlaylistTrack } from "../../../database/schema/Playlist.js";
 
 export default {
   name: "playlist-detail",
@@ -42,15 +42,13 @@ export default {
 
     const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
-      return (
-        fullList[key].owner == message.author.id && fullList[key].name == Plist
-      );
+    const filter_level_1 = fullList.filter(function (data) {
+      return data.value.owner == message.author.id && data.value.name == Plist;
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
 
     if (!playlist)
       return message.reply({
@@ -73,18 +71,18 @@ export default {
         ],
       });
 
-    let pagesNum = Math.ceil(playlist.tracks.length / 10);
+    let pagesNum = Math.ceil(playlist.tracks!.length / 10);
     if (pagesNum === 0) pagesNum = 1;
 
     const playlistStrings = [];
-    for (let i = 0; i < playlist.tracks.length; i++) {
-      const playlists = playlist.tracks[i];
+    for (let i = 0; i < playlist.tracks!.length; i++) {
+      const playlists = playlist.tracks![i];
       playlistStrings.push(
         `${client.i18n.get(language, "playlist", "detail_track", {
           num: String(i + 1),
-          title: playlists.title,
+          title: String(playlists.title),
           url: playlists.uri,
-          author: playlists.author,
+          author: String(playlists.author),
           duration: formatDuration(playlists.length),
         })}
                 `
@@ -92,8 +90,8 @@ export default {
     }
 
     const totalDuration = formatDuration(
-      playlist.tracks.reduce(
-        (acc: number, cur: PlaylistTrackInterface) => acc + cur.length!,
+      playlist.tracks!.reduce(
+        (acc: number, cur: PlaylistTrack) => acc + cur.length!,
         0
       )
     );
@@ -118,7 +116,7 @@ export default {
             {
               page: String(i + 1),
               pages: String(pagesNum),
-              songs: playlist.tracks.length,
+              songs: String(playlist.tracks!.length),
               duration: totalDuration,
             }
           )}`,
@@ -127,13 +125,13 @@ export default {
       pages.push(embed);
     }
     if (!number) {
-      if (pages.length == pagesNum && playlist.tracks.length > 10)
+      if (pages.length == pagesNum && playlist.tracks!.length > 10)
         NormalPage(
           client,
           message,
           pages,
           60000,
-          playlist.tracks.length,
+          playlist.tracks!.length,
           Number(totalDuration),
           language
         );

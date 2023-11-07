@@ -7,9 +7,9 @@ import {
   GuildMember,
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 import { Manager } from "../../../manager.js";
-let playlist: PlaylistInterface | null;
+let playlist: Playlist | null;
 
 export default {
   name: ["playlist", "import"],
@@ -66,20 +66,19 @@ export default {
     const SongAdd = [];
     let SongLoad = 0;
 
-    if (id) playlist = await client.db.get(`playlist.pid_${id}`);
+    if (id) playlist = await client.db.playlist.get(`${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist");
+      const fullList = await client.db.playlist.all();
 
-      const pid = Object.keys(fullList).filter(function (key) {
+      const pid = fullList.filter(function (data) {
         return (
-          fullList[key].owner == interaction.user.id &&
-          fullList[key].name == Plist
+          data.value.owner == interaction.user.id && data.value.name == Plist
         );
       });
 
-      playlist = fullList[pid[0]];
+      playlist = pid[0].value;
     }
     if (!id && !value)
       return interaction.editReply({

@@ -6,8 +6,8 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
-let playlist: PlaylistInterface | null;
+import { Playlist } from "../../../database/schema/Playlist.js";
+let playlist: Playlist | null;
 
 export default {
   name: "playlist-import",
@@ -65,16 +65,15 @@ export default {
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist");
+      const fullList = await client.db.playlist.all();
 
-      const pid = Object.keys(fullList).filter(function (key) {
+      const filter_level_1 = fullList.filter(function (data) {
         return (
-          fullList[key].owner == message.author.id &&
-          fullList[key].name == Plist
+          data.value.owner == message.author.id && data.value.name == Plist
         );
       });
 
-      playlist = fullList[pid[0]];
+      playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
     }
 
     if (!playlist)

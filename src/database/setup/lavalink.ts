@@ -8,9 +8,9 @@ export default async (client: Manager) => {
   client.logger.data_loader(
     lavalink_mess + `Auto ReConnect Collecting player 24/7 data`
   );
-  const maindata = await client.db.get(`autoreconnect`);
+  const maindata = await client.db.autoreconnect.all();
 
-  if (!maindata) {
+  if (!maindata || maindata.length == 0) {
     client.logger.data_loader(
       lavalink_mess + `Auto ReConnect found in 0 servers!`
     );
@@ -38,17 +38,16 @@ export default async (client: Manager) => {
       lavalink_mess + `Lavalink avalible, remove interval and continue setup!`
     );
 
-    await Object.keys(maindata).forEach(async function (key, index) {
-      const data = maindata[key];
-
+    await maindata.forEach(async function (data, index) {
       setTimeout(async () => {
-        const channel = client.channels.cache.get(data.text);
-        const voice = client.channels.cache.get(data.voice);
-        if (!channel || !voice) return client.db.delete(`autoreconnect.${key}`);
+        const channel = client.channels.cache.get(data.value.text);
+        const voice = client.channels.cache.get(data.value.voice);
+        if (!channel || !voice)
+          return client.db.autoreconnect.delete(`${data.id}`);
         await client.manager.createPlayer({
-          guildId: data.guild,
-          voiceId: data.voice,
-          textId: data.text,
+          guildId: data.value.guild,
+          voiceId: data.value.voice,
+          textId: data.value.text,
           deaf: true,
         });
       }),

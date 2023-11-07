@@ -20,7 +20,7 @@ export default {
     language: string,
     prefix: string
   ) => {
-    const db = await client.db.get(`control.guild_${message.guild!.id}`);
+    const db = await client.db.control.get(`${message.guild!.id}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "control_set", {
@@ -33,8 +33,8 @@ export default {
       .setColor(client.color);
 
     await message.reply({ embeds: [embed] });
-    await client.db.set(
-      `control.guild_${message.guild!.id}`,
+    await client.db.control.set(
+      `${message.guild!.id}`,
       db == "enable" ? "disable" : "enable"
     );
   },

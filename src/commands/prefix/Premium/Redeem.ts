@@ -33,7 +33,7 @@ export default {
         ],
       });
 
-    let member = await client.db.get(`premium.user_${message.author.id}`);
+    let member = await client.db.premium.get(`${message.author.id}`);
 
     if (member && member.isPremium) {
       const embed = new EmbedBuilder()
@@ -44,7 +44,7 @@ export default {
       return message.reply({ embeds: [embed] });
     }
 
-    const premium = await client.db.get(`code.pmc_${input.toUpperCase()}`);
+    const premium = await client.db.premium.get(`${input.toUpperCase()}`);
     if (premium) {
       const expires = moment(premium.expiresAt).format(
         "do/MMMM/YYYY (HH:mm:ss)"
@@ -71,9 +71,9 @@ export default {
         expiresAt: premium.expiresAt,
         plan: premium.plan,
       };
-      await client.db.set(`premium.user_${new_data.id}`, new_data);
+      await client.db.premium.set(`${new_data.id}`, new_data);
       await message.reply({ embeds: [embed] });
-      await client.db.delete(`code.pmc_${input.toUpperCase()}`);
+      await client.db.code.delete(`${input.toUpperCase()}`);
       return client.premiums.set(String(message.author.id), new_data);
     } else {
       const embed = new EmbedBuilder()

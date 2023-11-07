@@ -32,7 +32,7 @@ export default async (client: Manager, player: KazagumoPlayer) => {
     );
   }
 
-  let data = await client.db.get(`autoreconnect.guild_${player.guildId}`);
+  let data = await client.db.autoreconnect.get(`${player.guildId}`);
   const channel = client.channels.cache.get(player.textId) as TextChannel;
   if (!channel) return;
 
@@ -43,10 +43,10 @@ export default async (client: Manager, player: KazagumoPlayer) => {
 
   if (player.loop !== "none") return clearMsg(client, channel, player);
 
-  let guildModel = await client.db.get(`language.guild_${player.guildId}`);
+  let guildModel = await client.db.language.get(`${player.guildId}`);
   if (!guildModel) {
-    guildModel = await client.db.set(
-      `language.guild_${player.guildId}`,
+    guildModel = await client.db.language.set(
+      `${player.guildId}`,
       client.config.bot.LANGUAGE
     );
   }

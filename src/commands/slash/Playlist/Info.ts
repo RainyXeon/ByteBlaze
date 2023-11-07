@@ -6,9 +6,9 @@ import {
 } from "discord.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { PlaylistInterface } from "../../../@types/Playlist.js";
+import { Playlist } from "../../../database/schema/Playlist.js";
 
-let info: PlaylistInterface | null;
+let info: Playlist | null;
 
 export default {
   name: ["playlist", "info"],
@@ -43,20 +43,19 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
 
-    if (id) info = await client.db.get(`playlist.pid_${id}`);
+    if (id) info = await client.db.playlist.get(`${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.get("playlist");
+      const fullList = await client.db.playlist.all();
 
-      const pid = Object.keys(fullList).filter(function (key) {
+      const pid = fullList.filter(function (data) {
         return (
-          fullList[key].owner == interaction.user.id &&
-          fullList[key].name == Plist
+          data.value.owner == interaction.user.id && data.value.name == Plist
         );
       });
 
-      info = fullList[pid[0]];
+      info = pid[0].value;
     }
 
     if (!id && !value)

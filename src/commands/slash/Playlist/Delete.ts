@@ -34,16 +34,15 @@ export default {
     ).getString("name");
     const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const filter_level_1 = Object.keys(fullList).filter(function (key) {
+    const filter_level_1 = fullList.filter(function (data) {
       return (
-        fullList[key].owner == interaction.user.id &&
-        fullList[key].name == Plist
+        data.value.owner == interaction.user.id && data.value.name == Plist
       );
     });
 
-    const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
 
     if (!playlist)
       return interaction.editReply({
@@ -67,7 +66,7 @@ export default {
       });
     if (playlist.id == "thedreamvastghost0923849084") return;
 
-    await client.db.delete(`playlist.pid_${filter_level_1}`);
+    await client.db.playlist.delete(`${filter_level_1[0].id}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "delete_deleted", {

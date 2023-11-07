@@ -111,16 +111,26 @@ export default {
       return msg.edit(`${client.i18n.get(language, "playlist", "add_match")}`);
     }
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
+    const filter_level_1 = fullList.filter(function (data) {
       return (
-        fullList[key].owner == message.author.id &&
-        fullList[key].name == PlaylistName
+        data.value.owner == message.author.id && data.value.name == PlaylistName
       );
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+
+    if (!playlist)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (playlist.owner !== message.author.id) {
       message.reply({
@@ -135,7 +145,7 @@ export default {
       TrackAdd.length = 0;
       return;
     }
-    const LimitTrack = playlist.tracks.length + TrackAdd.length;
+    const LimitTrack = playlist.tracks!.length + TrackAdd.length;
 
     if (LimitTrack > client.config.bot.LIMIT_TRACK) {
       message.reply({
@@ -154,7 +164,7 @@ export default {
     }
 
     TrackAdd.forEach(async (track) => {
-      await client.db.push(`playlist.${pid[0]}.tracks`, {
+      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

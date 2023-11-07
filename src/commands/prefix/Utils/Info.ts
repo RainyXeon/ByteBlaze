@@ -115,14 +115,14 @@ export default {
         category: parent.id,
       };
 
-      await client.db.set(`setup.guild_${message.guild!.id}`, new_data);
+      await client.db.status.set(`${message.guild!.id}`, new_data);
 
       const interval_info = await client.interval.get("MAIN");
 
       if (!interval_info) {
         const interval_online = setInterval(async () => {
-          const SetupChannel = await client.db.get(
-            `setup.guild_${message.guild!.id}.enable`
+          const SetupChannel = await client.db.status.get(
+            `${message.guild!.id}.enable`
           );
           if (!SetupChannel) return;
 
@@ -181,13 +181,15 @@ export default {
             .setTimestamp()
             .setColor(client.color);
 
-          SetupChannel.forEach(async (g: SetupInfoChannel) => {
-            const fetch_channel = await client.channels.fetch(g.channel);
-            const text_channel = fetch_channel! as TextChannel;
-            const interval_text = await text_channel.messages!.fetch(g.statmsg);
-            if (!fetch_channel) return;
-            await interval_text.edit({ content: ``, embeds: [fetched_info] });
-          });
+          const fetch_channel = await client.channels.fetch(
+            SetupChannel.channel
+          );
+          const text_channel = fetch_channel! as TextChannel;
+          const interval_text = await text_channel.messages!.fetch(
+            SetupChannel.statmsg
+          );
+          if (!fetch_channel) return;
+          await interval_text.edit({ content: ``, embeds: [fetched_info] });
         }, 5000);
 
         await client.interval.set("MAIN", interval_online);
@@ -204,9 +206,7 @@ export default {
     }
 
     if (choose === "delete") {
-      const SetupChannel = await client.db.get(
-        `setup.guild_${message.guild!.id}`
-      );
+      const SetupChannel = await client.db.status.get(`${message.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
         .setDescription(
@@ -245,7 +245,7 @@ export default {
         category: "",
       };
 
-      await client.db.set(`setup.guild_${message.guild!.id}`, deleted_data);
+      await client.db.status.set(`${message.guild!.id}`, deleted_data);
     }
   },
 };

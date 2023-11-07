@@ -34,16 +34,15 @@ export default {
     ).getString("name");
     const PName = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.get("playlist");
+    const fullList = await client.db.playlist.all();
 
-    const pid = Object.keys(fullList).filter(function (key) {
+    const pid = fullList.filter(function (data) {
       return (
-        fullList[key].owner == interaction.user.id &&
-        fullList[key].name == PName
+        data.value.owner == interaction.user.id && data.value.name == PName
       );
     });
 
-    const playlist = fullList[pid[0]];
+    const playlist = pid[0].value;
 
     if (!playlist)
       return interaction.editReply({
@@ -66,16 +65,12 @@ export default {
         ],
       });
 
-    const Public = Object.keys(fullList)
-      .filter(function (key) {
-        return fullList[key].private == false && fullList[key].name == PName;
-        // to cast back from an array of keys to the object, with just the passing ones
-      })
-      .forEach(async (key) => {
-        return fullList[key];
-      });
+    const Public = fullList.filter(function (data) {
+      return data.value.private == false && data.value.name == PName;
+      // to cast back from an array of keys to the object, with just the passing ones
+    });
 
-    if (Public !== null || undefined || false)
+    if (Public !== null || undefined || false || Public !== 0)
       return interaction.editReply(
         `${client.i18n.get(language, "playlist", "public_already")}`
       );
@@ -84,19 +79,17 @@ export default {
       `${client.i18n.get(language, "playlist", "public_loading")}`
     );
 
-    client.db.set(
-      `playlist.pid_${playlist.id}.private`,
+    client.db.playlist.set(
+      `${playlist.id}.private`,
       playlist.private == true ? false : true
     );
 
-    const playlist_now = await client.db.get(
-      `playlist.pid_${playlist.id}.private`
-    );
+    const playlist_now = await client.db.playlist.get(`${playlist.id}.private`);
 
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "public_success", {
-          view: playlist_now == true ? "Private" : "Public",
+          view: playlist_now?.private == true ? "Private" : "Public",
         })}`
       )
       .setColor(client.color);

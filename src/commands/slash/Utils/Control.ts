@@ -44,7 +44,7 @@ export default {
         "type"
       ) === "enable"
     ) {
-      await client.db.set(`control.guild_${interaction.guild!.id}`, "enable");
+      await client.db.control.set(`${interaction.guild!.id}`, "enable");
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -60,7 +60,7 @@ export default {
         "type"
       ) === "disable"
     ) {
-      await client.db.set(`control.guild_${interaction.guild!.id}`, "enable");
+      await client.db.control.set(`${interaction.guild!.id}`, "enable");
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "utilities", "control_set", {
