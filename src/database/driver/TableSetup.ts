@@ -1,6 +1,6 @@
 import { IDriver, QuickDB } from "quick.db";
 import { Manager } from "../../manager.js";
-
+import { handler } from "../handler.js";
 // Schema
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import { Playlist } from "../schema/Playlist.js";
@@ -12,9 +12,20 @@ import { Language } from "../schema/Language.js";
 import { Status } from "../schema/Status.js";
 import { Prefix } from "../schema/Prefix.js";
 
-export async function TableSetup(client: Manager, driver: IDriver) {
+export async function TableSetup(
+  client: Manager,
+  driver: IDriver,
+  driverName: string
+) {
   const baseDB = new QuickDB({ driver: driver });
+
+  const start = Date.now();
   await baseDB.init();
+  const end = Date.now();
+
+  client.logger.info(
+    `Connected to the database! [${driverName}] [${end - start}ms]`
+  );
 
   client.db = {
     autoreconnect: await baseDB.table<AutoReconnect>("autoreconnect"),
@@ -27,4 +38,7 @@ export async function TableSetup(client: Manager, driver: IDriver) {
     status: await baseDB.table<Status>("status"),
     prefix: await baseDB.table<Prefix>("prefix"),
   };
+
+  client.is_db_connected = true;
+  handler(client);
 }

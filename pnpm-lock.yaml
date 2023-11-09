@@ -167,6 +167,9 @@ devDependencies:
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.4.0
     version: 6.9.1(@typescript-eslint/parser@6.9.1)(eslint@8.53.0)(typescript@5.2.2)
+  adm-zip:
+    specifier: ^0.5.10
+    version: 0.5.10
   concurrently:
     specifier: ^8.2.2
     version: 8.2.2
@@ -194,6 +197,9 @@ devDependencies:
   esm:
     specifier: ^3.2.25
     version: 3.2.25
+  jszip:
+    specifier: ^3.10.1
+    version: 3.10.1
   node:
     specifier: ^21.1.0
     version: 21.1.0
@@ -1055,6 +1061,11 @@ packages:
     resolution: {integrity: sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+    dev: true
+
+  /adm-zip@0.5.10:
+    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==}
+    engines: {node: '>=6.0'}
     dev: true
 
   /ajv@6.12.6:
@@ -2516,6 +2527,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immediate@3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: true
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2754,6 +2769,15 @@ packages:
       graceful-fs: 4.2.11
     dev: false
 
+  /jszip@3.10.1:
+    resolution: {integrity: sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==}
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.8
+      setimmediate: 1.0.5
+    dev: true
+
   /kareem@2.5.1:
     resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==}
     engines: {node: '>=12.0.0'}
@@ -2775,6 +2799,12 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+    dev: true
+
+  /lie@3.3.0:
+    resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
+    dependencies:
+      immediate: 3.0.6
     dev: true
 
   /linkify-it@4.0.1:
@@ -3288,6 +3318,10 @@ packages:
       p-limit: 3.1.0
     dev: true
 
+  /pako@1.0.11:
+    resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+    dev: true
+
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -3689,6 +3723,10 @@ packages:
       define-data-property: 1.1.1
       functions-have-names: 1.2.3
       has-property-descriptors: 1.0.1
+    dev: true
+
+  /setimmediate@1.0.5:
+    resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
     dev: true
 
   /setprototypeof@1.2.0:
