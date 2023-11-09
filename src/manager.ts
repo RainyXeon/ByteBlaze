@@ -18,7 +18,6 @@ import { Connectors } from "shoukaku";
 import { Kazagumo, KazagumoPlayer, Plugins } from "better-kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { QuickDB } from "quick.db";
 import check_lavalink_server from "./lavaScrap/checkLavalinkServer.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";

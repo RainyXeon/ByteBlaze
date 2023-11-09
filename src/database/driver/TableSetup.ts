@@ -12,19 +12,19 @@ import { Language } from "../schema/Language.js";
 import { Status } from "../schema/Status.js";
 import { Prefix } from "../schema/Prefix.js";
 
-export function TableSetup(client: Manager, driver: IDriver) {
+export async function TableSetup(client: Manager, driver: IDriver) {
+  const baseDB = new QuickDB({ driver: driver });
+  await baseDB.init();
+
   client.db = {
-    autoreconnect: new QuickDB<AutoReconnect>({
-      driver: driver,
-      table: "autoreconnect",
-    }),
-    playlist: new QuickDB<Playlist>({ driver: driver, table: "playlist" }),
-    code: new QuickDB<Code>({ driver: driver, table: "code" }),
-    premium: new QuickDB<Premium>({ driver: driver, table: "premium" }),
-    control: new QuickDB<Control>({ driver: driver, table: "control" }),
-    setup: new QuickDB<Setup>({ driver: driver, table: "setup" }),
-    language: new QuickDB<Language>({ driver: driver, table: "language" }),
-    status: new QuickDB<Status>({ driver: driver, table: "status" }),
-    prefix: new QuickDB<Prefix>({ driver: driver, table: "prefix" }),
+    autoreconnect: await baseDB.table<AutoReconnect>("autoreconnect"),
+    playlist: await baseDB.table<Playlist>("playlist"),
+    code: await baseDB.table<Code>("code"),
+    premium: await baseDB.table<Premium>("premium"),
+    control: await baseDB.table<Control>("control"),
+    setup: await baseDB.table<Setup>("setup"),
+    language: await baseDB.table<Language>("language"),
+    status: await baseDB.table<Status>("status"),
+    prefix: await baseDB.table<Prefix>("prefix"),
   };
 }

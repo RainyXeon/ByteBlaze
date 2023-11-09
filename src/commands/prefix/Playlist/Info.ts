@@ -54,7 +54,7 @@ export default {
         );
       });
 
-      info = filter_level_1[0].value
+      info = filter_level_1[0].value;
     }
 
     if (!info)
