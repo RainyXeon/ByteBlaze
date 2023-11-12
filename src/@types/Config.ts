@@ -34,27 +34,8 @@ export interface AutofixLavalink {
 }
 
 export interface Database {
-  JSON: JSON;
-  MONGO_DB: MongoDB;
-  MYSQL: Mysql;
-}
-
-export interface JSON {
-  enable: boolean;
-  path: string;
-}
-
-export interface MongoDB {
-  enable: boolean;
-  uri: string;
-}
-
-export interface Mysql {
-  enable: boolean;
-  host: string;
-  user: string;
-  password: string;
-  database: string;
+  driver: string;
+  config: Record<string, any>;
 }
 
 export interface MessageContent {

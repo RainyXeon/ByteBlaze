@@ -50,20 +50,12 @@ lavalink:
 
 features:
   DATABASE:
-    # Note: You can't enable all or 2 databases. It will return to JSON database
-    JSON:
-      enable: true
+    # Note: If you enter an invalid driver, bot will use json driver as default
+    driver: "json" # mongodb, mysql, json, postgres
+    # Config depend on with driver, you can see sample config at src/database/driver
+    config: {
       path: "./cylane.database.json"
-    MONGO_DB:
-      enable: false
-      # Your mongo_uri, you can get it from here: https://www.mongodb.com/
-      uri: mongodb://127.0.0.1:27017/dreamvast
-    MYSQL:
-      enable: false
-      host: "localhost"
-      user: "me"
-      password: "secret"
-      database: "my_db"
+    }
 
   MESSAGE_CONTENT:
     enable: true

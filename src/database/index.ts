@@ -2,30 +2,27 @@ import { MongoConnectDriver } from "./driver/MongoDriver.js";
 import { JSONConnectDriver } from "./driver/JSONDriver.js";
 import { MySQLConnectDriver } from "./driver/MySQLDriver.js";
 import { Manager } from "../manager.js";
+import { PostgresConnectDriver } from "./driver/PostgresDriver.js";
 
 export async function connectDB(client: Manager) {
   try {
     const databaseConfig = client.config.features.DATABASE;
 
-    const dbRegister: string[] = [];
-    databaseConfig.JSON.enable ? dbRegister.push("JSON") : false;
-    databaseConfig.MONGO_DB.enable ? dbRegister.push("MongoDB") : false;
-    databaseConfig.MYSQL.enable ? dbRegister.push("MySQL") : false;
-
-    if (dbRegister.length > 1) {
-      await JSONConnectDriver(client, databaseConfig);
-      return;
-    }
-
-    switch (dbRegister[0]) {
-      case "JSON":
+    switch (databaseConfig.driver) {
+      case "json":
         await JSONConnectDriver(client, databaseConfig);
         break;
-      case "MongoDB":
+      case "mongodb":
         await MongoConnectDriver(client, databaseConfig);
         break;
-      case "MySQL":
+      case "mysql":
         await MySQLConnectDriver(client, databaseConfig);
+        break;
+      case "postgres":
+        await PostgresConnectDriver(client, databaseConfig);
+        break;
+      default:
+        await JSONConnectDriver(client, databaseConfig);
         break;
     }
   } catch (error) {
