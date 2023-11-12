@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
 import { MongoDriver } from "quick.db/MongoDriver";
-import { TableSetup } from "./TableSetup.js";
+import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
 export async function MongoConnectDriver(client: Manager, db_config: Database) {

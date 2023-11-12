@@ -1,10 +1,10 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
-import { PostgresDriver } from "quick.db/PostgresDriver";
-import { TableSetup } from "./TableSetup.js";
+import { MySQLDriver } from "quick.db/MySQLDriver";
+import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
-export async function PostgresConnectDriver(client: Manager, db_config: Database) {
+export async function MySQLConnectDriver(client: Manager, db_config: Database) {
   const sampleConfig = {
     host: "localhost",
     user: "me",
@@ -14,7 +14,7 @@ export async function PostgresConnectDriver(client: Manager, db_config: Database
 
   keyChecker(db_config.config, sampleConfig, "mysql")
 
-  const mysqlDriver = new PostgresDriver(db_config.config);
+  const mysqlDriver = new MySQLDriver(db_config.config);
   
   await TableSetup(client, mysqlDriver, "MySQL");
 }

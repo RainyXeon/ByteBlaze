@@ -32,6 +32,7 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 - [x] Mysql
 - [x] Mongo DB
 - [x] JSON
+- [x] Postgres
 
 ## ⚙️ Guide
 

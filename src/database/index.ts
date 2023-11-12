@@ -1,8 +1,8 @@
-import { MongoConnectDriver } from "./driver/MongoDriver.js";
-import { JSONConnectDriver } from "./driver/JSONDriver.js";
-import { MySQLConnectDriver } from "./driver/MySQLDriver.js";
+import { MongoConnectDriver } from "./driver/mongodb.js";
+import { JSONConnectDriver } from "./driver/json.js";
+import { MySQLConnectDriver } from "./driver/mysql.js";
 import { Manager } from "../manager.js";
-import { PostgresConnectDriver } from "./driver/PostgresDriver.js";
+import { PostgresConnectDriver } from "./driver/postgres.js";
 
 export async function connectDB(client: Manager) {
   try {
