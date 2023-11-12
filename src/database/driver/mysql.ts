@@ -10,11 +10,11 @@ export async function MySQLConnectDriver(client: Manager, db_config: Database) {
     user: "me",
     password: "secret",
     database: "my_db",
-  }
+  };
 
-  keyChecker(db_config.config, sampleConfig, "mysql")
+  keyChecker(db_config.config, sampleConfig, "mysql");
 
   const mysqlDriver = new MySQLDriver(db_config.config);
-  
+
   await TableSetup(client, mysqlDriver, "MySQL");
 }

@@ -13,8 +13,7 @@
     "start:shard": "node ./dist/shard.js",
     "start:docker": "tsx ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
-    "build:prettier": "prettier -w ./src",
-    "build:lint": "eslint"
+    "build:prettier": "prettier -w ./src"
   },
   "repository": {
     "type": "git",
@@ -64,6 +63,7 @@
     "mysql2": "^3.6.3",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",
+    "pg": "^8.11.3",
     "plsargs": "^0.1.6",
     "pretty-ms": "^8.0.0",
     "quick.db": "github:plexidev/quick.db#dev",
@@ -94,17 +94,10 @@
     "@types/voucher-code-generator": "^1.1.2",
     "@types/ws": "^8.5.8",
     "@types/yt-search": "^2.10.2",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "adm-zip": "^0.5.10",
-    "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "dir-archiver": "^2.1.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.0.1",
-    "eslint-config-standard-with-typescript": "^39.1.1",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0",
     "esm": "^3.2.25",
     "jszip": "^3.10.1",
     "node": "^21.1.0",
@@ -112,8 +105,7 @@
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "tsx": "^3.14.0",
-    "typescript": "^5.2.2",
-    "yarn": "^1.22.19"
+    "typescript": "^5.2.2"
   },
   "pnpm": {
     "overrides": {

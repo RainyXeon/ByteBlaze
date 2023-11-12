@@ -5,16 +5,13 @@ import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
 export async function JSONConnectDriver(client: Manager, db_config: Database) {
-
   const sampleConfig = {
-    path: "./cylane.database.json"
-  }
-  
-  keyChecker(db_config.config, sampleConfig, "json")
+    path: "./cylane.database.json",
+  };
 
-  const jsonDriver = new JSONDriver(
-    db_config.config.path
-  );
+  keyChecker(db_config.config, sampleConfig, "json");
+
+  const jsonDriver = new JSONDriver(db_config.config.path);
 
   await TableSetup(client, jsonDriver, "JSON");
 }
