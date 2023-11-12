@@ -23,9 +23,9 @@ try {
     bot_chagedata.TOKEN = String(process.env.TOKEN);
 
     // Change db data
-    const db_chnagedata = doc.features.DATABASE.MONGO_DB;
-    if (db_chnagedata.enable) {
-      db_chnagedata.uri = String(process.env.MONGO_URI);
+    const db_chnagedata = doc.features.DATABASE;
+    if (db_chnagedata.driver == "mongodb") {
+      db_chnagedata.config.uri = String(process.env.MONGO_URI);
     }
   }
 } catch (e) {
