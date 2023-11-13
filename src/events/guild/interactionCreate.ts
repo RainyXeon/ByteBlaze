@@ -227,6 +227,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     }
 
     if (
+      command?.isManager &&
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
         PermissionsBitField.Flags.ManageGuild
       )
