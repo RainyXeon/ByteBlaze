@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import { readdirSync } from "fs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
+export async function loadWsCommand(client: Manager) {
   const events = readdirSync(
     join(__dirname, "..", "..", "commands", "websocket")
   ).filter((d: string) => {
@@ -23,4 +23,4 @@ export default async (client: Manager) => {
   } else {
     client.logger.warn(`No websocket request file loaded, is websocket ok?`);
   }
-};
+}

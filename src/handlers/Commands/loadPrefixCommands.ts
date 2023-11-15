@@ -6,7 +6,7 @@ import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
+export async function loadPrefixCommands(client: Manager) {
   let commandPath = resolve(join(__dirname, "..", "..", "commands", "prefix"));
   let commandFiles = await readdirRecursive(commandPath);
 
@@ -43,4 +43,4 @@ export default async (client: Manager) => {
   } else {
     client.logger.warn(`No prefix command loaded, is everything ok?`);
   }
-};
+}

@@ -6,7 +6,7 @@ import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
+export async function loadSlashCommands(client: Manager) {
   let interactionsPath = resolve(
     join(__dirname, "..", "..", "commands", "slash")
   );
@@ -46,4 +46,4 @@ export default async (client: Manager) => {
   } else {
     client.logger.warn(`No interactions loaded, is everything ok?`);
   }
-};
+}

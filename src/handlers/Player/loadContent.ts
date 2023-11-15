@@ -14,7 +14,7 @@ import { GlobalInteraction } from "../../@types/Interaction.js";
 /**
  * @param {Client} client
  */
-export default async (client: Manager) => {
+export async function playerLoadContent(client: Manager) {
   try {
     client.on(
       "interactionCreate",
@@ -483,4 +483,4 @@ export default async (client: Manager) => {
 
     await client.UpdateQueueMsg(player);
   });
-};
+}

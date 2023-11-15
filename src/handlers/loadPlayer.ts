@@ -1,9 +1,13 @@
 import { Manager } from "../manager.js";
+import { playerLoadContent } from "./Player/loadContent.js";
+import { playerLoadEvent } from "./Player/loadEvent.js";
+import { playerLoadSetup } from "./Player/loadSetup.js";
+import { playerLoadUpdate } from "./Player/loadUpdate.js";
 
 export default async (client: Manager) => {
-  (await import("./Player/loadEvent.js")).default(client);
-  (await import("./Player/loadUpdate.js")).default(client);
-  (await import("./Player/loadContent.js")).default(client);
-  (await import("./Player/loadSetup.js")).default(client);
+  playerLoadEvent(client);
+  playerLoadUpdate(client);
+  playerLoadContent(client);
+  playerLoadSetup(client);
   client.logger.loader("Shoukaku Player Events Loaded!");
 };

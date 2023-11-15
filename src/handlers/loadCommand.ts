@@ -1,6 +1,8 @@
 import { Manager } from "../manager.js";
+import { loadPrefixCommands } from "./Commands/loadPrefixCommands.js";
+import { loadSlashCommands } from "./Commands/loadSlashCommands.js";
 
 export default async (client: Manager) => {
-  (await import("./Commands/loadPrefixCommands.js")).default(client);
-  (await import("./Commands/loadCommands.js")).default(client);
+  loadSlashCommands(client);
+  loadPrefixCommands(client);
 };

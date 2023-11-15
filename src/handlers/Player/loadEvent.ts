@@ -4,7 +4,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
+export async function playerLoadEvent(client: Manager) {
   const events = readdirSync(
     join(__dirname, "..", "..", "events", "player")
   ).filter((d) => {
@@ -19,4 +19,4 @@ export default async (client: Manager) => {
     const eName = file.split(".")[0];
     client.manager.on(eName as "playerUpdate", evt.default.bind(null, client));
   }
-};
+}

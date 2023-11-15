@@ -1,5 +1,6 @@
 import { Manager } from "../manager.js";
+import { loadWsCommand } from "./Websocket/loadCommand.js";
 
 export default async (client: Manager) => {
-  (await import("./Websocket/loadCommand.js")).default(client);
+  await loadWsCommand(client);
 };

@@ -4,7 +4,7 @@ import formatDuration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { KazagumoPlayer } from "better-kazagumo";
 
-export default async (client: Manager) => {
+export async function playerLoadUpdate(client: Manager) {
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
     let data = await client.db.setup.get(`${player.guildId}`);
     if (!data) return;
@@ -162,4 +162,4 @@ export default async (client: Manager) => {
       })
       .catch((e) => {});
   };
-};
+}
