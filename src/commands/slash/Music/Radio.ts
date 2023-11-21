@@ -5,7 +5,7 @@ import {
   GuildMember,
   PermissionsBitField,
 } from "discord.js";
-import { Radiostations } from "../../../plugins/radioLink.js";
+import { Radiostations } from "../../../utils/radioLink.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 // Main code

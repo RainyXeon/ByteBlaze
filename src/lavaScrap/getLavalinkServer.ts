@@ -3,7 +3,7 @@ import axios from "axios";
 import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();
 import fse from "fs-extra";
-import logger from "../plugins/logger.js";
+import logger from "../utils/logger.js";
 import Token from "markdown-it/lib/token.js";
 
 function parseBoolean(value: string) {

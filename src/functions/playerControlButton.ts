@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { NormalModeIcons } from "../assets/normalMode.js";
 import { SafeModeIcons } from "../assets/safeMode.js";
-import * as configData from "../plugins/config.js";
+import * as configData from "../utils/config.js";
 import { Config } from "../@types/Config.js";
 
 const data: Config = configData.default;

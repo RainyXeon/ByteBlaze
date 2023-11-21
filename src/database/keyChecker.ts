@@ -1,4 +1,4 @@
-import logger from "../plugins/logger.js";
+import logger from "../utils/logger.js";
 import utils from "node:util";
 
 export function keyChecker(

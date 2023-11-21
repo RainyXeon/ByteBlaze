@@ -51,7 +51,7 @@ export default {
       });
 
     const song = player.queue.current;
-    const position = player.shoukaku.position;
+    const position = player.position;
     const CurrentDuration = FormatDuration(position);
     const TotalDuration = FormatDuration(song!.length);
     const Thumbnail =

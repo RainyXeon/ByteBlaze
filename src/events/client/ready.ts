@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { Deploy } from "../../plugins/autoDeploy.js";
+import { Deploy } from "../../utils/autoDeploy.js";
 
 export default async (client: Manager) => {
   client.logger.info(`Logged in ${client.user!.tag}`);
