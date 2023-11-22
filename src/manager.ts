@@ -22,7 +22,7 @@ import check_lavalink_server from "./lavaScrap/checkLavalinkServer.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
-import { client_metadata } from "./metadata.js";
+import { manifest } from "./utils/manifest.js";
 import { PrefixCommand, SlashCommand, WsCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
@@ -99,7 +99,7 @@ export class Manager extends Client {
     });
     this.logger = winstonLogger;
     this.config = configData.default;
-    this.metadata = client_metadata;
+    this.metadata = manifest.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.dev = this.config.features.DEV_ID;
@@ -200,10 +200,6 @@ export class Manager extends Client {
         : this.config.lavalink.SHOUKAKU_OPTIONS
     );
 
-    this.manager.on("debug" as any, (logs) => {
-      if (this.config.bot.DEBUG_MODE) return this.logger.debug(logs);
-    });
-
     if (this.config.features.AUTOFIX_LAVALINK.enable) {
       check_lavalink_server(this);
       setInterval(async () => {
@@ -218,7 +214,6 @@ export class Manager extends Client {
       "loadEvents.js",
       "loadNodeEvents.js",
       "loadPlayer.js",
-      "loadWebsocket.js",
       "loadCommand.js",
     ];
     if (!this.config.features.WEB_SERVER.websocket.enable)

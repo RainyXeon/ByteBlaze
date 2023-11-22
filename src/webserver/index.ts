@@ -2,15 +2,19 @@ import express from "express";
 import expressWs from "express-ws";
 import { Manager } from "../manager.js";
 import { websocket } from "./websocket.js";
+import { loadRequest } from "./loadRequest.js";
 
 export async function WebServer(client: Manager) {
   const { app } = expressWs(express());
   const port = client.config.features.WEB_SERVER.port;
 
   // Websocket
-  app.ws("/websocket", function (ws, req) {
-    websocket(client, ws, req);
-  });
+  if (client.config.features.WEB_SERVER.websocket.enable) {
+    loadRequest(client);
+    app.ws("/websocket", function (ws, req) {
+      websocket(client, ws, req);
+    });
+  }
 
   // Alive route
   app.use("/", (req, res) => {
@@ -18,7 +22,7 @@ export async function WebServer(client: Manager) {
     res.end();
   });
 
-  app.listen(0xbeef);
+  app.listen(port, "127.0.0.1");
 
   client.logger.info(`Running web server in port: ${port}`);
 }

@@ -12,10 +12,11 @@ export default async (client: Manager) => {
       const events = await import(pathToFileURL(path).toString());
 
       var splitPath = function (str: string) {
-        return str.split("\\").pop()!.split("/").pop();
+        return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
       };
 
       const eName = splitPath(path);
+
       client.on(eName!, events.default.bind(null, client));
     });
   }

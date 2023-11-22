@@ -6,23 +6,22 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../manager.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
-  let eventsPath = resolve(join(__dirname, "..", "events", "node"));
+export async function loadRequest(client: Manager) {
+  let eventsPath = resolve(join(__dirname, "request"));
   let eventsFile = await readdirRecursive(eventsPath);
 
   await chillout.forEach(eventsFile, async (path) => {
     const events = await import(pathToFileURL(path).toString());
-
-    var splitPath = function (str: string) {
-      return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
-    };
-
-    const eName = splitPath(path);
-    client.manager.shoukaku.on(
-      eName as "raw",
-      events.default.bind(null, client)
-    );
+    client.ws_message!.set(events.default.name, events.default);
   });
 
-  client.logger.loader("Lavalink Server Events Loaded!");
-};
+  if (client.ws_message?.size) {
+    client.logger.websocket(
+      `${client.ws_message?.size} Websocket Request Loaded!`
+    );
+  } else {
+    client.logger.websocket(
+      `No websocket request file loaded, is websocket ok?`
+    );
+  }
+}
