@@ -78,8 +78,7 @@ export class Manager extends Client {
       // shards: getInfo().SHARD_LIST, // An array of shards that will get spawned
       // shardCount: getInfo().TOTAL_SHARDS, // Total number of shards
       shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
-      shardCount:
-        process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
+      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : 1,
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,

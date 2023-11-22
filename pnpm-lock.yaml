@@ -30,9 +30,6 @@ dependencies:
   common-tags:
     specifier: ^1.8.2
     version: 1.8.2
-  delay:
-    specifier: ^6.0.0
-    version: 6.0.0
   discord-api-types:
     specifier: ^0.37.62
     version: 0.37.62
@@ -170,12 +167,12 @@ devDependencies:
   '@types/yt-search':
     specifier: ^2.10.2
     version: 2.10.2
-  adm-zip:
-    specifier: ^0.5.10
-    version: 0.5.10
   copyfiles:
     specifier: ^2.4.1
     version: 2.4.1
+  delay:
+    specifier: ^6.0.0
+    version: 6.0.0
   dir-archiver:
     specifier: ^2.1.0
     version: 2.1.0
@@ -824,11 +821,6 @@ packages:
     hasBin: true
     dev: true
 
-  /adm-zip@0.5.10:
-    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==}
-    engines: {node: '>=6.0'}
-    dev: true
-
   /ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -1340,7 +1332,7 @@ packages:
   /delay@6.0.0:
     resolution: {integrity: sha512-2NJozoOHQ4NuZuVIr5CWd0iiLVIRSDepakaovIN+9eIDHEhdCAEvSy2cuf1DCrPPQLvHmbqTHODlhHg8UCy4zw==}
     engines: {node: '>=16'}
-    dev: false
+    dev: true
 
   /delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
