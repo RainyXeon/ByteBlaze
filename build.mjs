@@ -86,7 +86,7 @@ child.on("close", async code => {
   "<!-- Changes to this file may cause incorrect behavior -->" + `\n` +
   "<!-- You will be responsible for this when changing any content in the file. -->" + `\n`
 
-  manifest.metadata.bot.version = `${botVersion}.${objectDate}`
+  manifest.metadata.bot.version = `${botVersion}+${objectDate}`
 
   fse.writeFileSync('./temp/manifest.xml', builder.build(manifest) + warningData, 'utf-8');
 

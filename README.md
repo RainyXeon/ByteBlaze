@@ -38,6 +38,27 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 
 For installation and config guide, please check out the wiki tab or [click here!](https://github.com/RainyXeon/ByteBlaze/wiki)
 
+## Versioning policy
+
+Lavalink follows [Semantic Versioning](https://semver.org/)
+
+The version number is composed of the following parts:
+
+    MAJOR breaking changes
+    MINOR new backwards compatible features
+    PATCH backwards compatible bug fixes
+    BUILD additional build metadata
+    PRERELEASE pre-release version
+
+Version numbers can come in different combinations, depending on the release type:
+
+    `MAJOR.MINOR.PATCH` - Stable release
+    `MAJOR.MINOR.PATCH+BUILD` - Stable release with additional build metadata
+    `MAJOR.MINOR.PATCH-PRERELEASE` - Pre-release
+    `MAJOR.MINOR.PATCH-PRERELEASE+BUILD` - Pre-release additional build metadata
+
+---
+
 ## 💫 Special thanks
 
 - [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
