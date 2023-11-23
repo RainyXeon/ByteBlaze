@@ -1,26 +1,26 @@
-import { Message } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
+import { PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
-import { EmbedBuilder } from "discord.js";
 
-export default {
-  name: "restart",
-  description: "Shuts down the client!",
-  category: "Admin",
-  accessableby: "Owner",
-  usage: "",
-  aliases: [],
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  public name = "restart"
+  public description = "Shuts down the client!"
+  public category = "Admin"
+  public accessableby = "Owner"
+  public usage = ""
+  public aliases = []
+  public owner = true
+  public premium = false
+  public lavalink = false
+  public isManager = false
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const restart = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "restart_msg")}`
@@ -34,5 +34,5 @@ export default {
     await message.reply({ embeds: [restart] });
 
     process.exit();
-  },
-};
+  }
+}

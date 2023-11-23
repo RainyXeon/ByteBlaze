@@ -21,7 +21,7 @@ export type PrefixCommand = {
     args: string[],
     language: string,
     prefix: string
-  ) => Promise<void>;
+  ) => Promise<any>;
 };
 
 export type SlashCommand = {
@@ -37,7 +37,7 @@ export type SlashCommand = {
     interaction: GlobalInteraction,
     client: Manager,
     language: string
-  ) => Promise<void>;
+  ) => Promise<any>;
 };
 
 export type WsCommand = {

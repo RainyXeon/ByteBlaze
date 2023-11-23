@@ -1,24 +1,27 @@
 import { ButtonStyle, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
+import { PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "developer",
-  description: "Shows the developer information of the Bot (Credit)",
-  category: "Info",
-  usage: "",
-  aliases: ["dev"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  public name = "developer"
+  public description = "Shows the developer information of the Bot (Credit)"
+  public category = "Info"
+  public usage = ""
+  public aliases = ["dev"]
+  public accessableby = "Member"
+  public owner = false
+  public premium = false
+  public lavalink = false
+  public isManager = false
+
+  public async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const xeondex = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "info", "dev_title")}`)
       .setDescription(`${client.i18n.get(language, "info", "dev_desc")}`)
@@ -46,5 +49,5 @@ export default {
       );
 
     await message.reply({ embeds: [xeondex], components: [row1] });
-  },
+  }
 };

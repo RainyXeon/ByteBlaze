@@ -9,24 +9,27 @@ import {
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import fs from "fs";
+import { PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "help",
-  description: "Displays all commands that the bot has.",
-  category: "Info",
-  usage: "+ <commamnd_name>",
-  aliases: ["h"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  public name = "help"
+  public description = "Displays all commands that the bot has."
+  public category = "Info"
+  public usage = "+ <commamnd_name>"
+  public accessableby = "Member"
+  public aliases = ["h"]
+  public owner = false
+  public premium = false
+  public lavalink = false
+  public isManager = false
+
+  public async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     if (args[0]) {
       const embed = new EmbedBuilder()
         .setAuthor({
@@ -204,5 +207,5 @@ export default {
         }
       });
     });
-  },
+  }
 };
