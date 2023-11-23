@@ -4,13 +4,13 @@ import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "developer"
-  description = "Shows the developer information of the Bot (Credit)"
-  category = "Info"
-  usage = ""
-  aliases = ["dev"]
-  accessableby = Accessableby.Member
-  lavalink = false
+  name = "developer";
+  description = "Shows the developer information of the Bot (Credit)";
+  category = "Info";
+  usage = "";
+  aliases = ["dev"];
+  accessableby = Accessableby.Member;
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -47,4 +47,4 @@ export default class implements PrefixCommand {
 
     await message.reply({ embeds: [xeondex], components: [row1] });
   }
-};
+}

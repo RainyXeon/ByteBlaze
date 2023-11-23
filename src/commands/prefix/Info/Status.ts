@@ -10,13 +10,13 @@ import ms from "pretty-ms";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "status"
-  description = "Shows the status information of the Bot"
-  category = "Info"
+  name = "status";
+  description = "Shows the status information of the Bot";
+  category = "Info";
   accessableby = Accessableby.Member;
-  usage = ""
-  aliases = []
-  lavalink = false
+  usage = "";
+  aliases = [];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -90,4 +90,4 @@ export default class implements PrefixCommand {
     );
     await message.reply({ embeds: [info], components: [row] });
   }
-};
+}

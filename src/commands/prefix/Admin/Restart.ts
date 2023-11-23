@@ -3,13 +3,13 @@ import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
 
 export default class implements PrefixCommand {
-  name = "restart"
-  description = "Shuts down the client!"
-  category = "Admin"
-  accessableby = Accessableby.Owner
-  usage = ""
-  aliases = []
-  lavalink = false
+  name = "restart";
+  description = "Shuts down the client!";
+  category = "Admin";
+  accessableby = Accessableby.Owner;
+  usage = "";
+  aliases = [];
+  lavalink = false;
 
   async run(
     client: Manager,

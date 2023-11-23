@@ -6,20 +6,20 @@ import {
   TextChannel,
 } from "discord.js";
 import ms from "pretty-ms";
-import { Manager } from "../../../manager.js"
+import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "status-channel"
-  description = "Create bot status channel"
-  category = "Utils"
+  name = "status-channel";
+  description = "Create bot status channel";
+  category = "Utils";
   accessableby = Accessableby.Manager;
-  aliases = ["sc"]
-  usage = "<create or delete>"
-  owner = false
-  premium = false
-  lavalink = false
-  isManager = true
+  aliases = ["sc"];
+  usage = "<create or delete>";
+  owner = false;
+  premium = false;
+  lavalink = false;
+  isManager = true;
 
   async run(
     client: Manager,
@@ -248,4 +248,4 @@ export default class implements PrefixCommand {
       await client.db.status.set(`${message.guild!.id}`, deleted_data);
     }
   }
-};
+}

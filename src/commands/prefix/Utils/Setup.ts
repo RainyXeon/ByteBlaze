@@ -1,22 +1,18 @@
-import {
-  EmbedBuilder,
-  ChannelType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ChannelType, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "setup"
-  description = "Setup channel song request"
-  category = "Utils"
+  name = "setup";
+  description = "Setup channel song request";
+  category = "Utils";
   accessableby = Accessableby.Manager;
-  aliases = ["setup-channel"]
-  usage = "<create or delete>"
-  owner = false
-  premium = false
-  lavalink = false
-  isManager = true
+  aliases = ["setup-channel"];
+  usage = "<create or delete>";
+  owner = false;
+  premium = false;
+  lavalink = false;
+  isManager = true;
 
   async run(
     client: Manager,
@@ -168,4 +164,4 @@ export default class implements PrefixCommand {
       return message.reply({ embeds: [embed] });
     }
   }
-};
+}

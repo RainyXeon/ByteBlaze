@@ -8,29 +8,29 @@ import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import fse from "fs-extra";
 import { plsParseArgs } from "plsargs";
 const args = plsParseArgs(process.argv.slice(2));
-const parser = new XMLParser()
-const builder = new XMLBuilder()
+const parser = new XMLParser();
+const builder = new XMLBuilder();
 const objectDate = Date.now();
 
-const acceptedParams = ["clean", "build"]
+const acceptedParams = ["clean", "build"];
 
 function logger(data, type) {
   const text = String(data).replace(/(\r\n|\n|\r)/gm, " || ");
   switch (type) {
     case "build":
-      console.log(`BUILD - ${text}`)
-      break
+      console.log(`BUILD - ${text}`);
+      break;
     case "info":
-      console.log(`INFO - ${text}`)
-      break
+      console.log(`INFO - ${text}`);
+      break;
     case "error":
-      console.log(`ERROR - ${text}`)
-      break
+      console.log(`ERROR - ${text}`);
+      break;
   }
 }
 
 if (!acceptedParams.includes(args.get(0))) {
-  throw new Error("Only clean or build, example: node build.mjs build")
+  throw new Error("Only clean or build, example: node build.mjs build");
 }
 
 if (args.get(0) == acceptedParams[0]) {
@@ -38,38 +38,41 @@ if (args.get(0) == acceptedParams[0]) {
   await fse.rmSync("./out", { recursive: true, force: true });
   await fse.rmSync("./.cylane", { recursive: true, force: true });
   await fse.rmSync("./logs", { recursive: true, force: true });
-  logger("Clean successfully!", "info")
-  process.exit()
+  logger("Clean successfully!", "info");
+  process.exit();
 }
 
 // Build
-const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run',  "build:full"]);
+const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", [
+  "run",
+  "build:full",
+]);
 
-child.stdout.on("data", data => {
+child.stdout.on("data", (data) => {
   logger(data, "build");
 });
 
-child.stderr.on("data", data => {
+child.stderr.on("data", (data) => {
   logger(data, "build");
 });
 
-child.on('error', (error) => {
+child.on("error", (error) => {
   logger(error.message, "error");
 });
 
-child.on("close", async code => {
+child.on("close", async (code) => {
   logger(`Build finished with code ${code}`, "build");
 
   // Creating temp
-  if (!fse.existsSync("./temp")) await fse.mkdir("./temp")
+  if (!fse.existsSync("./temp")) await fse.mkdir("./temp");
   else {
     await fse.rmSync("./temp", { recursive: true, force: true });
-    await fse.mkdir("./temp")
+    await fse.mkdir("./temp");
   }
 
   try {
     fse.copySync("./dist", "./temp", { overwrite: true });
-    console.log('Making temp to edit manifest file...');
+    console.log("Making temp to edit manifest file...");
   } catch (err) {
     console.error(err);
   }
@@ -78,37 +81,52 @@ child.on("close", async code => {
   await fse.rmSync("./dist", { recursive: true, force: true });
 
   // Edit manifest
-  const manifestRaw = fse.readFileSync('./temp/manifest.xml', 'utf-8');
-  const manifest = parser.parse(manifestRaw)
-  const botVersion = manifest.metadata.bot.version
-  const warningData = `\n` + "<!-- THIS IS THE METADATA BOT FILE -->" + `\n` +
-  "<!-- Do NOT delete this file or it will crash -->" + `\n` +
-  "<!-- Changes to this file may cause incorrect behavior -->" + `\n` +
-  "<!-- You will be responsible for this when changing any content in the file. -->" + `\n`
+  const manifestRaw = fse.readFileSync("./temp/manifest.xml", "utf-8");
+  const manifest = parser.parse(manifestRaw);
+  const botVersion = manifest.metadata.bot.version;
+  const warningData =
+    `\n` +
+    "<!-- THIS IS THE METADATA BOT FILE -->" +
+    `\n` +
+    "<!-- Do NOT delete this file or it will crash -->" +
+    `\n` +
+    "<!-- Changes to this file may cause incorrect behavior -->" +
+    `\n` +
+    "<!-- You will be responsible for this when changing any content in the file. -->" +
+    `\n`;
 
-  manifest.metadata.bot.version = `${botVersion}+${objectDate}`
+  manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
 
-  fse.writeFileSync('./temp/manifest.xml', builder.build(manifest) + warningData, 'utf-8');
+  fse.writeFileSync(
+    "./temp/manifest.xml",
+    builder.build(manifest) + warningData,
+    "utf-8"
+  );
 
-  logger('Edit manifest file complete! Now give all build file back to dist folder', "build");
+  logger(
+    "Edit manifest file complete! Now give all build file back to dist folder",
+    "build"
+  );
 
   // Give back to dist folder
-  await fse.mkdir("./dist")
+  await fse.mkdir("./dist");
 
   try {
     fse.copySync("./temp", "./dist", { overwrite: true });
-    logger('Give all build file back to dist folder complete! Removing temp...', "build");
+    logger(
+      "Give all build file back to dist folder complete! Removing temp...",
+      "build"
+    );
   } catch (err) {
     console.error(err);
   }
 
   await fse.rmSync("./temp", { recursive: true, force: true });
-  logger('Remove complete! Now archive all build file...', "build");
-
+  logger("Remove complete! Now archive all build file...", "build");
 
   // Archive build
-  await fse.mkdir("./out")
-  const path = `./out/byteblaze-build-${objectDate}.zip`
+  await fse.mkdir("./out");
+  const path = `./out/byteblaze-build-${objectDate}.zip`;
 
   const ignored = [
     "node_modules",
@@ -126,10 +144,10 @@ child.on("close", async code => {
     "LICENSE",
     "pnpm-lock.yaml",
     "README.md",
-    "tsconfig.json"
+    "tsconfig.json",
   ];
   const zipper = new archiver(".", path, true, ignored);
   zipper.createZip();
-  logger('Archive all build file successfully!!!', "build");
-  logger("Build bot successfully!!!")
+  logger("Archive all build file successfully!!!", "build");
+  logger("Build bot successfully!!!");
 });

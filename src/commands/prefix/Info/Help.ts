@@ -12,13 +12,13 @@ import fs from "fs";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "help"
-  description = "Displays all commands that the bot has."
-  category = "Info"
-  usage = "+ <commamnd_name>"
-  accessableby = Accessableby.Member
-  aliases = ["h"]
-  lavalink = false
+  name = "help";
+  description = "Displays all commands that the bot has.";
+  category = "Info";
+  usage = "+ <commamnd_name>";
+  accessableby = Accessableby.Member;
+  aliases = ["h"];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -63,9 +63,7 @@ export default class implements PrefixCommand {
                 ? `\`${prefix}${command.name} ${command.usage}\``
                 : "No Usage"
             }
-            **Accessible by:** ${
-              command.accessableby
-            }
+            **Accessible by:** ${command.accessableby}
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0
                 ? command.aliases.join(", ")
@@ -201,4 +199,4 @@ export default class implements PrefixCommand {
       });
     });
   }
-};
+}

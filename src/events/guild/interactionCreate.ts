@@ -97,7 +97,10 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     client.logger.info(`${msg_cmd.join(" ")}`);
 
-    if (command.accessableby == Accessableby.Owner && interaction.user.id != client.owner)
+    if (
+      command.accessableby == Accessableby.Owner &&
+      interaction.user.id != client.owner
+    )
       return (interaction as NoAutoInteraction).reply(
         `${client.i18n.get(language, "interaction", "owner_only")}`
       );

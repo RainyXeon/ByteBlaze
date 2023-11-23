@@ -3,17 +3,17 @@ import { Manager } from "../../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default class implements PrefixCommand{
-  name = "language"
-  aliases = ["setlang", "lang"]
-  usage = "<language>"
+export default class implements PrefixCommand {
+  name = "language";
+  aliases = ["setlang", "lang"];
+  usage = "<language>";
   accessableby = Accessableby.Manager;
-  category = "Utils"
-  description = "Change the language for the bot"
-  owner = false
-  premium = false
-  lavalink = false
-  isManager = true
+  category = "Utils";
+  description = "Change the language for the bot";
+  owner = false;
+  premium = false;
+  lavalink = false;
+  isManager = true;
 
   async run(
     client: Manager,
@@ -73,4 +73,4 @@ export default class implements PrefixCommand{
       return message.reply({ embeds: [embed] });
     }
   }
-};
+}

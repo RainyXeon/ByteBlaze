@@ -9,7 +9,7 @@ export enum Accessableby {
   Owner = "Owner",
   Premium = "Premium",
   Manager = "Manager",
-  Admin = "Admin"
+  Admin = "Admin",
 }
 
 export type PrefixCommand = {
@@ -19,7 +19,7 @@ export type PrefixCommand = {
   accessableby: Accessableby;
   usage: string;
   aliases: string[];
-  lavalink?: boolean;
+  lavalink: boolean;
   run: (
     client: Manager,
     message: Message,
@@ -35,7 +35,7 @@ export type SlashCommand = {
   category: string;
   accessableby: Accessableby;
   type?: ApplicationCommandType;
-  lavalink?: boolean;
+  lavalink: boolean;
   run: (
     interaction: GlobalInteraction,
     client: Manager,
@@ -45,5 +45,5 @@ export type SlashCommand = {
 
 export type WsCommand = {
   name: string;
-  run: (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => Promise<void>;
+  run: (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => Promise<any>;
 };

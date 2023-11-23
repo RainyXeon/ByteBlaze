@@ -4,13 +4,13 @@ import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "invite"
-  description = "Shows the invite information of the Bot"
-  category = "Info"
-  usage = ""
-  aliases = []
-  accessableby = Accessableby.Member
-  lavalink = false
+  name = "invite";
+  description = "Shows the invite information of the Bot";
+  category = "Info";
+  usage = "";
+  aliases = [];
+  accessableby = Accessableby.Member;
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -53,4 +53,4 @@ export default class implements PrefixCommand {
 
     await message.reply({ embeds: [invite], components: [row2] });
   }
-};
+}

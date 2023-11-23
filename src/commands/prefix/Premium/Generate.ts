@@ -6,13 +6,13 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "premium-generate"
-  description = "Generate a premium code!"
-  category = "Premium"
+  name = "premium-generate";
+  description = "Generate a premium code!";
+  category = "Premium";
   accessableby = Accessableby.Owner;
-  usage = "<type> <number>"
-  aliases = ["pg"]
-  lavalink = false
+  usage = "<type> <number>";
+  aliases = ["pg"];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -106,4 +106,4 @@ export default class implements PrefixCommand {
 
     message.reply({ embeds: [embed] });
   }
-};
+}

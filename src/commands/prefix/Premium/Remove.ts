@@ -3,13 +3,13 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "premium-remove"
-  description = "Remove premium from members!"
-  category = "Premium"
+  name = "premium-remove";
+  description = "Remove premium from members!";
+  category = "Premium";
   accessableby = Accessableby.Owner;
-  usage = "<mention or id>"
-  aliases = ["prm"]
-  lavalink = false
+  usage = "<mention or id>";
+  aliases = ["prm"];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -86,4 +86,4 @@ export default class implements PrefixCommand {
       message.reply({ embeds: [embed] });
     }
   }
-};
+}

@@ -4,13 +4,13 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "profile"
-  description = "View your premium profile!"
-  category = "Premium"
+  name = "profile";
+  description = "View your premium profile!";
+  category = "Premium";
   accessableby = Accessableby.Premium;
-  usage = ""
-  aliases = []
-  lavalink = false
+  usage = "";
+  aliases = [];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -41,4 +41,4 @@ export default class implements PrefixCommand {
 
     return message.reply({ embeds: [embed] });
   }
-};
+}

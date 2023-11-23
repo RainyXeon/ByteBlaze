@@ -4,16 +4,16 @@ import { EmbedBuilder } from "discord.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  name = "control"
-  aliases = ["setcontrol"]
-  usage = "<input>"
-  category = "Utils"
+  name = "control";
+  aliases = ["setcontrol"];
+  usage = "<input>";
+  category = "Utils";
   accessableby = Accessableby.Manager;
-  description = "Change the player mode for the bot"
-  owner = false
-  premium = false
-  lavalink = false
-  isManager = true
+  description = "Change the player mode for the bot";
+  owner = false;
+  premium = false;
+  lavalink = false;
+  isManager = true;
 
   async run(
     client: Manager,
@@ -40,4 +40,4 @@ export default class implements PrefixCommand {
       db == "enable" ? "disable" : "enable"
     );
   }
-};
+}

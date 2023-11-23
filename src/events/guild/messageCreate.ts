@@ -126,7 +126,10 @@ export default async (client: Manager, message: Message) => {
       ],
     });
 
-  if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
+  if (
+    command.accessableby == Accessableby.Owner &&
+    message.author.id != client.owner
+  )
     return message.reply({
       embeds: [
         new EmbedBuilder()

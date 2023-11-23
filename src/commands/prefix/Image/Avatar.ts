@@ -1,18 +1,15 @@
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
-import {
-  EmbedBuilder,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 
 export default class implements PrefixCommand {
-  name = "avatar"
-  description = "Show your or someone else's profile picture"
-  category = "Image"
+  name = "avatar";
+  description = "Show your or someone else's profile picture";
+  category = "Image";
   accessableby = Accessableby.Member;
-  usage = "<mention>"
-  aliases = []
-  lavalink = false
+  usage = "<mention>";
+  aliases = [];
+  lavalink = false;
 
   async run(
     client: Manager,
@@ -66,4 +63,4 @@ export default class implements PrefixCommand {
       await message.reply({ embeds: [embed] });
     }
   }
-};
+}
