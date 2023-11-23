@@ -4,17 +4,22 @@ import WebSocket from "ws";
 import { GlobalInteraction } from "./Interaction.js";
 import { JSON_MESSAGE } from "./Websocket.js";
 
+export enum Accessableby {
+  Member = "Member",
+  Owner = "Owner",
+  Premium = "Premium",
+  Manager = "Manager",
+  Admin = "Admin"
+}
+
 export type PrefixCommand = {
   name: string;
   description: string;
   category: string;
-  accessableby: string;
+  accessableby: Accessableby;
   usage: string;
   aliases: string[];
-  premium?: boolean;
   lavalink?: boolean;
-  owner?: boolean;
-  isManager?: boolean;
   run: (
     client: Manager,
     message: Message,
@@ -28,11 +33,9 @@ export type SlashCommand = {
   name: string;
   description: string;
   category: string;
+  accessableby: Accessableby;
   type?: ApplicationCommandType;
-  owner?: boolean;
-  premium?: boolean;
   lavalink?: boolean;
-  isManager?: boolean;
   run: (
     interaction: GlobalInteraction,
     client: Manager,

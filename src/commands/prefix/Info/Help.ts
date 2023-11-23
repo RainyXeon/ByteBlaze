@@ -9,21 +9,18 @@ import {
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { PrefixCommand } from "../../../@types/Command.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  public name = "help"
-  public description = "Displays all commands that the bot has."
-  public category = "Info"
-  public usage = "+ <commamnd_name>"
-  public accessableby = "Member"
-  public aliases = ["h"]
-  public owner = false
-  public premium = false
-  public lavalink = false
-  public isManager = false
+  name = "help"
+  description = "Displays all commands that the bot has."
+  category = "Info"
+  usage = "+ <commamnd_name>"
+  accessableby = Accessableby.Member
+  aliases = ["h"]
+  lavalink = false
 
-  public async run(
+  async run(
     client: Manager,
     message: Message,
     args: string[],
@@ -67,11 +64,7 @@ export default class implements PrefixCommand {
                 : "No Usage"
             }
             **Accessible by:** ${
-              command.isManager
-                ? "Guild Manager"
-                : command.owner
-                ? "Owner"
-                : "Members"
+              command.accessableby
             }
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0

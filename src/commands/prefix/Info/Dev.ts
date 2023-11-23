@@ -1,21 +1,18 @@
 import { ButtonStyle, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import { PrefixCommand } from "../../../@types/Command.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
-  public name = "developer"
-  public description = "Shows the developer information of the Bot (Credit)"
-  public category = "Info"
-  public usage = ""
-  public aliases = ["dev"]
-  public accessableby = "Member"
-  public owner = false
-  public premium = false
-  public lavalink = false
-  public isManager = false
+  name = "developer"
+  description = "Shows the developer information of the Bot (Credit)"
+  category = "Info"
+  usage = ""
+  aliases = ["dev"]
+  accessableby = Accessableby.Member
+  lavalink = false
 
-  public async run(
+  async run(
     client: Manager,
     message: Message,
     args: string[],

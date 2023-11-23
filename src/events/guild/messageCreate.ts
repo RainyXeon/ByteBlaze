@@ -3,6 +3,7 @@ import { Manager } from "../../manager.js";
 import { PermissionsBitField, EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
+import { Accessableby } from "../../@types/Command.js";
 
 export default async (client: Manager, message: Message) => {
   if (message.author.bot || message.channel.type == ChannelType.DM) return;
@@ -125,7 +126,7 @@ export default async (client: Manager, message: Message) => {
       ],
     });
 
-  if (command.owner && message.author.id != client.owner)
+  if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
     return message.reply({
       embeds: [
         new EmbedBuilder()
@@ -137,7 +138,7 @@ export default async (client: Manager, message: Message) => {
     });
 
   if (
-    command.isManager &&
+    command.accessableby == Accessableby.Manager &&
     !message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild)
   )
     return message.reply({
@@ -151,7 +152,7 @@ export default async (client: Manager, message: Message) => {
     });
 
   try {
-    if (command.premium) {
+    if (command.accessableby == Accessableby.Premium) {
       const user = client.premiums.get(message.author.id);
       if (!user || !user.isPremium) {
         const embed = new EmbedBuilder()

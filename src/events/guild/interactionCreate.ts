@@ -13,6 +13,7 @@ import {
   NoAutoInteraction,
 } from "../../@types/Interaction.js";
 import yts from "yt-search";
+import { Accessableby } from "../../@types/Command.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -96,13 +97,13 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
 
     client.logger.info(`${msg_cmd.join(" ")}`);
 
-    if (command.owner && interaction.user.id != client.owner)
+    if (command.accessableby == Accessableby.Owner && interaction.user.id != client.owner)
       return (interaction as NoAutoInteraction).reply(
         `${client.i18n.get(language, "interaction", "owner_only")}`
       );
 
     try {
-      if (command.premium) {
+      if (command.accessableby == Accessableby.Premium) {
         const user = client.premiums.get(interaction.user.id);
         if (!user || !user.isPremium) {
           const embed = new EmbedBuilder()
@@ -227,7 +228,7 @@ export default async (client: Manager, interaction: GlobalInteraction) => {
     }
 
     if (
-      command?.isManager &&
+      command.accessableby == Accessableby.Manager &&
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
         PermissionsBitField.Flags.ManageGuild
       )

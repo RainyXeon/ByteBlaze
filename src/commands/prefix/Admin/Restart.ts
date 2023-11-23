@@ -1,18 +1,15 @@
 import { EmbedBuilder, Message } from "discord.js";
-import { PrefixCommand } from "../../../@types/Command.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
 
 export default class implements PrefixCommand {
-  public name = "restart"
-  public description = "Shuts down the client!"
-  public category = "Admin"
-  public accessableby = "Owner"
-  public usage = ""
-  public aliases = []
-  public owner = true
-  public premium = false
-  public lavalink = false
-  public isManager = false
+  name = "restart"
+  description = "Shuts down the client!"
+  category = "Admin"
+  accessableby = Accessableby.Owner
+  usage = ""
+  aliases = []
+  lavalink = false
 
   async run(
     client: Manager,
