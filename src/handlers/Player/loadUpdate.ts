@@ -4,13 +4,20 @@ import formatDuration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { KazagumoPlayer } from "better-kazagumo";
 
-export async function playerLoadUpdate(client: Manager) {
-  client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
-    let data = await client.db.setup.get(`${player.guildId}`);
+export class playerLoadUpdate {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+    this.client.UpdateMusic = this.UpdateMusic;
+    this.client.UpdateQueueMsg = this.UpdateQueueMsg;
+  }
+
+  async UpdateQueueMsg(player: KazagumoPlayer) {
+    let data = await this.client.db.setup.get(`${player.guildId}`);
     if (!data) return;
     if (data.enable === false) return;
 
-    let channel = (await client.channels.cache.get(
+    let channel = (await this.client.channels.cache.get(
       data.channel
     )) as TextChannel;
     if (!channel) return;
@@ -18,11 +25,11 @@ export async function playerLoadUpdate(client: Manager) {
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
+    let guildModel = await this.client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
+      guildModel = await this.client.db.language.set(
         `language.guild_${player.guildId}`,
-        client.config.bot.LANGUAGE
+        this.client.config.bot.LANGUAGE
       );
     }
 
@@ -31,7 +38,7 @@ export async function playerLoadUpdate(client: Manager) {
     const songStrings = [];
     const queuedSongs = player.queue.map(
       (song, i) =>
-        `${client.i18n.get(language, "setup", "setup_content_queue", {
+        `${this.client.i18n.get(language, "setup", "setup_content_queue", {
           index: `${i + 1}`,
           title: song.title,
           duration: formatDuration(song.length),
@@ -39,7 +46,7 @@ export async function playerLoadUpdate(client: Manager) {
         })}`
     );
 
-    const current_song = `${client.i18n.get(
+    const current_song = `${this.client.i18n.get(
       language,
       "setup",
       "setup_content_queue",
@@ -64,29 +71,33 @@ export async function playerLoadUpdate(client: Manager) {
 
     let embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(language, "setup", "setup_author")}`,
-        iconURL: `${client.i18n.get(language, "setup", "setup_author_icon")}`,
+        name: `${this.client.i18n.get(language, "setup", "setup_author")}`,
+        iconURL: `${this.client.i18n.get(
+          language,
+          "setup",
+          "setup_author_icon"
+        )}`,
       })
       .setDescription(
-        `${client.i18n.get(language, "setup", "setup_desc", {
+        `${this.client.i18n.get(language, "setup", "setup_desc", {
           title: cSong!.title,
           url: cSong!.uri,
           duration: formatDuration(cSong!.length),
           request: `${cSong!.requester}`,
         })}`
       ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
-      .setColor(client.color)
+      .setColor(this.client.color)
       .setImage(
         `${
           cSong!.thumbnail
             ? cSong!.thumbnail
-            : `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-                client.user!.avatar
+            : `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${
+                this.client.user!.avatar
               }.jpeg?size=300`
         }`
       )
       .setFooter({
-        text: `${client.i18n.get(language, "setup", "setup_footer", {
+        text: `${this.client.i18n.get(language, "setup", "setup_footer", {
           songs: `${player.queue.size}`,
           volume: `${player.volume}`,
           duration: qDuration,
@@ -95,27 +106,31 @@ export async function playerLoadUpdate(client: Manager) {
 
     return await playMsg
       .edit({
-        content: `${client.i18n.get(language, "setup", "setup_content")}\n${
+        content: `${this.client.i18n.get(
+          language,
+          "setup",
+          "setup_content"
+        )}\n${
           Str == ""
-            ? `${client.i18n.get(language, "setup", "setup_content_empty")}`
+            ? `${this.client.i18n.get(
+                language,
+                "setup",
+                "setup_content_empty"
+              )}`
             : "\n" + Str
         }`,
         embeds: [embed],
-        components: [client.enSwitch],
+        components: [this.client.enSwitch],
       })
       .catch((e) => {});
-  };
+  }
 
-  /**
-   *
-   * @param {Player} player
-   */
-  client.UpdateMusic = async function (player: KazagumoPlayer) {
-    let data = await client.db.setup.get(`${player.guildId}`);
+  async UpdateMusic(player: KazagumoPlayer) {
+    let data = await this.client.db.setup.get(`${player.guildId}`);
     if (!data) return;
     if (data.enable === false) return;
 
-    let channel = (await client.channels.cache.get(
+    let channel = (await this.client.channels.cache.get(
       data.channel
     )) as TextChannel;
     if (!channel) return;
@@ -123,43 +138,55 @@ export async function playerLoadUpdate(client: Manager) {
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
+    let guildModel = await this.client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
+      guildModel = await this.client.db.language.set(
         `language.guild_${player.guildId}`,
-        client.config.bot.LANGUAGE
+        this.client.config.bot.LANGUAGE
       );
     }
 
     const language = guildModel;
 
-    const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`;
+    const queueMsg = `${this.client.i18n.get(
+      language,
+      "setup",
+      "setup_queuemsg"
+    )}`;
 
     const playEmbed = new EmbedBuilder()
-      .setColor(client.color)
+      .setColor(this.client.color)
       .setAuthor({
-        name: `${client.i18n.get(language, "setup", "setup_playembed_author")}`,
+        name: `${this.client.i18n.get(
+          language,
+          "setup",
+          "setup_playembed_author"
+        )}`,
       })
       .setImage(
-        `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-          client.user!.avatar
+        `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${
+          this.client.user!.avatar
         }.jpeg?size=300`
       )
       .setDescription(
-        `${client.i18n.get(language, "setup", "setup_playembed_desc", {
-          clientId: client.user!.id,
+        `${this.client.i18n.get(language, "setup", "setup_playembed_desc", {
+          clientId: this.client.user!.id,
         })}`
       )
       .setFooter({
-        text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}`,
+        text: `${this.client.i18n.get(
+          language,
+          "setup",
+          "setup_playembed_footer"
+        )}`,
       });
 
     return await playMsg
       .edit({
         content: `${queueMsg}`,
         embeds: [playEmbed],
-        components: [client.diSwitch],
+        components: [this.client.diSwitch],
       })
       .catch((e) => {});
-  };
+  }
 }

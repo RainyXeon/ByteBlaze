@@ -1,35 +1,36 @@
 import { load } from "js-yaml";
-import { prase } from "./prase/index.js";
+import { YAMLParseService } from "./parse.js";
 import { config } from "dotenv";
 import { Config } from "../@types/Config.js";
 config();
-let doc;
 
-const yaml_files = prase("./app.yml");
+export class ConfigDataService {
+  get data() {
+    const yaml_files = new YAMLParseService("./app.yml").execute();
 
-try {
-  const res = load(yaml_files);
-  doc = res as Config;
-  if (process.env.DOCKER_COMPOSE_MODE) {
-    // Change lavalink data
-    const lavalink_changedata = doc.lavalink.NODES[0];
-    lavalink_changedata.url = String(process.env.NODE_URL);
-    lavalink_changedata.name = String(process.env.NODE_URL);
-    lavalink_changedata.auth = String(process.env.NODE_AUTH);
-    lavalink_changedata.secure = false;
+    let doc;
 
-    // Change bot data
-    const bot_chagedata = doc.bot;
-    bot_chagedata.TOKEN = String(process.env.TOKEN);
+    const res = load(yaml_files);
+    doc = res as Config;
+    if (process.env.DOCKER_COMPOSE_MODE) {
+      // Change lavalink data
+      const lavalink_changedata = doc.lavalink.NODES[0];
+      lavalink_changedata.url = String(process.env.NODE_URL);
+      lavalink_changedata.name = String(process.env.NODE_URL);
+      lavalink_changedata.auth = String(process.env.NODE_AUTH);
+      lavalink_changedata.secure = false;
 
-    // Change db data
-    const db_chnagedata = doc.features.DATABASE;
-    if (db_chnagedata.driver == "mongodb") {
-      db_chnagedata.config.uri = String(process.env.MONGO_URI);
+      // Change bot data
+      const bot_chagedata = doc.bot;
+      bot_chagedata.TOKEN = String(process.env.TOKEN);
+
+      // Change db data
+      const db_chnagedata = doc.features.DATABASE;
+      if (db_chnagedata.driver == "mongodb") {
+        db_chnagedata.config.uri = String(process.env.MONGO_URI);
+      }
     }
-  }
-} catch (e) {
-  console.log(e);
-}
 
-export default doc;
+    return doc;
+  }
+}

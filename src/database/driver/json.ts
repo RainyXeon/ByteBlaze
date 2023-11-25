@@ -4,14 +4,24 @@ import { Database } from "../../@types/Config.js";
 import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
-export async function JSONConnectDriver(client: Manager, db_config: Database) {
-  const sampleConfig = {
-    path: "./cylane.database.json",
-  };
+export class JSONConnectDriver {
+  client: Manager;
+  dbConfig: Database;
+  constructor(client: Manager, dbConfig: Database) {
+    this.client = client;
+    this.dbConfig = dbConfig;
+    this.connect();
+  }
 
-  keyChecker(db_config.config, sampleConfig, "json");
+  connect() {
+    const sampleConfig = {
+      path: "./cylane.database.json",
+    };
 
-  const jsonDriver = new JSONDriver(db_config.config.path);
+    new keyChecker(this.dbConfig.config, sampleConfig, "json");
 
-  await TableSetup(client, jsonDriver, "JSON");
+    const jsonDriver = new JSONDriver(this.dbConfig.config.path);
+
+    new TableSetup(this.client, jsonDriver, "JSON");
+  }
 }

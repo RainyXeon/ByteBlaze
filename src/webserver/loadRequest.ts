@@ -6,22 +6,34 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../manager.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export async function loadRequest(client: Manager) {
-  let eventsPath = resolve(join(__dirname, "request"));
-  let eventsFile = await readdirRecursive(eventsPath);
+export class loadRequest {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+    this.loader();
+  }
 
-  await chillout.forEach(eventsFile, async (path) => {
-    const events = await import(pathToFileURL(path).toString());
-    client.ws_message!.set(events.default.name, events.default);
-  });
+  async loader() {
+    let eventsPath = resolve(join(__dirname, "request"));
+    let eventsFile = await readdirRecursive(eventsPath);
 
-  if (client.ws_message?.size) {
-    client.logger.websocket(
-      `${client.ws_message?.size} Websocket Request Loaded!`
-    );
-  } else {
-    client.logger.websocket(
-      `No websocket request file loaded, is websocket ok?`
-    );
+    await this.register(eventsFile);
+
+    if (this.client.ws_message?.size) {
+      this.client.logger.websocket(
+        `${this.client.ws_message?.size} Websocket Request Loaded!`
+      );
+    } else {
+      this.client.logger.websocket(
+        `No websocket request file loaded, is websocket ok?`
+      );
+    }
+  }
+
+  async register(eventsFile: string[]) {
+    await chillout.forEach(eventsFile, async (path) => {
+      const events = await import(pathToFileURL(path).toString());
+      this.client.ws_message!.set(events.default.name, events.default);
+    });
   }
 }

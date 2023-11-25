@@ -10,10 +10,7 @@ export default class implements PrefixCommand {
   category = "Utils";
   accessableby = Accessableby.Manager;
   description = "Change the player mode for the bot";
-  owner = false;
-  premium = false;
   lavalink = false;
-  isManager = true;
 
   async run(
     client: Manager,

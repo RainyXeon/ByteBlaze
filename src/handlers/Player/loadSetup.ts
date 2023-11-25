@@ -1,3 +1,5 @@
+import { NormalModeIcons } from "../../assets/normalMode.js";
+import { SafeModeIcons } from "../../assets/safeMode.js";
 import { Manager } from "../../manager.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
@@ -6,55 +8,95 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
  * @param {Client} client
  */
 
-export async function playerLoadSetup(client: Manager) {
-  client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Success)
-      .setCustomId("spause")
-      .setEmoji("⏯"),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Primary)
-      .setCustomId("sprevious")
-      .setEmoji("⬅"),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Danger)
-      .setCustomId("sstop")
-      .setEmoji("⏹"),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Primary)
-      .setCustomId("sskip")
-      .setEmoji("➡"),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Success)
-      .setCustomId("sloop")
-      .setEmoji("🔄"),
-  ]);
+export class playerLoadSetup {
+  client: Manager;
+  icons: typeof SafeModeIcons | typeof NormalModeIcons;
+  constructor(client: Manager) {
+    this.client = client;
+    this.icons = this.client.config.bot.SAFE_ICONS_MODE
+      ? SafeModeIcons
+      : NormalModeIcons;
+    this.registerDisableSwitch();
+    this.registerEnableSwitch();
+  }
+  registerEnableSwitch() {
+    this.client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
+        .setCustomId("sstop")
+        .setEmoji(this.icons.stop),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("sprevious")
+        .setEmoji(this.icons.previous),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
+        .setCustomId("spause")
+        .setEmoji(this.icons.play),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("sskip")
+        .setEmoji(this.icons.skip),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
+        .setCustomId("sloop")
+        .setEmoji(this.icons.loop),
+    ]);
+  }
 
-  client.diSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Secondary)
-      .setCustomId("spause")
-      .setEmoji("⏯")
-      .setDisabled(true),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Secondary)
-      .setCustomId("sprevious")
-      .setEmoji("⬅")
-      .setDisabled(true),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Secondary)
-      .setCustomId("sstop")
-      .setEmoji("⏹")
-      .setDisabled(true),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Secondary)
-      .setCustomId("sskip")
-      .setEmoji("➡")
-      .setDisabled(true),
-    new ButtonBuilder()
-      .setStyle(ButtonStyle.Secondary)
-      .setCustomId("sloop")
-      .setEmoji("🔄")
-      .setDisabled(true),
-  ]);
+  registerEnableSwitchMod() {
+    this.client.enSwitchMod =
+      new ActionRowBuilder<ButtonBuilder>().addComponents([
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Danger)
+          .setCustomId("sstop")
+          .setEmoji(this.icons.stop),
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Primary)
+          .setCustomId("sprevious")
+          .setEmoji(this.icons.previous),
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Success)
+          .setCustomId("spause")
+          .setEmoji(this.icons.pause),
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Primary)
+          .setCustomId("sskip")
+          .setEmoji(this.icons.skip),
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Success)
+          .setCustomId("sloop")
+          .setEmoji(this.icons.loop),
+      ]);
+  }
+
+  registerDisableSwitch() {
+    this.client.diSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("sstop")
+        .setEmoji(this.icons.stop)
+        .setDisabled(true),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("sprevious")
+        .setEmoji(this.icons.previous)
+        .setDisabled(true),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("spause")
+        .setEmoji(this.icons.pause)
+        .setDisabled(true),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("sskip")
+        .setEmoji(this.icons.skip)
+        .setDisabled(true),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("sloop")
+        .setEmoji(this.icons.loop)
+        .setDisabled(true),
+    ]);
+  }
 }

@@ -9,10 +9,7 @@ export default class implements PrefixCommand {
   accessableby = Accessableby.Manager;
   aliases = ["setup-channel"];
   usage = "<create or delete>";
-  owner = false;
-  premium = false;
   lavalink = false;
-  isManager = true;
 
   async run(
     client: Manager,

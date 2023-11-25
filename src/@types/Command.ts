@@ -12,36 +12,36 @@ export enum Accessableby {
   Admin = "Admin",
 }
 
-export type PrefixCommand = {
-  name: string;
-  description: string;
-  category: string;
-  accessableby: Accessableby;
-  usage: string;
-  aliases: string[];
-  lavalink: boolean;
-  run: (
+export class PrefixCommand {
+  name: string = "";
+  description: string = "";
+  category: string = "";
+  accessableby: Accessableby = Accessableby.Member;
+  usage: string = "";
+  aliases: string[] = [];
+  lavalink: boolean = false;
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => Promise<any>;
-};
+  ): Promise<any> {}
+}
 
-export type SlashCommand = {
-  name: string;
-  description: string;
-  category: string;
-  accessableby: Accessableby;
-  type?: ApplicationCommandType;
-  lavalink: boolean;
-  run: (
+export class SlashCommand {
+  name: string = "";
+  description: string = "";
+  category: string = "";
+  accessableby: Accessableby = Accessableby.Member;
+  type?: ApplicationCommandType = undefined;
+  lavalink: boolean = false;
+  async run(
     interaction: GlobalInteraction,
     client: Manager,
     language: string
-  ) => Promise<any>;
-};
+  ): Promise<any> {}
+}
 
 export type WsCommand = {
   name: string;

@@ -6,23 +6,33 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../manager.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default async (client: Manager) => {
-  let eventsPath = resolve(join(__dirname, "..", "events", "node"));
-  let eventsFile = await readdirRecursive(eventsPath);
+export class loadNodeEvents {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+    this.loader();
+  }
+  async loader() {
+    let eventsPath = resolve(join(__dirname, "..", "events", "node"));
+    let eventsFile = await readdirRecursive(eventsPath);
+    await this.register(eventsFile);
 
-  await chillout.forEach(eventsFile, async (path) => {
-    const events = await import(pathToFileURL(path).toString());
+    this.client.logger.loader("Lavalink Server Events Loaded!");
+  }
 
-    var splitPath = function (str: string) {
-      return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
-    };
+  async register(eventsFile: string[]) {
+    await chillout.forEach(eventsFile, async (path) => {
+      const events = await import(pathToFileURL(path).toString());
 
-    const eName = splitPath(path);
-    client.manager.shoukaku.on(
-      eName as "raw",
-      events.default.bind(null, client)
-    );
-  });
+      var splitPath = function (str: string) {
+        return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
+      };
 
-  client.logger.loader("Lavalink Server Events Loaded!");
-};
+      const eName = splitPath(path);
+      this.client.manager.shoukaku.on(
+        eName as "raw",
+        events.default.bind(null, this.client)
+      );
+    });
+  }
+}

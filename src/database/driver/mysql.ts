@@ -4,17 +4,27 @@ import { MySQLDriver } from "quick.db/MySQLDriver";
 import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
-export async function MySQLConnectDriver(client: Manager, db_config: Database) {
-  const sampleConfig = {
-    host: "localhost",
-    user: "me",
-    password: "secret",
-    database: "my_db",
-  };
+export class MySQLConnectDriver {
+  client: Manager;
+  dbConfig: Database;
+  constructor(client: Manager, dbConfig: Database) {
+    this.client = client;
+    this.dbConfig = dbConfig;
+    this.connect();
+  }
 
-  keyChecker(db_config.config, sampleConfig, "mysql");
+  connect() {
+    const sampleConfig = {
+      host: "localhost",
+      user: "me",
+      password: "secret",
+      database: "my_db",
+    };
 
-  const mysqlDriver = new MySQLDriver(db_config.config);
+    new keyChecker(this.dbConfig.config, sampleConfig, "mysql");
 
-  await TableSetup(client, mysqlDriver, "MySQL");
+    const mysqlDriver = new MySQLDriver(this.dbConfig.config);
+
+    new TableSetup(this.client, mysqlDriver, "MySQL");
+  }
 }
