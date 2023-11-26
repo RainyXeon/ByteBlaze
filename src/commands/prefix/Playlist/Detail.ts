@@ -3,8 +3,8 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { NormalPage } from "../../../structures/PageQueue.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
 import { PlaylistTrack } from "../../../database/schema/Playlist.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
@@ -82,13 +82,13 @@ export default class implements PrefixCommand {
           title: String(playlists.title),
           url: playlists.uri,
           author: String(playlists.author),
-          duration: formatDuration(playlists.length),
+          duration: new FormatDuration().parse(playlists.length),
         })}
                 `
       );
     }
 
-    const totalDuration = formatDuration(
+    const totalDuration = new FormatDuration().parse(
       playlist.tracks!.reduce(
         (acc: number, cur: PlaylistTrack) => acc + cur.length!,
         0
@@ -125,15 +125,13 @@ export default class implements PrefixCommand {
     }
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks!.length > 10)
-        NormalPage(
+        await new PageQueue(
           client,
-          message,
           pages,
           60000,
           playlist.tracks!.length,
-          Number(totalDuration),
           language
-        );
+        ).prefixPage(message, Number(totalDuration));
       else return message.reply({ embeds: [pages[0]] });
     } else {
       if (isNaN(+number))

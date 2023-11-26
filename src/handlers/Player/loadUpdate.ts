@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import formatDuration from "../../structures/FormatDuration.js";
+import { FormatDuration } from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { KazagumoPlayer } from "better-kazagumo";
 
@@ -41,7 +41,7 @@ export class playerLoadUpdate {
         `${this.client.i18n.get(language, "setup", "setup_content_queue", {
           index: `${i + 1}`,
           title: song.title,
-          duration: formatDuration(song.length),
+          duration: new FormatDuration().parse(song.length),
           request: `${song.requester}`,
         })}`
     );
@@ -53,7 +53,7 @@ export class playerLoadUpdate {
       {
         index: `${1}`,
         title: player.queue.current!.title,
-        duration: formatDuration(player.queue.current!.length),
+        duration: new FormatDuration().parse(player.queue.current!.length),
         request: `${player.queue.current!.requester}`,
       }
     )}`;
@@ -64,10 +64,10 @@ export class playerLoadUpdate {
 
     const Str = songStrings.slice(0, 10).join("\n");
 
-    const TotalDuration = QueueDuration(player);
+    const TotalDuration = new QueueDuration().parse(player);
 
     let cSong = player.queue.current;
-    let qDuration = `${formatDuration(TotalDuration)}`;
+    let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
 
     let embed = new EmbedBuilder()
       .setAuthor({
@@ -82,7 +82,7 @@ export class playerLoadUpdate {
         `${this.client.i18n.get(language, "setup", "setup_desc", {
           title: cSong!.title,
           url: cSong!.uri,
-          duration: formatDuration(cSong!.length),
+          duration: new FormatDuration().parse(cSong!.length),
           request: `${cSong!.requester}`,
         })}`
       ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}

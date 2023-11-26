@@ -13,7 +13,7 @@ export class loadMainEvents {
     this.loader();
   }
   async loader() {
-    await chillout.forEach(["client", "guild"], async (path) => {
+    await chillout.forEach(["client", "guild", "shard"], async (path) => {
       let eventsPath = resolve(join(__dirname, "..", "events", path));
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
@@ -28,7 +28,7 @@ export class loadMainEvents {
   }
 
   async registerEvents(path: string) {
-    const events = await import(pathToFileURL(path).toString());
+    const events = new (await import(pathToFileURL(path).toString())).default();
 
     var splitPath = function (str: string) {
       return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
@@ -36,6 +36,6 @@ export class loadMainEvents {
 
     const eName = splitPath(path);
 
-    this.client.on(eName!, events.default.bind(null, this.client));
+    this.client.on(eName!, events.execute.bind(null, this.client));
   }
 }

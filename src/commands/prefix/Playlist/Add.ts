@@ -3,7 +3,7 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { KazagumoTrack } from "better-kazagumo";
 import { Manager } from "../../../manager.js";
@@ -65,8 +65,8 @@ export default class implements PrefixCommand {
       for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
-    const Duration = convertTime(tracks[0].length as number);
-    const TotalDuration = StartQueueDuration(tracks);
+    const Duration = new ConvertTime().parse(tracks[0].length as number);
+    const TotalDuration = new StartQueueDuration().parse(tracks);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -74,7 +74,7 @@ export default class implements PrefixCommand {
           `${client.i18n.get(language, "playlist", "add_playlist", {
             title: tracks[0].title,
             url: Inputed,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             track: String(tracks.length),
             user: String(message.author),
           })}`

@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message } from "discord.js";
-import { NormalPlaylist } from "../../../structures/PageQueue.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
@@ -88,14 +88,13 @@ export default class implements PrefixCommand {
     }
     if (!number) {
       if (pages.length == pagesNum && playlists.length > 10) {
-        NormalPlaylist(
+        await new PageQueue(
           client,
-          message,
           pages,
           30000,
           playlists.length,
           language
-        );
+        ).prefixPlaylistPage(message);
         return (playlists.length = 0);
       } else {
         await message.reply({ embeds: [pages[0]] });

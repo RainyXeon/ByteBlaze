@@ -7,7 +7,7 @@ import {
   Message,
   Embed,
 } from "discord.js";
-import FormatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { QueueDuration } from "../../../structures/QueueDuration.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
@@ -52,8 +52,8 @@ export default class implements PrefixCommand {
 
     const song = player.queue.current;
     const position = player.position;
-    const CurrentDuration = FormatDuration(position);
-    const TotalDuration = FormatDuration(song!.length);
+    const CurrentDuration = new FormatDuration().parse(position);
+    const TotalDuration = new FormatDuration().parse(song!.length);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
       `https://cdn.discordapp.com/avatars/${client.user!.id}/${
@@ -95,7 +95,7 @@ export default class implements PrefixCommand {
         },
         {
           name: `${client.i18n.get(language, "player", "duration_title")}`,
-          value: `${FormatDuration(song!.length)}`,
+          value: `${new FormatDuration().parse(song!.length)}`,
           inline: true,
         },
         {
@@ -104,7 +104,9 @@ export default class implements PrefixCommand {
             "player",
             "total_duration_title"
           )}`,
-          value: `${FormatDuration(QueueDuration(player))}`,
+          value: `${new FormatDuration().parse(
+            new QueueDuration().parse(player)
+          )}`,
           inline: true,
         },
         {
@@ -135,7 +137,7 @@ export default class implements PrefixCommand {
     if (realtime) {
       interval = setInterval(async () => {
         if (!player.playing) return;
-        const CurrentDuration = FormatDuration(position);
+        const CurrentDuration = new FormatDuration().parse(position);
         const Part = Math.floor((position / song!.length!) * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 

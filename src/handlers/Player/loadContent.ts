@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember } from "discord.js";
-import { convertTime } from "../../structures/ConvertTime.js";
+import { ConvertTime } from "../../structures/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
@@ -178,7 +178,7 @@ export class playerLoadContent {
       for (let track of tracks) player.queue.add(track);
     else player.play(tracks[0]);
 
-    const TotalDuration = QueueDuration(player);
+    const TotalDuration = new QueueDuration().parse(player);
 
     if (result.type === "PLAYLIST") {
       if (!player.playing) player.play();
@@ -187,7 +187,7 @@ export class playerLoadContent {
           `${client.i18n.get(language, "music", "play_playlist", {
             title: result.tracks[0].title,
             url: result.tracks[0].uri,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
           })}`
@@ -201,7 +201,9 @@ export class playerLoadContent {
           `${client.i18n.get(language, "music", "play_track", {
             title: result.tracks[0].title,
             url: result.tracks[0].uri,
-            duration: convertTime(result.tracks[0].length as number),
+            duration: new ConvertTime().parse(
+              result.tracks[0].length as number
+            ),
             request: `${result.tracks[0].requester}`,
           })}`
         )
@@ -213,7 +215,7 @@ export class playerLoadContent {
         `${client.i18n.get(language, "music", "play_result", {
           title: result.tracks[0].title,
           url: result.tracks[0].uri,
-          duration: convertTime(result.tracks[0].length as number),
+          duration: new ConvertTime().parse(result.tracks[0].length as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );

@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
@@ -98,7 +98,7 @@ export default class implements PrefixCommand {
         `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
           url: song.uri,
-          duration: convertTime(player.shoukaku.position),
+          duration: new ConvertTime().parse(player.shoukaku.position),
           request: String(song.requester),
         })}`
       )

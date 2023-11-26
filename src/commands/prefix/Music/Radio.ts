@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Radiostations } from "../../../utils/radioLink.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 // Main code
@@ -266,7 +266,7 @@ export default class implements PrefixCommand {
           `${client.i18n.get(language, "music", "play_track", {
             title: args2[0],
             url: res.tracks[0].uri,
-            duration: convertTime(res.tracks[0].length as number),
+            duration: new ConvertTime().parse(res.tracks[0].length as number),
             request: String(res.tracks[0].requester),
           })}`
         )

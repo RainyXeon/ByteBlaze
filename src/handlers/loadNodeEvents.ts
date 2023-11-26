@@ -22,7 +22,9 @@ export class loadNodeEvents {
 
   async register(eventsFile: string[]) {
     await chillout.forEach(eventsFile, async (path) => {
-      const events = await import(pathToFileURL(path).toString());
+      const events = new (
+        await import(pathToFileURL(path).toString())
+      ).default();
 
       var splitPath = function (str: string) {
         return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
@@ -31,7 +33,7 @@ export class loadNodeEvents {
       const eName = splitPath(path);
       this.client.manager.shoukaku.on(
         eName as "raw",
-        events.default.bind(null, this.client)
+        events.execute.bind(null, this.client)
       );
     });
   }

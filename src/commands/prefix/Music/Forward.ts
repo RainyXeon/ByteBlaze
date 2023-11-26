@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 const fastForwardNum = 10;
@@ -61,7 +61,7 @@ export default class implements PrefixCommand {
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position);
 
     if (value && !isNaN(+value)) {
       if (song_position + Number(value) * 1000 < song!.length!) {

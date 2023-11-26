@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 const time_regex = /(^[0-9][\d]{0,3}):(0[0-9]{1}$|[1-5]{1}[0-9])/;
@@ -100,7 +100,7 @@ export default class implements PrefixCommand {
 
     console.log(final_res / 1000);
 
-    const Duration = formatDuration(final_res);
+    const Duration = new FormatDuration().parse(final_res);
 
     const seeked = new EmbedBuilder()
       .setDescription(

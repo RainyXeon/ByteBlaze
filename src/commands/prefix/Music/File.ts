@@ -5,7 +5,6 @@ import {
   Message,
   PermissionsBitField,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 

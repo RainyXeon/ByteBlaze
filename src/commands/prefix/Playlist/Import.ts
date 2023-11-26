@@ -4,7 +4,7 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
@@ -99,7 +99,7 @@ export default class implements PrefixCommand {
       return;
     }
 
-    const totalDuration = convertTime(
+    const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
