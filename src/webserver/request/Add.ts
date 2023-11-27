@@ -1,9 +1,11 @@
 import { Manager } from "../../manager.js";
 import { JSON_MESSAGE } from "../../@types/Websocket.js";
+import { RequestInterface } from "../RequestInterface.js";
+import WebSocket from "ws";
 
-export default {
-  name: "add",
-  run: async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
+export default class implements RequestInterface {
+  name = "add";
+  run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     if (!json.user)
       return ws.send(
         JSON.stringify({ error: "0x115", message: "No user's id provided" })
@@ -44,5 +46,5 @@ export default {
         for (let track of res.tracks) player.queue.add(track);
       if (!player.playing && !player.paused) return player.play();
     }
-  },
-};
+  };
+}

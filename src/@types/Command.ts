@@ -42,8 +42,3 @@ export class SlashCommand {
     language: string
   ): Promise<any> {}
 }
-
-export type WsCommand = {
-  name: string;
-  run: (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => Promise<any>;
-};

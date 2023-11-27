@@ -32,8 +32,10 @@ export class loadRequest {
 
   async register(eventsFile: string[]) {
     await chillout.forEach(eventsFile, async (path) => {
-      const events = await import(pathToFileURL(path).toString());
-      this.client.ws_message!.set(events.default.name, events.default);
+      const events = new (
+        await import(pathToFileURL(path).toString())
+      ).default();
+      this.client.ws_message!.set(events.name, events);
     });
   }
 }

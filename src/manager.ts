@@ -21,7 +21,7 @@ import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
 import { manifest } from "./utils/manifest.js";
-import { PrefixCommand, SlashCommand, WsCommand } from "./@types/Command.js";
+import { PrefixCommand, SlashCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
 import { IconType } from "./@types/Emoji.js";
@@ -32,6 +32,7 @@ import { DatabaseTable } from "./database/@types.js";
 import { initHandler } from "./handlers/index.js";
 import { KazagumoInit } from "./structures/Kazagumo.js";
 import utils from "node:util";
+import { RequestInterface } from "./webserver/RequestInterface.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -68,7 +69,7 @@ export class Manager extends Client {
   nplaying_msg: Collection<string, string>;
   aliases: Collection<string, string>;
   websocket?: WebSocket;
-  ws_message?: Collection<string, WsCommand>;
+  ws_message?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
