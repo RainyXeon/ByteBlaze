@@ -1,8 +1,6 @@
-import { ApplicationCommandType, Message } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, Message } from "discord.js";
 import { Manager } from "../manager.js";
-import WebSocket from "ws";
 import { GlobalInteraction } from "./Interaction.js";
-import { JSON_MESSAGE } from "./Websocket.js";
 
 export enum Accessableby {
   Member = "Member",
@@ -29,13 +27,42 @@ export class PrefixCommand {
   ): Promise<any> {}
 }
 
+export type CommandOptionChoiceInterface = {
+  name: string;
+  value: string;
+};
+
+export type CommandOptionInterface = {
+  name: string;
+  description: string;
+  required?: boolean;
+  type: ApplicationCommandOptionType | undefined;
+  autocomplete?: boolean;
+  options?: CommandOptionInterface[]; 
+  choices?: CommandOptionChoiceInterface[];
+};
+
 export class SlashCommand {
-  name: string = "";
+  name: string[] = [];
   description: string = "";
   category: string = "";
   accessableby: Accessableby = Accessableby.Member;
-  type?: ApplicationCommandType = undefined;
   lavalink: boolean = false;
+  options: CommandOptionInterface[] = []
+  async run(
+    interaction: GlobalInteraction,
+    client: Manager,
+    language: string
+  ): Promise<any> {}
+}
+
+export class ContextCommand {
+  name: string[] = []
+  type?: ApplicationCommandType = undefined;
+  category: string = ""
+  accessableby: Accessableby = Accessableby.Member;
+  lavalink: boolean = false;
+
   async run(
     interaction: GlobalInteraction,
     client: Manager,

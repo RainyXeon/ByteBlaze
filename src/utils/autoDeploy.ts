@@ -23,35 +23,37 @@ export class DeployService {
     this.execute();
   }
 
-  async execute() {
-    let command = [];
-
-    if (!this.client.config.features.AUTO_DEPLOY)
-      return this.client.logger.info(
-        "Auto deploy disabled. Exiting auto deploy..."
-      );
-
+  async combineDir() {
     let store: CommandInterface[] = [];
-
-    this.client.logger.info(
-      "Auto deploy enabled. Reading interaction files..."
-    );
 
     let interactionsFolder = path.resolve(
       join(__dirname, "..", "commands", "slash")
     );
 
+    let contextsFolder = path.resolve(
+      join(__dirname, "..", "commands", "context")
+    );
+
     await makeSureFolderExists(interactionsFolder);
+    await makeSureFolderExists(contextsFolder);
 
     let interactionFilePaths = await readdirRecursive(interactionsFolder);
+    let contextFilePaths = await readdirRecursive(interactionsFolder);
 
     interactionFilePaths = interactionFilePaths.filter((i: string) => {
       let state = path.basename(i).startsWith("-");
       return !state;
     });
 
+    contextFilePaths = contextFilePaths.filter((i: string) => {
+      let state = path.basename(i).startsWith("-");
+      return !state;
+    });
+
+    const fullPath = interactionFilePaths.concat(contextFilePaths)
+
     await chillout.forEach(
-      interactionFilePaths,
+      fullPath,
       async (interactionFilePath: string) => {
         const cmd = (
           await import(pathToFileURL(interactionFilePath).toString())
@@ -60,10 +62,23 @@ export class DeployService {
       }
     );
 
-    store = store.sort(
-      (a: CommandInterface, b: CommandInterface) =>
-        a.name.length - b.name.length
+    return store
+  }
+
+  async execute() {
+    let command = [];
+
+    if (!this.client.config.features.AUTO_DEPLOY)
+      return this.client.logger.info(
+        "Auto deploy disabled. Exiting auto deploy..."
+      );
+
+    this.client.logger.info(
+      "Auto deploy enabled. Reading interaction files..."
     );
+
+    const store = await this.combineDir()
+
     command = this.parseEngine(store);
 
     if (command.length === 0)
