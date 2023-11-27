@@ -5,14 +5,18 @@ import {
   GuildMember,
 } from "discord.js";
 import { Manager } from "../../manager.js";
-import { Accessableby, CommandOptionInterface, ContextCommand } from "../../@types/Command.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  ContextCommand,
+} from "../../@types/Command.js";
 
 export default class implements ContextCommand {
-  name = ["Stop"]
-  type = ApplicationCommandType.Message
-  category = "Context"
+  name = ["Stop"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
   accessableby = Accessableby.Member;
-  lavalink = true
+  lavalink = true;
   /**
    * @param {ContextMenuInteraction} interaction
    */
@@ -72,4 +76,4 @@ export default class implements ContextCommand {
 
     msg.edit({ content: " ", embeds: [embed] });
   }
-};
+}

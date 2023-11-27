@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, Message } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
+  Message,
+} from "discord.js";
 import { Manager } from "../manager.js";
 import { GlobalInteraction } from "./Interaction.js";
 
@@ -38,7 +42,7 @@ export type CommandOptionInterface = {
   required?: boolean;
   type: ApplicationCommandOptionType | undefined;
   autocomplete?: boolean;
-  options?: CommandOptionInterface[]; 
+  options?: CommandOptionInterface[];
   choices?: CommandOptionChoiceInterface[];
 };
 
@@ -48,7 +52,7 @@ export class SlashCommand {
   category: string = "";
   accessableby: Accessableby = Accessableby.Member;
   lavalink: boolean = false;
-  options: CommandOptionInterface[] = []
+  options: CommandOptionInterface[] = [];
   async run(
     interaction: GlobalInteraction,
     client: Manager,
@@ -57,9 +61,9 @@ export class SlashCommand {
 }
 
 export class ContextCommand {
-  name: string[] = []
+  name: string[] = [];
   type?: ApplicationCommandType = undefined;
-  category: string = ""
+  category: string = "";
   accessableby: Accessableby = Accessableby.Member;
   lavalink: boolean = false;
 

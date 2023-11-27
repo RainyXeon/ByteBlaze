@@ -5,11 +5,11 @@ import { KazagumoLoopMode } from "../../@types/Lavalink.js";
 import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
 export default class implements ContextCommand {
-  name = ["Loop"]
-  type = ApplicationCommandType.Message
-  category = "Context"
+  name = ["Loop"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
   accessableby = Accessableby.Member;
-  lavalink = true
+  lavalink = true;
 
   async run(
     interaction: ContextMenuCommandInteraction,
@@ -74,4 +74,4 @@ export default class implements ContextCommand {
       msg.edit({ content: " ", embeds: [looped] });
     }
   }
-};
+}

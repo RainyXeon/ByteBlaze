@@ -6,7 +6,7 @@ import { loadSlashCommands } from "./Commands/loadSlashCommands.js";
 export class loadCommand {
   constructor(client: Manager) {
     new loadSlashCommands(client);
-    new loadContextCommands(client)
+    new loadContextCommands(client);
     new loadPrefixCommands(client);
   }
 }

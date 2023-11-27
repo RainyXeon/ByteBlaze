@@ -3,17 +3,17 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 export default class implements SlashCommand {
-  name = ["sudo", "restart"]
-  description = "Shuts down the client!"
-  category = "Admin"
+  name = ["sudo", "restart"];
+  description = "Shuts down the client!";
+  category = "Admin";
   accessableby = Accessableby.Owner;
-  lavalink = false
-  options = []
+  lavalink = false;
+  options = [];
   async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  )  {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const restart = new EmbedBuilder()
@@ -30,4 +30,4 @@ export default class implements SlashCommand {
 
     process.exit();
   }
-};
+}

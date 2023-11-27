@@ -16,12 +16,15 @@ export class loadContextCommands {
   }
 
   async loader() {
-    let commandPath = resolve(join(__dirname, "..", "..", "commands", "context"));
+    let commandPath = resolve(
+      join(__dirname, "..", "..", "commands", "context")
+    );
     let commandFiles = await readdirRecursive(commandPath);
 
-    if (commandFiles.length > 5) return this.client.logger.warn(
-      `Too much context commands, only 5 contexts command can be registered. Skipping.....`
-    );
+    if (commandFiles.length > 5)
+      return this.client.logger.warn(
+        `Too much context commands, only 5 contexts command can be registered. Skipping.....`
+      );
 
     await chillout.forEach(commandFiles, async (commandFile) => {
       await this.register(commandFile);

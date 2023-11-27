@@ -8,11 +8,11 @@ import { Manager } from "../../manager.js";
 import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
 export default class implements ContextCommand {
-  name = ["Shuffle"]
-  type = ApplicationCommandType.Message
-  category = "Context"
+  name = ["Shuffle"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
   accessableby = Accessableby.Member;
-  lavalink = true
+  lavalink = true;
 
   /**
    * @param {ContextMenuInteraction} interaction
@@ -68,4 +68,4 @@ export default class implements ContextCommand {
 
     msg.edit({ content: " ", embeds: [shuffle] });
   }
-};
+}

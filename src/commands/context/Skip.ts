@@ -8,10 +8,10 @@ import { Manager } from "../../manager.js";
 import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
 export default class implements ContextCommand {
-  name = ["Skip"]
-  type = ApplicationCommandType.Message
-  category = "Context"
-  lavalink = true
+  name = ["Skip"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  lavalink = true;
   accessableby = Accessableby.Member;
 
   /**
@@ -79,4 +79,4 @@ export default class implements ContextCommand {
       msg.edit({ content: " ", embeds: [skipped] });
     }
   }
-};
+}

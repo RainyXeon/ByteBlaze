@@ -50,19 +50,15 @@ export class DeployService {
       return !state;
     });
 
-    const fullPath = interactionFilePaths.concat(contextFilePaths)
+    const fullPath = interactionFilePaths.concat(contextFilePaths);
 
-    await chillout.forEach(
-      fullPath,
-      async (interactionFilePath: string) => {
-        const cmd = (
-          await import(pathToFileURL(interactionFilePath).toString())
-        ).default;
-        return store.push(cmd);
-      }
-    );
+    await chillout.forEach(fullPath, async (interactionFilePath: string) => {
+      const cmd = (await import(pathToFileURL(interactionFilePath).toString()))
+        .default;
+      return store.push(cmd);
+    });
 
-    return store
+    return store;
   }
 
   async execute() {
@@ -77,7 +73,7 @@ export class DeployService {
       "Auto deploy enabled. Reading interaction files..."
     );
 
-    const store = await this.combineDir()
+    const store = await this.combineDir();
 
     command = this.parseEngine(store);
 
