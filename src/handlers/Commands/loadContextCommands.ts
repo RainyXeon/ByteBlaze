@@ -32,7 +32,7 @@ export class loadContextCommands {
 
     if (this.client.slash.size) {
       this.client.logger.loader(
-        `${this.client.slash.size} Contexts Command Loaded!`
+        `${commandFiles.length} Contexts Command Loaded!`
       );
     } else {
       this.client.logger.warn(`No Contexts command loaded, is everything ok?`);
