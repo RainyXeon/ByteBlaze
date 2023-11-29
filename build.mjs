@@ -33,11 +33,13 @@ if (!acceptedParams.includes(args.get(0))) {
 }
 
 if (args.get(0) == acceptedParams[0]) {
-  rimraf.sync("/dist");
-  rimraf.sync("/out");
-  rimraf.sync("/.cylane");
-  rimraf.sync("/logs");
-  rimraf.sync("/temp");
+  const checkDir = ["./temp", "./out", "./.cylane", "./logs", "./temp"]
+
+  checkDir.forEach((data) => {
+    if (fse.existsSync(data)) 
+      fse.rmdirSync(data, { recursive: true, force: true });
+  })
+
   logger("Clean successfully!", "info");
   process.exit();
 }
@@ -66,7 +68,7 @@ child.on("close", async (code) => {
   // Creating temp
   if (!fse.existsSync("./temp")) await fse.mkdir("./temp");
   else {
-    await rimraf.sync("./temp");
+    await fse.rmdirSync("./temp", { recursive: true, force: false });
     await fse.mkdir("./temp");
   }
 
@@ -78,7 +80,7 @@ child.on("close", async (code) => {
   }
 
   // Remove current dist
-  await rimraf.sync("./dist");
+  await fse.rmdirSync("./dist", { recursive: true, force: true });
 
   // Edit manifest
   const manifestRaw = fse.readFileSync("./temp/manifest.xml", "utf-8");
@@ -121,7 +123,7 @@ child.on("close", async (code) => {
     console.error(err);
   }
 
-  await rimraf.sync("./temp");
+  await fse.rmdirSync("./temp", { recursive: true, force: true });
   logger("Remove complete! Now archive all build file...", "build");
 
   // Archive build

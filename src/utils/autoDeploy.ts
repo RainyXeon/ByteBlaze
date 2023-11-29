@@ -38,7 +38,7 @@ export class DeployService {
     await makeSureFolderExists(contextsFolder);
 
     let interactionFilePaths = await readdirRecursive(interactionsFolder);
-    let contextFilePaths = await readdirRecursive(interactionsFolder);
+    let contextFilePaths = await readdirRecursive(contextsFolder);
 
     interactionFilePaths = interactionFilePaths.filter((i: string) => {
       let state = path.basename(i).startsWith("-");
@@ -53,8 +53,9 @@ export class DeployService {
     const fullPath = interactionFilePaths.concat(contextFilePaths);
 
     await chillout.forEach(fullPath, async (interactionFilePath: string) => {
-      const cmd = (await import(pathToFileURL(interactionFilePath).toString()))
-        .default;
+      const cmd = new (
+        await import(pathToFileURL(interactionFilePath).toString())
+      ).default();
       return store.push(cmd);
     });
 
