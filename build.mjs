@@ -2,8 +2,7 @@
 
 import { spawn } from "node:child_process";
 import archiver from "dir-archiver";
-import delay from "delay";
-import JSZip from "jszip";
+import { rimraf } from "rimraf";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import fse from "fs-extra";
 import { plsParseArgs } from "plsargs";
@@ -34,10 +33,11 @@ if (!acceptedParams.includes(args.get(0))) {
 }
 
 if (args.get(0) == acceptedParams[0]) {
-  await fse.rmSync("./dist", { recursive: true, force: true });
-  await fse.rmSync("./out", { recursive: true, force: true });
-  await fse.rmSync("./.cylane", { recursive: true, force: true });
-  await fse.rmSync("./logs", { recursive: true, force: true });
+  rimraf.sync("/dist");
+  rimraf.sync("/out");
+  rimraf.sync("/.cylane");
+  rimraf.sync("/logs");
+  rimraf.sync("/temp");
   logger("Clean successfully!", "info");
   process.exit();
 }
@@ -66,7 +66,7 @@ child.on("close", async (code) => {
   // Creating temp
   if (!fse.existsSync("./temp")) await fse.mkdir("./temp");
   else {
-    await fse.rmSync("./temp", { recursive: true, force: true });
+    await rimraf.sync("./temp");
     await fse.mkdir("./temp");
   }
 
@@ -78,7 +78,7 @@ child.on("close", async (code) => {
   }
 
   // Remove current dist
-  await fse.rmSync("./dist", { recursive: true, force: true });
+  await rimraf.sync("./dist");
 
   // Edit manifest
   const manifestRaw = fse.readFileSync("./temp/manifest.xml", "utf-8");
@@ -121,7 +121,7 @@ child.on("close", async (code) => {
     console.error(err);
   }
 
-  await fse.rmSync("./temp", { recursive: true, force: true });
+  await rimraf.sync("./temp");
   logger("Remove complete! Now archive all build file...", "build");
 
   // Archive build
@@ -138,10 +138,9 @@ child.on("close", async (code) => {
     ".git",
     ".cylane",
     "src",
-    "buildTools",
+    "scripts",
     "build.mjs",
     "cylane.database.json",
-    "LICENSE",
     "pnpm-lock.yaml",
     "README.md",
     "tsconfig.json",
