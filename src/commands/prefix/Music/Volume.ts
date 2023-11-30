@@ -1,21 +1,24 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "volume",
-  description: "Adjusts the volume of the bot.",
-  category: "Music",
-  usage: "<number>",
-  aliases: ["vol"],
+export default class implements PrefixCommand {
+  name = "volume";
+  description = "Adjusts the volume of the bot.";
+  category = "Music";
+  usage = "<number>";
+  aliases = ["vol"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -98,5 +101,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [changevol] });
-  },
-};
+  }
+}

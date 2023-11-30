@@ -1,20 +1,20 @@
 import { CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
-import delay from "delay";
 import { Manager } from "../../../manager.js";
+import delay from "delay";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "vibrato"],
-  description: "Turning on vibrato filter",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["filter", "vibrato"];
+  description = "Turning on vibrato filter";
+  category = "Filter";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const msg = await interaction.editReply({
@@ -77,5 +77,5 @@ export default {
 
     await delay(2000);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

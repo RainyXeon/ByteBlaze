@@ -1,30 +1,23 @@
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
+import { EmbedBuilder, Message } from "discord.js";
 
-import {
-  EmbedBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  Message,
-} from "discord.js";
+export default class implements PrefixCommand {
+  name = "avatar";
+  description = "Show your or someone else's profile picture";
+  category = "Image";
+  accessableby = Accessableby.Member;
+  usage = "<mention>";
+  aliases = [];
+  lavalink = false;
 
-export default {
-  name: "avatar",
-  description: "Show your or someone else's profile picture",
-  category: "Image",
-  usage: "<mention>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = message.mentions.users.first();
 
     if (!value)
@@ -69,5 +62,5 @@ export default {
         });
       await message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

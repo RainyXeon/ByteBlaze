@@ -5,33 +5,32 @@ import {
   CommandInteraction,
   GuildMember,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
-import { SlashPage } from "../../../structures/PageQueue.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["queue"],
-  description: "Show the queue of songs.",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["queue"];
+  description = "Show the queue of songs.";
+  category = "Music";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "page",
       description: "Page number to show.",
       type: ApplicationCommandOptionType.Number,
       required: false,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -72,7 +71,7 @@ export default {
         current
       );
     }
-    const qduration = `${formatDuration(fixedduration())}`;
+    const qduration = `${new FormatDuration().parse(fixedduration())}`;
     const thumbnail = `https://img.youtube.com/vi/${
       song!.identifier
     }/hqdefault.jpg`;
@@ -84,9 +83,9 @@ export default {
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
       songStrings.push(
-        `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatDuration(
-          song.length
-        )}]\`
+        `**${i + 1}.** [${song.title}](${
+          song.uri
+        }) \`[${new FormatDuration().parse(song.length)}]\`
                     `
       );
     }
@@ -109,7 +108,7 @@ export default {
             title: song!.title,
             url: song!.uri,
             request: String(song!.requester),
-            duration: formatDuration(song!.length),
+            duration: new FormatDuration().parse(song!.length),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
@@ -127,15 +126,13 @@ export default {
 
     if (!value) {
       if (pages.length == pagesNum && player.queue.length > 10)
-        SlashPage(
+        new PageQueue(
           client,
-          interaction,
           pages,
           60000,
           player.queue.length,
-          Number(qduration),
           language
-        );
+        ).slashPage(interaction, Number(qduration));
       else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(value))
@@ -163,5 +160,5 @@ export default {
       const pageNum = value == 0 ? 1 : value - 1;
       return interaction.editReply({ embeds: [pages[pageNum]] });
     }
-  },
-};
+  }
+}

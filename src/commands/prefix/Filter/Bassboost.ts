@@ -5,25 +5,24 @@ import {
   Message,
 } from "discord.js";
 import delay from "delay";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "bassboost",
-  description: "Turning on bassboost filter",
-  category: "Filter",
-  usage: "<number>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "bassboost";
+  description = "Turning on bassboost filter";
+  category = "Filter";
+  usage = "<number>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
     if (value && isNaN(+value))
       return message.reply(
@@ -177,5 +176,5 @@ export default {
 
     await delay(2000);
     return msg2.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

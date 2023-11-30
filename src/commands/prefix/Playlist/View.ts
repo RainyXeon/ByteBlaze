@@ -4,25 +4,24 @@ import {
   Message,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "playlist-view",
-  description: "Public or private a playlist",
-  category: "Playlist",
-  usage: "<playlist_name>",
-  aliases: ["pl-view"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-view";
+  description = "Public or private a playlist";
+  category = "Playlist";
+  usage = "<playlist_name>";
+  aliases = ["pl-view"];
+  lavalink = false;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     if (value == null)
       return message.reply({
@@ -105,5 +104,5 @@ export default {
       )
       .setColor(client.color);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

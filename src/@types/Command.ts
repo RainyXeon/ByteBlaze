@@ -1,46 +1,75 @@
-import { ApplicationCommandType, Message } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
+  Message,
+} from "discord.js";
 import { Manager } from "../manager.js";
-import WebSocket from "ws";
 import { GlobalInteraction } from "./Interaction.js";
-import { JSON_MESSAGE } from "./Websocket.js";
 
-export type PrefixCommand = {
-  name: string;
-  description: string;
-  category: string;
-  accessableby: string;
-  usage: string;
-  aliases: string[];
-  premium?: boolean;
-  lavalink?: boolean;
-  owner?: boolean;
-  isManager?: boolean;
-  run: (
+export enum Accessableby {
+  Member = "Member",
+  Owner = "Owner",
+  Premium = "Premium",
+  Manager = "Manager",
+  Admin = "Admin",
+}
+
+export class PrefixCommand {
+  name: string = "";
+  description: string = "";
+  category: string = "";
+  accessableby: Accessableby = Accessableby.Member;
+  usage: string = "";
+  aliases: string[] = [];
+  lavalink: boolean = false;
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => Promise<void>;
+  ): Promise<any> {}
+}
+
+export type CommandOptionChoiceInterface = {
+  name: string;
+  value: string;
 };
 
-export type SlashCommand = {
+export type CommandOptionInterface = {
   name: string;
   description: string;
-  category: string;
-  type?: ApplicationCommandType;
-  owner?: boolean;
-  premium?: boolean;
-  lavalink?: boolean;
-  isManager?: boolean;
-  run: (
+  required?: boolean;
+  type: ApplicationCommandOptionType | undefined;
+  autocomplete?: boolean;
+  options?: CommandOptionInterface[];
+  choices?: CommandOptionChoiceInterface[];
+};
+
+export class SlashCommand {
+  name: string[] = [];
+  description: string = "";
+  category: string = "";
+  accessableby: Accessableby = Accessableby.Member;
+  lavalink: boolean = false;
+  options: CommandOptionInterface[] = [];
+  async run(
     interaction: GlobalInteraction,
     client: Manager,
     language: string
-  ) => Promise<void>;
-};
+  ): Promise<any> {}
+}
 
-export type WsCommand = {
-  name: string;
-  run: (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => Promise<void>;
-};
+export class ContextCommand {
+  name: string[] = [];
+  type?: ApplicationCommandType = undefined;
+  category: string = "";
+  accessableby: Accessableby = Accessableby.Member;
+  lavalink: boolean = false;
+
+  async run(
+    interaction: GlobalInteraction,
+    client: Manager,
+    language: string
+  ): Promise<any> {}
+}

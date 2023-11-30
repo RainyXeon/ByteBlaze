@@ -1,20 +1,25 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../../manager.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  SlashCommand,
+} from "../../../@types/Command.js";
 
-export default {
-  name: ["profile"],
-  description: "View your premium profile!",
-  category: "Premium",
-  owner: false,
-  premium: true,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["profile"];
+  description = "View your premium profile!";
+  category = "Premium";
+  lavalink = false;
+  options = [];
+  accessableby = Accessableby.Premium;
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const PremiumPlan = await client.db.premium.get(`${interaction.user.id}`);
@@ -38,5 +43,5 @@ export default {
       .setTimestamp();
 
     return interaction.editReply({ embeds: [embed] });
-  },
-};
+  }
+}

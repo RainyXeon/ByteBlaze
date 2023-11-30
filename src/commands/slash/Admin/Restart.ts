@@ -1,19 +1,19 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["sudo", "restart"],
-  description: "Shuts down the client!",
-  category: "Admin",
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["sudo", "restart"];
+  description = "Shuts down the client!";
+  category = "Admin";
+  accessableby = Accessableby.Owner;
+  lavalink = false;
+  options = [];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const restart = new EmbedBuilder()
@@ -29,5 +29,5 @@ export default {
     await interaction.editReply({ embeds: [restart] });
 
     process.exit();
-  },
-};
+  }
+}

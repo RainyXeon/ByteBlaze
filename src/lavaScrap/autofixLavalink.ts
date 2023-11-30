@@ -1,74 +1,93 @@
 import { Manager } from "../manager.js";
 import { LavalinkDataType } from "../@types/Lavalink.js";
+import { checkLavalinkServer } from "./checkLavalinkServer.js";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
-async function check_lavalink(client: Manager) {
-  if (
-    client.manager.shoukaku.nodes.size !== 0 &&
-    client.lavalink_using.length == 0
-  ) {
-    client.manager.shoukaku.nodes.forEach((data, index) => {
-      const res = regex.exec(data["url"]);
-      client.lavalink_using.push({
-        host: res![2],
-        port: Number(res![3]),
-        pass: data["auth"],
-        secure: res![1] == "ws://" ? false : true,
-        name: index,
+export class autofixLavalink {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+  }
+
+  async execute() {
+    this.client.logger.lavalink("----- Starting autofix lavalink... -----");
+    if (this.client.lavalink_list.length == 0) {
+      new checkLavalinkServer(this.client);
+      return this.fixLavalink();
+    } else return this.fixLavalink();
+  }
+
+  async fixLavalink() {
+    this.checkLavalink();
+    await this.removeCurrentLavalink();
+    const nodeInfo = await this.applyNewLavalink();
+
+    this.client.lavalink_using.push({
+      host: nodeInfo.host,
+      port: nodeInfo.port,
+      pass: nodeInfo.pass,
+      secure: nodeInfo.secure,
+      name: `${nodeInfo.host}:${nodeInfo.port}`,
+    });
+  }
+
+  checkLavalink() {
+    if (
+      this.client.manager.shoukaku.nodes.size !== 0 &&
+      this.client.lavalink_using.length == 0
+    ) {
+      this.client.manager.shoukaku.nodes.forEach((data, index) => {
+        const res = regex.exec(data["url"]);
+        this.client.lavalink_using.push({
+          host: res![2],
+          port: Number(res![3]),
+          pass: data["auth"],
+          secure: res![1] == "ws://" ? false : true,
+          name: index,
+        });
       });
+    }
+  }
+
+  async removeCurrentLavalink() {
+    if (
+      this.client.manager.shoukaku.nodes.size == 0 &&
+      this.client.lavalink_using.length != 0
+    ) {
+      this.client.used_lavalink.push(this.client.lavalink_using[0]);
+      this.client.lavalink_using.splice(0, 1);
+    } else if (
+      this.client.manager.shoukaku.nodes.size !== 0 &&
+      this.client.lavalink_using.length !== 0
+    ) {
+      this.client.used_lavalink.push(this.client.lavalink_using[0]);
+      await this.client.manager.shoukaku.removeNode(
+        this.client.lavalink_using[0].name
+      );
+      this.client.lavalink_using.splice(0, 1);
+    }
+  }
+
+  async applyNewLavalink() {
+    const online_list: LavalinkDataType[] = [];
+
+    this.client.lavalink_list.filter(async (data) => {
+      if (data.online == true) return online_list.push(data);
     });
+
+    const nodeInfo =
+      online_list[Math.floor(Math.random() * online_list.length)];
+
+    const newNodeInfo = {
+      name: `${nodeInfo.host}:${nodeInfo.port}`,
+      url: `${nodeInfo.host}:${nodeInfo.port}`,
+      auth: nodeInfo.pass,
+      secure: nodeInfo.secure,
+    };
+
+    await this.client.manager.shoukaku.addNode(newNodeInfo);
+
+    return nodeInfo;
   }
-
-  // Remove current
-
-  if (
-    client.manager.shoukaku.nodes.size == 0 &&
-    client.lavalink_using.length != 0
-  ) {
-    client.used_lavalink.push(client.lavalink_using[0]);
-    client.lavalink_using.splice(0, 1);
-  } else if (
-    client.manager.shoukaku.nodes.size !== 0 &&
-    client.lavalink_using.length !== 0
-  ) {
-    client.used_lavalink.push(client.lavalink_using[0]);
-    await client.manager.shoukaku.removeNode(client.lavalink_using[0].name);
-    client.lavalink_using.splice(0, 1);
-  }
-
-  // Fix when have lavalink
-  const online_list: LavalinkDataType[] = [];
-
-  client.lavalink_list.filter(async (data) => {
-    if (data.online == true) return online_list.push(data);
-  });
-
-  const node_info = online_list[Math.floor(Math.random() * online_list.length)];
-
-  const new_node_info = {
-    name: `${node_info.host}:${node_info.port}`,
-    url: `${node_info.host}:${node_info.port}`,
-    auth: node_info.pass,
-    secure: node_info.secure,
-  };
-
-  await client.manager.shoukaku.addNode(new_node_info);
-
-  client.lavalink_using.push({
-    host: node_info.host,
-    port: node_info.port,
-    pass: node_info.pass,
-    secure: node_info.secure,
-    name: `${node_info.host}:${node_info.port}`,
-  });
 }
-
-export default async (client: Manager) => {
-  client.logger.lavalink("----- Starting autofix lavalink... -----");
-  if (client.lavalink_list.length == 0)
-    (await import("./checkLavalinkServer.js")).default(client).then(() => {
-      return check_lavalink(client);
-    });
-  else return check_lavalink(client);
-};

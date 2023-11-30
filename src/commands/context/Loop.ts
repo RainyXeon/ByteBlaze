@@ -1,22 +1,21 @@
 import { ContextMenuCommandInteraction, GuildMember } from "discord.js";
 import { EmbedBuilder, ApplicationCommandType } from "discord.js";
-import { Manager } from "../../../manager.js";
-import { KazagumoLoopMode } from "../../../@types/Lavalink.js";
+import { Manager } from "../../manager.js";
+import { KazagumoLoopMode } from "../../@types/Lavalink.js";
+import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
-export default {
-  name: ["Loop"],
-  type: ApplicationCommandType.Message,
-  category: "Context",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements ContextCommand {
+  name = ["Loop"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     interaction: ContextMenuCommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -74,5 +73,5 @@ export default {
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [looped] });
     }
-  },
-};
+  }
+}

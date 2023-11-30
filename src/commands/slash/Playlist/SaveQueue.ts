@@ -7,32 +7,31 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
-export default {
-  name: ["playlist", "save", "queue"],
-  description: "Save the current queue to a playlist",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "save", "queue"];
+  description = "Save the current queue to a playlist";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
@@ -148,5 +147,5 @@ export default {
     TrackAdd.length = 0;
     TrackExist.length = 0;
     Result = null;
-  },
-};
+  }
+}

@@ -1,24 +1,28 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoTrack } from "better-kazagumo";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  SlashCommand,
+} from "../../../@types/Command.js";
 
 let OriginalQueueLength: null | number;
 
 // Main code
-export default {
-  name: ["remove-duplicate"],
-  description: "Remove duplicated song from queue",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["remove-duplicate"];
+  description = "Remove duplicated song from queue";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -88,5 +92,5 @@ export default {
 
     OriginalQueueLength = null;
     return;
-  },
-};
+  }
+}

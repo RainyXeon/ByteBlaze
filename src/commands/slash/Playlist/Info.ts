@@ -7,18 +7,17 @@ import {
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 let info: Playlist | null;
 
-export default {
-  name: ["playlist", "info"],
-  description: "Check the playlist infomation",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "info"];
+  description = "Check the playlist infomation";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  lavalink = false;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
@@ -29,12 +28,12 @@ export default {
       description: "The id of the playlist",
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -159,5 +158,5 @@ export default {
     await interaction.editReply({ embeds: [embed] });
 
     info = null;
-  },
-};
+  }
+}

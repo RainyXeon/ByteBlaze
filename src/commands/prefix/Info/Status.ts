@@ -1,6 +1,5 @@
 import { ButtonStyle, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-
 import {
   EmbedBuilder,
   ActionRowBuilder,
@@ -8,24 +7,24 @@ import {
   version,
 } from "discord.js";
 import ms from "pretty-ms";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "status",
-  description: "Shows the status information of the Bot",
-  category: "Info",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "status";
+  description = "Shows the status information of the Bot";
+  category = "Info";
+  accessableby = Accessableby.Member;
+  usage = "";
+  aliases = [];
+  lavalink = false;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const info = new EmbedBuilder()
       .setTitle(client.user!.tag + " Status")
       .addFields([
@@ -90,5 +89,5 @@ export default {
         )
     );
     await message.reply({ embeds: [info], components: [row] });
-  },
-};
+  }
+}

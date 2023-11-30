@@ -1,26 +1,33 @@
-import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
-import { Manager } from "../../../manager.js";
+import {
+  EmbedBuilder,
+  ApplicationCommandType,
+  ContextMenuCommandInteraction,
+  GuildMember,
+} from "discord.js";
+import { Manager } from "../../manager.js";
+import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
-// Main code
-export default {
-  name: ["loopall"],
-  description: "Loop all songs in queue!",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
-    interaction: CommandInteraction,
+export default class implements ContextCommand {
+  name = ["Skip"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+
+  /**
+   * @param {ContextMenuInteraction} interaction
+   */
+  async run(
+    interaction: ContextMenuCommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "loopall_loading")}`
+            `${client.i18n.get(language, "music", "leave_loading")}`
           )
           .setColor(client.color),
       ],
@@ -52,22 +59,24 @@ export default {
             .setColor(client.color),
         ],
       });
-    if (player.loop === "queue") {
-      await player.setLoop("none");
 
-      const unloopall = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
+    if (player.queue.size == 0) {
+      await player.destroy();
+      await client.UpdateMusic(player);
+
+      const skipped = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
         .setColor(client.color);
 
-      return msg.edit({ content: " ", embeds: [unloopall] });
-    } else if (player.loop === "none") {
-      await player.setLoop("queue");
+      msg.edit({ content: " ", embeds: [skipped] });
+    } else {
+      await player.skip();
 
-      const loopall = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
+      const skipped = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
         .setColor(client.color);
 
-      return msg.edit({ content: " ", embeds: [loopall] });
+      msg.edit({ content: " ", embeds: [skipped] });
     }
-  },
-};
+  }
+}

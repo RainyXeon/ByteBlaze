@@ -8,20 +8,25 @@ import {
 } from "discord.js";
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  SlashCommand,
+} from "../../../@types/Command.js";
 
-export default {
-  name: ["developer"],
-  description: "Shows the developer information of the Bot (Credit)",
-  category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["developer"];
+  description = "Shows the developer information of the Bot (Credit)";
+  category = "Info";
+  lavalink = false;
+  options = [];
+  accessableby = Accessableby.Member;
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const xeondex = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "info", "dev_title")}`)
@@ -44,5 +49,5 @@ export default {
       );
 
     await interaction.editReply({ embeds: [xeondex], components: [row1] });
-  },
-};
+  }
+}

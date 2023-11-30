@@ -8,20 +8,20 @@ import {
 } from "discord.js";
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["status"],
-  description: "Shows the status information of the Bot",
-  category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["status"];
+  description = "Shows the status information of the Bot";
+  category = "Info";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const info = new EmbedBuilder()
       .setTitle(client.user!.tag + " Status")
@@ -86,5 +86,5 @@ export default {
         )
     );
     await interaction.editReply({ embeds: [info], components: [row] });
-  },
-};
+  }
+}

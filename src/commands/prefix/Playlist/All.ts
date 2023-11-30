@@ -1,27 +1,26 @@
 import { EmbedBuilder, Message } from "discord.js";
-import { NormalPlaylist } from "../../../structures/PageQueue.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "playlist-all",
-  description: "View all your playlists",
-  category: "Playlist",
-  usage: "<number>",
-  aliases: ["pl-all"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-all";
+  description = "View all your playlists";
+  category = "Playlist";
+  usage = "<number>";
+  aliases = ["pl-all"];
+  accessableby = Accessableby.Member;
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const number = args[0] ? args[0] : null;
     if (number && isNaN(+number))
       return message.reply({
@@ -89,14 +88,13 @@ export default {
     }
     if (!number) {
       if (pages.length == pagesNum && playlists.length > 10) {
-        NormalPlaylist(
+        await new PageQueue(
           client,
-          message,
           pages,
           30000,
           playlists.length,
           language
-        );
+        ).prefixPlaylistPage(message);
         return (playlists.length = 0);
       } else {
         await message.reply({ embeds: [pages[0]] });
@@ -128,5 +126,5 @@ export default {
       await message.reply({ embeds: [pages[pageNum]] });
       return (playlists.length = 0);
     }
-  },
-};
+  }
+}

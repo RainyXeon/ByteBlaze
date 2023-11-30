@@ -1,19 +1,23 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  SlashCommand,
+} from "../../../@types/Command.js";
 
-export default {
-  name: ["247"],
-  description: "24/7 in voice channel",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["247"];
+  description = "24/7 in voice channel";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -72,5 +76,5 @@ export default {
         .setColor(client.color);
       return msg.edit({ content: " ", embeds: [on] });
     }
-  },
-};
+  }
+}

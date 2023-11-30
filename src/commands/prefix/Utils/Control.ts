@@ -1,25 +1,24 @@
 import { Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { EmbedBuilder, PermissionsBitField } from "discord.js";
+import { EmbedBuilder } from "discord.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "control",
-  aliases: ["setcontrol"],
-  usage: "<input>",
-  category: "Utils",
-  description: "Change the player mode for the bot",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+export default class implements PrefixCommand {
+  name = "control";
+  aliases = ["setcontrol"];
+  usage = "<input>";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  description = "Change the player mode for the bot";
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const db = await client.db.control.get(`${message.guild!.id}`);
     const embed = new EmbedBuilder()
       .setDescription(
@@ -37,5 +36,5 @@ export default {
       `${message.guild!.id}`,
       db == "enable" ? "disable" : "enable"
     );
-  },
-};
+  }
+}

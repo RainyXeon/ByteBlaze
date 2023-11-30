@@ -1,24 +1,23 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "premium-remove",
-  description: "Remove premium from members!",
-  category: "Premium",
-  usage: "<mention or id>",
-  aliases: ["prm"],
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "premium-remove";
+  description = "Remove premium from members!";
+  category = "Premium";
+  accessableby = Accessableby.Owner;
+  usage = "<mention or id>";
+  aliases = ["prm"];
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let db;
 
     const mentions = message.mentions.users.first();
@@ -86,5 +85,5 @@ export default {
 
       message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

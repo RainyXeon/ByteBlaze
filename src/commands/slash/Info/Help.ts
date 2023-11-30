@@ -10,23 +10,27 @@ import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import { Manager } from "../../../manager.js";
 import fs from "fs";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default {
-  name: ["help"],
-  description: "Displays all commands that the bot has.",
-  category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["help"];
+  description = "Displays all commands that the bot has.";
+  category = "Info";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
-    const category = readdirSync("./src/commands/slash");
+    const category = readdirSync(join(__dirname, "..", "..", "slash"));
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -95,8 +99,6 @@ export default {
               await m.deferUpdate();
               let [directory] = m.values;
 
-              const cmd = client.slash.filter((c) => c.name === "music");
-
               const embed = new EmbedBuilder()
                 .setAuthor({
                   name: `${
@@ -143,5 +145,5 @@ export default {
           }
         });
       });
-  },
-};
+  }
+}

@@ -16,89 +16,97 @@ import {
 import { join, dirname } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export async function Deploy(client: Manager) {
-  let command = [];
+export class DeployService {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+    this.execute();
+  }
 
-  if (!client.config.features.AUTO_DEPLOY)
-    return client.logger.info("Auto deploy disabled. Exiting auto deploy...");
+  async combineDir() {
+    let store: CommandInterface[] = [];
 
-  let interactionsFolder = path.resolve(
-    join(__dirname, "..", "commands", "slash")
-  );
+    let interactionsFolder = path.resolve(
+      join(__dirname, "..", "commands", "slash")
+    );
 
-  await makeSureFolderExists(interactionsFolder);
+    let contextsFolder = path.resolve(
+      join(__dirname, "..", "commands", "context")
+    );
 
-  let store: CommandInterface[] = [];
+    await makeSureFolderExists(interactionsFolder);
+    await makeSureFolderExists(contextsFolder);
 
-  client.logger.info("Auto deploy enabled. Reading interaction files...");
+    let interactionFilePaths = await readdirRecursive(interactionsFolder);
+    let contextFilePaths = await readdirRecursive(contextsFolder);
 
-  let interactionFilePaths = await readdirRecursive(interactionsFolder);
+    interactionFilePaths = interactionFilePaths.filter((i: string) => {
+      let state = path.basename(i).startsWith("-");
+      return !state;
+    });
 
-  interactionFilePaths = interactionFilePaths.filter((i: string) => {
-    let state = path.basename(i).startsWith("-");
-    return !state;
-  });
+    contextFilePaths = contextFilePaths.filter((i: string) => {
+      let state = path.basename(i).startsWith("-");
+      return !state;
+    });
 
-  await chillout.forEach(
-    interactionFilePaths,
-    async (interactionFilePath: string) => {
-      const cmd = (await import(pathToFileURL(interactionFilePath).toString()))
-        .default;
+    const fullPath = interactionFilePaths.concat(contextFilePaths);
+
+    await chillout.forEach(fullPath, async (interactionFilePath: string) => {
+      const cmd = new (
+        await import(pathToFileURL(interactionFilePath).toString())
+      ).default();
       return store.push(cmd);
-    }
-  );
+    });
 
-  store = store.sort(
-    (a: CommandInterface, b: CommandInterface) => a.name.length - b.name.length
-  );
-  command = store.reduce(
-    (all: UploadCommandInterface[], current: CommandInterface) => {
-      switch (current.name.length) {
-        case 1: {
-          all.push({
-            type: current.type,
-            name: current.name[0],
-            description: current.description,
-            defaultPermission: current.defaultPermission,
-            options: current.options,
-          });
-          break;
-        }
-        case 2: {
-          let baseItem = all.find((i: UploadCommandInterface) => {
-            return i.name == current.name[0] && i.type == current.type;
-          });
-          if (!baseItem) {
+    return store;
+  }
+
+  async execute() {
+    let command = [];
+
+    if (!this.client.config.features.AUTO_DEPLOY)
+      return this.client.logger.info(
+        "Auto deploy disabled. Exiting auto deploy..."
+      );
+
+    this.client.logger.info(
+      "Auto deploy enabled. Reading interaction files..."
+    );
+
+    const store = await this.combineDir();
+
+    command = this.parseEngine(store);
+
+    if (command.length === 0)
+      return this.client.logger.info(
+        "No interactions loaded. Exiting auto deploy..."
+      );
+    await this.client.application!.commands.set(
+      command as ApplicationCommandDataResolvable[]
+    );
+    this.client.logger.info(`Interactions deployed! Exiting auto deploy...`);
+  }
+
+  parseEngine(store: CommandInterface[]) {
+    return store.reduce(
+      (all: UploadCommandInterface[], current: CommandInterface) => {
+        switch (current.name.length) {
+          case 1: {
             all.push({
               type: current.type,
               name: current.name[0],
-              description: `${current.name[0]} commands.`,
-              defaultPermission: current.defaultPermission,
-              options: [
-                {
-                  type: ApplicationCommandOptionType.Subcommand,
-                  description: current.description,
-                  name: current.name[1],
-                  options: current.options,
-                },
-              ],
-            });
-          } else {
-            baseItem.options!.push({
-              type: ApplicationCommandOptionType.Subcommand,
               description: current.description,
-              name: current.name[1],
+              defaultPermission: current.defaultPermission,
               options: current.options,
             });
+            break;
           }
-          break;
-        }
-        case 3:
-          {
-            let SubItem = all.find((i: UploadCommandInterface) => {
+          case 2: {
+            let baseItem = all.find((i: UploadCommandInterface) => {
               return i.name == current.name[0] && i.type == current.type;
             });
-            if (!SubItem) {
+            if (!baseItem) {
               all.push({
                 type: current.type,
                 name: current.name[0],
@@ -106,6 +114,61 @@ export async function Deploy(client: Manager) {
                 defaultPermission: current.defaultPermission,
                 options: [
                   {
+                    type: ApplicationCommandOptionType.Subcommand,
+                    description: current.description,
+                    name: current.name[1],
+                    options: current.options,
+                  },
+                ],
+              });
+            } else {
+              baseItem.options!.push({
+                type: ApplicationCommandOptionType.Subcommand,
+                description: current.description,
+                name: current.name[1],
+                options: current.options,
+              });
+            }
+            break;
+          }
+          case 3:
+            {
+              let SubItem = all.find((i: UploadCommandInterface) => {
+                return i.name == current.name[0] && i.type == current.type;
+              });
+              if (!SubItem) {
+                all.push({
+                  type: current.type,
+                  name: current.name[0],
+                  description: `${current.name[0]} commands.`,
+                  defaultPermission: current.defaultPermission,
+                  options: [
+                    {
+                      type: ApplicationCommandOptionType.SubcommandGroup,
+                      description: `${current.name[1]} commands.`,
+                      name: current.name[1],
+                      options: [
+                        {
+                          type: ApplicationCommandOptionType.Subcommand,
+                          description: current.description,
+                          name: current.name[2],
+                          options: current.options,
+                        },
+                      ],
+                    },
+                  ],
+                });
+              } else {
+                let GroupItem = SubItem.options!.find(
+                  (i: UploadCommandInterface) => {
+                    return (
+                      i.name == current.name[1] &&
+                      i.type == ApplicationCommandOptionType.SubcommandGroup
+                    );
+                  }
+                );
+                if (!GroupItem) {
+                  SubItem.options!.push({
                     type: ApplicationCommandOptionType.SubcommandGroup,
                     description: `${current.name[1]} commands.`,
                     name: current.name[1],
@@ -117,53 +180,22 @@ export async function Deploy(client: Manager) {
                         options: current.options,
                       },
                     ],
-                  },
-                ],
-              });
-            } else {
-              let GroupItem = SubItem.options!.find(
-                (i: UploadCommandInterface) => {
-                  return (
-                    i.name == current.name[1] &&
-                    i.type == ApplicationCommandOptionType.SubcommandGroup
-                  );
+                  });
+                } else {
+                  GroupItem.options!.push({
+                    type: ApplicationCommandOptionType.Subcommand,
+                    description: current.description,
+                    name: current.name[2],
+                    options: current.options,
+                  });
                 }
-              );
-              if (!GroupItem) {
-                SubItem.options!.push({
-                  type: ApplicationCommandOptionType.SubcommandGroup,
-                  description: `${current.name[1]} commands.`,
-                  name: current.name[1],
-                  options: [
-                    {
-                      type: ApplicationCommandOptionType.Subcommand,
-                      description: current.description,
-                      name: current.name[2],
-                      options: current.options,
-                    },
-                  ],
-                });
-              } else {
-                GroupItem.options!.push({
-                  type: ApplicationCommandOptionType.Subcommand,
-                  description: current.description,
-                  name: current.name[2],
-                  options: current.options,
-                });
               }
             }
-          }
-          break;
-      }
-      return all;
-    },
-    []
-  );
-
-  if (command.length === 0)
-    return client.logger.info("No interactions loaded. Exiting auto deploy...");
-  await client.application!.commands.set(
-    command as ApplicationCommandDataResolvable[]
-  );
-  client.logger.info(`Interactions deployed! Exiting auto deploy...`);
+            break;
+        }
+        return all;
+      },
+      []
+    );
+  }
 }

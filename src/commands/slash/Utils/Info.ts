@@ -11,16 +11,15 @@ import {
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
 import { SetupInfoChannel } from "../../../@types/Setup.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["settings", "status"],
-  description: "Create bot status channel",
-  category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-  options: [
+export default class implements SlashCommand {
+  name = ["settings", "status"];
+  description = "Create bot status channel";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  lavalink = false;
+  options = [
     {
       name: "type",
       description: "Type of channel",
@@ -37,12 +36,12 @@ export default {
         },
       ],
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
@@ -256,5 +255,5 @@ export default {
 
       return client.db.status.set(`${interaction.guild!.id}`, deleted_data);
     }
-  },
-};
+  }
+}

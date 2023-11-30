@@ -4,25 +4,24 @@ import {
   ContextMenuCommandInteraction,
   GuildMember,
 } from "discord.js";
-import { Manager } from "../../../manager.js";
+import { Manager } from "../../manager.js";
+import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
-export default {
-  name: ["Shuffle"],
-  type: ApplicationCommandType.Message,
-  category: "Context",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements ContextCommand {
+  name = ["Shuffle"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
   /**
    * @param {ContextMenuInteraction} interaction
    */
-  run: async (
+  async run(
     interaction: ContextMenuCommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -68,5 +67,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [shuffle] });
-  },
-};
+  }
+}

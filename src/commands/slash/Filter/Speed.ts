@@ -7,28 +7,27 @@ import {
 } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "speed"],
-  description: "Sets the speed of the song.",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["filter", "speed"];
+  description = "Sets the speed of the song.";
+  category = "Filter";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "amount",
       description: "The amount of speed to set the song to.",
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
@@ -111,5 +110,5 @@ export default {
       .setColor(client.color);
     await delay(2000);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

@@ -6,16 +6,15 @@ import {
 } from "discord.js";
 import id from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["playlist", "create"],
-  description: "Create a new playlist",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "create"];
+  description = "Create a new playlist";
+  category = "Playlist";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
@@ -27,12 +26,13 @@ export default {
       description: "The description of the playlist",
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -135,5 +135,5 @@ export default {
       )
       .setColor(client.color);
     return msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

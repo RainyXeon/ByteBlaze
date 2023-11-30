@@ -5,9 +5,16 @@ import { fileURLToPath } from "url";
 import { ManifestInterface } from "../@types/Manifest.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const data = fs.readFileSync(join(__dirname, "..", "manifest.xml"), "utf-8");
+export class manifest {
+  get data() {
+    const data = fs.readFileSync(
+      join(__dirname, "..", "manifest.xml"),
+      "utf-8"
+    );
 
-const parser = new XMLParser();
-let jObj: ManifestInterface = parser.parse(data);
+    const parser = new XMLParser();
+    let jObj: ManifestInterface = parser.parse(data);
 
-export const manifest = jObj;
+    return jObj;
+  }
+}

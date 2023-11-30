@@ -5,28 +5,26 @@ import {
   Message,
   PermissionsBitField,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "mp3",
-  description: "Play the music file for the bot",
-  category: "Music",
-  usage: "",
-  aliases: ["file", "f"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "mp3";
+  description = "Play the music file for the bot";
+  category = "Music";
+  usage = "";
+  aliases = ["file", "f"];
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let player = client.manager.players.get(message.guild!.id);
 
     const file: Attachment = await [
@@ -152,5 +150,5 @@ export default {
       msg.edit(`${client.i18n.get(language, "music", "play_match")}`);
       player.destroy();
     }
-  },
-};
+  }
+}

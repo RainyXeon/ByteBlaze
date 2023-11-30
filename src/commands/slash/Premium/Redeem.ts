@@ -6,28 +6,28 @@ import {
 } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["redeem"],
-  description: "Redeem your premium!",
-  category: "Premium",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["redeem"];
+  description = "Redeem your premium!";
+  category = "Premium";
+  accessableby = Accessableby.Member;
+  lavalink = false;
+  options = [
     {
       name: "code",
       description: "The code you want to redeem",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const input = (
@@ -91,5 +91,5 @@ export default {
         );
       return interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

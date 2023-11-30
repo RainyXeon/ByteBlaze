@@ -5,24 +5,24 @@ import {
 } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "speed",
-  description: "Sets the speed of the song.",
-  category: "Filter",
-  usage: "<number>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "speed";
+  description = "Sets the speed of the song.";
+  category = "Filter";
+  usage = "<number>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
 
     if (value && isNaN(+value))
@@ -105,5 +105,5 @@ export default {
       .setColor(client.color);
     await delay(2000);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

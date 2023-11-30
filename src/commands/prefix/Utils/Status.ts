@@ -1,6 +1,5 @@
 import {
   EmbedBuilder,
-  PermissionsBitField,
   ChannelType,
   version,
   Message,
@@ -8,26 +7,24 @@ import {
 } from "discord.js";
 import ms from "pretty-ms";
 import { Manager } from "../../../manager.js";
-import { SetupInfoChannel } from "../../../@types/Setup.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "status-channel",
-  description: "Create bot status channel",
-  category: "Utils",
-  aliases: ["sc"],
-  usage: "<create or delete>",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+export default class implements PrefixCommand {
+  name = "status-channel";
+  description = "Create bot status channel";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  aliases = ["sc"];
+  usage = "<create or delete>";
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let option = ["create", "delete"];
     if (!args[0] || !option.includes(args[0]))
       return message.reply({
@@ -247,5 +244,5 @@ export default {
 
       await client.db.status.set(`${message.guild!.id}`, deleted_data);
     }
-  },
-};
+  }
+}

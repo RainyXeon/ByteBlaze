@@ -3,25 +3,24 @@ import { EmbedBuilder } from "discord.js";
 import moment from "moment";
 import voucher_codes from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "premium-generate",
-  description: "Generate a premium code!",
-  category: "Premium",
-  usage: "<type> <number>",
-  aliases: ["pg"],
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "premium-generate";
+  description = "Generate a premium code!";
+  category = "Premium";
+  accessableby = Accessableby.Owner;
+  usage = "<type> <number>";
+  aliases = ["pg"];
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const plans = ["daily", "weekly", "monthly", "yearly"];
 
     const name = args[0];
@@ -106,5 +105,5 @@ export default {
       });
 
     message.reply({ embeds: [embed] });
-  },
-};
+  }
+}

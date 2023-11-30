@@ -9,24 +9,27 @@ import {
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import fs from "fs";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default {
-  name: "help",
-  description: "Displays all commands that the bot has.",
-  category: "Info",
-  usage: "+ <commamnd_name>",
-  aliases: ["h"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "help";
+  description = "Displays all commands that the bot has.";
+  category = "Info";
+  usage = "+ <commamnd_name>";
+  accessableby = Accessableby.Member;
+  aliases = ["h"];
+  lavalink = false;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     if (args[0]) {
       const embed = new EmbedBuilder()
         .setAuthor({
@@ -63,13 +66,7 @@ export default {
                 ? `\`${prefix}${command.name} ${command.usage}\``
                 : "No Usage"
             }
-            **Accessible by:** ${
-              command.isManager
-                ? "Guild Manager"
-                : command.owner
-                ? "Owner"
-                : "Members"
-            }
+            **Accessible by:** ${command.accessableby}
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0
                 ? command.aliases.join(", ")
@@ -79,7 +76,7 @@ export default {
       return message.reply({ embeds: [embed] });
     }
 
-    const category = readdirSync("./src/commands/prefix");
+    const category = readdirSync(join(__dirname, "..", "..", "prefix"));
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -204,5 +201,5 @@ export default {
         }
       });
     });
-  },
-};
+  }
+}

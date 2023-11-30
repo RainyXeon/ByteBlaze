@@ -1,33 +1,27 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandType,
-  ContextMenuCommandInteraction,
-  GuildMember,
-} from "discord.js";
+import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["Stop"],
-  type: ApplicationCommandType.Message,
-  category: "Context",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  /**
-   * @param {ContextMenuInteraction} interaction
-   */
-  run: async (
-    interaction: ContextMenuCommandInteraction,
+// Main code
+export default class implements SlashCommand {
+  name = ["loopall"];
+  description = "Loop all songs in queue!";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [];
+
+  async run(
+    interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "leave_loading")}`
+            `${client.i18n.get(language, "music", "loopall_loading")}`
           )
           .setColor(client.color),
       ],
@@ -59,18 +53,22 @@ export default {
             .setColor(client.color),
         ],
       });
+    if (player.loop === "queue") {
+      await player.setLoop("none");
 
-    await player.destroy();
-    // await client.UpdateMusic(player);
+      const unloopall = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
+        .setColor(client.color);
 
-    const embed = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(language, "music", "leave_msg", {
-          channel: channel.name,
-        })}`
-      )
-      .setColor(client.color);
+      return msg.edit({ content: " ", embeds: [unloopall] });
+    } else if (player.loop === "none") {
+      await player.setLoop("queue");
 
-    msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+      const loopall = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
+        .setColor(client.color);
+
+      return msg.edit({ content: " ", embeds: [loopall] });
+    }
+  }
+}

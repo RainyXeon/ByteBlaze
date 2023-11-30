@@ -7,16 +7,15 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["settings", "setup"],
-  description: "Setup channel song request",
-  category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-  options: [
+export default class implements SlashCommand {
+  name = ["settings", "setup"];
+  description = "Setup channel song request";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  lavalink = false;
+  options = [
     {
       name: "type",
       description: "Type of channel",
@@ -33,12 +32,12 @@ export default {
         },
       ],
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
@@ -174,5 +173,5 @@ export default {
 
       return interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

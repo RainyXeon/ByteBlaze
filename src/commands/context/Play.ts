@@ -5,27 +5,26 @@ import {
   ContextMenuCommandInteraction,
   GuildMember,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
-import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { Manager } from "../../../manager.js";
+import { ConvertTime } from "../../structures/ConvertTime.js";
+import { StartQueueDuration } from "../../structures/QueueDuration.js";
+import { Manager } from "../../manager.js";
+import { Accessableby, ContextCommand } from "../../@types/Command.js";
 
-export default {
-  name: ["Play"],
-  type: ApplicationCommandType.Message,
-  category: "Context",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements ContextCommand {
+  name = ["Play"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
   /**
    * @param {ContextMenuInteraction} interaction
    */
-  run: async (
+  async run(
     interaction: ContextMenuCommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value =
@@ -73,7 +72,7 @@ export default {
     const result = await player.search(value, { requester: interaction.user });
     const tracks = result.tracks;
 
-    const TotalDuration = StartQueueDuration(tracks);
+    const TotalDuration = new StartQueueDuration().parse(tracks);
 
     if (!result.tracks.length)
       return msg.edit({
@@ -89,7 +88,7 @@ export default {
           `${client.i18n.get(language, "music", "play_playlist", {
             title: tracks[0].title,
             url: value,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
           })}`
@@ -103,7 +102,7 @@ export default {
           `${client.i18n.get(language, "music", "play_track", {
             title: tracks[0].title,
             url: tracks[0].uri,
-            duration: convertTime(tracks[0].length as number),
+            duration: new ConvertTime().parse(tracks[0].length as number),
             request: String(tracks[0].requester),
           })}`
         )
@@ -114,11 +113,11 @@ export default {
         `${client.i18n.get(language, "music", "play_result", {
           title: tracks[0].title,
           url: tracks[0].uri,
-          duration: convertTime(tracks[0].length as number),
+          duration: new ConvertTime().parse(tracks[0].length as number),
           request: String(tracks[0].requester),
         })}`
       );
       msg.edit({ content: " ", embeds: [embed] });
     }
-  },
-};
+  }
+}

@@ -1,35 +1,56 @@
-import logger from "../utils/logger.js";
+import { KeyCheckerEnum } from "../@types/KeyChecker.js";
+import { LoggerService } from "../utils/logger.js";
 import utils from "node:util";
 
-export function keyChecker(
-  obj: Record<string, any>,
-  sampleConfig: Record<string, any>,
-  dbName: string
-) {
-  const objKey = Object.keys(obj);
-  const objReqKey = Object.keys(sampleConfig);
+export class keyChecker {
+  obj: Record<string, any>;
+  sampleConfig: Record<string, any>;
+  dbName: string;
+  constructor(
+    obj: Record<string, any>,
+    sampleConfig: Record<string, any>,
+    dbName: string
+  ) {
+    this.dbName = dbName;
+    this.obj = obj;
+    this.sampleConfig = sampleConfig;
+    this.execute();
+  }
 
-  if (objKey.length > objReqKey.length || objKey.length < objReqKey.length) {
+  execute() {
+    const logger = new LoggerService().init();
+    const objReqKey = Object.keys(this.sampleConfig);
+    const res = this.checkEngine();
+
+    if (res == KeyCheckerEnum.Pass) return true;
+
     logger.error(`
-      You have more or key on database config prototype, please set [${objReqKey.join(
+      Invalid config [${res}], please set [${objReqKey.join(
         ", "
       )}] only. Example: 
       DATABASE:
-        driver: "${dbName}"
-        config: ${utils.inspect(sampleConfig)}`);
+        driver: "${this.dbName}"
+        config: ${utils.inspect(this.sampleConfig)}`);
     process.exit();
   }
 
-  objKey.forEach((data) => {
-    if (!objReqKey.includes(data)) {
-      logger.error(`
-      Invalid config, please set [${objReqKey.join(", ")}] only. Example: 
-      DATABASE:
-        driver: "${dbName}"
-        config: ${utils.inspect(sampleConfig)}`);
-      process.exit();
-    }
-  });
+  checkEngine() {
+    const objKey = Object.keys(this.obj);
+    const objReqKey = Object.keys(this.sampleConfig);
+    const checkedKey: string[] = [];
 
-  return true;
+    if (objReqKey.length > objKey.length) return KeyCheckerEnum.MissingKey;
+    if (objReqKey.length < objKey.length) return KeyCheckerEnum.TooMuchKey;
+
+    try {
+      for (let i = 0; i < objKey.length; i++) {
+        if (checkedKey.includes(objKey[i])) return KeyCheckerEnum.DuplicateKey;
+        if (!(objKey[i] in this.sampleConfig)) return KeyCheckerEnum.InvalidKey;
+        checkedKey.push(objKey[i]);
+      }
+    } finally {
+      checkedKey.length = 0;
+      return KeyCheckerEnum.Pass;
+    }
+  }
 }

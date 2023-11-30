@@ -1,27 +1,26 @@
 import { EmbedBuilder, Message } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 const time_regex = /(^[0-9][\d]{0,3}):(0[0-9]{1}$|[1-5]{1}[0-9])/;
 
 // Main code
-export default {
-  name: "seek",
-  description: "Seek timestamp in the song!",
-  category: "Music",
-  usage: "<time_format. Ex: 999:59>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "seek";
+  description = "Seek timestamp in the song!";
+  category = "Music";
+  usage = "<time_format. Ex: 999:59>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let value;
     const time = args[0];
 
@@ -101,7 +100,7 @@ export default {
 
     console.log(final_res / 1000);
 
-    const Duration = formatDuration(final_res);
+    const Duration = new FormatDuration().parse(final_res);
 
     const seeked = new EmbedBuilder()
       .setDescription(
@@ -112,5 +111,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [seeked] });
-  },
-};
+  }
+}

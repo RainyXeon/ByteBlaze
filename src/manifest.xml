@@ -7,8 +7,8 @@
 
 <metadata>
   <bot>
-    <version>2.5.11</version>
-    <autofix>4.0.0</autofix>
+    <version>3.0.0</version>
+    <autofix>4.1.0</autofix>
     <codename>hatsuharu (AzurLane)</codename>
   </bot>
 </metadata>

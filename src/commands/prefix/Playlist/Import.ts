@@ -4,29 +4,28 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 let playlist: Playlist | null;
 
-export default {
-  name: "playlist-import",
-  description: "Import a playlist to queue.",
-  category: "Playlist",
-  usage: "<playlist_name_or_id>",
-  aliases: ["pl-import"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-import";
+  description = "Import a playlist to queue.";
+  category = "Playlist";
+  usage = "<playlist_name_or_id>";
+  aliases = ["pl-import"];
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
 
     if (value == null)
@@ -100,7 +99,7 @@ export default {
       return;
     }
 
-    const totalDuration = convertTime(
+    const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
@@ -149,5 +148,5 @@ export default {
         }
       }
     }
-  },
-};
+  }
+}

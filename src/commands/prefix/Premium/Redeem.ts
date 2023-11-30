@@ -1,25 +1,24 @@
 import { EmbedBuilder, Message } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "redeem",
-  description: "Redeem your premium!",
-  category: "Premium",
-  usage: "<input>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "redeem";
+  description = "Redeem your premium!";
+  category = "Premium";
+  accessableby = Accessableby.Member;
+  usage = "<input>";
+  aliases = [];
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const input = args[0];
 
     if (!input)
@@ -83,5 +82,5 @@ export default {
         );
       return message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

@@ -1,29 +1,23 @@
-import {
-  EmbedBuilder,
-  PermissionsBitField,
-  ChannelType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ChannelType, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "setup",
-  description: "Setup channel song request",
-  category: "Utils",
-  aliases: ["setup-channel"],
-  usage: "<create or delete>",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+export default class implements PrefixCommand {
+  name = "setup";
+  description = "Setup channel song request";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  aliases = ["setup-channel"];
+  usage = "<create or delete>";
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let option = ["create", "delete"];
     if (!args[0] || !option.includes(args[0]))
       return message.reply({
@@ -166,5 +160,5 @@ export default {
 
       return message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

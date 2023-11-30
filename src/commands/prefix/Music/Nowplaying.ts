@@ -7,27 +7,27 @@ import {
   Message,
   Embed,
 } from "discord.js";
-import FormatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { QueueDuration } from "../../../structures/QueueDuration.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "nowplaying",
-  description: "Display the song currently playing.",
-  category: "Music",
-  usage: "",
-  aliases: ["np"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "nowplaying";
+  description = "Display the song currently playing.";
+  category = "Music";
+  usage = "";
+  aliases = ["np"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const realtime = client.config.lavalink.NP_REALTIME;
 
     const msg = await message.reply({
@@ -52,8 +52,8 @@ export default {
 
     const song = player.queue.current;
     const position = player.position;
-    const CurrentDuration = FormatDuration(position);
-    const TotalDuration = FormatDuration(song!.length);
+    const CurrentDuration = new FormatDuration().parse(position);
+    const TotalDuration = new FormatDuration().parse(song!.length);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
       `https://cdn.discordapp.com/avatars/${client.user!.id}/${
@@ -95,7 +95,7 @@ export default {
         },
         {
           name: `${client.i18n.get(language, "player", "duration_title")}`,
-          value: `${FormatDuration(song!.length)}`,
+          value: `${new FormatDuration().parse(song!.length)}`,
           inline: true,
         },
         {
@@ -104,7 +104,9 @@ export default {
             "player",
             "total_duration_title"
           )}`,
-          value: `${FormatDuration(QueueDuration(player))}`,
+          value: `${new FormatDuration().parse(
+            new QueueDuration().parse(player)
+          )}`,
           inline: true,
         },
         {
@@ -135,7 +137,7 @@ export default {
     if (realtime) {
       interval = setInterval(async () => {
         if (!player.playing) return;
-        const CurrentDuration = FormatDuration(position);
+        const CurrentDuration = new FormatDuration().parse(position);
         const Part = Math.floor((position / song!.length!) * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
@@ -155,5 +157,5 @@ export default {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
     }
-  },
-};
+  }
+}

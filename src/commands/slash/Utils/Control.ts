@@ -6,16 +6,15 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["settings", "control"],
-  description: "Enable or disable the player control",
-  category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-  options: [
+export default class implements SlashCommand {
+  name = ["settings", "control"];
+  description = "Enable or disable the player control";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  lavalink = false;
+  options = [
     {
       name: "type",
       description: "Choose enable or disable",
@@ -32,12 +31,13 @@ export default {
         },
       ],
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
@@ -71,5 +71,5 @@ export default {
 
       return interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

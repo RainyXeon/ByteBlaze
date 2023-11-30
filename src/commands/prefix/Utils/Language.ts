@@ -1,26 +1,24 @@
 import { Message } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { EmbedBuilder } from "discord.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-import { EmbedBuilder, PermissionsBitField } from "discord.js";
+export default class implements PrefixCommand {
+  name = "language";
+  aliases = ["setlang", "lang"];
+  usage = "<language>";
+  accessableby = Accessableby.Manager;
+  category = "Utils";
+  description = "Change the language for the bot";
+  lavalink = false;
 
-export default {
-  name: "language",
-  aliases: ["setlang", "lang"],
-  usage: "<language>",
-  category: "Utils",
-  description: "Change the language for the bot",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const languages = client.i18n.getLocales();
     if (!args[0])
       return message.reply({
@@ -47,7 +45,7 @@ export default {
         ],
       });
 
-    const newLang = await client.db.language.get(`l${message.guild!.id}`);
+    const newLang = await client.db.language.get(`${message.guild!.id}`);
     if (!newLang) {
       await client.db.language.set(`${message.guild!.id}`, args[0]);
       const embed = new EmbedBuilder()
@@ -71,5 +69,5 @@ export default {
 
       return message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

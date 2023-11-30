@@ -1,35 +1,27 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
-import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { stripIndents } from "common-tags";
+import { EmbedBuilder, Message } from "discord.js";
 import humanizeDuration from "humanize-duration";
 import { Playlist } from "../../../database/schema/Playlist.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 let info: Playlist | null;
 
-export default {
-  name: "playlist-info",
-  description: "Check the playlist infomation",
-  category: "Playlist",
-  usage: "<playlist_name_or_id>",
-  aliases: ["pl-info"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-info";
+  description = "Check the playlist infomation";
+  category = "Playlist";
+  usage = "<playlist_name_or_id>";
+  aliases = ["pl-info"];
+  lavalink = false;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
 
     if (value == null)
@@ -137,5 +129,5 @@ export default {
       ])
       .setColor(client.color);
     message.reply({ embeds: [embed] });
-  },
-};
+  }
+}

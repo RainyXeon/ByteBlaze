@@ -1,25 +1,24 @@
 import { EmbedBuilder, Message } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "soft",
-  description: "Turning on soft filter",
-  category: "Filter",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "soft";
+  description = "Turning on soft filter";
+  category = "Filter";
+  usage = "";
+  aliases = [];
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -91,5 +90,5 @@ export default {
 
     await delay(2000);
     msg.edit({ content: " ", embeds: [softed] });
-  },
-};
+  }
+}

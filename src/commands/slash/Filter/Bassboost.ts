@@ -7,27 +7,27 @@ import {
 } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "bassboost"],
-  description: "Turning on bassboost filter",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["filter", "bassboost"];
+  description = "Turning on bassboost filter";
+  category = "Filter";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "amount",
       description: "The amount of the bassboost",
       type: ApplicationCommandOptionType.Integer,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -167,5 +167,5 @@ export default {
 
     await delay(2000);
     return msg2.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

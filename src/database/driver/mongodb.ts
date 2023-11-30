@@ -4,14 +4,24 @@ import { MongoDriver } from "quick.db/MongoDriver";
 import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
-export async function MongoConnectDriver(client: Manager, db_config: Database) {
-  const sampleConfig = {
-    uri: "mongodb://127.0.0.1:27017/dreamvast",
-  };
+export class MongoConnectDriver {
+  client: Manager;
+  dbConfig: Database;
+  constructor(client: Manager, dbConfig: Database) {
+    this.client = client;
+    this.dbConfig = dbConfig;
+    this.connect();
+  }
 
-  keyChecker(db_config.config, sampleConfig, "mongodb");
+  connect() {
+    const sampleConfig = {
+      uri: "mongodb://127.0.0.1:27017/dreamvast",
+    };
 
-  const mongoDriver = new MongoDriver(db_config.config.uri);
+    new keyChecker(this.dbConfig.config, sampleConfig, "mongodb");
 
-  await TableSetup(client, mongoDriver, "MongoDB");
+    const mongoDriver = new MongoDriver(this.dbConfig.config.uri);
+
+    new TableSetup(this.client, mongoDriver, "MongoDB");
+  }
 }

@@ -1,26 +1,26 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 const rewindNum = 10;
 
 // Main code
-export default {
-  name: "rewind",
-  description: "Rewind timestamp in the song!",
-  category: "Music",
-  usage: "<seconds>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "rewind";
+  description = "Rewind timestamp in the song!";
+  category = "Music";
+  usage = "<seconds>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -64,7 +64,7 @@ export default {
       });
 
     const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position);
 
     if (value && !isNaN(+value)) {
       if (song_position - Number(value) * 1000 > 0) {
@@ -137,5 +137,5 @@ export default {
         });
       }
     }
-  },
-};
+  }
+}

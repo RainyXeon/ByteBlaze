@@ -1,11 +1,14 @@
 import { Manager } from "../manager.js";
-import check_lavalink_server from "../lavaScrap/checkLavalinkServer.js";
+import { checkLavalinkServer } from "./../lavaScrap/checkLavalinkServer.js";
 
-export default async (client: Manager) => {
-  if (client.config.features.AUTOFIX_LAVALINK.enable) {
-    check_lavalink_server(client);
-    setInterval(async () => {
-      check_lavalink_server(client);
-    }, 1800000);
+export class loadCheck {
+  constructor(client: Manager) {
+    if (client.config.features.AUTOFIX_LAVALINK.enable) {
+      new checkLavalinkServer(client);
+
+      setInterval(async () => {
+        new checkLavalinkServer(client);
+      }, 1800000);
+    }
   }
-};
+}

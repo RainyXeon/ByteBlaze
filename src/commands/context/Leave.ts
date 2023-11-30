@@ -4,25 +4,27 @@ import {
   ContextMenuCommandInteraction,
   GuildMember,
 } from "discord.js";
-import { Manager } from "../../../manager.js";
+import { Manager } from "../../manager.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  ContextCommand,
+} from "../../@types/Command.js";
 
-export default {
-  name: ["Skip"],
-  type: ApplicationCommandType.Message,
-  category: "Context",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-
+export default class implements ContextCommand {
+  name = ["Stop"];
+  type = ApplicationCommandType.Message;
+  category = "Context";
+  accessableby = Accessableby.Member;
+  lavalink = true;
   /**
    * @param {ContextMenuInteraction} interaction
    */
-  run: async (
+  async run(
     interaction: ContextMenuCommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -61,23 +63,17 @@ export default {
         ],
       });
 
-    if (player.queue.size == 0) {
-      await player.destroy();
-      await client.UpdateMusic(player);
+    await player.destroy();
+    // await client.UpdateMusic(player);
 
-      const skipped = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
-        .setColor(client.color);
+    const embed = new EmbedBuilder()
+      .setDescription(
+        `${client.i18n.get(language, "music", "leave_msg", {
+          channel: channel.name,
+        })}`
+      )
+      .setColor(client.color);
 
-      msg.edit({ content: " ", embeds: [skipped] });
-    } else {
-      await player.skip();
-
-      const skipped = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
-        .setColor(client.color);
-
-      msg.edit({ content: " ", embeds: [skipped] });
-    }
-  },
-};
+    msg.edit({ content: " ", embeds: [embed] });
+  }
+}

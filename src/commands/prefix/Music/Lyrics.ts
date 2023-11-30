@@ -1,26 +1,25 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import axios from "axios";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "lyrics",
-  description: "Display lyrics of a song.",
-  category: "Music",
-  usage: "<song_name>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "lyrics";
+  description = "Display lyrics of a song.";
+  category = "Music";
+  usage = "<song_name>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
 
     const msg = await message.reply({
@@ -112,5 +111,5 @@ export default {
     }
 
     msg.edit({ content: " ", embeds: [lyricsEmbed] });
-  },
-};
+  }
+}

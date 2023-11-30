@@ -1,25 +1,24 @@
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, Message } from "discord.js";
 
 // Main code
-export default {
-  name: "clear",
-  description: "Clear song in queue!",
-  category: "Music",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "clear";
+  description = "Clear song in queue!";
+  category = "Music";
+  usage = "";
+  aliases = [];
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -61,5 +60,5 @@ export default {
       .setDescription(`${client.i18n.get(language, "music", "clearqueue_msg")}`)
       .setColor(client.color);
     msg.edit({ content: " ", embeds: [cleared] });
-  },
-};
+  }
+}

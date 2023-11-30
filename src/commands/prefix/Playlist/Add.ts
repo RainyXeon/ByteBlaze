@@ -3,31 +3,30 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { KazagumoTrack } from "better-kazagumo";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 
-export default {
-  name: "playlist-add",
-  description: "Add song to a playlist",
-  category: "Playlist",
-  usage: "<playlist_name> <url_or_name>",
-  aliases: ["pl-add"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-add";
+  description = "Add song to a playlist";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  usage = "<playlist_name> <url_or_name>";
+  aliases = ["pl-add"];
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     if (value == null || !value)
       return message.reply({
@@ -66,8 +65,8 @@ export default {
       for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
-    const Duration = convertTime(tracks[0].length as number);
-    const TotalDuration = StartQueueDuration(tracks);
+    const Duration = new ConvertTime().parse(tracks[0].length as number);
+    const TotalDuration = new StartQueueDuration().parse(tracks);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -75,7 +74,7 @@ export default {
           `${client.i18n.get(language, "playlist", "add_playlist", {
             title: tracks[0].title,
             url: Inputed,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             track: String(tracks.length),
             user: String(message.author),
           })}`
@@ -185,5 +184,5 @@ export default {
 
     message.reply({ content: " ", embeds: [embed] });
     TrackAdd.length = 0;
-  },
-};
+  }
+}

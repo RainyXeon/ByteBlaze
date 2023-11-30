@@ -20,72 +20,79 @@ const REGEX = [
   /^https?:\/\/(?:www\.|secure\.|sp\.)?nicovideo\.jp\/watch\/([a-z]{2}[0-9]+)/,
 ];
 
-export default async (
-  client: Manager,
-  interaction: GlobalInteraction,
-  language: string,
-  command: SlashCommand
-) => {
-  // Push Function
-  async function AutoCompletePush(
-    url: string,
-    choice: AutocompleteInteractionChoices[]
+export default class {
+  async execute(
+    client: Manager,
+    interaction: GlobalInteraction,
+    language: string,
+    command: SlashCommand
   ) {
-    const Random =
-      client.config.lavalink.DEFAULT[
-        Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
-      ];
-    const match = REGEX.some((match) => {
-      return match.test(url) == true;
-    });
-    if (match == true) {
-      choice.push({ name: url, value: url });
-      await (interaction as AutocompleteInteraction)
-        .respond(choice)
-        .catch(() => {});
-    } else {
-      if (client.lavalink_using.length == 0) {
-        choice.push({
-          name: `${client.i18n.get(language, "music", "no_node")}`,
-          value: `${client.i18n.get(language, "music", "no_node")}`,
-        });
-        return;
-      }
-      await client.manager.search(url || Random).then((result) => {
-        if (result.tracks.length == 0 || !result.tracks) {
-          return choice.push({ name: "Error song not matches", value: url });
-        }
-        for (let i = 0; i < 10; i++) {
-          const x = result.tracks[i];
-          choice.push({ name: x.title || "Unknown track name", value: x.uri });
-        }
+    // Push Function
+    async function AutoCompletePush(
+      url: string,
+      choice: AutocompleteInteractionChoices[]
+    ) {
+      const Random =
+        client.config.lavalink.DEFAULT[
+          Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
+        ];
+      const match = REGEX.some((match) => {
+        return match.test(url) == true;
       });
-      await (interaction as AutocompleteInteraction)
-        .respond(choice)
-        .catch(() => {});
+      if (match == true) {
+        choice.push({ name: url, value: url });
+        await (interaction as AutocompleteInteraction)
+          .respond(choice)
+          .catch(() => {});
+      } else {
+        if (client.lavalink_using.length == 0) {
+          choice.push({
+            name: `${client.i18n.get(language, "music", "no_node")}`,
+            value: `${client.i18n.get(language, "music", "no_node")}`,
+          });
+          return;
+        }
+        await client.manager.search(url || Random).then((result) => {
+          if (result.tracks.length == 0 || !result.tracks) {
+            return choice.push({ name: "Error song not matches", value: url });
+          }
+          for (let i = 0; i < 10; i++) {
+            const x = result.tracks[i];
+            choice.push({
+              name: x.title || "Unknown track name",
+              value: x.uri,
+            });
+          }
+        });
+        await (interaction as AutocompleteInteraction)
+          .respond(choice)
+          .catch(() => {});
+      }
     }
-  }
 
-  if (
-    Number(interaction.type) == InteractionType.ApplicationCommandAutocomplete
-  ) {
     if (
-      (interaction as CommandInteraction).commandName == "play" ||
-      (interaction as CommandInteraction).commandName + command!.name[1] ==
-        "playlist" + "add"
+      Number(interaction.type) == InteractionType.ApplicationCommandAutocomplete
     ) {
-      let choice: AutocompleteInteractionChoices[] = [];
-      const url = (interaction as CommandInteraction).options.get(
-        "search"
-      )!.value;
-      return AutoCompletePush(url as string, choice);
-    } else if (
-      (interaction as CommandInteraction).commandName + command!.name[1] ==
-      "playlist" + "edit"
-    ) {
-      let choice: AutocompleteInteractionChoices[] = [];
-      const url = (interaction as CommandInteraction).options.get("add")!.value;
-      return AutoCompletePush(url as string, choice);
+      if (
+        (interaction as CommandInteraction).commandName == "play" ||
+        (interaction as CommandInteraction).commandName + command!.name[1] ==
+          "playlist" + "add"
+      ) {
+        let choice: AutocompleteInteractionChoices[] = [];
+        const url = (interaction as CommandInteraction).options.get(
+          "search"
+        )!.value;
+        return AutoCompletePush(url as string, choice);
+      } else if (
+        (interaction as CommandInteraction).commandName + command!.name[1] ==
+        "playlist" + "edit"
+      ) {
+        let choice: AutocompleteInteractionChoices[] = [];
+        const url = (interaction as CommandInteraction).options.get(
+          "add"
+        )!.value;
+        return AutoCompletePush(url as string, choice);
+      }
     }
   }
-};
+}

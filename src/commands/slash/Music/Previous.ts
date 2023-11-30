@@ -1,20 +1,20 @@
 import { CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["previous"],
-  description: "Play the previous song in the queue.",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["previous"];
+  description = "Play the previous song in the queue.";
+  category = "Music";
+  lavalink = true;
+  options = [];
+  accessableby = Accessableby.Member;
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -71,5 +71,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

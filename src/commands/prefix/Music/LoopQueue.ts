@@ -1,26 +1,25 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoLoopMode } from "../../../@types/Lavalink.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "loopall",
-  description: "Loop all songs in queue!",
-  category: "Music",
-  usage: "",
-  aliases: ["lq"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "loopall";
+  description = "Loop all songs in queue!";
+  category = "Music";
+  usage = "";
+  aliases = ["lq"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const loop_mode = {
       none: "none",
       track: "track",
@@ -79,5 +78,5 @@ export default {
 
       return msg.edit({ content: " ", embeds: [loopall] });
     }
-  },
-};
+  }
+}

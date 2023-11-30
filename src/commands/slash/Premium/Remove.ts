@@ -5,16 +5,15 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["premium", "remove"],
-  description: "Remove premium from members!",
-  category: "Premium",
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["premium", "remove"];
+  description = "Remove premium from members!";
+  category = "Premium";
+  lavalink = false;
+  accessableby = Accessableby.Owner;
+  options = [
     {
       name: "target",
       description: "Mention a user want to remove!",
@@ -27,12 +26,13 @@ export default {
       required: false,
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     let db;
 
     await interaction.deferReply({ ephemeral: false });
@@ -110,5 +110,5 @@ export default {
 
       interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

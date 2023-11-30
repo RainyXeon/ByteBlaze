@@ -7,29 +7,28 @@ import {
 } from "discord.js";
 import axios from "axios";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["lyrics"],
-  description: "Display lyrics of a song.",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["lyrics"];
+  description = "Display lyrics of a song.";
+  category = "Music";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "input",
       description: "The song you want to find lyrics for",
       type: ApplicationCommandOptionType.String,
       required: false,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -124,5 +123,5 @@ export default {
     }
 
     msg.edit({ content: " ", embeds: [lyricsEmbed] });
-  },
-};
+  }
+}

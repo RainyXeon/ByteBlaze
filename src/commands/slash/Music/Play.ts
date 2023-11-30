@@ -6,20 +6,19 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["play"],
-  description: "Play a song from any types",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements SlashCommand {
+  name = ["play"];
+  description = "Play a song from any types";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  options: [
+  options = [
     {
       name: "search",
       description: "The song link or name",
@@ -27,12 +26,13 @@ export default {
       required: true,
       autocomplete: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     try {
       if (
         (interaction.options as CommandInteractionOptionResolver).getString(
@@ -114,7 +114,7 @@ export default {
           for (let track of tracks) player.queue.add(track);
         else player.play(tracks[0]);
 
-        const TotalDuration = StartQueueDuration(tracks);
+        const TotalDuration = new StartQueueDuration().parse(tracks);
 
         if (result.type === "TRACK") {
           const embed = new EmbedBuilder()
@@ -122,7 +122,7 @@ export default {
               `${client.i18n.get(language, "music", "play_track", {
                 title: tracks[0].title,
                 url: tracks[0].uri,
-                duration: convertTime(tracks[0].length as number),
+                duration: new ConvertTime().parse(tracks[0].length as number),
                 request: String(tracks[0].requester),
               })}`
             )
@@ -134,7 +134,7 @@ export default {
               `${client.i18n.get(language, "music", "play_playlist", {
                 title: tracks[0].title,
                 url: String(value),
-                duration: convertTime(TotalDuration),
+                duration: new ConvertTime().parse(TotalDuration),
                 songs: String(tracks.length),
                 request: String(tracks[0].requester),
               })}`
@@ -149,7 +149,7 @@ export default {
               `${client.i18n.get(language, "music", "play_result", {
                 title: tracks[0].title,
                 url: tracks[0].uri,
-                duration: convertTime(tracks[0].length as number),
+                duration: new ConvertTime().parse(tracks[0].length as number),
                 request: String(tracks[0].requester),
               })}`
             );
@@ -157,5 +157,5 @@ export default {
         }
       }
     } catch (e) {}
-  },
-};
+  }
+}

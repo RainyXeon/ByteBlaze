@@ -6,25 +6,24 @@ import {
 import id from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "playlist-create",
-  description: "Create a new playlist",
-  category: "Playlist",
-  usage: "<playlist_name> <playlist_description>",
-  aliases: ["pl-create"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-create";
+  description = "Create a new playlist";
+  category = "Playlist";
+  usage = "<playlist_name> <playlist_description>";
+  aliases = ["pl-create"];
+  accessableby = Accessableby.Member;
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
     const des = args[1];
 
@@ -128,5 +127,5 @@ export default {
       )
       .setColor(client.color);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

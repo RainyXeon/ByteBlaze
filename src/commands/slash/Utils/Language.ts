@@ -6,28 +6,28 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["settings", "language"],
-  description: "Change the language for the bot",
-  category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-  options: [
+export default class implements SlashCommand {
+  name = ["settings", "language"];
+  description = "Change the language for the bot";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  lavalink = false;
+  options = [
     {
       name: "input",
       description: "The new language",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const input = (
       interaction.options as CommandInteractionOptionResolver
@@ -74,5 +74,5 @@ export default {
 
       return interaction.editReply({ content: " ", embeds: [embed] });
     }
-  },
-};
+  }
+}

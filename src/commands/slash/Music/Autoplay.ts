@@ -1,20 +1,20 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["autoplay"],
-  description: "Autoplay music (Random play songs)",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["autoplay"];
+  description = "Autoplay music (Random play songs)";
+  category = "Music";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const msg = await interaction.editReply({
@@ -84,5 +84,5 @@ export default {
 
       msg.edit({ content: " ", embeds: [on] });
     }
-  },
-};
+  }
+}

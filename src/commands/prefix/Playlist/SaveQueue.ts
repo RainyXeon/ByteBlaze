@@ -1,33 +1,28 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoTrack } from "better-kazagumo";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
-export default {
-  name: "playlist-save-queue",
-  description: "Save the current queue to a playlist",
-  category: "Playlist",
-  usage: "<playlist_name>",
-  aliases: ["pl-sq", "pl-save-queue", "pl-save"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-save-queue";
+  description = "Save the current queue to a playlist";
+  category = "Playlist";
+  usage = "<playlist_name>";
+  aliases = ["pl-sq", "pl-save-queue"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     if (value == null)
       return message.reply({
@@ -147,5 +142,5 @@ export default {
     TrackAdd.length = 0;
     TrackExist.length = 0;
     Result = null;
-  },
-};
+  }
+}

@@ -4,20 +4,19 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { SlashPage } from "../../../structures/PageQueue.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
 import { Playlist, PlaylistTrack } from "../../../database/schema/Playlist.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["playlist", "detail"],
-  description: "Detail a playlist",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "detail"];
+  description = "Detail a playlist";
+  category = "Playlist";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
@@ -30,12 +29,12 @@ export default {
       required: false,
       type: ApplicationCommandOptionType.Integer,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
@@ -91,13 +90,13 @@ export default {
           title: String(playlists.title),
           url: playlists.uri,
           author: String(playlists.author),
-          duration: formatDuration(playlists.length),
+          duration: new FormatDuration().parse(playlists.length),
         })}
                 `
       );
     }
 
-    const totalDuration = formatDuration(
+    const totalDuration = new FormatDuration().parse(
       playlist.tracks!.reduce(
         (acc: number, cur: PlaylistTrack) => acc + cur.length!,
         0
@@ -134,15 +133,13 @@ export default {
     }
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks!.length > 10)
-        SlashPage(
+        new PageQueue(
           client,
-          interaction,
           pages,
           60000,
           playlist.tracks!.length,
-          Number(totalDuration),
           language
-        );
+        ).slashPage(interaction, Number(totalDuration));
       else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(number))
@@ -175,5 +172,5 @@ export default {
       const pageNum = number == 0 ? 1 : number - 1;
       return interaction.editReply({ embeds: [pages[pageNum]] });
     }
-  },
-};
+  }
+}

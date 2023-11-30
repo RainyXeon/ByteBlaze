@@ -6,20 +6,19 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 let playlist: Playlist | null;
 
-export default {
-  name: ["playlist", "import"],
-  description: "Import a playlist to queue.",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "import"];
+  description = "Import a playlist to queue.";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
@@ -30,12 +29,12 @@ export default {
       description: "The id of the playlist",
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
@@ -124,7 +123,7 @@ export default {
       return;
     }
 
-    const totalDuration = convertTime(
+    const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
@@ -173,5 +172,5 @@ export default {
         }
       }
     }
-  },
-};
+  }
+}
