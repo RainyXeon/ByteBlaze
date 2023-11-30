@@ -148,7 +148,7 @@ export class playerLoadContent {
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
     if (!player)
-      player = await this.client.manager.createPlayer({
+      player = await client.manager.createPlayer({
         guildId: message.guild.id,
         voiceId: message.member!.voice.channel!.id,
         textId: message.channel.id,

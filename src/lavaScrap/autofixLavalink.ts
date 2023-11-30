@@ -8,7 +8,7 @@ export class autofixLavalink {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
-    this.execute()
+    this.execute();
   }
 
   async execute() {

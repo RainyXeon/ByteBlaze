@@ -15,6 +15,7 @@ export class ClearMessageService {
 
   async execute() {
     const nplaying_msg_id = this.client.nplaying_msg.get(this.player.guildId);
+    if (!nplaying_msg_id) return;
     const nplaying_msg = await this.channel.messages.cache.get(
       String(nplaying_msg_id)
     );

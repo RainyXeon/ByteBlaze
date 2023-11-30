@@ -1,4 +1,9 @@
-import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
+import {
+  ButtonInteraction,
+  EmbedBuilder,
+  TextChannel,
+  VoiceBasedChannel,
+} from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoPlayer } from "better-kazagumo";
 
@@ -65,7 +70,11 @@ export class ButtonPause {
       });
       return;
     } else {
-      let playMsg = await this.channel!.messages.fetch(data.playmsg);
+      const getChannel = await this.client.channels.cache.get(data.channel);
+      if (!getChannel) return;
+      let playMsg = await (getChannel as TextChannel)!.messages.fetch(
+        data.playmsg
+      );
       if (!playMsg) return;
 
       await this.player.pause(!this.player.paused);
@@ -75,11 +84,13 @@ export class ButtonPause {
 
       this.player.paused
         ? playMsg.edit({
-            embeds: playMsg.embeds,
+            // content: playMsg.content,
+            // embeds: new EmbedBuilder(playMsg.embeds),
             components: [this.client.enSwitch],
           })
         : playMsg.edit({
-            embeds: playMsg.embeds,
+            // content: playMsg.content,
+            // embeds: playMsg.embeds,
             components: [this.client.enSwitchMod],
           });
 

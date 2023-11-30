@@ -18,6 +18,7 @@ export class playerLoadSetup {
       : NormalModeIcons;
     this.registerDisableSwitch();
     this.registerEnableSwitch();
+    this.registerEnableSwitchMod();
   }
   registerEnableSwitch() {
     this.client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
