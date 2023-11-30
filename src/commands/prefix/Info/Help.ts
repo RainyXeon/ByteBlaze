@@ -10,6 +10,9 @@ import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import fs from "fs";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default class implements PrefixCommand {
   name = "help";
@@ -73,7 +76,7 @@ export default class implements PrefixCommand {
       return message.reply({ embeds: [embed] });
     }
 
-    const category = readdirSync("./src/commands/prefix");
+    const category = readdirSync(join(__dirname, "..", "..", "prefix"));
 
     const embed = new EmbedBuilder()
       .setAuthor({

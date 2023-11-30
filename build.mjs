@@ -35,9 +35,9 @@ if (!acceptedParams.includes(args.get(0))) {
 if (args.get(0) == acceptedParams[0]) {
   const checkDir = ["./temp", "./out", "./.cylane", "./logs", "./temp"]
 
-  checkDir.forEach((data) => {
+  checkDir.forEach(async (data) => {
     if (fse.existsSync(data)) 
-      fse.rmdirSync(data, { recursive: true, force: true });
+      await fse.rmdir(data, { recursive: true, force: true });
   })
 
   logger("Clean successfully!", "info");
@@ -65,25 +65,8 @@ child.on("error", (error) => {
 child.on("close", async (code) => {
   logger(`Build finished with code ${code}`, "build");
 
-  // Creating temp
-  if (!fse.existsSync("./temp")) await fse.mkdir("./temp");
-  else {
-    await fse.rmdirSync("./temp", { recursive: true, force: false });
-    await fse.mkdir("./temp");
-  }
-
-  try {
-    fse.copySync("./dist", "./temp", { overwrite: true });
-    console.log("Making temp to edit manifest file...");
-  } catch (err) {
-    console.error(err);
-  }
-
-  // Remove current dist
-  await fse.rmdirSync("./dist", { recursive: true, force: true });
-
   // Edit manifest
-  const manifestRaw = fse.readFileSync("./temp/manifest.xml", "utf-8");
+  const manifestRaw = fse.readFileSync("./dist/manifest.xml", "utf-8");
   const manifest = parser.parse(manifestRaw);
   const botVersion = manifest.metadata.bot.version;
   const warningData =
@@ -100,31 +83,15 @@ child.on("close", async (code) => {
   manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
 
   fse.writeFileSync(
-    "./temp/manifest.xml",
+    "./dist/manifest.xml",
     builder.build(manifest) + warningData,
     "utf-8"
   );
 
   logger(
-    "Edit manifest file complete! Now give all build file back to dist folder",
+    "Edit manifest file complete!",
     "build"
   );
-
-  // Give back to dist folder
-  await fse.mkdir("./dist");
-
-  try {
-    fse.copySync("./temp", "./dist", { overwrite: true });
-    logger(
-      "Give all build file back to dist folder complete! Removing temp...",
-      "build"
-    );
-  } catch (err) {
-    console.error(err);
-  }
-
-  await fse.rmdirSync("./temp", { recursive: true, force: true });
-  logger("Remove complete! Now archive all build file...", "build");
 
   // Archive build
   await fse.mkdir("./out");
@@ -142,7 +109,7 @@ child.on("close", async (code) => {
     "src",
     "scripts",
     "build.mjs",
-    "cylane.database.json",
+    "byteblaze.database.json",
     "pnpm-lock.yaml",
     "README.md",
     "tsconfig.json",
