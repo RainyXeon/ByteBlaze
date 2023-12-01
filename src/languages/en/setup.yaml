@@ -8,8 +8,6 @@ setup_enable: "*`Already have setup channel song request can't use this command.
 setup_queuemsg: "**__Queue list:__**\nJoin a voice channel and queue songs by name or url in here."
 
 setup_playembed_author: "No song playing currently."
-setup_playembed_desc: ">>> [Invite](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Support](https://discord.gg/SNG3dh3MbR) | [Website](https://adivise.github.io/Stylish/)"
-setup_playembed_footer: "Prefix is: /"
 
 ##### Setup Update Handler #####
 

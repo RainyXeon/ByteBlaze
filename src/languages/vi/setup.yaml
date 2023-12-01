@@ -8,8 +8,6 @@ setup_enable: "*`Đã thiết lập yêu cầu bài hát kênh không thể sử
 setup_queuemsg: "**__Hàng đợi:__**\nTham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
 
 setup_playembed_author: "Hiện không có bài hát nào đang phát."
-setup_playembed_desc: ">>> [Mời vào máy chủ](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Hỗ trợ](https://discord.gg/uxbwPDtYq8) | [Trang ưeb](https://dreamvast.vercel.app/)"
-setup_playembed_footer: "Tiền tố để sử dụng lệnh: /"
 
 ##### Setup Update Handler #####
 

@@ -28,21 +28,15 @@ export default class implements PrefixCommand {
     const row1 = new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
         new ButtonBuilder()
-          .setLabel("Github (Adivise)")
+          .setLabel("Github (RainyXeon)")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://github.com/Adivise")
-      )
-      .addComponents(
-        new ButtonBuilder()
-          .setLabel("Github (XeonDex)")
-          .setStyle(ButtonStyle.Link)
-          .setURL("https://github.com/XeonE52680v3")
+          .setURL("https://github.com/RainyXeon")
       )
       .addComponents(
         new ButtonBuilder()
           .setLabel("Support Server")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://discord.com/invite/xHvsCMjnhU")
+          .setURL("https://discord.gg/xff4e2WvVy")
       );
 
     await message.reply({ embeds: [xeondex], components: [row1] });

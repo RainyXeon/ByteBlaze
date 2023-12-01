@@ -159,19 +159,7 @@ export class playerLoadUpdate {
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
           }.jpeg?size=300`
-        )
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_playembed_desc", {
-            clientId: client.user!.id,
-          })}`
-        )
-        .setFooter({
-          text: `${client.i18n.get(
-            language,
-            "setup",
-            "setup_playembed_footer"
-          )}`,
-        });
+        );
 
       return await playMsg
         .edit({

@@ -8,8 +8,6 @@ setup_enable: "มีระบบ แชทเพลง อยู่ไม่ส
 setup_queuemsg: "**__คิวทั้งหมด:__**\nเข้าห้องพูดคุยแล้วเพิ่มเพลงโดย ใช้ชื่อหรือลิ้งเพลง ในห้องนี้"
 
 setup_playembed_author: "ไม่มีเพลง เล่นอยู่ ในปัจจุบัน"
-setup_playembed_desc: ">>> [Invite](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Support](https://discord.gg/SNG3dh3MbR) | [Website](https://adivise.github.io/Stylish/)"
-setup_playembed_footer: "Prefix is: / (SlashCommand)"
 
 ##### Setup Update Handler #####
 

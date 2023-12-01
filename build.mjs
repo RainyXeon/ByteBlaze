@@ -111,7 +111,6 @@ child.on("close", async (code) => {
     "build.mjs",
     "byteblaze.database.json",
     "pnpm-lock.yaml",
-    "README.md",
     "tsconfig.json",
   ];
   const zipper = new archiver(".", path, true, ignored);
