@@ -15,7 +15,7 @@ export default class {
     const activities = [
       `with ${guilds} servers! | /music radio`,
       `with ${members} users! | /music play`,
-      `with ${channels} users! | /filter nightcore`,
+      `with ${channels} channels! | /filter nightcore`,
     ];
 
     cron.schedule("0 */1 * * * *", async () => {
