@@ -74,16 +74,6 @@ export default class implements SlashCommand {
             client.user!.avatar
           }.jpeg?size=300`
         )
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`
-        )
-        .setFooter({
-          text: `${client.i18n.get(
-            language,
-            "setup",
-            "setup_playembed_footer"
-          )}`,
-        });
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
