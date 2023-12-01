@@ -45,7 +45,7 @@ export default class implements SlashCommand {
       return interaction.editReply({ embeds: [embed] });
     }
 
-    const premium = await client.db.premium.get(`${input!.toUpperCase()}`);
+    const premium = await client.db.code.get(`${input!.toUpperCase()}`);
 
     if (input == "pmc_thedreamvastghost")
       return interaction.editReply(

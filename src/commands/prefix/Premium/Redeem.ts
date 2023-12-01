@@ -43,7 +43,7 @@ export default class implements PrefixCommand {
       return message.reply({ embeds: [embed] });
     }
 
-    const premium = await client.db.premium.get(`${input.toUpperCase()}`);
+    const premium = await client.db.code.get(`${input.toUpperCase()}`);
     if (premium) {
       const expires = moment(premium.expiresAt).format(
         "do/MMMM/YYYY (HH:mm:ss)"
