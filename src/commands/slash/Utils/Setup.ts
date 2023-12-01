@@ -73,7 +73,7 @@ export default class implements SlashCommand {
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
           }.jpeg?size=300`
-        )
+        );
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,

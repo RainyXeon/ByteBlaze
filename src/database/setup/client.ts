@@ -2,6 +2,7 @@ import ms from "pretty-ms";
 import { EmbedBuilder, TextChannel, version } from "discord.js";
 import { Manager } from "../../manager.js";
 import chalk from "chalk";
+import cron from "node-cron";
 
 export class ClientDataService {
   client: Manager;
@@ -68,7 +69,7 @@ export class ClientDataService {
   }
 
   async setupInfoChennel() {
-    const info = setInterval(async () => {
+    cron.schedule("*/5 * * * * *", async () => {
       const SetupChannel = new Map();
       const prepare = await this.client.db.status.all();
       if (!prepare || prepare.length == 0) return;
@@ -92,9 +93,7 @@ export class ClientDataService {
         if (!fetch_channel) return;
         await interval_text.edit({ content: ``, embeds: [fetched_info] });
       });
-    }, 5000);
-
-    this.client.interval.set("MAIN", info);
+    });
   }
 
   async execute() {

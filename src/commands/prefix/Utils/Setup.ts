@@ -65,7 +65,7 @@ export default class implements PrefixCommand {
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
           }.jpeg?size=300`
-        )
+        );
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
