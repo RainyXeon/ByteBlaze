@@ -39,6 +39,9 @@ dependencies:
   discord.js:
     specifier: ^14.13.0
     version: 14.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.2)
+  dreamvast.quick.db:
+    specifier: ^9.1.6
+    version: 9.1.6(mongoose@8.0.0)(mysql2@3.6.3)(pg@8.11.3)(write-file-atomic@5.0.1)
   express:
     specifier: ^4.18.2
     version: 4.18.2
@@ -90,9 +93,6 @@ dependencies:
   pretty-ms:
     specifier: ^8.0.0
     version: 8.0.0
-  quick.db:
-    specifier: github:plexidev/quick.db#dev
-    version: github.com/plexidev/quick.db/ec89fbdc08b37ca02538a24083ad6577f3efa099(mongoose@8.0.0)(mysql2@3.6.3)(pg@8.11.3)(write-file-atomic@5.0.1)
   recursive-readdir:
     specifier: ^2.2.3
     version: 2.2.3
@@ -1500,6 +1500,37 @@ packages:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /dreamvast.quick.db@9.1.6(mongoose@8.0.0)(mysql2@3.6.3)(pg@8.11.3)(write-file-atomic@5.0.1):
+    resolution: {integrity: sha512-pLteB28BgPr0Vc5wJCuYFc9t9tDlKt5NKon+x0GNuBktAqQeHwR3/Wrunn7DKwKzPxbUYYhLiNiD1nwguG5g5g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      better-sqlite3: 8.x || 9.x
+      cassandra-driver: 4.x
+      mongoose: 7.x || 8.x
+      mysql2: 3.x
+      pg: 8.x
+      write-file-atomic: 5.x
+    peerDependenciesMeta:
+      better-sqlite3:
+        optional: true
+      cassandra-driver:
+        optional: true
+      mongoose:
+        optional: true
+      mysql2:
+        optional: true
+      pg:
+        optional: true
+      write-file-atomic:
+        optional: true
+    dependencies:
+      lodash: 4.17.21
+      mongoose: 8.0.0
+      mysql2: 3.6.3
+      pg: 8.11.3
+      write-file-atomic: 5.0.1
+    dev: false
 
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3971,38 +4002,3 @@ packages:
       compress-commons: 4.1.2
       readable-stream: 3.6.2
     dev: true
-
-  github.com/plexidev/quick.db/ec89fbdc08b37ca02538a24083ad6577f3efa099(mongoose@8.0.0)(mysql2@3.6.3)(pg@8.11.3)(write-file-atomic@5.0.1):
-    resolution: {tarball: https://codeload.github.com/plexidev/quick.db/tar.gz/ec89fbdc08b37ca02538a24083ad6577f3efa099}
-    id: github.com/plexidev/quick.db/ec89fbdc08b37ca02538a24083ad6577f3efa099
-    name: quick.db
-    version: 9.1.6
-    engines: {node: '>=14.0.0'}
-    requiresBuild: true
-    peerDependencies:
-      better-sqlite3: 8.x || 9.x
-      cassandra-driver: 4.x
-      mongoose: 7.x || 8.x
-      mysql2: 3.x
-      pg: 8.x
-      write-file-atomic: 5.x
-    peerDependenciesMeta:
-      better-sqlite3:
-        optional: true
-      cassandra-driver:
-        optional: true
-      mongoose:
-        optional: true
-      mysql2:
-        optional: true
-      pg:
-        optional: true
-      write-file-atomic:
-        optional: true
-    dependencies:
-      lodash: 4.17.21
-      mongoose: 8.0.0
-      mysql2: 3.6.3
-      pg: 8.11.3
-      write-file-atomic: 5.0.1
-    dev: false

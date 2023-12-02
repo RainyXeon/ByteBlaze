@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
-import { MySQLDriver } from "quick.db/MySQLDriver";
+import { MySQLDriver } from "dreamvast.quick.db/MySQLDriver";
 import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
