@@ -3,7 +3,7 @@ import axios from "axios";
 import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();
 import fse from "fs-extra";
-import { LoggerService } from "../utils/logger.js";
+import { LoggerService } from "../services/LoggerService.js";
 import Token from "markdown-it/lib/token.js";
 
 export class getLavalinkServer {

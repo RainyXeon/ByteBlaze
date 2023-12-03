@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { ManifestInterface } from "../@types/Manifest.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class manifest {
+export class ManifestService {
   get data() {
     const data = fs.readFileSync(
       join(__dirname, "..", "manifest.xml"),

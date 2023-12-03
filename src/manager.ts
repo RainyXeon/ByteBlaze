@@ -11,8 +11,8 @@ import { DatabaseService } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
-import { ConfigDataService } from "./utils/config.js";
-import { LoggerService } from "./utils/logger.js";
+import { ConfigDataService } from "./services/ConfigDataService.js";
+import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { Kazagumo, KazagumoPlayer } from "better-kazagumo";
 import { join, dirname } from "path";
@@ -20,7 +20,7 @@ import { fileURLToPath } from "url";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
-import { manifest } from "./utils/manifest.js";
+import { ManifestService } from "./services/ManifestService.js";
 import { PrefixCommand, SlashCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
@@ -33,6 +33,7 @@ import { initHandler } from "./handlers/index.js";
 import { KazagumoInit } from "./structures/Kazagumo.js";
 import utils from "node:util";
 import { RequestInterface } from "./webserver/RequestInterface.js";
+import { DeployService } from "./services/DeployService.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -104,7 +105,7 @@ export class Manager extends Client {
     });
     this.logger = loggerService;
     this.config = configData;
-    this.metadata = new manifest().data.metadata.bot;
+    this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.dev = this.config.features.DEV_ID;
@@ -170,7 +171,7 @@ export class Manager extends Client {
     if (this.config.features.WEB_SERVER.enable) {
       new WebServer(this);
     }
-
+    new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);
   }

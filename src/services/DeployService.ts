@@ -8,12 +8,16 @@ import {
   ApplicationCommandOptionType,
   ApplicationCommandManager,
   ApplicationCommandDataResolvable,
+  REST,
 } from "discord.js";
 import {
   CommandInterface,
   UploadCommandInterface,
 } from "../@types/Interaction.js";
 import { join, dirname } from "path";
+import { Routes } from "discord-api-types/v10";
+import { BotInfoType } from "../@types/User.js";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class DeployService {
@@ -66,11 +70,11 @@ export class DeployService {
     let command = [];
 
     if (!this.client.config.features.AUTO_DEPLOY)
-      return this.client.logger.info(
+      return this.client.logger.deploy_slash(
         "Auto deploy disabled. Exiting auto deploy..."
       );
 
-    this.client.logger.info(
+    this.client.logger.deploy_slash(
       "Auto deploy enabled. Reading interaction files..."
     );
 
@@ -78,14 +82,35 @@ export class DeployService {
 
     command = this.parseEngine(store);
 
+    this.client.logger.deploy_slash(
+      "Reading interaction files completed, setting up REST..."
+    );
+
+    const rest = new REST({ version: "10" }).setToken(
+      this.client.config.bot.TOKEN
+    );
+    const client = await rest.get(Routes.user());
+
+    this.client.logger.deploy_slash(
+      `Setting up REST completed! Account information received! ${
+        (client as BotInfoType).username
+      }#${(client as BotInfoType).discriminator} (${
+        (client as BotInfoType).id
+      })`
+    );
+
     if (command.length === 0)
-      return this.client.logger.info(
+      return this.client.logger.deploy_slash(
         "No interactions loaded. Exiting auto deploy..."
       );
-    await this.client.application!.commands.set(
-      command as ApplicationCommandDataResolvable[]
+
+    await rest.put(Routes.applicationCommands((client as BotInfoType).id), {
+      body: command,
+    });
+
+    this.client.logger.deploy_slash(
+      `Interactions deployed! Exiting auto deploy...`
     );
-    this.client.logger.info(`Interactions deployed! Exiting auto deploy...`);
   }
 
   parseEngine(store: CommandInterface[]) {

@@ -59,8 +59,6 @@ features:
     enable: true
     prefix: "d!" # The prefix you want
 
-  AUTO_DEPLOY: true
-  AUTO_REMOVE_DUPLICATE: true
   AUTOFIX_LAVALINK: # Fix the lavalink server when the current is down
     enable: true
     reconnectTries: 5

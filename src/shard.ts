@@ -1,5 +1,5 @@
 import { ClusterManager } from "discord-hybrid-sharding";
-import { ConfigDataService } from "./utils/config.js";
+import { ConfigDataService } from "./services/ConfigDataService.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";

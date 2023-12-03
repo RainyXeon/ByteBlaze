@@ -20,7 +20,8 @@ export class LoggerService {
         lavalink: 4,
         loader: 5,
         data_loader: 6,
-        debug: 7,
+        deploy_slash: 7,
+        debug: 8,
       },
 
       transports: [
@@ -50,7 +51,7 @@ export class LoggerService {
   }
 
   filter(info: InfoDataType) {
-    const pad = 11;
+    const pad = 12;
 
     switch (info.level) {
       case "info":
@@ -69,6 +70,8 @@ export class LoggerService {
         return chalk.hex("#f7f702")(info.level.toUpperCase().padEnd(pad));
       case "websocket":
         return chalk.hex("#00D100")(info.level.toUpperCase().padEnd(pad));
+      case "deploy_slash":
+        return chalk.hex("#7289da")(info.level.toUpperCase().padEnd(pad));
     }
   }
 

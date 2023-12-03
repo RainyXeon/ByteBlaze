@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
-import { Radiostations } from "../../../utils/radioLink.js";
+import { Radiostations } from "../../../assets/radioLink.js";
 import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";

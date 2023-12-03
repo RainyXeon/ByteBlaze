@@ -1,5 +1,5 @@
 import { load } from "js-yaml";
-import { YAMLParseService } from "./parse.js";
+import { YAMLParseService } from "./YAMLParseService.js";
 import { config } from "dotenv";
 import { Config } from "../@types/Config.js";
 config();

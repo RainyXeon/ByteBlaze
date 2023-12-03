@@ -1,12 +1,10 @@
 import { Manager } from "../../manager.js";
-import { DeployService } from "../../utils/autoDeploy.js";
+import { DeployService } from "../../services/DeployService.js";
 import cron from "node-cron";
 
 export default class {
   async execute(client: Manager) {
     client.logger.info(`Logged in ${client.user!.tag}`);
-    // Auto deploy
-    new DeployService(client);
 
     let guilds = client.guilds.cache.size;
     let members = client.guilds.cache.reduce((a, b) => a + b.memberCount, 0);

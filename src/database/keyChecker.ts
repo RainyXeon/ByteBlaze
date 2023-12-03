@@ -1,5 +1,5 @@
 import { KeyCheckerEnum } from "../@types/KeyChecker.js";
-import { LoggerService } from "../utils/logger.js";
+import { LoggerService } from "../services/LoggerService.js";
 import utils from "node:util";
 
 export class keyChecker {
