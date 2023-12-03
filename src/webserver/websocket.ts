@@ -31,7 +31,7 @@ export class WebsocketService {
           error: `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`,
         })
       );
-      this.client.logger.info(
+      this.client.logger.websocket(
         `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`
       );
       return;
@@ -49,23 +49,23 @@ export class WebsocketService {
           error: `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`,
         })
       );
-      this.client.logger.info(
+      this.client.logger.websocket(
         `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`
       );
       return;
     }
 
     if (!this.client.config.features.WEB_SERVER.websocket.auth)
-      this.client.logger.warn(
+      this.client.logger.websocket(
         `[UNSECURE] Connected to client (${verificationOrigin})`
       );
 
     if (this.client.config.features.WEB_SERVER.websocket.auth)
-      this.client.logger.info(`Connected to client (${verificationOrigin})`);
+      this.client.logger.websocket(`Connected to client (${verificationOrigin})`);
   }
 
   async execute() {
-    this.client.logger.info("Connected to client!");
+    this.client.logger.websocket("Connected to client!");
 
     this.client.websocket = this.ws;
 
@@ -77,7 +77,7 @@ export class WebsocketService {
 
       if (!req) return;
       if (req) {
-        this.client.logger.info(`Used [${json.message}] req by ${json.guild}`);
+        this.client.logger.websocket(`Used [${json.message}] req by ${json.guild}`);
         try {
           req.run(this.client, json, this.ws);
         } catch (error) {
@@ -93,7 +93,7 @@ export class WebsocketService {
       this.ws.send(JSON.stringify({ error: error }));
     });
     this.ws.on("close", () =>
-      this.client.logger.info("Closed connection to client")
+      this.client.logger.websocket("Closed connection to client")
     );
   }
 }
