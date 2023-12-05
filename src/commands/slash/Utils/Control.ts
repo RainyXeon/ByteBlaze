@@ -7,6 +7,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { ControlEnum } from "../../../database/schema/Control.js";
 
 export default class implements SlashCommand {
   name = ["settings", "control"];
@@ -44,7 +45,10 @@ export default class implements SlashCommand {
         "type"
       ) === "enable"
     ) {
-      await client.db.control.set(`${interaction.guild!.id}`, "enable");
+      await client.db.control.set(
+        `${interaction.guild!.id}`,
+        ControlEnum.Enable
+      );
 
       const embed = new EmbedBuilder()
         .setDescription(
@@ -60,7 +64,10 @@ export default class implements SlashCommand {
         "type"
       ) === "disable"
     ) {
-      await client.db.control.set(`${interaction.guild!.id}`, "enable");
+      await client.db.control.set(
+        `${interaction.guild!.id}`,
+        ControlEnum.Disable
+      );
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "utilities", "control_set", {

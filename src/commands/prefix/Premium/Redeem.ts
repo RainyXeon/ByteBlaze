@@ -44,37 +44,8 @@ export default class implements PrefixCommand {
     }
 
     const premium = await client.db.code.get(`${input.toUpperCase()}`);
-    if (premium) {
-      const expires = moment(premium.expiresAt).format(
-        "do/MMMM/YYYY (HH:mm:ss)"
-      );
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${client.i18n.get(language, "premium", "redeem_title")}`,
-          iconURL: client.user!.displayAvatarURL(),
-        })
-        .setDescription(
-          `${client.i18n.get(language, "premium", "redeem_desc", {
-            expires: expires,
-            plan: premium.plan,
-          })}`
-        )
-        .setColor(client.color)
-        .setTimestamp();
 
-      const new_data = {
-        id: message.author.id,
-        isPremium: true,
-        redeemedBy: message.author,
-        redeemedAt: Date.now(),
-        expiresAt: premium.expiresAt,
-        plan: premium.plan,
-      };
-      await client.db.premium.set(`${new_data.id}`, new_data);
-      await message.reply({ embeds: [embed] });
-      await client.db.code.delete(`${input.toUpperCase()}`);
-      return client.premiums.set(String(message.author.id), new_data);
-    } else {
+    if (!premium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
@@ -82,5 +53,43 @@ export default class implements PrefixCommand {
         );
       return message.reply({ embeds: [embed] });
     }
+
+    if (premium.expiresAt < Date.now()) {
+      const embed = new EmbedBuilder()
+        .setColor(client.color)
+        .setDescription(
+          `${client.i18n.get(language, "premium", "redeem_invalid")}`
+        );
+      return message.reply({ embeds: [embed] });
+    }
+
+    const expires = moment(premium.expiresAt).format("dddd, MMMM Do YYYY");
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: `${client.i18n.get(language, "premium", "redeem_title")}`,
+        iconURL: client.user!.displayAvatarURL(),
+      })
+      .setDescription(
+        `${client.i18n.get(language, "premium", "redeem_desc", {
+          expires: expires,
+          plan: premium.plan,
+        })}`
+      )
+      .setColor(client.color)
+      .setTimestamp();
+
+    const new_data = {
+      id: message.author.id,
+      isPremium: true,
+      redeemedBy: message.author,
+      redeemedAt: Date.now(),
+      expiresAt: premium.expiresAt,
+      plan: premium.plan,
+    };
+    await client.db.premium.set(`${new_data.id}`, new_data);
+    await message.reply({ embeds: [embed] });
+    await client.db.code.delete(`${input.toUpperCase()}`);
+    return client.premiums.set(String(message.author.id), new_data);
   }
 }

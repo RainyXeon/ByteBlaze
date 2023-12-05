@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { ControlEnum } from "../../../database/schema/Control.js";
 
 export default class implements PrefixCommand {
   name = "control";
@@ -24,7 +25,7 @@ export default class implements PrefixCommand {
       .setDescription(
         `${client.i18n.get(language, "utilities", "control_set", {
           toggle:
-            db == "enable"
+            db == ControlEnum.Enable
               ? `${client.i18n.get(language, "music", "disabled")}`
               : `${client.i18n.get(language, "music", "enabled")}`,
         })}`
@@ -34,7 +35,7 @@ export default class implements PrefixCommand {
     await message.reply({ embeds: [embed] });
     await client.db.control.set(
       `${message.guild!.id}`,
-      db == "enable" ? "disable" : "enable"
+      db == ControlEnum.Enable ? ControlEnum.Disable : ControlEnum.Enable
     );
   }
 }

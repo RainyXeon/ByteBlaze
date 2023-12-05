@@ -19,6 +19,7 @@ import {
 } from "../../functions/playerControlButton.js";
 import { ReplyInteractionService } from "../../functions/replyInteraction.js";
 import { KazagumoLoop } from "../../@types/Lavalink.js";
+import { ControlEnum } from "../../database/schema/Control.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -34,7 +35,7 @@ export default class {
 
     let Control = await client.db.control.get(`${player.guildId}`);
     if (!Control) {
-      await client.db.control.set(`${player.guildId}`, "disable");
+      await client.db.control.set(`${player.guildId}`, ControlEnum.Disable);
       Control = await client.db.control.get(`${player.guildId}`);
     }
 
@@ -64,8 +65,6 @@ export default class {
 
     const song = player.queue.current;
     const position = player.shoukaku.position;
-
-    const TotalDuration = new QueueDuration().parse(player);
 
     if (
       client.websocket &&
@@ -124,7 +123,7 @@ export default class {
       }
     }
 
-    if (Control === "disable") return;
+    if (Control == ControlEnum.Disable) return;
 
     // const card = new musicCard()
     //   .setName(String(song?.title))

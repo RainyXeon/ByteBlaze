@@ -10,7 +10,7 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 export default class implements SlashCommand {
-  name = ["ping"];
+  name = ["info", "ping"];
   description = "Shows the ping information of the Bot";
   category = "Info";
   options = [];

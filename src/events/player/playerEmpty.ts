@@ -8,6 +8,10 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
+
     const guild = await client.guilds.cache.get(player.guildId);
     let data = await client.db.language.get(`${player.guildId}`);
 

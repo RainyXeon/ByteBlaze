@@ -13,34 +13,10 @@ export class getLavalinkServer {
   }
 
   async execute() {
-    if (!fse.existsSync("./.cylane")) {
-      const res = await axios.get(
-        "https://raw.githubusercontent.com/DarrenOfficial/lavalink-list/master/docs/NoSSL/lavalink-without-ssl.md"
-      );
-
-      fse
-        .outputFile(".cylane/lavalink_no_ssl.md", res.data)
-        .then(() => {
-          this.logger.log({
-            level: "lavalink",
-            message: "New cache has been created!",
-          });
-        })
-        .catch((err: Error) => {
-          this.logger.error(err);
-        });
-
-      return this.getLavalinkServerInfo(res.data);
-    } else if (fse.existsSync("./.cylane")) {
-      this.logger.log({
-        level: "lavalink",
-        message: "Cache found. Now using for speed up",
-      });
-      const data = await fse.readFile("./.cylane/lavalink_no_ssl.md", {
-        encoding: "utf8",
-      });
-      return this.getLavalinkServerInfo(data);
-    }
+    const res = await axios.get(
+      "https://raw.githubusercontent.com/DarrenOfficial/lavalink-list/master/docs/NoSSL/lavalink-without-ssl.md"
+    );
+    return this.getLavalinkServerInfo(res.data);
   }
 
   getLavalinkServerInfo(data: string) {

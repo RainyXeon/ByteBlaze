@@ -11,6 +11,9 @@ export default class {
   ) {
     client.logger.error(`Player get exception ${data}`);
     client.logger.log({ level: "error", message: data });
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
     const fetch_channel = await client.channels.fetch(player.textId);
     const text_channel = fetch_channel! as TextChannel;
     if (text_channel) {

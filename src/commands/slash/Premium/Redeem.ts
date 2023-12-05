@@ -52,38 +52,7 @@ export default class implements SlashCommand {
         "WU9VIENBTidUIERPIFRISVMgRk9SIEZSRUUgUFJFTUlVTQotIFJhaW55WGVvbiAt"
       );
 
-    if (premium) {
-      const expires = moment(premium.expiresAt).format(
-        "do/MMMM/YYYY (HH:mm:ss)"
-      );
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${client.i18n.get(language, "premium", "redeem_title")}`,
-          iconURL: client.user!.displayAvatarURL(),
-        })
-        .setDescription(
-          `${client.i18n.get(language, "premium", "redeem_desc", {
-            expires: expires,
-            plan: premium.plan,
-          })}`
-        )
-        .setColor(client.color)
-        .setTimestamp();
-
-      const data = {
-        id: interaction.user.id,
-        isPremium: true,
-        redeemedBy: interaction.user,
-        redeemedAt: Date.now(),
-        expiresAt: premium.expiresAt,
-        plan: premium.plan,
-      };
-
-      await client.db.premium.set(`${interaction.user.id}`, data);
-      await interaction.editReply({ embeds: [embed] });
-      await client.premiums.set(interaction.user.id, data);
-      return client.db.code.delete(`${input!.toUpperCase()}`);
-    } else {
+    if (!premium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
@@ -91,5 +60,43 @@ export default class implements SlashCommand {
         );
       return interaction.editReply({ embeds: [embed] });
     }
+
+    if (premium.expiresAt < Date.now()) {
+      const embed = new EmbedBuilder()
+        .setColor(client.color)
+        .setDescription(
+          `${client.i18n.get(language, "premium", "redeem_invalid")}`
+        );
+      return interaction.editReply({ embeds: [embed] });
+    }
+
+    const expires = moment(premium.expiresAt).format("dddd, MMMM Do YYYY");
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: `${client.i18n.get(language, "premium", "redeem_title")}`,
+        iconURL: client.user!.displayAvatarURL(),
+      })
+      .setDescription(
+        `${client.i18n.get(language, "premium", "redeem_desc", {
+          expires: expires,
+          plan: premium.plan,
+        })}`
+      )
+      .setColor(client.color)
+      .setTimestamp();
+
+    const data = {
+      id: interaction.user.id,
+      isPremium: true,
+      redeemedBy: interaction.user,
+      redeemedAt: Date.now(),
+      expiresAt: premium.expiresAt,
+      plan: premium.plan,
+    };
+
+    await client.db.premium.set(`${interaction.user.id}`, data);
+    await interaction.editReply({ embeds: [embed] });
+    await client.premiums.set(interaction.user.id, data);
+    return client.db.code.delete(`${input!.toUpperCase()}`);
   }
 }

@@ -6,7 +6,9 @@ import {
   ButtonBuilder,
   version,
 } from "discord.js";
+import os from "os";
 import ms from "pretty-ms";
+import { stripIndents } from "common-tags";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 export default class implements PrefixCommand {
@@ -25,69 +27,39 @@ export default class implements PrefixCommand {
     language: string,
     prefix: string
   ) {
-    const info = new EmbedBuilder()
-      .setTitle(client.user!.tag + " Status")
-      .addFields([
-        {
-          name: "Uptime",
-          value: `\`\`\`${ms(client.uptime as number)}\`\`\``,
-          inline: true,
-        },
-        {
-          name: "WebSocket Ping",
-          value: `\`\`\`${client.ws.ping}ms\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Memory",
-          value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
-            2
-          )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-            2
-          )} MB Heap\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Guild Count",
-          value: `\`\`\`${client.guilds.cache.size} guilds\`\`\``,
-          inline: true,
-        },
-        {
-          name: "User Count",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Node",
-          value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Cached Data",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\n${client.emojis.cache.size} emojis\`\`\``,
-          inline: true,
-        },
-        { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
-      ])
-      .setTimestamp()
-      .setColor(client.color);
+    const total = os.totalmem() / 1024 / 1024;
+    const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-      new ButtonBuilder()
-        .setLabel("Invite Me")
-        .setStyle(ButtonStyle.Link)
-        .setURL(
-          `https://discord.com/api/oauth2/authorize?client_id=${
-            client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
-    );
-    await message.reply({ embeds: [info], components: [row] });
+    const hostInfo = stripIndents`\`\`\`
+    OS: ${os.type()} ${os.release()} (${os.arch()})
+    CPU: ${os.cpus()[0].model}
+    Uptime: ${ms(client.uptime as number)}
+    RAM: ${(total / 1024).toFixed(2)} GB
+    Memory Usage: ${used.toFixed(2)}/${total.toFixed(2)} (MB)
+    Node.js: ${process.version}
+    \`\`\``;
+
+    const botInfo = stripIndents`\`\`\`
+    Codename: ${client.metadata.codename}
+    Bot version: ${client.metadata.version}
+    Autofix version: ${client.metadata.autofix}
+    Discord.js: ${version}
+    WebSocket Ping: ${client.ws.ping}ms
+    Guild Count: ${client.guilds.cache.size}
+    User count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    \`\`\``;
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: client.user!.tag + " Status",
+        iconURL: String(client.user!.displayAvatarURL({ size: 2048 })),
+      })
+      .setColor(client.color)
+      .addFields(
+        { name: "Host info", value: hostInfo },
+        { name: "Bot info", value: botInfo }
+      )
+      .setTimestamp();
+    await message.reply({ embeds: [embed] });
   }
 }

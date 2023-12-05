@@ -61,7 +61,9 @@ export class WebsocketService {
       );
 
     if (this.client.config.features.WEB_SERVER.websocket.auth)
-      this.client.logger.websocket(`Connected to client (${verificationOrigin})`);
+      this.client.logger.websocket(
+        `Connected to client (${verificationOrigin})`
+      );
   }
 
   async execute() {
@@ -77,7 +79,9 @@ export class WebsocketService {
 
       if (!req) return;
       if (req) {
-        this.client.logger.websocket(`Used [${json.message}] req by ${json.guild}`);
+        this.client.logger.websocket(
+          `Used [${json.message}] req by ${json.guild}`
+        );
         try {
           req.run(this.client, json, this.ws);
         } catch (error) {

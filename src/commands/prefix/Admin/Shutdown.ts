@@ -1,32 +1,34 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
-import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default class implements SlashCommand {
-  name = ["sudo", "restart"];
+export default class implements PrefixCommand {
+  name = "shutdown";
   description = "Shuts down the client!";
   category = "Admin";
   accessableby = Accessableby.Owner;
+  usage = "";
+  aliases = [];
   lavalink = false;
-  options = [];
-  async run(
-    interaction: CommandInteraction,
-    client: Manager,
-    language: string
-  ) {
-    await interaction.deferReply({ ephemeral: false });
 
+  async run(
+    client: Manager,
+    message: Message,
+    args: string[],
+    language: string,
+    prefix: string
+  ) {
     const restart = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "restart_msg")}`
       )
       .setColor(client.color)
       .setFooter({
-        text: `© ${interaction.guild!.members.me!.displayName}`,
+        text: `© ${message.guild!.members.me!.displayName}`,
         iconURL: client.user!.displayAvatarURL(),
       });
 
-    await interaction.editReply({ embeds: [restart] });
+    await message.reply({ embeds: [restart] });
 
     process.exit();
   }

@@ -51,6 +51,58 @@ export default class implements SlashCommand {
     const Part = Math.floor((position / song!.length!) * 30);
     const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
+    const fieldDataGlobal = [
+      {
+        name: `${client.i18n.get(language, "player", "author_title")}`,
+        value: `${song!.author}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "request_title")}`,
+        value: `${song!.requester}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "volume_title")}`,
+        value: `${player.volume}%`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "queue_title")}`,
+        value: `${player.queue.length}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "duration_title")}`,
+        value: `${new FormatDuration().parse(song!.length)}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "total_duration_title")}`,
+        value: `${new FormatDuration().parse(
+          new QueueDuration().parse(player)
+        )}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(language, "player", "download_title")}`,
+        value: `**[${
+          song!.title
+        } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
+        inline: false,
+      },
+      {
+        name: `${client.i18n.get(language, "music", "np_current_duration", {
+          current_duration: CurrentDuration,
+          total_duration: TotalDuration,
+        })}`,
+        value: `\`\`\`${Emoji} ${
+          "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
+        }\`\`\``,
+        inline: false,
+      },
+    ];
+
     const embeded = new EmbedBuilder()
       .setAuthor({
         name: player.playing
@@ -61,63 +113,7 @@ export default class implements SlashCommand {
       .setColor(client.color)
       .setDescription(`**[${song!.title}](${song!.uri})**`)
       .setThumbnail(Thumbnail)
-      .addFields([
-        {
-          name: `${client.i18n.get(language, "player", "author_title")}`,
-          value: `${song!.author}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "player", "request_title")}`,
-          value: `${song!.requester}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "player", "volume_title")}`,
-          value: `${player.volume}%`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "player", "queue_title")}`,
-          value: `${player.queue.length}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "player", "duration_title")}`,
-          value: `${new FormatDuration().parse(song!.length)}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(
-            language,
-            "player",
-            "total_duration_title"
-          )}`,
-          value: `${new FormatDuration().parse(
-            new QueueDuration().parse(player)
-          )}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "player", "download_title")}`,
-          value: `**[${
-            song!.title
-          } - y2mate.com](https://www.y2mate.com/youtube/${
-            song!.identifier
-          })**`,
-          inline: false,
-        },
-        {
-          name: `${client.i18n.get(language, "music", "np_current_duration", {
-            current_duration: CurrentDuration,
-            total_duration: TotalDuration,
-          })}`,
-          value: `\`\`\`${Emoji} ${
-            "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
-          }\`\`\``,
-          inline: false,
-        },
-      ])
+      .addFields(fieldDataGlobal)
       .setTimestamp();
 
     const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
@@ -126,19 +122,39 @@ export default class implements SlashCommand {
     if (realtime) {
       interval = setInterval(async () => {
         if (!player.playing) return;
-        const CurrentDuration = new FormatDuration().parse(position);
-        const Part = Math.floor((position / song!.length!) * 30);
+        const nowDuration = new FormatDuration().parse(
+          player.shoukaku.position
+        );
+        const Part = Math.floor(
+          (player.shoukaku.position / song!.length!) * 30
+        );
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
+        const editedField = fieldDataGlobal;
 
-        embeded.data.fields![6] = {
+        editedField.splice(7, 1);
+        editedField.push({
           name: `${client.i18n.get(language, "music", "np_current_duration", {
-            current_duration: CurrentDuration,
+            current_duration: nowDuration,
             total_duration: TotalDuration,
           })}`,
           value: `\`\`\`${Emoji} ${
             "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
           }\`\`\``,
-        };
+          inline: false,
+        });
+
+        const embeded = new EmbedBuilder()
+          .setAuthor({
+            name: player.playing
+              ? `${client.i18n.get(language, "music", "np_title")}`
+              : `${client.i18n.get(language, "music", "np_title_pause")}`,
+            iconURL: `${client.i18n.get(language, "music", "np_icon")}`,
+          })
+          .setColor(client.color)
+          .setDescription(`**[${song!.title}](${song!.uri})**`)
+          .setThumbnail(Thumbnail)
+          .addFields(editedField)
+          .setTimestamp();
 
         if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
       }, 5000);

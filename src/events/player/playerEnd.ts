@@ -13,6 +13,10 @@ export default class {
     const guild = await client.guilds.cache.get(player.guildId);
     client.logger.info(`Player End in @ ${guild!.name} / ${player.guildId}`);
 
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
+
     if (client.websocket) {
       const song = player.queue.previous;
 
@@ -55,12 +59,6 @@ export default class {
     }
 
     const language = guildModel;
-
-    /////////// Update Music Setup ///////////
-
-    await client.UpdateMusic(player);
-
-    /////////// Update Music Setup ///////////
 
     const embed = new EmbedBuilder()
       .setColor(client.color)

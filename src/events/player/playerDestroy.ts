@@ -14,6 +14,11 @@ export default class {
     client.logger.info(
       `Player Destroy in @ ${guild!.name} / ${player.guildId}`
     );
+
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
+
     if (client.websocket)
       client.websocket.send(
         JSON.stringify({ op: "player_destroy", guild: player.guildId })
@@ -57,11 +62,5 @@ export default class {
       );
       new ClearMessageService(client, channel, player);
     }
-
-    /////////// Update Music Setup ///////////
-
-    await client.UpdateMusic(player);
-
-    /////////// Update Music Setup ///////////
   }
 }

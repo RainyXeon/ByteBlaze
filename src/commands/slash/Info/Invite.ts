@@ -14,7 +14,7 @@ import {
 } from "../../../@types/Command.js";
 
 export default class implements SlashCommand {
-  name = ["invite"];
+  name = ["info", "invite"];
   description = "Shows the invite information of the Bot";
   category = "Info";
   accessableby = Accessableby.Member;

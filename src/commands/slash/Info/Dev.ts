@@ -9,7 +9,7 @@ import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 export default class implements SlashCommand {
-  name = ["developer"];
+  name = ["info", "developer"];
   description = "Shows the developer information of the Bot (Credit)";
   category = "Info";
   lavalink = false;

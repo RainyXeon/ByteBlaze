@@ -81,6 +81,7 @@ dependencies:
   nodemon:
     specifier: ^3.0.1
     version: 3.0.1
+  os: {specifier: ^0.1.2, version: 0.1.2}
   path:
     specifier: ^0.12.7
     version: 0.12.7
@@ -2785,6 +2786,10 @@ packages:
     resolution: {integrity: sha512-5DXOiRKwuSEcQ/l0kGCF6Q3jcADFv5tSmRaJck/OqkVFcOzutB134KRSfF0xDrL39MNnqxbHBbUUcjZIhTgb2g==}
     dependencies:
       fn.name: 1.1.0
+    dev: false
+
+  /os@0.1.2:
+    resolution: {integrity: sha512-ZoXJkvAnljwvc56MbvhtKVWmSkzV712k42Is2mA0+0KTSRakq5XXuXpjZjgAt9ctzl51ojhQWakQQpmOvXWfjQ==}
     dev: false
 
   /packet-reader@1.0.0:

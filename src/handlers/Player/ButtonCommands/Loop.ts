@@ -26,31 +26,48 @@ export class ButtonLoop {
       return;
     }
 
-    if (this.player.loop === "queue") {
-      await this.player.setLoop(KazagumoLoop.none);
+    switch (this.player.loop) {
+      case "none":
+        await this.player.setLoop(KazagumoLoop.track);
 
-      const unloopall = new EmbedBuilder()
-        .setDescription(
-          `${this.client.i18n.get(this.language, "music", "unloopall")}`
-        )
-        .setColor(this.client.color);
-      await this.interaction.reply({
-        content: " ",
-        embeds: [unloopall],
-      });
-      return;
-    } else if (this.player.loop === "none") {
-      await this.player.setLoop(KazagumoLoop.queue);
-      const loopall = new EmbedBuilder()
-        .setDescription(
-          `${this.client.i18n.get(this.language, "music", "loopall")}`
-        )
-        .setColor(this.client.color);
-      await this.interaction.reply({
-        content: " ",
-        embeds: [loopall],
-      });
-      return;
+        const looptrack = new EmbedBuilder()
+          .setDescription(
+            `${this.client.i18n.get(this.language, "music", "loop_current")}`
+          )
+          .setColor(this.client.color);
+        await this.interaction.reply({
+          content: " ",
+          embeds: [looptrack],
+        });
+        break;
+
+      case "track":
+        await this.player.setLoop(KazagumoLoop.queue);
+
+        const loopall = new EmbedBuilder()
+          .setDescription(
+            `${this.client.i18n.get(this.language, "music", "loop_all")}`
+          )
+          .setColor(this.client.color);
+        await this.interaction.reply({
+          content: " ",
+          embeds: [loopall],
+        });
+        break;
+
+      case "queue":
+        await this.player.setLoop(KazagumoLoop.none);
+
+        const unloopall = new EmbedBuilder()
+          .setDescription(
+            `${this.client.i18n.get(this.language, "music", "unloopall")}`
+          )
+          .setColor(this.client.color);
+        await this.interaction.reply({
+          content: " ",
+          embeds: [unloopall],
+        });
+        break;
     }
   }
 }

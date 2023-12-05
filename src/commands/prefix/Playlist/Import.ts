@@ -14,7 +14,7 @@ export default class implements PrefixCommand {
   name = "playlist-import";
   description = "Import a playlist to queue.";
   category = "Playlist";
-  usage = "<playlist_name_or_id>";
+  usage = "<playlist_name>";
   aliases = ["pl-import"];
   accessableby = Accessableby.Member;
   lavalink = true;

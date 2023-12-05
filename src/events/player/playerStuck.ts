@@ -14,6 +14,10 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
+
     const guild = await client.guilds.cache.get(player.guildId);
 
     const channel = client.channels.cache.get(player.textId) as TextChannel;
@@ -25,12 +29,6 @@ export default class {
     }
 
     const language = guildModel;
-
-    /////////// Update Music Setup ///////////
-
-    await client.UpdateMusic(player);
-
-    /////////// Update Music Setup ///////////
 
     const embed = new EmbedBuilder()
       .setColor(client.color)

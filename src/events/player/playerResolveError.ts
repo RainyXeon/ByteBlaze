@@ -18,6 +18,10 @@ export default class {
 
     client.logger.log({ level: "error", message: message });
 
+    /////////// Update Music Setup //////////
+    await client.UpdateMusic(player);
+    /////////// Update Music Setup ///////////
+
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
 
@@ -27,12 +31,6 @@ export default class {
     }
 
     const language = guildModel;
-
-    /////////// Update Music Setup ///////////
-
-    await client.UpdateMusic(player);
-
-    /////////// Update Music Setup ///////////
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
