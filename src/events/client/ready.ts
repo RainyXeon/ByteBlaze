@@ -1,6 +1,4 @@
 import { Manager } from "../../manager.js";
-import { DeployService } from "../../services/DeployService.js";
-import cron from "node-cron";
 
 export default class {
   async execute(client: Manager) {
@@ -16,7 +14,7 @@ export default class {
       `with ${channels} channels! | /filter nightcore`,
     ];
 
-    cron.schedule("0 */1 * * * *", async () => {
+    setInterval(() => {
       client.user!.setPresence({
         activities: [
           {
@@ -28,6 +26,6 @@ export default class {
         ],
         status: "online",
       });
-    });
+    }, 15000)
   }
 }
