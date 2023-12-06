@@ -33,11 +33,11 @@ if (!acceptedParams.includes(args.get(0))) {
 }
 
 if (args.get(0) == acceptedParams[0]) {
-  const checkDir = ["./temp", "./out", "./.cylane", "./logs", "./temp"]
+  const checkDir = ["./dist", "./out", "./.cylane", "./logs"]
 
   checkDir.forEach(async (data) => {
     if (fse.existsSync(data)) 
-      await fse.rmdir(data, { recursive: true, force: true });
+      fse.rmdirSync(data, { recursive: true, force: true });
   })
 
   logger("Clean successfully!", "info");
@@ -95,7 +95,7 @@ child.on("close", async (code) => {
 
   // Archive build
   await fse.mkdir("./out");
-  const path = `./out/byteblaze-build-${objectDate}.zip`;
+  const path = `./out/ByteBlaze.zip`;
 
   const ignored = [
     "node_modules",

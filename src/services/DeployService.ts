@@ -69,9 +69,7 @@ export class DeployService {
   async execute() {
     let command = [];
 
-    this.client.logger.deploy_slash(
-      "Reading interaction files..."
-    );
+    this.client.logger.deploy_slash("Reading interaction files...");
 
     const store = await this.combineDir();
 
