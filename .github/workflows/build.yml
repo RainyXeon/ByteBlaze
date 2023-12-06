@@ -50,7 +50,7 @@ jobs:
         run: pnpm install
 
       - name: Build bot
-        run: node build.mjs build
+        run: node build.mjs build:github
   
       - name: Push ByteBlaze build zip to artifact
         uses: actions/upload-artifact@v3
