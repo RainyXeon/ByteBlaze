@@ -21,7 +21,7 @@ export default class implements SlashCommand {
     await interaction.deferReply({ ephemeral: false });
 
     const total = os.totalmem() / 1024 / 1024;
-    const used = process.memoryUsage().heapUsed / 1024 / 1024;
+    const used = process.memoryUsage().rss / 1024 / 1024;
 
     const hostInfo = stripIndents`\`\`\`
     OS: ${os.type()} ${os.release()} (${os.arch()})
@@ -38,6 +38,7 @@ export default class implements SlashCommand {
     Autofix version: ${client.metadata.autofix}
     Discord.js: ${version}
     WebSocket Ping: ${client.ws.ping}ms
+    Response time: ${Date.now() - interaction.createdTimestamp}ms
     Guild Count: ${client.guilds.cache.size}
     User count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
     \`\`\``;

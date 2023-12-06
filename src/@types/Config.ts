@@ -21,7 +21,6 @@ export interface Features {
   DATABASE: Database;
   SHARD_SYSTEM: ShardSystem;
   MESSAGE_CONTENT: MessageContent;
-  AUTO_DEPLOY: boolean;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;
   DEV_ID: string[];

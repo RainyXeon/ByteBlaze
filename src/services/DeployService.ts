@@ -69,13 +69,8 @@ export class DeployService {
   async execute() {
     let command = [];
 
-    if (!this.client.config.features.AUTO_DEPLOY)
-      return this.client.logger.deploy_slash(
-        "Auto deploy disabled. Exiting auto deploy..."
-      );
-
     this.client.logger.deploy_slash(
-      "Auto deploy enabled. Reading interaction files..."
+      "Reading interaction files..."
     );
 
     const store = await this.combineDir();
