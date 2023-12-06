@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: node build.mjs build
-    - name: Push build file to artifact
+
     - uses: actions/upload-artifact@v3
       with:
         name: Byteblaze build file
