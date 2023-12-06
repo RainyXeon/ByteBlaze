@@ -113,7 +113,7 @@ child.on("close", async (code) => {
     "pnpm-lock.yaml",
     "tsconfig.json",
   ];
-  const zipper = new archiver(".", path, true, ignored);
+  const zipper = new archiver(".", path, false, ignored);
   zipper.createZip();
   logger("Archive all build file successfully!!!", "build");
   logger("Build bot successfully!!!");
