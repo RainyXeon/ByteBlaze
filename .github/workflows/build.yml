@@ -55,4 +55,5 @@ jobs:
       - name: Push ByteBlaze build zip to artifact
         uses: actions/upload-artifact@v3
         with:
-          path: out/ByteBlaze.zip
+          name: "ByteBlaze"
+          path: out/ByteBlaze/

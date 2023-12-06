@@ -98,6 +98,7 @@
     "@types/voucher-code-generator": "^1.1.2",
     "@types/ws": "^8.5.8",
     "@types/yt-search": "^2.10.2",
+    "copy-dir": "^1.3.0",
     "copyfiles": "^2.4.1",
     "delay": "^6.0.0",
     "dir-archiver": "^2.1.0",
