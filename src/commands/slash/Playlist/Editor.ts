@@ -32,20 +32,57 @@ export default class implements SlashCommand {
     language: string
   ) {
     const playlistName = new TextInputBuilder()
-      .setLabel("New playlist name?")
+      .setLabel(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_name_label"
+        )}`
+      )
       .setStyle(TextInputStyle.Short)
-      .setPlaceholder("Enter your playlist name!")
+      .setPlaceholder(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_name_placeholder"
+        )}`
+      )
       .setCustomId("pl_name")
       .setRequired(true);
     const playlistDes = new TextInputBuilder()
-      .setLabel("New playlist description?")
+      .setLabel(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_des_label"
+        )}`
+      )
       .setStyle(TextInputStyle.Short)
-      .setPlaceholder("Enter your playlist description!")
+      .setPlaceholder(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_des_placeholder"
+        )}`
+      )
       .setCustomId("pl_des")
       .setRequired(true);
     const playlistPrivate = new TextInputBuilder()
-      .setLabel("View mode? [TRUE OR FALSE only]")
+      .setLabel(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_private_label"
+        )}`
+      )
       .setStyle(TextInputStyle.Short)
+      .setPlaceholder(
+        `${client.i18n.get(
+          language,
+          "playlist",
+          "ineraction_edit_playlist_private_placeholder"
+        )}`
+      )
       .setCustomId("pl_mode")
       .setRequired(true);
 
@@ -74,7 +111,13 @@ export default class implements SlashCommand {
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription("Something went wrong with modal, please try again")
+            .setDescription(
+              `${client.i18n.get(
+                language,
+                "playlist",
+                "ineraction_edit_playlist_error"
+              )}`
+            )
             .setColor(client.color),
         ],
       });
@@ -83,16 +126,41 @@ export default class implements SlashCommand {
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
     // Send Message
-    await collector.reply("`Success Submit...`");
+    const msg = await collector.reply({
+      embeds: [
+        new EmbedBuilder().setDescription(
+          `${client.i18n.get(language, "playlist", "ineraction_edit_loading")}`
+        ),
+      ],
+    });
 
     const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
-      return interaction.channel?.send({
+      return msg.edit({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "delete_notfound")}`
+              `${client.i18n.get(
+                language,
+                "playlist",
+                "ineraction_edit_notfound"
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    if (playlist.owner !== interaction.user.id)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                language,
+                "playlist",
+                "ineraction_edit_playlist_owner"
+              )}`
             )
             .setColor(client.color),
         ],
@@ -111,10 +179,16 @@ export default class implements SlashCommand {
       this.parseBoolean(collector.fields.getTextInputValue("pl_mode"))
     );
 
-    await interaction.channel?.send({
+    await msg.edit({
       embeds: [
         new EmbedBuilder()
-          .setDescription("Edited succesfully!")
+          .setDescription(
+            `${client.i18n.get(
+              language,
+              "playlist",
+              "ineraction_edit_success"
+            )}`
+          )
           .setColor(client.color),
       ],
     });

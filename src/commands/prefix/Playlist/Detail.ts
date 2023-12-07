@@ -39,6 +39,17 @@ export default class implements PrefixCommand {
         ],
       });
 
+    if (!value)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)

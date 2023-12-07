@@ -33,15 +33,8 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    const PName = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == PName;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return message.reply({
@@ -63,10 +56,6 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-
-    const Public = fullList.filter(function (data) {
-      return data.value.private == false && data.value.name == PName;
-    });
 
     const msg = await message.reply({
       embeds: [

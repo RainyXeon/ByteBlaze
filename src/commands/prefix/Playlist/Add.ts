@@ -51,6 +51,18 @@ export default class implements PrefixCommand {
           .setColor(client.color),
       ],
     });
+
+    if (!input)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_match")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const result = await client.manager.search(input, {
       requester: message.author,
     });
@@ -58,7 +70,13 @@ export default class implements PrefixCommand {
 
     if (!result.tracks.length)
       return msg.edit({
-        content: `${client.i18n.get(language, "music", "add_match")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_match")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) TrackAdd.push(track);

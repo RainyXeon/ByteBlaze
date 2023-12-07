@@ -57,7 +57,7 @@ export default class implements SlashCommand {
       playlistStrings.push(
         `${client.i18n.get(language, "playlist", "view_embed_playlist", {
           num: String(i + 1),
-          name: playlist.name,
+          name: playlist.id,
           tracks: String(playlist.tracks!.length),
           create: created,
         })}

@@ -250,13 +250,9 @@ export default class {
 
           player.paused
             ? nplaying.edit({
-                embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-                // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
                 components: [playerRowOneEdited, playerRowTwo],
               })
             : nplaying.edit({
-                embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-                // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
                 components: [playerRowOneEdited, playerRowTwo],
               });
 
