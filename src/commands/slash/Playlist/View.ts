@@ -15,8 +15,8 @@ export default class implements SlashCommand {
   lavalink = false;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -30,18 +30,9 @@ export default class implements SlashCommand {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
-    const PName = value!.replace(/_/g, " ");
+    ).getString("id");
 
-    const fullList = await client.db.playlist.all();
-
-    const pid = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id && data.value.name == PName
-      );
-    });
-
-    const playlist = pid[0].value;
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return interaction.editReply({
@@ -63,16 +54,6 @@ export default class implements SlashCommand {
             .setColor(client.color),
         ],
       });
-
-    const Public = fullList.filter(function (data) {
-      return data.value.private == false && data.value.name == PName;
-      // to cast back from an array of keys to the object, with just the passing ones
-    });
-
-    if (Public !== null || undefined || false || Public !== 0)
-      return interaction.editReply(
-        `${client.i18n.get(language, "playlist", "public_already")}`
-      );
 
     const msg = await interaction.editReply(
       `${client.i18n.get(language, "playlist", "public_loading")}`

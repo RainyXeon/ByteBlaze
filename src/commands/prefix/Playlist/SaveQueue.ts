@@ -11,7 +11,7 @@ export default class implements PrefixCommand {
   name = "playlist-save-queue";
   description = "Save the current queue to a playlist";
   category = "Playlist";
-  usage = "<playlist_name>";
+  usage = "<playlist_id>";
   aliases = ["pl-sq", "pl-save-queue"];
   lavalink = true;
   accessableby = Accessableby.Member;
@@ -34,14 +34,8 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
 
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(`${value}`);
 
     if (!playlist)
       return message.reply({
@@ -111,7 +105,7 @@ export default class implements PrefixCommand {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
-            name: Plist,
+            name: value,
           })}`
         )
         .setColor(client.color);
@@ -121,7 +115,7 @@ export default class implements PrefixCommand {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "savequeue_saved", {
-          name: Plist,
+          name: value,
           tracks: String(queue.length + 1),
         })}`
       )
@@ -129,7 +123,7 @@ export default class implements PrefixCommand {
     await message.reply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

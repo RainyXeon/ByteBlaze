@@ -123,6 +123,7 @@ export default class implements PrefixCommand {
       .setDescription(
         `${client.i18n.get(language, "playlist", "create_created", {
           playlist: PlaylistName,
+          id: idgen[0],
         })}`
       )
       .setColor(client.color);

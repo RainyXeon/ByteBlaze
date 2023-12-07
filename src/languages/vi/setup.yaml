@@ -3,6 +3,7 @@ setup_topic: "⏯ *Tạm dừng/Tiếp tục bài hát.*\n⬅ *Quay lại bài h
 setup_msg: "*`Thiết lập thành công hệ thống âm nhạc trong kênh`* %{channel}\n```Lưu ý: Không xóa bất kỳ tin nhắn nào của bot đã được gửi! (ĐỂ THIẾT LẬP BẢNG ĐIỀU KHIỂN!)```"
 setup_deleted: "*`Xóa thành công kênh %{channel}`*"
 setup_enable: "*`Đã thiết lập yêu cầu bài hát kênh không thể sử dụng lệnh này.`*"
+setup_null: "*`Không có kênh nào tồn tại để xóa!`*"
 
 ##### Setup Handler #####
 setup_queuemsg: "**__Hàng đợi:__**\nTham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."

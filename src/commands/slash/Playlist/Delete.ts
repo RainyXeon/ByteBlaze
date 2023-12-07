@@ -15,8 +15,8 @@ export default class implements SlashCommand {
   accessableby = Accessableby.Member;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -30,18 +30,9 @@ export default class implements SlashCommand {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
-    const Plist = value!.replace(/_/g, " ");
+    ).getString("id");
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
-      );
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(`${value}`);
 
     if (!playlist)
       return interaction.editReply({
@@ -65,11 +56,11 @@ export default class implements SlashCommand {
       });
     if (playlist.id == "thedreamvastghost0923849084") return;
 
-    await client.db.playlist.delete(`${filter_level_1[0].id}`);
+    await client.db.playlist.delete(`${value}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "delete_deleted", {
-          name: Plist,
+          name: value!,
         })}`
       )
       .setColor(client.color);

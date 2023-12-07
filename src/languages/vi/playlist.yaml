@@ -4,7 +4,7 @@ create_arg: "Vui lòng cung cấp tên danh sách phát. Ví dụ:%{prefix}creat
 create_toolong: "Tên danh sách phát không được quá 16 chữ cái."
 create_limit_playlist: "Bạn không thể có hơn %{limit} danh sách phát."
 create_name_exist: "Tên đã có trong cơ sở dữ liệu."
-create_created: "`📦` | *Đã tạo* • `%{playlist}`"
+create_created: "`📦` | *Đã tạo* • `%{playlist}` • `%{id}`"
 ##### Add command #####
 add_loading: "**Đang thêm vào danh sách phát...**"
 add_arg: "Vui lòng cung cấp tên danh sách phát. Ví dụ:%{prefix}add <tên danh sách phát> <liên kết bài hát>"

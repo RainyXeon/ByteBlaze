@@ -15,8 +15,8 @@ export default class implements SlashCommand {
   lavalink = false;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -36,21 +36,12 @@ export default class implements SlashCommand {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
+    ).getString("id");
     const pos = (
       interaction.options as CommandInteractionOptionResolver
     ).getInteger("postion");
 
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
-
-    const pid = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
-      );
-    });
-
-    const playlist = pid[0].value;
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return interaction.editReply({
@@ -91,14 +82,14 @@ export default class implements SlashCommand {
       });
 
     await client.db.playlist.pull(
-      `${pid[0].id}.tracks`,
+      `${value}.tracks`,
       playlist.tracks![position! - 1]
     );
 
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "remove_removed", {
-          name: Plist,
+          name: value!,
           position: String(pos),
         })}`
       )

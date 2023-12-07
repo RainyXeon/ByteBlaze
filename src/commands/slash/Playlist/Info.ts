@@ -9,8 +9,6 @@ import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-let info: Playlist | null;
-
 export default class implements SlashCommand {
   name = ["playlist", "info"];
   description = "Check the playlist infomation";
@@ -19,14 +17,10 @@ export default class implements SlashCommand {
   lavalink = false;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
-      type: ApplicationCommandOptionType.String,
-    },
-    {
       name: "id",
       description: "The id of the playlist",
       type: ApplicationCommandOptionType.String,
+      required: true,
     },
   ];
   async run(
@@ -35,48 +29,11 @@ export default class implements SlashCommand {
     language: string
   ) {
     await interaction.deferReply({ ephemeral: false });
-    const value = (
-      interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
     const id = (
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
 
-    if (id) info = await client.db.playlist.get(`${id}`);
-    if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const pid = fullList.filter(function (data) {
-        return (
-          data.value.owner == interaction.user.id && data.value.name == Plist
-        );
-      });
-
-      info = pid[0].value;
-    }
-
-    if (!id && !value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    if (id && value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    let info = await client.db.playlist.get(`${id}`);
     if (!info)
       return interaction.editReply({
         embeds: [

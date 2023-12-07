@@ -10,7 +10,7 @@ export default class implements PrefixCommand {
   name = "playlist-delete";
   description = "Delete a playlist";
   category = "Playlist";
-  usage = "<playlist_name>";
+  usage = "<playlist_id>";
   aliases = ["pl-delete"];
   lavalink = false;
   accessableby = Accessableby.Member;
@@ -33,15 +33,8 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value);
 
     if (!playlist)
       return message.reply({
@@ -64,11 +57,11 @@ export default class implements PrefixCommand {
         ],
       });
 
-    await client.db.playlist.delete(`playlist.${filter_level_1[0].id}`);
+    await client.db.playlist.delete(value);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "delete_deleted", {
-          name: Plist,
+          name: value,
         })}`
       )
       .setColor(client.color);

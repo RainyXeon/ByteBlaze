@@ -10,7 +10,7 @@ export default class implements PrefixCommand {
   name = "playlist-info";
   description = "Check the playlist infomation";
   category = "Playlist";
-  usage = "<playlist_name_or_id>";
+  usage = "<playlist_id>";
   aliases = ["pl-info"];
   lavalink = false;
   accessableby = Accessableby.Member;
@@ -35,19 +35,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const filter_level_1 = fullList.filter(function (data) {
-        return (
-          data.value.owner == message.author.id && data.value.name == Plist
-        );
-      });
-
-      info = filter_level_1[0].value;
-    }
+    const info = await client.db.playlist.get(value);
 
     if (!info)
       return message.reply({

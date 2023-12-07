@@ -16,7 +16,7 @@ export default class implements PrefixCommand {
   description = "Add song to a playlist";
   category = "Playlist";
   accessableby = Accessableby.Member;
-  usage = "<playlist_name> <url_or_name>";
+  usage = "<playlist_id> <url_or_name>";
   aliases = ["pl-add"];
   lavalink = true;
 
@@ -40,7 +40,6 @@ export default class implements PrefixCommand {
       });
     const input = args[1];
 
-    const PlaylistName = value!.replace(/_/g, " ");
     const Inputed = input;
 
     const msg = await message.reply({
@@ -110,15 +109,7 @@ export default class implements PrefixCommand {
       return msg.edit(`${client.i18n.get(language, "playlist", "add_match")}`);
     }
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return (
-        data.value.owner == message.author.id && data.value.name == PlaylistName
-      );
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value);
 
     if (!playlist)
       return message.reply({
@@ -163,7 +154,7 @@ export default class implements PrefixCommand {
     }
 
     TrackAdd.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,
@@ -177,7 +168,7 @@ export default class implements PrefixCommand {
       .setDescription(
         `${client.i18n.get(language, "playlist", "add_added", {
           count: String(TrackAdd.length),
-          playlist: PlaylistName,
+          playlist: value,
         })}`
       )
       .setColor(client.color);

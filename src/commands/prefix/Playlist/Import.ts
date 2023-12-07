@@ -14,7 +14,7 @@ export default class implements PrefixCommand {
   name = "playlist-import";
   description = "Import a playlist to queue.";
   category = "Playlist";
-  usage = "<playlist_name>";
+  usage = "<playlist_id>";
   aliases = ["pl-import"];
   accessableby = Accessableby.Member;
   lavalink = true;
@@ -62,17 +62,7 @@ export default class implements PrefixCommand {
     let SongLoad = 0;
 
     if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const filter_level_1 = fullList.filter(function (data) {
-        return (
-          data.value.owner == message.author.id && data.value.name == Plist
-        );
-      });
-
-      playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+      playlist = await client.db.playlist.get(`${value}`);
     }
 
     if (!playlist)

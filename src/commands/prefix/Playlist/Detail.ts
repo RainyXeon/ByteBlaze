@@ -13,7 +13,7 @@ export default class implements PrefixCommand {
   name = "playlist-detail";
   description = "Detail a playlist";
   category = "Playlist";
-  usage = "<playlist_name> <number>";
+  usage = "<playlist_id> <number>";
   aliases = ["pl-detail"];
   lavalink = false;
   accessableby = Accessableby.Member;
@@ -39,15 +39,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const Plist = value!.replace(/_/g, " ");
-
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return message.reply({

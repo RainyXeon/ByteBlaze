@@ -4,14 +4,13 @@ export default class {
   async execute(client: Manager) {
     client.logger.info(`Logged in ${client.user!.tag}`);
 
-    let guilds = client.guilds.cache.size;
-    let members = client.guilds.cache.reduce((a, b) => a + b.memberCount, 0);
-    let channels = client.channels.cache.size;
-
     const activities = [
-      `with ${guilds} servers! | /music radio`,
-      `with ${members} users! | /music play`,
-      `with ${channels} channels! | /filter nightcore`,
+      `with ${client.guilds.cache.size} servers! | /music radio`,
+      `with ${client.guilds.cache.reduce(
+        (a, b) => a + b.memberCount,
+        0
+      )} users! | /music play`,
+      `with ${client.channels.cache.size} channels! | /filter nightcore`,
     ];
 
     setInterval(() => {
@@ -26,6 +25,6 @@ export default class {
         ],
         status: "online",
       });
-    }, 15000)
+    }, 15000);
   }
 }

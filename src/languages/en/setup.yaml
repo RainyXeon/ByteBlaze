@@ -3,6 +3,7 @@ setup_topic: "⏯ *Pause/Resume the song.*\n⬅ *Previous the song.*\n⏹ *Stop 
 setup_msg: "*`Succesfully Setup Music System in`* %{channel}\n```Note: Don't delete message anything of bot was sended! (FOR SETUP WORKING!)```"
 setup_deleted: "*`Successfully Delete %{channel} Channel!`*"
 setup_enable: "*`Already have setup channel song request can't use this command.`*"
+setup_null: "*`There is no channel exists to delete!`*"
 
 ##### Setup Handler #####
 setup_queuemsg: "**__Queue list:__**\nJoin a voice channel and queue songs by name or url in here."

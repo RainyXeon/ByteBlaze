@@ -5,7 +5,7 @@ create_toolong: "Playlist name can't be longer than 16 characters."
 des_toolong: "Playlist description cannot be longer than 1000 characters."
 create_limit_playlist: "You can't have playlist more than %{limit} playlists."
 create_name_exist: "This name already have in data."
-create_created: "`📦` | *Created* • `%{playlist}`"
+create_created: "`📦` | *Created* • `%{playlist}` • `%{id}`"
 
 ##### Add command #####
 add_loading: "**Adding to playlist...**"

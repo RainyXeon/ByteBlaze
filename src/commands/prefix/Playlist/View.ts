@@ -68,17 +68,6 @@ export default class implements PrefixCommand {
       return data.value.private == false && data.value.name == PName;
     });
 
-    if (Public !== null || undefined || false)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "public_already")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
