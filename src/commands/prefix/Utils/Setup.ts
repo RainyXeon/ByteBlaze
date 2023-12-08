@@ -36,7 +36,7 @@ export default class implements PrefixCommand {
 
     if (choose === "create") {
       const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
-      if (SetupChannel)
+      if (SetupChannel!.enable == true)
         return message.reply({
           embeds: [
             new EmbedBuilder()
@@ -116,15 +116,18 @@ export default class implements PrefixCommand {
     if (choose === "delete") {
       const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
 
-      if (!SetupChannel)
+      const embed_none = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "setup", "setup_null")}`)
+        .setColor(client.color);
+
+      if (SetupChannel == null)
         return message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "setup", "setup_null")}`
-              )
-              .setColor(client.color),
-          ],
+          embeds: [embed_none],
+        });
+
+      if (SetupChannel.enable == false)
+        return message.reply({
+          embeds: [embed_none],
         });
 
       const fetchedTextChannel = message.guild!.channels.cache.get(

@@ -2,7 +2,6 @@
 setup_topic: "⏯ *Pause/Resume the song.*\n⬅ *Previous the song.*\n⏹ *Stop the song.*\n➡ *Skip the song.*\n🔁 *Loop/Unloop the song.*"
 setup_msg: "*`Succesfully Setup Music System in`* %{channel}\n```Note: Don't delete message anything of bot was sended! (FOR SETUP WORKING!)```"
 setup_deleted: "*`Successfully delete setup channel!`*"
-setup_enable: "*`Already have setup channel song request can't use this command.`*"
 setup_null: "*`There is no channel exists to delete!`*"
 
 ##### Setup Handler #####
@@ -20,3 +19,8 @@ setup_footer: "%{songs} • Song's in Queue | Volume • %{volume}% | %{duration
 setup_content: "**__Queue list:__**"
 setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
 setup_content_empty: "Join a voice channel and queue songs by name or url in here."
+
+setup_enable: "*`Already have setup channel, can't use this command.`*"
+status_deleted: "*`Successfully delete status channel!`*"
+status_enable: "*`Already have status channel, can't use this command.`*"
+status_null: "*`There is no channel exists to delete!`*"
