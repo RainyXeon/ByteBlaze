@@ -92,8 +92,8 @@ export default class implements SlashCommand {
           name: `${client.i18n.get(language, "playlist", "info_private")}`,
           value: `${
             info.private
-              ? client.i18n.get(language, "playlist", "enabled")
-              : client.i18n.get(language, "playlist", "disabled")
+              ? client.i18n.get(language, "playlist", "public")
+              : client.i18n.get(language, "playlist", "private")
           }`,
           inline: true,
         },

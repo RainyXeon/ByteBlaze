@@ -39,6 +39,34 @@ export default class implements PrefixCommand {
         ],
       });
 
+      if (value) {
+        playlist = await client.db.playlist.get(`${value}`);
+      }
+  
+      if (!playlist)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "invalid")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+  
+      if (playlist.private && playlist.owner !== message.author.id) {
+        message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "import_private")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        return;
+      }
+
     const { channel } = message.member!.voice;
     if (!channel)
       return message.reply({
@@ -60,34 +88,6 @@ export default class implements PrefixCommand {
 
     const SongAdd = [];
     let SongLoad = 0;
-
-    if (value) {
-      playlist = await client.db.playlist.get(`${value}`);
-    }
-
-    if (!playlist)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
-    if (playlist.private && playlist.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return;
-    }
 
     const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)

@@ -2,6 +2,9 @@ import {
   EmbedBuilder,
   ApplicationCommandOptionType,
   Message,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
@@ -57,14 +60,58 @@ export default class implements PrefixCommand {
         ],
       });
 
-    await client.db.playlist.delete(value);
-    const embed = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(language, "playlist", "delete_deleted", {
-          name: value,
-        })}`
-      )
-      .setColor(client.color);
-    message.reply({ embeds: [embed] });
+    const action = new ActionRowBuilder<ButtonBuilder>()
+      .addComponents([
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Danger)
+          .setCustomId("yes")
+          .setLabel("Yes"),
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Secondary)
+          .setCustomId("no")
+          .setLabel("No")
+      ])
+
+    const msg = await message.reply({ embeds: [
+      new EmbedBuilder()
+        .setDescription(`${client.i18n.get(language, "playlist", "delete_confirm", {
+          playlist_id: value
+        })}`)
+    ], components: [
+      action
+    ] })
+
+    const collector = msg.createMessageComponentCollector({ filter: (m) => m.user.id == message.author.id, time: 20000 })
+
+    collector.on("collect", async (interaction) => {
+      const id = interaction.customId;
+      if (id == "yes") {
+        await client.db.playlist.delete(value);
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "delete_deleted", {
+              name: value,
+            })}`
+          )
+          .setColor(client.color);
+          interaction.reply({ embeds: [embed] });
+      } else if (id == "no") {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "playlist", "delete_no")}`
+          )
+          .setColor(client.color);
+          interaction.reply({ embeds: [embed] });
+      }
+    })
+
+    collector.on("end", async () => {
+      const embed = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(language, "playlist", "delete_no")}`
+        )
+        .setColor(client.color);
+      await msg.edit({ embeds: [embed], components: [] });
+    })
   }
 }

@@ -61,7 +61,7 @@ export default class implements SlashCommand {
 
     client.db.playlist.set(
       `${playlist.id}.private`,
-      playlist.private == true ? false : true
+      playlist.private ? false : true
     );
 
     const playlist_now = await client.db.playlist.get(`${playlist.id}.private`);
@@ -69,7 +69,7 @@ export default class implements SlashCommand {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "public_success", {
-          view: playlist_now?.private == true ? "Private" : "Public",
+          view: playlist_now ? "Private" : "Public",
         })}`
       )
       .setColor(client.color);

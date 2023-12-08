@@ -95,6 +95,27 @@ export default class implements SlashCommand {
         new ActionRowBuilder<TextInputBuilder>().addComponents(playlistPrivate)
       );
 
+    const value = (
+      interaction.options as CommandInteractionOptionResolver
+    ).getString("id");
+
+    const playlist = await client.db.playlist.get(value!);
+
+    if (!playlist)
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                language,
+                "playlist",
+                "ineraction_edit_notfound"
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     await interaction.showModal(modal);
 
     const collector = await interaction
@@ -122,19 +143,16 @@ export default class implements SlashCommand {
         ],
       });
 
-    const value = (
-      interaction.options as CommandInteractionOptionResolver
-    ).getString("id");
     // Send Message
-    const msg = await collector.reply({
+    await collector.deferReply()
+
+    const msg = await collector.editReply({
       embeds: [
         new EmbedBuilder().setDescription(
           `${client.i18n.get(language, "playlist", "ineraction_edit_loading")}`
         ),
       ],
     });
-
-    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return msg.edit({
@@ -199,12 +217,10 @@ export default class implements SlashCommand {
       value = value.trim().toLowerCase();
     }
     switch (value) {
-      case "true":
+      case "enable":
         return true;
-      case "null":
-        return "null";
-      case "undefined":
-        return undefined;
+      case "disable":
+        return false;
       default:
         return false;
     }

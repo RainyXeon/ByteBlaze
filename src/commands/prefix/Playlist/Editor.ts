@@ -124,12 +124,10 @@ export default class implements PrefixCommand {
       value = value.trim().toLowerCase();
     }
     switch (value) {
-      case "true":
+      case "enable":
         return true;
-      case "null":
-        return "null";
-      case "undefined":
-        return undefined;
+      case "disable":
+        return false;
       default:
         return false;
     }

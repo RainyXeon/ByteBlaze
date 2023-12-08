@@ -35,27 +35,6 @@ export default class implements SlashCommand {
     const id = (
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
-    const { channel } = (interaction.member as GuildMember).voice;
-    if (!channel)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
-    const player = await client.manager.createPlayer({
-      guildId: interaction.guild!.id,
-      voiceId: (interaction.member as GuildMember)!.voice.channel!.id,
-      textId: interaction.channel!.id,
-      deaf: true,
-    });
-
-    const SongAdd = [];
-    let SongLoad = 0;
 
     const playlist = await client.db.playlist.get(`${id}`);
 
@@ -82,6 +61,28 @@ export default class implements SlashCommand {
       });
       return;
     }
+    
+    const { channel } = (interaction.member as GuildMember).voice;
+    if (!channel)
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = await client.manager.createPlayer({
+      guildId: interaction.guild!.id,
+      voiceId: (interaction.member as GuildMember)!.voice.channel!.id,
+      textId: interaction.channel!.id,
+      deaf: true,
+    });
+
+    const SongAdd = [];
+    let SongLoad = 0;
 
     const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
