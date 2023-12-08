@@ -9,7 +9,7 @@ export default class {
         activities: [
           {
             name: `v${client.metadata.version}`,
-            type: 0,
+            type: 2,
           },
         ],
         status: "online",
