@@ -1,7 +1,7 @@
 ##### Setup command #####
 setup_topic: "⏯ *Pause/Resume the song.*\n⬅ *Previous the song.*\n⏹ *Stop the song.*\n➡ *Skip the song.*\n🔁 *Loop/Unloop the song.*"
 setup_msg: "*`Succesfully Setup Music System in`* %{channel}\n```Note: Don't delete message anything of bot was sended! (FOR SETUP WORKING!)```"
-setup_deleted: "*`Successfully Delete %{channel} Channel!`*"
+setup_deleted: "*`Successfully delete setup channel!`*"
 setup_enable: "*`Already have setup channel song request can't use this command.`*"
 setup_null: "*`There is no channel exists to delete!`*"
 
