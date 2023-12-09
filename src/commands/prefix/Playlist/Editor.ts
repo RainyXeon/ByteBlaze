@@ -111,9 +111,9 @@ export default class implements PrefixCommand {
         const desCol = answer[2];
         const modeCol = answer[3];
 
-        const newId = idCol.length !== 0 ? idCol : playlist.id;
+        const newId = idCol.length !== 0 ? idCol : null;
         const newName = nameCol.length !== 0 ? nameCol : playlist.name;
-        const newDes = desCol.length !== 0 ? desCol : playlist.description;
+        const newDes = desCol.length !== 0 ? desCol : playlist.description ? playlist.description : "null";
         const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
         if (newId) {
@@ -229,7 +229,7 @@ export default class implements PrefixCommand {
         const embed = new EmbedBuilder()
           .setDescription(
             `${client.i18n.get(language, "playlist", "edit_success", {
-              playlistId: newId,
+              playlistId: playlist.id,
             })}`
           )
           .setColor(client.color);

@@ -215,9 +215,9 @@ export default class implements SlashCommand {
     const desCol = collector.fields.getTextInputValue("pl_des");
     const modeCol = collector.fields.getTextInputValue("pl_mode");
 
-    const newId = idCol.length !== 0 ? idCol : playlist.id;
+    const newId = idCol.length !== 0 ? idCol : null;
     const newName = nameCol.length !== 0 ? nameCol : playlist.name;
-    const newDes = desCol.length !== 0 ? desCol : playlist.description;
+    const newDes = desCol.length !== 0 ? desCol : playlist.description ? playlist.description : "null";
     const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
     if (newId) {
@@ -319,7 +319,7 @@ export default class implements SlashCommand {
               "playlist",
               "ineraction_edit_success",
               {
-                playlistId: newId,
+                playlistId: playlist.id,
               }
             )}`
           )
