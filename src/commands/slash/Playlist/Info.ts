@@ -45,18 +45,7 @@ export default class implements SlashCommand {
         ],
       });
 
-    if (info.private && info.owner !== interaction.user.id) {
-      interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return;
-    }
+
     const created = humanizeDuration(Date.now() - info.created, { largest: 1 });
 
     const name = await client.users.fetch(info.owner);

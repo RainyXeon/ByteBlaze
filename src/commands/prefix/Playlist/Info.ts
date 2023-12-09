@@ -47,18 +47,7 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    if (info.private && info.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return;
-    }
+
     const created = humanizeDuration(Date.now() - Number(info.created), {
       largest: 1,
     });
