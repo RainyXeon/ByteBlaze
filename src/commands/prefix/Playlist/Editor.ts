@@ -137,6 +137,23 @@ export default class implements PrefixCommand {
             return;
           }
 
+          const isAlreadyId = await client.db.playlist.get(newId);
+
+          if (isAlreadyId)
+            return message.reply({
+              embeds: [
+                new EmbedBuilder()
+                  .setDescription(
+                    `${client.i18n.get(
+                      language,
+                      "playlist",
+                      "ineraction_edit_invalid_id"
+                    )}`
+                  )
+                  .setColor(client.color),
+              ],
+            });
+
           if (this.validMode(String(newMode)) == null) {
             message.reply({
               embeds: [

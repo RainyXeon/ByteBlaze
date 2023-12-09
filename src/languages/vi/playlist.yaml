@@ -109,7 +109,7 @@ ineraction_edit_playlist_name_placeholder: "Nhập tên danh sách phát mới c
 ineraction_edit_playlist_des_placeholder: "Nhập mô tả danh sách phát mới của bạn!"
 ineraction_edit_playlist_private_placeholder: "public/private"
 ineraction_edit_notfound: "Không tìm thấy danh sách phát!"
-ineraction_edit_playlist_id_placeholder: "Nhập id danh sách phát mới của bạn! (chỉ a-zA-Z0-9.-)"
+ineraction_edit_playlist_id_placeholder: "Nhập id danh sách phát mới của bạn! (chỉ a-zA-Z0-9-)"
 ineraction_edit_loading: "Đang tải...."
 ineraction_edit_success: "Đã chỉnh sửa thành công thông tin danh sách phát • %{playlistId}"
 ineraction_edit_playlist_owner: "Bạn không thể chỉnh sửa danh sách phát này"

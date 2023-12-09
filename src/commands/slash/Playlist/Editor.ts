@@ -236,6 +236,23 @@ export default class implements SlashCommand {
           ],
         });
 
+      const isAlreadyId = await client.db.playlist.get(newId);
+
+      if (isAlreadyId)
+        return msg.edit({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(
+                  language,
+                  "playlist",
+                  "ineraction_edit_invalid_id"
+                )}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       if (this.validMode(String(newMode)) == null)
         return msg.edit({
           embeds: [
@@ -312,21 +329,7 @@ export default class implements SlashCommand {
   }
 
   private vaildId(id: string) {
-    return /^[\w&.-]+$/.test(id);
-  }
-
-  private parseBoolean(value: string) {
-    if (typeof value === "string") {
-      value = value.trim().toLowerCase();
-    }
-    switch (value) {
-      case "public":
-        return true;
-      case "private":
-        return false;
-      default:
-        return false;
-    }
+    return /^[\w&-]+$/.test(id);
   }
 
   private validMode(value: string) {
