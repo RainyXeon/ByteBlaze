@@ -1,43 +1,41 @@
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,
-  Message,
+  CommandInteraction,
+  CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default class implements PrefixCommand {
-  name = "playlist-view";
+export default class implements SlashCommand {
+  name = ["playlist", "visibility"];
   description = "Public or private a playlist";
   category = "Playlist";
-  usage = "<playlist_name>";
-  aliases = ["pl-view"];
-  lavalink = false;
   accessableby = Accessableby.Member;
-
+  lavalink = false;
+  options = [
+    {
+      name: "id",
+      description: "The id of the playlist",
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    },
+  ];
   async run(
+    interaction: CommandInteraction,
     client: Manager,
-    message: Message,
-    args: string[],
-    language: string,
-    prefix: string
+    language: string
   ) {
-    const value = args[0] ? args[0] : null;
-    if (value == null)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    await interaction.deferReply({ ephemeral: false });
+
+    const value = (
+      interaction.options as CommandInteractionOptionResolver
+    ).getString("id");
 
     const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
-      return message.reply({
+      return interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -46,8 +44,8 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    if (playlist.owner !== message.author.id)
-      return message.reply({
+    if (playlist.owner !== interaction.user.id)
+      return interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -57,19 +55,13 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "playlist", "public_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "playlist", "public_loading")}`
+    );
 
     client.db.playlist.set(
       `${playlist.id}.private`,
-      playlist.private == true ? false : true
+      playlist.private ? false : true
     );
 
     const playlist_now = await client.db.playlist.get(`${playlist.id}.private`);

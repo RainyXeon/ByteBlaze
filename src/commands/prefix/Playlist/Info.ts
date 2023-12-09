@@ -66,52 +66,38 @@ export default class implements PrefixCommand {
     const name = await client.users.fetch(info.owner);
 
     const embed = new EmbedBuilder()
-      .setTitle(
-        `${client.i18n.get(language, "playlist", "info_title", {
-          name: info.name,
-        })}`
-      )
+      .setTitle(info.name)
       .addFields([
         {
-          name: `${client.i18n.get(language, "playlist", "info_name")}`,
-          value: `${info.name}`,
-          inline: true,
+          name: `${client.i18n.get(language, "playlist", "info_des")}`,
+          value: `${
+            info.description === null || info.description === "null"
+              ? client.i18n.get(language, "playlist", "no_des")
+              : info.description
+          }`,
+        },
+        {
+          name: `${client.i18n.get(language, "playlist", "info_owner")}`,
+          value: `${name.username}`,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_id")}`,
           value: `${info.id}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_total")}`,
           value: `${info.tracks!.length}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_created")}`,
           value: `${created}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_private")}`,
           value: `${
             info.private
-              ? client.i18n.get(language, "playlist", "enabled")
-              : client.i18n.get(language, "playlist", "disabled")
-          }`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "playlist", "info_owner")}`,
-          value: `${name.username}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "playlist", "info_des")}`,
-          value: `${
-            info.description === null
-              ? client.i18n.get(language, "playlist", "no_des")
-              : info.description
+              ? client.i18n.get(language, "playlist", "public")
+              : client.i18n.get(language, "playlist", "private")
           }`,
         },
       ])

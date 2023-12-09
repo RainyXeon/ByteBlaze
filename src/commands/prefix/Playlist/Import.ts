@@ -39,33 +39,33 @@ export default class implements PrefixCommand {
         ],
       });
 
-      if (value) {
-        playlist = await client.db.playlist.get(`${value}`);
-      }
-  
-      if (!playlist)
-        return message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "invalid")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-  
-      if (playlist.private && playlist.owner !== message.author.id) {
-        message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "import_private")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-        return;
-      }
+    if (value) {
+      playlist = await client.db.playlist.get(`${value}`);
+    }
+
+    if (!playlist)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "invalid")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    if (playlist.private && playlist.owner !== message.author.id) {
+      message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_private")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return;
+    }
 
     const { channel } = message.member!.voice;
     if (!channel)

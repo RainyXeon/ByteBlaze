@@ -61,7 +61,7 @@ export default class implements SlashCommand {
       });
       return;
     }
-    
+
     const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
       return interaction.editReply({

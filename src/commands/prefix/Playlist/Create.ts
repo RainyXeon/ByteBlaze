@@ -59,7 +59,6 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const PlaylistName = value.replace(/_/g, " ");
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -76,24 +75,6 @@ export default class implements PrefixCommand {
       return data.value.owner == message.author.id;
     });
 
-    const Exist = fullList.filter(function (data) {
-      return (
-        data.value.owner == message.author.id && data.value.name == PlaylistName
-      );
-    });
-
-    if (Exist.length !== 0) {
-      msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "create_name_exist")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return;
-    }
     if (Limit.length >= client.config.bot.LIMIT_PLAYLIST) {
       msg.edit({
         embeds: [
@@ -111,7 +92,7 @@ export default class implements PrefixCommand {
 
     await client.db.playlist.set(`${idgen}`, {
       id: idgen[0],
-      name: PlaylistName,
+      name: value,
       owner: message.author.id,
       tracks: [],
       private: true,
@@ -122,7 +103,7 @@ export default class implements PrefixCommand {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "create_created", {
-          playlist: PlaylistName,
+          playlist: String(value),
           id: idgen[0],
         })}`
       )

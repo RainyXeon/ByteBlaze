@@ -7,6 +7,7 @@ export class loadCommand {
   constructor(client: Manager) {
     new loadSlashCommands(client);
     new loadContextCommands(client);
-    new loadPrefixCommands(client);
+    if (client.config.features.MESSAGE_CONTENT.commands.enable)
+      new loadPrefixCommands(client);
   }
 }

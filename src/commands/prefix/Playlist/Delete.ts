@@ -60,28 +60,32 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const action = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents([
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Danger)
-          .setCustomId("yes")
-          .setLabel("Yes"),
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("no")
-          .setLabel("No")
-      ])
+    const action = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
+        .setCustomId("yes")
+        .setLabel("Yes"),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("no")
+        .setLabel("No"),
+    ]);
 
-    const msg = await message.reply({ embeds: [
-      new EmbedBuilder()
-        .setDescription(`${client.i18n.get(language, "playlist", "delete_confirm", {
-          playlist_id: value
-        })}`)
-    ], components: [
-      action
-    ] })
+    const msg = await message.reply({
+      embeds: [
+        new EmbedBuilder().setDescription(
+          `${client.i18n.get(language, "playlist", "delete_confirm", {
+            playlist_id: value,
+          })}`
+        ),
+      ],
+      components: [action],
+    });
 
-    const collector = msg.createMessageComponentCollector({ filter: (m) => m.user.id == message.author.id, time: 20000 })
+    const collector = msg.createMessageComponentCollector({
+      filter: (m) => m.user.id == message.author.id,
+      time: 20000,
+    });
 
     collector.on("collect", async (interaction) => {
       const id = interaction.customId;
@@ -94,24 +98,22 @@ export default class implements PrefixCommand {
             })}`
           )
           .setColor(client.color);
-          interaction.reply({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] });
       } else if (id == "no") {
         const embed = new EmbedBuilder()
           .setDescription(
             `${client.i18n.get(language, "playlist", "delete_no")}`
           )
           .setColor(client.color);
-          interaction.reply({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] });
       }
-    })
+    });
 
     collector.on("end", async () => {
       const embed = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "playlist", "delete_no")}`
-        )
+        .setDescription(`${client.i18n.get(language, "playlist", "delete_no")}`)
         .setColor(client.color);
       await msg.edit({ embeds: [embed], components: [] });
-    })
+    });
   }
 }

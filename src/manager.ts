@@ -114,7 +114,7 @@ export class Manager extends Client {
       defaultLocale: this.config.bot.LANGUAGE || "en",
       directory: resolve(join(__dirname, "languages")),
     });
-    this.prefix = this.config.features.MESSAGE_CONTENT.prefix || "d!";
+    this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shard_status = false;
 
     // Auto fix lavalink varibles

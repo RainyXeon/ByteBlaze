@@ -24,6 +24,13 @@ export default class implements PrefixCommand {
         question: `${client.i18n.get(
           language,
           "playlist",
+          "edit_playlist_id_label"
+        )}`,
+      },
+      {
+        question: `${client.i18n.get(
+          language,
+          "playlist",
           "edit_playlist_name_label"
         )}`,
       },
@@ -99,16 +106,74 @@ export default class implements PrefixCommand {
       if (msg !== undefined || null) count++;
       answer.push(msg);
       if (count == questions.length) {
-        await client.db.playlist.set(`${value}.name`, answer[0]);
-        await client.db.playlist.set(`${value}.description`, answer[1]);
-        await client.db.playlist.set(
-          `${value}.private`,
-          this.parseBoolean(answer[3])
-        );
+        const idCol = answer[0];
+        const nameCol = answer[1];
+        const desCol = answer[2];
+        const modeCol = answer[3];
+
+        const newId = idCol.length !== 0 ? idCol : playlist.id;
+        const newName = nameCol.length !== 0 ? nameCol : playlist.name;
+        const newDes = desCol.length !== 0 ? desCol : playlist.description;
+        const newMode =
+          modeCol.length !== 0 ? this.parseBoolean(modeCol) : playlist.private;
+
+        if (newId) {
+          if (!this.vaildId(newId)) {
+            message.reply({
+              embeds: [
+                new EmbedBuilder()
+                  .setDescription(
+                    `${client.i18n.get(
+                      language,
+                      "playlist",
+                      "edit_invalid_id"
+                    )}`
+                  )
+                  .setColor(client.color),
+              ],
+            });
+
+            count = 0;
+            answer.length = 0;
+            return;
+          }
+
+          await client.db.playlist.set(newId, {
+            id: newId,
+            name: newName,
+            description: newDes,
+            owner: playlist.owner,
+            tracks: playlist.tracks,
+            private: newMode,
+            created: playlist.created,
+          });
+
+          await message.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "playlist", "edit_success", {
+                    playlistId: newId,
+                  })}`
+                )
+                .setColor(client.color),
+            ],
+          });
+          await client.db.playlist.delete(playlist.id);
+          count = 0;
+          answer.length = 0;
+          return;
+        }
+
+        await client.db.playlist.set(`${value}.name`, newName);
+        await client.db.playlist.set(`${value}.description`, newDes);
+        await client.db.playlist.set(`${value}.private`, newMode);
 
         const embed = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "playlist", "edit_success")}`
+            `${client.i18n.get(language, "playlist", "edit_success", {
+              playlistId: newId,
+            })}`
           )
           .setColor(client.color);
         message.reply({ embeds: [embed] });
@@ -131,5 +196,9 @@ export default class implements PrefixCommand {
       default:
         return false;
     }
+  }
+
+  private vaildId(id: string) {
+    return /^[\w&.-]+$/.test(id);
   }
 }
