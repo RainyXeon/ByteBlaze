@@ -78,14 +78,6 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-
-    const player = await client.manager.createPlayer({
-      guildId: message.guild!.id,
-      voiceId: message.member!.voice.channel!.id,
-      textId: message.channel.id,
-      deaf: true,
-    });
-
     const SongAdd = [];
     let SongLoad = 0;
 
@@ -101,6 +93,24 @@ export default class implements PrefixCommand {
           )
           .setColor(client.color),
       ],
+    });
+
+    if (playlist.tracks?.length == 0)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_empty")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = await client.manager.createPlayer({
+      guildId: message.guild!.id,
+      voiceId: message.member!.voice.channel!.id,
+      textId: message.channel.id,
+      deaf: true,
     });
 
     for (let i = 0; i < playlist.tracks!.length; i++) {

@@ -48,6 +48,7 @@ import_private: "This playlist is private."
 import_imported: "**Imported • %{name}** `[%{duration}]` (%{tracks} tracks) • %{user}"
 import_match: "The playlist link is invalid."
 import_fail: "Error loading playlist."
+import_empty: "Playlist has no songs"
 
 ##### View command #####
 view_embed_title: "%{user}'s • Playlist"
@@ -69,6 +70,7 @@ savequeue_notfound: "Playlist not found!"
 savequeue_owner: "You can't save song to this playlist."
 savequeue_no_new_saved: "No new track saved in `%{name}` playlist"
 savequeue_saved: "`📦` | *Saved* • (%{tracks} tracks) to `%{name}`"
+savequeue_no_tracks: "No tracks in queue!"
 
 ##### Public command #####
 public_arg: "Please provide a playlist id. Example: %{prefix}public <playlist id>"

@@ -217,7 +217,12 @@ export default class implements SlashCommand {
 
     const newId = idCol.length !== 0 ? idCol : null;
     const newName = nameCol.length !== 0 ? nameCol : playlist.name;
-    const newDes = desCol.length !== 0 ? desCol : playlist.description ? playlist.description : "null";
+    const newDes =
+      desCol.length !== 0
+        ? desCol
+        : playlist.description
+        ? playlist.description
+        : "null";
     const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
     if (newId) {

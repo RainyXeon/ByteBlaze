@@ -88,6 +88,17 @@ export default class implements PrefixCommand {
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;
 
+    if (queue.length == 0 && !current)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "savequeue_no_tracks")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
