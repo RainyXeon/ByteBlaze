@@ -159,7 +159,7 @@ export default class implements PrefixCommand {
                 .setColor(client.color),
             ],
           });
-          await client.db.playlist.delete(playlist.id);
+          if (playlist.id !== newId) await client.db.playlist.delete(playlist.id);
           count = 0;
           answer.length = 0;
           return;

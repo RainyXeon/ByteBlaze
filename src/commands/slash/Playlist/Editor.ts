@@ -263,7 +263,8 @@ export default class implements SlashCommand {
             .setColor(client.color),
         ],
       });
-      await client.db.playlist.delete(playlist.id);
+
+      if (playlist.id !== newId) await client.db.playlist.delete(playlist.id);
       return;
     }
 
