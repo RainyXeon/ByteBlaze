@@ -106,6 +106,7 @@ edit_playlist_owner: "You can't edit this playlist"
 edit_loading: "Loading...."
 edit_success: "Succesfully edited playlist info • %{playlistId}"
 edit_invalid_id: "The new id is not valid"
+edit_invalid_mode: "The new visibility mode is not valid"
 
 ##### Edit command interaction #####
 ineraction_edit_title: "Playlist editor"
@@ -123,3 +124,4 @@ ineraction_edit_playlist_owner: "You can't edit this playlist"
 ineraction_edit_loading: "Loading...."
 ineraction_edit_success: "Succesfully edited playlist info • %{playlistId}"
 ineraction_edit_invalid_id: "The new id is not valid"
+ineraction_edit_invalid_mode: "The new visibility mode is not valid"

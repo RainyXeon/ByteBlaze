@@ -96,6 +96,7 @@ edit_playlist_owner: "Bạn không thể chỉnh sửa danh sách phát này"
 edit_loading: "Đang tải...."
 edit_success: "Đã chỉnh sửa thành công thông tin danh sách phát • %{playlistId}"
 edit_invalid_id: "Id mới không hợp lệ"
+edit_invalid_mode: "Chế độ hiển thị mới không hợp lệ"
 
 ##### Chỉnh sửa tương tác lệnh #####
 ineraction_edit_title: "Trình chỉnh sửa danh sách phát"
@@ -113,3 +114,4 @@ ineraction_edit_loading: "Đang tải...."
 ineraction_edit_success: "Đã chỉnh sửa thành công thông tin danh sách phát • %{playlistId}"
 ineraction_edit_playlist_owner: "Bạn không thể chỉnh sửa danh sách phát này"
 ineraction_edit_invalid_id: "Id mới không hợp lệ"
+ineraction_edit_invalid_mode: "Chế độ hiển thị mới không hợp lệ"

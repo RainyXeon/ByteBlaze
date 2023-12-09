@@ -218,8 +218,7 @@ export default class implements SlashCommand {
     const newId = idCol.length !== 0 ? idCol : playlist.id;
     const newName = nameCol.length !== 0 ? nameCol : playlist.name;
     const newDes = desCol.length !== 0 ? desCol : playlist.description;
-    const newMode =
-      modeCol.length !== 0 ? this.parseBoolean(modeCol) : playlist.private;
+    const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
     if (newId) {
       if (!this.vaildId(newId))
@@ -232,6 +231,17 @@ export default class implements SlashCommand {
                   "playlist",
                   "ineraction_edit_invalid_id"
                 )}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
+      if (this.validMode(String(newMode)) == null)
+        return msg.edit({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "playlist", "edit_invalid_mode")}`
               )
               .setColor(client.color),
           ],
@@ -267,6 +277,17 @@ export default class implements SlashCommand {
       if (playlist.id !== newId) await client.db.playlist.delete(playlist.id);
       return;
     }
+
+    if (this.validMode(String(newMode)) == null)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "edit_invalid_mode")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     await client.db.playlist.set(`${value}.name`, newName);
     await client.db.playlist.set(`${value}.description`, newDes);
@@ -305,6 +326,24 @@ export default class implements SlashCommand {
         return false;
       default:
         return false;
+    }
+  }
+
+  private validMode(value: string) {
+    if (typeof value === "string") {
+      value = value.trim().toLowerCase();
+    }
+    switch (value) {
+      case "public":
+        return true;
+      case "private":
+        return false;
+      case "true":
+        return true;
+      case "false":
+        return false;
+      default:
+        return null;
     }
   }
 }

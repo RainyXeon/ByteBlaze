@@ -114,8 +114,7 @@ export default class implements PrefixCommand {
         const newId = idCol.length !== 0 ? idCol : playlist.id;
         const newName = nameCol.length !== 0 ? nameCol : playlist.name;
         const newDes = desCol.length !== 0 ? desCol : playlist.description;
-        const newMode =
-          modeCol.length !== 0 ? this.parseBoolean(modeCol) : playlist.private;
+        const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
         if (newId) {
           if (!this.vaildId(newId)) {
@@ -127,6 +126,26 @@ export default class implements PrefixCommand {
                       language,
                       "playlist",
                       "edit_invalid_id"
+                    )}`
+                  )
+                  .setColor(client.color),
+              ],
+            });
+
+            count = 0;
+            answer.length = 0;
+            return;
+          }
+
+          if (this.validMode(String(newMode)) == null) {
+            message.reply({
+              embeds: [
+                new EmbedBuilder()
+                  .setDescription(
+                    `${client.i18n.get(
+                      language,
+                      "playlist",
+                      "edit_invalid_mode"
                     )}`
                   )
                   .setColor(client.color),
@@ -159,7 +178,28 @@ export default class implements PrefixCommand {
                 .setColor(client.color),
             ],
           });
-          if (playlist.id !== newId) await client.db.playlist.delete(playlist.id);
+          if (playlist.id !== newId)
+            await client.db.playlist.delete(playlist.id);
+          count = 0;
+          answer.length = 0;
+          return;
+        }
+
+        if (this.validMode(String(newMode)) == null) {
+          message.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(
+                    language,
+                    "playlist",
+                    "edit_invalid_mode"
+                  )}`
+                )
+                .setColor(client.color),
+            ],
+          });
+
           count = 0;
           answer.length = 0;
           return;
@@ -184,21 +224,25 @@ export default class implements PrefixCommand {
     }
   }
 
-  private parseBoolean(value: string) {
+  private vaildId(id: string) {
+    return /^[\w&.-]+$/.test(id);
+  }
+
+  private validMode(value: string) {
     if (typeof value === "string") {
       value = value.trim().toLowerCase();
     }
     switch (value) {
-      case "enable":
+      case "public":
         return true;
-      case "disable":
+      case "private":
+        return false;
+      case "true":
+        return true;
+      case "false":
         return false;
       default:
-        return false;
+        return null;
     }
-  }
-
-  private vaildId(id: string) {
-    return /^[\w&.-]+$/.test(id);
   }
 }
