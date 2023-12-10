@@ -80,7 +80,7 @@ export interface ShoukakuOptions {
   moveOnDisconnect: boolean;
   resumable: boolean;
   resumableTimeout: number;
-  reconnectTries: string;
+  reconnectTries: number;
   restTimeout: number;
 }
 
