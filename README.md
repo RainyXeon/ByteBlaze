@@ -40,7 +40,7 @@ For installation and config guide, please check out the wiki tab or [click here!
 
 ## Versioning policy
 
-Lavalink follows [Semantic Versioning](https://semver.org/)
+ByteBlaze follows [Semantic Versioning](https://semver.org/)
 
 The version number is composed of the following parts:
 
