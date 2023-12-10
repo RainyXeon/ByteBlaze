@@ -21,8 +21,8 @@ export default class implements SlashCommand {
   lavalink = true;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -36,17 +36,9 @@ export default class implements SlashCommand {
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
+    ).getString("id");
 
-    const pid = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
-      );
-    });
-
-    const playlist = pid[0].value;
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return interaction.editReply({
@@ -99,6 +91,17 @@ export default class implements SlashCommand {
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;
 
+    if (queue.length == 0 && !current)
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "savequeue_no_tracks")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
@@ -116,7 +119,7 @@ export default class implements SlashCommand {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
-            name: Plist,
+            name: value!,
           })}`
         )
         .setColor(client.color);
@@ -126,7 +129,7 @@ export default class implements SlashCommand {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "savequeue_saved", {
-          name: Plist,
+          name: value!,
           tracks: String(Result!.length),
         })}`
       )
@@ -134,7 +137,7 @@ export default class implements SlashCommand {
     await interaction.editReply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.playlist.push(`${pid[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

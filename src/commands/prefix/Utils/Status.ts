@@ -42,6 +42,18 @@ export default class implements PrefixCommand {
     const choose = args[0];
 
     if (choose === "create") {
+      const StatusChannel = await client.db.status.get(`${message.guild!.id}`);
+      if (StatusChannel!.enable == true)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "setup", "status_enable")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const parent = await message.guild!.channels.create({
         name: `${client.user!.username} Status`,
         type: ChannelType.GuildCategory,
@@ -125,7 +137,7 @@ export default class implements PrefixCommand {
     }
 
     if (choose === "delete") {
-      const SetupChannel = await client.db.status.get(`${message.guild!.id}`);
+      const StatusChannel = await client.db.status.get(`${message.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
         .setDescription(
@@ -135,13 +147,17 @@ export default class implements PrefixCommand {
         )
         .setColor(client.color);
 
-      if (!SetupChannel) return message.reply({ embeds: [embed_none] });
+      if (StatusChannel == null) return message.reply({ embeds: [embed_none] });
+      if (StatusChannel!.enable == false)
+        return message.reply({
+          embeds: [embed_none],
+        });
 
       const fetchedTextChannel = message.guild!.channels.cache.get(
-        SetupChannel.channel
+        StatusChannel.channel
       );
       const fetchedCategory = message.guild!.channels.cache.get(
-        SetupChannel.category
+        StatusChannel.category
       );
 
       const embed = new EmbedBuilder()

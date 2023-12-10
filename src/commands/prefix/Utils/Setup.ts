@@ -35,6 +35,18 @@ export default class implements PrefixCommand {
     const choose = args[0];
 
     if (choose === "create") {
+      const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
+      if (SetupChannel!.enable == true)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "setup", "setup_enable")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const parent = await message.guild!.channels.create({
         name: `${client.user!.username} Music Zone`,
         type: ChannelType.GuildCategory,
@@ -105,14 +117,18 @@ export default class implements PrefixCommand {
       const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_deleted", {
-            channel: String(undefined),
-          })}`
-        )
+        .setDescription(`${client.i18n.get(language, "setup", "setup_null")}`)
         .setColor(client.color);
 
-      if (!SetupChannel) return message.reply({ embeds: [embed_none] });
+      if (SetupChannel == null)
+        return message.reply({
+          embeds: [embed_none],
+        });
+
+      if (SetupChannel.enable == false)
+        return message.reply({
+          embeds: [embed_none],
+        });
 
       const fetchedTextChannel = message.guild!.channels.cache.get(
         SetupChannel.channel

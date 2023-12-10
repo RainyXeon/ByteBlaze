@@ -48,6 +48,20 @@ export default class implements SlashCommand {
         "type"
       ) === "create"
     ) {
+      const SetupChannel = await client.db.status.get(
+        `${interaction.guild!.id}`
+      );
+      if (SetupChannel!.enable == true)
+        return interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "setup", "status_enable")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const parent = await interaction.guild!.channels.create({
         name: `${client.user!.username} Status`,
         type: ChannelType.GuildCategory,
@@ -139,14 +153,18 @@ export default class implements SlashCommand {
       );
 
       const embed_none = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_deleted", {
-            channel: String(undefined),
-          })}`
-        )
+        .setDescription(`${client.i18n.get(language, "setup", "status_null")}`)
         .setColor(client.color);
 
-      if (!SetupChannel) return interaction.editReply({ embeds: [embed_none] });
+      if (SetupChannel == null)
+        return interaction.editReply({
+          embeds: [embed_none],
+        });
+
+      if (SetupChannel!.enable == false)
+        return interaction.editReply({
+          embeds: [embed_none],
+        });
 
       const fetchedTextChannel = interaction.guild!.channels.cache.get(
         SetupChannel.channel

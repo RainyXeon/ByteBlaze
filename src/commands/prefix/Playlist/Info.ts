@@ -10,7 +10,7 @@ export default class implements PrefixCommand {
   name = "playlist-info";
   description = "Check the playlist infomation";
   category = "Playlist";
-  usage = "<playlist_name_or_id>";
+  usage = "<playlist_id>";
   aliases = ["pl-info"];
   lavalink = false;
   accessableby = Accessableby.Member;
@@ -35,19 +35,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const filter_level_1 = fullList.filter(function (data) {
-        return (
-          data.value.owner == message.author.id && data.value.name == Plist
-        );
-      });
-
-      info = filter_level_1[0].value;
-    }
+    const info = await client.db.playlist.get(value);
 
     if (!info)
       return message.reply({
@@ -59,18 +47,7 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    if (info.private && info.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return;
-    }
+
     const created = humanizeDuration(Date.now() - Number(info.created), {
       largest: 1,
     });
@@ -78,52 +55,38 @@ export default class implements PrefixCommand {
     const name = await client.users.fetch(info.owner);
 
     const embed = new EmbedBuilder()
-      .setTitle(
-        `${client.i18n.get(language, "playlist", "info_title", {
-          name: info.name,
-        })}`
-      )
+      .setTitle(info.name)
       .addFields([
         {
-          name: `${client.i18n.get(language, "playlist", "info_name")}`,
-          value: `${info.name}`,
-          inline: true,
+          name: `${client.i18n.get(language, "playlist", "info_des")}`,
+          value: `${
+            info.description === null || info.description === "null"
+              ? client.i18n.get(language, "playlist", "no_des")
+              : info.description
+          }`,
+        },
+        {
+          name: `${client.i18n.get(language, "playlist", "info_owner")}`,
+          value: `${name.username}`,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_id")}`,
           value: `${info.id}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_total")}`,
           value: `${info.tracks!.length}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_created")}`,
           value: `${created}`,
-          inline: true,
         },
         {
           name: `${client.i18n.get(language, "playlist", "info_private")}`,
           value: `${
             info.private
-              ? client.i18n.get(language, "playlist", "enabled")
-              : client.i18n.get(language, "playlist", "disabled")
-          }`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "playlist", "info_owner")}`,
-          value: `${name.username}`,
-          inline: true,
-        },
-        {
-          name: `${client.i18n.get(language, "playlist", "info_des")}`,
-          value: `${
-            info.description === null
-              ? client.i18n.get(language, "playlist", "no_des")
-              : info.description
+              ? client.i18n.get(language, "playlist", "public")
+              : client.i18n.get(language, "playlist", "private")
           }`,
         },
       ])

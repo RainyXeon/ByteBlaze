@@ -5,23 +5,24 @@
 # something: ${DATA}
 
 bot:
-  TOKEN: Your token
+  TOKEN: "Your token"
   EMBED_COLOR: "#2b2d31"
   OWNER_ID: "Your id"
-  LANGUAGE: en # You can set it to vi, en, th,...
+  LANGUAGE: "en" # You can set it to vi, en, th,...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
   SAFE_ICONS_MODE: false # If the new icon doesn't appears, try change this to true
   SAFE_PLAYER_MODE: false # Set to embed instead of image for avoid error
   DELETE_MSG_TIMEOUT: 3000
+  DEBUG_MODE: false
 
 lavalink:
   SPOTIFY:
     # Your spotify id and secret, you can get it from here: https://developer.spotify.com/
     # If you don't have or don't want, you can disable it
     enable: false
-    id: a98a98s9a89as98a9s8a98
-    secret: a98a98s9a89as98a9s8a98
+    id: "a98a98s9a89as98a9s8a98"
+    secret: "a98a98s9a89as98a9s8a98"
 
   DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
 
@@ -44,7 +45,7 @@ lavalink:
       moveOnDisconnect: true,
       resumable: true,
       resumableTimeout: 600,
-      reconnectTries: Infinity,
+      reconnectTries: "Infinity",
       restTimeout: 3000,
     }
 
@@ -57,8 +58,10 @@ features:
 
   MESSAGE_CONTENT:
     enable: true
-    prefix: "d!" # The prefix you want
-
+    commands: 
+      enable: true
+      prefix: "d!" # The prefix you want
+  
   AUTOFIX_LAVALINK: # Fix the lavalink server when the current is down
     enable: true
     reconnectTries: 5

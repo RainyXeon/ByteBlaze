@@ -20,8 +20,8 @@ export default class implements SlashCommand {
   lavalink = true;
   options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
@@ -48,12 +48,11 @@ export default class implements SlashCommand {
         await interaction.deferReply({ ephemeral: false });
         const value = (
           interaction.options as CommandInteractionOptionResolver
-        ).getString("name");
+        ).getString("id");
         const input = (
           interaction.options as CommandInteractionOptionResolver
         ).getString("search");
 
-        const PlaylistName = value!.replace(/_/g, " ");
         const Inputed = input;
 
         const msg = await interaction.editReply({
@@ -75,7 +74,7 @@ export default class implements SlashCommand {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `${client.i18n.get(language, "music", "add_match")}`
+                  `${client.i18n.get(language, "playlist", "add_match")}`
                 )
                 .setColor(client.color),
             ],
@@ -137,16 +136,7 @@ export default class implements SlashCommand {
           });
         }
 
-        const fullList = await client.db.playlist.all();
-
-        const pid = fullList.filter(function (data) {
-          return (
-            data.value.owner == interaction.user.id &&
-            data.value.name == PlaylistName
-          );
-        });
-
-        const playlist = await client.db.playlist.get(pid[0].id);
+        const playlist = await client.db.playlist.get(value!);
 
         if (!playlist) {
           interaction.followUp({
@@ -193,7 +183,7 @@ export default class implements SlashCommand {
         }
 
         TrackAdd.forEach(async (track) => {
-          await client.db.playlist.push(`${pid[0].id}.tracks`, {
+          await client.db.playlist.push(`${value}.tracks`, {
             title: track.title,
             uri: track.uri,
             length: track.length,
@@ -207,7 +197,7 @@ export default class implements SlashCommand {
           .setDescription(
             `${client.i18n.get(language, "playlist", "add_added", {
               count: String(TrackAdd.length),
-              playlist: PlaylistName,
+              playlist: value!,
             })}`
           )
           .setColor(client.color);

@@ -1,8 +1,8 @@
 ##### Setup command #####
 setup_topic: "⏯ *Tạm dừng/Tiếp tục bài hát.*\n⬅ *Quay lại bài hát trước kia.*\n⏹ *Dừng bài hát*\n➡ *Bỏ qua bài hát.*\n🔁 *Lặp/Dừng lặp bài hát.*"
 setup_msg: "*`Thiết lập thành công hệ thống âm nhạc trong kênh`* %{channel}\n```Lưu ý: Không xóa bất kỳ tin nhắn nào của bot đã được gửi! (ĐỂ THIẾT LẬP BẢNG ĐIỀU KHIỂN!)```"
-setup_deleted: "*`Xóa thành công kênh %{channel}`*"
-setup_enable: "*`Đã thiết lập yêu cầu bài hát kênh không thể sử dụng lệnh này.`*"
+setup_deleted: "*`Xóa kênh chơi nhạc thành công!`*"
+setup_null: "*`Không có kênh nào tồn tại để xóa!`*"
 
 ##### Setup Handler #####
 setup_queuemsg: "**__Hàng đợi:__**\nTham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
@@ -19,3 +19,8 @@ setup_footer: "%{songs} • Bài hát trong hàng đợi | Âm lượng • %{vo
 setup_content: "**__Hàng đợi:__**"
 setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
 setup_content_empty: "Tham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
+
+setup_enable: "*`Đã có kênh thiết lập, không thể sử dụng lệnh này.`*"
+status_deleted: "*`Xóa kênh trạng thái thành công!`*"
+status_enable: "*`Đã có kênh trạng thái, không thể sử dụng lệnh này.`*"
+status_null: "*`Không có kênh nào tồn tại để xóa!`*"

@@ -12,14 +12,13 @@ export interface Bot {
   LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;
   SAFE_ICONS_MODE: boolean;
-  DELETE_MSG_TIMEOUT: number;
   SAFE_PLAYER_MODE: boolean;
+  DELETE_MSG_TIMEOUT: number;
   DEBUG_MODE: boolean;
 }
 
 export interface Features {
   DATABASE: Database;
-  SHARD_SYSTEM: ShardSystem;
   MESSAGE_CONTENT: MessageContent;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;
@@ -34,20 +33,17 @@ export interface AutofixLavalink {
 
 export interface Database {
   driver: string;
-  config: Record<string, any>;
+  config: any;
 }
 
 export interface MessageContent {
   enable: boolean;
-  prefix: string;
+  commands: Commands;
 }
 
-export interface ShardSystem {
+export interface Commands {
   enable: boolean;
-  totalShards: number;
-  totalClusters: number;
-  shardsPerClusters: number;
-  mode: string;
+  prefix: string;
 }
 
 export interface WebServer {

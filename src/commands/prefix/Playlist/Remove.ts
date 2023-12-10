@@ -10,7 +10,7 @@ export default class implements PrefixCommand {
   name = "playlist-remove";
   description = "Remove a song from a playlist";
   category = "Playlist";
-  usage = "<playlist_name> <song_postion>";
+  usage = "<playlist_id> <song_postion>";
   aliases = ["pl-remove"];
   lavalink = false;
   accessableby = Accessableby.Member;
@@ -46,14 +46,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(`${value}`);
     if (!playlist)
       return message.reply({
         embeds: [
@@ -88,13 +81,13 @@ export default class implements PrefixCommand {
         ],
       });
     await client.db.playlist.pull(
-      `${filter_level_1[0].id}.tracks`,
+      `${value}.tracks`,
       playlist.tracks![Number(position) - 1]
     );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "remove_removed", {
-          name: Plist,
+          name: value,
           position: pos,
         })}`
       )
