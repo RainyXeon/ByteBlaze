@@ -28,15 +28,15 @@ export default class implements SlashCommand {
         },
         {
           name: "Weekly",
-          value: "Weekly",
+          value: "weekly",
         },
         {
           name: "Monthly",
-          value: "Monthly",
+          value: "monthly",
         },
         {
           name: "Yearly",
-          value: "Yearly",
+          value: "yearly",
         },
       ],
     },
