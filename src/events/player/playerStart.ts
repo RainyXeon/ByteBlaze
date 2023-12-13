@@ -136,6 +136,16 @@ export default class {
         `${player.guildId}.config.loop`,
         player.loop
       );
+
+      function queueUri() {
+        const res = [];
+        for (let data of player.queue) {
+          res.push(data.uri);
+        }
+        return res.length !== 0 ? res : [];
+      }
+
+      await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
     }
 
     if (Control == ControlEnum.Disable) return;
