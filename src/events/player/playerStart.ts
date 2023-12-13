@@ -123,6 +123,21 @@ export default class {
       }
     }
 
+    if (await client.db.autoreconnect.get(player.guildId)) {
+      await client.db.autoreconnect.set(
+        `${player.guildId}.current`,
+        player.queue.current?.uri
+      );
+      await client.db.autoreconnect.set(
+        `${player.guildId}.config.volume`,
+        player.volume
+      );
+      await client.db.autoreconnect.set(
+        `${player.guildId}.config.loop`,
+        player.loop
+      );
+    }
+
     if (Control == ControlEnum.Disable) return;
 
     // const card = new musicCard()
@@ -334,16 +349,22 @@ export default class {
           if (!player) {
             collector.stop();
           }
-          const loop_mode = {
-            none: "none",
-            track: "track",
-            queue: "queue",
-          };
+
+          async function setLoop247(loop: string) {
+            if (await client.db.autoreconnect.get(player.guildId)) {
+              await client.db.autoreconnect.set(
+                `${player.guildId}.config.loop`,
+                loop
+              );
+            }
+          }
 
           if (player.loop === "queue") {
             player.setLoop(KazagumoLoop.none);
 
-            await new ReplyInteractionService(
+            setLoop247(String(KazagumoLoop.none));
+
+            new ReplyInteractionService(
               client,
               message,
               `${client.i18n.get(language, "music", "unloopall")}`
@@ -351,7 +372,10 @@ export default class {
             return;
           } else if (player.loop === "none") {
             player.setLoop(KazagumoLoop.queue);
-            await new ReplyInteractionService(
+
+            setLoop247(String(KazagumoLoop.none));
+
+            new ReplyInteractionService(
               client,
               message,
               `${client.i18n.get(language, "music", "loopall")}`
@@ -361,6 +385,15 @@ export default class {
         } else if (id === "volup") {
           if (!player) {
             collector.stop();
+          }
+
+          async function setVol247(vol: number) {
+            if (await client.db.autoreconnect.get(player.guildId)) {
+              await client.db.autoreconnect.set(
+                `${player.guildId}.config.volume`,
+                vol
+              );
+            }
           }
 
           const reply_msg = `${client.i18n.get(
@@ -378,11 +411,21 @@ export default class {
           }
 
           player.setVolume(player.volume * 100 + 10);
+          setVol247(player.volume * 100 + 10);
           await new ReplyInteractionService(client, message, reply_msg);
           return;
         } else if (id === "voldown") {
           if (!player) {
             collector.stop();
+          }
+
+          async function setVol247(vol: number) {
+            if (await client.db.autoreconnect.get(player.guildId)) {
+              await client.db.autoreconnect.set(
+                `${player.guildId}.config.volume`,
+                vol
+              );
+            }
           }
 
           const reply_msg = `${client.i18n.get(
@@ -400,6 +443,7 @@ export default class {
           }
 
           player.setVolume(player.volume * 100 - 10);
+          setVol247(player.volume * 100 - 10);
 
           await new ReplyInteractionService(client, message, reply_msg);
           return;

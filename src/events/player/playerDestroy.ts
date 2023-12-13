@@ -2,6 +2,7 @@ import { KazagumoPlayer } from "better-kazagumo";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";
+import { KazagumoLoop } from "../../@types/Lavalink.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -50,6 +51,16 @@ export default class {
       .setDescription(
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
+
+    if (await client.db.autoreconnect.get(player.guildId)) {
+      await client.db.autoreconnect.set(`${player.guildId}.current`, "");
+      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, 100);
+      await client.db.autoreconnect.set(
+        `${player.guildId}.config.loop`,
+        KazagumoLoop.none
+      );
+      await client.db.autoreconnect.set(`${player.guildId}.queue`, []);
+    }
 
     if (channel) {
       const msg = await channel.send({ embeds: [embed] });

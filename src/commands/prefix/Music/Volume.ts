@@ -1,6 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "better-kazagumo";
 
 // Main code
 export default class implements PrefixCommand {
@@ -92,6 +93,8 @@ export default class implements PrefixCommand {
 
     await player.setVolume(Number(value));
 
+    this.setVol247(client, player, Number(value));
+
     const changevol = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "music", "volume_msg", {
@@ -101,5 +104,11 @@ export default class implements PrefixCommand {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [changevol] });
+  }
+
+  async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
+    if (await client.db.autoreconnect.get(player.guildId)) {
+      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
+    }
   }
 }

@@ -45,7 +45,6 @@ export default class implements SlashCommand {
         ],
       });
 
-
     const created = humanizeDuration(Date.now() - info.created, { largest: 1 });
 
     const name = await client.users.fetch(info.owner);

@@ -7,6 +7,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "better-kazagumo";
 
 // Main code
 export default class implements SlashCommand {
@@ -94,6 +95,7 @@ export default class implements SlashCommand {
       });
 
     await player.setVolume(Number(value));
+    this.setVol247(client, player, Number(value));
 
     const changevol = new EmbedBuilder()
       .setDescription(
@@ -104,5 +106,11 @@ export default class implements SlashCommand {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [changevol] });
+  }
+
+  async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
+    if (await client.db.autoreconnect.get(player.guildId)) {
+      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
+    }
   }
 }

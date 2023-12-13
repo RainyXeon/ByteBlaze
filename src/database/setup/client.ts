@@ -3,6 +3,8 @@ import { EmbedBuilder, TextChannel, version } from "discord.js";
 import { Manager } from "../../manager.js";
 import chalk from "chalk";
 import cron from "node-cron";
+import os from "os";
+import { stripIndents } from "common-tags";
 
 export class ClientDataService {
   client: Manager;
@@ -11,53 +13,43 @@ export class ClientDataService {
     this.execute();
   }
 
-  infoChannelembed() {
+  get infoChannelembed() {
+    const total = os.totalmem() / 1024 / 1024;
+    const used = process.memoryUsage().rss / 1024 / 1024;
+
+    const hostInfo = stripIndents`\`\`\`
+    - OS: ${os.type()} ${os.release()} (${os.arch()})
+    - CPU: ${os.cpus()[0].model}
+    - Uptime: ${ms(this.client.uptime as number)}
+    - RAM: ${(total / 1024).toFixed(2)} GB
+    - Memory Usage: ${used.toFixed(2)}/${total.toFixed(2)} (MB)
+    - Node.js: ${process.version}
+    \`\`\``;
+
+    const botInfo = stripIndents`\`\`\`
+    - Codename: ${this.client.metadata.codename}
+    - Bot version: ${this.client.metadata.version}
+    - Autofix version: ${this.client.metadata.autofix}
+    - Discord.js: ${version}
+    - WebSocket Ping: ${this.client.ws.ping}ms
+    - Guild Count: ${this.client.guilds.cache.size}
+    - User count: ${this.client.guilds.cache.reduce(
+      (a, b) => a + b.memberCount,
+      0
+    )}
+    \`\`\``;
+
     return new EmbedBuilder()
-      .setTitle(this.client.user!.tag + " Status")
-      .addFields([
-        {
-          name: "Uptime",
-          value: `\`\`\`${ms(this.client.uptime!)}\`\`\``,
-          inline: true,
-        },
-        {
-          name: "WebSocket Ping",
-          value: `\`\`\`${this.client.ws.ping}ms\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Memory",
-          value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
-            2
-          )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-            2
-          )} MB Heap\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Guild Count",
-          value: `\`\`\`${this.client.guilds.cache.size} guilds\`\`\``,
-          inline: true,
-        },
-        {
-          name: "User Count",
-          value: `\`\`\`${this.client.users.cache.size} users\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Node",
-          value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
-          inline: true,
-        },
-        {
-          name: "Cached Data",
-          value: `\`\`\`${this.client.users.cache.size} users\n${this.client.emojis.cache.size} emojis\`\`\``,
-          inline: true,
-        },
-        { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
-      ])
-      .setTimestamp()
-      .setColor(this.client.color);
+      .setAuthor({
+        name: this.client.user!.tag + " Status",
+        iconURL: String(this.client.user!.displayAvatarURL({ size: 2048 })),
+      })
+      .setColor(this.client.color)
+      .addFields(
+        { name: "Host info", value: hostInfo },
+        { name: "Bot info", value: botInfo }
+      )
+      .setTimestamp();
   }
 
   async setupPremium() {
@@ -84,13 +76,16 @@ export class ClientDataService {
       });
 
       if (!SetupChannel) return;
-      const fetched_info = this.infoChannelembed();
+      const fetched_info = this.infoChannelembed;
 
       SetupChannel.forEach(async (g) => {
-        const fetch_channel = await this.client.channels.fetch(g.channel);
+        const fetch_channel =
+          g.channel.length !== 0
+            ? await this.client.channels.fetch(g.channel)
+            : undefined;
+        if (!fetch_channel) return;
         const text_channel = fetch_channel! as TextChannel;
         const interval_text = await text_channel.messages!.fetch(g.statmsg);
-        if (!fetch_channel) return;
         await interval_text.edit({ content: ``, embeds: [fetched_info] });
       });
     });

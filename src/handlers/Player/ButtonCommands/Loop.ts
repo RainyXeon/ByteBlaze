@@ -30,6 +30,8 @@ export class ButtonLoop {
       case "none":
         await this.player.setLoop(KazagumoLoop.track);
 
+        this.setLoop247(String(KazagumoLoop.track));
+
         const looptrack = new EmbedBuilder()
           .setDescription(
             `${this.client.i18n.get(this.language, "music", "loop_current")}`
@@ -43,6 +45,8 @@ export class ButtonLoop {
 
       case "track":
         await this.player.setLoop(KazagumoLoop.queue);
+
+        this.setLoop247(String(KazagumoLoop.queue));
 
         const loopall = new EmbedBuilder()
           .setDescription(
@@ -58,6 +62,8 @@ export class ButtonLoop {
       case "queue":
         await this.player.setLoop(KazagumoLoop.none);
 
+        this.setLoop247(String(KazagumoLoop.none));
+
         const unloopall = new EmbedBuilder()
           .setDescription(
             `${this.client.i18n.get(this.language, "music", "unloopall")}`
@@ -68,6 +74,15 @@ export class ButtonLoop {
           embeds: [unloopall],
         });
         break;
+    }
+  }
+
+  async setLoop247(loop: string) {
+    if (await this.client.db.autoreconnect.get(this.player.guildId)) {
+      await this.client.db.autoreconnect.set(
+        `${this.player.guildId}.config.loop`,
+        loop
+      );
     }
   }
 }
