@@ -147,6 +147,8 @@ export class playerLoadContent {
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
+    await message.delete();
+
     if (!player)
       player = await client.manager.createPlayer({
         guildId: message.guild.id,
@@ -159,7 +161,7 @@ export class playerLoadContent {
         message.member!.voice.channel !==
         message.guild!.members.me!.voice.channel
       ) {
-        msg.edit({
+        msg.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -174,8 +176,6 @@ export class playerLoadContent {
 
     const result = await player.search(song, { requester: message.author });
     const tracks = result.tracks;
-
-    await message.delete();
 
     if (!result.tracks.length) {
       msg.edit({

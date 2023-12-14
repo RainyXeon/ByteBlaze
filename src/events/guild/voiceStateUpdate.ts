@@ -49,6 +49,8 @@ export default class {
     const player = client.manager?.players.get(newState.guild.id);
     if (!player) return;
 
+    if (data && data.twentyfourseven) return;
+
     if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId)
       player.destroy();
 
@@ -73,8 +75,6 @@ export default class {
     if (oldState.id === client.user!.id) return;
     if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId)
       return;
-
-    if (data && !data.twentyfourseven) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
