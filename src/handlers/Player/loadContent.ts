@@ -154,6 +154,23 @@ export class playerLoadContent {
         textId: message.channel.id,
         deaf: true,
       });
+    else {
+      if (
+        message.member!.voice.channel !==
+        message.guild!.members.me!.voice.channel
+      ) {
+        msg.edit({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        return
+      }
+    }
 
     const result = await player.search(song, { requester: message.author });
     const tracks = result.tracks;
