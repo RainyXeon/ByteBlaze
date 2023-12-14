@@ -3,6 +3,8 @@
 # No song playing in guild!
 no_player: "No song/s currently playing within this guild."
 
+no_current_player: "Please use `/join` to use this command."
+
 # Need to join voice & same voice to use command!
 no_voice: "You need to be in a same/voice channel."
 

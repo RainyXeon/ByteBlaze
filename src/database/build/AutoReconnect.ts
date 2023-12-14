@@ -33,7 +33,7 @@ export class AutoReconnectBuilder {
         volume: 100,
       },
       queue: [],
-      twentyfourseven: true,
+      twentyfourseven: false,
     });
   }
 
@@ -48,7 +48,7 @@ export class AutoReconnectBuilder {
         volume: this.player?.volume,
       },
       queue: this.player?.queue.length !== 0 ? this.queueUri() : [],
-      twentyfourseven: true,
+      twentyfourseven: false,
     });
   }
 
