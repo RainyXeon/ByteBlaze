@@ -2,6 +2,7 @@ import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoPlayer } from "better-kazagumo";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export class ButtonLoop {
   client: Manager;
@@ -78,7 +79,11 @@ export class ButtonLoop {
   }
 
   async setLoop247(loop: string) {
-    if (await this.client.db.autoreconnect.get(this.player.guildId)) {
+    const check = await new AutoReconnectBuilder(
+      this.client,
+      this.player
+    ).execute(this.player.guildId);
+    if (check) {
       await this.client.db.autoreconnect.set(
         `${this.player.guildId}.config.loop`,
         loop

@@ -2,6 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { KazagumoPlayer } from "better-kazagumo";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 // Main code
 export default class implements PrefixCommand {
@@ -107,7 +108,10 @@ export default class implements PrefixCommand {
   }
 
   async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
-    if (await client.db.autoreconnect.get(player.guildId)) {
+    const data = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
+    if (data) {
       await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
     }
   }

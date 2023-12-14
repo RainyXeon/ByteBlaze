@@ -10,4 +10,5 @@ export interface AutoReconnect {
     volume: number;
   };
   queue: string[];
+  twentyfourseven: boolean;
 }

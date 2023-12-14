@@ -5,6 +5,7 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
   GuildMember,
+  Message,
 } from "discord.js";
 import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
@@ -72,13 +73,19 @@ export default class implements SlashCommand {
             ],
           });
 
-        if (!player)
+        if (!player) {
           player = await client.manager.createPlayer({
             guildId: interaction.guild!.id,
             voiceId: (interaction.member as GuildMember).voice.channel!.id,
             textId: interaction.channel!.id,
             deaf: true,
           });
+        } else if (
+          player &&
+          !this.checkSameVoice(interaction, client, language, msg)
+        ) {
+          return;
+        }
 
         if (!(value as string))
           return msg.edit({
@@ -157,5 +164,30 @@ export default class implements SlashCommand {
         }
       }
     } catch (e) {}
+  }
+
+  checkSameVoice(
+    interaction: CommandInteraction,
+    client: Manager,
+    language: string,
+    msg: Message
+  ) {
+    if (
+      (interaction.member as GuildMember)!.voice.channel !==
+      interaction.guild!.members.me!.voice.channel
+    ) {
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return false;
+    }
+
+    return true;
   }
 }

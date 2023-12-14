@@ -6,6 +6,7 @@ import {
   SlashCommand,
 } from "../../../@types/Command.js";
 import { KazagumoPlayer } from "better-kazagumo";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements SlashCommand {
   name = ["247"];
@@ -57,61 +58,28 @@ export default class implements SlashCommand {
         ],
       });
 
-    if (!player.queue.current || player.queue.current == null)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_music")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    const data = await new AutoReconnectBuilder(client, player).execute(
+      interaction.guild!.id
+    );
 
-    let data = await client.db.autoreconnect.get(`${interaction.guild!.id}`);
-
-    if (data) {
-      await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
+    if (data.twentyfourseven) {
+      await client.db.autoreconnect.set(
+        `${interaction.guild!.id}.twentyfourseven`,
+        false
+      );
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
-    } else if (!data) {
-      if (!player.queue.current || player.queue.current == null)
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_music")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-
-      await client.db.autoreconnect.set(`${interaction.guild!.id}`, {
-        guild: player.guildId,
-        text: player.textId,
-        voice: player.voiceId,
-        current: player.queue.current?.uri,
-        config: {
-          loop: player.loop,
-          volume: player.volume,
-        },
-        queue: player.queue.length !== 0 ? this.queueUri(player) : [],
-      });
-
+    } else {
+      await client.db.autoreconnect.set(
+        `${interaction.guild!.id}.twentyfourseven`,
+        true
+      );
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_on")}`)
         .setColor(client.color);
       return msg.edit({ content: " ", embeds: [on] });
     }
-  }
-
-  queueUri(player: KazagumoPlayer) {
-    const res = [];
-    for (let data of player.queue) {
-      res.push(data.uri);
-    }
-    return res;
   }
 }

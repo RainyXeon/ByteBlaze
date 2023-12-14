@@ -72,8 +72,12 @@ export class AutoReconnectLavalinkService {
   async connectChannel(data: { id: string; value: AutoReconnect }) {
     const channel = this.client.channels.cache.get(data.value.text);
     const voice = this.client.channels.cache.get(data.value.voice);
-    if (!channel || !voice)
-      return this.client.db.autoreconnect.delete(`${data.id}`);
+    if (!channel || !voice) {
+      this.client.db.autoreconnect.set(`${data.id}.text`, "");
+      this.client.db.autoreconnect.set(`${data.id}.voice`, "");
+      return;
+    }
+
     const player = await this.client.manager.createPlayer({
       guildId: data.value.guild,
       voiceId: data.value.voice,

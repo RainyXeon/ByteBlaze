@@ -144,7 +144,8 @@ export default class implements PrefixCommand {
         filter: (i) =>
           i.isStringSelectMenu() &&
           i.user &&
-          i.message.author.id == client.user!.id,
+          i.message.author.id == client.user!.id &&
+          i.user.id == message.author.id,
         time: 60000,
       });
       collector.on("collect", async (m) => {

@@ -11,7 +11,6 @@ import {
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-// import { musicCard } from "musicard";
 import {
   playerRowOne,
   playerRowOneEdited,
@@ -20,6 +19,7 @@ import {
 import { ReplyInteractionService } from "../../functions/replyInteraction.js";
 import { KazagumoLoop } from "../../@types/Lavalink.js";
 import { ControlEnum } from "../../database/schema/Control.js";
+import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -123,7 +123,9 @@ export default class {
       }
     }
 
-    if (await client.db.autoreconnect.get(player.guildId)) {
+    const autoreconnect = new AutoReconnectBuilder(client, player);
+
+    if (await autoreconnect.get(player.guildId)) {
       await client.db.autoreconnect.set(
         `${player.guildId}.current`,
         player.queue.current?.uri
@@ -146,6 +148,8 @@ export default class {
       }
 
       await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
+    } else {
+      await autoreconnect.execute(player.guildId);
     }
 
     if (Control == ControlEnum.Disable) return;

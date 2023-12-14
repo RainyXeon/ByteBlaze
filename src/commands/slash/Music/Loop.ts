@@ -9,6 +9,7 @@ import { Manager } from "../../../manager.js";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 import { KazagumoPlayer } from "better-kazagumo";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements SlashCommand {
   name = ["loop"];
@@ -111,7 +112,10 @@ export default class implements SlashCommand {
   }
 
   async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
-    if (await client.db.autoreconnect.get(player.guildId)) {
+    const check = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
+    if (check) {
       await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }
   }

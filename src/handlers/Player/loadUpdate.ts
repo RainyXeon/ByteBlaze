@@ -95,7 +95,7 @@ export class playerLoadUpdate {
         .setFooter({
           text: `${client.i18n.get(language, "setup", "setup_footer", {
             songs: `${player.queue.size}`,
-            volume: `${player.volume}`,
+            volume: `${player.volume * 100}`,
             duration: qDuration,
           })}`,
         }); //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration

@@ -3,6 +3,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";
 import { KazagumoLoop } from "../../@types/Lavalink.js";
+import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -26,18 +27,23 @@ export default class {
       );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     client.sent_queue.set(player.guildId, false);
-    let data = await client.db.autoreconnect.get(`${player.guildId}`);
+    let data = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
 
     if (!channel) return;
 
-    if (player.state == 5 && data) {
+    if (player.state == 5 && data.twentyfourseven) {
       await client.manager.createPlayer({
-        guildId: data.guild,
-        voiceId: data.voice,
-        textId: data.text,
+        guildId: data.guild!,
+        voiceId: data.voice!,
+        textId: data.text!,
         deaf: true,
       });
-    }
+    } else
+      await new AutoReconnectBuilder(client, player).noPlayerBuild(
+        player.guildId
+      );
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
