@@ -39,13 +39,13 @@ export default class {
       );
     }
 
-    let data = await new AutoReconnectBuilder(client, player).execute(
+    let data = await new AutoReconnectBuilder(client, player).get(
       player.guildId
     );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
 
-    if (data.twentyfourseven) return;
+    if (data && data.twentyfourseven) return;
 
     if (player.queue.length || player!.queue!.current)
       return new ClearMessageService(client, channel, player);

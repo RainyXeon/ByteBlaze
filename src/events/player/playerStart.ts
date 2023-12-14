@@ -149,32 +149,10 @@ export default class {
 
       await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
     } else {
-      await autoreconnect.execute(player.guildId);
+      await autoreconnect.playerBuild(player.guildId);
     }
 
     if (Control == ControlEnum.Disable) return;
-
-    // const card = new musicCard()
-    //   .setName(String(song?.title))
-    //   .setAuthor(String(song?.author))
-    //   .setColor(String(client.color))
-    //   .setTheme("classic")
-    //   .setBrightness(50)
-    //   .setThumbnail(
-    //     track.thumbnail
-    //       ? track.thumbnail
-    //       : `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-    //   )
-    //   .setProgress(10)
-    //   .setStartTime("0:00")
-    //   .setEndTime(formatduration(song!.length))
-    //   .setRequester((song?.requester as User).username);
-
-    // const cardBuffer = await card.build();
-
-    // const attachment = new AttachmentBuilder(cardBuffer, {
-    //   name: "musiccard.png",
-    // });
 
     const embeded = new EmbedBuilder()
       .setAuthor({

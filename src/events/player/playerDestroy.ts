@@ -27,23 +27,24 @@ export default class {
       );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     client.sent_queue.set(player.guildId, false);
-    let data = await new AutoReconnectBuilder(client, player).execute(
+    let data = await new AutoReconnectBuilder(client, player).get(
       player.guildId
     );
 
     if (!channel) return;
 
-    if (player.state == 5 && data.twentyfourseven) {
-      await client.manager.createPlayer({
-        guildId: data.guild!,
-        voiceId: data.voice!,
-        textId: data.text!,
-        deaf: true,
-      });
-    } else
-      await new AutoReconnectBuilder(client, player).noPlayerBuild(
-        player.guildId
-      );
+    if (player.state == 5 && data !== null && data) {
+      if (data.twentyfourseven) {
+        await client.manager.createPlayer({
+          guildId: data.guild!,
+          voiceId: data.voice!,
+          textId: data.text!,
+          deaf: true,
+        });
+        await new AutoReconnectBuilder(client, player).noPlayerBuild(player.guildId)
+      }
+      else await client.db.autoreconnect.delete(player.guildId) 
+    }
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
@@ -57,16 +58,6 @@ export default class {
       .setDescription(
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
-
-    if (await client.db.autoreconnect.get(player.guildId)) {
-      await client.db.autoreconnect.set(`${player.guildId}.current`, "");
-      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, 100);
-      await client.db.autoreconnect.set(
-        `${player.guildId}.config.loop`,
-        KazagumoLoop.none
-      );
-      await client.db.autoreconnect.set(`${player.guildId}.queue`, []);
-    }
 
     if (channel) {
       const msg = await channel.send({ embeds: [embed] });

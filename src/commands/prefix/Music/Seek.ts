@@ -24,7 +24,6 @@ export default class implements PrefixCommand {
     let value;
     const time = args[0];
 
-    console.log(time_regex.test(time), time.split(/:/));
     if (!time_regex.test(time))
       return message.reply({
         embeds: [
@@ -40,7 +39,6 @@ export default class implements PrefixCommand {
       const min = Number(m) * 60;
       const sec = Number(s);
       value = min + sec;
-      console.log(value);
     }
 
     const msg = await message.reply({
@@ -97,8 +95,6 @@ export default class implements PrefixCommand {
 
     if (song_position < value * 1000) final_res = song_position + value * 1000;
     else final_res = value * 1000;
-
-    console.log(final_res / 1000);
 
     const Duration = new FormatDuration().parse(final_res);
 

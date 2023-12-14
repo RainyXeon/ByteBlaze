@@ -17,7 +17,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    let data = await new AutoReconnectBuilder(client).execute(
+    let data = await new AutoReconnectBuilder(client).get(
       newState.guild.id
     );
 
@@ -74,7 +74,7 @@ export default class {
     if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId)
       return;
 
-    if (!data.twentyfourseven) return;
+    if (data && !data.twentyfourseven) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
