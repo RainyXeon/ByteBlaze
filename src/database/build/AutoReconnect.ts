@@ -52,6 +52,21 @@ export class AutoReconnectBuilder {
     });
   }
 
+  async build247(guildId: string, mode: boolean = true, voiceId: string = "") {
+    return await this.client.db.autoreconnect.set(`${guildId}`, {
+      guild: this.player?.guildId,
+      text: this.player?.textId,
+      voice: voiceId,
+      current: "",
+      config: {
+        loop: "none",
+        volume: 100,
+      },
+      queue: [],
+      twentyfourseven: mode,
+    });
+  }
+
   queueUri() {
     const res = [];
     for (let data of this.player?.queue!) {

@@ -170,7 +170,7 @@ export class playerLoadContent {
               .setColor(client.color),
           ],
         });
-        return
+        return;
       }
     }
 

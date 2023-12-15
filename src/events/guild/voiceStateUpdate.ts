@@ -17,9 +17,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    let data = await new AutoReconnectBuilder(client).get(
-      newState.guild.id
-    );
+    let data = await new AutoReconnectBuilder(client).get(newState.guild.id);
 
     if (oldState.channel === null && oldState.id !== client.user!.id) {
       if (client.websocket)

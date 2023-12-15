@@ -35,15 +35,18 @@ export default class {
 
     if (player.state == 5 && data !== null && data) {
       if (data.twentyfourseven) {
+        await new AutoReconnectBuilder(client, player).build247(
+          player.guildId,
+          true,
+          data.voice
+        );
         await client.manager.createPlayer({
           guildId: data.guild!,
           voiceId: data.voice!,
           textId: data.text!,
           deaf: true,
         });
-        await new AutoReconnectBuilder(client, player).noPlayerBuild(player.guildId)
-      }
-      else await client.db.autoreconnect.delete(player.guildId) 
+      } else await client.db.autoreconnect.delete(player.guildId);
     }
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
