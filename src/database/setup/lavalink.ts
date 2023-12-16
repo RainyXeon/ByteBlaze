@@ -51,8 +51,6 @@ export class AutoReconnectLavalinkService {
         lavalink_mess + `Lavalink avalible, remove interval and continue setup!`
       );
 
-      console.log(maindata);
-
       chillout.forEach(
         maindata,
         async (data: { id: string; value: AutoReconnect }) => {
