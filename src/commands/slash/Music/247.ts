@@ -63,10 +63,13 @@ export default class implements SlashCommand {
     );
 
     if (data.twentyfourseven) {
-      await client.db.autoreconnect.set(
-        `${interaction.guild!.id}.twentyfourseven`,
-        false
-      );
+      data.current || data.current.length !== 0
+        ? await client.db.autoreconnect.set(
+            `${interaction.guild!.id}.twentyfourseven`,
+            false
+          )
+        : await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
+
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);

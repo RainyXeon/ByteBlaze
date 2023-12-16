@@ -61,10 +61,12 @@ export default class implements PrefixCommand {
     );
 
     if (data.twentyfourseven) {
-      await client.db.autoreconnect.set(
-        `${message.guild!.id}.twentyfourseven`,
-        false
-      );
+      data.current || data.current.length !== 0
+        ? await client.db.autoreconnect.set(
+            `${message.guild!.id}.twentyfourseven`,
+            false
+          )
+        : await client.db.autoreconnect.delete(`${message.guild!.id}`);
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
