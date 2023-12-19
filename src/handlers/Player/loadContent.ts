@@ -147,6 +147,8 @@ export class playerLoadContent {
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
+    await message.delete();
+
     if (!player)
       player = await client.manager.createPlayer({
         guildId: message.guild.id,
@@ -154,11 +156,26 @@ export class playerLoadContent {
         textId: message.channel.id,
         deaf: true,
       });
+    else {
+      if (
+        message.member!.voice.channel !==
+        message.guild!.members.me!.voice.channel
+      ) {
+        msg.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        return;
+      }
+    }
 
     const result = await player.search(song, { requester: message.author });
     const tracks = result.tracks;
-
-    await message.delete();
 
     if (!result.tracks.length) {
       msg.edit({

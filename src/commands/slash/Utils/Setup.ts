@@ -142,15 +142,15 @@ export default class implements SlashCommand {
       if (SetupChannel.enable == false)
         return interaction.editReply({ embeds: [embed_none] });
 
-      const fetchedTextChannel = interaction.guild!.channels.cache.get(
-        SetupChannel.channel
-      );
-      const fetchedVoiceChannel = interaction.guild!.channels.cache.get(
-        SetupChannel.voice
-      );
-      const fetchedCategory = interaction.guild!.channels.cache.get(
-        SetupChannel.category
-      );
+      const fetchedTextChannel = SetupChannel.channel
+        ? interaction.guild!.channels.cache.get(SetupChannel.channel)
+        : undefined;
+      const fetchedVoiceChannel = SetupChannel.voice
+        ? interaction.guild!.channels.cache.get(SetupChannel.voice)
+        : undefined;
+      const fetchedCategory = SetupChannel.category
+        ? interaction.guild!.channels.cache.get(SetupChannel.category)
+        : undefined;
 
       const embed = new EmbedBuilder()
         .setDescription(

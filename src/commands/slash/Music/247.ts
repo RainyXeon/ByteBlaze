@@ -5,6 +5,8 @@ import {
   CommandOptionInterface,
   SlashCommand,
 } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "better-kazagumo";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements SlashCommand {
   name = ["247"];
@@ -56,21 +58,27 @@ export default class implements SlashCommand {
         ],
       });
 
-    let data = await client.db.autoreconnect.get(`${interaction.guild!.id}`);
+    const data = await new AutoReconnectBuilder(client, player).execute(
+      interaction.guild!.id
+    );
 
-    if (data) {
-      await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
+    if (data.twentyfourseven) {
+      data.current || data.current.length !== 0
+        ? await client.db.autoreconnect.set(
+            `${interaction.guild!.id}.twentyfourseven`,
+            false
+          )
+        : await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
+
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
-    } else if (!data) {
-      await client.db.autoreconnect.set(`${interaction.guild!.id}`, {
-        guild: player.guildId,
-        text: player.textId,
-        voice: player.voiceId,
-      });
-
+    } else {
+      await client.db.autoreconnect.set(
+        `${interaction.guild!.id}.twentyfourseven`,
+        true
+      );
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_on")}`)
         .setColor(client.color);

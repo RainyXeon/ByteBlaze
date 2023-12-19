@@ -38,7 +38,6 @@ export default class implements SlashCommand {
       interaction.options as CommandInteractionOptionResolver
     ).getString("time");
 
-    console.log(time_regex.test(time!), time!.split(/:/));
     if (!time_regex.test(time!))
       return interaction.editReply({
         embeds: [
@@ -54,7 +53,6 @@ export default class implements SlashCommand {
       const min = Number(m) * 60;
       const sec = Number(s);
       value = min + sec;
-      console.log(value);
     }
 
     const msg = await interaction.editReply({
@@ -112,8 +110,6 @@ export default class implements SlashCommand {
 
     if (song_position < value * 1000) final_res = song_position + value * 1000;
     else final_res = value * 1000;
-
-    console.log(final_res / 1000);
 
     const Duration = new FormatDuration().parse(final_res);
 

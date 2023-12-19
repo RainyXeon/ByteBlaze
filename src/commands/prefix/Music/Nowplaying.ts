@@ -68,7 +68,7 @@ export default class implements PrefixCommand {
       },
       {
         name: `${client.i18n.get(language, "player", "volume_title")}`,
-        value: `${player.volume}%`,
+        value: `${player.volume * 100}%`,
         inline: true,
       },
       {
