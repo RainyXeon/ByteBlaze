@@ -180,14 +180,9 @@ export default class implements SlashCommand {
   private checkSameVoice(
     interaction: CommandInteraction,
   ) {
-    if (
-      (interaction.member as GuildMember)!.voice.channel !==
+      return (interaction.member as GuildMember)!.voice.channel !==
       interaction.guild!.members.me!.voice.channel
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    )
   }
 
   // Autocomplete function
