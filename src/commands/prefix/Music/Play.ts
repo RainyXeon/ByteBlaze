@@ -140,12 +140,8 @@ export default class implements PrefixCommand {
   private checkSameVoice(
     message: Message,
   ) {
-    if (
+    return (
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    )
   }
 }
