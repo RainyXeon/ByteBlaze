@@ -37,9 +37,18 @@ import { DeployService } from "./services/DeployService.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const loggerService = new LoggerService().init();
 const configData = new ConfigDataService().data;
+
+const REGEX = [
+  /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,
+  /^.*(youtu.be\/|list=)([^#\&\?]*).*/,
+  /^(?:spotify:|https:\/\/[a-z]+\.spotify\.com\/(track\/|user\/(.*)\/playlist\/|playlist\/))(.*)$/,
+  /^https?:\/\/(?:www\.)?deezer\.com\/[a-z]+\/(track|album|playlist)\/(\d+)$/,
+  /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/,
+  /(?:https:\/\/music\.apple\.com\/)(?:.+)?(artist|album|music-video|playlist)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)/,
+  /^https?:\/\/(?:www\.|secure\.|sp\.)?nicovideo\.jp\/watch\/([a-z]{2}[0-9]+)/,
+];
 
 loggerService.info("Booting client...");
 
@@ -78,6 +87,7 @@ export class Manager extends Client {
   enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
   cluster?: ClusterClient<Client>;
+  REGEX: RegExp[];
 
   // Main class
   constructor() {
@@ -103,6 +113,8 @@ export class Manager extends Client {
             GatewayIntentBits.GuildMessages,
           ],
     });
+
+    // Initial basic bot config
     this.logger = loggerService;
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
@@ -116,8 +128,9 @@ export class Manager extends Client {
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shard_status = false;
+    this.REGEX = REGEX
 
-    // Auto fix lavalink varibles
+    // Initial autofix lavalink varibles
     this.lavalink_list = [];
     this.lavalink_using = [];
     this.fixing_nodes = false;
