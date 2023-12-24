@@ -8,6 +8,8 @@ import {
 import { Manager } from "../../../manager.js";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "kazagumo.mod";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements SlashCommand {
   name = ["loop"];
@@ -87,22 +89,34 @@ export default class implements SlashCommand {
 
     if (mode == "current") {
       await player.setLoop(KazagumoLoop.track);
+      this.setLoop247(client, player, String(KazagumoLoop.track));
       const looped = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "loop_current")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [looped] });
     } else if (mode == "queue") {
       await player.setLoop(KazagumoLoop.queue);
+      this.setLoop247(client, player, String(KazagumoLoop.queue));
       const looped_queue = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "loop_all")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [looped_queue] });
     } else if (mode === "none") {
       await player.setLoop(KazagumoLoop.none);
+      this.setLoop247(client, player, String(KazagumoLoop.none));
       const looped = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "unloop_all")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [looped] });
+    }
+  }
+
+  async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
+    const check = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
+    if (check) {
+      await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }
   }
 }

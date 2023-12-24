@@ -57,10 +57,11 @@ export default class implements SlashCommand {
         ],
       });
 
-    await player["send"]({
-      op: "seek",
+    await player.send({
       guildId: interaction.guild!.id,
-      position: 0,
+      playerOptions: {
+        position: 0,
+      },
     });
 
     const embed = new EmbedBuilder()

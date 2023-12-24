@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { TrackExceptionEvent } from "shoukaku";
 import { TextChannel } from "discord.js";

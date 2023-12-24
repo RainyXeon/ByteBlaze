@@ -1,7 +1,8 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export class ButtonLoop {
   client: Manager;
@@ -30,6 +31,8 @@ export class ButtonLoop {
       case "none":
         await this.player.setLoop(KazagumoLoop.track);
 
+        this.setLoop247(String(KazagumoLoop.track));
+
         const looptrack = new EmbedBuilder()
           .setDescription(
             `${this.client.i18n.get(this.language, "music", "loop_current")}`
@@ -43,6 +46,8 @@ export class ButtonLoop {
 
       case "track":
         await this.player.setLoop(KazagumoLoop.queue);
+
+        this.setLoop247(String(KazagumoLoop.queue));
 
         const loopall = new EmbedBuilder()
           .setDescription(
@@ -58,6 +63,8 @@ export class ButtonLoop {
       case "queue":
         await this.player.setLoop(KazagumoLoop.none);
 
+        this.setLoop247(String(KazagumoLoop.none));
+
         const unloopall = new EmbedBuilder()
           .setDescription(
             `${this.client.i18n.get(this.language, "music", "unloopall")}`
@@ -68,6 +75,19 @@ export class ButtonLoop {
           embeds: [unloopall],
         });
         break;
+    }
+  }
+
+  async setLoop247(loop: string) {
+    const check = await new AutoReconnectBuilder(
+      this.client,
+      this.player
+    ).execute(this.player.guildId);
+    if (check) {
+      await this.client.db.autoreconnect.set(
+        `${this.player.guildId}.config.loop`,
+        loop
+      );
     }
   }
 }

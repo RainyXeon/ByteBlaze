@@ -77,10 +77,11 @@ export default class implements SlashCommand {
 
     if (value && !isNaN(value)) {
       if (song_position + value * 1000 < song!.length!) {
-        player["send"]({
-          op: "seek",
-          guildId: interaction.guild!.id,
-          position: song_position + value * 1000,
+        player.send({
+          guildId: String(interaction.guild?.id),
+          playerOptions: {
+            position: song_position + value * 1000,
+          },
         });
 
         const forward1 = new EmbedBuilder()
@@ -107,10 +108,11 @@ export default class implements SlashCommand {
 
     if (!value) {
       if (song_position + fastForwardNum * 1000 < song!.length!) {
-        player["send"]({
-          op: "seek",
-          guildId: interaction.guild!.id,
-          position: song_position + fastForwardNum * 1000,
+        player.send({
+          guildId: String(interaction.guild?.id),
+          playerOptions: {
+            position: song_position + fastForwardNum * 1000,
+          },
         });
 
         const forward2 = new EmbedBuilder()

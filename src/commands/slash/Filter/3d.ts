@@ -57,13 +57,14 @@ export default class implements SlashCommand {
         ],
       });
 
-    const data = {
-      op: "filters",
-      guildId: interaction.guild!.id,
-      rotation: { rotationHz: 0.2 },
-    };
-
-    await player["send"](data);
+    await player.send({
+      guildId: String(interaction.guild?.id),
+      playerOptions: {
+        filters: {
+          rotation: { rotationHz: 0.2 },
+        },
+      },
+    });
 
     const embed = new EmbedBuilder()
       .setDescription(

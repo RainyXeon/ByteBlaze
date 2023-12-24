@@ -1,7 +1,9 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";
+import { KazagumoLoop } from "../../@types/Lavalink.js";
+import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -25,17 +27,26 @@ export default class {
       );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     client.sent_queue.set(player.guildId, false);
-    let data = await client.db.autoreconnect.get(`${player.guildId}`);
+    let data = await new AutoReconnectBuilder(client, player).get(
+      player.guildId
+    );
 
     if (!channel) return;
 
-    if (player.state == 5 && data) {
-      await client.manager.createPlayer({
-        guildId: data.guild,
-        voiceId: data.voice,
-        textId: data.text,
-        deaf: true,
-      });
+    if (player.state == 5 && data !== null && data) {
+      if (data.twentyfourseven) {
+        await new AutoReconnectBuilder(client, player).build247(
+          player.guildId,
+          true,
+          data.voice
+        );
+        await client.manager.createPlayer({
+          guildId: data.guild!,
+          voiceId: data.voice!,
+          textId: data.text!,
+          deaf: true,
+        });
+      } else await client.db.autoreconnect.delete(player.guildId);
     }
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);

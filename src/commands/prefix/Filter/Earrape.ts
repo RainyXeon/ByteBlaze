@@ -58,11 +58,6 @@ export default class implements PrefixCommand {
       });
 
     await player.setVolume(500);
-    const data = {
-      op: "filters",
-      guildId: message.guild!.id,
-    };
-    await player["send"](data);
 
     const earrapped = new EmbedBuilder()
       .setDescription(

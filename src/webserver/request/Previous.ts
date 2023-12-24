@@ -19,7 +19,7 @@ export default class implements RequestInterface {
       );
     }
 
-    const song = player.queue.previous;
+    const song = player.queue.previous[0];
 
     if (!song)
       return ws.send(

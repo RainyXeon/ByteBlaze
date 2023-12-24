@@ -101,7 +101,7 @@ export default class implements ContextCommand {
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
             title: tracks[0].title,
-            url: tracks[0].uri,
+            url: String(tracks[0].uri),
             duration: new ConvertTime().parse(tracks[0].length as number),
             request: String(tracks[0].requester),
           })}`
@@ -112,7 +112,7 @@ export default class implements ContextCommand {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: tracks[0].title,
-          url: tracks[0].uri,
+          url: String(tracks[0].uri),
           duration: new ConvertTime().parse(tracks[0].length as number),
           request: String(tracks[0].requester),
         })}`

@@ -1,6 +1,6 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import {
   Accessableby,
   CommandOptionInterface,

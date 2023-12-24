@@ -65,10 +65,11 @@ export default class implements PrefixCommand {
 
     if (value && !isNaN(+value)) {
       if (song_position + Number(value) * 1000 < song!.length!) {
-        player["send"]({
-          op: "seek",
+        player.send({
           guildId: message.guild!.id,
-          position: song_position + Number(value) * 1000,
+          playerOptions: {
+            position: song_position + Number(value) * 1000,
+          },
         });
 
         const forward1 = new EmbedBuilder()
@@ -108,9 +109,10 @@ export default class implements PrefixCommand {
     if (!value) {
       if (song_position + fastForwardNum * 1000 < song!.length!) {
         player["send"]({
-          op: "seek",
           guildId: message.guild!.id,
-          position: song_position + fastForwardNum * 1000,
+          playerOptions: {
+            position: song_position + fastForwardNum * 1000,
+          },
         });
 
         const forward2 = new EmbedBuilder()

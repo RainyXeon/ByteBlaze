@@ -58,10 +58,10 @@ features:
 
   MESSAGE_CONTENT:
     enable: true
-    commands: 
+    commands:
       enable: true
       prefix: "d!" # The prefix you want
-  
+
   AUTOFIX_LAVALINK: # Fix the lavalink server when the current is down
     enable: true
     reconnectTries: 5

@@ -99,7 +99,7 @@ export default class implements SlashCommand {
       .setDescription(
         `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
-          url: song.uri,
+          url: String(song.uri),
           duration: new ConvertTime().parse(song.length as number),
           request: String(song.requester),
         })}`

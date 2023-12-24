@@ -5,13 +5,12 @@ name: Build release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -45,13 +44,13 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Build bot
         run: node build.mjs build:github
-  
+
       - name: Push ByteBlaze build zip to artifact
         uses: actions/upload-artifact@v3
         with:

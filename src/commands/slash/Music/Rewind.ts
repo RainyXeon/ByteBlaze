@@ -77,10 +77,11 @@ export default class implements SlashCommand {
 
     if (value && !isNaN(value)) {
       if (song_position - value * 1000 > 0) {
-        await player["send"]({
-          op: "seek",
+        await player.send({
           guildId: interaction.guild!.id,
-          position: song_position - value * 1000,
+          playerOptions: {
+            position: song_position - value * 1000,
+          },
         });
 
         const rewind1 = new EmbedBuilder()
@@ -119,10 +120,11 @@ export default class implements SlashCommand {
 
     if (!value) {
       if (song_position - rewindNum * 1000 > 0) {
-        await player["send"]({
-          op: "seek",
+        await player.send({
           guildId: interaction.guild!.id,
-          position: song_position - rewindNum * 1000,
+          playerOptions: {
+            position: song_position - rewindNum * 1000,
+          },
         });
 
         const rewind2 = new EmbedBuilder()

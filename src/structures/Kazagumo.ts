@@ -1,4 +1,4 @@
-import { Kazagumo, Plugins } from "better-kazagumo";
+import { Kazagumo, Plugins } from "kazagumo.mod";
 import { Manager } from "../manager.js";
 import { Connectors } from "shoukaku";
 

@@ -1,6 +1,8 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "kazagumo.mod";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements PrefixCommand {
   name = "247";
@@ -28,6 +30,21 @@ export default class implements PrefixCommand {
       ],
     });
 
+    const { channel } = message.member!.voice;
+    if (
+      !channel ||
+      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
+    )
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice_247")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
       return msg.edit({
@@ -39,36 +56,29 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    const { channel } = message.member!.voice;
-    if (
-      !channel ||
-      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
-    )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
 
-    let data = await client.db.autoreconnect.get(`${message.guild?.id}`);
+    const data = await new AutoReconnectBuilder(client, player).execute(
+      message.guild?.id!
+    );
 
-    if (data) {
-      await client.db.autoreconnect.delete(`${message.guild!.id}`);
+    if (data.twentyfourseven) {
+      data.current || data.current.length !== 0
+        ? await client.db.autoreconnect.set(
+            `${message.guild!.id}.twentyfourseven`,
+            false
+          )
+        : await client.db.autoreconnect.delete(`${message.guild!.id}`);
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
-    } else if (!data) {
-      await client.db.autoreconnect.set(`${message.guild!.id}`, {
-        guild: player.guildId,
-        text: player.textId,
-        voice: player.voiceId,
-      });
+    }
 
+    if (!data.twentyfourseven) {
+      await client.db.autoreconnect.set(
+        `${message.guild!.id}.twentyfourseven`,
+        true
+      );
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_on")}`)
         .setColor(client.color);

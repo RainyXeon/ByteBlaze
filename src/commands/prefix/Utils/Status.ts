@@ -1,11 +1,7 @@
-import {
-  EmbedBuilder,
-  ChannelType,
-  version,
-  Message,
-  TextChannel,
-} from "discord.js";
+import { EmbedBuilder, ChannelType, version, Message } from "discord.js";
 import ms from "pretty-ms";
+import os from "os";
+import { stripIndents } from "common-tags";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
@@ -43,7 +39,7 @@ export default class implements PrefixCommand {
 
     if (choose === "create") {
       const StatusChannel = await client.db.status.get(`${message.guild!.id}`);
-      if (StatusChannel!.enable == true)
+      if (StatusChannel !== null && StatusChannel!.enable == true)
         return message.reply({
           embeds: [
             new EmbedBuilder()
@@ -65,52 +61,8 @@ export default class implements PrefixCommand {
         parent: parent.id,
       });
 
-      const info = new EmbedBuilder()
-        .setTitle(client.user!.tag + " Status")
-        .addFields([
-          {
-            name: "Uptime",
-            value: `\`\`\`${ms(client.uptime!)}\`\`\``,
-            inline: true,
-          },
-          {
-            name: "WebSocket Ping",
-            value: `\`\`\`${client.ws.ping}ms\`\`\``,
-            inline: true,
-          },
-          {
-            name: "Memory",
-            value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
-              2
-            )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-              2
-            )} MB Heap\`\`\``,
-            inline: true,
-          },
-          {
-            name: "Guild Count",
-            value: `\`\`\`${client.guilds.cache.size} guilds\`\`\``,
-            inline: true,
-          },
-          {
-            name: "User Count",
-            value: `\`\`\`${client.users.cache.size} users\`\`\``,
-            inline: true,
-          },
-          {
-            name: "Node",
-            value: `\`\`\`${process.version} on ${process.platform} ${process.arch}\`\`\``,
-            inline: true,
-          },
-          {
-            name: "Cached Data",
-            value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
-            inline: true,
-          },
-          { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
-        ])
-        .setTimestamp()
-        .setColor(client.color);
+      const info = this.infoChannelembed(client);
+
       const channel_msg = await textChannel.send({
         content: ``,
         embeds: [info],
@@ -182,5 +134,41 @@ export default class implements PrefixCommand {
 
       await client.db.status.set(`${message.guild!.id}`, deleted_data);
     }
+  }
+
+  infoChannelembed(client: Manager) {
+    const total = os.totalmem() / 1024 / 1024;
+    const used = process.memoryUsage().rss / 1024 / 1024;
+
+    const hostInfo = stripIndents`\`\`\`
+    - OS: ${os.type()} ${os.release()} (${os.arch()})
+    - CPU: ${os.cpus()[0].model}
+    - Uptime: ${ms(client.uptime as number)}
+    - RAM: ${(total / 1024).toFixed(2)} GB
+    - Memory Usage: ${used.toFixed(2)}/${total.toFixed(2)} (MB)
+    - Node.js: ${process.version}
+    \`\`\``;
+
+    const botInfo = stripIndents`\`\`\`
+    - Codename: ${client.metadata.codename}
+    - Bot version: ${client.metadata.version}
+    - Autofix version: ${client.metadata.autofix}
+    - Discord.js: ${version}
+    - WebSocket Ping: ${client.ws.ping}ms
+    - Guild Count: ${client.guilds.cache.size}
+    - User count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    \`\`\``;
+
+    return new EmbedBuilder()
+      .setAuthor({
+        name: client.user!.tag + " Status",
+        iconURL: String(client.user!.displayAvatarURL({ size: 2048 })),
+      })
+      .setColor(client.color)
+      .addFields(
+        { name: "Host info", value: hostInfo },
+        { name: "Bot info", value: botInfo }
+      )
+      .setTimestamp();
   }
 }

@@ -4,4 +4,6 @@
 no_player: "Không có bài hát nào hiện đang phát trong guild này."
 
 # Need to join voice & same voice to use command!
-no_voice: "Bạn cần ở trong cùng một kênh thoại."
+no_voice_247: "Bạn cần tham gia kênh thoại."
+
+no_music: "Bạn cần phát một bài hát để sử dụng lệnh này"

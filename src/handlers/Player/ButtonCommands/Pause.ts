@@ -5,7 +5,7 @@ import {
   VoiceBasedChannel,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 
 export class ButtonPause {
   client: Manager;

@@ -60,27 +60,30 @@ export default class implements SlashCommand {
       });
     if (!value) {
       const data = {
-        op: "filters",
         guildId: interaction.guild!.id,
-        equalizer: [
-          { band: 0, gain: 0.1 },
-          { band: 1, gain: 0.1 },
-          { band: 2, gain: 0.05 },
-          { band: 3, gain: 0.05 },
-          { band: 4, gain: -0.05 },
-          { band: 5, gain: -0.05 },
-          { band: 6, gain: 0 },
-          { band: 7, gain: -0.05 },
-          { band: 8, gain: -0.05 },
-          { band: 9, gain: 0 },
-          { band: 10, gain: 0.05 },
-          { band: 11, gain: 0.05 },
-          { band: 12, gain: 0.1 },
-          { band: 13, gain: 0.1 },
-        ],
+        playerOptions: {
+          filters: {
+            equalizer: [
+              { band: 0, gain: 0.1 },
+              { band: 1, gain: 0.1 },
+              { band: 2, gain: 0.05 },
+              { band: 3, gain: 0.05 },
+              { band: 4, gain: -0.05 },
+              { band: 5, gain: -0.05 },
+              { band: 6, gain: 0 },
+              { band: 7, gain: -0.05 },
+              { band: 8, gain: -0.05 },
+              { band: 9, gain: 0 },
+              { band: 10, gain: 0.05 },
+              { band: 11, gain: 0.05 },
+              { band: 12, gain: 0.1 },
+              { band: 13, gain: 0.1 },
+            ],
+          },
+        },
       };
 
-      await player["send"](data);
+      await player.send(data);
 
       const msg1 = await interaction.editReply({
         embeds: [
@@ -126,26 +129,29 @@ export default class implements SlashCommand {
         ],
       });
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
-      equalizer: [
-        { band: 0, gain: value / 10 },
-        { band: 1, gain: value / 10 },
-        { band: 2, gain: value / 10 },
-        { band: 3, gain: value / 10 },
-        { band: 4, gain: value / 10 },
-        { band: 5, gain: value / 10 },
-        { band: 6, gain: value / 10 },
-        { band: 7, gain: 0 },
-        { band: 8, gain: 0 },
-        { band: 9, gain: 0 },
-        { band: 10, gain: 0 },
-        { band: 11, gain: 0 },
-        { band: 12, gain: 0 },
-        { band: 13, gain: 0 },
-      ],
+      playerOptions: {
+        filters: {
+          equalizer: [
+            { band: 0, gain: value / 10 },
+            { band: 1, gain: value / 10 },
+            { band: 2, gain: value / 10 },
+            { band: 3, gain: value / 10 },
+            { band: 4, gain: value / 10 },
+            { band: 5, gain: value / 10 },
+            { band: 6, gain: value / 10 },
+            { band: 7, gain: 0 },
+            { band: 8, gain: 0 },
+            { band: 9, gain: 0 },
+            { band: 10, gain: 0 },
+            { band: 11, gain: 0 },
+            { band: 12, gain: 0 },
+            { band: 13, gain: 0 },
+          ],
+        },
+      },
     };
-    await player["send"](data);
+    await player.send(data);
     const msg2 = await interaction.editReply({
       embeds: [
         new EmbedBuilder()

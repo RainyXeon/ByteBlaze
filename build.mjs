@@ -5,8 +5,8 @@ import archiver from "dir-archiver";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import fse from "fs-extra";
 import { plsParseArgs } from "plsargs";
-import copydir from 'copy-dir';
-import path from "path"
+import copydir from "copy-dir";
+import path from "path";
 const args = plsParseArgs(process.argv.slice(2));
 const parser = new XMLParser();
 const builder = new XMLBuilder();
@@ -30,7 +30,7 @@ const ignored = [
   "pnpm-lock.yaml",
   "tsconfig.json",
   ".github",
-  "out"
+  "out",
 ];
 
 function logger(data, type) {
@@ -53,40 +53,40 @@ if (!acceptedParams.includes(args.get(0))) {
 }
 
 if (args.get(0) == acceptedParams[0]) {
-  const checkDir = ["./dist", "./out", "./.cylane", "./logs"]
+  const checkDir = ["./dist", "./out", "./.cylane", "./logs"];
 
   checkDir.forEach(async (data) => {
-    if (fse.existsSync(data)) 
+    if (fse.existsSync(data))
       fse.rmdirSync(data, { recursive: true, force: true });
-  })
+  });
 
   logger("Clean successfully!", "info");
   process.exit();
 }
 
-console.log(args.get(0), acceptedParams[2])
+console.log(args.get(0), acceptedParams[2]);
 
 if (args.get(0) == acceptedParams[2]) {
   const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", [
     "run",
     "build:full",
   ]);
-  
+
   child.stdout.on("data", (data) => {
     logger(data, "build");
   });
-  
+
   child.stderr.on("data", (data) => {
     logger(data, "build");
   });
-  
+
   child.on("error", (error) => {
     logger(error.message, "error");
   });
-  
+
   child.on("close", async (code) => {
     logger(`Build finished with code ${code}`, "build");
-  
+
     // Edit manifest
     const manifestRaw = fse.readFileSync("./dist/manifest.xml", "utf-8");
     const manifest = parser.parse(manifestRaw);
@@ -101,33 +101,30 @@ if (args.get(0) == acceptedParams[2]) {
       `\n` +
       "<!-- You will be responsible for this when changing any content in the file. -->" +
       `\n`;
-  
+
     manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
-  
+
     fse.writeFileSync(
       "./dist/manifest.xml",
       builder.build(manifest) + warningData,
       "utf-8"
     );
-  
-    logger(
-      "Edit manifest file complete!",
-      "build"
-    );
+
+    logger("Edit manifest file complete!", "build");
 
     await fse.mkdir("./out");
     await fse.mkdir("./out/ByteBlaze");
 
-    copydir.sync('.', './out/ByteBlaze', {
-      filter: function(stat, filepath, filename){
-        if(stat === 'file' && ignored.includes(filename)) {
+    copydir.sync(".", "./out/ByteBlaze", {
+      filter: function (stat, filepath, filename) {
+        if (stat === "file" && ignored.includes(filename)) {
           return false;
         }
-        if (stat === 'directory' && ignored.includes(filename)) {
+        if (stat === "directory" && ignored.includes(filename)) {
           return false;
         }
-        return true;  // remind to return a true value when file check passed.
-      }
+        return true; // remind to return a true value when file check passed.
+      },
     });
   });
 } else {
@@ -136,22 +133,22 @@ if (args.get(0) == acceptedParams[2]) {
     "run",
     "build:full",
   ]);
-  
+
   child.stdout.on("data", (data) => {
     logger(data, "build");
   });
-  
+
   child.stderr.on("data", (data) => {
     logger(data, "build");
   });
-  
+
   child.on("error", (error) => {
     logger(error.message, "error");
   });
-  
+
   child.on("close", async (code) => {
     logger(`Build finished with code ${code}`, "build");
-  
+
     // Edit manifest
     const manifestRaw = fse.readFileSync("./dist/manifest.xml", "utf-8");
     const manifest = parser.parse(manifestRaw);
@@ -166,24 +163,21 @@ if (args.get(0) == acceptedParams[2]) {
       `\n` +
       "<!-- You will be responsible for this when changing any content in the file. -->" +
       `\n`;
-  
+
     manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
-  
+
     fse.writeFileSync(
       "./dist/manifest.xml",
       builder.build(manifest) + warningData,
       "utf-8"
     );
-  
-    logger(
-      "Edit manifest file complete!",
-      "build"
-    );
-  
+
+    logger("Edit manifest file complete!", "build");
+
     // Archive build
     await fse.mkdir("./out");
     const path = `./out/ByteBlaze.zip`;
-  
+
     const zipper = new archiver(".", path, false, ignored);
     zipper.createZip();
     logger("Archive all build file successfully!!!", "build");

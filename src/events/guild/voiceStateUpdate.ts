@@ -8,6 +8,7 @@ import {
   TextChannel,
 } from "discord.js";
 import { Manager } from "../../manager.js";
+import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -16,7 +17,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    let data = await client.db.autoreconnect.get(`${newState.guild.id}`);
+    let data = await new AutoReconnectBuilder(client).get(newState.guild.id);
 
     if (oldState.channel === null && oldState.id !== client.user!.id) {
       if (client.websocket)
@@ -46,6 +47,8 @@ export default class {
     const player = client.manager?.players.get(newState.guild.id);
     if (!player) return;
 
+    if (data && data.twentyfourseven) return;
+
     if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId)
       player.destroy();
 
@@ -70,8 +73,6 @@ export default class {
     if (oldState.id === client.user!.id) return;
     if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId)
       return;
-
-    if (data) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 

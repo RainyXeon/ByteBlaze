@@ -58,12 +58,15 @@ export default class implements PrefixCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
-      rotation: { rotationHz: 0.2 },
+      playerOptions: {
+        filters: {
+          rotation: { rotationHz: 0.2 },
+        },
+      },
     };
 
-    await player["send"](data);
+    await player.send(data);
 
     const embed = new EmbedBuilder()
       .setDescription(

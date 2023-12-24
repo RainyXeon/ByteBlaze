@@ -3,12 +3,17 @@ import {
   CommandInteraction,
   ApplicationCommandOptionType,
   CommandInteractionOptionResolver,
+  AutocompleteInteraction,
 } from "discord.js";
 import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import {
+  AutocompleteInteractionChoices,
+  GlobalInteraction,
+} from "../../../@types/Interaction.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 
@@ -104,7 +109,7 @@ export default class implements SlashCommand {
             .setDescription(
               `${client.i18n.get(language, "playlist", "add_track", {
                 title: tracks[0].title,
-                url: tracks[0].uri,
+                url: String(tracks[0].uri),
                 duration: Duration,
                 user: String(interaction.user),
               })}`
@@ -116,7 +121,7 @@ export default class implements SlashCommand {
             .setDescription(
               `${client.i18n.get(language, "playlist", "add_search", {
                 title: tracks[0].title,
-                url: tracks[0].uri,
+                url: String(tracks[0].uri),
                 duration: Duration,
                 user: String(interaction.user),
               })}`
@@ -205,5 +210,59 @@ export default class implements SlashCommand {
         TrackAdd.length = 0;
       }
     } catch (e) {}
+  }
+
+  // Autocomplete function
+  async autocomplete(
+    client: Manager,
+    interaction: GlobalInteraction,
+    language: string
+  ) {
+    let choice: AutocompleteInteractionChoices[] = [];
+    const url = String(
+      (interaction as CommandInteraction).options.get("search")!.value
+    );
+
+    const Random =
+      client.config.lavalink.DEFAULT[
+        Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
+      ];
+
+    const match = client.REGEX.some((match) => {
+      return match.test(url) == true;
+    });
+
+    if (match == true) {
+      choice.push({ name: url, value: url });
+      await (interaction as AutocompleteInteraction)
+        .respond(choice)
+        .catch(() => {});
+      return;
+    }
+
+    if (client.lavalink_using.length == 0) {
+      choice.push({
+        name: `${client.i18n.get(language, "music", "no_node")}`,
+        value: `${client.i18n.get(language, "music", "no_node")}`,
+      });
+      return;
+    }
+    const searchRes = await client.manager.search(url || Random);
+
+    if (searchRes.tracks.length == 0 || !searchRes.tracks) {
+      return choice.push({ name: "Error song not matches", value: url });
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const x = searchRes.tracks[i];
+      choice.push({
+        name: x.title ? x.title : "Unknown track name",
+        value: x.uri ? x.uri : url,
+      });
+    }
+
+    await (interaction as AutocompleteInteraction)
+      .respond(choice)
+      .catch(() => {});
   }
 }

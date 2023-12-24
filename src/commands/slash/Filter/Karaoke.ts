@@ -58,17 +58,20 @@ export default class implements SlashCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
-      karaoke: {
-        level: 1.0,
-        monoLevel: 1.0,
-        filterBand: 220.0,
-        filterWidth: 100.0,
+      playerOptions: {
+        filters: {
+          karaoke: {
+            level: 1.0,
+            monoLevel: 1.0,
+            filterBand: 220.0,
+            filterWidth: 100.0,
+          },
+        },
       },
     };
 
-    await player["send"](data);
+    await player.send(data);
 
     const embed = new EmbedBuilder()
       .setDescription(

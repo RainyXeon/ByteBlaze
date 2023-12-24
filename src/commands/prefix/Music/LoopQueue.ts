@@ -1,7 +1,9 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoopMode } from "../../../@types/Lavalink.js";
+import { KazagumoLoop, KazagumoLoopMode } from "../../../@types/Lavalink.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "kazagumo.mod";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 // Main code
 export default class implements PrefixCommand {
@@ -20,11 +22,6 @@ export default class implements PrefixCommand {
     language: string,
     prefix: string
   ) {
-    const loop_mode = {
-      none: "none",
-      track: "track",
-      queue: "queue",
-    };
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -62,7 +59,8 @@ export default class implements PrefixCommand {
       });
 
     if (player.loop === "queue") {
-      await player.setLoop(loop_mode.none as KazagumoLoopMode);
+      await player.setLoop(KazagumoLoop.none);
+      this.setLoop247(client, player, String(KazagumoLoop.none));
 
       const unloopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
@@ -70,13 +68,23 @@ export default class implements PrefixCommand {
 
       return msg.edit({ content: " ", embeds: [unloopall] });
     } else if (player.loop === "none") {
-      await player.setLoop(loop_mode.queue as KazagumoLoopMode);
+      await player.setLoop(KazagumoLoop.queue);
+      this.setLoop247(client, player, String(KazagumoLoop.queue));
 
       const loopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
         .setColor(client.color);
 
       return msg.edit({ content: " ", embeds: [loopall] });
+    }
+  }
+
+  async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
+    const data = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
+    if (data) {
+      await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }
   }
 }

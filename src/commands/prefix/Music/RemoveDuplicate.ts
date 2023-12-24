@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code

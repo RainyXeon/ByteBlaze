@@ -58,11 +58,14 @@ export default class implements PrefixCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
-      tremolo: {
-        frequency: 4.0,
-        depth: 0.75,
+      playerOptions: {
+        filters: {
+          tremolo: {
+            frequency: 4.0,
+            depth: 0.75,
+          },
+        },
       },
     };
 

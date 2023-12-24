@@ -1,6 +1,9 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoLoop } from "../../../@types/Lavalink.js";
+import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 // Main code
 export default class implements SlashCommand {
@@ -54,7 +57,8 @@ export default class implements SlashCommand {
         ],
       });
     if (player.loop === "queue") {
-      await player.setLoop("none");
+      await player.setLoop(KazagumoLoop.none);
+      this.setLoop247(client, player, String(KazagumoLoop.none));
 
       const unloopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
@@ -62,13 +66,23 @@ export default class implements SlashCommand {
 
       return msg.edit({ content: " ", embeds: [unloopall] });
     } else if (player.loop === "none") {
-      await player.setLoop("queue");
+      await player.setLoop(KazagumoLoop.queue);
+      this.setLoop247(client, player, String(KazagumoLoop.queue));
 
       const loopall = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
         .setColor(client.color);
 
       return msg.edit({ content: " ", embeds: [loopall] });
+    }
+  }
+
+  async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
+    const check = await new AutoReconnectBuilder(client, player).execute(
+      player.guildId
+    );
+    if (check) {
+      await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }
   }
 }

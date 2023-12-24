@@ -147,6 +147,8 @@ export class playerLoadContent {
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
+    await message.delete();
+
     if (!player)
       player = await client.manager.createPlayer({
         guildId: message.guild.id,
@@ -154,11 +156,26 @@ export class playerLoadContent {
         textId: message.channel.id,
         deaf: true,
       });
+    else {
+      if (
+        message.member!.voice.channel !==
+        message.guild!.members.me!.voice.channel
+      ) {
+        msg.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        return;
+      }
+    }
 
     const result = await player.search(song, { requester: message.author });
     const tracks = result.tracks;
-
-    await message.delete();
 
     if (!result.tracks.length) {
       msg.edit({
@@ -186,7 +203,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "music", "play_playlist", {
             title: result.tracks[0].title,
-            url: result.tracks[0].uri,
+            url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
@@ -200,7 +217,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
             title: result.tracks[0].title,
-            url: result.tracks[0].uri,
+            url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(
               result.tracks[0].length as number
             ),
@@ -214,7 +231,7 @@ export class playerLoadContent {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: result.tracks[0].title,
-          url: result.tracks[0].uri,
+          url: String(result.tracks[0].uri),
           duration: new ConvertTime().parse(result.tracks[0].length as number),
           request: `${result.tracks[0].requester}`,
         })}`

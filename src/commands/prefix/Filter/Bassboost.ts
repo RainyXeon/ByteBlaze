@@ -69,24 +69,27 @@ export default class implements PrefixCommand {
 
     if (!value) {
       const data = {
-        op: "filters",
         guildId: message.guild!.id,
-        equalizer: [
-          { band: 0, gain: 0.1 },
-          { band: 1, gain: 0.1 },
-          { band: 2, gain: 0.05 },
-          { band: 3, gain: 0.05 },
-          { band: 4, gain: -0.05 },
-          { band: 5, gain: -0.05 },
-          { band: 6, gain: 0 },
-          { band: 7, gain: -0.05 },
-          { band: 8, gain: -0.05 },
-          { band: 9, gain: 0 },
-          { band: 10, gain: 0.05 },
-          { band: 11, gain: 0.05 },
-          { band: 12, gain: 0.1 },
-          { band: 13, gain: 0.1 },
-        ],
+        playerOptions: {
+          filters: {
+            equalizer: [
+              { band: 0, gain: 0.1 },
+              { band: 1, gain: 0.1 },
+              { band: 2, gain: 0.05 },
+              { band: 3, gain: 0.05 },
+              { band: 4, gain: -0.05 },
+              { band: 5, gain: -0.05 },
+              { band: 6, gain: 0 },
+              { band: 7, gain: -0.05 },
+              { band: 8, gain: -0.05 },
+              { band: 9, gain: 0 },
+              { band: 10, gain: 0.05 },
+              { band: 11, gain: 0.05 },
+              { band: 12, gain: 0.1 },
+              { band: 13, gain: 0.1 },
+            ],
+          },
+        },
       };
 
       await player["send"](data);
@@ -135,24 +138,27 @@ export default class implements PrefixCommand {
         ],
       });
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
-      equalizer: [
-        { band: 0, gain: Number(value) / 10 },
-        { band: 1, gain: Number(value) / 10 },
-        { band: 2, gain: Number(value) / 10 },
-        { band: 3, gain: Number(value) / 10 },
-        { band: 4, gain: Number(value) / 10 },
-        { band: 5, gain: Number(value) / 10 },
-        { band: 6, gain: Number(value) / 10 },
-        { band: 7, gain: 0 },
-        { band: 8, gain: 0 },
-        { band: 9, gain: 0 },
-        { band: 10, gain: 0 },
-        { band: 11, gain: 0 },
-        { band: 12, gain: 0 },
-        { band: 13, gain: 0 },
-      ],
+      playerOptions: {
+        filters: {
+          equalizer: [
+            { band: 0, gain: Number(value) / 10 },
+            { band: 1, gain: Number(value) / 10 },
+            { band: 2, gain: Number(value) / 10 },
+            { band: 3, gain: Number(value) / 10 },
+            { band: 4, gain: Number(value) / 10 },
+            { band: 5, gain: Number(value) / 10 },
+            { band: 6, gain: Number(value) / 10 },
+            { band: 7, gain: 0 },
+            { band: 8, gain: 0 },
+            { band: 9, gain: 0 },
+            { band: 10, gain: 0 },
+            { band: 11, gain: 0 },
+            { band: 12, gain: 0 },
+            { band: 13, gain: 0 },
+          ],
+        },
+      },
     };
     await player["send"](data);
     const msg2 = await message.reply({

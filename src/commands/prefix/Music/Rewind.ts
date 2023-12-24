@@ -69,9 +69,10 @@ export default class implements PrefixCommand {
     if (value && !isNaN(+value)) {
       if (song_position - Number(value) * 1000 > 0) {
         await player["send"]({
-          op: "seek",
           guildId: message.guild!.id,
-          position: song_position - Number(value) * 1000,
+          playerOptions: {
+            position: song_position - Number(value) * 1000,
+          },
         });
 
         const rewind1 = new EmbedBuilder()
@@ -111,9 +112,10 @@ export default class implements PrefixCommand {
     if (!value) {
       if (song_position - rewindNum * 1000 > 0) {
         await player["send"]({
-          op: "seek",
           guildId: message.guild!.id,
-          position: song_position - rewindNum * 1000,
+          playerOptions: {
+            position: song_position - rewindNum * 1000,
+          },
         });
 
         const rewind2 = new EmbedBuilder()

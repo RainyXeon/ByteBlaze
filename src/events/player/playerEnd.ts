@@ -1,7 +1,8 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";
+import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -18,7 +19,7 @@ export default class {
     /////////// Update Music Setup ///////////
 
     if (client.websocket) {
-      const song = player.queue.previous;
+      const song = player.queue.previous[0];
 
       await client.websocket.send(
         JSON.stringify({
@@ -38,11 +39,13 @@ export default class {
       );
     }
 
-    let data = await client.db.autoreconnect.get(`${player.guildId}`);
+    let data = await new AutoReconnectBuilder(client, player).get(
+      player.guildId
+    );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
 
-    if (data) return;
+    if (data && data.twentyfourseven) return;
 
     if (player.queue.length || player!.queue!.current)
       return new ClearMessageService(client, channel, player);

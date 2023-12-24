@@ -86,9 +86,19 @@ export default class {
 
       if (
         Number(interaction.type) ==
-        InteractionType.ApplicationCommandAutocomplete
-      )
-        return client.emit("autoComplete", interaction, language, command);
+          InteractionType.ApplicationCommandAutocomplete &&
+        (command as any).autocomplete !== undefined
+      ) {
+        try {
+          (command as any).autocomplete(client, interaction, language);
+        } catch (error) {
+          client.logger.log({
+            level: "error",
+            message: error,
+          });
+        }
+        return;
+      }
 
       const msg_cmd = [
         `[COMMAND] ${command.name[0]}`,
@@ -255,7 +265,6 @@ export default class {
           });
       }
 
-      if (!command) return;
       if (command) {
         try {
           command.run(interaction, client, language);
