@@ -3,7 +3,7 @@ import { Manager } from "../../manager.js";
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 
 export class AutoReconnectLavalinkService {
   client: Manager;

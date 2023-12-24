@@ -1,4 +1,4 @@
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,
@@ -112,7 +112,9 @@ export default class implements SlashCommand {
         const element = playlist.tracks[i].uri;
         TrackExist.push(element);
       }
-      Result = TrackAdd.filter((track) => !TrackExist.includes(track.uri));
+      Result = TrackAdd.filter(
+        (track) => !TrackExist.includes(String(track.uri))
+      );
     }
 
     if (Result!.length == 0) {

@@ -203,7 +203,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "music", "play_playlist", {
             title: result.tracks[0].title,
-            url: result.tracks[0].uri,
+            url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
@@ -217,7 +217,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
             title: result.tracks[0].title,
-            url: result.tracks[0].uri,
+            url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(
               result.tracks[0].length as number
             ),
@@ -231,7 +231,7 @@ export class playerLoadContent {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: result.tracks[0].title,
-          url: result.tracks[0].uri,
+          url: String(result.tracks[0].uri),
           duration: new ConvertTime().parse(result.tracks[0].length as number),
           request: `${result.tracks[0].requester}`,
         })}`

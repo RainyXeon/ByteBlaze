@@ -56,8 +56,10 @@ export default class implements PrefixCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
+      playerOptions: {
+        filters: {},
+      },
     };
 
     await player["send"](data);

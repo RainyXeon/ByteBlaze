@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "better-kazagumo";
+import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import {
   AttachmentBuilder,
@@ -443,10 +443,11 @@ export default class {
           if (!player) {
             collector.stop();
           }
-          await player["send"]({
-            op: "seek",
+          await player.send({
             guildId: message.guild!.id,
-            position: 0,
+            playerOptions: {
+              position: 0,
+            },
           });
 
           await new ReplyInteractionService(
@@ -495,7 +496,7 @@ export default class {
               .setDescription(
                 `${client.i18n.get(language, "player", "queue_description", {
                   track: song!.title,
-                  track_url: song!.uri,
+                  track_url: String(song!.uri),
                   duration: new FormatDuration().parse(position),
                   requester: `${song!.requester}`,
                   list_song: str == "" ? "  Nothing" : "\n" + str,

@@ -14,7 +14,7 @@ import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
-import { Kazagumo, KazagumoPlayer } from "better-kazagumo";
+import { Kazagumo, KazagumoPlayer } from "kazagumo.mod";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { WebServer } from "./webserver/index.js";
@@ -128,7 +128,7 @@ export class Manager extends Client {
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shard_status = false;
-    this.REGEX = REGEX
+    this.REGEX = REGEX;
 
     // Initial autofix lavalink varibles
     this.lavalink_list = [];

@@ -273,7 +273,7 @@ export default class implements SlashCommand {
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
             title: args2[0],
-            url: res.tracks[0].uri,
+            url: String(res.tracks[0].uri),
             duration: new ConvertTime().parse(res.tracks[0].length as number),
             request: String(res.tracks[0].requester),
           })}`

@@ -36,7 +36,7 @@ export default class implements RequestInterface {
       player.queue.forEach((track) => {
         webqueue.push({
           title: track.title,
-          uri: track.uri,
+          uri: String(track.uri),
           length: track.length,
           thumbnail: track.thumbnail,
           author: track.author,
@@ -46,7 +46,7 @@ export default class implements RequestInterface {
 
     await webqueue.unshift({
       title: song!.title,
-      uri: song!.uri,
+      uri: String(song!.uri),
       length: song!.length,
       thumbnail: song!.thumbnail,
       author: song!.author,

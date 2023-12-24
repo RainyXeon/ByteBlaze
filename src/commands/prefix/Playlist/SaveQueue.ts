@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
@@ -109,7 +109,9 @@ export default class implements PrefixCommand {
         const element = playlist.tracks[i].uri;
         TrackExist.push(element);
       }
-      Result = TrackAdd.filter((track) => !TrackExist.includes(track.uri));
+      Result = TrackAdd.filter(
+        (track) => !TrackExist.includes(String(track.uri))
+      );
     }
 
     if (Result!.length == 0) {

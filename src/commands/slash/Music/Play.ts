@@ -12,7 +12,10 @@ import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
-import { AutocompleteInteractionChoices, GlobalInteraction } from "../../../@types/Interaction.js";
+import {
+  AutocompleteInteractionChoices,
+  GlobalInteraction,
+} from "../../../@types/Interaction.js";
 
 export default class implements SlashCommand {
   name = ["play"];
@@ -84,7 +87,7 @@ export default class implements SlashCommand {
           });
         } else if (
           player &&
-          !this.checkSameVoice(interaction)
+          !this.checkSameVoice(interaction, client, language, msg)
         ) {
           msg.edit({
             embeds: [
@@ -139,7 +142,7 @@ export default class implements SlashCommand {
             .setDescription(
               `${client.i18n.get(language, "music", "play_track", {
                 title: tracks[0].title,
-                url: tracks[0].uri,
+                url: String(tracks[0].uri),
                 duration: new ConvertTime().parse(tracks[0].length as number),
                 request: String(tracks[0].requester),
               })}`
@@ -166,7 +169,7 @@ export default class implements SlashCommand {
             .setDescription(
               `${client.i18n.get(language, "music", "play_result", {
                 title: tracks[0].title,
-                url: tracks[0].uri,
+                url: String(tracks[0].uri),
                 duration: new ConvertTime().parse(tracks[0].length as number),
                 request: String(tracks[0].requester),
               })}`
@@ -177,29 +180,46 @@ export default class implements SlashCommand {
     } catch (e) {}
   }
 
-  private checkSameVoice(
+  checkSameVoice(
     interaction: CommandInteraction,
+    client: Manager,
+    language: string,
+    msg: Message
   ) {
-      return (interaction.member as GuildMember)!.voice.channel !==
+    if (
+      (interaction.member as GuildMember)!.voice.channel !==
       interaction.guild!.members.me!.voice.channel
-    )
+    ) {
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return false;
+    }
+
+    return true;
   }
 
   // Autocomplete function
   async autocomplete(
     client: Manager,
     interaction: GlobalInteraction,
-    language: string,
+    language: string
   ) {
     let choice: AutocompleteInteractionChoices[] = [];
-    const url = String((interaction as CommandInteraction).options.get(
-      "search"
-    )!.value);
+    const url = String(
+      (interaction as CommandInteraction).options.get("search")!.value
+    );
 
     const Random =
-    client.config.lavalink.DEFAULT[
-      Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
-    ];
+      client.config.lavalink.DEFAULT[
+        Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
+      ];
 
     const match = client.REGEX.some((match) => {
       return match.test(url) == true;

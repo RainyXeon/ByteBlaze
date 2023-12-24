@@ -1,11 +1,6 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
-import {
-  Accessableby,
-  CommandOptionInterface,
-  SlashCommand,
-} from "../../../@types/Command.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements SlashCommand {
@@ -31,17 +26,6 @@ export default class implements SlashCommand {
       ],
     });
 
-    const player = client.manager.players.get(interaction.guild!.id);
-    if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
@@ -53,6 +37,18 @@ export default class implements SlashCommand {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = client.manager.players.get(interaction.guild!.id);
+    if (!player)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
             )
             .setColor(client.color),
         ],

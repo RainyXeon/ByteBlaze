@@ -57,17 +57,8 @@ export default class implements PrefixCommand {
         textId: message.channel.id,
         deaf: true,
       });
-    else if (player && !this.checkSameVoice(message)) {
-      msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      return
+    else if (player && !this.checkSameVoice(message, client, language, msg)) {
+      return;
     }
 
     const result = await player.search(value, { requester: message.author });
@@ -100,7 +91,7 @@ export default class implements PrefixCommand {
         .setDescription(
           `${client.i18n.get(language, "music", "play_track", {
             title: tracks[0].title,
-            url: tracks[0].uri,
+            url: String(tracks[0].uri),
             duration: new ConvertTime().parse(tracks[0].length as number),
             request: String(tracks[0].requester),
           })}`
@@ -127,7 +118,7 @@ export default class implements PrefixCommand {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "music", "play_result", {
           title: tracks[0].title,
-          url: tracks[0].uri,
+          url: String(tracks[0].uri),
           duration: new ConvertTime().parse(tracks[0].length as number),
           request: String(tracks[0].requester),
         })}`
@@ -137,11 +128,27 @@ export default class implements PrefixCommand {
     }
   }
 
-  private checkSameVoice(
+  checkSameVoice(
     message: Message,
+    client: Manager,
+    language: string,
+    msg: Message
   ) {
-    return (
+    if (
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
-    )
+    ) {
+      msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return false;
+    }
+
+    return true;
   }
 }

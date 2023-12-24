@@ -20,7 +20,7 @@ export default class implements RequestInterface {
     player.queue.forEach((track) => {
       webqueue.push({
         title: track.title,
-        uri: track.uri,
+        uri: String(track.uri),
         length: track.length,
         thumbnail: track.thumbnail,
         author: track.author,

@@ -2,6 +2,7 @@ import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { filter } from "lodash";
 
 export default class implements SlashCommand {
   name = ["filter", "darthvader"];
@@ -58,16 +59,19 @@ export default class implements SlashCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
-      timescale: {
-        speed: 0.975,
-        pitch: 0.5,
-        rate: 0.8,
+      playerOptions: {
+        filters: {
+          timescale: {
+            speed: 0.975,
+            pitch: 0.5,
+            rate: 0.8,
+          },
+        },
       },
     };
 
-    await player["send"](data);
+    await player.send(data);
 
     const embed = new EmbedBuilder()
       .setDescription(

@@ -57,13 +57,16 @@ export default class implements PrefixCommand {
         ],
       });
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
-      karaoke: {
-        level: 1.0,
-        monoLevel: 1.0,
-        filterBand: 220.0,
-        filterWidth: 100.0,
+      playerOptions: {
+        filters: {
+          karaoke: {
+            level: 1.0,
+            monoLevel: 1.0,
+            filterBand: 220.0,
+            filterWidth: 100.0,
+          },
+        },
       },
     };
 

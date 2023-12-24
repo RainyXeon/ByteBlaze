@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "better-kazagumo";
+import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
 
 export class QueueDuration {
   parse(player: KazagumoPlayer) {

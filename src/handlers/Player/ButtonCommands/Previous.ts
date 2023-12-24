@@ -1,6 +1,6 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 
 export class ButtonPrevious {
   client: Manager;
@@ -65,7 +65,7 @@ export class ButtonPrevious {
       });
       return;
     } else {
-      await this.player.queue.unshift(this.player.queue.previous);
+      await this.player.queue.unshift(this.player.queue.previous[0]);
       await this.player.skip();
 
       const embed = new EmbedBuilder()

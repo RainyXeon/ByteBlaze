@@ -85,8 +85,10 @@ export default class implements PrefixCommand {
       return message.reply({ embeds: [embed] });
     } else if (value == "off" || value == "reset") {
       const data = {
-        op: "filters",
         guildId: message.guild!.id,
+        playerOptions: {
+          filters: {},
+        },
       };
       return player["send"](data);
     }
@@ -124,9 +126,12 @@ export default class implements PrefixCommand {
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
       const data = {
-        op: "filters",
         guildId: message.guild!.id,
-        equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
+        playerOptions: {
+          filters: {
+            equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
+          },
+        },
       };
       player["send"](data);
       bandsStr += `${bands[i]} `;

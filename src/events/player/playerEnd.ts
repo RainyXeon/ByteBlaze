@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";
@@ -19,7 +19,7 @@ export default class {
     /////////// Update Music Setup ///////////
 
     if (client.websocket) {
-      const song = player.queue.previous;
+      const song = player.queue.previous[0];
 
       await client.websocket.send(
         JSON.stringify({

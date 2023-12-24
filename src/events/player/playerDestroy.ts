@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../functions/clearMsg.js";

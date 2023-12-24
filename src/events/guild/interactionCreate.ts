@@ -86,7 +86,8 @@ export default class {
 
       if (
         Number(interaction.type) ==
-        InteractionType.ApplicationCommandAutocomplete && (command as any).autocomplete !== undefined
+          InteractionType.ApplicationCommandAutocomplete &&
+        (command as any).autocomplete !== undefined
       ) {
         try {
           (command as any).autocomplete(client, interaction, language);
@@ -96,7 +97,7 @@ export default class {
             message: error,
           });
         }
-        return 
+        return;
       }
 
       const msg_cmd = [

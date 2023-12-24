@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 
 export class playerLoadUpdate {
   client: Manager;
@@ -77,7 +77,7 @@ export class playerLoadUpdate {
         .setDescription(
           `${client.i18n.get(language, "setup", "setup_desc", {
             title: cSong!.title,
-            url: cSong!.uri,
+            url: String(cSong!.uri),
             duration: new FormatDuration().parse(cSong!.length),
             request: `${cSong!.requester}`,
           })}`

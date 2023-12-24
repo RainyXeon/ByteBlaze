@@ -83,12 +83,15 @@ export default class implements SlashCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
-      timescale: { pitch: value },
+      playerOptions: {
+        filters: {
+          timescale: { pitch: Number(value) },
+        },
+      },
     };
 
-    await player["send"](data);
+    await player.send(data);
 
     const msg = await interaction.editReply({
       embeds: [

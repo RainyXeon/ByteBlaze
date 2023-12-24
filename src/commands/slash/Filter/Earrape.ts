@@ -57,11 +57,6 @@ export default class implements SlashCommand {
         ],
       });
     await player.setVolume(500);
-    const data = {
-      op: "filters",
-      guildId: interaction.guild!.id,
-    };
-    await player["send"](data);
 
     const earrapped = new EmbedBuilder()
       .setDescription(

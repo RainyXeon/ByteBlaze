@@ -1,4 +1,4 @@
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 
 export interface AutoReconnect {
   guild: string;

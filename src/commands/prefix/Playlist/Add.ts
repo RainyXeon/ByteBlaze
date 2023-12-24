@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo.mod";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
@@ -103,7 +103,7 @@ export default class implements PrefixCommand {
         .setDescription(
           `${client.i18n.get(language, "playlist", "add_track", {
             title: tracks[0].title,
-            url: tracks[0].uri,
+            url: String(tracks[0].uri),
             duration: Duration,
             user: String(message.author),
           })}`
@@ -115,7 +115,7 @@ export default class implements PrefixCommand {
         .setDescription(
           `${client.i18n.get(language, "playlist", "add_search", {
             title: tracks[0].title,
-            url: tracks[0].uri,
+            url: String(tracks[0].uri),
             duration: Duration,
             user: String(message.author),
           })}`

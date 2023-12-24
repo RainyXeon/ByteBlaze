@@ -106,7 +106,7 @@ export default class implements SlashCommand {
         .setDescription(
           `${client.i18n.get(language, "music", "queue_description", {
             title: song!.title,
-            url: song!.uri,
+            url: String(song!.uri),
             request: String(song!.requester),
             duration: new FormatDuration().parse(song!.length),
             rest: str == "" ? "  Nothing" : "\n" + str,

@@ -58,19 +58,22 @@ export default class implements SlashCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
-      vibrato: {
-        frequency: 4.0,
-        depth: 0.75,
-      },
-      tremolo: {
-        frequency: 4.0,
-        depth: 0.75,
+      playerOptions: {
+        filters: {
+          vibrato: {
+            frequency: 4.0,
+            depth: 0.75,
+          },
+          tremolo: {
+            frequency: 4.0,
+            depth: 0.75,
+          },
+        },
       },
     };
 
-    await player["send"](data);
+    await player.send(data);
 
     const embed = new EmbedBuilder()
       .setDescription(

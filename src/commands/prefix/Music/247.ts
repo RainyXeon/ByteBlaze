@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements PrefixCommand {
@@ -30,17 +30,6 @@ export default class implements PrefixCommand {
       ],
     });
 
-    const player = client.manager.players.get(message.guild!.id);
-    if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const { channel } = message.member!.voice;
     if (
       !channel ||
@@ -51,6 +40,18 @@ export default class implements PrefixCommand {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = client.manager.players.get(message.guild!.id);
+    if (!player)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_player")}`
             )
             .setColor(client.color),
         ],

@@ -82,10 +82,12 @@ export default class implements SlashCommand {
       return interaction.editReply({ embeds: [embed] });
     } else if (value == "off" || value == "reset") {
       const data = {
-        op: "filters",
         guildId: interaction.guild!.id,
+        playerOptions: {
+          filters: {},
+        },
       };
-      return player["send"](data);
+      return player.send(data);
     }
 
     const bands = value.split(/[ ]+/);
@@ -121,11 +123,14 @@ export default class implements SlashCommand {
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
       const data = {
-        op: "filters",
         guildId: interaction.guild!.id,
-        equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
+        playerOptions: {
+          filters: {
+            equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
+          },
+        },
       };
-      player["send"](data);
+      player.send(data);
       bandsStr += `${bands[i]} `;
     }
 

@@ -97,7 +97,7 @@ export default class implements PrefixCommand {
       .setDescription(
         `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
-          url: song.uri,
+          url: String(song.uri),
           duration: new ConvertTime().parse(player.shoukaku.position),
           request: String(song.requester),
         })}`

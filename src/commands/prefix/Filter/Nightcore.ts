@@ -58,12 +58,15 @@ export default class implements PrefixCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: message.guild!.id,
-      timescale: {
-        speed: 1.05,
-        pitch: 1.125,
-        rate: 1.05,
+      playerOptions: {
+        filters: {
+          timescale: {
+            speed: 1.05,
+            pitch: 1.125,
+            rate: 1.05,
+          },
+        },
       },
     };
 

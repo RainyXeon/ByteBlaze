@@ -1,6 +1,6 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 

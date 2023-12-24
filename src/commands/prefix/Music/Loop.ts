@@ -2,7 +2,7 @@ import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoLoop } from "../../../@types/Lavalink.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 export default class implements PrefixCommand {

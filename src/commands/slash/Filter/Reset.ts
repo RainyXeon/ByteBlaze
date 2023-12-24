@@ -56,11 +56,13 @@ export default class implements SlashCommand {
       });
 
     const data = {
-      op: "filters",
       guildId: interaction.guild!.id,
+      playerOptions: {
+        filters: {},
+      },
     };
 
-    await player["send"](data);
+    await player.send(data);
     await player.setVolume(100);
 
     const resetted = new EmbedBuilder()

@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo.mod";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 
 // Main code

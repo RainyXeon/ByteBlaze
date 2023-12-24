@@ -65,7 +65,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    await player.queue.unshift(player.queue.previous);
+    await player.queue.unshift(player.queue.previous[0]);
     await player.skip();
 
     const embed = new EmbedBuilder()
