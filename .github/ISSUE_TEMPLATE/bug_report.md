@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: ""
 labels: bug
 assignees: RainyXeon
-
 ---
 
 **Describe the bug**
@@ -12,6 +11,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -24,6 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Host info: (use `/info status` command and paste here, below is example)**
+
 - OS: Linux 6.2.0-1016-aws (x64)
 - CPU: AMD EPYC 7R13 Processor
 - Uptime: 1m 10.3s
@@ -32,6 +33,7 @@ If applicable, add screenshots to help explain your problem.
 - Node.js: v21.1.0
 
 **Bot info (use `/info status` command and paste here, below is example):**
+
 - Codename: hatsuharu (AzurLane)
 - Bot version: 3.0.4
 - Autofix version: 4.1.0

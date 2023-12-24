@@ -8,17 +8,18 @@ config();
 
 class ClearSlash {
   constructor() {
-    this.execute()
+    this.execute();
   }
 
   async execute() {
-    const configData = this.ConfigData
+    const configData = this.ConfigData;
     const rest = new REST({ version: "10" }).setToken(configData.bot.TOKEN);
     const client = await rest.get(Routes.user());
-  
-    rest.put(Routes.applicationCommands(client.id), { body: [] })
-    .then(() => console.log('Successfully deleted all application commands.'))
-    .catch(console.error);
+
+    rest
+      .put(Routes.applicationCommands(client.id), { body: [] })
+      .then(() => console.log("Successfully deleted all application commands."))
+      .catch(console.error);
   }
 
   get ConfigData() {
@@ -66,8 +67,7 @@ class ClearSlash {
           process.env[extract[1]] &&
           boolean.includes(process.env[extract[1]].trim().toLowerCase())
         ) {
-          const boolean_prase_res =
-            this.parseBoolean(process.env[extract[1]]);
+          const boolean_prase_res = this.parseBoolean(process.env[extract[1]]);
           res_array.push(
             _.replace(element, extract[0], String(boolean_prase_res))
           );
@@ -113,4 +113,4 @@ class ClearSlash {
   }
 }
 
-new ClearSlash()
+new ClearSlash();
