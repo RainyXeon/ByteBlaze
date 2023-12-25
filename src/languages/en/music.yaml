@@ -21,11 +21,11 @@ forward_invalid: "Invalid argument, must be a number.\nCorrect Usage: `%{prefix}
 ### Join command!
 join_loading: "Loading please wait..."
 join_voice: "You need to be in a voice channel to use the join command."
-join_msg: "`🔊` | **Joined:** `%{channel}`"
+join_msg: "`🔊` | **Joined to:** `%{channel}`"
 
 ### Leave command!
-leave_loading: "Loading please wait..."
-leave_msg: "`🚫` | **Left:** | `%{channel}`"
+stop_loading: "Loading please wait..."
+stop_msg: "`👋` | **Bot has been:** `Disconnected`"
 
 ### Loop command!
 loop_loading: "Loading please wait..."
@@ -196,13 +196,8 @@ radio_loading: "Loading please wait..."
 radio_track: "**Queued • [%{title}](%{url})** `%{duration}` • %{request}"
 radio_match: "This radio has been down, link error or broken. Please report this error to XeonDex </>#0017 to fix!"
 
-### Stop command!
-stop_loading: "Loading please wait..."
-stop_msg: "`⏯` | **Stopped and clear the queue.**"
-
+### Utils
 number_invalid: "Invalid argument, must be a number."
-
 enabled: "Enabled"
 disabled: "Disabled"
-
 no_node: "No lavalink server avalible! \nPlease try again after 5 minutes."
