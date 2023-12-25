@@ -25,14 +25,14 @@ export class checkLavalinkServer {
     for (let i = 0; i < lavalink_data!.length; i++) {
       const config = lavalink_data![i];
       let headers = {
-        "Client-Name": "shoukakubot/3.3.1 (https://github.com/Deivu/Shoukaku)",
-        "User-Agent": "shoukakubot/3.3.1 (https://github.com/Deivu/Shoukaku)",
+        "Client-Name": "shoukakubot/4.0.1 (https://github.com/Deivu/Shoukaku)",
+        "User-Agent": "shoukakubot/4.0.1 (https://github.com/Deivu/Shoukaku)",
         Authorization: config.pass,
         "User-Id": "977148321682575410",
-        "Resume-Key": "Shoukaku@3.3.1(https://github.com/Deivu/Shoukaku)",
+        "Resume-Key": "Shoukaku@4.0.1(https://github.com/Deivu/Shoukaku)",
       };
 
-      const url = `ws://${config.host}:${config.port}/v3/websocket`;
+      const url = `ws://${config.host}:${config.port}/v4/websocket`;
 
       this.checkServerStatus(url, headers)
         .then(() => {

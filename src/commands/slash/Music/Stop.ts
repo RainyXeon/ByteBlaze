@@ -4,8 +4,8 @@ import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
 export default class implements SlashCommand {
-  name = ["leave"];
-  description = "Make the bot leave the voice channel.";
+  name = ["stop"];
+  description = "Stop music and make the bot leave the voice channel.";
   category = "Music";
   accessableby = Accessableby.Member;
   lavalink = true;
@@ -21,7 +21,7 @@ export default class implements SlashCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "leave_loading")}`
+            `${client.i18n.get(language, "music", "stop_loading")}`
           )
           .setColor(client.color),
       ],
@@ -58,7 +58,7 @@ export default class implements SlashCommand {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, "music", "leave_msg", {
+        `${client.i18n.get(language, "music", "stop_msg", {
           channel: channel.name,
         })}`
       )

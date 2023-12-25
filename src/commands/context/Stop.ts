@@ -30,7 +30,7 @@ export default class implements ContextCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "leave_loading")}`
+            `${client.i18n.get(language, "music", "stop_loading")}`
           )
           .setColor(client.color),
       ],
@@ -68,7 +68,7 @@ export default class implements ContextCommand {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, "music", "leave_msg", {
+        `${client.i18n.get(language, "music", "stop_msg", {
           channel: channel.name,
         })}`
       )

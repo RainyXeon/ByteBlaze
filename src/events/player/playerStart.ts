@@ -10,13 +10,12 @@ import {
 } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../structures/FormatDuration.js";
-import { QueueDuration } from "../../structures/QueueDuration.js";
 import {
   playerRowOne,
   playerRowOneEdited,
   playerRowTwo,
-} from "../../functions/playerControlButton.js";
-import { ReplyInteractionService } from "../../functions/replyInteraction.js";
+} from "../../utilities/PlayerControlButton.js";
+import { ReplyInteractionService } from "../../utilities/ReplyInteractionService.js";
 import { KazagumoLoop } from "../../@types/Lavalink.js";
 import { ControlEnum } from "../../database/schema/Control.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";

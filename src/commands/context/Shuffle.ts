@@ -27,7 +27,7 @@ export default class implements ContextCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "leave_loading")}`
+            `${client.i18n.get(language, "music", "shuffle_loading")}`
           )
           .setColor(client.color),
       ],

@@ -1,8 +1,7 @@
 import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Client, TextChannel } from "discord.js";
-import { ClearMessageService } from "../../functions/clearMsg.js";
-import { KazagumoLoop } from "../../@types/Lavalink.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
+import { ClearMessageService } from "../../utilities/ClearMessageService.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
@@ -63,14 +62,16 @@ export default class {
       );
 
     if (channel) {
-      const msg = await channel.send({ embeds: [embed] });
+      if (player.queue.current) {
+        const msg = await channel.send({ embeds: [embed] });
+        setTimeout(
+          async () => msg.delete(),
+          client.config.bot.DELETE_MSG_TIMEOUT
+        );
+      }
 
       const setupdata = await client.db.setup.get(`${player.guildId}`);
       if (setupdata) return;
-      setTimeout(
-        async () => msg.delete(),
-        client.config.bot.DELETE_MSG_TIMEOUT
-      );
       new ClearMessageService(client, channel, player);
     }
   }

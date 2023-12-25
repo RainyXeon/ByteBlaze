@@ -19,8 +19,8 @@ join_loading: "Đang tải, vui lòng chờ..."
 join_voice: "Bạn phải cần ở trong kênh đàm thoại để sử dụng lệnh này."
 join_msg: "`🔊` | *Đã tham gia:* `%{channel}`"
 ### Leave command!
-leave_loading: "Đang tải, vui lòng chờ..."
-leave_msg: "`🚫` | *Đã rời:* | `%{channel}`"
+stop_loading: "Đang tải, vui lòng chờ..."
+stop_msg: "`👋` | *Bot đã:* `Đã ngắt kết nối`"
 ### Loop command!
 loop_loading: "Đang tải, vui lòng chờ..."
 loop_invalid: "Chế độ vòng lặp không hợp lệ, chỉ được phép sử dụng: %{mode}"
@@ -185,11 +185,8 @@ searchtop_playlist: "**Đã thay đổi • [%{title}](%{url})** `%{duration}` (
 searchtop_fail: "Lỗi không tải được nhạc"
 searchtop_match: "Lỗi không tìm được bài hát"
 
+### Utils
 number_invalid: "Đối số không hợp lệ, phải là một số."
-
-removetrack_duplicate_desc: "Đã xóa `%{removed}` bản nhạc từ hàng đợi \n Trước: `%{original}` | Sau: `%{new}`"
-
 enabled: "Đã bật"
 disabled: "Đã tắt"
-
 no_node: "Không có máy chủ lavalink! \nVui lòng thử lại sau 5 phút."
