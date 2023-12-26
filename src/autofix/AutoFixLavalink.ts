@@ -1,10 +1,10 @@
 import { Manager } from "../manager.js";
 import { LavalinkDataType } from "../@types/Lavalink.js";
-import { checkLavalinkServer } from "./checkLavalinkServer.js";
+import { CheckLavalinkServer } from "./CheckLavalinkServer.js";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
-export class autofixLavalink {
+export class AutoFixLavalink {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -14,7 +14,7 @@ export class autofixLavalink {
   async execute() {
     this.client.logger.lavalink("----- Starting autofix lavalink... -----");
     if (this.client.lavalink_list.length == 0) {
-      new checkLavalinkServer(this.client);
+      new CheckLavalinkServer(this.client);
       return this.fixLavalink();
     } else return this.fixLavalink();
   }

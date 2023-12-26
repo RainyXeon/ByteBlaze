@@ -6,7 +6,7 @@ import fse from "fs-extra";
 import { LoggerService } from "../services/LoggerService.js";
 import Token from "markdown-it/lib/token.js";
 
-export class getLavalinkServer {
+export class GetLavalinkServer {
   logger: any;
   constructor() {
     this.logger = new LoggerService().init();

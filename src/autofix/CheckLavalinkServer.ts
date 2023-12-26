@@ -1,9 +1,9 @@
 import { Manager } from "../manager.js";
 import { Headers } from "../@types/Lavalink.js";
-import { getLavalinkServer } from "./getLavalinkServer.js";
+import { GetLavalinkServer } from "./GetLavalinkServer.js";
 import Websocket from "ws";
 
-export class checkLavalinkServer {
+export class CheckLavalinkServer {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -15,7 +15,7 @@ export class checkLavalinkServer {
       "Running check lavalink server from [https://lavalink.darrennathanael.com/] source"
     );
 
-    const getLavalinkServerClass = new getLavalinkServer();
+    const getLavalinkServerClass = new GetLavalinkServer();
 
     const lavalink_data = await getLavalinkServerClass.execute();
 

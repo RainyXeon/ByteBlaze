@@ -1,6 +1,6 @@
 import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
-import { autofixLavalink } from "../../lavaScrap/autofixLavalink.js";
+import { AutoFixLavalink } from "../../autofix/AutoFixLavalink.js";
 
 export default class {
   execute(
@@ -18,7 +18,7 @@ export default class {
     if (players) players.map((player: KazagumoPlayer) => player.destroy());
     client.logger.debug(`Lavalink ${name}: Disconnected`);
     if (client.config.features.AUTOFIX_LAVALINK.enable) {
-      new autofixLavalink(client);
+      new AutoFixLavalink(client);
     }
   }
 }
