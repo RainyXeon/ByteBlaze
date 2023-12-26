@@ -46,7 +46,7 @@ export class TableSetup {
       prefix: await baseDB.table<Prefix>("prefix"),
     };
 
-    this.client.is_db_connected = true;
+    this.client.isDatabaseConnected = true;
     new Handler(this.client);
   }
 }

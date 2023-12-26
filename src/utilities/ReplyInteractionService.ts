@@ -9,6 +9,7 @@ export class ReplyInteractionService {
     this.client = client;
     this.content = content;
     this.message = message;
+    this.execute();
   }
 
   async execute() {

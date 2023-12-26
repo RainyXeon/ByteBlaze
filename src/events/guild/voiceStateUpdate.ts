@@ -12,31 +12,15 @@ import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     let data = await new AutoReconnectBuilder(client).get(newState.guild.id);
 
-    if (oldState.channel === null && oldState.id !== client.user!.id) {
-      if (client.websocket)
-        client.websocket.send(
-          JSON.stringify({
-            op: "voice_state_update_join",
-            guild: newState.guild.id,
-          })
-        );
-    }
-    if (newState.channel === null && newState.id !== client.user!.id) {
-      if (client.websocket)
-        client.websocket.send(
-          JSON.stringify({
-            op: "voice_state_update_leave",
-            guild: newState.guild.id,
-          })
-        );
-    }
+    client.emit("voiceStateUpdateJoin", oldState, newState);
+    client.emit("voiceStateUpdateLeave", oldState, newState);
 
     let guildModel = await client.db.language.get(`${newState.guild.id}`);
     if (!guildModel) {

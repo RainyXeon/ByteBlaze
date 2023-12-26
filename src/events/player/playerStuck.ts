@@ -9,7 +9,7 @@ export default class {
     player: KazagumoPlayer,
     data: TrackStuckEvent
   ) {
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
@@ -46,9 +46,5 @@ export default class {
       `Track Stuck in ${guild!.name} / ${player.guildId}. Auto-Leaved!`
     );
     await player.destroy();
-    if (client.websocket)
-      client.websocket.send(
-        JSON.stringify({ op: "player_destroy", guild: player.guildId })
-      );
   }
 }

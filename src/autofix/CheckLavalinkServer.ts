@@ -19,8 +19,8 @@ export class CheckLavalinkServer {
 
     const lavalink_data = await getLavalinkServerClass.execute();
 
-    if (this.client.lavalink_list.length !== 0)
-      this.client.lavalink_list.length = 0;
+    if (this.client.lavalinkList.length !== 0)
+      this.client.lavalinkList.length = 0;
 
     for (let i = 0; i < lavalink_data!.length; i++) {
       const config = lavalink_data![i];
@@ -36,7 +36,7 @@ export class CheckLavalinkServer {
 
       this.checkServerStatus(url, headers)
         .then(() => {
-          this.client.lavalink_list.push({
+          this.client.lavalinkList.push({
             host: config.host,
             port: config.port,
             pass: config.pass,
@@ -46,7 +46,7 @@ export class CheckLavalinkServer {
           });
         })
         .catch(() => {
-          this.client.lavalink_list.push({
+          this.client.lavalinkList.push({
             host: config.host,
             port: config.port,
             pass: config.pass,

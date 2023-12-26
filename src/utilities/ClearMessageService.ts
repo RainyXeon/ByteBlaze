@@ -14,14 +14,14 @@ export class ClearMessageService {
   }
 
   async execute() {
-    const nplaying_msg_id = this.client.nplaying_msg.get(this.player.guildId);
-    if (!nplaying_msg_id) return;
-    const nplaying_msg = await this.channel.messages.cache.get(
-      String(nplaying_msg_id)
+    const nplayingMsg_id = this.client.nplayingMsg.get(this.player.guildId);
+    if (!nplayingMsg_id) return;
+    const nplayingMsg = await this.channel.messages.cache.get(
+      String(nplayingMsg_id)
     );
-    if (nplaying_msg) {
-      nplaying_msg.delete();
-      this.client.nplaying_msg.delete(this.player.guildId);
+    if (nplayingMsg) {
+      nplayingMsg.delete();
+      this.client.nplayingMsg.delete(this.player.guildId);
     }
   }
 }

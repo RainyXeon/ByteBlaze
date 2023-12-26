@@ -59,13 +59,7 @@ export default class implements PrefixCommand {
       ? `${client.i18n.get(language, "music", "pause_switch_pause")}`
       : `${client.i18n.get(language, "music", "pause_switch_resume")}`;
 
-    if (client.websocket)
-      await client.websocket.send(
-        JSON.stringify({
-          op: player.paused ? 3 : 4,
-          guild: message.guild!.id,
-        })
-      );
+    client.emit("playerPause", player);
 
     const embed = new EmbedBuilder()
       .setDescription(

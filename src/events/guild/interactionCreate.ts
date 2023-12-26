@@ -4,15 +4,12 @@ import {
   CommandInteraction,
   EmbedBuilder,
   CommandInteractionOptionResolver,
-  AutocompleteInteraction,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import {
-  AutocompleteInteractionChoices,
   GlobalInteraction,
   NoAutoInteraction,
 } from "../../@types/Interaction.js";
-import yts from "yt-search";
 import { Accessableby } from "../../@types/Command.js";
 
 /**
@@ -30,7 +27,7 @@ export default class {
     ) {
       if (!interaction.guild || interaction.user.bot) return;
 
-      if (!client.is_db_connected)
+      if (!client.isDatabaseConnected)
         return client.logger.warn(
           "The database is not yet connected so this event will temporarily not execute. Please try again later!"
         );
@@ -253,7 +250,7 @@ export default class {
         );
 
       if (command.lavalink) {
-        if (client.lavalink_using.length == 0)
+        if (client.lavalinkUsing.length == 0)
           return (interaction as NoAutoInteraction).reply({
             embeds: [
               new EmbedBuilder()

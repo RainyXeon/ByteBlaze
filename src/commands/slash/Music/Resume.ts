@@ -59,13 +59,7 @@ export default class implements SlashCommand {
       ? `${client.i18n.get(language, "music", "resume_switch_pause")}`
       : `${client.i18n.get(language, "music", "resume_switch_resume")}`;
 
-    if (client.websocket)
-      await client.websocket.send(
-        JSON.stringify({
-          op: player.paused ? 3 : 4,
-          guild: interaction.guild!.id,
-        })
-      );
+    client.emit("playerPause", player);
 
     const embed = new EmbedBuilder()
       .setDescription(

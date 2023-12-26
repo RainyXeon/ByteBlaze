@@ -19,9 +19,9 @@ export class loadRequest {
 
     await this.register(eventsFile);
 
-    if (this.client.ws_message?.size) {
+    if (this.client.wsMessage?.size) {
       this.client.logger.websocket(
-        `${this.client.ws_message?.size} Websocket Request Loaded!`
+        `${this.client.wsMessage?.size} Websocket Request Loaded!`
       );
     } else {
       this.client.logger.websocket(
@@ -35,7 +35,7 @@ export class loadRequest {
       const events = new (
         await import(pathToFileURL(path).toString())
       ).default();
-      this.client.ws_message!.set(events.name, events);
+      this.client.wsMessage!.set(events.name, events);
     });
   }
 }

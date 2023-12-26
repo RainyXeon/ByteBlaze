@@ -13,7 +13,7 @@ export class AutoFixLavalink {
 
   async execute() {
     this.client.logger.lavalink("----- Starting autofix lavalink... -----");
-    if (this.client.lavalink_list.length == 0) {
+    if (this.client.lavalinkList.length == 0) {
       new CheckLavalinkServer(this.client);
       return this.fixLavalink();
     } else return this.fixLavalink();
@@ -24,7 +24,7 @@ export class AutoFixLavalink {
     await this.removeCurrentLavalink();
     const nodeInfo = await this.applyNewLavalink();
 
-    this.client.lavalink_using.push({
+    this.client.lavalinkUsing.push({
       host: nodeInfo.host,
       port: nodeInfo.port,
       pass: nodeInfo.pass,
@@ -36,11 +36,11 @@ export class AutoFixLavalink {
   checkLavalink() {
     if (
       this.client.manager.shoukaku.nodes.size !== 0 &&
-      this.client.lavalink_using.length == 0
+      this.client.lavalinkUsing.length == 0
     ) {
       this.client.manager.shoukaku.nodes.forEach((data, index) => {
         const res = regex.exec(data["url"]);
-        this.client.lavalink_using.push({
+        this.client.lavalinkUsing.push({
           host: res![2],
           port: Number(res![3]),
           pass: data["auth"],
@@ -54,26 +54,26 @@ export class AutoFixLavalink {
   async removeCurrentLavalink() {
     if (
       this.client.manager.shoukaku.nodes.size == 0 &&
-      this.client.lavalink_using.length != 0
+      this.client.lavalinkUsing.length != 0
     ) {
-      this.client.used_lavalink.push(this.client.lavalink_using[0]);
-      this.client.lavalink_using.splice(0, 1);
+      this.client.lavalinkUsed.push(this.client.lavalinkUsing[0]);
+      this.client.lavalinkUsing.splice(0, 1);
     } else if (
       this.client.manager.shoukaku.nodes.size !== 0 &&
-      this.client.lavalink_using.length !== 0
+      this.client.lavalinkUsing.length !== 0
     ) {
-      this.client.used_lavalink.push(this.client.lavalink_using[0]);
+      this.client.lavalinkUsed.push(this.client.lavalinkUsing[0]);
       await this.client.manager.shoukaku.removeNode(
-        this.client.lavalink_using[0].name
+        this.client.lavalinkUsing[0].name
       );
-      this.client.lavalink_using.splice(0, 1);
+      this.client.lavalinkUsing.splice(0, 1);
     }
   }
 
   async applyNewLavalink() {
     const online_list: LavalinkDataType[] = [];
 
-    this.client.lavalink_list.filter(async (data) => {
+    this.client.lavalinkList.filter(async (data) => {
       if (data.online == true) return online_list.push(data);
     });
 

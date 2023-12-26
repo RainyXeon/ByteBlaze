@@ -75,7 +75,7 @@ export class WebsocketService {
 
     this.ws.on("message", (message) => {
       const json = JSON.parse(String(message));
-      const req = this.client.ws_message?.get(json.message);
+      const req = this.client.wsMessage?.get(json.message);
 
       if (!req) return;
       if (req) {
