@@ -1,5 +1,6 @@
 ### 247 command
 247_loading: "Đang tải, vui lòng chờ..."
+247_invalid: "Chế độ 247 không hợp lệ"
 247_off: "`🌙` | *Chế độ 24/7 đã bị:* `Ngừng kích hoạt`"
 247_on: "`🌕` | *Chế độ 24/7 đã được `Kích hoạt`"
 ### Autoplay command!
