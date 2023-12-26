@@ -22,17 +22,20 @@ export default class implements PlayerButton {
     if (!player) {
       collector.stop();
     }
-    await player.send({
-      guildId: message.guild!.id,
-      playerOptions: {
-        position: 0,
-      },
-    });
+    if (player.queue.previous.length == 0)
+      return await new ReplyInteractionService(
+        client,
+        message,
+        `${client.i18n.get(language, "music", "previous_notfound")}`
+      );
+
+    await player.queue.unshift(player.queue.previous[0]);
+    await player.skip();
 
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "replay_msg")}`
+      `${client.i18n.get(language, "music", "previous_msg")}`
     );
     return;
   }

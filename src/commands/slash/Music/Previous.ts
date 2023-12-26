@@ -52,7 +52,7 @@ export default class implements SlashCommand {
             .setColor(client.color),
         ],
       });
-    if (!player.queue.previous)
+    if (player.queue.previous.length == 0)
       return msg.edit({
         embeds: [
           new EmbedBuilder()

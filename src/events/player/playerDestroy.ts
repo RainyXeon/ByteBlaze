@@ -58,18 +58,16 @@ export default class {
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
 
-    if (channel) {
-      if (player.queue.current) {
-        const msg = await channel.send({ embeds: [embed] });
-        setTimeout(
-          async () => msg.delete(),
-          client.config.bot.DELETE_MSG_TIMEOUT
-        );
-      }
-
-      const setupdata = await client.db.setup.get(`${player.guildId}`);
-      if (setupdata) return;
-      new ClearMessageService(client, channel, player);
+    if (player.queue.current) {
+      const msg = await channel.send({ embeds: [embed] });
+      setTimeout(
+        async () => msg.delete(),
+        client.config.bot.DELETE_MSG_TIMEOUT
+      );
     }
+
+    const setupdata = await client.db.setup.get(`${player.guildId}`);
+    if (setupdata?.channel == player.textId) return;
+    new ClearMessageService(client, channel, player);
   }
 }
