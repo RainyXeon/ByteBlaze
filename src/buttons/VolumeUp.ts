@@ -27,12 +27,17 @@ export default class implements PlayerButton {
       volume: `${player.volume * 100 + 10}`,
     })}`;
 
-    if (player.volume * 100 == 100) {
-      await new ReplyInteractionService(client, message, reply_msg);
+    if (player.volume * 100 >= 100) {
+      await new ReplyInteractionService(
+        client,
+        message,
+        `${client.i18n.get(language, "music", "volume_invalid")}`
+      );
       return;
     }
 
     player.setVolume(player.volume * 100 + 10);
+
     this.setVol247(client, player, player.volume * 100 + 10);
     await new ReplyInteractionService(client, message, reply_msg);
     return;

@@ -33,28 +33,45 @@ export default class implements PlayerButton {
       }
     }
 
-    if (player.loop === "queue") {
-      player.setLoop(KazagumoLoop.none);
+    switch (player.loop) {
+      case "none":
+        await player.setLoop(KazagumoLoop.track);
 
-      setLoop247(String(KazagumoLoop.none));
+        setLoop247(String(KazagumoLoop.none));
 
-      new ReplyInteractionService(
-        client,
-        message,
-        `${client.i18n.get(language, "music", "unloopall")}`
-      );
-      return;
-    } else if (player.loop === "none") {
-      player.setLoop(KazagumoLoop.queue);
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.i18n.get(language, "music", "loop_current")}`
+        );
 
-      setLoop247(String(KazagumoLoop.none));
+        break;
 
-      new ReplyInteractionService(
-        client,
-        message,
-        `${client.i18n.get(language, "music", "loopall")}`
-      );
-      return;
+      case "track":
+        await player.setLoop(KazagumoLoop.queue);
+
+        setLoop247(String(KazagumoLoop.none));
+
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.i18n.get(language, "music", "loop_all")}`
+        );
+
+        break;
+
+      case "queue":
+        await player.setLoop(KazagumoLoop.none);
+
+        setLoop247(String(KazagumoLoop.none));
+
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.i18n.get(language, "music", "unloopall")}`
+        );
+
+        break;
     }
   }
 }

@@ -160,21 +160,7 @@ export default class {
           return false;
         }
       },
-      time: song!.length,
     });
-
-    collector.on(
-      "end",
-      async (collected: ButtonInteraction, reason: string) => {
-        if (reason === "time") {
-          nplaying.edit({
-            embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-            // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
-            components: [],
-          });
-        }
-      }
-    );
 
     collector.on(
       "collect",
