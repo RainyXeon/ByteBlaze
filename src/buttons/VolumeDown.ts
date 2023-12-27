@@ -27,7 +27,7 @@ export default class implements PlayerButton {
       volume: `${player.volume * 100 - 10}`,
     })}`;
 
-    if (player.volume * 100 <= 0) {
+    if (player.volume <= 0.1) {
       await new ReplyInteractionService(
         client,
         message,
