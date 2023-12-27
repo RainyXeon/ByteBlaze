@@ -46,13 +46,14 @@ export default class implements PrefixCommand {
           )
         : await client.db.autoreconnect.delete(`${message.guild!.id}`);
 
-      player && player.voiceId && message.member!.voice.channel == null ? player.destroy() : true
+      player && player.voiceId && message.member!.voice.channel == null
+        ? player.destroy()
+        : true;
 
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
-
     } else if (value == "enable") {
       if (!player)
         return msg.edit({
@@ -65,11 +66,11 @@ export default class implements PrefixCommand {
           ],
         });
 
-
       const { channel } = message.member!.voice;
       if (
         !channel ||
-        message.member!.voice.channel !== message.guild!.members.me!.voice.channel
+        message.member!.voice.channel !==
+          message.guild!.members.me!.voice.channel
       )
         return msg.edit({
           embeds: [
@@ -80,7 +81,7 @@ export default class implements PrefixCommand {
               .setColor(client.color),
           ],
         });
-    
+
       await client.db.autoreconnect.set(
         `${message.guild!.id}.twentyfourseven`,
         true

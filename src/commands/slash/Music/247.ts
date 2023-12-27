@@ -1,4 +1,10 @@
-import { EmbedBuilder, CommandInteraction, GuildMember, ApplicationCommandOptionType, CommandInteractionOptionResolver } from "discord.js";
+import {
+  EmbedBuilder,
+  CommandInteraction,
+  GuildMember,
+  ApplicationCommandOptionType,
+  CommandInteractionOptionResolver,
+} from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
@@ -27,7 +33,7 @@ export default class implements SlashCommand {
       ],
     },
   ];
-  
+
   async run(
     interaction: CommandInteraction,
     client: Manager,
@@ -50,9 +56,9 @@ export default class implements SlashCommand {
       interaction.guild!.id
     );
 
-    const type = (interaction.options as CommandInteractionOptionResolver).getString(
-      "type"
-    )
+    const type = (
+      interaction.options as CommandInteractionOptionResolver
+    ).getString("type");
 
     if (type == "disable") {
       data.current || data.current.length !== 0
@@ -62,7 +68,11 @@ export default class implements SlashCommand {
           )
         : await client.db.autoreconnect.delete(`${interaction.guild!.id}`);
 
-      player && player.voiceId && (interaction.member as GuildMember)!.voice.channel== null ? player.destroy() : true
+      player &&
+      player.voiceId &&
+      (interaction.member as GuildMember)!.voice.channel == null
+        ? player.destroy()
+        : true;
 
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
@@ -70,16 +80,16 @@ export default class implements SlashCommand {
       msg.edit({ content: " ", embeds: [on] });
     } else {
       if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-      
+        return msg.edit({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_player")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const { channel } = (interaction.member as GuildMember)!.voice;
       if (
         !channel ||
@@ -95,7 +105,7 @@ export default class implements SlashCommand {
               .setColor(client.color),
           ],
         });
-      
+
       await client.db.autoreconnect.set(
         `${interaction.guild!.id}.twentyfourseven`,
         true
