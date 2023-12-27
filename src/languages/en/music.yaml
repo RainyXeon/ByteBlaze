@@ -30,15 +30,15 @@ stop_msg: "`👋` | **Bot has been:** `Disconnected`"
 ### Loop command!
 loop_loading: "Loading please wait..."
 loop_invalid: "Invalid loop mode, only %{mode}"
-loop_current: "`🔁` | **Song is loop:** `Current`"
+loop_current: "`🔁` | **Loop Mode:** `Current`"
 unloop_current: "`🔁` | **Song is unloop:** `Current`"
-loop_all: "`🔁` | **Song is loop:** `All`"
-unloop_all: "`🔁` | **Song is unloop:** `All`"
+loop_all: "`🔁` | **Loop Mode:** `Queue`"
+unloop_all: "`🔁` | **Loop Mode:** `None`"
 
 ### Loopall command!
 loopall_loading: "Loading please wait..."
 loopall: "`🔁` | **Song is loop:** `All`"
-unloopall: "`🔁` | **Song is unloop:** `All`"
+unloopall: "`🔁` | **Loop Mode:** `None`"
 
 ### Lyrics command!
 lyrics_loading: "Searching for lyrics..."
