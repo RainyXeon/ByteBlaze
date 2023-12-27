@@ -3,18 +3,15 @@ import { Manager } from "../../manager.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
-    if (
-      client.websocket &&
-      client.config.features.WEB_SERVER.websocket.enable
-    ) {
-      if (oldState.channel === null && oldState.id !== client.user!.id) {
-        client.websocket.send(
-          JSON.stringify({
-            op: "voice_state_update_join",
-            guild: newState.guild.id,
-          })
-        );
-      }
+    if (!client.websocket) return client.emit("wsFallback");
+
+    if (oldState.channel === null && oldState.id !== client.user!.id) {
+      client.websocket.send(
+        JSON.stringify({
+          op: "voice_state_update_join",
+          guild: newState.guild.id,
+        })
+      );
     }
   }
 }

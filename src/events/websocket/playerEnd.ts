@@ -3,28 +3,27 @@ import { Manager } from "../../manager.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
-    if (
-      client.websocket &&
-      client.config.features.WEB_SERVER.websocket.enable
-    ) {
-      const song = player.queue.previous[0];
+    if (!client.websocket) return client.emit("wsFallback");
 
-      await client.websocket.send(
-        JSON.stringify({
-          op: "player_end",
-          guild: player.guildId,
-          track: song
-            ? {
-                title: song.title,
-                uri: song.uri,
-                length: song.length,
-                thumbnail: song.thumbnail,
-                author: song.author,
-                requester: song.requester,
-              }
-            : null,
-        })
-      );
-    }
+    const song = player.queue.previous[0];
+
+    const currentData = song
+      ? {
+          title: song.title,
+          uri: song.uri,
+          length: song.length,
+          thumbnail: song.thumbnail,
+          author: song.author,
+          requester: song.requester,
+        }
+      : null;
+
+    await client.websocket.send(
+      JSON.stringify({
+        op: "player_end",
+        guild: player.guildId,
+        track: currentData,
+      })
+    );
   }
 }
