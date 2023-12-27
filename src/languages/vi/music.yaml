@@ -24,14 +24,14 @@ stop_msg: "`👋` | *Bot đã:* `Đã ngắt kết nối`"
 ### Loop command!
 loop_loading: "Đang tải, vui lòng chờ..."
 loop_invalid: "Chế độ vòng lặp không hợp lệ, chỉ được phép sử dụng: %{mode}"
-loop_current: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Bài hát hiện tại`"
+loop_current: "`🔁` | *Chế độ vòng lặp:* `Hiện hành`"
 unloop_current: "`🔁` | *Nhạc được ngừng lặp lại ở chế độ:* `Bài hát hiện tại`"
-loop_all: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
-unloop_all: "`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
+loop_all: "`🔁` | *Chế độ vòng lặp:* `Xếp hàng`"
+unloop_all: "`🔁` | *Chế độ vòng lặp:* `Không có`"
 ### Loopall command!
 loopall_loading: "Đang tải, vui lòng chờ..."
 loopall: "`🔁` | *Nhạc được lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
-unloopall: "`🔁` | *Nhạc được dừng lặp lại ở chế độ:* `Toàn bộ hàng đợi`"
+unloopall: "`🔁` | *Chế độ vòng lặp:* `Không có`"
 ### Lyrics command!
 lyrics_loading: "Đang tìm kiếm lời hát..."
 lyrics_notfound: "Không tìm thấy lời hát nào của bài này!"
