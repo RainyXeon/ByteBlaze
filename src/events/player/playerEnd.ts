@@ -6,7 +6,7 @@ import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
@@ -18,26 +18,7 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    if (client.websocket) {
-      const song = player.queue.previous[0];
-
-      await client.websocket.send(
-        JSON.stringify({
-          op: "player_end",
-          guild: player.guildId,
-          track: song
-            ? {
-                title: song.title,
-                uri: song.uri,
-                length: song.length,
-                thumbnail: song.thumbnail,
-                author: song.author,
-                requester: song.requester,
-              }
-            : null,
-        })
-      );
-    }
+    client.emit("playerEnd", player);
 
     let data = await new AutoReconnectBuilder(client, player).get(
       player.guildId
@@ -78,9 +59,5 @@ export default class {
     }
 
     player.destroy();
-    if (client.websocket)
-      client.websocket.send(
-        JSON.stringify({ op: "player_destroy", guild: player.guildId })
-      );
   }
 }

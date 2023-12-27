@@ -3,7 +3,7 @@ import { Manager } from "../../manager.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
@@ -28,10 +28,5 @@ export default class {
     client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
     await player.destroy();
-
-    if (client.websocket)
-      client.websocket.send(
-        JSON.stringify({ op: "player_destroy", guild: player.guildId })
-      );
   }
 }

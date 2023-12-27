@@ -34,6 +34,7 @@ import { KazagumoInit } from "./structures/Kazagumo.js";
 import utils from "node:util";
 import { RequestInterface } from "./webserver/RequestInterface.js";
 import { DeployService } from "./services/DeployService.js";
+import { PlayerButton } from "./@types/Button.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -64,22 +65,22 @@ export class Manager extends Client {
   color: ColorResolvable;
   i18n: I18n;
   prefix: string;
-  is_db_connected: boolean;
-  shard_status: boolean;
-  lavalink_list: LavalinkDataType[];
-  lavalink_using: LavalinkUsingDataType[];
-  fixing_nodes: boolean;
-  used_lavalink: LavalinkUsingDataType[];
+  isDatabaseConnected: boolean;
+  shardStatus: boolean;
+  lavalinkList: LavalinkDataType[];
+  lavalinkUsing: LavalinkUsingDataType[];
+  lavalinkUsed: LavalinkUsingDataType[];
   manager: Kazagumo;
   slash: Collection<string, SlashCommand>;
   commands: Collection<string, PrefixCommand>;
   premiums: Collection<string, PremiumUser>;
   interval: Collection<string, NodeJS.Timer>;
-  sent_queue: Collection<string, boolean>;
-  nplaying_msg: Collection<string, string>;
+  sentQueue: Collection<string, boolean>;
+  nplayingMsg: Collection<string, Message>;
   aliases: Collection<string, string>;
+  plButton: Collection<string, PlayerButton>;
   websocket?: WebSocket;
-  ws_message?: Collection<string, RequestInterface>;
+  wsMessage?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -127,18 +128,17 @@ export class Manager extends Client {
       directory: resolve(join(__dirname, "languages")),
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
-    this.shard_status = false;
+    this.shardStatus = false;
     this.REGEX = REGEX;
 
     // Initial autofix lavalink varibles
-    this.lavalink_list = [];
-    this.lavalink_using = [];
-    this.fixing_nodes = false;
-    this.used_lavalink = [];
+    this.lavalinkList = [];
+    this.lavalinkUsing = [];
+    this.lavalinkUsed = [];
 
     // Ws varible
     this.config.features.WEB_SERVER.websocket.enable
-      ? (this.ws_message = new Collection())
+      ? (this.wsMessage = new Collection())
       : undefined;
 
     // Collections
@@ -146,10 +146,11 @@ export class Manager extends Client {
     this.commands = new Collection();
     this.premiums = new Collection();
     this.interval = new Collection();
-    this.sent_queue = new Collection();
+    this.sentQueue = new Collection();
     this.aliases = new Collection();
-    this.nplaying_msg = new Collection();
-    this.is_db_connected = false;
+    this.nplayingMsg = new Collection();
+    this.plButton = new Collection();
+    this.isDatabaseConnected = false;
 
     // Sharing
     this.cluster =

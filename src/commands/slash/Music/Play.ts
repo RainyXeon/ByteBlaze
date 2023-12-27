@@ -233,7 +233,7 @@ export default class implements SlashCommand {
       return;
     }
 
-    if (client.lavalink_using.length == 0) {
+    if (client.lavalinkUsing.length == 0) {
       choice.push({
         name: `${client.i18n.get(language, "music", "no_node")}`,
         value: `${client.i18n.get(language, "music", "no_node")}`,

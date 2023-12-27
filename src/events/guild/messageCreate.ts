@@ -9,7 +9,7 @@ export default class {
   async execute(client: Manager, message: Message) {
     if (message.author.bot || message.channel.type == ChannelType.DM) return;
 
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
@@ -193,7 +193,7 @@ export default class {
       });
     }
 
-    if (command.lavalink && client.lavalink_using.length == 0) {
+    if (command.lavalink && client.lavalinkUsing.length == 0) {
       return message.reply({
         embeds: [
           new EmbedBuilder()

@@ -4,6 +4,7 @@ import { loadCommand } from "./loadCommand.js";
 import { loadMainEvents } from "./loadEvents.js";
 import { loadNodeEvents } from "./loadNodeEvents.js";
 import { loadPlayer } from "./loadPlayer.js";
+import { loadWebsocketEvents } from "./loadWebsocketEvents.js";
 
 export class initHandler {
   constructor(client: Manager) {
@@ -12,5 +13,7 @@ export class initHandler {
     new loadNodeEvents(client);
     new loadPlayer(client);
     new loadCommand(client);
+    if (client.config.features.WEB_SERVER.websocket.enable)
+      new loadWebsocketEvents(client);
   }
 }

@@ -1,7 +1,10 @@
 ### 247 command!
 247_loading: "Loading please wait..."
+247_invalid: "Invalid 247 mode"
 247_off: "`🌙` | *Mode 24/7 has been:* `Deactivated`"
 247_on: "`🌕` | *Mode 24/7 has been:* `Activated`"
+247_on_already: "`🌕` | *24/7 is already in mode:* `Activated`"
+247_off_already: "`🌙` | *24/7 is already in mode:* `Deactivated`"
 
 ### Autoplay command!
 autoplay_loading: "Loading please wait..."
@@ -30,15 +33,15 @@ stop_msg: "`👋` | **Bot has been:** `Disconnected`"
 ### Loop command!
 loop_loading: "Loading please wait..."
 loop_invalid: "Invalid loop mode, only %{mode}"
-loop_current: "`🔁` | **Song is loop:** `Current`"
+loop_current: "`🔁` | **Loop Mode:** `Current`"
 unloop_current: "`🔁` | **Song is unloop:** `Current`"
-loop_all: "`🔁` | **Song is loop:** `All`"
-unloop_all: "`🔁` | **Song is unloop:** `All`"
+loop_all: "`🔁` | **Loop Mode:** `Queue`"
+unloop_all: "`🔁` | **Loop Mode:** `None`"
 
 ### Loopall command!
 loopall_loading: "Loading please wait..."
 loopall: "`🔁` | **Song is loop:** `All`"
-unloopall: "`🔁` | **Song is unloop:** `All`"
+unloopall: "`🔁` | **Loop Mode:** `None`"
 
 ### Lyrics command!
 lyrics_loading: "Searching for lyrics..."

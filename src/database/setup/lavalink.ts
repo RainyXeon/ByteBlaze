@@ -40,7 +40,7 @@ export class AutoReconnectLavalinkService {
     if (Object.keys(maindata).length === 0) return;
 
     let retry_interval = setInterval(async () => {
-      if (!this.client.lavalink_using)
+      if (!this.client.lavalinkUsing)
         return this.client.logger.data_loader(
           lavalink_mess + `No lavalink avalible, try again after 3 seconds!`
         );

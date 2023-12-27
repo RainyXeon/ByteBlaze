@@ -6,7 +6,7 @@ import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
-    if (!client.is_db_connected)
+    if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
@@ -20,12 +20,9 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    if (client.websocket)
-      client.websocket.send(
-        JSON.stringify({ op: "player_destroy", guild: player.guildId })
-      );
+    client.emit("playerDestroy", player);
     const channel = client.channels.cache.get(player.textId) as TextChannel;
-    client.sent_queue.set(player.guildId, false);
+    client.sentQueue.set(player.guildId, false);
     let data = await new AutoReconnectBuilder(client, player).get(
       player.guildId
     );
@@ -61,18 +58,16 @@ export default class {
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
 
-    if (channel) {
-      if (player.queue.current) {
-        const msg = await channel.send({ embeds: [embed] });
-        setTimeout(
-          async () => msg.delete(),
-          client.config.bot.DELETE_MSG_TIMEOUT
-        );
-      }
-
-      const setupdata = await client.db.setup.get(`${player.guildId}`);
-      if (setupdata) return;
-      new ClearMessageService(client, channel, player);
+    if (player.queue.current) {
+      const msg = await channel.send({ embeds: [embed] });
+      setTimeout(
+        async () => msg.delete(),
+        client.config.bot.DELETE_MSG_TIMEOUT
+      );
     }
+
+    const setupdata = await client.db.setup.get(`${player.guildId}`);
+    if (setupdata?.channel == player.textId) return;
+    new ClearMessageService(client, channel, player);
   }
 }

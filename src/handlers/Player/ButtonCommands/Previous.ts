@@ -49,7 +49,7 @@ export class ButtonPrevious {
         ],
       });
       return;
-    } else if (!this.player || !this.player.queue.previous) {
+    } else if (!this.player || this.player.queue.previous.length == 0) {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()

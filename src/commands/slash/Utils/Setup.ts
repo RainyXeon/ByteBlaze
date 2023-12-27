@@ -47,7 +47,7 @@ export default class implements SlashCommand {
       const SetupChannel = await client.db.setup.get(
         `${interaction.guild!.id}`
       );
-      console.log(SetupChannel);
+
       if (SetupChannel!.enable == true)
         return interaction.editReply({
           embeds: [

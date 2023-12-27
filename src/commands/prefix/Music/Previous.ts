@@ -54,7 +54,7 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    if (!player.queue.previous)
+    if (player.queue.previous.length == 0)
       return msg.edit({
         embeds: [
           new EmbedBuilder()

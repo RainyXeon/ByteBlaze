@@ -1,9 +1,9 @@
 import { Manager } from "../manager.js";
 import { Headers } from "../@types/Lavalink.js";
-import { getLavalinkServer } from "./getLavalinkServer.js";
+import { GetLavalinkServer } from "./GetLavalinkServer.js";
 import Websocket from "ws";
 
-export class checkLavalinkServer {
+export class CheckLavalinkServer {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -15,12 +15,12 @@ export class checkLavalinkServer {
       "Running check lavalink server from [https://lavalink.darrennathanael.com/] source"
     );
 
-    const getLavalinkServerClass = new getLavalinkServer();
+    const getLavalinkServerClass = new GetLavalinkServer();
 
     const lavalink_data = await getLavalinkServerClass.execute();
 
-    if (this.client.lavalink_list.length !== 0)
-      this.client.lavalink_list.length = 0;
+    if (this.client.lavalinkList.length !== 0)
+      this.client.lavalinkList.length = 0;
 
     for (let i = 0; i < lavalink_data!.length; i++) {
       const config = lavalink_data![i];
@@ -36,7 +36,7 @@ export class checkLavalinkServer {
 
       this.checkServerStatus(url, headers)
         .then(() => {
-          this.client.lavalink_list.push({
+          this.client.lavalinkList.push({
             host: config.host,
             port: config.port,
             pass: config.pass,
@@ -46,7 +46,7 @@ export class checkLavalinkServer {
           });
         })
         .catch(() => {
-          this.client.lavalink_list.push({
+          this.client.lavalinkList.push({
             host: config.host,
             port: config.port,
             pass: config.pass,
