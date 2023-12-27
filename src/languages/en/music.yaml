@@ -3,6 +3,8 @@
 247_invalid: "Invalid 247 mode"
 247_off: "`🌙` | *Mode 24/7 has been:* `Deactivated`"
 247_on: "`🌕` | *Mode 24/7 has been:* `Activated`"
+247_on_already: "`🌕` | *24/7 is already in mode:* `Activated`"
+247_off_already: "`🌙` | *24/7 is already in mode:* `Deactivated`"
 
 ### Autoplay command!
 autoplay_loading: "Loading please wait..."

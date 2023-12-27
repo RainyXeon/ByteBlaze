@@ -39,6 +39,13 @@ export default class implements PrefixCommand {
     );
 
     if (value == "disable") {
+      if (!data.twentyfourseven) {
+        const offAl = new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "247_off_already")}`)
+          .setColor(client.color);
+        return msg.edit({ content: " ", embeds: [offAl] });
+      }
+      
       data.current || data.current.length !== 0
         ? await client.db.autoreconnect.set(
             `${message.guild!.id}.twentyfourseven`,
@@ -55,22 +62,10 @@ export default class implements PrefixCommand {
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
     } else if (value == "enable") {
-      if (!player)
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_player")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-
       const { channel } = message.member!.voice;
       if (
         !channel ||
-        message.member!.voice.channel !==
-          message.guild!.members.me!.voice.channel
+        message.member!.voice.channel == null
       )
         return msg.edit({
           embeds: [
@@ -81,6 +76,20 @@ export default class implements PrefixCommand {
               .setColor(client.color),
           ],
         });
+
+      if (data.twentyfourseven) {
+        const onAl = new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "247_on_already")}`)
+          .setColor(client.color);
+        return msg.edit({ content: " ", embeds: [onAl] });
+      }
+
+      if (!player) await client.manager.createPlayer({
+        guildId: message.guild!.id,
+        voiceId: message.member!.voice.channel!.id,
+        textId: message.channel.id,
+        deaf: true,
+      })
 
       await client.db.autoreconnect.set(
         `${message.guild!.id}.twentyfourseven`,

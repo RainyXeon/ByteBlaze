@@ -61,6 +61,13 @@ export default class implements SlashCommand {
     ).getString("type");
 
     if (type == "disable") {
+      if (!data.twentyfourseven) {
+        const offAl = new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "247_off_already")}`)
+          .setColor(client.color);
+        return msg.edit({ content: " ", embeds: [offAl] });
+      }
+
       data.current || data.current.length !== 0
         ? await client.db.autoreconnect.set(
             `${interaction.guild!.id}.twentyfourseven`,
@@ -79,22 +86,10 @@ export default class implements SlashCommand {
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
     } else {
-      if (!player)
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_player")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-
       const { channel } = (interaction.member as GuildMember)!.voice;
       if (
         !channel ||
-        (interaction.member as GuildMember)!.voice.channel !==
-          interaction.guild!.members.me!.voice.channel
+        (interaction.member as GuildMember)!.voice.channel == null
       )
         return msg.edit({
           embeds: [
@@ -105,6 +100,20 @@ export default class implements SlashCommand {
               .setColor(client.color),
           ],
         });
+      
+      if (data.twentyfourseven) {
+        const onAl = new EmbedBuilder()
+          .setDescription(`${client.i18n.get(language, "music", "247_on_already")}`)
+          .setColor(client.color);
+        return msg.edit({ content: " ", embeds: [onAl] });
+      }
+
+      if (!player) await client.manager.createPlayer({
+        guildId: interaction.guild!.id,
+        voiceId: (interaction.member as GuildMember).voice.channel!.id,
+        textId: interaction.channel!.id,
+        deaf: true,
+      })
 
       await client.db.autoreconnect.set(
         `${interaction.guild!.id}.twentyfourseven`,

@@ -3,7 +3,7 @@ import { Manager } from "../../manager.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
-    if (!client.websocket) return client.emit("wsFallback");
+    if (!client.websocket) return;
     const song = player.queue.current;
 
     const currentData = {
