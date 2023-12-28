@@ -13,27 +13,18 @@ const rewindNum = 10;
 // Main code
 export default class implements SlashCommand {
   name = ["rewind"];
-  description = "Rewind timestamp in the song!";
+  description = "Rewind timestamp in the song! (10s)";
   category = "Music";
   lavalink = true;
   accessableby = Accessableby.Member;
-  options = [
-    {
-      name: "seconds",
-      description: "Rewind timestamp in the song!",
-      type: ApplicationCommandOptionType.Number,
-      required: false,
-    },
-  ];
+  options = [];
+
   async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
   ) {
     await interaction.deferReply({ ephemeral: false });
-    const value = (
-      interaction.options as CommandInteractionOptionResolver
-    ).getNumber("seconds");
 
     const msg = await interaction.editReply({
       embeds: [
@@ -73,80 +64,35 @@ export default class implements SlashCommand {
       });
 
     const song_position = player.shoukaku.position;
-    const CurrentDuration = new FormatDuration().parse(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position - rewindNum * 1000);
 
-    if (value && !isNaN(value)) {
-      if (song_position - value * 1000 > 0) {
-        await player.send({
-          guildId: interaction.guild!.id,
-          playerOptions: {
-            position: song_position - value * 1000,
-          },
-        });
+    if (song_position - rewindNum * 1000 > 0) {
+      await player.send({
+        guildId: interaction.guild!.id,
+        playerOptions: {
+          position: song_position - rewindNum * 1000,
+        },
+      });
 
-        const rewind1 = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "rewind_msg", {
-              duration: CurrentDuration,
-            })}`
-          )
-          .setColor(client.color);
+      const rewind2 = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(language, "music", "rewind_msg", {
+            duration: CurrentDuration,
+          })}`
+        )
+        .setColor(client.color);
 
-        msg.edit({ content: " ", embeds: [rewind1] });
-      } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "rewind_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      }
-    } else if (value && isNaN(value)) {
+      msg.edit({ content: " ", embeds: [rewind2] });
+    } else {
       return msg.edit({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "music", "rewind_invalid", {
-                prefix: "/",
-              })}`
+              `${client.i18n.get(language, "music", "rewind_beyond")}`
             )
             .setColor(client.color),
         ],
       });
-    }
-
-    if (!value) {
-      if (song_position - rewindNum * 1000 > 0) {
-        await player.send({
-          guildId: interaction.guild!.id,
-          playerOptions: {
-            position: song_position - rewindNum * 1000,
-          },
-        });
-
-        const rewind2 = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "rewind_msg", {
-              duration: CurrentDuration,
-            })}`
-          )
-          .setColor(client.color);
-
-        msg.edit({ content: " ", embeds: [rewind2] });
-      } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "rewind_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      }
     }
   }
 }

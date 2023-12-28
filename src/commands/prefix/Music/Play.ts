@@ -37,8 +37,7 @@ export default class implements PrefixCommand {
 
     const { channel } = message.member!.voice;
     if (
-      !channel ||
-      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
+      !channel
     )
       return msg.edit({
         embeds: [

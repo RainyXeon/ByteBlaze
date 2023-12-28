@@ -7,7 +7,7 @@ import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 export default class implements PrefixCommand {
   name = "247";
   description = "24/7 in voice channel";
-  category = "Music";
+  category = "Utils";
   usage = "<enable> or <disable>";
   aliases = [];
   accessableby = Accessableby.Member;
