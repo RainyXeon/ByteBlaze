@@ -26,7 +26,7 @@ stop_loading: "Đang tải, vui lòng chờ..."
 stop_msg: "`👋` | *Bot đã:* `Đã ngắt kết nối`"
 ### Loop command!
 loop_loading: "Đang tải, vui lòng chờ..."
-loop_invalid: "Chế độ vòng lặp không hợp lệ, chỉ được phép sử dụng: %{mode}"
+loop_invalid: "⚠️ | Bạn phải chọn chế độ vòng lặp hợp lệ. Chế độ hợp lệ: %{mode}!"
 loop_current: "`🔁` | *Chế độ vòng lặp:* `Hiện hành`"
 unloop_current: "`🔁` | *Nhạc được ngừng lặp lại ở chế độ:* `Bài hát hiện tại`"
 loop_all: "`🔁` | *Chế độ vòng lặp:* `Xếp hàng`"

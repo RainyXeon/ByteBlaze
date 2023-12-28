@@ -32,7 +32,7 @@ stop_msg: "`👋` | **Bot has been:** `Disconnected`"
 
 ### Loop command!
 loop_loading: "Loading please wait..."
-loop_invalid: "Invalid loop mode, only %{mode}"
+loop_invalid: "⚠️ | You must specify a valid loop mode. Valid modes: %{mode}!"
 loop_current: "`🔁` | **Loop Mode:** `Current`"
 unloop_current: "`🔁` | **Song is unloop:** `Current`"
 loop_all: "`🔁` | **Loop Mode:** `Queue`"

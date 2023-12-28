@@ -67,7 +67,7 @@ export default class implements PrefixCommand {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(language, "music", "loop_invalid", {
-                mode: mode_array.join(", "),
+                mode: this.changeBold(mode_array).join(", "),
               })}`
             )
             .setColor(client.color),
@@ -108,5 +108,13 @@ export default class implements PrefixCommand {
     if (data) {
       await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }
+  }
+
+  changeBold(arrayMode: string[]) {
+    const res = [];
+    for (const data of arrayMode) {
+      res.push(`**${data}**`);
+    }
+    return res;
   }
 }
