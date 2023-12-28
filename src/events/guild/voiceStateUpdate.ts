@@ -62,6 +62,34 @@ export default class {
 
     const leaveEmbed = client.channels.cache.get(player.textId) as TextChannel;
 
+    const pauseStatus = !player.paused;
+
+    player.pause(!player.paused);
+
+    try {
+      if (leaveEmbed) {
+        const msg = await leaveEmbed.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${
+                  pauseStatus
+                    ? client.i18n.get(language, "player", "leave_pause")
+                    : client.i18n.get(language, "player", "leave_resume")
+                }`
+              )
+              .setColor(client.color),
+          ],
+        });
+        setTimeout(
+          async () => msg.delete(),
+          client.config.bot.DELETE_MSG_TIMEOUT
+        );
+      }
+    } catch (error) {
+      client.logger.error(error);
+    }
+
     if (
       oldState.guild.members.cache.get(client.user!.id)!.voice.channelId ===
       oldState.channelId

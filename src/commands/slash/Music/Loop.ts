@@ -25,8 +25,8 @@ export default class implements SlashCommand {
       required: true,
       choices: [
         {
-          name: "Current",
-          value: "current",
+          name: "Song",
+          value: "song",
         },
         {
           name: "Queue",
@@ -87,7 +87,7 @@ export default class implements SlashCommand {
       "type"
     )!.value;
 
-    if (mode == "current") {
+    if (mode == "song") {
       await player.setLoop(KazagumoLoop.track);
       this.setLoop247(client, player, String(KazagumoLoop.track));
       const looped = new EmbedBuilder()

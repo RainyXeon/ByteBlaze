@@ -1,25 +1,23 @@
-import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { EmbedBuilder, Message } from "discord.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default class implements PrefixCommand {
-  name = "clear";
+export default class implements SlashCommand {
+  name = ["clearqueue"];
   description = "Clear song in queue!";
   category = "Music";
-  usage = "";
-  aliases = [];
   accessableby = Accessableby.Member;
   lavalink = true;
+  options = [];
 
   async run(
+    interaction: CommandInteraction,
     client: Manager,
-    message: Message,
-    args: string[],
-    language: string,
-    prefix: string
+    language: string
   ) {
-    const msg = await message.reply({
+    await interaction.deferReply({ ephemeral: false });
+    const msg = await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -29,7 +27,7 @@ export default class implements PrefixCommand {
       ],
     });
 
-    const player = client.manager.players.get(message.guild!.id);
+    const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
       return msg.edit({
         embeds: [
@@ -40,10 +38,11 @@ export default class implements PrefixCommand {
             .setColor(client.color),
         ],
       });
-    const { channel } = message.member!.voice;
+    const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
-      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
+      (interaction.member as GuildMember)!.voice.channel !==
+        interaction.guild!.members.me!.voice.channel
     )
       return msg.edit({
         embeds: [

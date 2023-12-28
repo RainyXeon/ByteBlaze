@@ -63,7 +63,9 @@ export default class implements SlashCommand {
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = new FormatDuration().parse(song_position + fastForwardNum * 1000);
+    const CurrentDuration = new FormatDuration().parse(
+      song_position + fastForwardNum * 1000
+    );
 
     if (song_position + fastForwardNum * 1000 < song!.length!) {
       player.send({
@@ -87,6 +89,5 @@ export default class implements SlashCommand {
         `${client.i18n.get(language, "music", "forward_beyond")}`
       );
     }
-
   }
 }

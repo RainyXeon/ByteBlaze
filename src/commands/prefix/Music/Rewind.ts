@@ -57,7 +57,9 @@ export default class implements PrefixCommand {
       });
 
     const song_position = player.shoukaku.position;
-    const CurrentDuration = new FormatDuration().parse(song_position - rewindNum * 1000);
+    const CurrentDuration = new FormatDuration().parse(
+      song_position - rewindNum * 1000
+    );
 
     if (song_position - rewindNum * 1000 > 0) {
       await player["send"]({

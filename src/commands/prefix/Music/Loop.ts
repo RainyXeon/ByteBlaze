@@ -57,7 +57,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const mode_array = ["none", "track", "queue"];
+    const mode_array = ["none", "song", "queue"];
 
     const mode = args[0];
 
@@ -68,7 +68,7 @@ export default class implements PrefixCommand {
         })}`
       );
 
-    if (mode == "track") {
+    if (mode == "song") {
       await player.setLoop(KazagumoLoop.track);
       this.setLoop247(client, player, String(KazagumoLoop.track));
 
