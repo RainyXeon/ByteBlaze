@@ -62,11 +62,17 @@ export default class implements PrefixCommand {
     const mode = args[0];
 
     if (!mode_array.includes(mode))
-      return message.reply(
-        `${client.i18n.get(language, "music", "loop_invalid", {
-          mode: mode_array.join(", "),
-        })}`
-      );
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "loop_invalid", {
+                mode: mode_array.join(", "),
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (mode == "song") {
       await player.setLoop(KazagumoLoop.track);

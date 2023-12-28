@@ -62,32 +62,29 @@ export default class {
 
     const leaveEmbed = client.channels.cache.get(player.textId) as TextChannel;
 
-    const pauseStatus = !player.paused;
-
-    player.pause(!player.paused);
-
-    try {
-      if (leaveEmbed) {
-        const msg = await leaveEmbed.send({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${
-                  pauseStatus
-                    ? client.i18n.get(language, "player", "leave_pause")
-                    : client.i18n.get(language, "player", "leave_resume")
-                }`
-              )
-              .setColor(client.color),
-          ],
-        });
-        setTimeout(
-          async () => msg.delete(),
-          client.config.bot.DELETE_MSG_TIMEOUT
-        );
-      }
-    } catch (error) {
-      client.logger.error(error);
+    if (
+      newState.guild.members.me!.voice?.channel &&
+      newState.guild.members.me!.voice.channel.members.filter(
+        (m) => !m.user.bot
+      ).size !== 0
+    ) {
+      if (oldState.channelId) return;
+      if (oldState.channelId === newState.channelId) return;
+      // Resume player
+      player.pause(false);
+      const msg = await leaveEmbed.send({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "player", "leave_resume")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      setTimeout(
+        async () => msg.delete(),
+        client.config.bot.DELETE_MSG_TIMEOUT
+      );
     }
 
     if (
@@ -100,6 +97,23 @@ export default class {
           (m) => !m.user.bot
         ).size === 0
       ) {
+        // Pause player
+        player.pause(true);
+        const msg = await leaveEmbed.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "player", "leave_pause")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        setTimeout(
+          async () => msg.delete(),
+          client.config.bot.DELETE_MSG_TIMEOUT
+        );
+
+        // Delay leave timeout
         await delay(client.config.lavalink.LEAVE_TIMEOUT);
 
         const vcMembers =
