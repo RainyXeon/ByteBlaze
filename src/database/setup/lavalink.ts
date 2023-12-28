@@ -4,6 +4,8 @@ import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
 import { KazagumoPlayer } from "kazagumo.mod";
+import { VoiceChannel } from "discord.js";
+import { AutoReconnectBuilder } from "../build/AutoReconnect.js";
 
 export class AutoReconnectLavalinkService {
   client: Manager;
@@ -70,12 +72,26 @@ export class AutoReconnectLavalinkService {
   }
 
   async connectChannel(data: { id: string; value: AutoReconnect }) {
+    const lavalink = chalk.hex("#ffc61c");
+    const lavalink_mess = lavalink("Lavalink: ");
     const channel = this.client.channels.cache.get(data.value.text);
-    const voice = this.client.channels.cache.get(data.value.voice);
+    const voice = this.client.channels.cache.get(
+      data.value.voice
+    ) as VoiceChannel;
     if (!channel || !voice) {
-      this.client.db.autoreconnect.set(`${data.id}.text`, "");
-      this.client.db.autoreconnect.set(`${data.id}.voice`, "");
-      return;
+      this.client.logger.data_loader(
+        lavalink_mess +
+          `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
+      );
+      return this.client.db.autoreconnect.delete(data.value.guild);
+    }
+
+    if (voice.members.size == 0) {
+      this.client.logger.data_loader(
+        lavalink_mess +
+          `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
+      );
+      return this.client.db.autoreconnect.delete(data.value.guild);
     }
 
     const player = await this.client.manager.createPlayer({
