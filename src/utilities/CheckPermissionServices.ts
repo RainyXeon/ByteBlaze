@@ -10,6 +10,10 @@ export class CheckPermissionServices {
       interaction.user.id
     )?.voice.channel;
 
+    const isUserInText = interaction.guild?.channels.cache.get(
+      String(interaction.channelId)
+    );
+
     for (const permBit of permArray) {
       if (!interaction.guild!.members.me!.permissions.has(permBit)) {
         return String(this.getPermissionName(permBit));
@@ -22,6 +26,13 @@ export class CheckPermissionServices {
       ) {
         return String(this.getPermissionName(permBit));
       }
+      if (
+        isUserInText &&
+        !isUserInText
+          .permissionsFor(interaction.guild!.members.me!)
+          .has(permBit)
+      )
+        return String(this.getPermissionName(permBit));
     }
 
     return "PermissionPass";
@@ -30,6 +41,9 @@ export class CheckPermissionServices {
   message(message: Message, permArray: bigint[]): "PermissionPass" | string {
     const isUserInVoice = message.guild?.members.cache.get(message.author.id)
       ?.voice.channel;
+    const isUserInText = message.guild?.channels.cache.get(
+      String(message.channelId)
+    );
     for (const permBit of permArray) {
       if (!message.guild!.members.me!.permissions.has(permBit)) {
         return String(this.getPermissionName(permBit));
@@ -40,6 +54,11 @@ export class CheckPermissionServices {
       ) {
         return String(this.getPermissionName(permBit));
       }
+      if (
+        isUserInText &&
+        !isUserInText.permissionsFor(message.guild!.members.me!).has(permBit)
+      )
+        return String(this.getPermissionName(permBit));
     }
     return "PermissionPass";
   }
