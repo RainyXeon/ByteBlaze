@@ -4,6 +4,7 @@ import { PermissionsBitField, EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
 import { Accessableby } from "../../@types/Command.js";
+import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -96,6 +97,7 @@ export default class {
     if (!command) return;
 
     //////////////////////////////// Permission check start ////////////////////////////////
+    const permissionChecker = new CheckPermissionServices();
     const defaultPermissions = [
       PermissionsBitField.Flags.SendMessages,
       PermissionsBitField.Flags.ViewChannel,
@@ -111,45 +113,47 @@ export default class {
 
     const managePermissions = [PermissionsBitField.Flags.ManageChannels];
 
-    function getPermissionName(permission: bigint): string {
-      for (const perm of Object.keys(PermissionsBitField.Flags)) {
-        if ((PermissionsBitField.Flags as any)[perm] === permission) {
-          return perm;
-        }
-      }
-      return "UnknownPermission";
+    async function respondError(permission: string) {
+      const embed = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(language, "interaction", "no_perms", {
+            perm: permission,
+          })}`
+        )
+        .setColor(client.color);
+      const dmChannel =
+        message.author.dmChannel == null
+          ? await message.author.createDM()
+          : message.author.dmChannel;
+      dmChannel.send({
+        embeds: [embed],
+      });
     }
 
-    async function checkPermission(permArray: bigint[]) {
-      for (const permBit of permArray) {
-        const embed = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "interaction", "no_perms", {
-              perm: getPermissionName(permBit),
-            })}`
-          )
-          .setColor(client.color);
+    const returnData = await permissionChecker.message(
+      message,
+      defaultPermissions
+    );
+    if (returnData !== "PermissionPass") return respondError(returnData);
 
-        if (!message.guild!.members.me!.permissions.has(permBit)) {
-          const dmChannel =
-            message.author.dmChannel == null
-              ? await message.author.createDM()
-              : message.author.dmChannel;
-          dmChannel.send({
-            embeds: [embed],
-          });
-          break;
-        }
-      }
-    }
-
-    await checkPermission(defaultPermissions);
     if (command.accessableby == Accessableby.Manager) {
-      checkPermission(managePermissions);
+      const returnData = await permissionChecker.message(
+        message,
+        managePermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
-      checkPermission(musicPermissions);
+      const returnData = await permissionChecker.message(
+        message,
+        musicPermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
     } else if (command.name !== "help") {
-      checkPermission(allCommandPermissions);
+      const returnData = await permissionChecker.message(
+        message,
+        allCommandPermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 

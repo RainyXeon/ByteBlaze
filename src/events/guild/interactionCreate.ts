@@ -12,6 +12,7 @@ import {
   ReplyOnlyInteraction,
 } from "../../@types/Interaction.js";
 import { Accessableby } from "../../@types/Command.js";
+import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -108,6 +109,7 @@ export default class {
       client.logger.info(`${msg_cmd.join(" ")}`);
 
       //////////////////////////////// Permission check start ////////////////////////////////
+      const permissionChecker = new CheckPermissionServices();
       const defaultPermissions = [PermissionsBitField.Flags.ManageMessages];
 
       const musicPermissions = [
@@ -117,40 +119,39 @@ export default class {
 
       const managePermissions = [PermissionsBitField.Flags.ManageChannels];
 
-      function getPermissionName(permission: bigint): string {
-        for (const perm of Object.keys(PermissionsBitField.Flags)) {
-          if ((PermissionsBitField.Flags as any)[perm] === permission) {
-            return perm;
-          }
-        }
-        return "UnknownPermission";
-      }
-
-      function checkPermission(permArray: bigint[]) {
-        for (const permBit of permArray) {
-          const embed = new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "interaction", "no_perms", {
-                perm: getPermissionName(permBit),
-              })}`
-            )
-            .setColor(client.color);
-
-          if (!interaction.guild!.members.me!.permissions.has(permBit)) {
-            return (interaction as ReplyOnlyInteraction).reply({
-              embeds: [embed],
-            });
-            break;
-          }
-        }
+      async function respondError(permission: string) {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "interaction", "no_perms", {
+              perm: permission,
+            })}`
+          )
+          .setColor(client.color);
+        await (interaction as ReplyOnlyInteraction).reply({
+          embeds: [embed],
+        });
       }
 
       if (command.name[0] !== "help") {
-        checkPermission(defaultPermissions);
-      } else if (command.category == "Music") {
-        checkPermission(musicPermissions);
-      } else if (command.accessableby == Accessableby.Manager) {
-        checkPermission(managePermissions);
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          defaultPermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
+      }
+      if (command.category.toLocaleLowerCase() == "music") {
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          musicPermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
+      }
+      if (command.accessableby == Accessableby.Manager) {
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          managePermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
       }
       //////////////////////////////// Permission check end ////////////////////////////////
 
