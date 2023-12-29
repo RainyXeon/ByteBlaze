@@ -8,6 +8,8 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, SlashCommand } from "../../../@types/Command.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
+import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 
 // Main code
 export default class implements SlashCommand {
@@ -29,6 +31,7 @@ export default class implements SlashCommand {
     client: Manager,
     language: string
   ) {
+    let player;
     await interaction.deferReply({ ephemeral: false });
 
     const file = await (
@@ -44,23 +47,8 @@ export default class implements SlashCommand {
       ],
     });
 
-    let player = client.manager.players.get(interaction.guild!.id);
-    if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const { channel } = (interaction.member as GuildMember)!.voice;
-    if (
-      !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
-        interaction.guild!.members.me!.voice.channel
-    )
+    if (!channel)
       return msg.edit({
         embeds: [
           new EmbedBuilder()
@@ -70,20 +58,7 @@ export default class implements SlashCommand {
             .setColor(client.color),
         ],
       });
-    if (
-      !interaction
-        .guild!.members.cache.get(client.user!.id)!
-        .permissions.has(PermissionsBitField.Flags.Speak)
-    )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_speak")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+
     if (file!.contentType !== "audio/mpeg" && file!.contentType !== "audio/ogg")
       return msg.edit({
         embeds: [
@@ -136,13 +111,17 @@ export default class implements SlashCommand {
       for (let track of tracks) player.queue.add(track);
     else player.play(tracks[0]);
 
+    const TotalDuration = new StartQueueDuration().parse(tracks);
+
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "music", "play_playlist", {
             title: file!.name,
             url: String(file?.proxyURL),
-            length: String(tracks.length),
+            duration: new ConvertTime().parse(TotalDuration),
+            songs: String(tracks.length),
+            request: String(tracks[0].requester),
           })}`
         )
         .setColor(client.color);
@@ -154,6 +133,8 @@ export default class implements SlashCommand {
           `${client.i18n.get(language, "music", "play_track", {
             title: file!.name,
             url: String(file?.proxyURL),
+            duration: new ConvertTime().parse(tracks[0].length as number),
+            request: String(tracks[0].requester),
           })}`
         )
         .setColor(client.color);
@@ -164,6 +145,8 @@ export default class implements SlashCommand {
         `${client.i18n.get(language, "music", "play_result", {
           title: file!.name,
           url: String(file?.proxyURL),
+          duration: new ConvertTime().parse(tracks[0].length as number),
+          request: String(tracks[0].requester),
         })}`
       );
       msg.edit({ content: " ", embeds: [embed] });

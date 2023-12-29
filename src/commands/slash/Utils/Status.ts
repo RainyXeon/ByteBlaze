@@ -16,7 +16,7 @@ export default class implements SlashCommand {
   name = ["settings", "status"];
   description = "Create bot status channel";
   category = "Utils";
-  accessableby = Accessableby.Manager;
+  accessableby = Accessableby.Owner;
   lavalink = false;
   options = [
     {

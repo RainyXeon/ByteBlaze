@@ -95,40 +95,75 @@ export default class {
       client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
 
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.SendMessages
-      )
-    )
-      return await message.author.dmChannel!.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "interaction", "no_perms")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.ViewChannel
-      )
-    )
-      return;
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.EmbedLinks
-      )
-    )
-      return await message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "interaction", "no_perms")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    //////////////////////////////// Permission check start ////////////////////////////////
+    const permissionArrayHelp = [
+      PermissionsBitField.Flags.SendMessages,
+      PermissionsBitField.Flags.ViewChannel,
+      PermissionsBitField.Flags.EmbedLinks,
+    ];
+
+    const permissionArrayNoHelp = [
+      PermissionsBitField.Flags.ViewChannel,
+      PermissionsBitField.Flags.EmbedLinks,
+      PermissionsBitField.Flags.Speak,
+      PermissionsBitField.Flags.Connect,
+      PermissionsBitField.Flags.ManageMessages,
+      PermissionsBitField.Flags.ManageChannels,
+    ];
+
+    function getPermissionName(permission: bigint): string {
+      for (const perm of Object.keys(PermissionsBitField.Flags)) {
+        if ((PermissionsBitField.Flags as any)[perm] === permission) {
+          return perm;
+        }
+      }
+      return "UnknownPermission";
+    }
+
+    if (command.name == "help") {
+      for (const permBit of permissionArrayHelp) {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "interaction", "no_perms", {
+              perm: getPermissionName(permBit),
+            })}`
+          )
+          .setColor(client.color);
+
+        if (!message.guild!.members.me!.permissions.has(permBit)) {
+          const dmChannel =
+            message.author.dmChannel == null
+              ? await message.author.createDM()
+              : message.author.dmChannel;
+          return dmChannel.send({
+            embeds: [embed],
+          });
+        }
+      }
+    } else {
+      const fullPermArray = [];
+      fullPermArray.push(...permissionArrayHelp, ...permissionArrayNoHelp);
+      for (const permBit of fullPermArray) {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "interaction", "no_perms", {
+              perm: getPermissionName(permBit),
+            })}`
+          )
+          .setColor(client.color);
+
+        if (!message.guild!.members.me!.permissions.has(permBit)) {
+          const dmChannel =
+            message.author.dmChannel == null
+              ? await message.author.createDM()
+              : message.author.dmChannel!;
+          return dmChannel.send({
+            embeds: [embed],
+          });
+        }
+      }
+    }
+    //////////////////////////////// Permission check end ////////////////////////////////
 
     if (
       command.accessableby == Accessableby.Owner &&
@@ -203,19 +238,17 @@ export default class {
       });
     }
 
-    if (command) {
-      try {
-        command.run(client, message, args, language, PREFIX);
-      } catch (error) {
-        client.logger.error(error);
-        message.reply({
-          content: `${client.i18n.get(
-            language,
-            "interaction",
-            "error"
-          )}\n ${error}`,
-        });
-      }
+    try {
+      command.run(client, message, args, language, PREFIX);
+    } catch (error) {
+      client.logger.error(error);
+      message.reply({
+        content: `${client.i18n.get(
+          language,
+          "interaction",
+          "error"
+        )}\n ${error}`,
+      });
     }
   }
 }

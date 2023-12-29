@@ -4,7 +4,7 @@
 dev_only: Bot đang được bảo trì. (Vui lòng quay lại sau)
 
 # No permission to use command (this for bot!)
-no_perms: Tôi không có quyền để thực hiện lệnh!
+no_perms: "Tôi không có quyền để thực hiện lệnh! `%{perm}`"
 
 # Bot getting error something!
 error: Đã xảy ra lỗi.
