@@ -24,6 +24,8 @@ export type NoAutoInteraction =
   | ButtonInteraction
   | ModalSubmitInteraction;
 
+export type ReplyOnlyInteraction = CommandInteraction | ButtonInteraction;
+
 export type AutocompleteInteractionChoices = {
   name: string;
   value: string;

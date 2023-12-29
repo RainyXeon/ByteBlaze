@@ -9,6 +9,7 @@ import { Manager } from "../../manager.js";
 import {
   GlobalInteraction,
   NoAutoInteraction,
+  ReplyOnlyInteraction,
 } from "../../@types/Interaction.js";
 import { Accessableby } from "../../@types/Command.js";
 
@@ -105,6 +106,53 @@ export default class {
       ];
 
       client.logger.info(`${msg_cmd.join(" ")}`);
+
+      //////////////////////////////// Permission check start ////////////////////////////////
+      const defaultPermissions = [PermissionsBitField.Flags.ManageMessages];
+
+      const musicPermissions = [
+        PermissionsBitField.Flags.Speak,
+        PermissionsBitField.Flags.Connect,
+      ];
+
+      const managePermissions = [PermissionsBitField.Flags.ManageChannels];
+
+      function getPermissionName(permission: bigint): string {
+        for (const perm of Object.keys(PermissionsBitField.Flags)) {
+          if ((PermissionsBitField.Flags as any)[perm] === permission) {
+            return perm;
+          }
+        }
+        return "UnknownPermission";
+      }
+
+      function checkPermission(permArray: bigint[]) {
+        for (const permBit of permArray) {
+          const embed = new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "interaction", "no_perms", {
+                perm: getPermissionName(permBit),
+              })}`
+            )
+            .setColor(client.color);
+
+          if (!interaction.guild!.members.me!.permissions.has(permBit)) {
+            return (interaction as ReplyOnlyInteraction).reply({
+              embeds: [embed],
+            });
+            break;
+          }
+        }
+      }
+
+      if (command.name[0] !== "help") {
+        checkPermission(defaultPermissions);
+      } else if (command.category == "Music") {
+        checkPermission(musicPermissions);
+      } else if (command.accessableby == Accessableby.Manager) {
+        checkPermission(managePermissions);
+      }
+      //////////////////////////////// Permission check end ////////////////////////////////
 
       if (
         command.accessableby == Accessableby.Manager &&

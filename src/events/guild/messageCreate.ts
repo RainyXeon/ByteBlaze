@@ -96,20 +96,20 @@ export default class {
     if (!command) return;
 
     //////////////////////////////// Permission check start ////////////////////////////////
-    const permissionArrayHelp = [
+    const defaultPermissions = [
       PermissionsBitField.Flags.SendMessages,
       PermissionsBitField.Flags.ViewChannel,
       PermissionsBitField.Flags.EmbedLinks,
     ];
 
-    const permissionArrayNoHelp = [
-      PermissionsBitField.Flags.ViewChannel,
-      PermissionsBitField.Flags.EmbedLinks,
+    const allCommandPermissions = [PermissionsBitField.Flags.ManageMessages];
+
+    const musicPermissions = [
       PermissionsBitField.Flags.Speak,
       PermissionsBitField.Flags.Connect,
-      PermissionsBitField.Flags.ManageMessages,
-      PermissionsBitField.Flags.ManageChannels,
     ];
+
+    const managePermissions = [PermissionsBitField.Flags.ManageChannels];
 
     function getPermissionName(permission: bigint): string {
       for (const perm of Object.keys(PermissionsBitField.Flags)) {
@@ -120,8 +120,8 @@ export default class {
       return "UnknownPermission";
     }
 
-    if (command.name == "help") {
-      for (const permBit of permissionArrayHelp) {
+    async function checkPermission(permArray: bigint[]) {
+      for (const permBit of permArray) {
         const embed = new EmbedBuilder()
           .setDescription(
             `${client.i18n.get(language, "interaction", "no_perms", {
@@ -135,33 +135,21 @@ export default class {
             message.author.dmChannel == null
               ? await message.author.createDM()
               : message.author.dmChannel;
-          return dmChannel.send({
+          dmChannel.send({
             embeds: [embed],
           });
+          break;
         }
       }
-    } else {
-      const fullPermArray = [];
-      fullPermArray.push(...permissionArrayHelp, ...permissionArrayNoHelp);
-      for (const permBit of fullPermArray) {
-        const embed = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "interaction", "no_perms", {
-              perm: getPermissionName(permBit),
-            })}`
-          )
-          .setColor(client.color);
+    }
 
-        if (!message.guild!.members.me!.permissions.has(permBit)) {
-          const dmChannel =
-            message.author.dmChannel == null
-              ? await message.author.createDM()
-              : message.author.dmChannel!;
-          return dmChannel.send({
-            embeds: [embed],
-          });
-        }
-      }
+    await checkPermission(defaultPermissions);
+    if (command.accessableby == Accessableby.Manager) {
+      checkPermission(managePermissions);
+    } else if (command.category == "Music") {
+      checkPermission(musicPermissions);
+    } else if (command.name !== "help") {
+      checkPermission(allCommandPermissions);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
