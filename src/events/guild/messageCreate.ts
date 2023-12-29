@@ -1,4 +1,4 @@
-import { ChannelType, Message } from "discord.js";
+import { ChannelType, Message, PermissionFlagsBits } from "discord.js";
 import { Manager } from "../../manager.js";
 import { PermissionsBitField, EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
@@ -99,19 +99,19 @@ export default class {
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
     const defaultPermissions = [
-      PermissionsBitField.Flags.SendMessages,
-      PermissionsBitField.Flags.ViewChannel,
-      PermissionsBitField.Flags.EmbedLinks,
+      PermissionFlagsBits.SendMessages,
+      PermissionFlagsBits.ViewChannel,
+      PermissionFlagsBits.EmbedLinks,
     ];
 
-    const allCommandPermissions = [PermissionsBitField.Flags.ManageMessages];
+    const allCommandPermissions = [PermissionFlagsBits.ManageMessages];
 
     const musicPermissions = [
-      PermissionsBitField.Flags.Speak,
-      PermissionsBitField.Flags.Connect,
+      PermissionFlagsBits.Speak,
+      PermissionFlagsBits.Connect,
     ];
 
-    const managePermissions = [PermissionsBitField.Flags.ManageChannels];
+    const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(permission: string) {
       const embed = new EmbedBuilder()
@@ -173,7 +173,7 @@ export default class {
 
     if (
       command.accessableby == Accessableby.Manager &&
-      !message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild)
+      !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
     )
       return message.reply({
         embeds: [

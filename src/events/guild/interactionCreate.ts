@@ -4,6 +4,7 @@ import {
   CommandInteraction,
   EmbedBuilder,
   CommandInteractionOptionResolver,
+  PermissionFlagsBits,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import {
@@ -110,14 +111,14 @@ export default class {
 
       //////////////////////////////// Permission check start ////////////////////////////////
       const permissionChecker = new CheckPermissionServices();
-      const defaultPermissions = [PermissionsBitField.Flags.ManageMessages];
+      const defaultPermissions = [PermissionFlagsBits.ManageMessages];
 
       const musicPermissions = [
-        PermissionsBitField.Flags.Speak,
-        PermissionsBitField.Flags.Connect,
+        PermissionFlagsBits.Speak,
+        PermissionFlagsBits.Connect,
       ];
 
-      const managePermissions = [PermissionsBitField.Flags.ManageChannels];
+      const managePermissions = [PermissionFlagsBits.ManageChannels];
 
       async function respondError(permission: string) {
         const embed = new EmbedBuilder()
