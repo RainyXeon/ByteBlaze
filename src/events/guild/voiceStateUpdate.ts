@@ -65,20 +65,14 @@ export default class {
     if (
       newState.guild.members.me!.voice?.channel &&
       newState.guild.members.me!.voice.channel.members.filter(
-        (m) => !m.user.bot
+        (m) => m.user.id !== client.user?.id
       ).size !== 0
     ) {
       if (oldState.channelId) return;
       if (oldState.channelId === newState.channelId) return;
-      if (
-        oldState.guild.members.me!.voice.channel &&
-        oldState.guild.members.me!.voice.channel.members.filter(
-          (m) => !m.user.bot
-        ).size !== 0
-      )
-        return;
+      if (newState.guild.members.me!.voice.channel.members.size > 2) return;
       // Resume player
-      player.pause(false);
+      !player.paused ? true : player.pause(false);
       const msg = await leaveEmbed.send({
         embeds: [
           new EmbedBuilder()
@@ -105,7 +99,7 @@ export default class {
         ).size === 0
       ) {
         // Pause player
-        player.pause(true);
+        player.paused ? true : player.pause(true);
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
