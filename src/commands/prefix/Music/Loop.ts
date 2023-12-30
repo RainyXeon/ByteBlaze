@@ -57,7 +57,7 @@ export default class implements PrefixCommand {
         ],
       });
 
-    const mode_array = ["none", "song", "queue"];
+    const mode_array = ["song", "queue", "none"];
 
     const mode = args[0];
 
