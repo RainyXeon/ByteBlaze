@@ -39,7 +39,7 @@ export default class implements PrefixCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "play_loading", {
+            `${client.i18n.get(language, "music", "loop_loading", {
               result: file.name,
             })}`
           )
