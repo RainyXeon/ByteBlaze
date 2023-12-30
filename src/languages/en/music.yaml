@@ -4,7 +4,7 @@
 247_off: "`❌` | 24/7 mode is now **Disabled**!"
 247_on_already: "`⚠️` | 24/7 mode is already **Enabled**!"
 247_off_already: "`⚠️` | 24/7 mode is already **Disabled**!"
-247_invalid: "`⚠️` | Invalid 24/7 mode! Please use **enable** or **disable**!"
+247_invalid: "`⚠️` | Invalid 24/7 mode. Please use **enable** or **disable**!"
 
 ### Autoplay command!
 autoplay_loading: "`⏳` | Loading **Autoplay**..."
@@ -19,7 +19,7 @@ clearqueue_msg: "`🗑️` | Queue has been **Cleared**!"
 forward_loading: "`⏳` | **Forwarding**..."
 forward_msg: "`⏩` | Forwarded to `%{duration}`!"
 forward_beyond: "`⚠️` | Song is about to end. You can't forward beyond it!"
-forward_invalid: "`⚠️` | Something went wrong! Please try again."
+forward_invalid: "`⚠️` | Something went wrong. Please try again!"
 
 ### Join command!
 join_loading: "`⏳` | **Joining**..."
@@ -35,7 +35,7 @@ loop_loading: "`⏳` | **Loading**..."
 loop_current: "`🔁` | Looping current **Song**!"
 loop_all: "`🔁` | Looping **Queue**!"
 unloop_all: "`❌` | Loop is now **Disabled**!"
-loop_invalid: "`⚠️` | Invalid loop mode! Please use %{mode}!"
+loop_invalid: "`⚠️` | Invalid loop mode. Please use %{mode}!"
 
 ### Loopall command!
 loopall_loading: "`⏳` | **Loading**..."
@@ -71,8 +71,8 @@ play_startwith: "`⚠️` | Please use URL to play a song!"
 ### File command!
 file_loading: "`⏳` | **Loading**..."
 play_speak: "`⚠️` | I don't have permission to speak in this channel!"
-play_invalid_file: "`⚠️` | Invalid file type! Please use **mp3** or **ogg**!"
-play_warning_file: "`⚠️` | I could not detect the file type! Please use **mp3** or **ogg**!"
+play_invalid_file: "`⚠️` | Invalid file type. Please use **mp3** or **ogg**!"
+play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp3** or **ogg**!"
 
 ### Previous command!
 previous_loading: "`⏳` | **Loading**..."
@@ -98,7 +98,7 @@ resume_msg: "`▶️` | Resumed the **Player**!"
 rewind_loading: "`⏳` | **Rewinding**..."
 rewind_msg: "`⏪` | Rewinded to `%{duration}`!"
 rewind_beyond: "`⚠️` | Song just started. You can't rewind beyond it!"
-rewind_invalid: "`⚠️` | Something went wrong! Please try again."
+rewind_invalid: "`⚠️` | Something went wrong. Please try again!"
 
 ### RemoveTrack command!
 removetrack_loading: "`⏳` | **Removing**..."
@@ -113,7 +113,7 @@ removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs 
 seek_loading: "`⏳` | **Seeking**..."
 seek_msg: "`➿` | Seeked to `%{duration}`!"
 seek_beyond: "`⚠️` | You can't seek beyond the song duration!"
-seek_invalid: "`⚠️` | Invalid seek duration! Please use a valid timestamp. Example: **1:30**!"
+seek_invalid: "`⚠️` | Invalid seek duration. Please use a valid timestamp. Example: **1:30**!"
 
 ### Shuffle command!
 shuffle_loading: "`⏳` | **Shuffling**..."
@@ -127,10 +127,10 @@ skip_msg: "`⏭️` | Skipped the **Song**!"
 volume_loading: "`⏳` | Changing **Volume**..."
 volume_usage: "`🔊` | Current volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
-volume_invalid: "`⚠️` | Invalid volume! Please use a number between **1** and **100**!"
+volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** and **100**!"
 
 ### Utils
 enabled: "Enabled"
 disabled: "Disabled"
 number_invalid: "`⚠️` | Please provide a valid number!"
-no_node: "`⚠️` | No lavalink server found! Please try again after **5 Minutes**."
+no_node: "`⚠️` | No lavalink server found. Please try again after **5 Minutes**!"
