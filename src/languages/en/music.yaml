@@ -66,8 +66,11 @@ play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{so
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a song name or URL!"
 play_match: "`⚠️` | No song found!"
-play_speak: "`⚠️` | I don't have permission to speak in this channel!"
 play_startwith: "`⚠️` | Please use URL to play a song!"
+
+### File command!
+file_loading: "`⏳` | **Loading**..."
+play_speak: "`⚠️` | I don't have permission to speak in this channel!"
 play_invalid_file: "`⚠️` | Invalid file type! Please use **mp3** or **ogg**!"
 play_warning_file: "`⚠️` | I could not detect the file type! Please use **mp3** or **ogg**!"
 
@@ -100,9 +103,11 @@ rewind_invalid: "`⚠️` | Something went wrong! Please try again."
 ### RemoveTrack command!
 removetrack_loading: "`⏳` | **Removing**..."
 removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
-removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
 removetrack_already: "`⚠️` | I can't remove a song that's already playing!"
 removetrack_notfound: "`⚠️` | No song found!"
+
+### RemoveDuplicate command!
+removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
 
 ### Seek command!
 seek_loading: "`⏳` | **Seeking**..."
