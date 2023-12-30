@@ -41,7 +41,7 @@ export default class implements SlashCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "loop_loading")}`
+            `${client.i18n.get(language, "music", "file_loading")}`
           )
           .setColor(client.color),
       ],
