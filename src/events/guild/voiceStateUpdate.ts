@@ -70,6 +70,13 @@ export default class {
     ) {
       if (oldState.channelId) return;
       if (oldState.channelId === newState.channelId) return;
+      if (
+        oldState.guild.members.me!.voice.channel &&
+        oldState.guild.members.me!.voice.channel.members.filter(
+          (m) => !m.user.bot
+        ).size !== 0
+      )
+        return;
       // Resume player
       player.pause(false);
       const msg = await leaveEmbed.send({

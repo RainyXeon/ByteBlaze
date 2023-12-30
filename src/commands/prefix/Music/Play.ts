@@ -23,6 +23,15 @@ export default class implements PrefixCommand {
     let player = client.manager.players.get(message.guild!.id);
     const value = args[0];
 
+    if (!value)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "music", "play_arg")}`)
+            .setColor(client.color),
+        ],
+      });
+
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
