@@ -73,7 +73,7 @@ export default class {
       if (newState.guild.members.me!.voice.channel.members.size > 2) return;
       // Resume player
       player.paused == false ? true : player.pause(false);
-      if (player.paused == false) {
+      if (player.paused == false && player.shoukaku.track !== null) {
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
@@ -103,7 +103,7 @@ export default class {
         // Pause player
         player.paused == true ? true : player.pause(true);
 
-        if (player.paused == true) {
+        if (player.paused == true && player.shoukaku.track !== null) {
           const msg = await leaveEmbed.send({
             embeds: [
               new EmbedBuilder()
