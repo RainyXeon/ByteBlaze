@@ -124,7 +124,7 @@ skip_loading: "`⏳` | **Skipping**..."
 skip_msg: "`⏭️` | Skipped the **Song**!"
 
 ### Volume command!
-volume_loading: "`⏳` | Changing **Volume**..."
+volume_loading: "`⏳` | Loading **Volume**..."
 volume_usage: "`🔊` | Current volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
 volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** and **100**!"
