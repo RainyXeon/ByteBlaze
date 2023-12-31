@@ -1,54 +1,38 @@
-##### On track start playing! Event #####
-track_title: "Starting playing..."
+### Playing event!
+track_title: "Started Playing..."
 track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+author_title: "`🖊️` | Author:"
+request_title: "`👤` | Requester:"
+volume_title: "`🔊` | Volume:"
+queue_title: "`💾` | Queue Length:"
+duration_title: "`🕒` | Song Duration:"
+total_duration_title: "`🕰️` | Queue Duration:"
+download_title: "`⬇️` | Download:"
 
-# Embed Field
-author_title: "Author:"
-request_title: "Requester:"
-volume_title: "Current Volume:"
-queue_title: "Queue Length:"
-duration_title: "Duration:"
-total_duration_title: "Total Duration:"
-current_duration_title: "Current Duration: `[0:00 / %{current_duration}]`"
+### Same voice!
+join_voice: "`⚠️` | You are not in the same voice channel as me!"
 
-# Need in voice to use button!
-join_voice: "You need to be in a same/voice channel to use this button."
-
-# Message Button
+### Message button!
 switch_pause: Paused
 switch_resume: Resumed
-pause_msg: "`⏯` | *Song has been:* `%{pause}`"
-skip_msg: "`⏭` | *Song has been:* `Skipped`"
-stop_msg: "`🚫` | *Song has been:* `Stopped`"
-shuffle_msg: "`🔀` | *Queue has been:* `Shuffled`"
-switch_enable: Enabled
-switch_disable: Disabled
-repeat_msg: "`🔁` | *Loop has been:* `%{loop}`"
-volup_msg: "`🔊` | *Change volume to:* `%{volume}%`"
-voldown_msg: "`🔈` | *Change volume to:* `%{volume}%`"
-replay_msg: "`⏮` | *Song has been:* `Replayed`"
-queue_author: "Queue - %{guild}"
-queue_description: "*Currently Playing*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*Rest of queue*:%{list_song}"
-queue_footer: "Page • %{page}/%{pages} | %{queue_lang} • Song | %{total_duration} • Total duration"
-clear_msg: "`📛` | *Queue has been:* `Cleared`"
+pause_msg: "`⏸️` | Paused the **Player**!`"
+skip_msg: "`⏭️` | Skipped the **Song**!"
+stop_msg: "`⏹️` | Stopped the **Player**!"
+shuffle_msg: "`🔀` | Shuffled the **Queue**!"
+volup_msg: "`🔊` | Changed volume to **%{volume}%**"
+voldown_msg: "`🔉` | Changed volume to **%{volume}%**"
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | Currently Playing:\n**[%{track}](%{track_url})** `[%{duration}]` • %{requester}\n\n`💤` | Rest of Queue:**%{list_song}**"
+queue_footer: "Page • %{page}/%{pages} | Song • %{queue_lang} | Total Duration • %{total_duration}"
+clear_msg: "`🗑️` | Queue has been **Cleared**!"
 
-##### On QueueEnd Event #####
-queue_end_desc: "`📛` | *Song has been:* `Ended`"
+### QueueEnd event!
+queue_end_desc: "`🔚` | Song has been **Ended**!"
 
-##### On Track get error!! Event #####
-error_desc: "`❌` | *Song has error:* `Auto-Skipped`"
+### Song error!
+error_desc: "`⚠️` | Song has error. Skipped the **Song**!"
 
-##### On Track get stuck!! Event #####
-stuck_desc: "`❌` | *Song has stuck:* `Auto-Skipped`"
-
-# On player get discoconnect
-dis_title: "Disconnected"
-dis_desc: "*I've been disconnected from <#%{voice}>*"
-
-# On player get move! = (detroy player)
-leave_title: "Moved"
-leave_desc: "*I got moved auto disconnected*"
-player_end: "**Disconnected from <#%{leave}> because I was left alone ;(**"
-download_title: "Download:"
-leave_pause: "`⏸️` | Music has been paused because I was left alone."
-leave_resume: "`▶️` | Music has been resumed because somebody join."
+### Auto function!
+player_end: "`🛑` | I left <#%{leave}> because there is no one in the voice channel!"
+leave_pause: "`⏸️` | Song has been paused because I was left alone!"
+leave_resume: "`▶️` | Song has been resumed because someone joined!"
