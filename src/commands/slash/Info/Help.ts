@@ -63,7 +63,13 @@ export default class implements SlashCommand {
             `
       )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-      .setColor(client.color);
+      .setColor(client.color)
+      .setFooter({
+        text: `© ${
+          interaction.guild!.members.me!.displayName
+        } | Total Commands: ${client.slash.size}`,
+        iconURL: client.user!.displayAvatarURL(),
+      });
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
       new StringSelectMenuBuilder()
