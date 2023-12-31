@@ -36,7 +36,7 @@ export default class implements PrefixCommand {
           name: `${message.guild!.members.me!.displayName} Help Command`,
           iconURL: message.guild!.iconURL() as string,
         })
-        .setDescription(`The bot prefix is: \`${prefix} or /\``)
+        .setDescription(`Bot prefix: \`${prefix}\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
         .setColor(client.color);
 
@@ -163,7 +163,7 @@ export default class implements PrefixCommand {
                 } Help Command`,
                 iconURL: message.guild!.iconURL() as string,
               })
-              .setDescription(`The bot prefix is: \`${prefix} or /\``)
+              .setDescription(`Bot prefix: \`${prefix}\``)
               .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
               .setColor(client.color)
               .addFields({
