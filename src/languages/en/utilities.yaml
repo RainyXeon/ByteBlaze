@@ -13,7 +13,7 @@ control_perm: "`⚠️` | You don't have permission to use this command!"
 
 ### Help command!
 help_desc: "Click Me!"
-help_timeout: "`⏱️` | Help Menu timed out. Please use **%{prefix}help** again!"
+help_timeout: "`⏰` | Help Menu timed out. Please use **%{prefix}help** again!"
 
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
