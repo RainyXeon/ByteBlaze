@@ -33,7 +33,7 @@ export default class implements PrefixCommand {
     if (args[0]) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${message.guild!.members.me!.displayName} Help Command!`,
+          name: `${message.guild!.members.me!.displayName} Help Command`,
           iconURL: message.guild!.iconURL() as string,
         })
         .setDescription(`The bot prefix is: \`${prefix} or /\``)
@@ -82,7 +82,7 @@ export default class implements PrefixCommand {
       .setAuthor({
         name: `${
           message.guild!.members.me!.displayName
-        } Help Command! [PREFIX]`,
+        } Help Command`,
         iconURL: message.guild!.iconURL() as string,
       })
       .setDescription(
@@ -160,7 +160,7 @@ export default class implements PrefixCommand {
               .setAuthor({
                 name: `${
                   message.guild!.members.me!.displayName
-                } Help Command! [PREFIX]`,
+                } Help Command`,
                 iconURL: message.guild!.iconURL() as string,
               })
               .setDescription(`The bot prefix is: \`${prefix} or /\``)
