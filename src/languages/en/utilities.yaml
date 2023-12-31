@@ -1,35 +1,26 @@
-##### Language command #####
-lang_perm: "You need the `MANAGE_GUILD` permission to use this command."
-lang_arg: "Please specify a language!"
-provide_lang: "**Please provide languages:** \n`%{languages}`"
-lang_set: "`🔧` | **Language has been set to:** `%{language}`"
-lang_change: "`🔧` | **Language has been change to:** `%{language}`"
-lang_error: "Something went wrong please try again later."
+### Language command!
+lang_set: "`📙` | Language has been set to **%{language}**!"
+lang_change: "`📙` | Language has been changed to **%{language}**!"
+lang_perm: "`⚠️` | You don't have permission to use this command!"
+provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
 
-##### Restart command #####
-restart_msg: "`🤖` | *Client has been:* `Shutting down`"
+### Shutdown command!
+restart_msg: "`🛑` | **Shutting down**..."
 
-##### PLayer control command #####
-control_perm: "You need the `MANAGE_GUILD` permission to use this command."
-control_set: "`🔧` | *Player control mode has been set to:* `%{toggle}`"
-control_change: "`🔧` | *Player control mode has been change to:* `%{toggle}`"
-control_err: "An error occured while setting the player control mode!"
+### Control command!
+control_set: "`🎚️` | Control has been set to **%{toggle}**!"
+control_perm: "`⚠️` | You don't have permission to use this command!"
 
-##### Help command #####
-help_desc: "Please Select Category Menu!"
-help_category_desc: "Select the %{category} to see all commands."
-help_category: "%{category}"
-help_timeout: "```Help Menu timed out try using %{prefix}help again.```"
+### Help command!
+help_desc: "Click Me!"
+help_timeout: "`⏳` | Help Menu timed out. Please use **%{prefix}help** again!"
 
-##### Prefix command #####
-prefix_perm: "You need the `MANAGE_GUILD` permission to use this command."
-prefix_arg: "Please specify a prefix!"
-prefix_length: "The prefix can't be longer than 10 characters!"
-prefix_set: "`🔧` | *Prefix has been set to:* `%{prefix}`"
-prefix_change: "`🔧` | *Prefix has been change to:* `%{prefix}`"
-prefix_error: "An error occured while setting the prefix!"
+### Prefix command!
+prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
+prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
+prefix_perm: "`⚠️` | You don't have permission to use this command!"
+prefix_arg: "`⚠️` | Please provide a prefix!"
+prefix_length: "`⚠️` | Prefix can't be longer than **10 Characters**!"
 
-arg_error: "Please specify a `%{text}`!"
 
-page_title: "Online: 🟢 / Offline: 🔴"
-page_footer: "Page • %{page}/%{pages}"
+arg_error: "`⚠️` | Invalid argument. Please use **%{text}**"

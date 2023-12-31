@@ -1,9 +1,13 @@
+### Developer command!
 dev_title: "RainyXeon"
 dev_desc: "A versatile and powerful music bot for Discord that brings rhythm and melody to your server. "
 dev_foot: "Consider Joining the server or Inviting the Bot :) This would help me alot!"
 
-inv_title: "**Thanks for Inviting %{username}**"
-inv_desc: "**%{username} Powered by RainyXeon**"
+### Invite command!
+inv_title: "🙌 Thanks for Inviting %{username}"
+inv_desc: "**%{username}** Powered by **RainyXeon**"
 
-ping_title: "**Ping of **"
-ping_desc: "My Ping is ***%{ping}ms***"
+
+### Ping command!
+ping_title: "🏓 "
+ping_desc: "My Ping is **%{ping}ms**!"
