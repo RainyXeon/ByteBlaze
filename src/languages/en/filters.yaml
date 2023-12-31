@@ -1,41 +1,40 @@
-##### All Filter command!
-filter_loading: "Turning on **%{name}**. This may take a few seconds..."
-filter_on: "`🔩` | **Turned on:** `%{name}`"
-filter_number: "Please enter a number."
+### All filter command!
+filter_loading: "`⏳` | Turning on **%{name}** filter..."
+filter_on: "`✅` | %{name} filter is now **Enabled**!"
+filter_number: "`⚠️` | Please provide a valid number!"
+filter_greater: "`⚠️` | Number must be greater than **0**!"
+filter_less: "`⚠️` | Number must be lesser than **10**!"
 
-filter_greater: "Number must be greater than 0."
-filter_less: "Number must be less than 10."
+### Bassboost command!
+bassboost_loading: "`⏳` | Setting bassboost to **%{amount}dB**..."
+bassboost_set: "`🎚️` | Bassboost has been set to **%{amount}dB**!"
+bassboost_limit: "`⚠️` | Please use a number between **-10** and **10**!"
 
-# Bassboost commaand!
-bassboost_loading: "Setting **Bassboost** to **%{amount}dB**. This may take a few seconds..."
-bassboost_set: "`🔩` | **Bassboost set to:** `%{amount}`"
-bassboost_limit: "Please enter a number between -10 and 10."
-
-# Equalizer command!
-eq_author: "Custom Equalizer"
-eq_icon: "https://cdn.discordapp.com/emojis/758423098885275748.gif"
-eq_desc: "There are 14 bands that can be set from -10 to 10. Not all bands have to be filled out."
+### Equalizer command!
+eq_author: "Equalizer"
+eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
+eq_desc: "`🎚️` | There are **14** bands that can be set from **-10** to **10**. It is not mandatory to set all of them!"
 eq_field_title: "Example:"
 eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
-eq_number: "Band #%{num} is not a valid number."
-eq_than: "Band #%{num} must be less than 10."
-eq_footer: "Reset equalizer type: %{prefix}eq reset"
+eq_footer: "Reset Equalizer • %{prefix}eq reset"
+eq_loading: "`⏳` | Setting equalizer to **%{bands}**..."
+eq_on: "`🎚️` | Equalizer has been set to **%{bands}**!"
+eq_number: "`⚠️` | Please provide a valid number!"
+eq_greater: "`⚠️` | Number must be greater than **-10**!"
+eq_than: "`⚠️` | Number must be lesser than **10**!"
 
-eq_loading: "Setting **Equalizer** to... **`%{bands}`** This may take a few seconds..."
-eq_on: "`🔩` | **Equalizer set to:** `%{bands}`"
+### Pitch command!
+pitch_loading: "`⏳` | Setting pitch to **%{amount}**..."
+pitch_on: "`🎚️` | Pitch has been set to **%{amount}**!"
 
-# Pitch command!
-pitch_loading: "Setting **Pitch** to **%{amount}**. This may take a few seconds..."
-pitch_on: "`🔩` | **Pitch set to:** `%{amount}`"
+### Rate command!
+rate_loading: "`⏳` | Setting rate to **%{amount}x**..."
+rate_on: "`🎚️` | Rate has been set to **%{amount}x**!"
 
-# Rate command!
-rate_loading: "Setting **Rate** to **%{amount}x**. This may take a few seconds..."
-rate_on: "`🔩` | **Rate set to:** `%{amount}x`"
+### Speed command!
+speed_loading: "`⏳` | Setting speed to **%{amount}x**..."
+speed_on: "`🎚️` | Speed has been set to **%{amount}x**!"
 
-# Reset command!
-reset_loading: "Turning off **filter** This may take a few seconds..."
-reset_on: "`🔩` | **Turned off:** `filter`"
-
-# Speed command!
-speed_loading: "Setting **Speed** to **%{amount}x**. This may take a few seconds..."
-speed_on: "`🔩` | **Speed set to:** `%{amount}x`"
+### Reset command!
+reset_loading: "`⏳` | **Resetting** filter..."
+reset_on: "`❌` | Filter has been **Reset**!"
