@@ -45,7 +45,7 @@ unloopall: "`❌` | Loop is now **Disabled**!"
 ### Lyrics command!
 lyrics_loading: "`🔍` | Searching for **Lyrics**..."
 lyrics_title: "📜 %{song}"
-lyrics_notfound: "`⚠️` | No lyrics found!"
+lyrics_notfound: "`⚠️` | Lyrics not found!"
 lyrics_toolong: "`⚠️` | Lyrics are too long to be displayed!"
 
 ### Nowplaying command!
@@ -65,7 +65,7 @@ play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}
 play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} songs**) • %{request}"
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a song name or URL!"
-play_match: "`⚠️` | No song found!"
+play_match: "`⚠️` | Song not found!"
 play_startwith: "`⚠️` | Please use URL to play a song!"
 
 ### File command!
@@ -77,7 +77,7 @@ play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp
 ### Previous command!
 previous_loading: "`⏳` | **Loading**..."
 previous_msg: "`⏮️` | Skipped to previous song!"
-previous_notfound: "`⚠️` | No previous song found!"
+previous_notfound: "`⚠️` | No previous song was found!"
 
 ### Queue command!
 queue_author: "💾 %{guild}"
@@ -104,7 +104,7 @@ rewind_invalid: "`⚠️` | Something went wrong. Please try again!"
 removetrack_loading: "`⏳` | **Removing**..."
 removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
 removetrack_already: "`⚠️` | I can't remove a song that's already playing!"
-removetrack_notfound: "`⚠️` | No song found!"
+removetrack_notfound: "`⚠️` | Song not found!"
 
 ### RemoveDuplicate command!
 removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
@@ -133,4 +133,4 @@ volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** an
 enabled: "Enabled"
 disabled: "Disabled"
 number_invalid: "`⚠️` | Please provide a valid number!"
-no_node: "`⚠️` | No lavalink server found. Please try again after **5 Minutes**!"
+no_node: "`⚠️` | No lavalink server was found. Please try again after **5 Minutes**!"
