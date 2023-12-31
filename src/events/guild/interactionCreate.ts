@@ -14,6 +14,7 @@ import {
 } from "../../@types/Interaction.js";
 import { Accessableby } from "../../@types/Command.js";
 import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
+import { CommandHandler } from "../../@base/CommandHandler.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -60,29 +61,20 @@ export default class {
         ).getSubcommandGroup()!;
       } catch {}
 
-      const command = client.slash.find((command) => {
-        switch (command.name.length) {
-          case 1:
-            return (
-              command.name[0] == (interaction as CommandInteraction).commandName
-            );
-          case 2:
-            return (
-              command.name[0] ==
-                (interaction as CommandInteraction).commandName &&
-              command.name[1] == subCommandName
-            );
-          case 3:
-            return (
-              command.name[0] ==
-                (interaction as CommandInteraction).commandName &&
-              command.name[1] == subCommandGroupName &&
-              command.name[2] == subCommandName
-            );
-        }
-      });
+      const commandNameArray = [];
 
-      if (!command) return;
+      if ((interaction as CommandInteraction).commandName)
+        commandNameArray.push((interaction as CommandInteraction).commandName);
+      if (subCommandName && !subCommandGroupName)
+        commandNameArray.push(subCommandName);
+      else {
+        commandNameArray.push(subCommandGroupName);
+        commandNameArray.push(subCommandName);
+      }
+
+      const command = client.commands.get(commandNameArray.join("-"));
+
+      if (!command) return commandNameArray.length == 0;
 
       if (
         Number(interaction.type) ==
@@ -217,7 +209,20 @@ export default class {
       }
 
       try {
-        command.run(interaction, client, language);
+        const args = [];
+
+        for (const data of (interaction as CommandInteraction).options.data) {
+          args.push(String(data.value));
+        }
+
+        const handler = new CommandHandler({
+          interaction: interaction as CommandInteraction,
+          language: language,
+          client: client,
+          args: args,
+        });
+
+        command.execute(client, handler);
       } catch (error) {
         client.logger.log({
           level: "error",

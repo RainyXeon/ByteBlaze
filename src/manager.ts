@@ -35,6 +35,7 @@ import utils from "node:util";
 import { RequestInterface } from "./webserver/RequestInterface.js";
 import { DeployService } from "./services/DeployService.js";
 import { PlayerButton } from "./@types/Button.js";
+import { Command } from "./@base/Command.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -71,8 +72,7 @@ export class Manager extends Client {
   lavalinkUsing: LavalinkUsingDataType[];
   lavalinkUsed: LavalinkUsingDataType[];
   manager: Kazagumo;
-  slash: Collection<string, SlashCommand>;
-  commands: Collection<string, PrefixCommand>;
+  commands: Collection<string, Command>;
   premiums: Collection<string, PremiumUser>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
@@ -142,7 +142,6 @@ export class Manager extends Client {
       : undefined;
 
     // Collections
-    this.slash = new Collection();
     this.commands = new Collection();
     this.premiums = new Collection();
     this.interval = new Collection();

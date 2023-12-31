@@ -5,6 +5,8 @@ import { stripIndents } from "common-tags";
 import fs from "fs";
 import { Accessableby } from "../../@types/Command.js";
 import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
+import { CommandHandler } from "../../@base/CommandHandler.js";
+import { join } from "path";
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -148,7 +150,7 @@ export default class {
         musicPermissions
       );
       if (returnData !== "PermissionPass") return respondError(returnData);
-    } else if (command.name !== "help") {
+    } else if (command.name.join("-") !== "help") {
       const returnData = await permissionChecker.message(
         message,
         allCommandPermissions
@@ -157,6 +159,7 @@ export default class {
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
+    //////////////////////////////// Access check start ////////////////////////////////
     if (
       command.accessableby == Accessableby.Owner &&
       message.author.id != client.owner
@@ -230,8 +233,17 @@ export default class {
       });
     }
 
+    //////////////////////////////// Access check end ////////////////////////////////
+
     try {
-      command.run(client, message, args, language, PREFIX);
+      const handler = new CommandHandler({
+        message: message,
+        language: language,
+        client: client,
+        args: args,
+      });
+
+      command.execute(client, handler);
     } catch (error) {
       client.logger.error(error);
       message.reply({

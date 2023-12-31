@@ -7,7 +7,6 @@ dev_foot: "Consider Joining the server or Inviting the Bot :) This would help me
 inv_title: "🙌 Thanks for Inviting %{username}"
 inv_desc: "**%{username}** Powered by **RainyXeon**"
 
-
 ### Ping command!
 ping_title: "🏓 "
 ping_desc: "My Ping is **%{ping}ms**!"
