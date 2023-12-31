@@ -12,9 +12,9 @@ import {
   NoAutoInteraction,
   ReplyOnlyInteraction,
 } from "../../@types/Interaction.js";
-import { Accessableby } from "../../@types/Command.js";
 import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby } from "../../@base/Command.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -65,7 +65,7 @@ export default class {
 
       if ((interaction as CommandInteraction).commandName)
         commandNameArray.push((interaction as CommandInteraction).commandName);
-      if (subCommandName && !subCommandGroupName)
+      else if (subCommandName.length !== 0 && subCommandGroupName.length == 0)
         commandNameArray.push(subCommandName);
       else {
         commandNameArray.push(subCommandGroupName);
@@ -212,7 +212,7 @@ export default class {
         const args = [];
 
         for (const data of (interaction as CommandInteraction).options.data) {
-          args.push(String(data.value));
+          if (!data.value) args.push(String(data.value));
         }
 
         const handler = new CommandHandler({
@@ -220,6 +220,7 @@ export default class {
           language: language,
           client: client,
           args: args,
+          prefix: "/",
         });
 
         command.execute(client, handler);

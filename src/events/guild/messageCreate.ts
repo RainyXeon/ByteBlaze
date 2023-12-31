@@ -1,12 +1,11 @@
 import { ChannelType, Message, PermissionFlagsBits } from "discord.js";
 import { Manager } from "../../manager.js";
-import { PermissionsBitField, EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { Accessableby } from "../../@types/Command.js";
 import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 import { CommandHandler } from "../../@base/CommandHandler.js";
-import { join } from "path";
+import { Accessableby } from "../../@base/Command.js";
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -241,6 +240,7 @@ export default class {
         language: language,
         client: client,
         args: args,
+        prefix: PREFIX || client.prefix || "d!",
       });
 
       command.execute(client, handler);

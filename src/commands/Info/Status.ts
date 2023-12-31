@@ -7,16 +7,18 @@ import { stripIndents } from "common-tags";
 import { EmbedBuilder, version } from "discord.js";
 
 export default class implements Command {
-  public name = ["info", "status"];
+  public name = ["status"];
   public description = "Shows the status information of the Bot";
-  public category: string = "Info";
+  public category = "Info";
   public accessableby = Accessableby.Member;
   public usage = "";
-  public aliases = ["status"];
+  public aliases = [];
   public lavalink = false;
   public options = [];
   public playerCheck = false;
-  async execute(client: Manager, handler: CommandHandler) {
+
+  public async execute(client: Manager, handler: CommandHandler) {
+    await handler.deferReply();
     const total = os.totalmem() / 1024 / 1024;
     const used = process.memoryUsage().rss / 1024 / 1024;
 
@@ -51,6 +53,6 @@ export default class implements Command {
         { name: "Bot info", value: botInfo }
       )
       .setTimestamp();
-    await handler.sendMessage({ embeds: [embed] });
+    await handler.editReply({ embeds: [embed] });
   }
 }

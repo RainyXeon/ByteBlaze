@@ -21,7 +21,6 @@ import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
 import { ManifestService } from "./services/ManifestService.js";
-import { PrefixCommand, SlashCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
 import { IconType } from "./@types/Emoji.js";
