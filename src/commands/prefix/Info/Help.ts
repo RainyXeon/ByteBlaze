@@ -54,7 +54,7 @@ export default class implements PrefixCommand {
           ],
         });
 
-      embed.setDescription(stripIndents`The client's prefix is: \`${prefix}\`\n
+      embed.setDescription(stripIndents`Bot prefix: \`${prefix}\`\n
             **Command:** ${
               command.name.slice(0, 1).toUpperCase() + command.name.slice(1)
             }
