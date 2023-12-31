@@ -5,7 +5,7 @@ lang_perm: "`⚠️` | You don't have permission to use this command!"
 provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
 
 ### Shutdown command!
-restart_msg: "`🛑` | **Shutting down**..."
+restart_msg: "`🔌` | **Shutting down**..."
 
 ### Control command!
 control_set: "`⚙️` | Control has been set to **%{toggle}**!"
