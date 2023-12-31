@@ -30,27 +30,21 @@ export default class implements Command {
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
+
     const input = handler.args[0];
 
     const languages = client.i18n.getLocales();
 
-    if (!languages.includes(input as string))
-      return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "utilities",
-                "provide_lang",
-                {
-                  languages: languages.join(", "),
-                }
-              )}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    if (!languages.includes(input as string)) {
+      const onsome = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(handler.language, "missing", "lang_invalid", {
+            languages: languages.join(", "),
+          })}`
+        )
+        .setColor(client.color);
+      return handler.editReply({ content: " ", embeds: [onsome] });
+    }
 
     const newLang = await client.db.language.get(`${handler.guild!.id}`);
 

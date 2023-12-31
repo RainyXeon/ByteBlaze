@@ -122,8 +122,8 @@ export default class implements Command {
     } else {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "error", "wrong_args", {
-            args: this.usage,
+          `${client.i18n.get(handler.language, "utilities", "arg_error", {
+            text: this.usage,
           })}`
         )
         .setColor(client.color);

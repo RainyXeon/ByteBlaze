@@ -41,6 +41,21 @@ export default class implements Command {
 
   async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
+    let option = ["create", "delete"];
+
+    if (!handler.args[0] || !option.includes(handler.args[0]))
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "utilities", "arg_error", {
+                text: "(create or delete)",
+              })}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const value = handler.args[0];
 
     if (value === "create") {
@@ -168,15 +183,6 @@ export default class implements Command {
       await client.db.setup.set(`${handler.guild!.id}`, deleted_data);
 
       return handler.editReply({ embeds: [embed] });
-    } else {
-      const onsome = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "error", "wrong_args", {
-            args: this.usage,
-          })}`
-        )
-        .setColor(client.color);
-      return handler.editReply({ content: " ", embeds: [onsome] });
     }
   }
 }

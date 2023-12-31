@@ -21,5 +21,4 @@ prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
 prefix_perm: "`⚠️` | You don't have permission to use this command!"
 prefix_arg: "`⚠️` | Please provide a prefix!"
 prefix_length: "`⚠️` | Prefix can't be longer than **10 Characters**!"
-
 arg_error: "`⚠️` | Invalid argument. Please use **%{text}**"

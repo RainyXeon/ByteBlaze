@@ -65,9 +65,9 @@ export default class {
 
       if ((interaction as CommandInteraction).commandName)
         commandNameArray.push((interaction as CommandInteraction).commandName);
-      else if (subCommandName.length !== 0 && subCommandGroupName.length == 0)
+      if (subCommandName.length !== 0 && !subCommandGroupName)
         commandNameArray.push(subCommandName);
-      else {
+      if (subCommandGroupName) {
         commandNameArray.push(subCommandGroupName);
         commandNameArray.push(subCommandName);
       }
@@ -212,7 +212,12 @@ export default class {
         const args = [];
 
         for (const data of (interaction as CommandInteraction).options.data) {
-          if (!data.value) args.push(String(data.value));
+          if (data.value) args.push(String(data.value));
+          if (data.options) {
+            for (const optionData of data.options) {
+              if (optionData.value) args.push(String(optionData.value));
+            }
+          }
         }
 
         const handler = new CommandHandler({

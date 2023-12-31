@@ -17,16 +17,18 @@ export default class implements Command {
 
   async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
+
     if (!handler.args[0])
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "prefix_arg")}`
+              `${client.i18n.get(handler.language, "utilities", "utilities")}`
             )
             .setColor(client.color),
         ],
       });
+
     if (handler.args[0].length > 10)
       return handler.editReply({
         embeds: [
@@ -35,7 +37,7 @@ export default class implements Command {
               `${client.i18n.get(
                 handler.language,
                 "utilities",
-                "prefix_length"
+                "prefix_invalid_length"
               )}`
             )
             .setColor(client.color),
