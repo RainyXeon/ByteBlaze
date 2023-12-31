@@ -1,0 +1,82 @@
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  PermissionsBitField,
+  CommandInteraction,
+  CommandInteractionOptionResolver,
+} from "discord.js";
+import { Manager } from "../../manager.js";
+import { Accessableby, Command } from "../../@base/Command.js";
+import { CommandHandler } from "../../@base/CommandHandler.js";
+
+export default class implements Command {
+  public name = ["settings", "language"];
+  public description = "Change the language for the bot";
+  public category = "Utils";
+  public accessableby = Accessableby.Manager;
+  public usage = "<language>";
+  public aliases = ["lang", "language"];
+  public lavalink = false;
+  public playerCheck = false;
+  public usingInteraction = true;
+  public options = [
+    {
+      name: "input",
+      description: "The new language",
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    },
+  ];
+
+  public async execute(client: Manager, handler: CommandHandler) {
+    await handler.deferReply();
+    const input = handler.args[0];
+
+    const languages = client.i18n.getLocales();
+
+    if (!languages.includes(input as string))
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                handler.language,
+                "utilities",
+                "provide_lang",
+                {
+                  languages: languages.join(", "),
+                }
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const newLang = await client.db.language.get(`${handler.guild!.id}`);
+
+    if (!newLang) {
+      await client.db.language.set(`${handler.guild!.id}`, input);
+      const embed = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(handler.language, "utilities", "lang_set", {
+            language: String(input),
+          })}`
+        )
+        .setColor(client.color);
+
+      return handler.editReply({ content: " ", embeds: [embed] });
+    } else if (newLang) {
+      await client.db.language.set(`${handler.guild!.id}`, input);
+
+      const embed = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(handler.language, "utilities", "lang_change", {
+            language: String(input),
+          })}`
+        )
+        .setColor(client.color);
+
+      return handler.editReply({ content: " ", embeds: [embed] });
+    }
+  }
+}

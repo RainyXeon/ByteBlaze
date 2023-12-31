@@ -18,11 +18,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default class implements Command {
   public name = ["help"];
   public description = "Displays all commands that the bot has.";
-  public category: string = "Info";
+  public category = "Info";
   public accessableby = Accessableby.Member;
-  public usage = "+ <commamnd_name>";
+  public usage = "<commamnd_name>";
   public aliases = ["h"];
   public lavalink = false;
+  public usingInteraction = true;
   public options = [
     {
       name: "command",
@@ -42,7 +43,7 @@ export default class implements Command {
           name: `${handler.guild!.members.me!.displayName} Help Command!`,
           iconURL: handler.guild!.iconURL() as string,
         })
-        .setDescription(`The bot prefix is: \`${handler.prefix} or /\``)
+        .setDescription(`The bot prefix is: \`${handler.prefix}\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
         .setColor(client.color);
 
@@ -164,7 +165,7 @@ export default class implements Command {
               name: `${handler.guild!.members.me!.displayName} Help Command!`,
               iconURL: handler.guild!.iconURL() as string,
             })
-            .setDescription(`The bot prefix is: \`${handler.prefix} or /\``)
+            .setDescription(`The bot prefix is: \`${handler.prefix}\``)
             .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
             .setColor(client.color)
             .addFields({
@@ -173,6 +174,13 @@ export default class implements Command {
               }]`,
               value: `${client.commands
                 .filter((c) => c.category === directory)
+                .filter((c) => {
+                  if (handler.interaction) {
+                    return c.usingInteraction;
+                  } else {
+                    return c;
+                  }
+                })
                 .map(
                   (c) =>
                     `\`${

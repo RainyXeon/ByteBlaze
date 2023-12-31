@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import { Manager } from "../manager.js";
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import { Accessableby } from "./Command.js";
+import { Accessableby } from "../@base/Command.js";
 
 export type GlobalInteraction =
   | CommandInteraction

@@ -7,13 +7,14 @@ import { CommandHandler } from "../../@base/CommandHandler.js";
 export default class implements Command {
   public name = ["developer"];
   public description = "Shows the developer information of the Bot (Credit)";
-  public category: string = "Info";
+  public category = "Info";
   public accessableby = Accessableby.Member;
   public usage = "";
   public aliases = [];
   public lavalink = false;
   public options = [];
   public playerCheck = false;
+  public usingInteraction = true;
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

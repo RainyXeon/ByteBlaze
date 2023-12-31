@@ -5,6 +5,7 @@ import {
   GuildMember,
   InteractionResponse,
   Message,
+  TextBasedChannel,
   User,
 } from "discord.js";
 import { Manager } from "../manager.js";
@@ -29,6 +30,7 @@ export class CommandHandler {
   public user?: User | null;
   public guild?: Guild | null;
   public member?: GuildMember | null;
+  public channel?: TextBasedChannel | null;
   public client: Manager;
   public args: string[];
   public createdAt: number;
@@ -46,6 +48,7 @@ export class CommandHandler {
     this.args = options.args;
     this.createdAt = this.createdStimeStampData;
     this.prefix = options.prefix;
+    this.channel = this.channelData;
   }
 
   get userData() {
@@ -80,6 +83,14 @@ export class CommandHandler {
     }
   }
 
+  get channelData() {
+    if (this.interaction) {
+      return this.interaction.channel;
+    } else {
+      return this.message?.channel;
+    }
+  }
+
   // public async sendMessage(
   //   data: string | BaseMessageOptions
   // ) {
@@ -90,7 +101,7 @@ export class CommandHandler {
   //   }
   // }
 
-  public async sendFollowUp(data: string | BaseMessageOptions) {
+  public async followUp(data: string | BaseMessageOptions) {
     if (this.interaction) {
       return await this.interaction.followUp(data);
     } else {

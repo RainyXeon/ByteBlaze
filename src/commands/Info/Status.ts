@@ -16,6 +16,7 @@ export default class implements Command {
   public lavalink = false;
   public options = [];
   public playerCheck = false;
+  public usingInteraction = true;
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

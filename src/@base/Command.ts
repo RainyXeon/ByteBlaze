@@ -43,5 +43,6 @@ export class Command {
   lavalink: boolean = false;
   options: CommandOptionInterface[] = [];
   playerCheck: boolean = false;
+  usingInteraction: boolean = false;
   async execute(client: Manager, handler: CommandHandler): Promise<any> {}
 }
