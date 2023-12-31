@@ -67,7 +67,7 @@ export default class implements SlashCommand {
       .setFooter({
         text: `© ${
           interaction.guild!.members.me!.displayName
-        } | Total Commands: ${client.slash.size}`,
+        } • Total Commands: ${client.slash.size}`,
         iconURL: client.user!.displayAvatarURL(),
       });
 
@@ -129,7 +129,7 @@ export default class implements SlashCommand {
                 .setFooter({
                   text: `© ${
                     interaction.guild!.members.me!.displayName
-                  } | Total Commands: ${client.slash.size}`,
+                  } • Total Commands: ${client.slash.size}`,
                   iconURL: client.user!.displayAvatarURL(),
                 });
 
