@@ -12,7 +12,7 @@ control_set: "`🎚️` | Control has been set to **%{toggle}**!"
 control_perm: "`⚠️` | You don't have permission to use this command!"
 
 ### Help command!
-help_desc: "Click Me!"
+help_desc: "Help Menu!"
 help_timeout: "`⏳` | Help Menu timed out. Please use **%{prefix}help** again!"
 
 ### Prefix command!
