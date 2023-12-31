@@ -34,7 +34,7 @@ export default class implements SlashCommand {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${interaction.guild!.members.me!.displayName} Help Command!`,
+        name: `${interaction.guild!.members.me!.displayName} Help Command`,
         iconURL: interaction.guild!.iconURL() as string,
       })
       .setDescription(
@@ -104,7 +104,7 @@ export default class implements SlashCommand {
                 .setAuthor({
                   name: `${
                     interaction.guild!.members.me!.displayName
-                  } Help Command!`,
+                  } Help Command`,
                   iconURL: interaction.guild!.iconURL() as string,
                 })
                 .setDescription(`The bot prefix is: \`/\``)
