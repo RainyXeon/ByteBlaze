@@ -1,9 +1,8 @@
-##### Need to join voice channel to use command! #####
+### Voice function!
 
-# No song playing in guild!
-no_player: "No song/s currently playing within this guild or bot is not join the channel."
+# No song playing in server!
+no_player: "`⚠️` | No song is currently playing!"
 
 # Need to join voice & same voice to use command!
-no_voice: "You need to be in a same/voice channel."
-no_voice_247: "You need to join a voice channel."
-no_music: "You need to be play a song to use this command"
+no_voice_247: "`⚠️` | You are not in a voice channel!"
+no_voice: "`⚠️` | You are not in the same voice channel as me!"
