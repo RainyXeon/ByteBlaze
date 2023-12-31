@@ -1,9 +1,10 @@
-import { ChannelType, Message } from "discord.js";
+import { ChannelType, Message, PermissionFlagsBits } from "discord.js";
 import { Manager } from "../../manager.js";
 import { PermissionsBitField, EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
 import { Accessableby } from "../../@types/Command.js";
+import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -95,40 +96,66 @@ export default class {
       client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
 
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.SendMessages
-      )
-    )
-      return await message.author.dmChannel!.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "interaction", "no_perms")}`
-            )
-            .setColor(client.color),
-        ],
+    //////////////////////////////// Permission check start ////////////////////////////////
+    const permissionChecker = new CheckPermissionServices();
+    const defaultPermissions = [
+      PermissionFlagsBits.SendMessages,
+      PermissionFlagsBits.ViewChannel,
+      PermissionFlagsBits.EmbedLinks,
+    ];
+
+    const allCommandPermissions = [PermissionFlagsBits.ManageMessages];
+
+    const musicPermissions = [
+      PermissionFlagsBits.Speak,
+      PermissionFlagsBits.Connect,
+    ];
+
+    const managePermissions = [PermissionFlagsBits.ManageChannels];
+
+    async function respondError(permission: string) {
+      const embed = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(language, "interaction", "no_perms", {
+            perm: permission,
+          })}`
+        )
+        .setColor(client.color);
+      const dmChannel =
+        message.author.dmChannel == null
+          ? await message.author.createDM()
+          : message.author.dmChannel;
+      dmChannel.send({
+        embeds: [embed],
       });
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.ViewChannel
-      )
-    )
-      return;
-    if (
-      !message.guild!.members.me!.permissions.has(
-        PermissionsBitField.Flags.EmbedLinks
-      )
-    )
-      return await message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "interaction", "no_perms")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    }
+
+    const returnData = await permissionChecker.message(
+      message,
+      defaultPermissions
+    );
+    if (returnData !== "PermissionPass") return respondError(returnData);
+
+    if (command.accessableby == Accessableby.Manager) {
+      const returnData = await permissionChecker.message(
+        message,
+        managePermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
+    } else if (command.category == "Music") {
+      const returnData = await permissionChecker.message(
+        message,
+        musicPermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
+    } else if (command.name !== "help") {
+      const returnData = await permissionChecker.message(
+        message,
+        allCommandPermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
+    }
+    //////////////////////////////// Permission check end ////////////////////////////////
 
     if (
       command.accessableby == Accessableby.Owner &&
@@ -146,7 +173,7 @@ export default class {
 
     if (
       command.accessableby == Accessableby.Manager &&
-      !message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild)
+      !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
     )
       return message.reply({
         embeds: [
@@ -203,19 +230,17 @@ export default class {
       });
     }
 
-    if (command) {
-      try {
-        command.run(client, message, args, language, PREFIX);
-      } catch (error) {
-        client.logger.error(error);
-        message.reply({
-          content: `${client.i18n.get(
-            language,
-            "interaction",
-            "error"
-          )}\n ${error}`,
-        });
-      }
+    try {
+      command.run(client, message, args, language, PREFIX);
+    } catch (error) {
+      client.logger.error(error);
+      message.reply({
+        content: `${client.i18n.get(
+          language,
+          "interaction",
+          "error"
+        )}\n ${error}`,
+      });
     }
   }
 }

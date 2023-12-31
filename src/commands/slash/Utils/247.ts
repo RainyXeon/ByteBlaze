@@ -12,7 +12,7 @@ import { AutoReconnectBuilder } from "../../../database/build/AutoReconnect.js";
 export default class implements SlashCommand {
   name = ["247"];
   description = "24/7 in voice channel";
-  category = "Music";
+  category = "Utils";
   accessableby = Accessableby.Member;
   lavalink = true;
   options = [
@@ -63,7 +63,9 @@ export default class implements SlashCommand {
     if (type == "disable") {
       if (!data.twentyfourseven) {
         const offAl = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, "music", "247_off_already")}`)
+          .setDescription(
+            `${client.i18n.get(language, "music", "247_off_already")}`
+          )
           .setColor(client.color);
         return msg.edit({ content: " ", embeds: [offAl] });
       }
@@ -100,20 +102,23 @@ export default class implements SlashCommand {
               .setColor(client.color),
           ],
         });
-      
+
       if (data.twentyfourseven) {
         const onAl = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, "music", "247_on_already")}`)
+          .setDescription(
+            `${client.i18n.get(language, "music", "247_on_already")}`
+          )
           .setColor(client.color);
         return msg.edit({ content: " ", embeds: [onAl] });
       }
 
-      if (!player) await client.manager.createPlayer({
-        guildId: interaction.guild!.id,
-        voiceId: (interaction.member as GuildMember).voice.channel!.id,
-        textId: interaction.channel!.id,
-        deaf: true,
-      })
+      if (!player)
+        await client.manager.createPlayer({
+          guildId: interaction.guild!.id,
+          voiceId: (interaction.member as GuildMember).voice.channel!.id,
+          textId: interaction.channel!.id,
+          deaf: true,
+        });
 
       await client.db.autoreconnect.set(
         `${interaction.guild!.id}.twentyfourseven`,

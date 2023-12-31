@@ -18,26 +18,18 @@ join_voice: "You need to be in a same/voice channel to use this button."
 switch_pause: Paused
 switch_resume: Resumed
 pause_msg: "`⏯` | *Song has been:* `%{pause}`"
-
 skip_msg: "`⏭` | *Song has been:* `Skipped`"
-
 stop_msg: "`🚫` | *Song has been:* `Stopped`"
-
 shuffle_msg: "`🔀` | *Queue has been:* `Shuffled`"
-
 switch_enable: Enabled
 switch_disable: Disabled
 repeat_msg: "`🔁` | *Loop has been:* `%{loop}`"
-
 volup_msg: "`🔊` | *Change volume to:* `%{volume}%`"
 voldown_msg: "`🔈` | *Change volume to:* `%{volume}%`"
-
 replay_msg: "`⏮` | *Song has been:* `Replayed`"
-
 queue_author: "Queue - %{guild}"
 queue_description: "*Currently Playing*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*Rest of queue*:%{list_song}"
 queue_footer: "Page • %{page}/%{pages} | %{queue_lang} • Song | %{total_duration} • Total duration"
-
 clear_msg: "`📛` | *Queue has been:* `Cleared`"
 
 ##### On QueueEnd Event #####
@@ -49,8 +41,6 @@ error_desc: "`❌` | *Song has error:* `Auto-Skipped`"
 ##### On Track get stuck!! Event #####
 stuck_desc: "`❌` | *Song has stuck:* `Auto-Skipped`"
 
-##### On Bot get move Event #####
-
 # On player get discoconnect
 dis_title: "Disconnected"
 dis_desc: "*I've been disconnected from <#%{voice}>*"
@@ -60,3 +50,5 @@ leave_title: "Moved"
 leave_desc: "*I got moved auto disconnected*"
 player_end: "**Disconnected from <#%{leave}> because I was left alone ;(**"
 download_title: "Download:"
+leave_pause: "`⏸️` | Music has been paused because I was left alone."
+leave_resume: "`▶️` | Music has been resumed because somebody join."

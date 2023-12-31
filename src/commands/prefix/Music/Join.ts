@@ -8,7 +8,7 @@ export default class implements PrefixCommand {
   description = "Make the bot join the voice channel.";
   category = "Music";
   usage = "";
-  aliases = [];
+  aliases = ["j"];
   lavalink = true;
   accessableby = Accessableby.Member;
 

@@ -4,13 +4,16 @@ import {
   CommandInteraction,
   EmbedBuilder,
   CommandInteractionOptionResolver,
+  PermissionFlagsBits,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import {
   GlobalInteraction,
   NoAutoInteraction,
+  ReplyOnlyInteraction,
 } from "../../@types/Interaction.js";
 import { Accessableby } from "../../@types/Command.js";
+import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -106,6 +109,81 @@ export default class {
 
       client.logger.info(`${msg_cmd.join(" ")}`);
 
+      //////////////////////////////// Permission check start ////////////////////////////////
+      const permissionChecker = new CheckPermissionServices();
+      const defaultPermissions = [PermissionFlagsBits.ManageMessages];
+
+      const musicPermissions = [
+        PermissionFlagsBits.Speak,
+        PermissionFlagsBits.Connect,
+      ];
+
+      const managePermissions = [PermissionFlagsBits.ManageChannels];
+
+      async function respondError(permission: string) {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(language, "interaction", "no_perms", {
+              perm: permission,
+            })}`
+          )
+          .setColor(client.color);
+        await (interaction as ReplyOnlyInteraction).reply({
+          embeds: [embed],
+        });
+      }
+
+      if (command.name[0] !== "help") {
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          defaultPermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
+      }
+      if (command.category.toLocaleLowerCase() == "music") {
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          musicPermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
+      }
+      if (command.accessableby == Accessableby.Manager) {
+        const returnData = await permissionChecker.interaction(
+          interaction,
+          managePermissions
+        );
+        if (returnData !== "PermissionPass") return respondError(returnData);
+      }
+      //////////////////////////////// Permission check end ////////////////////////////////
+
+      if (
+        command.accessableby == Accessableby.Manager &&
+        !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
+          PermissionsBitField.Flags.ManageGuild
+        )
+      )
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "utilities", "lang_perm")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
+      if (command.lavalink && client.lavalinkUsing.length == 0) {
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "music", "no_node")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+      }
+
       if (
         command.accessableby == Accessableby.Owner &&
         interaction.user.id != client.owner
@@ -114,170 +192,37 @@ export default class {
           `${client.i18n.get(language, "interaction", "owner_only")}`
         );
 
+      if (command.accessableby == Accessableby.Premium) {
+        const user = client.premiums.get(interaction.user.id);
+        if (!user || !user.isPremium) {
+          const embed = new EmbedBuilder()
+            .setAuthor({
+              name: `${client.i18n.get(
+                language,
+                "nopremium",
+                "premium_author"
+              )}`,
+              iconURL: client.user!.displayAvatarURL(),
+            })
+            .setDescription(
+              `${client.i18n.get(language, "nopremium", "premium_desc")}`
+            )
+            .setColor(client.color)
+            .setTimestamp();
+          return (interaction as NoAutoInteraction).reply({
+            content: " ",
+            embeds: [embed],
+          });
+        }
+      }
+
       try {
-        if (command.accessableby == Accessableby.Premium) {
-          const user = client.premiums.get(interaction.user.id);
-          if (!user || !user.isPremium) {
-            const embed = new EmbedBuilder()
-              .setAuthor({
-                name: `${client.i18n.get(
-                  language,
-                  "nopremium",
-                  "premium_author"
-                )}`,
-                iconURL: client.user!.displayAvatarURL(),
-              })
-              .setDescription(
-                `${client.i18n.get(language, "nopremium", "premium_desc")}`
-              )
-              .setColor(client.color)
-              .setTimestamp();
-
-            return (interaction as NoAutoInteraction).reply({
-              content: " ",
-              embeds: [embed],
-            });
-          }
-        }
-      } catch (err) {
-        client.logger.error(err);
-        return (interaction as NoAutoInteraction).reply({
-          content: `${client.i18n.get(language, "nopremium", "premium_error")}`,
+        command.run(interaction, client, language);
+      } catch (error) {
+        client.logger.log({
+          level: "error",
+          message: error,
         });
-      }
-
-      if (
-        !interaction.guild.members.me!.permissions.has(
-          PermissionsBitField.Flags.SendMessages
-        )
-      )
-        return interaction.user.dmChannel!.send({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "interaction", "no_perms")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      if (
-        !interaction.guild.members.me!.permissions.has(
-          PermissionsBitField.Flags.ViewChannel
-        )
-      )
-        return;
-      if (
-        !interaction.guild.members.me!.permissions.has(
-          PermissionsBitField.Flags.EmbedLinks
-        )
-      )
-        return (interaction as NoAutoInteraction).reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "interaction", "no_perms")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      if (!((interaction as CommandInteraction).commandName == "help")) {
-        if (
-          !interaction.guild.members.me!.permissions.has(
-            PermissionsBitField.Flags.Speak
-          )
-        )
-          return (interaction as NoAutoInteraction).reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "interaction", "no_perms")}`
-                )
-                .setColor(client.color),
-            ],
-          });
-        if (
-          !interaction.guild.members.me!.permissions.has(
-            PermissionsBitField.Flags.Connect
-          )
-        )
-          return (interaction as NoAutoInteraction).reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "interaction", "no_perms")}`
-                )
-                .setColor(client.color),
-            ],
-          });
-        if (
-          !interaction.guild.members.me!.permissions.has(
-            PermissionsBitField.Flags.ManageMessages
-          )
-        )
-          return (interaction as NoAutoInteraction).reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "interaction", "no_perms")}`
-                )
-                .setColor(client.color),
-            ],
-          });
-        if (
-          !interaction.guild.members.me!.permissions.has(
-            PermissionsBitField.Flags.ManageChannels
-          )
-        )
-          return await (interaction as NoAutoInteraction).reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "interaction", "no_perms")}`
-                )
-                .setColor(client.color),
-            ],
-          });
-      }
-
-      if (
-        command.accessableby == Accessableby.Manager &&
-        !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-          PermissionsBitField.Flags.ManageGuild
-        )
-      )
-        return (interaction as NoAutoInteraction).reply(
-          `${client.i18n.get(language, "utilities", "lang_perm")}`
-        );
-
-      if (command.lavalink) {
-        if (client.lavalinkUsing.length == 0)
-          return (interaction as NoAutoInteraction).reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "music", "no_node")}`
-                )
-                .setColor(client.color),
-            ],
-          });
-      }
-
-      if (command) {
-        try {
-          command.run(interaction, client, language);
-        } catch (error) {
-          client.logger.log({
-            level: "error",
-            message: error,
-          });
-          return (interaction as NoAutoInteraction).editReply({
-            content: `${client.i18n.get(
-              language,
-              "interaction",
-              "error"
-            )}\n ${error}`,
-          });
-        }
       }
     }
   }

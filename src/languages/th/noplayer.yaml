@@ -1,9 +1,0 @@
-##### Need to join voice channel to use command! #####
-
-# No song playing in guild!
-no_player: "ไม่มีเพลงที่กำลังเล่นอยู่ในกิลด์นี้ หรือบอทไม่ได้เข้าร่วมช่อง"
-
-# Need to join voice & same voice to use command!
-no_voice: "คุณต้องอยู่ใน ห้องเสียง/เดียวกัน"
-no_voice_247: "คุณต้องเข้าร่วมช่องเสียง"
-no_music: "คุณต้องเล่นเพลงเพื่อใช้คำสั่งนี้"

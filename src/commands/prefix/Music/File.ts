@@ -7,6 +7,8 @@ import {
 } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
+import { StartQueueDuration } from "../../../structures/QueueDuration.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 
 // Main code
 export default class implements PrefixCommand {
@@ -37,7 +39,7 @@ export default class implements PrefixCommand {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "music", "play_loading", {
+            `${client.i18n.get(language, "music", "file_loading", {
               result: file.name,
             })}`
           )
@@ -46,10 +48,7 @@ export default class implements PrefixCommand {
     });
 
     const { channel } = message.member!.voice;
-    if (
-      !channel ||
-      message.member!.voice.channel !== message.guild!.members.me!.voice.channel
-    )
+    if (!channel)
       return msg.edit({
         embeds: [
           new EmbedBuilder()
@@ -112,6 +111,8 @@ export default class implements PrefixCommand {
       for (let track of tracks) player.queue.add(track);
     else player.play(tracks[0]);
 
+    const TotalDuration = new StartQueueDuration().parse(tracks);
+
     await message.delete();
 
     if (result.type === "PLAYLIST") {
@@ -120,7 +121,9 @@ export default class implements PrefixCommand {
           `${client.i18n.get(language, "music", "play_playlist", {
             title: file.name,
             url: file.url,
-            length: String(tracks.length),
+            duration: new ConvertTime().parse(TotalDuration),
+            songs: String(tracks.length),
+            request: String(tracks[0].requester),
           })}`
         )
         .setColor(client.color);
@@ -132,6 +135,8 @@ export default class implements PrefixCommand {
           `${client.i18n.get(language, "music", "play_track", {
             title: file.name,
             url: file.url,
+            duration: new ConvertTime().parse(tracks[0].length as number),
+            request: String(tracks[0].requester),
           })}`
         )
         .setColor(client.color);
@@ -142,6 +147,8 @@ export default class implements PrefixCommand {
         `${client.i18n.get(language, "music", "play_result", {
           title: file.name,
           url: file.url,
+          duration: new ConvertTime().parse(tracks[0].length as number),
+          request: String(tracks[0].requester),
         })}`
       );
       msg.edit({ content: " ", embeds: [embed] });

@@ -13,10 +13,10 @@ import os from "os";
 import { stripIndents } from "common-tags";
 
 export default class implements SlashCommand {
-  name = ["settings", "status"];
+  name = ["sudo", "status-channel"];
   description = "Create bot status channel";
-  category = "Utils";
-  accessableby = Accessableby.Manager;
+  category = "Owner";
+  accessableby = Accessableby.Owner;
   lavalink = false;
   options = [
     {

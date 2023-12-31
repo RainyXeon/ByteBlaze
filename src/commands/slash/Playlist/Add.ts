@@ -256,8 +256,8 @@ export default class implements SlashCommand {
     for (let i = 0; i < 10; i++) {
       const x = searchRes.tracks[i];
       choice.push({
-        name: x.title ? x.title : "Unknown track name",
-        value: x.uri ? x.uri : url,
+        name: x && x.title ? x.title : "Unknown track name",
+        value: x && x.uri ? x.uri : url,
       });
     }
 

@@ -5,7 +5,7 @@ import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 export default class implements SlashCommand {
   name = ["sudo", "shutdown"];
   description = "Shuts down the client!";
-  category = "Admin";
+  category = "Owner";
   accessableby = Accessableby.Owner;
   lavalink = false;
   options = [];

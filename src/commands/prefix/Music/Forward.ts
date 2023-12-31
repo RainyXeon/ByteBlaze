@@ -7,9 +7,9 @@ const fastForwardNum = 10;
 // Main code
 export default class implements PrefixCommand {
   name = "forward";
-  description = "Forward timestamp in the song!";
+  description = "Forward timestamp in the song! (10s)";
   category = "Music";
-  usage = "<seconds>";
+  usage = "";
   aliases = [];
   lavalink = true;
   accessableby = Accessableby.Member;
@@ -21,8 +21,6 @@ export default class implements PrefixCommand {
     language: string,
     prefix: string
   ) {
-    const value = args[0];
-
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -61,80 +59,37 @@ export default class implements PrefixCommand {
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = new FormatDuration().parse(song_position);
+    const CurrentDuration = new FormatDuration().parse(
+      song_position + fastForwardNum * 1000
+    );
 
-    if (value && !isNaN(+value)) {
-      if (song_position + Number(value) * 1000 < song!.length!) {
-        player.send({
-          guildId: message.guild!.id,
-          playerOptions: {
-            position: song_position + Number(value) * 1000,
-          },
-        });
+    if (song_position + fastForwardNum * 1000 < song!.length!) {
+      player.send({
+        guildId: message.guild!.id,
+        playerOptions: {
+          position: song_position + fastForwardNum * 1000,
+        },
+      });
 
-        const forward1 = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "forward_msg", {
-              duration: CurrentDuration,
-            })}`
-          )
-          .setColor(client.color);
+      const forward2 = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(language, "music", "forward_msg", {
+            duration: CurrentDuration,
+          })}`
+        )
+        .setColor(client.color);
 
-        msg.edit({ content: " ", embeds: [forward1] });
-      } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "forward_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      }
-    } else if (value && isNaN(+value)) {
+      msg.edit({ content: " ", embeds: [forward2] });
+    } else {
       return msg.edit({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "music", "forward_invalid", {
-                prefix: prefix,
-              })}`
+              `${client.i18n.get(language, "music", "forward_beyond")}`
             )
             .setColor(client.color),
         ],
       });
-    }
-
-    if (!value) {
-      if (song_position + fastForwardNum * 1000 < song!.length!) {
-        player["send"]({
-          guildId: message.guild!.id,
-          playerOptions: {
-            position: song_position + fastForwardNum * 1000,
-          },
-        });
-
-        const forward2 = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "forward_msg", {
-              duration: CurrentDuration,
-            })}`
-          )
-          .setColor(client.color);
-
-        msg.edit({ content: " ", embeds: [forward2] });
-      } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "forward_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
-      }
     }
   }
 }

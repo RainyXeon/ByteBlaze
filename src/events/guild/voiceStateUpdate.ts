@@ -63,6 +63,34 @@ export default class {
     const leaveEmbed = client.channels.cache.get(player.textId) as TextChannel;
 
     if (
+      newState.guild.members.me!.voice?.channel &&
+      newState.guild.members.me!.voice.channel.members.filter(
+        (m) => m.user.id !== client.user?.id
+      ).size !== 0
+    ) {
+      if (oldState.channelId) return;
+      if (oldState.channelId === newState.channelId) return;
+      if (newState.guild.members.me!.voice.channel.members.size > 2) return;
+      // Resume player
+      player.paused == false ? true : player.pause(false);
+      if (player.paused == false && player.shoukaku.track !== null) {
+        const msg = await leaveEmbed.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "player", "leave_resume")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+        setTimeout(
+          async () => msg.delete(),
+          client.config.bot.DELETE_MSG_TIMEOUT
+        );
+      }
+    }
+
+    if (
       oldState.guild.members.cache.get(client.user!.id)!.voice.channelId ===
       oldState.channelId
     ) {
@@ -72,6 +100,26 @@ export default class {
           (m) => !m.user.bot
         ).size === 0
       ) {
+        // Pause player
+        player.paused == true ? true : player.pause(true);
+
+        if (player.paused == true && player.shoukaku.track !== null) {
+          const msg = await leaveEmbed.send({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "player", "leave_pause")}`
+                )
+                .setColor(client.color),
+            ],
+          });
+          setTimeout(
+            async () => msg.delete(),
+            client.config.bot.DELETE_MSG_TIMEOUT
+          );
+        }
+
+        // Delay leave timeout
         await delay(client.config.lavalink.LEAVE_TIMEOUT);
 
         const vcMembers =

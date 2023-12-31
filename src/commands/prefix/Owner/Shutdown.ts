@@ -5,7 +5,7 @@ import { Manager } from "../../../manager.js";
 export default class implements PrefixCommand {
   name = "shutdown";
   description = "Shuts down the client!";
-  category = "Admin";
+  category = "Owner";
   accessableby = Accessableby.Owner;
   usage = "";
   aliases = [];
