@@ -115,7 +115,7 @@ export default class implements PrefixCommand {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setFooter({
-        text: `© ${message.guild!.members.me!.displayName} | Total Commands: ${
+        text: `© ${message.guild!.members.me!.displayName} • Total Commands: ${
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
@@ -179,7 +179,7 @@ export default class implements PrefixCommand {
               .setFooter({
                 text: `© ${
                   message.guild!.members.me!.displayName
-                } | Total Commands: ${client.commands.size}`,
+                } • Total Commands: ${client.commands.size}`,
                 iconURL: client.user!.displayAvatarURL(),
               });
 
