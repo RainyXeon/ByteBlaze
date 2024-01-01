@@ -62,7 +62,7 @@ pause_msg: "`⏸️` | Paused the **Player**!"
 ### Play command!
 play_loading: "`🔍` | Searching **%{result}**"
 play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} songs**) • %{request}"
+play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a song name or URL!"
 play_match: "`⚠️` | Song not found!"
