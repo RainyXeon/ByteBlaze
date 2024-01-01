@@ -64,7 +64,7 @@ play_loading: "`🔍` | Searching **%{result}**"
 play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
-play_arg: "`⚠️` | Please provide a song name or URL!"
+play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
 play_startwith: "`⚠️` | Please use URL to play a song!"
 
