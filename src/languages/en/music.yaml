@@ -53,7 +53,7 @@ np_loading: "`⏳` | **Loading**..."
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 np_title: "Now Playing..."
 np_title_pause: "Paused"
-np_current_duration: "`⌛` | Current Duration: `[%{current_duration} / %{total_duration}]`"
+np_current_duration: "`⏰` | Current Duration: `[%{current_duration} / %{total_duration}]`"
 
 ### Pause command!
 pause_loading: "`⏳` | **Pausing**..."
