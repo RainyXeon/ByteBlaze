@@ -84,7 +84,7 @@ queue_author: "💾 %{guild}"
 queue_description: "`📀` | Currently Playing:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | Rest of Queue:**%{rest}**"
 queue_footer: "Page • %{page}/%{pages} | Song • %{queue_lang} | Total Duration • %{duration}"
 queue_notnumber: "`⚠️` | Please provide a valid page number!"
-queue_page_notfound: "`⚠️` | There are only **%{page}** pages!"
+queue_page_notfound: "`⚠️` | There are only **%{page} Pages**!"
 
 ### Replay command!
 replay_loading: "`⏳` | **Replaying**..."
