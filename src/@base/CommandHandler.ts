@@ -1,11 +1,15 @@
 import {
+  Attachment,
   BaseMessageOptions,
+  Channel,
+  Collection,
   CommandInteraction,
   EmbedBuilder,
   Guild,
   GuildMember,
   InteractionResponse,
   Message,
+  Role,
   TextBasedChannel,
   User,
 } from "discord.js";
@@ -24,8 +28,22 @@ export type GlobalMsg =
   | InteractionResponse<boolean>
   | (Message<boolean> | undefined);
 
+export enum ParseMentionEnum {
+  ERROR,
+  USER,
+  ROLE,
+  EVERYONE,
+  CHANNEL,
+}
+
+export interface ParseMentionInterface {
+  type: ParseMentionEnum;
+  data: User | Channel | Role | true | "error" | undefined;
+}
+
 export class CommandHandler {
   public interaction?: CommandInteraction;
+  public attactments: Attachment[] = [];
   public message?: Message;
   public language: string;
   public user?: User | null;
@@ -37,6 +55,10 @@ export class CommandHandler {
   public createdAt: number;
   public msg: GlobalMsg;
   public prefix: string;
+  public USERS_PATTERN: RegExp = /<@!?(\d{17,19})>/;
+  public ROLES_PATTERN: RegExp = /<@&(\d{17,19})>/;
+  public CHANNELS_PATTERN: RegExp = /<#(\d{17,19})>/;
+  public EVERYONE_PATTERN: RegExp = /@(everyone|here)/;
 
   constructor(options: CommandHandlerOptions) {
     this.client = options.client;
@@ -194,5 +216,59 @@ export class CommandHandler {
       ],
     });
     return;
+  }
+
+  public async parseMentions(data: string): Promise<ParseMentionInterface> {
+    if (this.USERS_PATTERN.test(data)) {
+      const extract = this.USERS_PATTERN.exec(data);
+      const user = await this.client.users.cache.get(extract![1]);
+      return {
+        type: ParseMentionEnum.USER,
+        data: user,
+      };
+    }
+    if (this.CHANNELS_PATTERN.test(data)) {
+      const extract = this.CHANNELS_PATTERN.exec(data);
+      const channel = await this.client.channels.cache.get(extract![1]);
+      return {
+        type: ParseMentionEnum.CHANNEL,
+        data: channel,
+      };
+    }
+    if (this.ROLES_PATTERN.test(data)) {
+      const extract = this.ROLES_PATTERN.exec(data);
+      const role = await (this.message
+        ? this.message.guild?.roles.cache.get(extract![1])
+        : this.interaction?.guild?.roles.cache.get(extract![1]));
+      return {
+        type: ParseMentionEnum.ROLE,
+        data: role,
+      };
+    }
+    if (this.EVERYONE_PATTERN.test(data)) {
+      return {
+        type: ParseMentionEnum.EVERYONE,
+        data: true,
+      };
+    }
+    return {
+      type: ParseMentionEnum.ERROR,
+      data: "error",
+    };
+  }
+
+  public addAttachment(data: Collection<string, Attachment>) {
+    return this.attactments.push(
+      ...[
+        ...data.map((data) => {
+          return data;
+        }),
+      ]
+    );
+  }
+
+  public addSingleAttachment(data: Attachment) {
+    this.attactments.push(data);
+    return this.attactments;
   }
 }

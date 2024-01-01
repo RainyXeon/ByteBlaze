@@ -243,6 +243,9 @@ export default class {
         prefix: PREFIX || client.prefix || "d!",
       });
 
+      if (message.attachments.size !== 0)
+        handler.addAttachment(message.attachments);
+
       command.execute(client, handler);
     } catch (error) {
       client.logger.error(error);

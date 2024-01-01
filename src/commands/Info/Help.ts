@@ -24,6 +24,7 @@ export default class implements Command {
   public aliases = ["h"];
   public lavalink = false;
   public usingInteraction = true;
+  public playerCheck = false;
   public options = [
     {
       name: "command",
@@ -32,7 +33,6 @@ export default class implements Command {
       required: false,
     },
   ];
-  public playerCheck = false;
 
   async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

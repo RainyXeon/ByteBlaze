@@ -5,6 +5,8 @@ import {
   EmbedBuilder,
   CommandInteractionOptionResolver,
   PermissionFlagsBits,
+  ApplicationCommandOptionType,
+  Attachment,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import {
@@ -15,6 +17,7 @@ import {
 import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
 import { CommandHandler } from "../../@base/CommandHandler.js";
 import { Accessableby } from "../../@base/Command.js";
+import { ConvertToMention } from "../../utilities/ConvertToMention.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -210,12 +213,23 @@ export default class {
 
       try {
         const args = [];
+        let attachments: Attachment | undefined;
 
         for (const data of (interaction as CommandInteraction).options.data) {
-          if (data.value) args.push(String(data.value));
-          if (data.options) {
-            for (const optionData of data.options) {
-              if (optionData.value) args.push(String(optionData.value));
+          const check = new ConvertToMention().execute({
+            type: data.type,
+            value: String(data.value),
+          });
+          if (check !== "error") {
+            args.push(check);
+          } else if (data.type == ApplicationCommandOptionType.Attachment) {
+            attachments = data.attachment;
+          } else {
+            if (data.value) args.push(String(data.value));
+            if (data.options) {
+              for (const optionData of data.options) {
+                if (optionData.value) args.push(String(optionData.value));
+              }
             }
           }
         }
@@ -227,6 +241,8 @@ export default class {
           args: args,
           prefix: "/",
         });
+
+        if (attachments) handler.addSingleAttachment(attachments);
 
         command.execute(client, handler);
       } catch (error) {
