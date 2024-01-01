@@ -1,25 +1,21 @@
-##### Generate command #####
-provide_plan: "Please provide plan: %{plans}"
-plan_invalid: "Invalid Plan, available plans: %{plans}"
-gen_author: "Generate Code"
-gen_desc: "• *Generated* [`+%{codes_length}`]\n```%{codes}```\n • *Plan*: `%{plan}`\n • *Expires at*: `%{expires}`"
-gen_footer: "Type: %{prefix}redeem <code> to redeem!"
+### Generate command!
+gen_author: "Generate Premium"
+gen_desc: "`👤` | **Generated** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
+gen_footer: "Redeem Premium • %{prefix}redeem <code>"
 
-##### Profile command #####
-profile_author: "Profile"
-profile_desc: "*User*: `%{user}`\n*Plan*: `%{plan}`\n*Expires at*: `%{expires}`"
+### Profile command!
+profile_author: "Premium Profile"
+profile_desc: "`👤` | **User:** `%{user}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
 
-##### Redeem command #####
-redeem_arg: "Please specify the code you want to redeem!"
-redeem_already: "You are already a premium user"
-redeem_title: "Redeemed Code"
-redeem_desc: "*Plan*: `%{plan}`\n*Expires at*: [`%{expires}`]"
-redeem_invalid: "**The code is invalid. Please try again using valid one!**"
+### Redeem command!
+redeem_already: "`⚠️` | You are already a premium user!"
+redeem_title: "Redeem Premium"
+redeem_desc: "`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
+redeem_invalid: "`⚠️` | Invalid code. Please use a valid code!"
 
-##### Remove command #####
-remove_mention: "Please mention member!"
-remove_already: "**Already removed! %{user}**"
-remove_desc: "**You have successfully removed! %{user}s** premium"
-remove_no_params: "You must provide id or mention!"
-remove_only_params: "You must provide only 1 id or mention!"
-remove_404: "User %{userid} not found in database!"
+### Remove command!
+remove_already: "`⚠️` | %{user} already removed!"
+remove_desc: "`✅` | Successfully removed %{user}'s premium!'"
+remove_no_params: "`⚠️` | Please mention a user or provide a user ID!"
+remove_only_params: "`⚠️` | Please mention **1** user or provide **1** user ID!"
+remove_404: "`⚠️` | %{userid} is not a premium user!"
