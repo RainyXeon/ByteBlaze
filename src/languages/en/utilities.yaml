@@ -8,7 +8,7 @@ provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
 restart_msg: "`🔌` | **Shutting down**..."
 
 ### Control command!
-control_set: "`⚙️` | Control has been set to **%{toggle}**!"
+control_set: "`🔧` | Control has been set to **%{toggle}**!"
 control_perm: "`⚠️` | You don't have permission to use this command!"
 
 ### Help command!
