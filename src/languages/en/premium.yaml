@@ -8,14 +8,14 @@ profile_author: "Premium Profile"
 profile_desc: "`👤` | **User:** `%{user}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
 
 ### Redeem command!
-redeem_already: "`⚠️` | You are already a premium user!"
 redeem_title: "Redeem Premium"
 redeem_desc: "`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
+redeem_already: "`⚠️` | You are already a premium user!"
 redeem_invalid: "`⚠️` | Invalid code. Please use a valid code!"
 
 ### Remove command!
-remove_already: "`⚠️` | %{user} already removed!"
 remove_desc: "`✅` | Successfully removed %{user}'s premium!'"
+remove_already: "`⚠️` | %{user} already removed!"
 remove_no_params: "`⚠️` | Please mention a user or provide a user ID!"
 remove_only_params: "`⚠️` | Please mention **1** user or provide **1** user ID!"
 remove_404: "`⚠️` | %{userid} is not a premium user!"
