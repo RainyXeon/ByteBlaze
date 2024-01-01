@@ -7,6 +7,7 @@ import {
   PermissionFlagsBits,
   ApplicationCommandOptionType,
   Attachment,
+  GuildMember,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import {
@@ -209,6 +210,38 @@ export default class {
             embeds: [embed],
           });
         }
+      }
+
+      if (command.playerCheck) {
+        const player = client.manager.players.get(interaction.guild!.id);
+        if (!player)
+          return (interaction as NoAutoInteraction).reply({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "noplayer", "no_player")}`
+                )
+                .setColor(client.color),
+            ],
+          });
+      }
+
+      if (command.sameVoiceCheck) {
+        const { channel } = (interaction.member as GuildMember)!.voice;
+        if (
+          !channel ||
+          (interaction.member as GuildMember)!.voice.channel !==
+            interaction.guild!.members.me!.voice.channel
+        )
+          return (interaction as NoAutoInteraction).reply({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `${client.i18n.get(language, "noplayer", "no_voice")}`
+                )
+                .setColor(client.color),
+            ],
+          });
       }
 
       try {

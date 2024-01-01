@@ -17,6 +17,7 @@ export default class implements Command {
   public aliases = [];
   public lavalink = true;
   public usingInteraction = true;
+  public sameVoiceCheck = false;
   public options = [
     {
       name: "type",

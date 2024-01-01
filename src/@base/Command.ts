@@ -41,8 +41,9 @@ export class Command {
   usage: string = "";
   aliases: string[] = [];
   lavalink: boolean = false;
-  options: CommandOptionInterface[] = [];
   playerCheck: boolean = false;
   usingInteraction: boolean = false;
+  sameVoiceCheck: boolean = false;
+  options: CommandOptionInterface[] = [];
   async execute(client: Manager, handler: CommandHandler): Promise<any> {}
 }

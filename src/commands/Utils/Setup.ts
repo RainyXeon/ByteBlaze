@@ -20,6 +20,7 @@ export default class implements Command {
   public lavalink = false;
   public playerCheck = false;
   public usingInteraction = true;
+  public sameVoiceCheck = false;
   options = [
     {
       name: "type",

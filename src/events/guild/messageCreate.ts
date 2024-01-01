@@ -232,6 +232,38 @@ export default class {
       });
     }
 
+    if (command.playerCheck) {
+      const player = client.manager.players.get(message.guild!.id);
+      if (!player)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_player")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+    }
+
+    if (command.sameVoiceCheck) {
+      const { channel } = message.member!.voice;
+      if (
+        !channel ||
+        message.member!.voice.channel !==
+          message.guild!.members.me!.voice.channel
+      )
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+    }
+
     //////////////////////////////// Access check end ////////////////////////////////
 
     try {

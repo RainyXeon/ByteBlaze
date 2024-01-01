@@ -4,12 +4,7 @@ import {
   ParseMentionEnum,
 } from "../../@base/CommandHandler.js";
 import { Manager } from "../../manager.js";
-import {
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-  Message,
-  User,
-} from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
 
 export default class implements Command {
   public name = ["avatar"];
@@ -21,6 +16,7 @@ export default class implements Command {
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
+  public sameVoiceCheck = false;
   public options = [
     {
       name: "user",
@@ -50,7 +46,7 @@ export default class implements Command {
 
     const value = getData.data as User;
 
-    if (value) {
+    if (value && (value as any) !== "error") {
       const embed = new EmbedBuilder()
         .setTitle(value.username + "#" + value.discriminator)
         .setImage(

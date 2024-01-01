@@ -19,6 +19,7 @@ export default class implements Command {
   public options = [];
   public playerCheck = false;
   public usingInteraction = true;
+  public sameVoiceCheck = false;
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
