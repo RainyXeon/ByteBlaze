@@ -80,7 +80,7 @@ export default class implements PrefixCommand {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "create_name_exist")}`
+              `${client.i18n.get(language, "playlist", "create_limit_playlist")}`
             )
             .setColor(client.color),
         ],
