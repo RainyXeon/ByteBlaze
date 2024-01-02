@@ -49,7 +49,7 @@ export default class implements Command {
     },
   ];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     const plans = ["daily", "weekly", "monthly", "yearly"];

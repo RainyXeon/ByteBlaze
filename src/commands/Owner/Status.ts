@@ -19,7 +19,7 @@ export default class implements Command {
   public sameVoiceCheck = false;
   public options = [];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     let option = ["create", "delete"];
     if (!handler.args[0] || !option.includes(handler.args[0]))

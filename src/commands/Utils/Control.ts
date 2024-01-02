@@ -34,7 +34,7 @@ export default class implements Command {
     },
   ];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     const value = handler.args[0];

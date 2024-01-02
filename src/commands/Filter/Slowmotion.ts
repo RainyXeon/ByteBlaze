@@ -1,21 +1,21 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["filter", "vibrato"];
-  public description = "Turning on vibrato filter";
+  public name = ["filter", "slowmotion"];
+  public description = "Turning on slowmotion filter";
   public category = "Filter";
   public accessableby = Accessableby.Member;
   public usage = "";
-  public aliases = ["vibrato"];
+  public aliases = ["slowmotion"];
   public lavalink = true;
+  public options = [];
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
-  public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
@@ -25,14 +25,11 @@ export default class implements Command {
     const data = {
       guildId: handler.guild!.id,
       playerOptions: {
-        vibrato: {
-          frequency: 4.0,
-          depth: 0.75,
-        },
         filters: {
-          vibrato: {
-            frequency: 4.0,
-            depth: 0.75,
+          timescale: {
+            speed: 0.5,
+            pitch: 1.0,
+            rate: 0.8,
           },
         },
       },
@@ -43,7 +40,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "vibrato",
+          name: "slowmotion",
         })}`
       )
       .setColor(client.color);

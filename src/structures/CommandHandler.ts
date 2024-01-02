@@ -114,15 +114,13 @@ export class CommandHandler {
     }
   }
 
-  // public async sendMessage(
-  //   data: string | BaseMessageOptions
-  // ) {
-  //   if (this.interaction) {
-  //     return await this.interaction.reply(data);
-  //   } else {
-  //     return await this.message?.reply(data);
-  //   }
-  // }
+  public async sendMessage(data: string | BaseMessageOptions) {
+    if (this.interaction) {
+      return await this.interaction.reply(data);
+    } else {
+      return await this.message?.reply(data);
+    }
+  }
 
   public async followUp(data: string | BaseMessageOptions) {
     if (this.interaction) {

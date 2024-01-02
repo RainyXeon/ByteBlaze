@@ -38,7 +38,7 @@ export default class implements Command {
   ];
   public playerCheck = false;
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     const player = client.manager.players.get(handler.guild!.id);

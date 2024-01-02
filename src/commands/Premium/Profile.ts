@@ -17,7 +17,7 @@ export default class implements Command {
   public sameVoiceCheck = false;
   public options = [];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     const PremiumPlan = await client.db.premium.get(`${handler.user?.id}`);

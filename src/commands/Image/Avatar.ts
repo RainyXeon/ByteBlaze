@@ -26,7 +26,7 @@ export default class implements Command {
     },
   ];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     const data = handler.args[0];
     const getData = await handler.parseMentions(data);

@@ -16,7 +16,7 @@ export default class implements Command {
   public sameVoiceCheck = false;
   public options = [];
 
-  async execute(client: Manager, handler: CommandHandler) {
+  public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     if (!handler.args[0])
