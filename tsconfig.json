@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "src/test.ts"],
+  "include": ["src/**/*", "src/test.ts", "draft/slash/Filter/Nightcore.ts"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
