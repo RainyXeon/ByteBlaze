@@ -42,7 +42,8 @@ export class DeployService {
         const cmd = new (
           await import(pathToFileURL(interactionFilePath).toString())
         ).default();
-        return cmd.usingInteraction ? store.push(cmd) : true;
+        cmd.usingInteraction ? store.push(cmd) : true;
+        return
       }
     );
 

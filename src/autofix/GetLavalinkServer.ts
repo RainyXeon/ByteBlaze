@@ -74,6 +74,8 @@ export class GetLavalinkServer {
         /:(.{0,99999}):([0-9]{0,99999}):(.{0,99999}):(false|true)/;
       const element = LavalinkCredentailsFilter[i];
       const res = regexExtract.exec(element);
+      if (!res) return
+      else
       FinalData.push({
         host: res![1],
         port: Number(res![2]),
