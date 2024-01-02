@@ -5,15 +5,15 @@ lang_perm: "`⚠️` | You don't have permission to use this command!"
 provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
 
 ### Shutdown command!
-restart_msg: "`🛑` | **Shutting down**..."
+restart_msg: "`🔌` | **Shutting down**..."
 
 ### Control command!
-control_set: "`🎚️` | Control has been set to **%{toggle}**!"
+control_set: "`🔧` | Control has been set to **%{toggle}**!"
 control_perm: "`⚠️` | You don't have permission to use this command!"
 
 ### Help command!
 help_desc: "Click Me!"
-help_timeout: "`⏳` | Help Menu timed out. Please use **%{prefix}help** again!"
+help_timeout: "`⏱️` | Help Menu timed out. Please use **%{prefix}help** again!"
 
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"

@@ -33,10 +33,10 @@ export default class implements PrefixCommand {
     if (args[0]) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${message.guild!.members.me!.displayName} Help Command!`,
+          name: `${message.guild!.members.me!.displayName} Help Command`,
           iconURL: message.guild!.iconURL() as string,
         })
-        .setDescription(`The bot prefix is: \`${prefix} or /\``)
+        .setDescription(`Bot prefix: \`${prefix}\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
         .setColor(client.color);
 
@@ -54,7 +54,7 @@ export default class implements PrefixCommand {
           ],
         });
 
-      embed.setDescription(stripIndents`The client's prefix is: \`${prefix}\`\n
+      embed.setDescription(stripIndents`Bot prefix: \`${prefix}\`\n
             **Command:** ${
               command.name.slice(0, 1).toUpperCase() + command.name.slice(1)
             }
@@ -82,7 +82,7 @@ export default class implements PrefixCommand {
       .setAuthor({
         name: `${
           message.guild!.members.me!.displayName
-        } Help Command! [PREFIX]`,
+        } Help Command`,
         iconURL: message.guild!.iconURL() as string,
       })
       .setDescription(
@@ -115,7 +115,7 @@ export default class implements PrefixCommand {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setFooter({
-        text: `© ${message.guild!.members.me!.displayName} | Total Commands: ${
+        text: `© ${message.guild!.members.me!.displayName} • Total Commands: ${
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
@@ -160,10 +160,10 @@ export default class implements PrefixCommand {
               .setAuthor({
                 name: `${
                   message.guild!.members.me!.displayName
-                } Help Command! [PREFIX]`,
+                } Help Command`,
                 iconURL: message.guild!.iconURL() as string,
               })
-              .setDescription(`The bot prefix is: \`${prefix} or /\``)
+              .setDescription(`Bot prefix: \`${prefix}\``)
               .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
               .setColor(client.color)
               .addFields({
@@ -179,7 +179,7 @@ export default class implements PrefixCommand {
               .setFooter({
                 text: `© ${
                   message.guild!.members.me!.displayName
-                } | Total Commands: ${client.commands.size}`,
+                } • Total Commands: ${client.commands.size}`,
                 iconURL: client.user!.displayAvatarURL(),
               });
 

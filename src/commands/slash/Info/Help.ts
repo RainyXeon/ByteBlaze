@@ -34,7 +34,7 @@ export default class implements SlashCommand {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${interaction.guild!.members.me!.displayName} Help Command!`,
+        name: `${interaction.guild!.members.me!.displayName} Help Command`,
         iconURL: interaction.guild!.iconURL() as string,
       })
       .setDescription(
@@ -63,7 +63,13 @@ export default class implements SlashCommand {
             `
       )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-      .setColor(client.color);
+      .setColor(client.color)
+      .setFooter({
+        text: `© ${
+          interaction.guild!.members.me!.displayName
+        } • Total Commands: ${client.slash.size}`,
+        iconURL: client.user!.displayAvatarURL(),
+      });
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
       new StringSelectMenuBuilder()
@@ -104,7 +110,7 @@ export default class implements SlashCommand {
                 .setAuthor({
                   name: `${
                     interaction.guild!.members.me!.displayName
-                  } Help Command!`,
+                  } Help Command`,
                   iconURL: interaction.guild!.iconURL() as string,
                 })
                 .setDescription(`The bot prefix is: \`/\``)
@@ -123,7 +129,7 @@ export default class implements SlashCommand {
                 .setFooter({
                   text: `© ${
                     interaction.guild!.members.me!.displayName
-                  } | Total Commands: ${client.slash.size}`,
+                  } • Total Commands: ${client.slash.size}`,
                   iconURL: client.user!.displayAvatarURL(),
                 });
 

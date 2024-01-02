@@ -45,15 +45,15 @@ unloopall: "`❌` | Loop is now **Disabled**!"
 ### Lyrics command!
 lyrics_loading: "`🔍` | Searching for **Lyrics**..."
 lyrics_title: "📜 %{song}"
-lyrics_notfound: "`⚠️` | No lyrics found!"
+lyrics_notfound: "`⚠️` | Lyrics not found!"
 lyrics_toolong: "`⚠️` | Lyrics are too long to be displayed!"
 
 ### Nowplaying command!
 np_loading: "`⏳` | **Loading**..."
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-np_title: "Now playing..."
+np_title: "Now Playing..."
 np_title_pause: "Paused"
-np_current_duration: "`⌛` | Current Duration: `[%{current_duration} / %{total_duration}]`"
+np_current_duration: "`⏰` | Current Duration: `[%{current_duration} / %{total_duration}]`"
 
 ### Pause command!
 pause_loading: "`⏳` | **Pausing**..."
@@ -62,10 +62,10 @@ pause_msg: "`⏸️` | Paused the **Player**!"
 ### Play command!
 play_loading: "`🔍` | Searching **%{result}**"
 play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} songs**) • %{request}"
+play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
-play_arg: "`⚠️` | Please provide a song name or URL!"
-play_match: "`⚠️` | No song found!"
+play_arg: "`⚠️` | Please provide a valid song name or URL!"
+play_match: "`⚠️` | Song not found!"
 play_startwith: "`⚠️` | Please use URL to play a song!"
 
 ### File command!
@@ -77,14 +77,14 @@ play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp
 ### Previous command!
 previous_loading: "`⏳` | **Loading**..."
 previous_msg: "`⏮️` | Skipped to previous song!"
-previous_notfound: "`⚠️` | No previous song found!"
+previous_notfound: "`⚠️` | No previous song was found!"
 
 ### Queue command!
 queue_author: "💾 %{guild}"
 queue_description: "`📀` | Currently Playing:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | Rest of Queue:**%{rest}**"
 queue_footer: "Page • %{page}/%{pages} | Song • %{queue_lang} | Total Duration • %{duration}"
-queue_notnumber: "`⚠️` | Please provide a valid number!"
-queue_page_notfound: "`⚠️` | There are only **%{page}** pages!"
+queue_notnumber: "`⚠️` | Please provide a valid page number!"
+queue_page_notfound: "`⚠️` | There are only **%{page} Pages**!"
 
 ### Replay command!
 replay_loading: "`⏳` | **Replaying**..."
@@ -104,7 +104,7 @@ rewind_invalid: "`⚠️` | Something went wrong. Please try again!"
 removetrack_loading: "`⏳` | **Removing**..."
 removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
 removetrack_already: "`⚠️` | I can't remove a song that's already playing!"
-removetrack_notfound: "`⚠️` | No song found!"
+removetrack_notfound: "`⚠️` | Song not found!"
 
 ### RemoveDuplicate command!
 removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
@@ -124,7 +124,7 @@ skip_loading: "`⏳` | **Skipping**..."
 skip_msg: "`⏭️` | Skipped the **Song**!"
 
 ### Volume command!
-volume_loading: "`⏳` | Changing **Volume**..."
+volume_loading: "`⏳` | Loading **Volume**..."
 volume_usage: "`🔊` | Current volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
 volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** and **100**!"
@@ -133,4 +133,4 @@ volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** an
 enabled: "Enabled"
 disabled: "Disabled"
 number_invalid: "`⚠️` | Please provide a valid number!"
-no_node: "`⚠️` | No lavalink server found. Please try again after **5 Minutes**!"
+no_node: "`⚠️` | No lavalink server was found. Please try again after **5 Minutes**!"

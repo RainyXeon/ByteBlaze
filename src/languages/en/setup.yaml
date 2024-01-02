@@ -1,26 +1,23 @@
-##### Setup command #####
-setup_topic: "⏯ *Pause/Resume the song.*\n⬅ *Previous the song.*\n⏹ *Stop the song.*\n➡ *Skip the song.*\n🔁 *Loop/Unloop the song.*"
-setup_msg: "*`Succesfully Setup Music System in`* %{channel}\n```Note: Don't delete message anything of bot was sended! (FOR SETUP WORKING!)```"
-setup_deleted: "*`Successfully delete setup channel!`*"
-setup_null: "*`There is no channel exists to delete!`*"
+### Setup command!
+setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Don't delete any messages sent by me for the music system to work properly!```"
+setup_deleted: "**`⚙️` | Deleted Music System!**"
+setup_topic: "⏹ **Stop**\n⏮️ **Previous**\n⏯ **Pause/Resume**\n⏭️ **Skip**\n🔁 **Loop/Unloop**"
+setup_enable: "`⚠️` | Music System already exists!"
+setup_null: "`⚠️` | Music System not found!"
 
-##### Setup Handler #####
-setup_queuemsg: "**__Queue list:__**\nJoin a voice channel and queue songs by name or url in here."
+### Setup handler!
+setup_queuemsg: "Join a voice channel and play songs using name or URL in here!"
+setup_playembed_author: "No Song Is Currently Playing"
 
-setup_playembed_author: "No song playing currently."
-
-##### Setup Update Handler #####
-
-setup_author: "Starting playing..."
+### Update handler!
+setup_author: "Started Playing..."
 setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
-setup_footer: "%{songs} • Song's in Queue | Volume • %{volume}% | %{duration} • Total Duration"
+setup_desc: "**[%{title}](%{url})** `[%{duration}]` • %{request}"
+setup_footer: "Songs in Queue • %{songs} | Volume • %{volume}% | Total Duration • %{duration}"
+setup_content: "**__Queue:__**"
+setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
+setup_content_empty: "Join a voice channel and play songs using name or URL in here!"
 
-setup_content: "**__Queue list:__**"
-setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
-setup_content_empty: "Join a voice channel and queue songs by name or url in here."
-
-setup_enable: "*`Already have setup channel, can't use this command.`*"
-status_deleted: "*`Successfully delete status channel!`*"
-status_enable: "*`Already have status channel, can't use this command.`*"
-status_null: "*`There is no channel exists to delete!`*"
+### Status command!
+status_enable: "`⚠️` | Status channel already exists!"
+status_null: "`⚠️` | Status channel not found!"

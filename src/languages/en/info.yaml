@@ -5,7 +5,7 @@ dev_foot: "Consider Joining the server or Inviting the Bot :) This would help me
 
 ### Invite command!
 inv_title: "🙌 Thanks for Inviting %{username}"
-inv_desc: "**%{username}** Powered by **RainyXeon**"
+inv_desc: "**%{username}** Powered by **RainyXeon**!"
 
 
 ### Ping command!
