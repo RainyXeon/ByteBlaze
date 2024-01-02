@@ -52,13 +52,13 @@ export default class {
           ${client.i18n.get(language, "help", "intro2")}
           ${client.i18n.get(language, "help", "intro3")}
           ${client.i18n.get(language, "help", "prefix", {
-            prefix: `\`${PREFIX}\``,
+            prefix: `\`${PREFIX}\` or \`/\``,
           })}
           ${client.i18n.get(language, "help", "help1", {
-            help: `\`${PREFIX}help\` / \`/help\``,
+            help: `\`${PREFIX}help\` or \`/help\``,
           })}
           ${client.i18n.get(language, "help", "help2", {
-            botinfo: `\`${PREFIX}status\` / \`/status\``,
+            botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
           ${client.i18n.get(language, "help", "ver", {
             botver: client.metadata.version,

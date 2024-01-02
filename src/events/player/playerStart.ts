@@ -124,11 +124,6 @@ export default class {
       .setThumbnail(
         `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
       )
-      .setFooter({
-        text: `${client.i18n.get(language, "player", "queue_title")} ${
-          player.queue.length + 1
-        }`,
-      })
       .setTimestamp();
 
     const playing_channel = client.channels.cache.get(
