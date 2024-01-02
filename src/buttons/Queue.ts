@@ -8,7 +8,7 @@ import {
 import { KazagumoPlayer } from "kazagumo.mod";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { FormatDuration } from "../structures/FormatDuration.js";
+import { FormatDuration } from "../utilities/FormatDuration.js";
 
 export default class implements PlayerButton {
   name = "queue";

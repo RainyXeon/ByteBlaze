@@ -5,7 +5,7 @@ import { Manager } from "../../manager.js";
 import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { KeyCheckerEnum } from "../../@types/KeyChecker.js";
-import { Command } from "../../@base/Command.js";
+import { Command } from "../../structures/Command.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class loadCommands {

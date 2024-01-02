@@ -1,8 +1,8 @@
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import moment from "moment";
 import voucher_codes from "voucher-code-generator";
-import { Accessableby, Command } from "../../@base/Command.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 
 export default class implements Command {

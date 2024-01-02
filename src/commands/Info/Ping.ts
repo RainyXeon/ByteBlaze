@@ -4,8 +4,8 @@ import {
   ButtonStyle,
   EmbedBuilder,
 } from "discord.js";
-import { Accessableby, Command } from "../../@base/Command.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 
 export default class implements Command {

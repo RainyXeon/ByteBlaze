@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import moment from "moment";
-import { Accessableby, Command } from "../../@base/Command.js";
+import { Accessableby, Command } from "../../structures/Command.js";
 import { Manager } from "../../manager.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
   public name = ["redeem"];

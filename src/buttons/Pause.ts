@@ -11,8 +11,8 @@ import {
   playerRowOne,
   playerRowOneEdited,
   playerRowTwo,
-} from "../utilities/PlayerControlButton.js";
-import { ReplyInteractionService } from "../utilities/ReplyInteractionService.js";
+} from "../assets/PlayerControlButton.js";
+import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 
 export default class implements PlayerButton {
   name = "pause";

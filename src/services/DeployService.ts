@@ -4,12 +4,7 @@ import chillout from "chillout";
 import { makeSureFolderExists } from "stuffs";
 import path from "path";
 import readdirRecursive from "recursive-readdir";
-import {
-  ApplicationCommandOptionType,
-  ApplicationCommandManager,
-  ApplicationCommandDataResolvable,
-  REST,
-} from "discord.js";
+import { ApplicationCommandOptionType, REST } from "discord.js";
 import {
   CommandInterface,
   UploadCommandInterface,

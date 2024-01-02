@@ -2,11 +2,11 @@ import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { ButtonInteraction, ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { FormatDuration } from "../../structures/FormatDuration.js";
+import { FormatDuration } from "../../utilities/FormatDuration.js";
 import {
   playerRowOne,
   playerRowTwo,
-} from "../../utilities/PlayerControlButton.js";
+} from "../../assets/PlayerControlButton.js";
 import { ControlEnum } from "../../database/schema/Control.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 

@@ -8,7 +8,7 @@ import { KazagumoPlayer } from "kazagumo.mod";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { KazagumoLoop } from "../@types/Lavalink.js";
-import { ReplyInteractionService } from "../utilities/ReplyInteractionService.js";
+import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 
 export default class implements PlayerButton {
   name = "loop";

@@ -1,8 +1,8 @@
-import { Accessableby, Command } from "../../@base/Command.js";
+import { Accessableby, Command } from "../../structures/Command.js";
 import {
   CommandHandler,
   ParseMentionEnum,
-} from "../../@base/CommandHandler.js";
+} from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
 

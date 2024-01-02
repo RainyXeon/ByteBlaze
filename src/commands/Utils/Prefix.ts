@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
-import { Accessableby, Command } from "../../@base/Command.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
   public name = ["prefix"];

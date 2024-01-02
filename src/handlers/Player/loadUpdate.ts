@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { FormatDuration } from "../../structures/FormatDuration.js";
-import { QueueDuration } from "../../structures/QueueDuration.js";
+import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { KazagumoPlayer } from "kazagumo.mod";
 
 export class playerLoadUpdate {

@@ -1,7 +1,7 @@
 import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { ClearMessageService } from "../../utilities/ClearMessageService.js";
+import { ClearMessageService } from "../../services/ClearMessageService.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 
 export default class {

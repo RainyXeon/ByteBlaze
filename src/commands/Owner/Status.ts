@@ -3,8 +3,8 @@ import ms from "pretty-ms";
 import os from "os";
 import { stripIndents } from "common-tags";
 import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../@base/Command.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
   public name = ["sudo", "status-channel"];

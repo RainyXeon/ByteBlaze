@@ -10,8 +10,8 @@ import { stripIndents } from "common-tags";
 import fs from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { Accessableby, Command } from "../../@base/Command.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

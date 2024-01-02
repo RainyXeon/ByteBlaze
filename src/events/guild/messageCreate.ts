@@ -3,9 +3,9 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
-import { CommandHandler } from "../../@base/CommandHandler.js";
-import { Accessableby } from "../../@base/Command.js";
+import { CheckPermissionServices } from "../../services/CheckPermissionServices.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
+import { Accessableby } from "../../structures/Command.js";
 
 export default class {
   async execute(client: Manager, message: Message) {

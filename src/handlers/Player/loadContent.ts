@@ -1,8 +1,8 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember } from "discord.js";
-import { ConvertTime } from "../../structures/ConvertTime.js";
+import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
-import { QueueDuration } from "../../structures/QueueDuration.js";
+import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 
 // Button Commands

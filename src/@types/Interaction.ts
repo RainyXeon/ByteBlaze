@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import { Manager } from "../manager.js";
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import { Accessableby } from "../@base/Command.js";
+import { Accessableby } from "../structures/Command.js";
 
 export type GlobalInteraction =
   | CommandInteraction
@@ -50,9 +50,6 @@ export type CommandInterface = {
   type: ApplicationCommandOptionType | undefined | ApplicationCommandType;
   name: string[];
   description: string;
-  category: string;
-  accessableby: Accessableby;
-  lavalink?: boolean;
   options: CommandOptionInterface[];
   defaultPermission?: undefined | typeof PermissionFlagsBits;
   run: (

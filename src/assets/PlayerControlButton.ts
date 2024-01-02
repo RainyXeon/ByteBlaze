@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { NormalModeIcons } from "../assets/normalMode.js";
-import { SafeModeIcons } from "../assets/safeMode.js";
+import { NormalModeIcons } from "./NormalModeIcons.js";
+import { SafeModeIcons } from "./SafeModeIcons.js";
 import { ConfigDataService } from "../services/ConfigDataService.js";
 import { Config } from "../@types/Config.js";
 
