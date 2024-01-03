@@ -10,7 +10,7 @@ setup_queuemsg: "Join a voice channel and play songs using name or URL in here!"
 setup_playembed_author: "No Song Is Currently Playing"
 
 ### Update handler!
-setup_author: "Started Playing..."
+setup_author: "Playing"
 setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 setup_desc: "**[%{title}](%{url})** `[%{duration}]` • %{request}"
 setup_footer: "Songs in Queue • %{songs} | Volume • %{volume}% | Total Duration • %{duration}"
