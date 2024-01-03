@@ -24,15 +24,15 @@ eq_greater: "`⚠️` | Number must be greater than **-10**!"
 eq_than: "`⚠️` | Number must be lesser than **10**!"
 
 ### Pitch command!
-pitch_loading: "`⏳` | Setting pitch to **%{amount}**..."
+pitch_loading: "`⏳` | Setting Pitch to **%{amount}**..."
 pitch_on: "`🎚️` | Pitch has been set to **%{amount}**!"
 
 ### Rate command!
-rate_loading: "`⏳` | Setting rate to **%{amount}x**..."
+rate_loading: "`⏳` | Setting Rate to **%{amount}x**..."
 rate_on: "`🎚️` | Rate has been set to **%{amount}x**!"
 
 ### Speed command!
-speed_loading: "`⏳` | Setting speed to **%{amount}x**..."
+speed_loading: "`⏳` | Setting Speed to **%{amount}x**..."
 speed_on: "`🎚️` | Speed has been set to **%{amount}x**!"
 
 ### Reset command!
