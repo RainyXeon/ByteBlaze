@@ -2,8 +2,8 @@
 247_loading: "`⏳` | Loading **24/7** mode..."
 247_on: "`✅` | 24/7 mode is now **Enabled**!"
 247_off: "`❌` | 24/7 mode is now **Disabled**!"
-247_on_already: "`⚠️` | 24/7 mode is already **Enabled**!"
-247_off_already: "`⚠️` | 24/7 mode is already **Disabled**!"
+247_on_already: "`⚠️` | 24/7 mode is already enabled!"
+247_off_already: "`⚠️` | 24/7 mode is already disabled!"
 247_invalid: "`⚠️` | Invalid 24/7 mode. Please use **enable** or **disable**!"
 
 ### Autoplay command!
