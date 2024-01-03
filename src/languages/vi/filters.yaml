@@ -1,6 +1,6 @@
 ### All filter command!
 filter_loading: "`⏳` | Bật lên **%{name}** lọc..."
-filter_on: "`✅` | %{name} bộ lọc bây giờ **Enabled**!"
+filter_on: "`✅` | %{name} bộ lọc bây giờ **Đã bật**!"
 filter_number: "`⚠️` | Vui lòng cung cấp số hợp lệ!"
 filter_greater: "`⚠️` | Số phải lớn hơn **0**!"
 filter_less: "`⚠️` | Số lượng phải nhỏ hơn **10**!"
@@ -13,7 +13,7 @@ bassboost_limit: "`⚠️` | Vui lòng sử dụng một số giữa **-10** Và
 ### Equalizer command!
 eq_author: "Equalizer"
 eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
-eq_desc: "`🎚️` | Có **14** Bands có thể được thiết lập từ **-10** ĐẾN **10**. Không bắt buộc phải thiết lập tất cả chúng!"
+eq_desc: "`🎚️` | Có **14** Ban nhạc có thể được thiết lập từ **-10** ĐẾN **10**. Không bắt buộc phải thiết lập tất cả chúng!"
 eq_field_title: "Ví dụ:"
 eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
 eq_footer: "Đặt lại bộ chỉnh âm • %{prefix}eq reset"
@@ -36,5 +36,5 @@ speed_loading: "`⏳` | Cài đặt Speed ĐẾN **%{amount}x**..."
 speed_on: "`🎚️` | Speed đã được đặt thành **%{amount}x**!"
 
 ### Reset command!
-reset_loading: "`⏳` | **Resetting** lọc..."
-reset_on: "`❌` | Bộ lọc đã được **Reset**!"
+reset_loading: "`⏳` | **Đặt lại** lọc..."
+reset_on: "`❌` | Bộ lọc đã được **Cài lại**!"
