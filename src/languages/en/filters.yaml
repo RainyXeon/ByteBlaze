@@ -13,7 +13,7 @@ bassboost_limit: "`⚠️` | Please use a number between **-10** and **10**!"
 ### Equalizer command!
 eq_author: "Equalizer"
 eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
-eq_desc: "`🎚️` | There are **14** bands that can be set from **-10** to **10**. It is not mandatory to set all of them!"
+eq_desc: "`🎚️` | There are **14** Bands that can be set from **-10** to **10**. It is not mandatory to set all of them!"
 eq_field_title: "Example:"
 eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
 eq_footer: "Reset Equalizer • %{prefix}eq reset"
