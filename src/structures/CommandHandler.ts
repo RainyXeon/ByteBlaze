@@ -257,11 +257,9 @@ export class CommandHandler {
 
   public addAttachment(data: Collection<string, Attachment>) {
     return this.attactments.push(
-      ...[
-        ...data.map((data) => {
-          return data;
-        }),
-      ]
+      ...data.map((data) => {
+        return data;
+      })
     );
   }
 

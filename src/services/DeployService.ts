@@ -43,7 +43,7 @@ export class DeployService {
           await import(pathToFileURL(interactionFilePath).toString())
         ).default();
         cmd.usingInteraction ? store.push(cmd) : true;
-        return
+        return;
       }
     );
 

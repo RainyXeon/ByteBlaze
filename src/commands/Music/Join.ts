@@ -1,0 +1,52 @@
+import { EmbedBuilder, Message } from "discord.js";
+import { Manager } from "../../manager.js";
+import { Accessableby, Command } from "../../structures/Command.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
+
+// Main code
+export default class implements Command {
+  public name = ["join"];
+  public description = "Make the bot join the voice channel.";
+  public category = "Music";
+  public accessableby = Accessableby.Member;
+  public usage = "";
+  public aliases = ["j"];
+  public lavalink = true;
+  public options = [];
+  public playerCheck = false;
+  public usingInteraction = true;
+  public sameVoiceCheck = false;
+
+  public async execute(client: Manager, handler: CommandHandler) {
+    await handler.deferReply();
+
+    const { channel } = handler.member!.voice;
+    if (!channel)
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "music", "join_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    await client.manager.createPlayer({
+      guildId: handler.guild!.id,
+      voiceId: handler.member!.voice.channel!.id,
+      textId: handler.channel!.id,
+      deaf: true,
+    });
+
+    const embed = new EmbedBuilder()
+      .setDescription(
+        `${client.i18n.get(handler.language, "music", "join_msg", {
+          channel: channel.name,
+        })}`
+      )
+      .setColor(client.color);
+
+    handler.editReply({ content: " ", embeds: [embed] });
+  }
+}
