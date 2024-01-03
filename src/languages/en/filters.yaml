@@ -6,7 +6,7 @@ filter_greater: "`⚠️` | Number must be greater than **0**!"
 filter_less: "`⚠️` | Number must be lesser than **10**!"
 
 ### Bassboost command!
-bassboost_loading: "`⏳` | Setting bassboost to **%{amount}dB**..."
+bassboost_loading: "`⏳` | Setting Bassboost to **%{amount}dB**..."
 bassboost_set: "`🎚️` | Bassboost has been set to **%{amount}dB**!"
 bassboost_limit: "`⚠️` | Please use a number between **-10** and **10**!"
 
