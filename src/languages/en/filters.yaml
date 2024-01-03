@@ -17,7 +17,7 @@ eq_desc: "`🎚️` | There are **14** Bands that can be set from **-10** to **1
 eq_field_title: "Example:"
 eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
 eq_footer: "Reset Equalizer • %{prefix}eq reset"
-eq_loading: "`⏳` | Setting equalizer to **%{bands}**..."
+eq_loading: "`⏳` | Setting Equalizer to **%{bands}**..."
 eq_on: "`🎚️` | Equalizer has been set to **%{bands}**!"
 eq_number: "`⚠️` | Please provide a valid number!"
 eq_greater: "`⚠️` | Number must be greater than **-10**!"
