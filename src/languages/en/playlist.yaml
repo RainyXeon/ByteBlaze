@@ -58,9 +58,6 @@ savequeue_owner: "`⚠️` | You are not the playlist owner!"
 savequeue_no_new_saved: "`⚠️` | Song already exists in `%{name}`"
 savequeue_no_tracks: "`⚠️` | No song is currently playing!"
 
-### Public event!
-public_notfound: "`⚠️` | Please provide a valid playlist ID!"
-
 ### Info Command!
 info_id: "`🆔` | ID:"
 info_total: "`🎵` | Total Songs:"
