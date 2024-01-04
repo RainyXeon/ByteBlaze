@@ -7,4 +7,4 @@ no_perms: "`⚠️` | I don't have **%{perm}** permission to execute this comman
 error: "`⚠️` | Something went wrong. Please try again later!"
 
 # Client owner!
-owner_only: "`⚠️` | You're not my owner!"
+owner_only: "`⚠️` | You're not my **Owner**!"
