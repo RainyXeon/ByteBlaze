@@ -67,7 +67,7 @@ export class ButtonLoop {
 
         const unloopall = new EmbedBuilder()
           .setDescription(
-            `${this.client.i18n.get(this.language, "music", "unloopall")}`
+            `${this.client.i18n.get(this.language, "music", "unloop_all")}`
           )
           .setColor(this.client.color);
         await this.interaction.reply({
