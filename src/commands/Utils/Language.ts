@@ -39,7 +39,7 @@ export default class implements Command {
     if (!languages.includes(input as string)) {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "missing", "lang_invalid", {
+          `${client.i18n.get(handler.language, "utilities", "provide_lang", {
             languages: languages.join(", "),
           })}`
         )
