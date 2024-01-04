@@ -1,9 +1,9 @@
 ### Create command!
 create_loading: "`⏳` | Creating **Playlist**..."
 create_created: "`💿` | Created **%{playlist}** • `%{id}`"
-create_toolong: "`⚠️` | Playlist name can't be longer than **16 Characters**!"
-des_toolong: "`⚠️` | Playlist description can't be longer than **1000 Characters**!"
-create_limit_playlist: "`⚠️` | You can't create more than **%{limit} Playlists**!"
+create_toolong: "`⚠️` | Playlist name can not be longer than **16 Characters**!"
+des_toolong: "`⚠️` | Playlist description can not be longer than **1000 Characters**!"
+create_limit_playlist: "`⚠️` | You can not create more than **%{limit} Playlists**!"
 
 ### Add command!
 add_loading: "`⏳` | Adding **Song** to playlist..."
@@ -13,7 +13,7 @@ add_search: "`🔍` | Searched **[%{title}](%{url})** `%{duration}` • %{user}"
 add_added: "`➕` | Added **%{count}** songs to `%{playlist}`"
 add_match: "`⚠️` | Please provide a valid song name or URL!"
 add_owner: "`⚠️` | You are not the playlist owner!"
-add_limit_track: "`⚠️` | You can't add more than **%{limit} Songs**!"
+add_limit_track: "`⚠️` | You can not add more than **%{limit} Songs**!"
 
 ### Delete command!
 delete_confirm: "`❓` | Do you want to delete `%{playlist_id}`"
