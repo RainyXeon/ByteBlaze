@@ -24,7 +24,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "utilities")}`
+              `${client.i18n.get(handler.language, "utilities", "prefix_arg")}`
             )
             .setColor(client.color),
         ],
@@ -38,7 +38,7 @@ export default class implements Command {
               `${client.i18n.get(
                 handler.language,
                 "utilities",
-                "prefix_invalid_length"
+                "prefix_length"
               )}`
             )
             .setColor(client.color),
