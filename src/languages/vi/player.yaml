@@ -1,56 +1,38 @@
-##### On track start playing! Event #####
-track_title: "Đang chơi..."
+### Playing event!
+track_title: "Bắt đầu chơi"
 track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+author_title: "`✒️` | Tác giả:"
+request_title: "`👤` | Người yêu cầu:"
+volume_title: "`🔊` | Âm lượng:"
+queue_title: "`💾` | Chiều dài hàng đợi:"
+duration_title: "`🕒` | Thời lượng bài hát:"
+total_duration_title: "`🕰️` | Thời lượng hàng đợi:"
+download_title: "`⬇️` | Tải xuống:"
 
-# Embed Field
-author_title: "Tác giả:"
-request_title: "Người yêu cầu:"
-volume_title: "Âm lượng hiện tại:"
-queue_title: "Độ dài hàng đợi:"
-duration_title: "Độ dài:"
-total_duration_title: "Tổng độ dài:"
-current_duration_title: "Độ dài hiện tại: `[0:00 / %{current_duration}]`"
+### Same voice!
+join_voice: "`⚠️` | Bạn không ở cùng kênh thoại với tôi!"
 
-# Need in voice to use button!
-join_voice: "Bạn cần ở trong cùng một kênh thoại để sử dụng nút này."
-
-# Message Button
+### Message button!
 switch_pause: Đã tạm dừng
-switch_resume: Đã bật lại
-pause_msg: "`⏯` | *Bài hát đã:* `%{pause}`"
-skip_msg: "`⏭` | *Bài hát đã:* `Skipped`"
-stop_msg: "`🚫` | *Bài hát đã:* `Stopped`"
-shuffle_msg: "`🔀` | *Hàng đợi đã:* `Shuffled`"
-switch_enable: Đã kích hoạt
-switch_disable: Đã vô hiệu hóa
-repeat_msg: "`🔁` | *Loop has been:* `%{loop}`"
-volup_msg: "`🔊` | *Chuyển âm lượng thành:* `%{volume}%`"
-voldown_msg: "`🔈` | *Chuyển âm lượng thành:* `%{volume}%`"
-replay_msg: "`⏮` | *Bài hát đã:* `Replayed`"
-queue_author: "Hàng đợi - %{guild}"
-queue_description: "*Đang chơi bài*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*Rest of queue*:%{list_song}"
-queue_footer: "Trang • %{page}/%{pages} | %{queue_lang} • Nhạc | %{total_duration} • Total duration"
-clear_msg: "`📛` | *Hàng đợi đã:* `Cleared`"
+switch_resume: Đã tiếp tục
+pause_msg: "`⏸️` | Đã tạm dừng **Người chơi**!"
+skip_msg: "`⏭️` | Đã bỏ qua **Bài hát**!"
+stop_msg: "`⏹️` | Đã dừng **Người chơi**!"
+shuffle_msg: "`🔀` | Đã xáo trộn **Hàng đợi**!"
+volup_msg: "`🔊` | Đã thay đổi âm lượng thành **%{volume}%**"
+voldown_msg: "`🔉` | Đã thay đổi âm lượng thành **%{volume}%**"
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | Hiện đang chơi:\n**[%{track}](%{track_url})** `[%{duration}]` • %{requester}\n\n`💤` | Phần còn lại của hàng đợi:**%{list_song}**"
+queue_footer: "Trang • %{page}/%{pages} | Bài hát • %{queue_lang} | Tổng thời gian • %{total_duration}"
+clear_msg: "`🗑️` | Hàng đợi đã được **Xóa**!"
 
-##### On QueueEnd Event #####
-queue_end_desc: "`📛` | *Bài hát đã:* `Ended`"
+### QueueEnd event!
+queue_end_desc: "`🔚` | Bài hát đã được **Kết thúc**!"
 
-##### On Track get error!! Event #####
-error_desc: "`❌` | *Bài hát bị lỗi:* `Đã tự động bỏ qua`"
+### Song error!
+error_desc: "`⚠️` | Bài hát có lỗi. Đã bỏ qua **Bài hát**!"
 
-##### On Track get stuck!! Event #####
-stuck_desc: "`❌` | *Bài hát đã bị kẹt (lỗi băng thông):* `Đã tự động bỏ qua`"
-
-##### On Bot get move Event #####
-
-# On player get discoconnect
-dis_title: "Mất kết nối"
-dis_desc: "*Tôi đã bị mất kết nối tại <#%{voice}>*"
-
-# On player get move! = (detroy player)
-leave_title: "Di chuyển"
-leave_desc: "*Tôi đã bị di chuyển, đã tự động ngắt kết nối*"
-player_end: "Ngắt kết nối kênh đàm thoại <#%{leave}> vì bạn để tôi có một mình à ;<"
-download_title: "Tải xuống:"
-leave_pause: "`⏸️` | Nhạc đã bị tạm dừng vì tôi bị bỏ lại một mình."
-leave_resume: "`▶️` | Âm nhạc đã được tiếp tục vì có người tham gia."
+### Auto function!
+player_end: "`🛑` | Tôi đã rời khỏi <#%{leave}> vì không có ai trong kênh thoại!"
+leave_pause: "`⏸️` | Bài hát đã bị tạm dừng vì tôi bị bỏ lại một mình!"
+leave_resume: "`▶️` | Bài hát đã được tiếp tục vì có người đã tham gia!"
