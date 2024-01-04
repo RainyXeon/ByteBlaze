@@ -51,8 +51,8 @@ play_match: "`⚠️` | Song not found!"
 
 ### File command!
 file_loading: "`⏳` | **Loading**..."
-play_invalid_file: "`⚠️` | Invalid file type. Please use **mp3** or **ogg**!"
-play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp3** or **ogg**!"
+play_invalid_file: "`⚠️` | Invalid File type. Please use **mp3** or **ogg**!"
+play_warning_file: "`⚠️` | I could not detect the File type. Please use **mp3** or **ogg**!"
 
 ### Previous command!
 previous_msg: "`⏮️` | Skipped to Previous song!"
