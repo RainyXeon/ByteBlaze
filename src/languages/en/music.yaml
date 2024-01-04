@@ -16,7 +16,7 @@ forward_msg: "`⏩` | Forwarded to `%{duration}`!"
 forward_beyond: "`⚠️` | Song is about to end. You can't Forward beyond it!"
 
 ### Join command!
-join_msg: "`🔊` | Joined **%{channel}**"
+join_msg: "`🔊` | Joined %{channel}"
 join_voice: "`⚠️` | You need to be in a voice channel to use this command!"
 
 ### Stop command!
@@ -26,7 +26,7 @@ stop_msg: "`⏹️` | Stopped the **Player**!"
 loop_current: "`🔁` | Looping current **Song**!"
 loop_all: "`🔁` | Looping **Queue**!"
 unloop_all: "`❌` | Loop is now **Disabled**!"
-loop_invalid: "`⚠️` | Invalid loop mode. Please use %{mode}!"
+loop_invalid: "`⚠️` | Invalid Loop mode. Please use %{mode}!"
 
 ### Lyrics command!
 lyrics_title: "📜 %{song}"
