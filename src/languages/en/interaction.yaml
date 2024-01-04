@@ -1,10 +1,10 @@
 ### InteractionCreate Event!
 
-# No permission to use command (this for bot!)
+# No permission!
 no_perms: "`⚠️` | I don't have **%{perm}** permission to execute this command!"
 
-# Bot getting error something!
+# Getting  error!
 error: "`⚠️` | Something went wrong. Please try again later!"
 
-# You are not the client owner of this bot!
+# Client owner!
 owner_only: "`⚠️` | You're not my owner!"
