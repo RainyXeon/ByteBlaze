@@ -34,5 +34,5 @@ error_desc: "`⚠️` | Song has error. Skipped the **Song**!"
 
 ### Auto function!
 player_end: "`🛑` | I left <#%{leave}> because there is no one in the voice channel!"
-leave_pause: "`⏸️` | Song has been paused because I was left alone!"
-leave_resume: "`▶️` | Song has been resumed because someone joined!"
+leave_pause: "`⏸️` | Song has been Paused because I was left alone!"
+leave_resume: "`▶️` | Song has been Resumed because someone joined!"
