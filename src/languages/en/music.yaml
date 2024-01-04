@@ -103,4 +103,4 @@ volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** an
 enabled: "Enabled"
 disabled: "Disabled"
 number_invalid: "`⚠️` | Please provide a valid number!"
-no_node: "`⚠️` | No lavalink server was found. Please try again after **5 Minutes**!"
+no_node: "`⚠️` | No Lavalink server was found. Please try again after **5 Minutes**!"
