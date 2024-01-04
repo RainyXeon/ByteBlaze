@@ -1,7 +1,7 @@
 ### Language command!
 lang_set: "`📙` | Language has been set to **%{language}**!"
 lang_change: "`📙` | Language has been changed to **%{language}**!"
-lang_perm: "`⚠️` | You don't have permission to use this command!"
+lang_perm: "`⚠️` | You do not have permission to use this command!"
 provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
 
 ### Shutdown command!
@@ -9,7 +9,7 @@ restart_msg: "`🔌` | **Shutting down**..."
 
 ### Control command!
 control_set: "`🔧` | Control has been set to **%{toggle}**!"
-control_perm: "`⚠️` | You don't have permission to use this command!"
+control_perm: "`⚠️` | You do not have permission to use this command!"
 
 ### Help command!
 help_desc: "Click Me!"
@@ -18,7 +18,7 @@ help_timeout: "`⏱️` | Help Menu timed out. Please use **%{prefix}help** agai
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
 prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
-prefix_perm: "`⚠️` | You don't have permission to use this command!"
+prefix_perm: "`⚠️` | You do not have permission to use this command!"
 prefix_arg: "`⚠️` | Please provide a prefix!"
-prefix_length: "`⚠️` | Prefix can't be longer than **10 Characters**!"
+prefix_length: "`⚠️` | Prefix can not be longer than **10 Characters**!"
 arg_error: "`⚠️` | Invalid argument. Please use **%{text}**"
