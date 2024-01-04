@@ -13,7 +13,7 @@ clearqueue_msg: "`🗑️` | Queue has been **Cleared**!"
 
 ### Forward command!
 forward_msg: "`⏩` | Forwarded to `%{duration}`!"
-forward_beyond: "`⚠️` | Song is about to end. You can't forward beyond it!"
+forward_beyond: "`⚠️` | Song is about to end. You can't Forward beyond it!"
 
 ### Join command!
 join_msg: "`🔊` | Joined **%{channel}**"
@@ -55,8 +55,8 @@ play_invalid_file: "`⚠️` | Invalid file type. Please use **mp3** or **ogg**!
 play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp3** or **ogg**!"
 
 ### Previous command!
-previous_msg: "`⏮️` | Skipped to previous song!"
-previous_notfound: "`⚠️` | No previous song was found!"
+previous_msg: "`⏮️` | Skipped to Previous song!"
+previous_notfound: "`⚠️` | No Previous song was found!"
 
 ### Queue command!
 queue_author: "💾 %{guild}"
@@ -73,11 +73,11 @@ resume_msg: "`▶️` | Resumed the **Player**!"
 
 ### Rewind command!
 rewind_msg: "`⏪` | Rewinded to `%{duration}`!"
-rewind_beyond: "`⚠️` | Song just started. You can't rewind beyond it!"
+rewind_beyond: "`⚠️` | Song just started. You can't Rewind beyond it!"
 
 ### RemoveTrack command!
 removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
-removetrack_already: "`⚠️` | I can't remove a song that's already playing!"
+removetrack_already: "`⚠️` | I can't Remove a song that's already playing!"
 removetrack_notfound: "`⚠️` | Song not found!"
 
 ### RemoveDuplicate command!
@@ -85,8 +85,8 @@ removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs 
 
 ### Seek command!
 seek_msg: "`➿` | Seeked to `%{duration}`!"
-seek_beyond: "`⚠️` | You can't seek beyond the song duration!"
-seek_invalid: "`⚠️` | Invalid seek duration. Please use a valid timestamp. Example: **1:30**!"
+seek_beyond: "`⚠️` | You can't Seek beyond the song duration!"
+seek_invalid: "`⚠️` | Invalid Seek duration. Please use a valid timestamp. Example: **1:30**!"
 
 ### Shuffle command!
 shuffle_msg: "`🔀` | Shuffled the **Queue**!"
@@ -97,7 +97,7 @@ skip_msg: "`⏭️` | Skipped the **Song**!"
 ### Volume command!
 volume_usage: "`🔊` | Current Volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
-volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** and **100**!"
+volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** and **100**!"
 
 ### Utils
 enabled: "Enabled"
