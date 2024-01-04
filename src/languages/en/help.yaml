@@ -2,7 +2,7 @@
 welcome: "**Welcome to %{bot}**"
 intro1: "・**%{bot}** is an advanced music bot with rich features!"
 intro2: "・Powered by **RainyXeon**"
-intro3: "・Partnered with **1st services**"
+intro3: "・Partnered with **1st Services**"
 prefix: "・**Bot prefix:** %{prefix}"
 ver: "・**Bot:** `%{botver}`"
 djs: "・**Discord.js:** `%{djsver}`"
