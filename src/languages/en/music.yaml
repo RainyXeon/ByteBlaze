@@ -55,7 +55,7 @@ play_invalid_file: "`⚠️` | Invalid File type. Please use **mp3** or **ogg**!
 play_warning_file: "`⚠️` | I could not detect the File type. Please use **mp3** or **ogg**!"
 
 ### Previous command!
-previous_msg: "`⏮️` | Skipped to Previous song!"
+previous_msg: "`⏮️` | Skipped to Previous **Song**!"
 previous_notfound: "`⚠️` | No Previous song was found!"
 
 ### Queue command!
