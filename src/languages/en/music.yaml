@@ -1,81 +1,60 @@
 ### 24/7 command!
-247_loading: "`⏳` | Loading **24/7** mode..."
 247_on: "`✅` | 24/7 mode is now **Enabled**!"
 247_off: "`❌` | 24/7 mode is now **Disabled**!"
-247_on_already: "`⚠️` | 24/7 mode is already enabled!"
-247_off_already: "`⚠️` | 24/7 mode is already disabled!"
-247_invalid: "`⚠️` | Invalid 24/7 mode. Please use **enable** or **disable**!"
+247_on_already: "`⚠️` | 24/7 mode is already **Enabled**!"
+247_off_already: "`⚠️` | 24/7 mode is already **Disabled**!"
 
 ### Autoplay command!
-autoplay_loading: "`⏳` | Loading **Autoplay**..."
 autoplay_on: "`✅` | Autoplay is now **Enabled**!"
 autoplay_off: "`❌` | Autoplay is now **Disabled**!"
 
 ### ClearQueue command!
-clearqueue_loading: "`⏳` | **Clearing Queue**..."
 clearqueue_msg: "`🗑️` | Queue has been **Cleared**!"
 
 ### Forward command!
-forward_loading: "`⏳` | **Forwarding**..."
 forward_msg: "`⏩` | Forwarded to `%{duration}`!"
 forward_beyond: "`⚠️` | Song is about to end. You can't forward beyond it!"
-forward_invalid: "`⚠️` | Something went wrong. Please try again!"
 
 ### Join command!
-join_loading: "`⏳` | **Joining**..."
 join_msg: "`🔊` | Joined **%{channel}**"
 join_voice: "`⚠️` | You need to be in a voice channel to use this command!"
 
 ### Stop command!
-stop_loading: "`⏳` | **Stopping**..."
 stop_msg: "`⏹️` | Stopped the **Player**!"
 
 ### Loop command!
-loop_loading: "`⏳` | **Loading**..."
 loop_current: "`🔁` | Looping current **Song**!"
 loop_all: "`🔁` | Looping **Queue**!"
 unloop_all: "`❌` | Loop is now **Disabled**!"
 loop_invalid: "`⚠️` | Invalid loop mode. Please use %{mode}!"
 
-### Loopall command!
-loopall_loading: "`⏳` | **Loading**..."
-loopall: "`🔁` | Looping **Queue**!"
-unloopall: "`❌` | Loop is now **Disabled**!"
-
 ### Lyrics command!
-lyrics_loading: "`🔍` | Searching for **Lyrics**..."
 lyrics_title: "📜 %{song}"
 lyrics_notfound: "`⚠️` | Lyrics not found!"
 lyrics_toolong: "`⚠️` | Lyrics are too long to be displayed!"
 
 ### Nowplaying command!
-np_loading: "`⏳` | **Loading**..."
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 np_title: "Now Playing"
 np_title_pause: "Paused"
 np_current_duration: "`⏰` | Current Duration: `[%{current_duration} / %{total_duration}]`"
 
 ### Pause command!
-pause_loading: "`⏳` | **Pausing**..."
 pause_msg: "`⏸️` | Paused the **Player**!"
 
 ### Play command!
-play_loading: "`🔍` | Searching **%{result}**"
 play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
-play_startwith: "`⚠️` | Please use URL to play a song!"
 
 ### File command!
 file_loading: "`⏳` | **Loading**..."
-play_speak: "`⚠️` | I don't have permission to speak in this channel!"
 play_invalid_file: "`⚠️` | Invalid file type. Please use **mp3** or **ogg**!"
 play_warning_file: "`⚠️` | I could not detect the file type. Please use **mp3** or **ogg**!"
 
 ### Previous command!
-previous_loading: "`⏳` | **Loading**..."
 previous_msg: "`⏮️` | Skipped to previous song!"
 previous_notfound: "`⚠️` | No previous song was found!"
 
@@ -87,21 +66,16 @@ queue_notnumber: "`⚠️` | Please provide a valid page number!"
 queue_page_notfound: "`⚠️` | There are only **%{page} Pages**!"
 
 ### Replay command!
-replay_loading: "`⏳` | **Replaying**..."
 replay_msg: "`🔄` | Replayed the **Song**!"
 
 ### Resume command!
-resume_loading: "`⏳` | **Resuming**..."
 resume_msg: "`▶️` | Resumed the **Player**!"
 
 ### Rewind command!
-rewind_loading: "`⏳` | **Rewinding**..."
 rewind_msg: "`⏪` | Rewinded to `%{duration}`!"
 rewind_beyond: "`⚠️` | Song just started. You can't rewind beyond it!"
-rewind_invalid: "`⚠️` | Something went wrong. Please try again!"
 
 ### RemoveTrack command!
-removetrack_loading: "`⏳` | **Removing**..."
 removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
 removetrack_already: "`⚠️` | I can't remove a song that's already playing!"
 removetrack_notfound: "`⚠️` | Song not found!"
@@ -110,22 +84,18 @@ removetrack_notfound: "`⚠️` | Song not found!"
 removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
 
 ### Seek command!
-seek_loading: "`⏳` | **Seeking**..."
 seek_msg: "`➿` | Seeked to `%{duration}`!"
 seek_beyond: "`⚠️` | You can't seek beyond the song duration!"
 seek_invalid: "`⚠️` | Invalid seek duration. Please use a valid timestamp. Example: **1:30**!"
 
 ### Shuffle command!
-shuffle_loading: "`⏳` | **Shuffling**..."
 shuffle_msg: "`🔀` | Shuffled the **Queue**!"
 
 ### Skip command!
-skip_loading: "`⏳` | **Skipping**..."
 skip_msg: "`⏭️` | Skipped the **Song**!"
 
 ### Volume command!
-volume_loading: "`⏳` | Loading **Volume**..."
-volume_usage: "`🔊` | Current volume is **%{volume}%**"
+volume_usage: "`🔊` | Current Volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
 volume_invalid: "`⚠️` | Invalid volume. Please use a number between **1** and **100**!"
 
