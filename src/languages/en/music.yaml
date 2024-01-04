@@ -12,7 +12,7 @@ autoplay_off: "`❌` | Autoplay is now **Disabled**!"
 clearqueue_msg: "`🗑️` | Queue has been **Cleared**!"
 
 ### Forward command!
-forward_msg: "`⏩` | Forwarded to `%{duration}`!"
+forward_msg: "`⏩` | Forwarded to `%{duration}`"
 forward_beyond: "`⚠️` | Song is about to end. You can't Forward beyond it!"
 
 ### Join command!
@@ -72,7 +72,7 @@ replay_msg: "`🔄` | Replayed the **Song**!"
 resume_msg: "`▶️` | Resumed the **Player**!"
 
 ### Rewind command!
-rewind_msg: "`⏪` | Rewinded to `%{duration}`!"
+rewind_msg: "`⏪` | Rewinded to `%{duration}`"
 rewind_beyond: "`⚠️` | Song just started. You can't Rewind beyond it!"
 
 ### RemoveTrack command!
@@ -81,10 +81,10 @@ removetrack_already: "`⚠️` | I can't Remove a song that's already playing!"
 removetrack_notfound: "`⚠️` | Song not found!"
 
 ### RemoveDuplicate command!
-removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicate songs from the queue!"
+removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicated songs from the queue!"
 
 ### Seek command!
-seek_msg: "`➿` | Seeked to `%{duration}`!"
+seek_msg: "`➿` | Seeked to `%{duration}`"
 seek_beyond: "`⚠️` | You can't Seek beyond the song duration!"
 seek_invalid: "`⚠️` | Invalid Seek duration. Please use a valid timestamp. Example: **1:30**!"
 
