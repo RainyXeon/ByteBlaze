@@ -1,13 +1,10 @@
-##### InteractionCreate Event #####
+### InteractionCreate Event!
 
-# On settings/config.js in DEV_ID
-dev_only: Bot đang được bảo trì. (Vui lòng quay lại sau)
+# No permission!
+no_perms: "`⚠️` | tôi không có **%{perm}** quyền thực hiện lệnh này!"
 
-# No permission to use command (this for bot!)
-no_perms: "Tôi không có quyền để thực hiện lệnh! `%{perm}`"
+# Getting  error!
+error: "`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại sau!"
 
-# Bot getting error something!
-error: Đã xảy ra lỗi.
-
-# You are not the client owner of this bot!
-owner_only: Bạn không phải là chủ sở hữu của bot!
+# Client owner!
+owner_only: "`⚠️` | bạn không phải là của tôi **Người sở hữu**!"
