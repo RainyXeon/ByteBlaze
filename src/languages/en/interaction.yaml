@@ -1,8 +1,5 @@
 ### InteractionCreate Event!
 
-# On settings/config.js in DEV_ID
-dev_only: "`⚠️` | I am under maintenance. Please try again later!"
-
 # No permission to use command (this for bot!)
 no_perms: "`⚠️` | I don't have **%{perm}** permission to execute this command!"
 
