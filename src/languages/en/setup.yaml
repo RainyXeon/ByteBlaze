@@ -1,5 +1,5 @@
 ### Setup command!
-setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Don't delete any messages sent by me for the music system to work properly!```"
+setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Do not delete any messages sent by me for the music system to work properly!```"
 setup_deleted: "**`⚙️` | Deleted Music System!**"
 setup_topic: "⏹ **Stop**\n⏮️ **Previous**\n⏯ **Pause/Resume**\n⏭️ **Skip**\n🔁 **Loop/Unloop**"
 setup_enable: "`⚠️` | Music System already exists!"
