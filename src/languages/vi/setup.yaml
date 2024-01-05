@@ -19,5 +19,7 @@ setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
 setup_content_empty: "Tham gia kênh thoại và phát các bài hát bằng tên hoặc URL tại đây!"
 
 ### Status command!
+status_create: "**`📊` | Kênh trạng thái đã tạo**!"
+status_delete: "**`📊` | Kênh trạng thái đã xóa**!"
 status_enable: "`⚠️` | Kênh trạng thái đã tồn tại!"
 status_null: "`⚠️` | Không tìm thấy kênh trạng thái!"
