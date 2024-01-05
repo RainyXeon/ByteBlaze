@@ -1,6 +1,6 @@
 ### Help command!
 welcome: "**Chào mừng đến với %{bot}**"
-intro1: "・**%{bot}** là bot âm nhạc nâng cao với nhiều tính năng phong phú!"
+intro1: "・**%{bot}** là bot âm nhạc tiên tiến với nhiều tính năng phong phú!"
 intro2: "・Được cung cấp bởi **RainyXeon**"
 intro3: "・Hợp tác với **1st Services**"
 prefix: "・**Tiền tố Bot:** %{prefix}"
