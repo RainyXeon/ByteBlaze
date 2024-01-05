@@ -63,7 +63,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "utilities", "arg_error", {
-                text: plans.join("**, **"),
+                text: "**daily**, **weekly**, **monthly**, **yearly**!",
               })}`
             )
             .setColor(client.color),
