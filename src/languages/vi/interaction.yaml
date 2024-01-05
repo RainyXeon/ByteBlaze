@@ -1,7 +1,7 @@
 ### InteractionCreate Event!
 
 # No permission!
-no_perms: "`⚠️` | tôi không có **%{perm}** quyền thực hiện lệnh này!"
+no_perms: "`⚠️` | Tôi không có quyền **%{perm}** để thực thi lệnh này!"
 
 # Getting  error!
 error: "`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại sau!"
