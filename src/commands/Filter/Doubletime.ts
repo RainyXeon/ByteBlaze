@@ -38,7 +38,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "doubletime",
+          name: "Doubletime",
         })}`
       )
       .setColor(client.color);
