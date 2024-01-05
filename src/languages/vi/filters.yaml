@@ -1,5 +1,5 @@
 ### All filter command!
-filter_on: "`✅` | %{name} bộ lọc hiện đang **Đã bật**!"
+filter_on: "`✅` | Bộ lọc %{name} hiện **Đã bật**!"
 filter_number: "`⚠️` | Vui lòng cung cấp số hợp lệ!"
 filter_greater: "`⚠️` | Số phải lớn hơn **0**!"
 filter_less: "`⚠️` | Số phải nhỏ hơn **10**!"
