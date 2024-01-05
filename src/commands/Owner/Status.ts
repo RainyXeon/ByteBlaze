@@ -93,7 +93,7 @@ export default class implements Command {
 
       const embed_none = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "setup", "status_delete", {
+          `${client.i18n.get(handler.language, "setup", "status_null", {
             channel: String(undefined),
           })}`
         )
@@ -115,7 +115,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "setup", "status_null", {
+          `${client.i18n.get(handler.language, "setup", "status_delete", {
             channel: fetchedTextChannel!.name,
           })}`
         )
