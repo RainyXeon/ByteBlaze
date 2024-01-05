@@ -55,7 +55,7 @@ export default class implements Command {
     const daycored = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "daycore",
+          name: "Daycore",
         })}`
       )
       .setColor(client.color);

@@ -1,27 +1,24 @@
-##### Language command #####
-lang_perm: "Bạn cần quyền `MANAGE_GUILD` để sử dụng lệnh này."
-lang_arg: "Vui lòng chỉ định một ngôn ngữ!"
-provide_lang: "**Vui lòng cung cấp ngôn ngữ:** \n`%{languages}`"
-lang_set: "`🔧` | **Ngôn ngữ đã được đặt thành:** `%{language}`"
-lang_change: "`🔧` | **Ngôn ngữ đã được thay đổi thành:** `%{language}`"
-lang_error: "Đã xảy ra sự cố, vui lòng thử lại sau."
+### Language command!
+lang_set: "`📙` | Ngôn ngữ đã được đặt thành **%{language}**!"
+lang_change: "`📙` | Ngôn ngữ đã được thay đổi thành **%{language}**!"
+lang_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
+provide_lang: "`⚠️` | Ngôn ngữ không hợp lệ. Vui lòng sử dụng %{languages}!"
 
-##### Restart command #####
-restart_msg: "`🤖` | *Hệ thống đã:* `Tắt nguồn`"
+### Shutdown command!
+restart_msg: "`🔌` | **Đang Tắt**..."
 
-##### PLayer control command #####
-control_perm: "Bạn cần quyền `MANAGE_GUILD` để sử dụng lệnh này."
-control_set: "`🔧` | *Chế độ điều khiển trình phát đã được đặt thành:* `%{toggle}`"
-control_change: "`🔧` | *Chế độ điều khiển trình phát đã được thay đổi thành:* `%{toggle}`"
-control_err: "Đã xảy ra lỗi khi đặt chế độ điều khiển trình phát!"
+### Control command!
+control_set: "`🔧` | Quyền kiểm soát đã được đặt thành **%{toggle}**!"
+control_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
 
-##### Help command #####
-help_desc: "Vui lòng chọn một danh mục!"
-help_category_desc: "Vui lòng chon danh mục %{category} để thấy tất cả các lệnh."
-help_category: "%{category}"
-help_timeout: "```Menu trợ giúp đã hết hiệu lực, vui lòng dùng lệnh %{prefix}help để xem lại lần nữa.```"
+### Help command!
+help_desc: "Nhấp vào đây!"
+help_timeout: "`⏱️` | Menu trợ giúp đã hết thời gian chờ. Vui lòng sử dụng lại **%{prefix}help**!"
 
-arg_error: "Vui lòng cho một `%{text}`!"
-
-page_title: "Trực tuyến: 🟢 / Ngoại tuyến: 🔴"
-page_footer: "Trang • %{page}/%{pages}"
+### Prefix command!
+prefix_set: "`㊙️` | Tiền tố đã được đặt thành **%{prefix}**"
+prefix_change: "`㊙️` | Tiền tố đã được đổi thành **%{prefix}**"
+prefix_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
+prefix_arg: "`⚠️` | Vui lòng cung cấp Tiền tố hợp lệ!"
+prefix_length: "`⚠️` | Tiền tố không được dài hơn **10 ký tự**!"
+arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{text}"

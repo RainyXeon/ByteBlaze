@@ -1,13 +1,10 @@
 ### InteractionCreate Event!
 
-# On settings/config.js in DEV_ID
-dev_only: "`⚠️` | I am under maintenance. Please try again later!"
+# No permission!
+no_perms: "`⚠️` | I do not have **%{perm}** permission to execute this command!"
 
-# No permission to use command (this for bot!)
-no_perms: "`⚠️` | I don't have **%{perm}** permission to execute this command!"
-
-# Bot getting error something!
+# Getting  error!
 error: "`⚠️` | Something went wrong. Please try again later!"
 
-# You are not the client owner of this bot!
-owner_only: "`⚠️` | You're not my owner!"
+# Client owner!
+owner_only: "`⚠️` | You are not my **Owner**!"

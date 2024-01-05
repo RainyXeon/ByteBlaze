@@ -1,5 +1,5 @@
 ### Setup command!
-setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Don't delete any messages sent by me for the music system to work properly!```"
+setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Do not delete any messages sent by me for the Music System to work properly!```"
 setup_deleted: "**`⚙️` | Deleted Music System!**"
 setup_topic: "⏹ **Stop**\n⏮️ **Previous**\n⏯ **Pause/Resume**\n⏭️ **Skip**\n🔁 **Loop/Unloop**"
 setup_enable: "`⚠️` | Music System already exists!"
@@ -19,5 +19,7 @@ setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
 setup_content_empty: "Join a voice channel and play songs using name or URL in here!"
 
 ### Status command!
-status_enable: "`⚠️` | Status channel already exists!"
-status_null: "`⚠️` | Status channel not found!"
+status_create: "**`📊` | Created Status Channel!**"
+status_delete: "**`📊` | Deleted Status Channel!**"
+status_enable: "`⚠️` | Status Channel already exists!"
+status_null: "`⚠️` | Status Channel not found!"

@@ -1,40 +1,33 @@
 ### All filter command!
-filter_loading: "`⏳` | Turning on **%{name}** filter..."
 filter_on: "`✅` | %{name} filter is now **Enabled**!"
 filter_number: "`⚠️` | Please provide a valid number!"
 filter_greater: "`⚠️` | Number must be greater than **0**!"
 filter_less: "`⚠️` | Number must be lesser than **10**!"
 
 ### Bassboost command!
-bassboost_loading: "`⏳` | Setting Bassboost to **%{amount}dB**..."
 bassboost_set: "`🎚️` | Bassboost has been set to **%{amount}dB**!"
 bassboost_limit: "`⚠️` | Please use a number between **-10** and **10**!"
 
 ### Equalizer command!
 eq_author: "Equalizer"
 eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
-eq_desc: "`🎚️` | There are **14** Bands that can be set from **-10** to **10**. It is not mandatory to set all of them!"
+eq_desc: "`🎚️` | There are **14 Bands** that can be set from **-10** to **10**. It is not mandatory to set all of them!"
 eq_field_title: "Example:"
 eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
 eq_footer: "Reset Equalizer • %{prefix}eq reset"
-eq_loading: "`⏳` | Setting Equalizer to **%{bands}**..."
 eq_on: "`🎚️` | Equalizer has been set to **%{bands}**!"
 eq_number: "`⚠️` | Please provide a valid number!"
 eq_greater: "`⚠️` | Number must be greater than **-10**!"
 eq_than: "`⚠️` | Number must be lesser than **10**!"
 
 ### Pitch command!
-pitch_loading: "`⏳` | Setting Pitch to **%{amount}**..."
 pitch_on: "`🎚️` | Pitch has been set to **%{amount}**!"
 
 ### Rate command!
-rate_loading: "`⏳` | Setting Rate to **%{amount}x**..."
 rate_on: "`🎚️` | Rate has been set to **%{amount}x**!"
 
 ### Speed command!
-speed_loading: "`⏳` | Setting Speed to **%{amount}x**..."
 speed_on: "`🎚️` | Speed has been set to **%{amount}x**!"
 
 ### Reset command!
-reset_loading: "`⏳` | **Resetting** filter..."
 reset_on: "`❌` | Filter has been **Reset**!"

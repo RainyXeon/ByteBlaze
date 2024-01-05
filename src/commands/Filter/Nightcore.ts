@@ -39,7 +39,7 @@ export default class implements Command {
     const nightcored = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "nightcore",
+          name: "Nightcore",
         })}`
       )
       .setColor(client.color);

@@ -50,7 +50,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "utilities", "arg_error", {
-                text: "(create or delete)",
+                text: "**create** or **delete**!",
               })}`
             )
             .setColor(client.color),

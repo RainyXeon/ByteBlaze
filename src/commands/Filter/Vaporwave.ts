@@ -54,7 +54,7 @@ export default class implements Command {
     const vaporwaved = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "vaporwave",
+          name: "Vaporwave",
         })}`
       )
       .setColor(client.color);

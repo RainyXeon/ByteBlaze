@@ -43,7 +43,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "vibrate",
+          name: "Vibrate",
         })}`
       )
       .setColor(client.color);

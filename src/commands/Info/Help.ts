@@ -120,7 +120,7 @@ export default class implements Command {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setFooter({
-        text: `© ${handler.guild!.members.me!.displayName} | Total Commands: ${
+        text: `${handler.guild!.members.me!.displayName} | Total Commands: ${
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
@@ -192,7 +192,7 @@ export default class implements Command {
               inline: false,
             })
             .setFooter({
-              text: `© ${
+              text: `${
                 handler.guild!.members.me!.displayName
               } | Total Commands: ${client.commands.size}`,
               iconURL: client.user!.displayAvatarURL(),

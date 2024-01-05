@@ -51,7 +51,7 @@ export default class implements Command {
     const bassed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "bass",
+          name: "Bass",
         })}`
       )
       .setColor(client.color);

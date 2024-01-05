@@ -37,7 +37,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "utilities", "arg_error", {
-                text: "@mention",
+                text: "**@mention**!",
               })}`
             )
             .setColor(client.color),
@@ -54,7 +54,7 @@ export default class implements Command {
         )
         .setColor(client.color)
         .setFooter({
-          text: `© ${handler.guild!.members.me!.displayName}`,
+          text: `${handler.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
       await handler.editReply({ embeds: [embed] });
@@ -66,7 +66,7 @@ export default class implements Command {
         )
         .setColor(client.color)
         .setFooter({
-          text: `© ${handler.guild!.members.me!.displayName}`,
+          text: `${handler.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
       await handler.editReply({ embeds: [embed] });

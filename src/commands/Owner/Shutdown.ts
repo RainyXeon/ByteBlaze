@@ -25,7 +25,7 @@ export default class implements Command {
       )
       .setColor(client.color)
       .setFooter({
-        text: `© ${handler.guild!.members.me!.displayName}`,
+        text: `${handler.guild!.members.me!.displayName}`,
         iconURL: client.user!.displayAvatarURL(),
       });
 

@@ -28,7 +28,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "utilities", "arg_error", {
-                text: "(create or delete)",
+                text: "**create** or **delete**!",
               })}`
             )
             .setColor(client.color),
@@ -80,7 +80,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "setup", "setup_msg", {
+          `${client.i18n.get(handler.language, "setup", "status_create", {
             channel: textChannel.name,
           })}`
         )
@@ -93,7 +93,7 @@ export default class implements Command {
 
       const embed_none = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "setup", "setup_deleted", {
+          `${client.i18n.get(handler.language, "setup", "status_null", {
             channel: String(undefined),
           })}`
         )
@@ -115,7 +115,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "setup", "setup_deleted", {
+          `${client.i18n.get(handler.language, "setup", "status_delete", {
             channel: fetchedTextChannel!.name,
           })}`
         )

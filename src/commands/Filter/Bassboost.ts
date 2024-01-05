@@ -75,7 +75,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(handler.language, "filters", "filter_on", {
-            name: "bassboost",
+            name: "Bassboost",
           })}`
         )
         .setColor(client.color);
