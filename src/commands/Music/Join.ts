@@ -42,7 +42,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "music", "join_msg", {
-          channel: channel.name,
+          channel: String(channel),
         })}`
       )
       .setColor(client.color);

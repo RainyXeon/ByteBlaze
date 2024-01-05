@@ -1,9 +1,4 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  EmbedBuilder,
-} from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
@@ -35,17 +30,7 @@ export default class implements Command {
       )
       .setTimestamp()
       .setColor(client.color);
-    const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
-      new ButtonBuilder()
-        .setLabel("Invite Me")
-        .setStyle(ButtonStyle.Link)
-        .setURL(
-          `https://discord.com/api/oauth2/authorize?client_id=${
-            client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
-    );
 
-    await handler.editReply({ embeds: [ping], components: [row3] });
+    await handler.editReply({ embeds: [ping] });
   }
 }

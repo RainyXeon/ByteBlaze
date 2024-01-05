@@ -67,14 +67,6 @@ export default class implements Command {
       .setTitle(info.name)
       .addFields([
         {
-          name: `${client.i18n.get(handler.language, "playlist", "info_des")}`,
-          value: `${
-            info.description === null || info.description === "null"
-              ? client.i18n.get(handler.language, "playlist", "no_des")
-              : info.description
-          }`,
-        },
-        {
           name: `${client.i18n.get(
             handler.language,
             "playlist",
@@ -87,12 +79,24 @@ export default class implements Command {
           value: `${info.id}`,
         },
         {
+          name: `${client.i18n.get(handler.language, "playlist", "info_des")}`,
+          value: `${
+            info.description === null || info.description === "null"
+              ? client.i18n.get(handler.language, "playlist", "no_des")
+              : info.description
+          }`,
+        },
+        {
           name: `${client.i18n.get(
             handler.language,
             "playlist",
-            "info_total"
+            "info_private"
           )}`,
-          value: `${info.tracks!.length}`,
+          value: `${
+            info.private
+              ? client.i18n.get(handler.language, "playlist", "public")
+              : client.i18n.get(handler.language, "playlist", "private")
+          }`,
         },
         {
           name: `${client.i18n.get(
@@ -106,13 +110,9 @@ export default class implements Command {
           name: `${client.i18n.get(
             handler.language,
             "playlist",
-            "info_private"
+            "info_total"
           )}`,
-          value: `${
-            info.private
-              ? client.i18n.get(handler.language, "playlist", "public")
-              : client.i18n.get(handler.language, "playlist", "private")
-          }`,
+          value: `${info.tracks!.length}`,
         },
       ])
       .setColor(client.color);

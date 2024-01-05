@@ -36,7 +36,7 @@ export default class implements Command {
 
     const value = handler.args[0];
 
-    if (value && !isNaN(+value))
+    if (value && isNaN(+value))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()

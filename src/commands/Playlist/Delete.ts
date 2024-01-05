@@ -1,7 +1,6 @@
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,
-  Message,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
@@ -31,6 +30,8 @@ export default class implements Command {
   ];
 
   public async execute(client: Manager, handler: CommandHandler) {
+    await handler.deferReply();
+
     const value = handler.args[0] ? handler.args[0] : null;
     if (value == null)
       return handler.editReply({

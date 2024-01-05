@@ -1,4 +1,10 @@
-import { EmbedBuilder, ChannelType, version, Message } from "discord.js";
+import {
+  EmbedBuilder,
+  ChannelType,
+  version,
+  Message,
+  ApplicationCommandOptionType,
+} from "discord.js";
 import ms from "pretty-ms";
 import os from "os";
 import { stripIndents } from "common-tags";
@@ -17,7 +23,24 @@ export default class implements Command {
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
-  public options = [];
+  public options = [
+    {
+      name: "type",
+      description: "Type of channel",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+      choices: [
+        {
+          name: "Create",
+          value: "create",
+        },
+        {
+          name: "Delete",
+          value: "delete",
+        },
+      ],
+    },
+  ];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

@@ -34,7 +34,7 @@ export default class implements Command {
     await handler.deferReply();
 
     const value = handler.args[0];
-    if (value && !isNaN(+value))
+    if (value && isNaN(+value))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
@@ -54,9 +54,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "volume_usage", {
-                volume: String(player.volume),
-              })}`
+              `${client.i18n.get(handler.language, "music", "number_invalid")}`
             )
             .setColor(client.color),
         ],

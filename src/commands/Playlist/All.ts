@@ -124,7 +124,7 @@ export default class implements Command {
         return (playlists.length = 0);
       }
     } else {
-      if (!isNaN(+number))
+      if (isNaN(+number))
         return handler.editReply({
           embeds: [
             new EmbedBuilder()

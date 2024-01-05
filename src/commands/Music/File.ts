@@ -14,7 +14,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 
 // Main code
 export default class implements Command {
-  public name = ["mp3"];
+  public name = ["file"];
   public description = "Play the music file for the bot";
   public category = "Music";
   public accessableby = Accessableby.Member;
@@ -26,7 +26,7 @@ export default class implements Command {
   public sameVoiceCheck = false;
   public options = [
     {
-      name: "file",
+      name: "type",
       description: "The music file to play",
       type: ApplicationCommandOptionType.Attachment,
     },

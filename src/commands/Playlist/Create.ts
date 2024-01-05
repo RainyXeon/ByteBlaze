@@ -95,7 +95,10 @@ export default class implements Command {
               `${client.i18n.get(
                 handler.language,
                 "playlist",
-                "create_limit_playlist"
+                "create_limit_playlist",
+                {
+                  limit: String(client.config.bot.LIMIT_PLAYLIST),
+                }
               )}`
             )
             .setColor(client.color),

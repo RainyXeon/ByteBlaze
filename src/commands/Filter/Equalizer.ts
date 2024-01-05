@@ -92,9 +92,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "filters", "eq_number", {
-                  num: String(i + 1),
-                })}`
+                `${client.i18n.get(handler.language, "filters", "eq_number")}`
               )
               .setColor(client.color),
           ],
@@ -104,9 +102,18 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "filters", "eq_than", {
-                  num: String(i + 1),
-                })}`
+                `${client.i18n.get(handler.language, "filters", "eq_than")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
+      if (Number(bands[i]) < -10)
+        return handler.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(handler.language, "filters", "eq_greater")}`
               )
               .setColor(client.color),
           ],

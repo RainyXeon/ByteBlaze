@@ -35,7 +35,7 @@ export default class implements Command {
     ) as KazagumoPlayer;
 
     const tracks = handler.args[0];
-    if (tracks && !isNaN(+tracks))
+    if (tracks && isNaN(+tracks))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
