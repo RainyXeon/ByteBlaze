@@ -51,7 +51,7 @@ export default class implements Command {
     const softed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "soft",
+          name: "Soft",
         })}`
       )
       .setColor(client.color);
