@@ -27,7 +27,7 @@ export default class implements Command {
     const earrapped = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "earrape",
+          name: "Earrape",
         })}`
       )
       .setColor(client.color);
