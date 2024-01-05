@@ -23,7 +23,7 @@ volup_msg: "`🔊` | Changed Volume to **%{volume}%**"
 voldown_msg: "`🔉` | Changed Volume to **%{volume}%**"
 queue_author: "💾 %{guild}"
 queue_description: "`📀` | Currently Playing:\n**[%{track}](%{track_url})** `[%{duration}]` • %{requester}\n\n`💤` | Rest of Queue:**%{list_song}**"
-queue_footer: "Page • %{page}/%{pages} | Song • %{queue_lang} | Total Duration • %{total_duration}"
+queue_footer: "Page • %{page}/%{pages} | Songs • %{queue_lang} | Total Duration • %{total_duration}"
 clear_msg: "`🗑️` | Queue has been **Cleared**!"
 
 ### QueueEnd event!
