@@ -52,7 +52,7 @@ export default class implements Command {
     const popped = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "pop",
+          name: "Pop",
         })}`
       )
       .setColor(client.color);
