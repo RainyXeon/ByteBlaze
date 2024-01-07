@@ -24,8 +24,14 @@ export default class implements Command {
     const player = client.manager.players.get(
       handler.guild!.id
     ) as KazagumoPlayer;
+    const previousIndex = player.queue.previous.length - 1;
+    const previousTrack = player.queue.previous[previousIndex];
 
-    if (player.queue.previous.length == 0)
+    if (
+      player.queue.previous.length == 0 ||
+      player.queue.previous[0].uri == player.queue.current?.uri ||
+      previousIndex < -1
+    )
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
@@ -40,8 +46,11 @@ export default class implements Command {
         ],
       });
 
-    await player.queue.unshift(player.queue.previous[0]);
-    await player.skip();
+    player.queue.unshift(previousTrack);
+    player.skip();
+    player.queue.previous.slice(previousIndex, 1);
+
+    console.log();
 
     const embed = new EmbedBuilder()
       .setDescription(

@@ -121,7 +121,7 @@ export default class implements Command {
       player.queue.add(tracks[0]);
     else if (player.playing && result.type !== "SEARCH")
       for (let track of tracks) player.queue.add(track);
-    else player.play(tracks[0]);
+    else player.queue.add(tracks[0]);
 
     const TotalDuration = new StartQueueDuration().parse(tracks);
 

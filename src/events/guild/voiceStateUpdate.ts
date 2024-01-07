@@ -72,6 +72,14 @@ export default class {
       if (oldState.channelId === newState.channelId) return;
       if (newState.guild.members.me!.voice.channel.members.size > 2) return;
       // Resume player
+
+      const leaveTimeout = client.leaveDelay.get(newState.guild.id);
+
+      if (leaveTimeout) {
+        clearTimeout(leaveTimeout);
+        client.leaveDelay.delete(newState.guild.id);
+      }
+
       player.paused == false ? true : player.pause(false);
       if (player.paused == false && player.shoukaku.track !== null) {
         const msg = await leaveEmbed.send({
@@ -120,32 +128,33 @@ export default class {
         }
 
         // Delay leave timeout
-        await delay(client.config.lavalink.LEAVE_TIMEOUT);
-
-        const vcMembers =
-          oldState.guild.members.me!.voice.channel?.members.size;
-        if (!vcMembers || vcMembers === 1) {
-          const newPlayer = client.manager?.players.get(newState.guild.id);
-          newPlayer ? player.destroy() : true;
-          const TimeoutEmbed = new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "player", "player_end", {
-                leave: vcRoom,
-              })}`
-            )
-            .setColor(client.color);
-          try {
-            if (leaveEmbed) {
-              const msg = await leaveEmbed.send({ embeds: [TimeoutEmbed] });
-              setTimeout(
-                async () => msg.delete(),
-                client.config.bot.DELETE_MSG_TIMEOUT
-              );
+        let leaveDelayTimeout = setTimeout(async () => {
+          client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
+          const vcMembers =
+            oldState.guild.members.me!.voice.channel?.members.size;
+          if (!vcMembers || vcMembers === 1) {
+            const newPlayer = client.manager?.players.get(newState.guild.id);
+            newPlayer ? player.destroy() : true;
+            const TimeoutEmbed = new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "player", "player_end", {
+                  leave: vcRoom,
+                })}`
+              )
+              .setColor(client.color);
+            try {
+              if (leaveEmbed) {
+                const msg = await leaveEmbed.send({ embeds: [TimeoutEmbed] });
+                setTimeout(
+                  async () => msg.delete(),
+                  client.config.bot.DELETE_MSG_TIMEOUT
+                );
+              }
+            } catch (error) {
+              client.logger.error(error);
             }
-          } catch (error) {
-            client.logger.error(error);
           }
-        }
+        }, client.config.lavalink.LEAVE_TIMEOUT);
       }
     }
   }

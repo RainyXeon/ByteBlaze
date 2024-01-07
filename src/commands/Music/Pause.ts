@@ -25,17 +25,12 @@ export default class implements Command {
     ) as KazagumoPlayer;
 
     await player.pause(true);
-    const uni = player.paused
-      ? `${client.i18n.get(handler.language, "music", "pause_switch_pause")}`
-      : `${client.i18n.get(handler.language, "music", "pause_switch_resume")}`;
 
     client.emit("playerPause", player);
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "pause_msg", {
-          pause: uni,
-        })}`
+        `${client.i18n.get(handler.language, "music", "pause_msg")}`
       )
       .setColor(client.color);
 

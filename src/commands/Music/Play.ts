@@ -101,7 +101,7 @@ export default class implements Command {
       player.queue.add(tracks[0]);
     else if (player.playing && result.type !== "SEARCH")
       for (let track of tracks) player.queue.add(track);
-    else player.play(tracks[0]);
+    else player.queue.add(tracks[0]);
 
     const TotalDuration = new StartQueueDuration().parse(tracks);
 
@@ -120,6 +120,7 @@ export default class implements Command {
         .setColor(client.color);
 
       handler.editReply({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     } else if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(

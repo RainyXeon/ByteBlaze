@@ -78,6 +78,7 @@ export class Manager extends Client {
   nplayingMsg: Collection<string, Message>;
   aliases: Collection<string, string>;
   plButton: Collection<string, PlayerButton>;
+  leaveDelay: Collection<string, NodeJS.Timeout>;
   websocket?: WebSocket;
   wsMessage?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
@@ -148,6 +149,7 @@ export class Manager extends Client {
     this.aliases = new Collection();
     this.nplayingMsg = new Collection();
     this.plButton = new Collection();
+    this.leaveDelay = new Collection();
     this.isDatabaseConnected = false;
 
     // Sharing
