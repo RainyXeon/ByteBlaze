@@ -74,7 +74,7 @@ export default class {
       // Resume player
 
       const leaveTimeout = client.leaveDelay.get(newState.guild.id);
-
+      
       if (leaveTimeout) {
         clearTimeout(leaveTimeout);
         client.leaveDelay.delete(newState.guild.id);
@@ -129,7 +129,7 @@ export default class {
 
         // Delay leave timeout
         let leaveDelayTimeout = setTimeout(async () => {
-          client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
+          client.leaveDelay.set(newState.guild.id, leaveDelayTimeout)
           const vcMembers =
             oldState.guild.members.me!.voice.channel?.members.size;
           if (!vcMembers || vcMembers === 1) {
@@ -155,6 +155,8 @@ export default class {
             }
           }
         }, client.config.lavalink.LEAVE_TIMEOUT);
+
+
       }
     }
   }

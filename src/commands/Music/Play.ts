@@ -147,6 +147,7 @@ export default class implements Command {
       );
 
       handler.editReply({ content: " ", embeds: [embed] });
+      if (!player.playing) player.play();
     }
   }
 
