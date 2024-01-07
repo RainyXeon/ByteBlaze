@@ -1,4 +1,3 @@
-import delay from "delay";
 import {
   PermissionsBitField,
   EmbedBuilder,
@@ -74,7 +73,6 @@ export default class {
       // Resume player
 
       const leaveTimeout = client.leaveDelay.get(newState.guild.id);
-      
       if (leaveTimeout) {
         clearTimeout(leaveTimeout);
         client.leaveDelay.delete(newState.guild.id);
@@ -129,7 +127,6 @@ export default class {
 
         // Delay leave timeout
         let leaveDelayTimeout = setTimeout(async () => {
-          client.leaveDelay.set(newState.guild.id, leaveDelayTimeout)
           const vcMembers =
             oldState.guild.members.me!.voice.channel?.members.size;
           if (!vcMembers || vcMembers === 1) {
@@ -144,9 +141,9 @@ export default class {
               .setColor(client.color);
             try {
               if (leaveEmbed) {
-                const msg = await leaveEmbed.send({ embeds: [TimeoutEmbed] });
+                const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
                 setTimeout(
-                  async () => msg.delete(),
+                  async () => msg ? msg.delete() : undefined,
                   client.config.bot.DELETE_MSG_TIMEOUT
                 );
               }
@@ -155,8 +152,7 @@ export default class {
             }
           }
         }, client.config.lavalink.LEAVE_TIMEOUT);
-
-
+        client.leaveDelay.set(newState.guild.id, leaveDelayTimeout)
       }
     }
   }
