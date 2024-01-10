@@ -38,7 +38,7 @@ export default class {
 
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
-    
+
     client.emit("playerStart", player);
     client.emit("playerQueue", player);
 

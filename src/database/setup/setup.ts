@@ -12,21 +12,21 @@ export class SongRequesterCleanSetup {
   }
 
   async execute() {
-    const guilds = await this.client.db.setup.all()
+    const guilds = await this.client.db.setup.all();
 
     for (let data of guilds) {
       const extractData = data.value;
-      const player = this.client.manager.players.get(extractData.guild)
-      if (!extractData.enable) return
-      if (player) return
-      await this.restore(extractData)
+      const player = this.client.manager.players.get(extractData.guild);
+      if (!extractData.enable) return;
+      if (player) return;
+      await this.restore(extractData);
     }
   }
 
   async restore(setupData: Setup) {
-    let channel = await this.client.channels.cache.get(
+    let channel = (await this.client.channels.cache.get(
       setupData.channel
-    ) as TextChannel;
+    )) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(setupData.playmsg);
@@ -70,5 +70,5 @@ export class SongRequesterCleanSetup {
         components: [this.client.diSwitch],
       })
       .catch((e) => {});
-  };
+  }
 }

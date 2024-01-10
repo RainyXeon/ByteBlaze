@@ -32,9 +32,7 @@ export default class implements Command {
         ],
       });
 
-    let player = client.manager.players.get(
-      handler.guild!.id
-    );
+    let player = client.manager.players.get(handler.guild!.id);
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -77,6 +75,21 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "music", "join_already")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return false;
+    } else if (
+      handler.member!.voice.channel === handler.guild!.members.me!.voice.channel
+    ) {
+      handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "music", "join_already", {
+                channel: String(handler.member!.voice.channel),
+              })}`
             )
             .setColor(client.color),
         ],

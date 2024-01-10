@@ -23,7 +23,10 @@ export default class {
 
     let guildModel = await client.db.language.get(`${newState.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${newState.guild.id}`, client.config.bot.LANGUAGE);
+      guildModel = await client.db.language.set(
+        `${newState.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
     }
     const language = guildModel;
 
@@ -141,9 +144,11 @@ export default class {
               .setColor(client.color);
             try {
               if (leaveEmbed) {
-                const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
+                const msg = newPlayer
+                  ? await leaveEmbed.send({ embeds: [TimeoutEmbed] })
+                  : undefined;
                 setTimeout(
-                  async () => msg ? msg.delete() : undefined,
+                  async () => (msg ? msg.delete() : undefined),
                   client.config.bot.DELETE_MSG_TIMEOUT
                 );
               }
@@ -152,7 +157,7 @@ export default class {
             }
           }
         }, client.config.lavalink.LEAVE_TIMEOUT);
-        client.leaveDelay.set(newState.guild.id, leaveDelayTimeout)
+        client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
       }
     }
   }
