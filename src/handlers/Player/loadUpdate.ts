@@ -86,16 +86,16 @@ export class playerLoadUpdate {
           })}`,
         }); //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration
 
-
-      const queueString = `${client.i18n.get(language, "setup", "setup_content")}\n${
-        Str == ""
-          ? " "
-          : "\n" + Str
-      }`
+      const queueString = `${client.i18n.get(
+        language,
+        "setup",
+        "setup_content"
+      )}\n${Str == "" ? " " : "\n" + Str}`;
 
       return await playMsg
         .edit({
-          content: player.queue.current && player.queue.size == 0 ? " ": queueString,
+          content:
+            player.queue.current && player.queue.size == 0 ? " " : queueString,
           embeds: [embed],
           components: [client.enSwitchMod],
         })

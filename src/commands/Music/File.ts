@@ -39,15 +39,16 @@ export default class implements Command {
 
     const file: Attachment = handler.attactments[0];
 
-    if (!file) return handler.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "music", "file_notfound")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    if (!file)
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "music", "file_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     const msg = await handler.editReply({
       embeds: [

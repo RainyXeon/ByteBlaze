@@ -6,7 +6,7 @@ import { SongRequesterCleanSetup } from "./setup/setup.js";
 
 export class Handler {
   constructor(client: Manager) {
-    new SongRequesterCleanSetup(client)
+    new SongRequesterCleanSetup(client);
     new ClientDataService(client);
     new AutoReconnectLavalinkService(client);
     new PremiumScheduleSetup(client);

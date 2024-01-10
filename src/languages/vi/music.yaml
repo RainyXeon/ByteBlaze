@@ -18,6 +18,7 @@ forward_beyond: "`⚠️` | Bài hát sắp kết thúc. Bạn không thể Chuy
 ### Join command!
 join_msg: "`🔊` | Đã tham gia %{channel}"
 join_voice: "`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!"
+join_already: "`⚠️` | Bot đã tham gia kênh %{channel} rồi"
 
 ### Stop command!
 stop_msg: "`⏹️` | Đã dừng **Người chơi**!"

@@ -18,6 +18,7 @@ forward_beyond: "`⚠️` | Song is about to end. You can not Forward beyond it!
 ### Join command!
 join_msg: "`🔊` | Joined %{channel}"
 join_voice: "`⚠️` | You need to be in a voice channel to use this command!"
+join_already: "`⚠️` | Already joined %{channel}"
 
 ### Stop command!
 stop_msg: "`⏹️` | Stopped the **Player**!"

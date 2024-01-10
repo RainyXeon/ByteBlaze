@@ -102,7 +102,9 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = await message.guild.channels.cache.get(database!.channel) as TextChannel;
+    let channel = (await message.guild.channels.cache.get(
+      database!.channel
+    )) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -119,9 +121,11 @@ export class playerLoadContent {
 
     if (message.author.id === client.user!.id) {
       await delay(client.config.bot.DELETE_MSG_TIMEOUT);
-      const checkFromChannel = await client.channels.fetch(channel.id) as TextChannel
-      const checkAbility = await checkFromChannel.messages.fetch(message.id)
-      checkAbility ? checkAbility.delete() : true
+      const checkFromChannel = (await client.channels.fetch(
+        channel.id
+      )) as TextChannel;
+      const checkAbility = await checkFromChannel.messages.fetch(message.id);
+      checkAbility ? checkAbility.delete() : true;
     }
 
     if (message.author.bot) return;
@@ -129,25 +133,26 @@ export class playerLoadContent {
     const song = message.cleanContent;
     if (!song) return;
 
-    
     if (message.author.id !== client.user!.id) {
-      delay(1000)
-      const checkFromChannel = await client.channels.fetch(channel.id) as TextChannel
-      const checkAbility = await checkFromChannel.messages.fetch(message.id)
-      checkAbility ? checkAbility.delete() : true
+      delay(1000);
+      const checkFromChannel = (await client.channels.fetch(
+        channel.id
+      )) as TextChannel;
+      const checkAbility = await checkFromChannel.messages.fetch(message.id);
+      checkAbility ? checkAbility.delete() : true;
     }
 
     let voiceChannel = await message.member!.voice.channel;
     if (!voiceChannel)
       return message.channel.send({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_voice")}`
-              )
-              .setColor(client.color),
-          ],
-        })
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
