@@ -9,7 +9,6 @@ restart_msg: "`🔌` | **Shutting Down**..."
 
 ### Control command!
 control_set: "`🔧` | Control has been set to **%{toggle}**!"
-control_perm: "`⚠️` | You do not have permission to use this command!"
 
 ### Help command!
 help_desc: "Click Me!"
@@ -18,7 +17,6 @@ help_timeout: "`⏱️` | Help Menu timed out. Please use **%{prefix}help** agai
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
 prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
-prefix_perm: "`⚠️` | You do not have permission to use this command!"
 prefix_arg: "`⚠️` | Please provide a valid Prefix!"
 prefix_length: "`⚠️` | Prefix can not be longer than **10 Characters**!"
 arg_error: "`⚠️` | Invalid argument. Please use %{text}"
