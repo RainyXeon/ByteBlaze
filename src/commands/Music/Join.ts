@@ -74,7 +74,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "join_already")}`
+              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
             )
             .setColor(client.color),
         ],
