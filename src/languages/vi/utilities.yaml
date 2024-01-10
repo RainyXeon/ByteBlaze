@@ -9,7 +9,6 @@ restart_msg: "`🔌` | **Đang Tắt**..."
 
 ### Control command!
 control_set: "`🔧` | Quyền kiểm soát đã được đặt thành **%{toggle}**!"
-control_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
 
 ### Help command!
 help_desc: "Nhấp vào đây!"
@@ -18,7 +17,6 @@ help_timeout: "`⏱️` | Menu trợ giúp đã hết thời gian chờ. Vui lò
 ### Prefix command!
 prefix_set: "`㊙️` | Tiền tố đã được đặt thành **%{prefix}**"
 prefix_change: "`㊙️` | Tiền tố đã được đổi thành **%{prefix}**"
-prefix_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
 prefix_arg: "`⚠️` | Vui lòng cung cấp Tiền tố hợp lệ!"
 prefix_length: "`⚠️` | Tiền tố không được dài hơn **10 ký tự**!"
 arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{text}"
