@@ -27,6 +27,7 @@ loop_current: "`🔁` | Vòng lặp hiện tại **Bài hát**!"
 loop_all: "`🔁` | Đang lặp **Hàng đợi**!"
 unloop_all: "`❌` | Bây giờ là vòng lặp **Đã tắt**!"
 loop_invalid: "`⚠️` | Chế độ vòng lặp không hợp lệ. Vui lòng sử dụng %{mode}!"
+loop_already: "`🔁` | Đã ở chế độ: **%{mode}**"
 
 ### Lyrics command!
 lyrics_title: "📜 %{song}"
@@ -53,6 +54,7 @@ play_match: "`⚠️` | Bài hát không được tìm thấy!"
 file_loading: "`⏳` | **Đang tải**..."
 play_invalid_file: "`⚠️` | Loại tệp không hợp lệ. Vui lòng sử dụng **mp3** hoặc **ogg**!"
 play_warning_file: "`⚠️` | Tôi không thể phát hiện loại Tệp. Vui lòng sử dụng **mp3** hoặc **ogg**!"
+file_notfound: "`❓` | Không tìm thấy tập tin!"
 
 ### Previous command!
 previous_msg: "`⏮️` | Bỏ qua tới phần trước **Bài hát**!"

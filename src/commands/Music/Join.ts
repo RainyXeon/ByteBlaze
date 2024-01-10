@@ -32,6 +32,24 @@ export default class implements Command {
         ],
       });
 
+    let player = client.manager.players.get(
+      handler.guild!.id
+    );
+
+    if (!player)
+      player = await client.manager.createPlayer({
+        guildId: handler.guild!.id,
+        voiceId: handler.member!.voice.channel!.id,
+        textId: handler.channel!.id,
+        deaf: true,
+      });
+    else if (
+      player &&
+      !this.checkSameVoice(client, handler, handler.language)
+    ) {
+      return;
+    }
+
     await client.manager.createPlayer({
       guildId: handler.guild!.id,
       voiceId: handler.member!.voice.channel!.id,
@@ -48,5 +66,24 @@ export default class implements Command {
       .setColor(client.color);
 
     handler.editReply({ content: " ", embeds: [embed] });
+  }
+
+  checkSameVoice(client: Manager, handler: CommandHandler, language: string) {
+    if (
+      handler.member!.voice.channel !== handler.guild!.members.me!.voice.channel
+    ) {
+      handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return false;
+    }
+
+    return true;
   }
 }

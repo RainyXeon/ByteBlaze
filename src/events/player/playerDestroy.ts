@@ -47,10 +47,13 @@ export default class {
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${channel.guild.id}`, "en");
+      guildModel = await client.db.language.set(`${channel.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
+
+    let checkSetup = await client.db.setup.get(`${player.guildId}`);
+    if (checkSetup && checkSetup.channel == channel.id) return
 
     const embed = new EmbedBuilder()
       .setColor(client.color)

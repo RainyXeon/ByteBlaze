@@ -62,14 +62,14 @@ export default class implements Command {
             "filters",
             "eq_field_value",
             {
-              prefix: "/",
+              prefix: handler.prefix,
             }
           )}`,
           inline: false,
         })
         .setFooter({
           text: `${client.i18n.get(handler.language, "filters", "eq_footer", {
-            prefix: "/",
+            prefix: handler.prefix,
           })}`,
         });
       return handler.editReply({ embeds: [embed] });

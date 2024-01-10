@@ -28,7 +28,7 @@ export class playerLoadUpdate {
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
         guildModel = await client.db.language.set(
-          `language.guild_${player.guildId}`,
+          `${player.guildId}`,
           client.config.bot.LANGUAGE
         );
       }
@@ -86,13 +86,16 @@ export class playerLoadUpdate {
           })}`,
         }); //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration
 
+
+      const queueString = `${client.i18n.get(language, "setup", "setup_content")}\n${
+        Str == ""
+          ? " "
+          : "\n" + Str
+      }`
+
       return await playMsg
         .edit({
-          content: `${client.i18n.get(language, "setup", "setup_content")}\n${
-            Str == ""
-              ? `${client.i18n.get(language, "setup", "setup_content_empty")}`
-              : "\n" + Str
-          }`,
+          content: player.queue.current && player.queue.size == 0 ? " ": queueString,
           embeds: [embed],
           components: [client.enSwitchMod],
         })
@@ -119,7 +122,7 @@ export class playerLoadUpdate {
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
         guildModel = await client.db.language.set(
-          `language.guild_${player.guildId}`,
+          `${player.guildId}`,
           client.config.bot.LANGUAGE
         );
       }

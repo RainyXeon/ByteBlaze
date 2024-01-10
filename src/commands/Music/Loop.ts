@@ -69,6 +69,19 @@ export default class implements Command {
         ],
       });
 
+
+    if ((mode == "song" && player.loop == "track") || (mode == player.loop)) return handler.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription(
+            `${client.i18n.get(handler.language, "music", "loop_already", {
+              mode: mode,
+            })}`
+          )
+          .setColor(client.color),
+      ],
+    })
+
     if (mode == "song") {
       await player.setLoop(KazagumoLoop.track);
       this.setLoop247(client, player, String(KazagumoLoop.track));

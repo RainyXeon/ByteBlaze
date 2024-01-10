@@ -27,6 +27,7 @@ loop_current: "`🔁` | Looping current **Song**!"
 loop_all: "`🔁` | Looping **Queue**!"
 unloop_all: "`❌` | Loop is now **Disabled**!"
 loop_invalid: "`⚠️` | Invalid Loop mode. Please use %{mode}!"
+loop_already: "`🔁` | Already in mode: **%{mode}**"
 
 ### Lyrics command!
 lyrics_title: "📜 %{song}"
@@ -51,6 +52,7 @@ play_match: "`⚠️` | Song not found!"
 
 ### File command!
 file_loading: "`⏳` | **Loading**..."
+file_notfound: "`❓` | File not found!"
 play_invalid_file: "`⚠️` | Invalid File type. Please use **mp3** or **ogg**!"
 play_warning_file: "`⚠️` | I could not detect the File type. Please use **mp3** or **ogg**!"
 

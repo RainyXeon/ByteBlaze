@@ -15,7 +15,7 @@ import {
   NoAutoInteraction,
   ReplyOnlyInteraction,
 } from "../../@types/Interaction.js";
-import { CheckPermissionServices } from "../../services/CheckPermissionServices.js";
+import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";

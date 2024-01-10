@@ -38,22 +38,7 @@ export default class {
 
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
-
-    let data = await client.db.setup.get(`${channel.guild.id}`);
-    if (data && player.textId === data.channel) return;
-
-    let guildModel = await client.db.language.get(`${channel.guild.id}`);
-    if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `language.guild_${channel.guild.id}`,
-        "en"
-      );
-    }
-
-    const language = guildModel;
-
-    const song = player.queue.current;
-
+    
     client.emit("playerStart", player);
     client.emit("playerQueue", player);
 
@@ -85,6 +70,21 @@ export default class {
     } else {
       await autoreconnect.playerBuild(player.guildId);
     }
+
+    let data = await client.db.setup.get(`${channel.guild.id}`);
+    if (data && player.textId === data.channel) return;
+
+    let guildModel = await client.db.language.get(`${channel.guild.id}`);
+    if (!guildModel) {
+      guildModel = await client.db.language.set(
+        `${channel.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
+    }
+
+    const language = guildModel;
+
+    const song = player.queue.current;
 
     if (Control == ControlEnum.Disable) return;
 

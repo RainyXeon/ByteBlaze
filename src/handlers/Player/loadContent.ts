@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Message, GuildMember } from "discord.js";
+import { EmbedBuilder, Message, GuildMember, TextChannel } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
@@ -84,7 +84,7 @@ export class playerLoadContent {
     }
   }
 
-  async message(client: Manager, message: Message): Promise<void> {
+  async message(client: Manager, message: Message): Promise<any> {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.setup.get(`${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
@@ -102,7 +102,7 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = await message.guild.channels.cache.get(database!.channel);
+    let channel = await message.guild.channels.cache.get(database!.channel) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -118,8 +118,10 @@ export class playerLoadContent {
     const language = guildModel;
 
     if (message.author.id === client.user!.id) {
-      await delay(3000);
-      message.delete();
+      await delay(client.config.bot.DELETE_MSG_TIMEOUT);
+      const checkFromChannel = await client.channels.fetch(channel.id) as TextChannel
+      const checkAbility = await checkFromChannel.messages.fetch(message.id)
+      checkAbility ? checkAbility.delete() : true
     }
 
     if (message.author.bot) return;
@@ -127,27 +129,27 @@ export class playerLoadContent {
     const song = message.cleanContent;
     if (!song) return;
 
+    
+    if (message.author.id !== client.user!.id) {
+      delay(1000)
+      const checkFromChannel = await client.channels.fetch(channel.id) as TextChannel
+      const checkAbility = await checkFromChannel.messages.fetch(message.id)
+      checkAbility ? checkAbility.delete() : true
+    }
+
     let voiceChannel = await message.member!.voice.channel;
     if (!voiceChannel)
-      return message.channel
-        .send({
+      return message.channel.send({
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${this.client.i18n.get(language, "noplayer", "no_voice")}`
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
               )
-              .setColor(this.client.color),
+              .setColor(client.color),
           ],
         })
-        .then((msg: Message) => {
-          setTimeout(() => {
-            msg.delete();
-          }, 4000);
-        });
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
-
-    await message.delete();
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -193,7 +195,7 @@ export class playerLoadContent {
       player.queue.add(tracks[0]);
     else if (player.playing && result.type !== "SEARCH")
       for (let track of tracks) player.queue.add(track);
-    else player.play(tracks[0]);
+    else player.queue.add(tracks[0]);
 
     const TotalDuration = new QueueDuration().parse(player);
 

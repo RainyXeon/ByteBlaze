@@ -27,7 +27,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${channel.guild.id}`, "en");
+      guildModel = await client.db.language.set(`${channel.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;

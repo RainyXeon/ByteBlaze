@@ -34,30 +34,6 @@ export default class {
     if (player.loop !== "none")
       return new ClearMessageService(client, channel, player);
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
-    if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${player.guildId}`,
-        client.config.bot.LANGUAGE
-      );
-    }
-
-    const language = guildModel;
-
-    const embed = new EmbedBuilder()
-      .setColor(client.color)
-      .setDescription(
-        `${client.i18n.get(language, "player", "queue_end_desc")}`
-      );
-
-    if (channel) {
-      const msg = await channel.send({ embeds: [embed] });
-      setTimeout(
-        async () => msg.delete(),
-        client.config.bot.DELETE_MSG_TIMEOUT
-      );
-    }
-
     player.destroy();
   }
 }

@@ -3,7 +3,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { CheckPermissionServices } from "../../services/CheckPermissionServices.js";
+import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 
@@ -33,7 +33,7 @@ export default class {
     const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
     if (GuildPrefix) PREFIX = GuildPrefix;
     else if (!GuildPrefix) {
-      await client.db.language.set(`${message.guild!.id}`, client.prefix);
+      await client.db.prefix.set(`${message.guild!.id}`, client.prefix);
       const newPrefix = await client.db.language.get(`${message.guild!.id}`);
       PREFIX = String(newPrefix);
     }
