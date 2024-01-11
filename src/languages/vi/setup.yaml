@@ -4,6 +4,7 @@ setup_deleted: "**`⚙️` | Hệ thống âm nhạc đã bị xóa!**"
 setup_topic: "⏹ **Dừng**\n⏮️ **Trước**\n⏯ **Tạm dừng/Tiếp tục**\n⏭️ **Bỏ qua**\n🔁 **Lặp lại/Mở vòng lặp**"
 setup_enable: "`⚠️` | Hệ thống âm nhạc đã tồn tại!"
 setup_null: "`⚠️` | Hệ thống âm nhạc không được tìm thấy!"
+setup_already: "**`⚠️` | Hệ thống âm nhạc đã bị xóa hoặc không tìm thấy!**"
 
 ### Setup handler!
 setup_queuemsg: "Tham gia kênh thoại và phát các bài hát bằng tên hoặc URL tại đây!"

@@ -43,7 +43,6 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${handler.guild!.members.me!.displayName} Help Command!`,
-          iconURL: handler.guild!.iconURL() as string,
         })
         .setDescription(`The bot prefix is: \`${handler.prefix}\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
@@ -89,7 +88,6 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${handler.guild!.members.me!.displayName} Help Command!`,
-        iconURL: handler.guild!.iconURL() as string,
       })
       .setDescription(
         stripIndents`${client.i18n.get(handler.language, "help", "welcome", {
@@ -165,7 +163,6 @@ export default class implements Command {
           const embed = new EmbedBuilder()
             .setAuthor({
               name: `${handler.guild!.members.me!.displayName} Help Command!`,
-              iconURL: handler.guild!.iconURL() as string,
             })
             .setDescription(`The bot prefix is: \`${handler.prefix}\``)
             .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))

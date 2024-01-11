@@ -4,7 +4,8 @@ import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
-
+import { RateLimitManager } from "@sapphire/ratelimits";
+const rateLimitManager = new RateLimitManager(3000);
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
 import { ButtonSkip } from "./ButtonCommands/Skip.js";
@@ -89,16 +90,7 @@ export class playerLoadContent {
     let database = await client.db.setup.get(`${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
 
-    if (!database)
-      await client.db.setup.set(`${message.guild.id}`, {
-        enable: false,
-        channel: "",
-        playmsg: "",
-        voice: "",
-        category: "",
-      });
-
-    database = await client.db.setup.get(`${message.guild.id}`);
+    if (!database) return;
 
     if (!database!.enable) return;
 
@@ -134,7 +126,7 @@ export class playerLoadContent {
     if (!song) return;
 
     if (message.author.id !== client.user!.id) {
-      delay(1000);
+      await delay(1000);
       const checkFromChannel = (await client.channels.fetch(
         channel.id
       )) as TextChannel;
@@ -155,6 +147,12 @@ export class playerLoadContent {
       });
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
+
+    const ratelimit = rateLimitManager.acquire(message.author.id);
+
+    if (ratelimit.limited) return;
+
+    ratelimit.consume();
 
     if (!player)
       player = await client.manager.createPlayer({

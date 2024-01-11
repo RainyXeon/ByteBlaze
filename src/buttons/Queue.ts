@@ -53,7 +53,6 @@ export default class implements PlayerButton {
           name: `${client.i18n.get(language, "player", "queue_author", {
             guild: message.guild!.name,
           })}`,
-          iconURL: String(message.guild!.iconURL()),
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
