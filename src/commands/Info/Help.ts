@@ -42,10 +42,10 @@ export default class implements Command {
     if (handler.args[0]) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${handler.guild!.members.me!.displayName} Help Command!`,
+          name: `${handler.guild!.members.me!.displayName} Help Command`,
           iconURL: handler.guild!.iconURL() as string,
         })
-        .setDescription(`The bot prefix is: \`${handler.prefix}\``)
+        .setDescription(`Bot Prefix: \`${handler.prefix}\``)
         .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
         .setColor(client.color);
 
@@ -88,7 +88,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${handler.guild!.members.me!.displayName} Help Command!`,
+        name: `${handler.guild!.members.me!.displayName} Help Command`,
         iconURL: handler.guild!.iconURL() as string,
       })
       .setDescription(
@@ -121,7 +121,7 @@ export default class implements Command {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setFooter({
-        text: `${handler.guild!.members.me!.displayName} | Total Commands: ${
+        text: `Total Commands: ${
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
@@ -164,10 +164,10 @@ export default class implements Command {
 
           const embed = new EmbedBuilder()
             .setAuthor({
-              name: `${handler.guild!.members.me!.displayName} Help Command!`,
+              name: `${handler.guild!.members.me!.displayName} Help Command`,
               iconURL: handler.guild!.iconURL() as string,
             })
-            .setDescription(`The bot prefix is: \`${handler.prefix}\``)
+            .setDescription(`Bot Prefix: \`${handler.prefix}\``)
             .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
             .setColor(client.color)
             .addFields({
@@ -195,9 +195,7 @@ export default class implements Command {
               inline: false,
             })
             .setFooter({
-              text: `${
-                handler.guild!.members.me!.displayName
-              } | Total Commands: ${client.commands.size}`,
+              text: `Total Commands: ${client.commands.size}`,
               iconURL: client.user!.displayAvatarURL(),
             });
 
