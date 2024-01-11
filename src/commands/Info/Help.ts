@@ -4,6 +4,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
   ApplicationCommandOptionType,
+  CommandInteraction,
 } from "discord.js";
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
@@ -152,7 +153,7 @@ export default class implements Command {
         i.user &&
         i.message.author.id == client.user!.id &&
         i.user.id == handler.user?.id,
-      time: 60000,
+      time: 1000 * 60 * 10,
     });
 
     collector?.on("collect", async (m) => {
@@ -182,12 +183,14 @@ export default class implements Command {
                     return c;
                   }
                 })
-                .map(
-                  (c) =>
-                    `\`${
-                      handler.interaction ? c.name.join(" ") : c.name.join("-")
-                    }\``
-                )
+                .map((c) => {
+                  const newName = [...c.name];
+                  if (newName.includes(directory.toLowerCase()))
+                    newName.splice(newName.indexOf(directory.toLowerCase()), 1);
+                  return `\`${
+                    handler.interaction ? newName.join(" ") : newName.join("-")
+                  }\``;
+                })
                 .join(", ")}`,
               inline: false,
             })
@@ -217,4 +220,6 @@ export default class implements Command {
       }
     });
   }
+
+  commandNameParse(command: Command, interaction?: CommandInteraction) {}
 }
