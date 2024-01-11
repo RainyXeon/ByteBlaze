@@ -37,7 +37,7 @@ export class AutoReconnectBuilder {
     });
   }
 
-  async playerBuild(guildId: string) {
+  async playerBuild(guildId: string, two47mode: boolean = false) {
     return await this.client.db.autoreconnect.set(`${guildId}`, {
       guild: this.player?.guildId,
       text: this.player?.textId,
@@ -48,7 +48,7 @@ export class AutoReconnectBuilder {
         volume: this.player?.volume,
       },
       queue: this.player?.queue.length !== 0 ? this.queueUri() : [],
-      twentyfourseven: false,
+      twentyfourseven: two47mode,
     });
   }
 

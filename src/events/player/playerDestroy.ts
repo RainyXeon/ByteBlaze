@@ -36,7 +36,7 @@ export default class {
           true,
           data.voice
         );
-        await client.manager.createPlayer({
+        client.manager.createPlayer({
           guildId: data.guild!,
           voiceId: data.voice!,
           textId: data.text!,
@@ -55,8 +55,8 @@ export default class {
 
     const language = guildModel;
 
-    let checkSetup = await client.db.setup.get(`${player.guildId}`);
-    if (checkSetup && checkSetup.channel == channel.id) return;
+    // let checkSetup = await client.db.setup.get(`${player.guildId}`);
+    // if (checkSetup && checkSetup.channel == channel.id) return;
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
