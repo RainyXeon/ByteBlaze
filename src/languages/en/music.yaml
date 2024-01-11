@@ -18,7 +18,7 @@ forward_beyond: "`⚠️` | Song is about to end. You can not Forward beyond it!
 ### Join command!
 join_msg: "`🔊` | Joined %{channel}"
 join_voice: "`⚠️` | You need to be in a voice channel to use this command!"
-join_already: "`⚠️` | Already joined %{channel}"
+join_already: "`⚠️` | I am already in %{channel}"
 
 ### Stop command!
 stop_msg: "`⏹️` | Stopped the **Player**!"
@@ -28,7 +28,7 @@ loop_current: "`🔁` | Looping current **Song**!"
 loop_all: "`🔁` | Looping **Queue**!"
 unloop_all: "`❌` | Loop is now **Disabled**!"
 loop_invalid: "`⚠️` | Invalid Loop mode. Please use %{mode}!"
-loop_already: "`🔁` | Already in mode: **%{mode}**"
+loop_already: "`⚠️` | Loop mode is already **%{mode}**!"
 
 ### Lyrics command!
 lyrics_title: "📜 %{song}"
@@ -53,7 +53,7 @@ play_match: "`⚠️` | Song not found!"
 
 ### File command!
 file_loading: "`⏳` | **Loading**..."
-file_notfound: "`❓` | File not found!"
+file_notfound: "`⚠️` | Please provide a valid File!"
 play_invalid_file: "`⚠️` | Invalid File type. Please use **mp3** or **ogg**!"
 play_warning_file: "`⚠️` | I could not detect the File type. Please use **mp3** or **ogg**!"
 
@@ -83,9 +83,6 @@ removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %
 removetrack_already: "`⚠️` | I can not Remove a song that is already playing!"
 removetrack_notfound: "`⚠️` | Song not found!"
 
-### RemoveDuplicate command!
-removetrack_duplicate_desc: "`🗑️` | Removed **%{removed}** duplicated songs from the queue!"
-
 ### Seek command!
 seek_msg: "`➿` | Seeked to `%{duration}`"
 seek_beyond: "`⚠️` | You can not Seek beyond the song duration!"
@@ -98,7 +95,6 @@ shuffle_msg: "`🔀` | Shuffled the **Queue**!"
 skip_msg: "`⏭️` | Skipped the **Song**!"
 
 ### Volume command!
-volume_usage: "`🔊` | Current Volume is **%{volume}%**"
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
 volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** and **100**!"
 
