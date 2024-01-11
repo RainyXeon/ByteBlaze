@@ -9,6 +9,7 @@ import {
 } from "../../assets/PlayerControlButton.js";
 import { ControlEnum } from "../../database/schema/Control.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { level } from "winston";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -162,15 +163,13 @@ export default class {
       async (message: ButtonInteraction): Promise<void> => {
         const id = message.customId;
         const button = client.plButton.get(id);
-        if (button)
-          await button.run(
-            client,
-            message,
-            language,
-            player,
-            nplaying,
-            collector
-          );
+        if (button) {
+          try {
+            button.run(client, message, language, player, nplaying, collector);
+          } catch (err) {
+            client.logger.log({ level: "error", message: err });
+          }
+        }
       }
     );
   }
