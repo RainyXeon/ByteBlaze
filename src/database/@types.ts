@@ -8,6 +8,7 @@ import { Setup } from "./schema/Setup.js";
 import { Language } from "./schema/Language.js";
 import { Status } from "./schema/Status.js";
 import { Prefix } from "./schema/Prefix.js";
+import { SongNoti } from "./schema/SongNoti.js";
 
 export interface DatabaseTable {
   autoreconnect: QuickDB<AutoReconnect>;
@@ -19,4 +20,5 @@ export interface DatabaseTable {
   language: QuickDB<Language>;
   status: QuickDB<Status>;
   prefix: QuickDB<Prefix>;
+  songNoti: QuickDB<SongNoti>;
 }

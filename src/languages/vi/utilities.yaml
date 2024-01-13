@@ -20,3 +20,6 @@ prefix_change: "`㊙️` | Tiền tố đã được đổi thành **%{prefix}**
 prefix_arg: "`⚠️` | Vui lòng cung cấp Tiền tố hợp lệ!"
 prefix_length: "`⚠️` | Tiền tố không được dài hơn **10 ký tự**!"
 arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{text}"
+
+### Lệnh điều khiển!
+songnoti_set: "`🔧` | Thông báo bài hát đã được đặt thành **%{toggle}**!"

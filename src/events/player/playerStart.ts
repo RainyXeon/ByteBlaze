@@ -9,7 +9,7 @@ import {
 } from "../../assets/PlayerControlButton.js";
 import { ControlEnum } from "../../database/schema/Control.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
-import { level } from "winston";
+import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -24,10 +24,18 @@ export default class {
     );
 
     let Control = await client.db.control.get(`${player.guildId}`);
-    if (!Control) {
-      await client.db.control.set(`${player.guildId}`, ControlEnum.Disable);
-      Control = await client.db.control.get(`${player.guildId}`);
-    }
+    if (!Control)
+      Control = await client.db.control.set(
+        `${player.guildId}`,
+        ControlEnum.Enable
+      );
+
+    let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
+    if (!SongNoti)
+      SongNoti = await client.db.songNoti.set(
+        `${player.guildId}`,
+        SongNotiEnum.Enable
+      );
 
     if (!player) return;
 
@@ -87,7 +95,7 @@ export default class {
 
     const song = player.queue.current;
 
-    if (Control == ControlEnum.Disable) return;
+    if (SongNoti == SongNotiEnum.Disable) return;
 
     const embeded = new EmbedBuilder()
       .setAuthor({
@@ -133,7 +141,8 @@ export default class {
 
     const nplaying = await playing_channel.send({
       embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-      components: [playerRowOne, playerRowTwo],
+      components:
+        Control == ControlEnum.Enable ? [playerRowOne, playerRowTwo] : [],
       // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
     });
 

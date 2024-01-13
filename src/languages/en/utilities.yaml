@@ -20,3 +20,6 @@ prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
 prefix_arg: "`⚠️` | Please provide a valid Prefix!"
 prefix_length: "`⚠️` | Prefix can not be longer than **10 Characters**!"
 arg_error: "`⚠️` | Invalid argument. Please use %{text}"
+
+### Control command!
+songnoti_set: "`🔧` | Song notifications has been set to **%{toggle}**!"

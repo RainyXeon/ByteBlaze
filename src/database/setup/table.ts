@@ -11,6 +11,7 @@ import { Setup } from "../schema/Setup.js";
 import { Language } from "../schema/Language.js";
 import { Status } from "../schema/Status.js";
 import { Prefix } from "../schema/Prefix.js";
+import { SongNoti } from "../schema/SongNoti.js";
 
 export class TableSetup {
   client: Manager;
@@ -44,6 +45,7 @@ export class TableSetup {
       language: await baseDB.table<Language>("language"),
       status: await baseDB.table<Status>("status"),
       prefix: await baseDB.table<Prefix>("prefix"),
+      songNoti: await baseDB.table<SongNoti>("songNoti"),
     };
 
     this.client.isDatabaseConnected = true;

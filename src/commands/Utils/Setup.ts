@@ -62,7 +62,7 @@ export default class implements Command {
     if (value === "create") {
       const SetupChannel = await client.db.setup.get(`${handler.guild!.id}`);
 
-      if (SetupChannel!.enable == true)
+      if (SetupChannel && SetupChannel!.enable == true)
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
