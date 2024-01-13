@@ -61,6 +61,7 @@ export class ButtonStop {
       });
       return;
     } else {
+      this.player.data.set("sudo-destroy", true);
       await this.player.destroy();
       await this.client.UpdateMusic(this.player);
 
