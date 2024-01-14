@@ -7,7 +7,6 @@ import {
   playerRowOne,
   playerRowTwo,
 } from "../../assets/PlayerControlButton.js";
-import { ControlEnum } from "../../database/schema/Control.js";
 import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
@@ -22,13 +21,6 @@ export default class {
     client.logger.info(
       `Player Started in @ ${guild!.name} / ${player.guildId}`
     );
-
-    let Control = await client.db.control.get(`${player.guildId}`);
-    if (!Control)
-      Control = await client.db.control.set(
-        `${player.guildId}`,
-        ControlEnum.Enable
-      );
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
     if (!SongNoti)
@@ -141,8 +133,7 @@ export default class {
 
     const nplaying = await playing_channel.send({
       embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
-      components:
-        Control == ControlEnum.Enable ? [playerRowOne, playerRowTwo] : [],
+      components: [playerRowOne, playerRowTwo],
       // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
     });
 

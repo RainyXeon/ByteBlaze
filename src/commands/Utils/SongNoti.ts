@@ -6,7 +6,7 @@ import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
 export default class implements Command {
   public name = ["settings", "song-noti"];
-  public description = "Enable or disable the player control";
+  public description = "Enable or disable the player control notifications";
   public category = "Utils";
   public accessableby = Accessableby.Manager;
   public usage = "<enable> or <disable>";

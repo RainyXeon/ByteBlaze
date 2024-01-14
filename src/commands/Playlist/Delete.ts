@@ -110,6 +110,8 @@ export default class implements Command {
           )
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
+        msg?.delete();
+        collector.stop();
       } else if (id == "no") {
         const embed = new EmbedBuilder()
           .setDescription(
@@ -117,16 +119,19 @@ export default class implements Command {
           )
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
+        msg?.delete();
+        collector.stop();
       }
     });
 
     collector?.on("end", async () => {
+      const checkMsg = await handler.channel?.messages.fetch(String(msg?.id));
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(handler.language, "playlist", "delete_no")}`
         )
         .setColor(client.color);
-      await msg?.edit({ embeds: [embed], components: [] });
+      checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }) : true;
     });
   }
 }
