@@ -3,7 +3,6 @@ import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
-  ApplicationCommandOptionType,
   CommandInteraction,
 } from "discord.js";
 import { readdirSync } from "fs";
@@ -18,78 +17,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default class implements Command {
   public name = ["help"];
-  public description = "Displays all commands that the bot has.";
+  public description =
+    "Guild how to use bot and command explorer. Also a command explorer with fancy ui";
   public category = "Info";
   public accessableby = Accessableby.Member;
-  public usage = "<commamnd_name>";
+  public usage = "";
   public aliases = ["h"];
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
-  public options = [
-    {
-      name: "command",
-      description: "The command name",
-      type: ApplicationCommandOptionType.String,
-      required: false,
-    },
-  ];
+  public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
-
-    if (handler.args[0]) {
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${handler.guild!.members.me!.displayName} Help Command`,
-          iconURL: handler.guild!.iconURL() as string,
-        })
-        .setDescription(`Bot Prefix: \`${handler.prefix}\``)
-        .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-        .setColor(client.color);
-
-      let command = client.commands.get(
-        client.aliases.get(handler.args[0].toLowerCase()) ||
-          handler.args[0].toLowerCase()
-      );
-      if (!command)
-        return handler.editReply({
-          embeds: [
-            embed
-              .setTitle("Invalid Command.")
-              .setDescription(`Do \`/help\` for the list of the commands.`),
-          ],
-        });
-
-      embed.setDescription(stripIndents`
-        **Command:** ${command.name.join("-")}
-        **Description:** ${command.description || "No Description provided."}
-        **Usage:** ${
-          command.usage
-            ? `\`${handler.prefix}${
-                handler.interaction
-                  ? command.name.join(" ")
-                  : command.name.join("-")
-              } ${command.usage}\``
-            : "No Usage"
-        }
-        **Accessible by:** ${command.accessableby}
-        **Aliases:** ${
-          command.aliases && command.aliases.length !== 0
-            ? command.aliases.join(", ") + " (Prefix only)"
-            : "None."
-        }`);
-
-      return handler.editReply({ embeds: [embed] });
-    }
 
     const category = readdirSync(join(__dirname, "..", "..", "commands"));
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${handler.guild!.members.me!.displayName} Help Command`,
-        iconURL: handler.guild!.iconURL() as string,
+        name: `${client.i18n.get(handler.language, "utilities", "help_author", {
+          name: handler.guild!.members.me!.displayName,
+        })}`,
       })
       .setDescription(
         stripIndents`${client.i18n.get(handler.language, "help", "welcome", {
@@ -164,10 +113,20 @@ export default class implements Command {
 
           const embed = new EmbedBuilder()
             .setAuthor({
-              name: `${handler.guild!.members.me!.displayName} Help Command`,
-              iconURL: handler.guild!.iconURL() as string,
+              name: `${client.i18n.get(
+                handler.language,
+                "utilities",
+                "help_author",
+                {
+                  name: handler.guild!.members.me!.displayName,
+                }
+              )}`,
             })
-            .setDescription(`Bot Prefix: \`${handler.prefix}\``)
+            .setDescription(
+              `${client.i18n.get(handler.language, "utilities", "help_prefix", {
+                prefix: handler.prefix,
+              })}`
+            )
             .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
             .setColor(client.color)
             .addFields({
@@ -195,7 +154,13 @@ export default class implements Command {
               inline: false,
             })
             .setFooter({
-              text: `Total Commands: ${client.commands.size}`,
+              text: `${
+                handler.guild!.members.me!.displayName
+              } | ${client.i18n.get(
+                handler.language,
+                "utilities",
+                "ce_total"
+              )} ${client.commands.size}`,
               iconURL: client.user!.displayAvatarURL(),
             });
 
@@ -218,6 +183,4 @@ export default class implements Command {
       }
     });
   }
-
-  commandNameParse(command: Command, interaction?: CommandInteraction) {}
 }

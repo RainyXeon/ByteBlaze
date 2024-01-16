@@ -32,11 +32,10 @@ export default class {
 
     const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
     if (GuildPrefix) PREFIX = GuildPrefix;
-    else if (!GuildPrefix) {
-      await client.db.prefix.set(`${message.guild!.id}`, client.prefix);
-      const newPrefix = await client.db.language.get(`${message.guild!.id}`);
-      PREFIX = String(newPrefix);
-    }
+    else if (!GuildPrefix)
+      PREFIX = String(
+        await client.db.prefix.set(`${message.guild!.id}`, client.prefix)
+      );
 
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()

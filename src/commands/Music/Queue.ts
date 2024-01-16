@@ -87,7 +87,6 @@ export default class implements Command {
           name: `${client.i18n.get(handler.language, "music", "queue_author", {
             guild: handler.guild!.name,
           })}`,
-          iconURL: handler.guild!.iconURL() as string,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)

@@ -4,6 +4,7 @@ setup_deleted: "**`⚙️` | Deleted Music System!**"
 setup_topic: "⏹ **Stop**\n⏮️ **Previous**\n⏯ **Pause/Resume**\n⏭️ **Skip**\n🔁 **Loop/Unloop**"
 setup_enable: "`⚠️` | Music System already exists!"
 setup_null: "`⚠️` | Music System not found!"
+setup_already: "**`⚠️` | Already deleted music system or not found!**"
 
 ### Setup handler!
 setup_queuemsg: "Join a voice channel and play songs using name or URL in here!"

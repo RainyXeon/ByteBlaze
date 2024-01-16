@@ -41,13 +41,13 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id);
+    let player = client.manager.players.get(handler.guild!.id);
 
     const value = handler.args[0];
 
-    const data = await new AutoReconnectBuilder(client, player).execute(
-      handler.guild?.id!
-    );
+    const reconnectBuilder = new AutoReconnectBuilder(client, player);
+
+    const data = await reconnectBuilder.execute(handler.guild?.id!);
 
     if (value == "disable") {
       if (!data.twentyfourseven) {
@@ -103,17 +103,23 @@ export default class implements Command {
       }
 
       if (!player)
-        await client.manager.createPlayer({
+        player = await client.manager.createPlayer({
           guildId: handler.guild!.id,
           voiceId: handler.member!.voice.channel!.id,
           textId: String(handler.channel?.id),
           deaf: true,
         });
 
-      await client.db.autoreconnect.set(
-        `${handler.guild!.id}.twentyfourseven`,
-        true
-      );
+      data.voice
+        ? await client.db.autoreconnect.set(
+            `${handler.guild!.id}.twentyfourseven`,
+            true
+          )
+        : new AutoReconnectBuilder(client, player).playerBuild(
+            player?.guildId,
+            true
+          );
+
       const on = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(handler.language, "music", "247_on")}`

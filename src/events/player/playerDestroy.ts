@@ -36,7 +36,7 @@ export default class {
           true,
           data.voice
         );
-        await client.manager.createPlayer({
+        client.manager.createPlayer({
           guildId: data.guild!,
           voiceId: data.voice!,
           textId: data.text!,
@@ -55,8 +55,7 @@ export default class {
 
     const language = guildModel;
 
-    let checkSetup = await client.db.setup.get(`${player.guildId}`);
-    if (checkSetup && checkSetup.channel == channel.id) return;
+    const isSudoDestroy = player.data.get("sudo-destroy");
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
@@ -64,7 +63,7 @@ export default class {
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
 
-    if (player.queue.current) {
+    if (!isSudoDestroy) {
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
         async () => msg.delete(),

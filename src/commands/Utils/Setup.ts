@@ -62,7 +62,7 @@ export default class implements Command {
     if (value === "create") {
       const SetupChannel = await client.db.setup.get(`${handler.guild!.id}`);
 
-      if (SetupChannel!.enable == true)
+      if (SetupChannel && SetupChannel!.enable == true)
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
@@ -172,16 +172,19 @@ export default class implements Command {
       if (fetchedVoiceChannel) await fetchedVoiceChannel.delete();
       if (fetchedTextChannel) await fetchedTextChannel.delete();
 
-      const deleted_data = {
-        guild: handler.guild!.id,
-        enable: false,
-        channel: "",
-        playmsg: "",
-        voice: "",
-        category: "",
-      };
+      await client.db.setup.delete(`${handler.guild!.id}`);
 
-      await client.db.setup.set(`${handler.guild!.id}`, deleted_data);
+      if (!fetchedCategory || !fetchedTextChannel || !fetchedVoiceChannel) {
+        return handler.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(handler.language, "setup", "setup_already")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+      }
 
       return handler.editReply({ embeds: [embed] });
     }

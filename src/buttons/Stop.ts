@@ -19,12 +19,12 @@ export default class implements PlayerButton {
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
-    const newPlayer = await client.manager.players.get(message.guildId!);
-    if (!newPlayer) {
+    if (!player) {
       return collector.stop();
     }
 
-    newPlayer.destroy();
+    player.data.set("sudo-destroy", true);
+    player.destroy();
 
     await new ReplyInteractionService(
       client,

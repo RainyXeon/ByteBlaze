@@ -13,6 +13,8 @@ control_set: "`🔧` | Quyền kiểm soát đã được đặt thành **%{togg
 ### Help command!
 help_desc: "Nhấp vào đây!"
 help_timeout: "`⏱️` | Menu trợ giúp đã hết thời gian chờ. Vui lòng sử dụng lại **%{prefix}help**!"
+help_prefix: "Prefix của bot là: %{prefix}"
+help_author: "Lệnh trợ giúp của %{name}!"
 
 ### Prefix command!
 prefix_set: "`㊙️` | Tiền tố đã được đặt thành **%{prefix}**"
@@ -20,3 +22,26 @@ prefix_change: "`㊙️` | Tiền tố đã được đổi thành **%{prefix}**
 prefix_arg: "`⚠️` | Vui lòng cung cấp Tiền tố hợp lệ!"
 prefix_length: "`⚠️` | Tiền tố không được dài hơn **10 ký tự**!"
 arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{text}"
+
+### Lệnh điều khiển!
+songnoti_set: "`🔧` | Thông báo bài hát đã được đặt thành **%{toggle}**!"
+
+### Lệnh thám hiểm lệnh!
+ce_finder_name: "**Lệnh:**"
+ce_finder_des: "**Mô tả:**"
+ce_finder_usage: "**Cách sử dụng:**"
+ce_finder_access: "**Có thể truy cập bởi:**"
+ce_finder_aliases: "**Lệnh tắt:**"
+ce_finder_slash: "**Sử dụng lệnh dạng slash:**"
+ce_finder_des_no: "Không có mô tả nào được cung cấp."
+ce_finder_usage_no: "Chỉ có cần nhập lệnh là dùng được"
+ce_finder_aliases_prefix: " (Chỉ sử dụng dạng prefix)"
+ce_finder_aliases_no: "Không có."
+ce_finder_slash_enable: "Đã bật"
+ce_finder_slash_disable: "Đã tắt"
+
+ce_finder_invalid: "Lệnh không hợp lệ."
+ce_finder_example: "Thực hiện `%{command}` cho danh sách lệnh."
+
+ce_name: "Danh sách lệnh"
+ce_total: "Tổng số lệnh:"

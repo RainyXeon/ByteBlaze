@@ -13,6 +13,8 @@ control_set: "`🔧` | Control has been set to **%{toggle}**!"
 ### Help command!
 help_desc: "Click Me!"
 help_timeout: "`⏱️` | Help Menu timed out. Please use **%{prefix}help** again!"
+help_prefix: "The bot prefix is: %{prefix}"
+help_author: "%{name}'s Help Command!"
 
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
@@ -20,3 +22,25 @@ prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
 prefix_arg: "`⚠️` | Please provide a valid Prefix!"
 prefix_length: "`⚠️` | Prefix can not be longer than **10 Characters**!"
 arg_error: "`⚠️` | Invalid argument. Please use %{text}"
+
+### Control command!
+songnoti_set: "`🔧` | Song notifications has been set to **%{toggle}**!"
+
+### Command explorer command!
+ce_finder_name: "**Command:**"
+ce_finder_des: "**Description:**"
+ce_finder_usage: "**Usage:**"
+ce_finder_access: "**Accessible by:**"
+ce_finder_aliases: "**Aliases:**"
+ce_finder_slash: "**Slash enabled:**"
+ce_finder_des_no: "No Description provided."
+ce_finder_usage_no: "No Usage"
+ce_finder_aliases_prefix: " (Prefix only)"
+ce_finder_aliases_no: "None."
+ce_finder_slash_enable: "Enabled"
+ce_finder_slash_disable: "Disabled"
+ce_finder_invalid: "Invalid Command."
+ce_finder_example: "Do `%{command}` for the list of the commands."
+
+ce_name: "Command List"
+ce_total: "Total Commands: "
