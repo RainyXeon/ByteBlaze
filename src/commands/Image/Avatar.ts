@@ -48,27 +48,21 @@ export default class implements Command {
 
     if (value && (value as any) !== "error") {
       const embed = new EmbedBuilder()
-        .setTitle(value.username + "#" + value.discriminator)
+        .setTitle(value.username)
         .setImage(
           `https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`
         )
         .setColor(client.color)
-        .setFooter({
-          text: `${handler.guild!.members.me!.displayName}`,
-          iconURL: client.user!.displayAvatarURL(),
-        });
+        .setTimestamp();
       await handler.editReply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
-        .setTitle(handler.user?.username + "#" + handler.user?.discriminator)
+        .setTitle(handler.user!.username)
         .setImage(
           `https://cdn.discordapp.com/avatars/${handler.user?.id}/${handler.user?.avatar}.jpeg?size=300`
         )
         .setColor(client.color)
-        .setFooter({
-          text: `${handler.guild!.members.me!.displayName}`,
-          iconURL: client.user!.displayAvatarURL(),
-        });
+        .setTimestamp();
       await handler.editReply({ embeds: [embed] });
     }
   }

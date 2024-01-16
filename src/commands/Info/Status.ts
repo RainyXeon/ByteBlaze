@@ -46,13 +46,13 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: client.user!.tag + " Status",
+        name: "Status",
         iconURL: String(client.user!.displayAvatarURL({ size: 2048 })),
       })
       .setColor(client.color)
       .addFields(
-        { name: "Host info", value: hostInfo },
-        { name: "Bot info", value: botInfo }
+        { name: "Host Info", value: hostInfo },
+        { name: "Bot Info", value: botInfo }
       )
       .setTimestamp();
     await handler.editReply({ embeds: [embed] });
