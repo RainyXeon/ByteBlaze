@@ -7,7 +7,8 @@ import {
   TextChannel,
 } from "discord.js";
 import { Manager } from "../../manager.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { PlayerState } from "kazagumo.mod";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -16,7 +17,9 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    let data = await new AutoReconnectBuilder(client).get(newState.guild.id);
+    let data = await new AutoReconnectBuilderService(client).get(
+      newState.guild.id
+    );
 
     client.emit("voiceStateUpdateJoin", oldState, newState);
     client.emit("voiceStateUpdateLeave", oldState, newState);
@@ -35,8 +38,15 @@ export default class {
 
     if (data && data.twentyfourseven) return;
 
-    if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId)
-      player.destroy();
+    if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
+      switch (player.state) {
+        case PlayerState.CONNECTED:
+          player.destroy();
+          break;
+        case PlayerState.CONNECTING:
+          player.destroy();
+      }
+    }
 
     if (
       newState.channelId &&

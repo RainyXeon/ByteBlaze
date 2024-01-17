@@ -39,14 +39,9 @@ export class AutoFixLavalink {
     }
     const nodeInfo = await this.applyNewLavalink();
 
-    this.client.lavalinkUsing.push({
-      host: nodeInfo.host,
-      port: nodeInfo.port,
-      pass: nodeInfo.pass,
-      secure: nodeInfo.secure,
-      name: `${nodeInfo.host}:${nodeInfo.port}`,
-    });
-    this.client.logger.lavalink("Lavalink now fixed and currently online");
+    this.client.logger.lavalink(
+      "Now used new lavalink, please wait 1 second to make it connect."
+    );
     this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
   }
 

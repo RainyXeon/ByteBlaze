@@ -7,7 +7,7 @@ import {
   playerRowOne,
   playerRowTwo,
 } from "../../assets/PlayerControlButton.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
 export default class {
@@ -43,7 +43,7 @@ export default class {
     client.emit("playerStart", player);
     client.emit("playerQueue", player);
 
-    const autoreconnect = new AutoReconnectBuilder(client, player);
+    const autoreconnect = new AutoReconnectBuilderService(client, player);
 
     if (await autoreconnect.get(player.guildId)) {
       await client.db.autoreconnect.set(

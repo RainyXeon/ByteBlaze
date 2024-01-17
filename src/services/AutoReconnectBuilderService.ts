@@ -1,7 +1,7 @@
 import { KazagumoPlayer } from "kazagumo.mod";
-import { Manager } from "../../manager.js";
+import { Manager } from "../manager.js";
 
-export class AutoReconnectBuilder {
+export class AutoReconnectBuilderService {
   client: Manager;
   player?: KazagumoPlayer;
   constructor(client: Manager, player?: KazagumoPlayer) {

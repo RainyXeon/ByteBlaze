@@ -5,7 +5,7 @@ import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
 import { KazagumoPlayer } from "kazagumo.mod";
 import { VoiceChannel } from "discord.js";
-import { AutoReconnectBuilder } from "../build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
 export class AutoReconnectLavalinkService {
   client: Manager;
@@ -42,7 +42,10 @@ export class AutoReconnectLavalinkService {
     if (Object.keys(maindata).length === 0) return;
 
     let retry_interval = setInterval(async () => {
-      if (!this.client.lavalinkUsing)
+      if (
+        this.client.lavalinkUsing.length == 0 ||
+        this.client.manager.shoukaku.nodes.size == 0
+      )
         return this.client.logger.data_loader(
           lavalink_mess + `No lavalink avalible, try again after 3 seconds!`
         );
@@ -86,7 +89,7 @@ export class AutoReconnectLavalinkService {
       return this.client.db.autoreconnect.delete(data.value.guild);
     }
 
-    if (voice.members.size == 0) {
+    if (!data.value.twentyfourseven && voice.members.size == 0) {
       this.client.logger.data_loader(
         lavalink_mess +
           `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`

@@ -2,7 +2,7 @@ import { KazagumoPlayer } from "kazagumo.mod";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -20,7 +20,7 @@ export default class {
 
     client.emit("playerEnd", player);
 
-    let data = await new AutoReconnectBuilder(client, player).get(
+    let data = await new AutoReconnectBuilderService(client, player).get(
       player.guildId
     );
     const channel = client.channels.cache.get(player.textId) as TextChannel;

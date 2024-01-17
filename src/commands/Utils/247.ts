@@ -4,7 +4,7 @@ import {
   Message,
 } from "discord.js";
 import { Manager } from "../../manager.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
@@ -45,7 +45,7 @@ export default class implements Command {
 
     const value = handler.args[0];
 
-    const reconnectBuilder = new AutoReconnectBuilder(client, player);
+    const reconnectBuilder = new AutoReconnectBuilderService(client, player);
 
     const data = await reconnectBuilder.execute(handler.guild?.id!);
 
@@ -115,7 +115,7 @@ export default class implements Command {
             `${handler.guild!.id}.twentyfourseven`,
             true
           )
-        : new AutoReconnectBuilder(client, player).playerBuild(
+        : new AutoReconnectBuilderService(client, player).playerBuild(
             player?.guildId,
             true
           );

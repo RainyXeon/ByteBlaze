@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { KazagumoPlayer } from "kazagumo.mod";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
@@ -86,7 +86,7 @@ export default class implements Command {
   }
 
   async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
-    const data = await new AutoReconnectBuilder(client, player).execute(
+    const data = await new AutoReconnectBuilderService(client, player).execute(
       player.guildId
     );
     if (data) {
