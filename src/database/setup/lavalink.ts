@@ -3,7 +3,7 @@ import { Manager } from "../../manager.js";
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 import { VoiceChannel } from "discord.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 

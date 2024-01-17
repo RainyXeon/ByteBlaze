@@ -14,7 +14,7 @@ import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
-import { Kazagumo, KazagumoPlayer } from "kazagumo.mod";
+import { Kazagumo, KazagumoPlayer } from "./lib/main.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { WebServer } from "./webserver/index.js";

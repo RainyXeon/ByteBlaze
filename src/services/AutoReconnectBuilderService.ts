@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { Manager } from "../manager.js";
 
 export class AutoReconnectBuilderService {

@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
-import { KazagumoTrack } from "kazagumo.mod";
+import { KazagumoTrack } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";

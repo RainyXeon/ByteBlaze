@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
+import { KazagumoPlayer, KazagumoTrack } from "../lib/main.js";
 
 export class QueueDuration {
   parse(player: KazagumoPlayer) {

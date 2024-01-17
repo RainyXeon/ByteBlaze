@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
-import { PlayerState } from "kazagumo.mod";
+import { PlayerState } from "../../lib/main.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -39,12 +39,15 @@ export default class {
     if (data && data.twentyfourseven) return;
 
     if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
-      switch (player.state) {
-        case PlayerState.CONNECTED:
-          player.destroy();
-          break;
-        case PlayerState.CONNECTING:
-          player.destroy();
+      const newCheckPlayer = await client.manager.players.get(newState.guild.id)
+      if (newCheckPlayer) {
+        switch (newCheckPlayer.state) {
+          case PlayerState.CONNECTED:
+            player.destroy();
+            break;
+          case PlayerState.CONNECTING:
+            player.destroy();
+        }
       }
     }
 

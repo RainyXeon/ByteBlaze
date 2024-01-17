@@ -2,7 +2,7 @@ import {
   KazagumoPlayer,
   PlayerMovedChannels,
   PlayerMovedState,
-} from "kazagumo.mod";
+} from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 
 export default class {

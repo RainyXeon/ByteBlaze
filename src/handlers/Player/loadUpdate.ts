@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 
 export class playerLoadUpdate {
   client: Manager;

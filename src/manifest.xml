@@ -9,6 +9,7 @@
   <bot>
     <version>5.0.0</version>
     <autofix>5.0.0</autofix>
+    <kazagumo>3.0.0</kazagumo>
     <codename>hatsuharu (AzurLane)</codename>
   </bot>
 </metadata>

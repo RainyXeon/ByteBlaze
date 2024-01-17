@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { ButtonInteraction, ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";

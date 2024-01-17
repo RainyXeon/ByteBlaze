@@ -14,7 +14,7 @@ import {
   GlobalInteraction,
 } from "../../@types/Interaction.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 
 export default class implements Command {
   public name = ["play"];

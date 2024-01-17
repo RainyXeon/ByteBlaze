@@ -4,7 +4,7 @@ import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 
 // Main code
 export default class implements Command {

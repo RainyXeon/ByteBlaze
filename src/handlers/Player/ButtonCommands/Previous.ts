@@ -1,6 +1,6 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../../lib/main.js";
 
 export class ButtonPrevious {
   client: Manager;

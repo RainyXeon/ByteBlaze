@@ -60,9 +60,6 @@ dependencies:
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
-  kazagumo.mod:
-    specifier: ^1.1.0
-    version: 1.1.0(bufferutil@4.0.8)(utf-8-validate@5.0.2)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -81,6 +78,9 @@ dependencies:
   node-cron:
     specifier: ^3.0.3
     version: 3.0.3
+  node-html-parser:
+    specifier: ^6.1.12
+    version: 6.1.12
   nodemon:
     specifier: ^3.0.1
     version: 3.0.1
@@ -1005,16 +1005,6 @@ packages:
       - debug
     dev: false
 
-  /axios@1.6.2:
-    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
-    dependencies:
-      follow-redirects: 1.15.3
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -1689,11 +1679,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /events@3.3.0:
-    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
-    engines: {node: '>=0.8.x'}
-    dev: false
-
   /express-ws@5.0.2(bufferutil@4.0.8)(express@4.18.2)(utf-8-validate@5.0.2):
     resolution: {integrity: sha512-0uvmuk61O9HXgLhGl3QhNSEtRsQevtmbL94/eILaliEADZBHZOQUAiHFrGPrgsjikohyrmSG5g+sCfASTt0lkQ==}
     engines: {node: '>=4.5.0'}
@@ -2275,20 +2260,6 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
-  /kazagumo.mod@1.1.0(bufferutil@4.0.8)(utf-8-validate@5.0.2):
-    resolution: {integrity: sha512-yxKiliw3b+bOMmobiEzfRIwpbWsoWf4TLk8hsbmGEZl8NdTF4ryHkucUQdQGQiDiiURQWQjw4EW4SSzA6LkYQw==}
-    engines: {node: '>=16.5.0 <=20'}
-    dependencies:
-      axios: 1.6.2
-      events: 3.3.0
-      node-html-parser: 6.1.11
-      shoukaku: 4.0.1(bufferutil@4.0.8)(utf-8-validate@5.0.2)
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - utf-8-validate
-    dev: false
-
   /kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
     dev: false
@@ -2662,8 +2633,8 @@ packages:
     hasBin: true
     dev: false
 
-  /node-html-parser@6.1.11:
-    resolution: {integrity: sha512-FAgwwZ6h0DSDWxfD0Iq1tsDcBCxdJB1nXpLPPxX8YyVWzbfCjKWEzaynF4gZZ/8hziUmp7ZSaKylcn0iKhufUQ==}
+  /node-html-parser@6.1.12:
+    resolution: {integrity: sha512-/bT/Ncmv+fbMGX96XG9g05vFt43m/+SYKIs9oAemQVYyVcZmDAI2Xq/SbNcpOA35eF0Zk2av3Ksf+Xk8Vt8abA==}
     dependencies:
       css-select: 5.1.0
       he: 1.2.0

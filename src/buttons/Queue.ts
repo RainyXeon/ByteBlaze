@@ -5,7 +5,7 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { FormatDuration } from "../utilities/FormatDuration.js";

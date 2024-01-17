@@ -1,5 +1,3 @@
-import { KazagumoTrack } from "kazagumo.mod";
-
 export interface AutoReconnect {
   guild: string;
   text: string;
