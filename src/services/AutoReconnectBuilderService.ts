@@ -27,13 +27,12 @@ export class AutoReconnectBuilderService {
       guild: guildId,
       text: "",
       voice: "",
-      current: undefined,
+      current: "",
       config: {
         loop: "none",
         volume: 100,
       },
       queue: [],
-      previous: [],
       twentyfourseven: false,
     });
   }
@@ -43,17 +42,14 @@ export class AutoReconnectBuilderService {
       guild: this.player?.guildId,
       text: this.player?.textId,
       voice: this.player?.voiceId,
-      current:
-        (await this.player?.queue.current?.getTrack(this.player!)) ?? undefined,
+      current: this.player?.queue.current?.uri ?? "",
       config: {
         loop: this.player?.loop,
         volume: this.player?.volume,
       },
-      queue: this.player?.queue.length !== 0 ? await this.queueRaw() : [],
+      queue: this.player?.queue.length !== 0 ? this.queueUri() : [],
       previous:
-        this.player?.queue.previous.length !== 0
-          ? await this.previousRaw()
-          : [],
+        this.player?.queue.previous.length !== 0 ? this.previousUri() : [],
       twentyfourseven: two47mode,
     });
   }
@@ -63,31 +59,28 @@ export class AutoReconnectBuilderService {
       guild: this.player?.guildId,
       text: this.player?.textId,
       voice: voiceId,
-      current: undefined,
+      current: "",
       config: {
         loop: "none",
         volume: 100,
       },
       queue: [],
-      previous: [],
       twentyfourseven: mode,
     });
   }
 
-  async queueRaw() {
+  queueUri() {
     const res = [];
     for (let data of this.player?.queue!) {
-      const track = await data.getTrack(this.player!);
-      res.push(track);
+      res.push(data.uri);
     }
     return res;
   }
 
-  async previousRaw() {
+  previousUri() {
     const res = [];
     for (let data of this.player?.queue.previous!) {
-      const track = await data.getTrack(this.player!);
-      res.push(track);
+      res.push(data.uri);
     }
     return res;
   }

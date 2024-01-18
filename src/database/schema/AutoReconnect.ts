@@ -1,15 +1,13 @@
-import { Track } from "shoukaku";
-
 export interface AutoReconnect {
   guild: string;
   text: string;
   voice: string;
-  current: Track | undefined;
+  current: string;
   config: {
     loop: string;
     volume: number;
   };
-  queue: Track[];
-  previous: Track[];
+  queue: string[];
+  previous: string[];
   twentyfourseven: boolean;
 }
