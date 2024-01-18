@@ -142,6 +142,14 @@ export default class implements Command {
                 })
                 .map((c) => {
                   const newName = [...c.name];
+                  if (directory.toLowerCase() === "owner")
+                    newName.indexOf("sudo") !== -1
+                      ? newName.splice(newName.indexOf("sudo"), 1)
+                      : true;
+                  if (directory.toLowerCase() === "utils")
+                    newName.indexOf("settings") !== -1
+                      ? newName.splice(newName.indexOf("settings"), 1)
+                      : true;
                   if (newName.includes(directory.toLowerCase()))
                     newName.splice(newName.indexOf(directory.toLowerCase()), 1);
                   return `\`${
