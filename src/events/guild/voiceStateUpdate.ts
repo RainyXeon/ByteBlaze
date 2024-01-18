@@ -38,20 +38,22 @@ export default class {
 
     if (data && data.twentyfourseven) return;
 
-    if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
-      const newCheckPlayer = await client.manager.players.get(
-        newState.guild.id
-      );
-      if (newCheckPlayer) {
-        switch (newCheckPlayer.state) {
-          case PlayerState.CONNECTED:
-            player.destroy();
-            break;
-          case PlayerState.CONNECTING:
-            player.destroy();
-        }
-      }
-    }
+    // if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
+    //   const newCheckPlayer = await client.manager.players.get(
+    //     newState.guild.id
+    //   );
+    //   if (newCheckPlayer) {
+    //     switch (newCheckPlayer.state) {
+    //       case PlayerState.CONNECTED:
+    //         player.data.set("sudo-destroy", true);
+    //         player.destroy();
+    //         break;
+    //       case PlayerState.CONNECTING:
+    //         player.data.set("sudo-destroy", true);
+    //         player.destroy();
+    //     }
+    //   }
+    // }
 
     if (
       newState.channelId &&
@@ -149,7 +151,8 @@ export default class {
             oldState.guild.members.me!.voice.channel?.members.size;
           if (!vcMembers || vcMembers === 1) {
             const newPlayer = client.manager?.players.get(newState.guild.id);
-            newPlayer ? player.destroy() : true;
+            player.data.set("sudo-destroy", true);
+            if (newPlayer) player.destroy();
             const TimeoutEmbed = new EmbedBuilder()
               .setDescription(
                 `${client.i18n.get(language, "player", "player_end", {

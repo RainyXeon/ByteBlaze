@@ -124,14 +124,12 @@ export default class implements Command {
       .setTimestamp();
 
     const NEmbed = await handler.editReply({ content: " ", embeds: [embeded] });
-    let interval = null;
 
     if (realtime) {
-      interval = setInterval(async () => {
-        if (!player.playing) return;
+      const interval: NodeJS.Timeout = setInterval(async () => {
+        if (!player.playing) return clearInterval(interval);
         const CurrentDuration = new FormatDuration().parse(player.position);
         const Part = Math.floor((player.position / song!.length!) * 30);
-        const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
         const editedField = fieldDataGlobal;
 
@@ -146,7 +144,7 @@ export default class implements Command {
               total_duration: TotalDuration,
             }
           )}`,
-          value: `\`\`\`${Emoji} ${
+          value: `\`\`\`🔴 | ${
             "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
           }\`\`\``,
           inline: false,

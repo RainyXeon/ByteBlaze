@@ -25,6 +25,8 @@ arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{te
 
 ### Lệnh điều khiển!
 songnoti_set: "`🔧` | Thông báo bài hát đã được đặt thành **%{toggle}**!"
+songnoti_already_off: "`⚠️` | Thông báo bài hát đã **Tắt**!"
+songnoti_already_on: "`⚠️` | Thông báo bài hát đã **Bật**!"
 
 ### Lệnh thám hiểm lệnh!
 ce_finder_name: "**Lệnh:**"

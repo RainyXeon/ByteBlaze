@@ -38,7 +38,24 @@ export default class implements Command {
     await handler.deferReply();
 
     const value = handler.args[0];
+    const originalValue = await client.db.songNoti.get(`${handler.guild!.id}`);
+
     if (value === "enable") {
+      if (originalValue === SongNotiEnum.Enable)
+        return handler.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(
+                  handler.language,
+                  "utilities",
+                  "songnoti_already_on"
+                )}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       await client.db.songNoti.set(`${handler.guild!.id}`, SongNotiEnum.Enable);
 
       const embed = new EmbedBuilder()
@@ -51,6 +68,21 @@ export default class implements Command {
 
       return handler.editReply({ embeds: [embed] });
     } else if (value === "disable") {
+      if (originalValue === SongNotiEnum.Disable)
+        return handler.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(
+                  handler.language,
+                  "utilities",
+                  "songnoti_already_off"
+                )}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       await client.db.songNoti.set(
         `${handler.guild!.id}`,
         SongNotiEnum.Disable

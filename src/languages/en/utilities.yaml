@@ -25,6 +25,8 @@ arg_error: "`⚠️` | Invalid argument. Please use %{text}"
 
 ### Control command!
 songnoti_set: "`🔧` | Song notifications has been set to **%{toggle}**!"
+songnoti_already_off: "`⚠️` | Song notifications is already **Disabled**!"
+songnoti_already_on: "`⚠️` | Song notifications is already **Enabled**!"
 
 ### Command explorer command!
 ce_finder_name: "**Command:**"

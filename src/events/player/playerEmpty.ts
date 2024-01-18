@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, PlayerState } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 
 export default class {
@@ -27,6 +27,10 @@ export default class {
 
     client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
-    await player.destroy();
+    if (
+      player.state === PlayerState.CONNECTED ||
+      player.state === PlayerState.CONNECTING
+    )
+      await player.destroy();
   }
 }
