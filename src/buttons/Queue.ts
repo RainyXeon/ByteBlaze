@@ -60,7 +60,7 @@ export default class implements PlayerButton {
           `${client.i18n.get(language, "player", "queue_description", {
             track: song!.title,
             track_url: String(song!.uri),
-            duration: new FormatDuration().parse(position),
+            duration: new FormatDuration().parse(song?.length),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
           })}`

@@ -188,9 +188,6 @@ export class Manager extends Client {
     new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);
-  }
-
-  connect() {
     super.login(this.token);
   }
 }

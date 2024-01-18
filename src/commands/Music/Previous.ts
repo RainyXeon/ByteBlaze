@@ -25,7 +25,6 @@ export default class implements Command {
       handler.guild!.id
     ) as KazagumoPlayer;
     const previousIndex = player.queue.previous.length - 1;
-    const previousTrack = player.queue.previous[previousIndex];
 
     if (
       player.queue.previous.length == 0 ||
@@ -46,11 +45,7 @@ export default class implements Command {
         ],
       });
 
-    player.queue.unshift(previousTrack);
-    player.skip();
-    player.queue.previous.slice(previousIndex, 1);
-
-    console.log();
+    player.previous();
 
     const embed = new EmbedBuilder()
       .setDescription(

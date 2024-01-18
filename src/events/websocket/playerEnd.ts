@@ -5,7 +5,10 @@ export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
     if (!client.websocket) return;
 
-    const song = player.queue.previous[0];
+    const prevoiusIndex = player.queue.previous.length - 1;
+
+    const song =
+      player.queue.previous[prevoiusIndex === -1 ? 0 : prevoiusIndex];
 
     const currentData = song
       ? {

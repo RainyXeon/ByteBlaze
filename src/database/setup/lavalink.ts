@@ -3,9 +3,10 @@ import { Manager } from "../../manager.js";
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { VoiceChannel } from "discord.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { Track } from "shoukaku";
 
 export class AutoReconnectLavalinkService {
   client: Manager;
@@ -104,14 +105,14 @@ export class AutoReconnectLavalinkService {
       deaf: true,
     });
 
-    if (data.value.current && data.value.current.length !== 0) {
-      const search = await player.search(data.value.current, {
-        requester: this.client.user,
-      });
-      if (!search.tracks.length) return;
-      await player.play(search.tracks[0]);
+    if (data.value.current && data.value.current !== undefined) {
+      const track = new KazagumoTrack(data.value.current, this.client.user);
+      await player.play(track);
 
       if (data.value.queue.length !== 0)
+        await this.queueDataPush(data.value.queue, player);
+
+      if (data.value.previous.length !== 0)
         await this.queueDataPush(data.value.queue, player);
 
       if (data.value.config.loop !== "none")
@@ -121,29 +122,19 @@ export class AutoReconnectLavalinkService {
     }
   }
 
-  async queueDataPush(query: string[], player: KazagumoPlayer) {
-    const SongAdd = [];
-    let SongLoad = 0;
-
+  async queueDataPush(query: Track[], player: KazagumoPlayer) {
     for (const data of query) {
-      const res = await player.search(data, {
-        requester: this.client.user,
-      });
-      if (res.type == "TRACK") {
-        SongAdd.push(res.tracks[0]);
-        SongLoad++;
-      } else if (res.type == "PLAYLIST") {
-        for (let t = 0; t < res.tracks.length; t++) {
-          SongAdd.push(res.tracks[t]);
-          SongLoad++;
-        }
-      } else if (res.type == "SEARCH") {
-        SongAdd.push(res.tracks[0]);
-        SongLoad++;
-      }
-      if (SongLoad == query.length) {
-        player.queue.add(SongAdd);
-      }
+      const track = new KazagumoTrack(data, this.client.user);
+      track.setKazagumo(this.client.manager);
+      player.queue.add(track);
+    }
+  }
+
+  async previousDataPush(query: Track[], player: KazagumoPlayer) {
+    for (const data of query) {
+      const track = new KazagumoTrack(data, this.client.user);
+      track.setKazagumo(this.client.manager);
+      player.queue.previous.push(track);
     }
   }
 }

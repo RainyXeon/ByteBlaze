@@ -507,6 +507,16 @@ export class KazagumoPlayer {
     await this.node.rest.updatePlayer(data);
   }
 
+  public previous() {
+    const prevoiusData = this.queue.previous;
+    const current = this.queue.current;
+    const index = prevoiusData.length - 1;
+    if (index === -1 || !current)
+      throw new KazagumoError(2, "Previous is empty!");
+    this.play(prevoiusData[index]);
+    this.queue.previous.splice(index, 1);
+  }
+
   private emit(event: string, ...args: any): void {
     this.kazagumo.emit(event, ...args);
   }

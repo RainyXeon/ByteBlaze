@@ -22,15 +22,16 @@ export default class implements PlayerButton {
     if (!player) {
       collector.stop();
     }
-    if (player.queue.previous.length == 0)
+    const previousIndex = player.queue.previous.length - 1;
+
+    if (player.queue.previous.length == 0 || previousIndex === -1)
       return await new ReplyInteractionService(
         client,
         message,
         `${client.i18n.get(language, "music", "previous_notfound")}`
       );
 
-    await player.queue.unshift(player.queue.previous[0]);
-    await player.skip();
+    player.previous();
 
     await new ReplyInteractionService(
       client,

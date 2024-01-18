@@ -190,7 +190,7 @@ export class KazagumoTrack {
     return this;
   }
 
-  private async getTrack(player: KazagumoPlayer | null): Promise<Track> {
+  public async getTrack(player: KazagumoPlayer | null): Promise<Track> {
     if (!this.kazagumo) throw new Error("Kazagumo is not set");
 
     const defaultSearchEngine =

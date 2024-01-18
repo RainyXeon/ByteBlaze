@@ -65,8 +65,7 @@ export class ButtonPrevious {
       });
       return;
     } else {
-      await this.player.queue.unshift(this.player.queue.previous[0]);
-      await this.player.skip();
+      this.player.previous();
 
       const embed = new EmbedBuilder()
         .setDescription(

@@ -44,33 +44,7 @@ export default class {
     client.emit("playerQueue", player);
 
     const autoreconnect = new AutoReconnectBuilderService(client, player);
-
-    if (await autoreconnect.get(player.guildId)) {
-      await client.db.autoreconnect.set(
-        `${player.guildId}.current`,
-        player.queue.current?.uri
-      );
-      await client.db.autoreconnect.set(
-        `${player.guildId}.config.volume`,
-        player.volume
-      );
-      await client.db.autoreconnect.set(
-        `${player.guildId}.config.loop`,
-        player.loop
-      );
-
-      function queueUri() {
-        const res = [];
-        for (let data of player.queue) {
-          res.push(data.uri);
-        }
-        return res.length !== 0 ? res : [];
-      }
-
-      await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
-    } else {
-      await autoreconnect.playerBuild(player.guildId);
-    }
+    await autoreconnect.playerBuild(player.guildId);
 
     let data = await client.db.setup.get(`${channel.guild.id}`);
     if (data && player.textId === data.channel) return;

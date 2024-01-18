@@ -39,7 +39,9 @@ export default class {
     if (data && data.twentyfourseven) return;
 
     if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
-      const newCheckPlayer = await client.manager.players.get(newState.guild.id)
+      const newCheckPlayer = await client.manager.players.get(
+        newState.guild.id
+      );
       if (newCheckPlayer) {
         switch (newCheckPlayer.state) {
           case PlayerState.CONNECTED:
