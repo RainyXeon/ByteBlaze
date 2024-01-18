@@ -127,7 +127,9 @@ export default class implements Command {
 
     if (realtime) {
       const interval: NodeJS.Timeout = setInterval(async () => {
-        if (!player.playing) return clearInterval(interval);
+        if (!player.queue.current || player.queue.current.uri !== song?.uri)
+          return clearInterval(interval);
+        if (!player.playing) return;
         const CurrentDuration = new FormatDuration().parse(player.position);
         const Part = Math.floor((player.position / song!.length!) * 30);
 
