@@ -86,7 +86,7 @@ export class playerLoadSetup {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("spause")
-        .setEmoji(this.icons.pause)
+        .setEmoji(this.icons.play)
         .setDisabled(true),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
