@@ -30,10 +30,8 @@ export default class {
     const currentPlayer = (await client.manager.getPlayer(
       player.guildId
     )) as KazagumoPlayer;
-    if (
-      currentPlayer.state === PlayerState.CONNECTED ||
-      currentPlayer.state === PlayerState.CONNECTING
-    ) {
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
       await player.destroy();
     }
   }

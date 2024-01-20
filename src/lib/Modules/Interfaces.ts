@@ -135,6 +135,8 @@ export const Events = {
   PlayerStuck: "playerStuck",
   PlayerResolveError: "playerResolveError",
   PlayerMoved: "playerMoved",
+  PlayerPause: "playerPause",
+  PlayerResume: "playerResume",
   QueueUpdate: "queueUpdate",
 
   // Kazagumo events

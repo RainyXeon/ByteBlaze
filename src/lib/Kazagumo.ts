@@ -153,6 +153,9 @@ export declare interface Kazagumo {
    */
   on(event: "playerUpdate", listener: (data: unknown) => void): this;
 
+  on(event: "playerResume", listener: (player: KazagumoPlayer) => void): this;
+  on(event: "playerPause", listener: (player: KazagumoPlayer) => void): this;
+
   /**
    * Emitted when a queue updated (track added, changed, etc).
    * @event Kazagumo#queueUpdate
@@ -210,6 +213,8 @@ export declare interface Kazagumo {
     listener: (player: KazagumoPlayer, data: PlayerUpdate) => void
   ): this;
   once(event: "playerUpdate", listener: (data: unknown) => void): this;
+  once(event: "playerResume", listener: (player: KazagumoPlayer) => void): this;
+  once(event: "playerPause", listener: (player: KazagumoPlayer) => void): this;
   once(
     event: "queueUpdate",
     listener: (player: KazagumoPlayer, queue: KazagumoQueue) => void
@@ -257,6 +262,8 @@ export declare interface Kazagumo {
     listener: (player: KazagumoPlayer, data: PlayerUpdate) => void
   ): this;
   off(event: "playerUpdate", listener: (data: unknown) => void): this;
+  off(event: "playerResume", listener: (player: KazagumoPlayer) => void): this;
+  off(event: "playerPause", listener: (player: KazagumoPlayer) => void): this;
   off(
     event: "queueUpdate",
     listener: (player: KazagumoPlayer, queue: KazagumoQueue) => void

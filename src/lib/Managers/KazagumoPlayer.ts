@@ -220,10 +220,14 @@ export class KazagumoPlayer {
     if (typeof pause !== "boolean")
       throw new KazagumoError(1, "pause must be a boolean");
 
-    if (this.paused === pause || !this.queue.totalSize) return this;
+    if (this.paused === pause || !this.queue.totalSize) {
+      this.emit(pause ? Events.PlayerPause : Events.PlayerResume, this);
+      return this;
+    }
     this.paused = pause;
     this.playing = !pause;
     this.shoukaku.setPaused(pause);
+    this.emit(pause ? Events.PlayerPause : Events.PlayerResume, this);
 
     return this;
   }
