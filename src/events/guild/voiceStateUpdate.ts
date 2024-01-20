@@ -84,12 +84,17 @@ export default class {
     if (
       newState.guild.members.me!.voice?.channel &&
       newState.guild.members.me!.voice.channel.members.filter(
-        (m) => m.user.id !== client.user?.id
+        (m) => !m.user.bot
       ).size !== 0
     ) {
       if (oldState.channelId) return;
       if (oldState.channelId === newState.channelId) return;
-      if (newState.guild.members.me!.voice.channel.members.size > 2) return;
+      if (
+        newState.guild.members.me!.voice.channel.members.filter(
+          (m) => !m.user.bot
+        ).size > 2
+      )
+        return;
       // Resume player
 
       const leaveTimeout = client.leaveDelay.get(newState.guild.id);

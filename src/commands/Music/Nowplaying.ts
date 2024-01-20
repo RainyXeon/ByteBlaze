@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, Message, NewsChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -39,7 +39,6 @@ export default class implements Command {
         client.user!.avatar
       }.jpeg`;
     const Part = Math.floor((position / song!.length!) * 30);
-    const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
     const fieldDataGlobal = [
       {
@@ -103,7 +102,7 @@ export default class implements Command {
             total_duration: TotalDuration,
           }
         )}`,
-        value: `\`\`\`${Emoji} ${
+        value: `\`\`\`🔴 | ${
           "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
         }\`\`\``,
         inline: false,
@@ -112,9 +111,7 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: player.playing
-          ? `${client.i18n.get(handler.language, "music", "np_title")}`
-          : `${client.i18n.get(handler.language, "music", "np_title_pause")}`,
+        name: `${client.i18n.get(handler.language, "music", "np_title")}`,
         iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
       })
       .setColor(client.color)
@@ -125,10 +122,22 @@ export default class implements Command {
 
     const NEmbed = await handler.editReply({ content: " ", embeds: [embeded] });
 
+    const currentNP = client.nowPlaying.get(`${handler.guild?.id}`);
+    if (currentNP) {
+      clearInterval(currentNP.interval);
+      await currentNP.msg?.delete();
+      client.nowPlaying.delete(`${handler.guild?.id}`);
+    }
+
     if (realtime) {
       const interval: NodeJS.Timeout = setInterval(async () => {
-        if (!player.queue.current || player.queue.current.uri !== song?.uri)
-          return clearInterval(interval);
+        const currentNPInterval = client.nowPlaying.get(`${handler.guild?.id}`);
+        if (!currentNPInterval)
+          client.nowPlaying.set(`${handler.guild?.id}`, {
+            interval: interval,
+            msg: NEmbed,
+          });
+        if (!player.queue.current) return clearInterval(interval);
         if (!player.playing) return;
         const CurrentDuration = new FormatDuration().parse(player.position);
         const Part = Math.floor((player.position / song!.length!) * 30);
@@ -154,13 +163,7 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: player.playing
-              ? `${client.i18n.get(handler.language, "music", "np_title")}`
-              : `${client.i18n.get(
-                  handler.language,
-                  "music",
-                  "np_title_pause"
-                )}`,
+            name: `${client.i18n.get(handler.language, "music", "np_title")}`,
             iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
           })
           .setColor(client.color)

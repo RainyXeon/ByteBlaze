@@ -35,6 +35,7 @@ import { RequestInterface } from "./webserver/RequestInterface.js";
 import { DeployService } from "./services/DeployService.js";
 import { PlayerButton } from "./@types/Button.js";
 import { Command } from "./structures/Command.js";
+import { GlobalMsg } from "./structures/CommandHandler.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -79,6 +80,7 @@ export class Manager extends Client {
   aliases: Collection<string, string>;
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
+  nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
   websocket?: WebSocket;
   wsMessage?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
@@ -150,6 +152,7 @@ export class Manager extends Client {
     this.nplayingMsg = new Collection();
     this.plButton = new Collection();
     this.leaveDelay = new Collection();
+    this.nowPlaying = new Collection();
     this.isDatabaseConnected = false;
 
     // Sharing

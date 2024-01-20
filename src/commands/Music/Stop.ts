@@ -28,8 +28,7 @@ export default class implements Command {
     const { channel } = handler.member!.voice;
 
     player.data.set("sudo-destroy", true);
-
-    await player!.destroy();
+    player.destroy();
 
     const embed = new EmbedBuilder()
       .setDescription(

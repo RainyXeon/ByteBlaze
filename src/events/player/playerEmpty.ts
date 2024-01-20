@@ -27,10 +27,14 @@ export default class {
 
     client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
     if (
-      player.state === PlayerState.CONNECTED ||
-      player.state === PlayerState.CONNECTING
-    )
+      currentPlayer.state === PlayerState.CONNECTED ||
+      currentPlayer.state === PlayerState.CONNECTING
+    ) {
       await player.destroy();
+    }
   }
 }

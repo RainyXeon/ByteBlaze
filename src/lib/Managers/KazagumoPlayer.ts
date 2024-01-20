@@ -489,11 +489,9 @@ export class KazagumoPlayer {
     )
       throw new KazagumoError(1, "Player is already destroyed");
 
-    this.disconnect();
     this.state = PlayerState.DESTROYING;
+    this.disconnect();
     await this.kazagumo.shoukaku.leaveVoiceChannel(this.guildId);
-    this.shoukaku.clean();
-    this.shoukaku.removeAllListeners();
     this.kazagumo.players.delete(this.guildId);
     this.state = PlayerState.DESTROYED;
 
