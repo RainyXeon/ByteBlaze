@@ -46,6 +46,7 @@ export default class implements Command {
         handler.prefix
       );
     } else if (handler.interaction) {
+      await this.interactionMode(client, handler.interaction, handler.language);
     } else return;
   }
 
