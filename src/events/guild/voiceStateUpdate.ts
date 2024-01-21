@@ -17,9 +17,13 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
+    if (oldState.member?.user.bot || newState.member?.user.bot) return;
+
     let data = await new AutoReconnectBuilderService(client).get(
       newState.guild.id
     );
+
+    const setup = await client.db.setup.get(newState.guild.id);
 
     client.emit("voiceStateUpdateJoin", oldState, newState);
     client.emit("voiceStateUpdateLeave", oldState, newState);
@@ -37,23 +41,6 @@ export default class {
     if (!player) return;
 
     if (data && data.twentyfourseven) return;
-
-    // if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId) {
-    //   const newCheckPlayer = await client.manager.players.get(
-    //     newState.guild.id
-    //   );
-    //   if (newCheckPlayer) {
-    //     switch (newCheckPlayer.state) {
-    //       case PlayerState.CONNECTED:
-    //         player.data.set("sudo-destroy", true);
-    //         player.destroy();
-    //         break;
-    //       case PlayerState.CONNECTING:
-    //         player.data.set("sudo-destroy", true);
-    //         player.destroy();
-    //     }
-    //   }
-    // }
 
     if (
       newState.channelId &&
@@ -103,8 +90,10 @@ export default class {
         client.leaveDelay.delete(newState.guild.id);
       }
 
+      const currentPause = player.paused;
+
       player.paused == false ? true : player.pause(false);
-      if (player.paused == false && player.shoukaku.track !== null) {
+      if (currentPause !== false && player.shoukaku.track !== null) {
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
@@ -115,7 +104,8 @@ export default class {
           ],
         });
         setTimeout(
-          async () => msg.delete(),
+          async () =>
+            setup && setup.channel !== player.textId ? msg.delete() : true,
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }
@@ -132,9 +122,10 @@ export default class {
         ).size === 0
       ) {
         // Pause player
+        const currentPause = player.paused;
         player.paused == true ? true : player.pause(true);
 
-        if (player.paused == true && player.shoukaku.track !== null) {
+        if (currentPause !== true && player.shoukaku.track !== null) {
           const msg = await leaveEmbed.send({
             embeds: [
               new EmbedBuilder()
@@ -145,7 +136,8 @@ export default class {
             ],
           });
           setTimeout(
-            async () => msg.delete(),
+            async () =>
+              setup && setup.channel !== player.textId ? msg.delete() : true,
             client.config.bot.DELETE_MSG_TIMEOUT
           );
         }
@@ -171,7 +163,10 @@ export default class {
                   ? await leaveEmbed.send({ embeds: [TimeoutEmbed] })
                   : undefined;
                 setTimeout(
-                  async () => (msg ? msg.delete() : undefined),
+                  async () =>
+                    msg && setup && setup.channel !== player.textId
+                      ? msg.delete()
+                      : undefined,
                   client.config.bot.DELETE_MSG_TIMEOUT
                 );
               }

@@ -28,13 +28,11 @@ export class KazagumoInit {
               }),
               new Plugins.Deezer(),
               new Plugins.Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this.client),
               new Plugins.Apple({ countryCode: "us" }),
             ]
           : [
               new Plugins.Deezer(),
               new Plugins.Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this.client),
               new Plugins.Apple({ countryCode: "us" }),
             ],
       },

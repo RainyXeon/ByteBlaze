@@ -38,9 +38,11 @@ export default class {
       .setDescription(`${client.i18n.get(language, "player", "error_desc")}`);
 
     if (channel) {
+      const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => msg.delete(),
+        async () =>
+          setup && setup.channel !== player.textId ? msg.delete() : true,
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }

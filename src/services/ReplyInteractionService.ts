@@ -18,8 +18,10 @@ export class ReplyInteractionService {
       .setColor(this.client.color);
 
     const msg = await this.message.reply({ embeds: [embed], ephemeral: false });
+    const setup = await this.client.db.setup.get(String(this.message.guildId));
+
     setTimeout(() => {
-      msg.delete();
+      setup && setup.channel !== this.message.channelId ? msg.delete() : true;
     }, this.client.config.bot.DELETE_MSG_TIMEOUT);
   }
 }
