@@ -145,7 +145,9 @@ export default class {
         // Delay leave timeout
         let leaveDelayTimeout = setTimeout(async () => {
           const vcMembers =
-            oldState.guild.members.me!.voice.channel?.members.size;
+            oldState.guild.members.me!.voice.channel?.members.filter(
+              (m) => !m.user.bot
+            ).size;
           if (!vcMembers || vcMembers === 1) {
             const newPlayer = client.manager?.players.get(newState.guild.id);
             player.data.set("sudo-destroy", true);
