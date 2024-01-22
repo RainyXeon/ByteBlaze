@@ -84,7 +84,7 @@ export default class {
 
       //////////////////////////////// Ratelimit check start ////////////////////////////////
       const ratelimit = client.buttonRateLimitManager.acquire(
-        interaction.user.id
+        `${interaction.user.id}@${command.name.join("-")}`
       );
 
       if (ratelimit.limited) {
