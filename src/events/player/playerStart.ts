@@ -186,10 +186,10 @@ export default class {
         if (ratelimit.limited) {
           new RatelimitReplyService({
             client: client,
-            language: language,
+            language: String(language),
             button: message,
             time: 2,
-          });
+          }).reply();
           return;
         }
 
@@ -197,7 +197,14 @@ export default class {
 
         if (button) {
           try {
-            button.run(client, message, language, player, nplaying, collector);
+            button.run(
+              client,
+              message,
+              String(language),
+              player,
+              nplaying,
+              collector
+            );
           } catch (err) {
             client.logger.log({ level: "error", message: err });
           }

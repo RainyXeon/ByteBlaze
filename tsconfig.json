@@ -1,11 +1,8 @@
 {
-  "include": [
-    "src/**/*",
-    "src/test.ts", "draft/slash/Music/Volume.ts",
-  ],
+  "include": ["src/**/*", "src/test.ts", "draft/slash/Music/Volume.ts"],
   "ts-node": {
     "esm": true,
-    "experimentalSpecifierResolution": "node"
+    "experimentalSpecifierResolution": "node",
   },
   "compilerOptions": {
     /* Basic Options */
@@ -75,6 +72,6 @@
     // next to the .js files
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
-    "declarationMap": false
-  }
+    "declarationMap": false,
+  },
 }

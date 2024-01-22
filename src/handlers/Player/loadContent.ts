@@ -73,7 +73,7 @@ export class playerLoadContent {
         language: language,
         button: interaction,
         time: 2,
-      });
+      }).reply();
       return;
     }
 
@@ -171,7 +171,7 @@ export class playerLoadContent {
         language: language,
         message: message,
         time: 2,
-      });
+      }).reply();
       return;
     }
 

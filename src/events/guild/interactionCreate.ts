@@ -93,7 +93,7 @@ export default class {
           language: language,
           interaction: interaction as NoAutoInteraction,
           time: 2,
-        });
+        }).reply();
         return;
       }
 

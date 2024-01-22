@@ -69,6 +69,6 @@ Version numbers can come in different combinations, depending on the release typ
 - [@ZoldZap](https://github.com/ZoldZap) [Bug hunter]
 - [@Takiyo0](https://github.com/Takiyo0) [Original developer of [Kazagumo](https://www.npmjs.com/package/kazagumo) ([Github](https://github.com/Takiyo0/Kazagumo))]
 
-    +) I own notting in `/src/lib` except Apple, Deezer, Nico plugins in `/src/lib/Plugins` folder
-  
+  +) I own notting in `/src/lib` except Apple, Deezer, Nico plugins in `/src/lib/Plugins` folder
+
 **And everyone who starred and contribute my project 💖**

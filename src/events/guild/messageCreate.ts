@@ -106,7 +106,7 @@ export default class {
         language: language,
         message: message,
         time: 2,
-      });
+      }).reply();
       return;
     }
 

@@ -29,6 +29,7 @@ export class RatelimitReplyService {
 
   async reply(): Promise<void> {
     if (this.interaction) {
+      const setup = await this.client.db.setup.get(this.interaction.guildId!);
       const msg = await this.interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -40,11 +41,18 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
+      if (this.interaction.channelId !== setup?.channel)
+        setTimeout(
+          () => msg.delete(),
+          this.client.config.bot.DELETE_MSG_TIMEOUT
+        );
+
       return;
     }
 
     if (this.button) {
-      this.button.reply({
+      const setup = await this.client.db.setup.get(this.button.guildId!);
+      const msg = await this.button.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -55,11 +63,18 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
+      if (this.button.channelId !== setup?.channel)
+        setTimeout(
+          () => msg.delete(),
+          this.client.config.bot.DELETE_MSG_TIMEOUT
+        );
+
       return;
     }
 
     if (this.message) {
-      this.message.reply({
+      const setup = await this.client.db.setup.get(this.message.guildId!);
+      const msg = await this.message.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -70,6 +85,12 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
+      if (this.message.channelId !== setup?.channel)
+        setTimeout(
+          () => msg.delete(),
+          this.client.config.bot.DELETE_MSG_TIMEOUT
+        );
+
       return;
     }
   }

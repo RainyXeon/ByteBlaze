@@ -86,7 +86,7 @@ export class PageQueue {
           language: this.language,
           button: interaction as ButtonInteraction,
           time: 2,
-        });
+        }).reply();
         return;
       }
 
