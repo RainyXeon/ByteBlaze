@@ -5,7 +5,7 @@ import { Manager } from "../../manager.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["redeem"];
+  public name = ["pm-redeem"];
   public description = "Redeem your premium!";
   public category = "Premium";
   public accessableby = Accessableby.Member;

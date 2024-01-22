@@ -4,7 +4,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["shutdown"];
+  public name = ["sudo-shutdown"];
   public description = "Shuts down the client!";
   public category = "Owner";
   public accessableby = Accessableby.Owner;

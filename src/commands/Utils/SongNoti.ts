@@ -5,7 +5,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
 export default class implements Command {
-  public name = ["song-noti"];
+  public name = ["songnoti"];
   public description = "Enable or disable the player control notifications";
   public category = "Utils";
   public accessableby = Accessableby.Manager;

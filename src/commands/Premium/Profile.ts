@@ -5,7 +5,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["profile"];
+  public name = ["pm-profile"];
   public description = "View your premium profile!";
   public category = "Premium";
   public accessableby = Accessableby.Premium;
