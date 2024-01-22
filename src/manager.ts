@@ -92,7 +92,6 @@ export class Manager extends Client {
   icons: IconType;
   cluster?: ClusterClient<Client>;
   REGEX: RegExp[];
-  buttonRateLimitManager: RateLimitManager;
   queryRateLimitManager: RateLimitManager;
   commandRateLimitManager: RateLimitManager;
 
@@ -172,7 +171,6 @@ export class Manager extends Client {
       : NormalModeIcons;
 
     // Rate limit setup
-    this.buttonRateLimitManager = new RateLimitManager(1000);
     this.queryRateLimitManager = new RateLimitManager(1000);
     this.commandRateLimitManager = new RateLimitManager(2000);
 

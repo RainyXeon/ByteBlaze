@@ -52,7 +52,7 @@ export class RatelimitReplyService {
 
     if (this.button) {
       const setup = await this.client.db.setup.get(this.button.guildId!);
-      const msg = await this.button.reply({
+      const msg = await this.button.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(

@@ -83,7 +83,7 @@ export default class {
       if (!command) return commandNameArray.length == 0;
 
       //////////////////////////////// Ratelimit check start ////////////////////////////////
-      const ratelimit = client.buttonRateLimitManager.acquire(
+      const ratelimit = client.commandRateLimitManager.acquire(
         `${interaction.user.id}@${command.name.join("-")}`
       );
 

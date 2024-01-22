@@ -63,22 +63,6 @@ export class playerLoadContent {
 
     const language = guildModel;
 
-    const ratelimit = client.buttonRateLimitManager.acquire(
-      interaction.user.id
-    );
-
-    if (ratelimit.limited) {
-      new RatelimitReplyService({
-        client: client,
-        language: language,
-        button: interaction,
-        time: 2,
-      }).reply();
-      return;
-    }
-
-    ratelimit.consume();
-
     switch (customId) {
       case "sprevious":
         new ButtonPrevious(client, interaction, channel, language, player);
@@ -162,20 +146,6 @@ export class playerLoadContent {
       });
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
-
-    const ratelimit = client.queryRateLimitManager.acquire(message.author.id);
-
-    if (ratelimit.limited) {
-      new RatelimitReplyService({
-        client: client,
-        language: language,
-        message: message,
-        time: 2,
-      }).reply();
-      return;
-    }
-
-    ratelimit.consume();
 
     if (!player)
       player = await client.manager.createPlayer({

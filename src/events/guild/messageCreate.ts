@@ -98,7 +98,9 @@ export default class {
     if (!command) return;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = client.buttonRateLimitManager.acquire(`${message.author.id}@${command.name.join("-")}`);
+    const ratelimit = client.commandRateLimitManager.acquire(
+      `${message.author.id}@${command.name.join("-")}`
+    );
 
     if (ratelimit.limited) {
       new RatelimitReplyService({
