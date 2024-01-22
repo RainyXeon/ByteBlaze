@@ -1,4 +1,4 @@
-import { PlayerState } from "kazagumo";
+import { PlayerState } from "../../lib/main.js";
 import {
   playerRowOne,
   playerRowTwo,
