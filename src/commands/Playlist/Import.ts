@@ -96,18 +96,8 @@ export default class implements Command {
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
-    const msg = await handler.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "playlist", "import_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     if (playlist.tracks?.length == 0)
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -158,7 +148,7 @@ export default class implements Command {
           )
           .setColor(client.color);
 
-        msg?.edit({ content: " ", embeds: [embed] });
+        handler.editReply({ content: " ", embeds: [embed] });
         if (!player.playing) {
           player.play();
         }

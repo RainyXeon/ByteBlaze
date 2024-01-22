@@ -71,16 +71,6 @@ export default class implements Command {
         ],
       });
 
-    const msg = await handler.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "playlist", "create_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     const fullList = await client.db.playlist.all();
 
     const Limit = fullList.filter((data) => {
@@ -88,7 +78,7 @@ export default class implements Command {
     });
 
     if (Limit.length >= client.config.bot.LIMIT_PLAYLIST) {
-      msg?.edit({
+      handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -127,6 +117,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-    msg?.edit({ content: " ", embeds: [embed] });
+    handler.editReply({ content: " ", embeds: [embed] });
   }
 }

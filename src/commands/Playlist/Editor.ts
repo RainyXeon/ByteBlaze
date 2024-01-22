@@ -457,22 +457,8 @@ export default class implements Command {
     // Send Message
     await collector.deferReply();
 
-    const msg = await collector.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(
-              language,
-              "playlist",
-              "ineraction_edit_loading"
-            )}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     if (!playlist)
-      return msg.edit({
+      return interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -502,7 +488,7 @@ export default class implements Command {
 
     if (newId) {
       if (!this.vaildId(newId))
-        return msg.edit({
+        return interaction.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -519,7 +505,7 @@ export default class implements Command {
       const isAlreadyId = await client.db.playlist.get(newId);
 
       if (isAlreadyId)
-        return msg.edit({
+        return interaction.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -534,7 +520,7 @@ export default class implements Command {
         });
 
       if (this.validMode(String(newMode)) == null)
-        return msg.edit({
+        return interaction.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -554,7 +540,7 @@ export default class implements Command {
         created: playlist.created,
       });
 
-      await msg.edit({
+      await interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -576,7 +562,7 @@ export default class implements Command {
     }
 
     if (this.validMode(String(newMode)) == null)
-      return msg.edit({
+      return interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -590,7 +576,7 @@ export default class implements Command {
     await client.db.playlist.set(`${value}.description`, newDes);
     await client.db.playlist.set(`${value}.private`, newMode);
 
-    await msg.edit({
+    await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setDescription(

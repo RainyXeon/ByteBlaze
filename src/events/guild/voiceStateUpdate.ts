@@ -8,7 +8,6 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
-import { PlayerState } from "../../lib/main.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -16,6 +15,17 @@ export default class {
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
+
+    const player = client.manager?.players.get(newState.guild.id);
+    if (!player) return;
+
+    if (
+      newState.channelId == null &&
+      newState.member?.user.id === client.user?.id
+    ) {
+      player.data.set("sudo-destroy", true);
+      player.voiceId !== null ? player.destroy() : true;
+    }
 
     if (oldState.member?.user.bot || newState.member?.user.bot) return;
 
@@ -37,10 +47,10 @@ export default class {
     }
     const language = guildModel;
 
-    const player = client.manager?.players.get(newState.guild.id);
-    if (!player) return;
-
     if (data && data.twentyfourseven) return;
+
+    if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId)
+      player.voiceId !== null ? player.destroy() : true;
 
     if (
       newState.channelId &&

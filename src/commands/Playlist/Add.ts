@@ -63,18 +63,8 @@ export default class implements Command {
 
     const Inputed = input;
 
-    const msg = await handler.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "playlist", "add_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     if (!input)
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -90,7 +80,7 @@ export default class implements Command {
     const tracks = result.tracks;
 
     if (!result.tracks.length)
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -118,7 +108,7 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -130,7 +120,7 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -142,12 +132,18 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
     } else {
       //The playlist link is invalid.
-      return msg?.edit(
-        `${client.i18n.get(handler.language, "playlist", "add_match")}`
-      );
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "playlist", "add_match")}`
+            )
+            .setColor(client.color),
+        ],
+      });
     }
 
     const playlist = await client.db.playlist.get(value);

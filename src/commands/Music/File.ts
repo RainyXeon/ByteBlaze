@@ -50,21 +50,9 @@ export default class implements Command {
         ],
       });
 
-    const msg = await handler.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "music", "file_loading", {
-              result: file.name,
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     const { channel } = handler.member!.voice;
     if (!channel)
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -75,7 +63,7 @@ export default class implements Command {
       });
 
     if (file.contentType !== "audio/mpeg" && file.contentType !== "audio/ogg")
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -89,7 +77,7 @@ export default class implements Command {
         ],
       });
     if (!file.contentType)
-      msg?.edit({
+      handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -117,7 +105,7 @@ export default class implements Command {
     const tracks = result.tracks;
 
     if (!result.tracks.length)
-      return msg?.edit({
+      return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -150,7 +138,7 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
@@ -163,7 +151,7 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
@@ -174,10 +162,19 @@ export default class implements Command {
           request: String(tracks[0].requester),
         })}`
       );
-      msg?.edit({ content: " ", embeds: [embed] });
+      handler.editReply({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();
     } else {
-      msg?.edit(`${client.i18n.get(handler.language, "music", "play_match")}`);
+      handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "music", "play_match")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      player.data.set("sudo-destroy", true);
       player.destroy();
     }
   }
