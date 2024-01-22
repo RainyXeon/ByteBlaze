@@ -9,12 +9,12 @@ const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
 export default class implements Command {
-  public name = ["playlist", "save-queue"];
+  public name = ["pl-save-queue"];
   public description = "Save the current queue to a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<playlist_id>";
-  public aliases = ["pl-sq", "pl-save-queue"];
+  public aliases = ["pl-sq"];
   public lavalink = true;
   public playerCheck = true;
   public usingInteraction = true;

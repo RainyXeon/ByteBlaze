@@ -5,12 +5,12 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["playlist", "create"];
+  public name = ["pl-create"];
   public description = "Create a new playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<playlist_name> <playlist_description>";
-  public aliases = ["pl-create"];
+  public aliases = [];
   public lavalink = true;
   public playerCheck = false;
   public usingInteraction = true;

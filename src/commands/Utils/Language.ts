@@ -10,7 +10,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["settings", "language"];
+  public name = ["language"];
   public description = "Change the language for the bot";
   public category = "Utils";
   public accessableby = Accessableby.Manager;

@@ -11,12 +11,12 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 let playlist: Playlist | null;
 
 export default class implements Command {
-  public name = ["playlist", "import"];
+  public name = ["pl-import"];
   public description = "Import a playlist to queue.";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<playlist_id>";
-  public aliases = ["pl-import"];
+  public aliases = [];
   public lavalink = true;
   public playerCheck = false;
   public usingInteraction = true;

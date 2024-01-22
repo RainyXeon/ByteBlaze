@@ -5,7 +5,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["filter", "equalizer"];
+  public name = ["equalizer"];
   public description = "Custom Equalizer!";
   public category = "Filter";
   public accessableby = Accessableby.Member;

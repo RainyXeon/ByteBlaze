@@ -6,7 +6,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 
 export default class implements Command {
-  public name = ["premium", "generate"];
+  public name = ["pm-generate"];
   public description = "Generate a premium code!";
   public category = "Premium";
   public accessableby = Accessableby.Owner;

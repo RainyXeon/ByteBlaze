@@ -17,12 +17,12 @@ let count = 0;
 let answer: string[] = [];
 
 export default class implements Command {
-  public name = ["playlist", "editor"];
+  public name = ["pl-editor"];
   public description = "Edit playlist info for public";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<playlist_id>";
-  public aliases = ["pl-editor"];
+  public aliases = [];
   public lavalink = true;
   public playerCheck = false;
   public usingInteraction = true;

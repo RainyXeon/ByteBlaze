@@ -7,12 +7,12 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["playlist", "all"];
+  public name = ["pl-all"];
   public description = "View all your playlists";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<number>";
-  public aliases = ["pl-all"];
+  public aliases = [];
   public lavalink = false;
   public playerCheck = false;
   public usingInteraction = true;

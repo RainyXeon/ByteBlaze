@@ -11,7 +11,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["settings", "setup"];
+  public name = ["setup"];
   public description = "Setup channel song request";
   public category = "Utils";
   public accessableby = Accessableby.Manager;

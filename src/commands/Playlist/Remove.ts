@@ -4,12 +4,12 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["playlist", "remove"];
+  public name = ["pl-remove"];
   public description = "Remove a song from a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
   public usage = "<playlist_id> <song_postion>";
-  public aliases = ["pl-remove"];
+  public aliases = [];
   public lavalink = true;
   public playerCheck = false;
   public usingInteraction = true;
