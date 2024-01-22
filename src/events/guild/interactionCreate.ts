@@ -19,6 +19,8 @@ import { CheckPermissionServices } from "../../services/CheckPermissionService.j
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
+import { ReplyInteractionService } from "../../services/ReplyInteractionService.js";
+import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 
 /**
  * @param {GlobalInteraction} interaction
@@ -80,6 +82,24 @@ export default class {
 
       if (!command) return commandNameArray.length == 0;
 
+      //////////////////////////////// Ratelimit check start ////////////////////////////////
+      const ratelimit = client.buttonRateLimitManager.acquire(
+        interaction.user.id
+      );
+
+      if (ratelimit.limited) {
+        new RatelimitReplyService({
+          client: client,
+          language: language,
+          interaction: interaction as NoAutoInteraction,
+          time: 2,
+        });
+        return;
+      }
+
+      ratelimit.consume();
+      //////////////////////////////// Ratelimit check end ////////////////////////////////
+
       if (
         Number(interaction.type) ==
           InteractionType.ApplicationCommandAutocomplete &&
@@ -95,15 +115,6 @@ export default class {
         }
         return;
       }
-
-      const msg_cmd = [
-        `[COMMAND] ${command.name[0]}`,
-        `${command.name[1] || ""}`,
-        `${command.name[2] || ""}`,
-        `used by ${interaction.user.tag} from ${interaction.guild.name} (${interaction.guild.id})`,
-      ];
-
-      client.logger.info(`${msg_cmd.join(" ")}`);
 
       //////////////////////////////// Permission check start ////////////////////////////////
       const permissionChecker = new CheckPermissionServices();
@@ -276,6 +287,12 @@ export default class {
         });
 
         if (attachments) handler.addSingleAttachment(attachments);
+
+        client.logger.info(
+          `[COMMAND] ${commandNameArray.join("-")} used by ${
+            interaction.user.username
+          } from ${interaction.guild.name} (${interaction.guild.id})`
+        );
 
         command.execute(client, handler);
       } catch (error) {

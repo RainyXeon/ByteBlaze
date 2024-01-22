@@ -9,6 +9,7 @@ import {
 } from "../../assets/PlayerControlButton.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
+import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -175,6 +176,25 @@ export default class {
       async (message: ButtonInteraction): Promise<void> => {
         const id = message.customId;
         const button = client.plButton.get(id);
+
+        const language = guildModel;
+
+        const ratelimit = client.buttonRateLimitManager.acquire(
+          message.user.id
+        );
+
+        if (ratelimit.limited) {
+          new RatelimitReplyService({
+            client: client,
+            language: language,
+            button: message,
+            time: 2,
+          });
+          return;
+        }
+
+        ratelimit.consume();
+
         if (button) {
           try {
             button.run(client, message, language, player, nplaying, collector);

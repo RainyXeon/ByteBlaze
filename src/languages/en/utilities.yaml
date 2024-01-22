@@ -46,3 +46,6 @@ ce_finder_example: "Do `%{command}` for the list of the commands."
 
 ce_name: "Command List"
 ce_total: "Total Commands: "
+
+### Ratelimit
+ratelimit: "⚠️ | Your action is too quickly! Please wait for %{time} seconds."

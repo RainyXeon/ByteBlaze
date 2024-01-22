@@ -47,3 +47,6 @@ ce_finder_example: "Thực hiện `%{command}` cho danh sách lệnh."
 
 ce_name: "Danh sách lệnh"
 ce_total: "Tổng số lệnh:"
+
+### Giới hạn tỷ lệ
+ratelimit: "⚠️ | Hành động của bạn quá nhanh! Vui lòng đợi %{time} giây."

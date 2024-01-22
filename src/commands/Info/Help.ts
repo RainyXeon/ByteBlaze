@@ -1,13 +1,10 @@
 import {
   EmbedBuilder,
-  ActionRowBuilder,
-  StringSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
-  CommandInteraction,
+  ApplicationCommandOptionType,
+  APIEmbedField,
 } from "discord.js";
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
-import fs from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -17,176 +14,197 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default class implements Command {
   public name = ["help"];
-  public description =
-    "Guild how to use bot and command explorer. Also a command explorer with fancy ui";
+  public description = "Displays all commands that the bot has.";
   public category = "Info";
   public accessableby = Accessableby.Member;
-  public usage = "";
+  public usage = "<commamnd_name>";
   public aliases = ["h"];
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
-  public options = [];
+  public options = [
+    {
+      name: "command",
+      description: "The command name",
+      type: ApplicationCommandOptionType.String,
+      required: false,
+    },
+  ];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const category = readdirSync(join(__dirname, "..", "..", "commands"));
+    if (handler.args[0]) {
+      const embed = new EmbedBuilder()
+        .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
+        .setColor(client.color);
+
+      let command = client.commands.get(
+        client.aliases.get(handler.args[0].toLowerCase()) ||
+          handler.args[0].toLowerCase()
+      );
+      if (!command)
+        return handler.editReply({
+          embeds: [
+            embed
+              .setTitle(
+                `${client.i18n.get(
+                  handler.language,
+                  "utilities",
+                  "ce_finder_invalid"
+                )}`
+              )
+              .setDescription(
+                `${client.i18n.get(
+                  handler.language,
+                  "utilities",
+                  "ce_finder_example",
+                  {
+                    command: `${handler.prefix}${this.name[0]}`,
+                  }
+                )}`
+              ),
+          ],
+        });
+
+      const eString = this.transalatedFinder(client, handler);
+
+      embed.setDescription(stripIndents`
+        ${eString.name} \`${command.name.join("-")}\`
+        ${eString.des} \`${command.description || eString.desNone}\`
+        ${eString.usage} ${
+          command.usage
+            ? `\`${handler.prefix}${
+                handler.interaction
+                  ? command.name.join(" ")
+                  : command.name.join("-")
+              } ${command.usage}\``
+            : `\`${eString.usageNone}\``
+        }
+        ${eString.access} \`${command.accessableby}\`
+        ${eString.aliases} \`${
+          command.aliases && command.aliases.length !== 0
+            ? command.aliases.join(", ") + eString.aliasesPrefix
+            : eString.aliasesNone
+        }\`
+        ${eString.slash} \`${
+          command.usingInteraction ? eString.slashEnable : eString.slashDisable
+        }\`
+        `);
+
+      return handler.editReply({ embeds: [embed] });
+    }
+
+    const embedFieldArray = this.fieldArray(client, handler);
 
     const embed = new EmbedBuilder()
-      .setAuthor({
-        name: `${client.i18n.get(handler.language, "utilities", "help_author", {
-          name: handler.guild!.members.me!.displayName,
-        })}`,
-      })
-      .setDescription(
-        stripIndents`${client.i18n.get(handler.language, "help", "welcome", {
-          bot: handler.guild!.members.me!.displayName,
-        })}
-            ${client.i18n.get(handler.language, "help", "intro1", {
-              bot: handler.guild!.members.me!.displayName,
-            })}
-            ${client.i18n.get(handler.language, "help", "intro2")}
-            ${client.i18n.get(handler.language, "help", "intro3")}
-            ${client.i18n.get(handler.language, "help", "prefix", {
-              prefix: `\`${handler.prefix}\``,
-            })}
-            ${client.i18n.get(handler.language, "help", "ver", {
-              botver: client.metadata.version,
-            })}
-            ${client.i18n.get(handler.language, "help", "djs", {
-              djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
-                .dependencies["discord.js"],
-            })}
-            ${client.i18n.get(handler.language, "help", "lavalink", {
-              aver: client.metadata.autofix,
-            })}
-            ${client.i18n.get(handler.language, "help", "codename", {
-              codename: client.metadata.codename,
-            })}
-            `
-      )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
+      .setAuthor({
+        name: `${client.i18n.get(handler.language, "utilities", "ce_name")}`,
+      })
+      .addFields(embedFieldArray)
       .setFooter({
-        text: `Total Commands: ${client.commands.size}`,
+        text: `${handler.guild!.members.me!.displayName} | ${client.i18n.get(
+          handler.language,
+          "utilities",
+          "ce_total"
+        )} ${client.commands.size}`,
         iconURL: client.user!.displayAvatarURL(),
       });
+    await handler.editReply({ embeds: [embed] });
+  }
 
-    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([
-      new StringSelectMenuBuilder()
-        .setCustomId("help-category")
-        .setPlaceholder(
-          `${client.i18n.get(handler.language, "utilities", "help_desc")}`
-        )
-        .setMaxValues(1)
-        .setMinValues(1)
-        /// Map the category to the select menu
-        .setOptions(
-          category.map((category: string) => {
-            return new StringSelectMenuOptionBuilder()
-              .setLabel(category)
-              .setValue(category);
+  private fieldArray(
+    client: Manager,
+    handler: CommandHandler
+  ): APIEmbedField[] {
+    const fieldRes: APIEmbedField[] = [];
+    const categories = readdirSync(join(__dirname, "..", "..", "commands"));
+
+    for (const category of categories) {
+      const obj = {
+        name: `❯  ${category.toUpperCase()} [${
+          client.commands.filter((c) => c.category === category).size
+        }]`,
+        value: `${client.commands
+          .filter((c) => c.category === category)
+          .filter((c) => {
+            if (handler.interaction) {
+              return c.usingInteraction;
+            } else {
+              return c;
+            }
           })
-        ),
-    ]);
+          .map((c) => `\`${c.name.join("-")}\``)
+          .join(", ")}`,
+        inline: false,
+      };
+      fieldRes.push(obj);
+    }
 
-    const msg = await handler.editReply({ embeds: [embed], components: [row] });
+    return fieldRes;
+  }
 
-    let collector = await msg?.createMessageComponentCollector({
-      filter: (i) =>
-        i.isStringSelectMenu() &&
-        i.user &&
-        i.message.author.id == client.user!.id &&
-        i.user.id == handler.user?.id,
-      time: 1000 * 60 * 10,
-    });
-
-    collector?.on("collect", async (m) => {
-      if (m.isStringSelectMenu()) {
-        if (m.customId === "help-category") {
-          await m.deferUpdate();
-          let [directory] = m.values;
-
-          const embed = new EmbedBuilder()
-            .setAuthor({
-              name: `${client.i18n.get(
-                handler.language,
-                "utilities",
-                "help_author",
-                {
-                  name: handler.guild!.members.me!.displayName,
-                }
-              )}`,
-            })
-            .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "help_prefix", {
-                prefix: handler.prefix,
-              })}`
-            )
-            .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
-            .setColor(client.color)
-            .addFields({
-              name: `❯  ${directory.toUpperCase()} [${
-                client.commands.filter((c) => c.category === directory).size
-              }]`,
-              value: `${client.commands
-                .filter((c) => c.category === directory)
-                .filter((c) => {
-                  if (handler.interaction) {
-                    return c.usingInteraction;
-                  } else {
-                    return c;
-                  }
-                })
-                .map((c) => {
-                  const newName = [...c.name];
-                  if (directory.toLowerCase() === "owner")
-                    newName.indexOf("sudo") !== -1
-                      ? newName.splice(newName.indexOf("sudo"), 1)
-                      : true;
-                  if (directory.toLowerCase() === "utils")
-                    newName.indexOf("settings") !== -1
-                      ? newName.splice(newName.indexOf("settings"), 1)
-                      : true;
-                  if (newName.includes(directory.toLowerCase()))
-                    newName.splice(newName.indexOf(directory.toLowerCase()), 1);
-                  return `\`${
-                    handler.interaction ? newName.join(" ") : newName.join("-")
-                  }\``;
-                })
-                .join(", ")}`,
-              inline: false,
-            })
-            .setFooter({
-              text: `${
-                handler.guild!.members.me!.displayName
-              } | ${client.i18n.get(
-                handler.language,
-                "utilities",
-                "ce_total"
-              )} ${client.commands.size}`,
-              iconURL: client.user!.displayAvatarURL(),
-            });
-
-          msg?.edit({ embeds: [embed] });
-        }
-      }
-    });
-
-    collector?.on("end", async (collected, reason) => {
-      if (reason === "time") {
-        const timed = new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(handler.language, "utilities", "help_timeout", {
-              prefix: handler.prefix,
-            })}`
-          )
-          .setColor(client.color);
-
-        msg?.edit({ embeds: [timed], components: [] });
-      }
-    });
+  private transalatedFinder(client: Manager, handler: CommandHandler) {
+    return {
+      name: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_name"
+      )}`,
+      des: `${client.i18n.get(handler.language, "utilities", "ce_finder_des")}`,
+      usage: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_usage"
+      )}`,
+      access: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_access"
+      )}`,
+      aliases: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_aliases"
+      )}`,
+      slash: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_slash"
+      )}`,
+      desNone: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_des_no"
+      )}`,
+      usageNone: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_usage_no"
+      )}`,
+      aliasesPrefix: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_aliases_prefix"
+      )}`,
+      aliasesNone: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_aliases_no"
+      )}`,
+      slashEnable: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_slash_enable"
+      )}`,
+      slashDisable: `${client.i18n.get(
+        handler.language,
+        "utilities",
+        "ce_finder_slash_disable"
+      )}`,
+    };
   }
 }

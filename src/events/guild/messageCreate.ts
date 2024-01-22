@@ -6,6 +6,7 @@ import fs from "fs";
 import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
+import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -95,6 +96,22 @@ export default class {
       client.commands.get(cmd) ||
       client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
+
+    //////////////////////////////// Ratelimit check start ////////////////////////////////
+    const ratelimit = client.buttonRateLimitManager.acquire(message.author.id);
+
+    if (ratelimit.limited) {
+      new RatelimitReplyService({
+        client: client,
+        language: language,
+        message: message,
+        time: 2,
+      });
+      return;
+    }
+
+    ratelimit.consume();
+    //////////////////////////////// Ratelimit check end ////////////////////////////////
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
@@ -276,6 +293,12 @@ export default class {
 
       if (message.attachments.size !== 0)
         handler.addAttachment(message.attachments);
+
+      client.logger.info(
+        `[COMMAND] ${command.name.join("-")} used by ${
+          message.author.username
+        } from ${message.guild?.name} (${message.guild?.id})`
+      );
 
       command.execute(client, handler);
     } catch (error) {

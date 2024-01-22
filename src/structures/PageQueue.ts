@@ -1,14 +1,14 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
   ButtonStyle,
-  CacheType,
   CommandInteraction,
   EmbedBuilder,
   Message,
-  UserSelectMenuInteraction,
 } from "discord.js";
 import { Manager } from "../manager.js";
+import { RatelimitReplyService } from "../services/RatelimitReplyService.js";
 
 export class PageQueue {
   client: Manager;
@@ -75,6 +75,23 @@ export class PageQueue {
 
     collector.on("collect", async (interaction) => {
       if (!interaction.deferred) await interaction.deferUpdate();
+
+      const ratelimit = this.client.buttonRateLimitManager.acquire(
+        interaction.user.id
+      );
+
+      if (ratelimit.limited) {
+        new RatelimitReplyService({
+          client: this.client,
+          language: this.language,
+          button: interaction as ButtonInteraction,
+          time: 2,
+        });
+        return;
+      }
+
+      ratelimit.consume();
+
       if (interaction.customId === "back") {
         page = page > 0 ? --page : this.pages.length - 1;
       } else if (interaction.customId === "next") {

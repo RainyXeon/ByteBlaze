@@ -4,14 +4,13 @@ import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
-import { RateLimitManager } from "@sapphire/ratelimits";
-const rateLimitManager = new RateLimitManager(3000);
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
 import { ButtonSkip } from "./ButtonCommands/Skip.js";
 import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
+import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 
 /**
  * @param {Client} client
@@ -63,6 +62,22 @@ export class playerLoadContent {
     }
 
     const language = guildModel;
+
+    const ratelimit = client.buttonRateLimitManager.acquire(
+      interaction.user.id
+    );
+
+    if (ratelimit.limited) {
+      new RatelimitReplyService({
+        client: client,
+        language: language,
+        button: interaction,
+        time: 2,
+      });
+      return;
+    }
+
+    ratelimit.consume();
 
     switch (customId) {
       case "sprevious":
@@ -148,9 +163,17 @@ export class playerLoadContent {
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
-    const ratelimit = rateLimitManager.acquire(message.author.id);
+    const ratelimit = client.queryRateLimitManager.acquire(message.author.id);
 
-    if (ratelimit.limited) return;
+    if (ratelimit.limited) {
+      new RatelimitReplyService({
+        client: client,
+        language: language,
+        message: message,
+        time: 2,
+      });
+      return;
+    }
 
     ratelimit.consume();
 
