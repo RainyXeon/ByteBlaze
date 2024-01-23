@@ -114,13 +114,13 @@ export default class {
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "player", "request_title")}`,
-          value: `${song!.requester}`,
+          name: `${client.i18n.get(language, "player", "duration_title")}`,
+          value: `${new FormatDuration().parse(song!.length)}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "player", "duration_title")}`,
-          value: `${new FormatDuration().parse(song!.length)}`,
+          name: `${client.i18n.get(language, "player", "request_title")}`,
+          value: `${song!.requester}`,
           inline: true,
         },
         {

@@ -38,7 +38,6 @@ lyrics_toolong: "`⚠️` | Lời bài hát quá dài để hiển thị!"
 ### Nowplaying command!
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 np_title: "Đang phát"
-np_title_pause: "Đã tạm dừng"
 np_current_duration: "`⏰` | Thời lượng hiện tại: `[%{current_duration} / %{total_duration}]`"
 
 ### Pause command!
@@ -52,7 +51,6 @@ play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!
 play_match: "`⚠️` | Bài hát không được tìm thấy!"
 
 ### File command!
-file_loading: "`⏳` | **Đang tải**..."
 file_notfound: "`⚠️` | Vui lòng cung cấp một tệp hợp lệ!"
 play_invalid_file: "`⚠️` | Loại tệp không hợp lệ. Vui lòng sử dụng **mp3** hoặc **ogg**!"
 play_warning_file: "`⚠️` | Tôi không thể phát hiện loại Tệp. Vui lòng sử dụng **mp3** hoặc **ogg**!"

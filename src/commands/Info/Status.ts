@@ -46,7 +46,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: "Status",
+        name: client.user!.username,
         iconURL: String(client.user!.displayAvatarURL({ size: 2048 })),
       })
       .setColor(client.color)

@@ -9,7 +9,7 @@ const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
 export default class implements Command {
-  public name = ["pl-save-queue"];
+  public name = ["pl-savequeue"];
   public description = "Save the current queue to a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;

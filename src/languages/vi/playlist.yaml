@@ -1,12 +1,10 @@
 ### Create command!
-create_loading: "`⏳` | Đang tạo **Danh sách phát**..."
 create_created: "`💿` | Đã tạo **%{playlist}** • `%{id}`"
 create_toolong: "`⚠️` | Tên danh sách phát không được dài hơn **16 ký tự**!"
 des_toolong: "`⚠️` | Mô tả danh sách phát không được dài hơn **1000 ký tự**!"
 create_limit_playlist: "`⚠️` | Bạn không thể tạo nhiều hơn **%{limit} Danh sách phát**!"
 
 ### Add command!
-add_loading: "`⏳` | Đang thêm bài hát vào **Danh sách phát**..."
 add_track: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • %{user}"
 add_playlist: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • (**%{track} Bài hát**) • %{user}"
 add_search: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • %{user}"
@@ -32,7 +30,6 @@ detail_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
 detail_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
 
 ### Import command!
-import_loading: "`⏳` | Đang nhập danh sách phát vào **Hàng đợi**!"
 import_private: "`🔒` | Danh sách phát là **Riêng tư**!"
 import_imported: "`💿` | Đã nhập **%{name}** • `[%{duration}]` • (**%{tracks} Bài hát**) • %{user}"
 import_voice: "`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!"
@@ -91,7 +88,6 @@ ineraction_edit_playlist_id_placeholder: "Nhập ID danh sách phát mới của
 ineraction_edit_playlist_name_placeholder: "Nhập tên danh sách phát mới của bạn!"
 ineraction_edit_playlist_des_placeholder: "Nhập Mô tả danh sách phát mới của bạn!"
 ineraction_edit_playlist_private_placeholder: "Nhập Chế độ hiển thị danh sách phát mới của bạn! [public/private]"
-ineraction_edit_loading: "`⏳` | Đang chỉnh sửa **Thông tin danh sách phát**..."
 ineraction_edit_success: "`✅` | Đã chỉnh sửa thành công thông tin `%{playlistId}`!"
 ineraction_edit_playlist_error: "`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại!"
 ineraction_edit_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
