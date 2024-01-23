@@ -36,7 +36,6 @@ import { DeployService } from "./services/DeployService.js";
 import { PlayerButton } from "./@types/Button.js";
 import { Command } from "./structures/Command.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
-import { RateLimitManager } from "@sapphire/ratelimits";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -92,8 +91,6 @@ export class Manager extends Client {
   icons: IconType;
   cluster?: ClusterClient<Client>;
   REGEX: RegExp[];
-  queryRateLimitManager: RateLimitManager;
-  commandRateLimitManager: RateLimitManager;
 
   // Main class
   constructor() {
@@ -169,10 +166,6 @@ export class Manager extends Client {
     this.icons = this.config.bot.SAFE_ICONS_MODE
       ? SafeModeIcons
       : NormalModeIcons;
-
-    // Rate limit setup
-    this.queryRateLimitManager = new RateLimitManager(1000);
-    this.commandRateLimitManager = new RateLimitManager(2000);
 
     process.on("unhandledRejection", (error) =>
       this.logger.log({ level: "error", message: utils.inspect(error) })

@@ -7,6 +7,8 @@ import { CheckPermissionServices } from "../../services/CheckPermissionService.j
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
+import { RateLimitManager } from "@sapphire/ratelimits";
+const commandRateLimitManager = new RateLimitManager(2000);
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -98,7 +100,7 @@ export default class {
     if (!command) return;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = client.commandRateLimitManager.acquire(
+    const ratelimit = commandRateLimitManager.acquire(
       `${message.author.id}@${command.name.join("-")}`
     );
 

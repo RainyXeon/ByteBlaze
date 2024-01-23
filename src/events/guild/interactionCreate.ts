@@ -19,8 +19,9 @@ import { CheckPermissionServices } from "../../services/CheckPermissionService.j
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
-import { ReplyInteractionService } from "../../services/ReplyInteractionService.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
+import { RateLimitManager } from "@sapphire/ratelimits";
+const commandRateLimitManager = new RateLimitManager(2000);
 
 /**
  * @param {GlobalInteraction} interaction
@@ -83,7 +84,7 @@ export default class {
       if (!command) return commandNameArray.length == 0;
 
       //////////////////////////////// Ratelimit check start ////////////////////////////////
-      const ratelimit = client.commandRateLimitManager.acquire(
+      const ratelimit = commandRateLimitManager.acquire(
         `${interaction.user.id}@${command.name.join("-")}`
       );
 
