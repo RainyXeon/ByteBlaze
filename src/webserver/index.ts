@@ -1,28 +1,42 @@
 import express from "express";
 import expressWs from "express-ws";
 import { Manager } from "../manager.js";
-import { websocket } from "./websocket.js";
+import { WebsocketService } from "./websocket.js";
 import { loadRequest } from "./loadRequest.js";
 
-export async function WebServer(client: Manager) {
-  const { app } = expressWs(express());
-  const port = client.config.features.WEB_SERVER.port;
+export class WebServer {
+  client: Manager;
+  app: expressWs.Application;
+  port: number;
+  constructor(client: Manager) {
+    this.client = client;
+    this.app = expressWs(express()).app;
+    this.port = this.client.config.features.WEB_SERVER.port;
+    if (this.client.config.features.WEB_SERVER.websocket.enable) {
+      this.websocket();
+    }
+    this.alive();
+    this.expose();
+  }
 
-  // Websocket
-  if (client.config.features.WEB_SERVER.websocket.enable) {
-    loadRequest(client);
-    app.ws("/websocket", function (ws, req) {
-      websocket(client, ws, req);
+  websocket() {
+    const client = this.client;
+
+    new loadRequest(client);
+    this.app.ws("/websocket", function (ws, req) {
+      new WebsocketService(client, ws, req);
     });
   }
 
-  // Alive route
-  app.use("/", (req, res) => {
-    res.send("Alive!");
-    res.end();
-  });
+  alive() {
+    this.app.use("/", (req, res) => {
+      res.send("Alive!");
+      res.end();
+    });
+  }
 
-  app.listen(port, "127.0.0.1");
-
-  client.logger.info(`Running web server in port: ${port}`);
+  expose() {
+    this.app.listen(this.port);
+    this.client.logger.info(`Running web server in port: ${this.port}`);
+  }
 }

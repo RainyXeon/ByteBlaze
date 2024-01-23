@@ -5,31 +5,31 @@ import {
   GuildMember,
   PermissionsBitField,
 } from "discord.js";
-import { Radiostations } from "../../../utils/radioLink.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { Radiostations } from "../../../assets/radioLink.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 // Main code
-export default {
-  name: ["radio"],
-  description: "Play radio in voice channel",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["radio"];
+  description = "Play radio in voice channel";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = false;
+  options = [
     {
       name: "number",
       description: "The number of radio to choose the radio station",
       type: 4,
       required: false,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -274,7 +274,7 @@ export default {
           `${client.i18n.get(language, "music", "play_track", {
             title: args2[0],
             url: res.tracks[0].uri,
-            duration: convertTime(res.tracks[0].length as number),
+            duration: new ConvertTime().parse(res.tracks[0].length as number),
             request: String(res.tracks[0].requester),
           })}`
         )
@@ -282,5 +282,5 @@ export default {
       msg.edit({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();
     }
-  },
-};
+  }
+}

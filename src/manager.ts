@@ -7,23 +7,21 @@ import {
   ButtonBuilder,
   Message,
 } from "discord.js";
-import { connectDB } from "./database/index.js";
+import { DatabaseService } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
-import * as configData from "./utils/config.js";
-import winstonLogger from "./utils/logger.js";
+import { ConfigDataService } from "./services/ConfigDataService.js";
+import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
-import { Connectors } from "shoukaku";
-import { Kazagumo, KazagumoPlayer, Plugins } from "better-kazagumo";
+import { Kazagumo, KazagumoPlayer } from "better-kazagumo";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import check_lavalink_server from "./lavaScrap/checkLavalinkServer.js";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
-import { manifest } from "./utils/manifest.js";
-import { PrefixCommand, SlashCommand, WsCommand } from "./@types/Command.js";
+import { ManifestService } from "./services/ManifestService.js";
+import { PrefixCommand, SlashCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
 import { IconType } from "./@types/Emoji.js";
@@ -31,11 +29,19 @@ import { NormalModeIcons } from "./assets/normalMode.js";
 import { SafeModeIcons } from "./assets/safeMode.js";
 import { config } from "dotenv";
 import { DatabaseTable } from "./database/@types.js";
+import { initHandler } from "./handlers/index.js";
+import { KazagumoInit } from "./structures/Kazagumo.js";
+import utils from "node:util";
+import { RequestInterface } from "./webserver/RequestInterface.js";
+import { DeployService } from "./services/DeployService.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-winstonLogger.info("Booting client...");
+const loggerService = new LoggerService().init();
+const configData = new ConfigDataService().data;
+
+loggerService.info("Booting client...");
 
 export class Manager extends Client {
   // Interface
@@ -64,11 +70,12 @@ export class Manager extends Client {
   nplaying_msg: Collection<string, string>;
   aliases: Collection<string, string>;
   websocket?: WebSocket;
-  ws_message?: Collection<string, WsCommand>;
+  ws_message?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
+  enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
   cluster?: ClusterClient<Client>;
 
@@ -83,7 +90,7 @@ export class Manager extends Client {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
-      intents: configData.default.features.MESSAGE_CONTENT.enable
+      intents: configData.features.MESSAGE_CONTENT.enable
         ? [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildVoiceStates,
@@ -96,9 +103,9 @@ export class Manager extends Client {
             GatewayIntentBits.GuildMessages,
           ],
     });
-    this.logger = winstonLogger;
-    this.config = configData.default;
-    this.metadata = manifest.metadata.bot;
+    this.logger = loggerService;
+    this.config = configData;
+    this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.dev = this.config.features.DEV_ID;
@@ -107,7 +114,7 @@ export class Manager extends Client {
       defaultLocale: this.config.bot.LANGUAGE || "en",
       directory: resolve(join(__dirname, "languages")),
     });
-    this.prefix = this.config.features.MESSAGE_CONTENT.prefix || "d!";
+    this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shard_status = false;
 
     // Auto fix lavalink varibles
@@ -144,10 +151,10 @@ export class Manager extends Client {
       : NormalModeIcons;
 
     process.on("unhandledRejection", (error) =>
-      this.logger.log({ level: "error", message: String(error) })
+      this.logger.log({ level: "error", message: utils.inspect(error) })
     );
     process.on("uncaughtException", (error) =>
-      this.logger.log({ level: "error", message: String(error) })
+      this.logger.log({ level: "error", message: utils.inspect(error) })
     );
 
     if (
@@ -159,69 +166,14 @@ export class Manager extends Client {
       process.exit();
     }
 
-    this.manager = new Kazagumo(
-      {
-        defaultSearchEngine: "youtube",
-        // MAKE SURE YOU HAVE THIS
-        send: (guildId, payload) => {
-          const guild = this.guilds.cache.get(guildId);
-          if (guild) guild.shard.send(payload);
-        },
-        plugins: this.config.lavalink.SPOTIFY.enable
-          ? [
-              new Plugins.Spotify({
-                clientId: this.config.lavalink.SPOTIFY.id,
-                clientSecret: this.config.lavalink.SPOTIFY.secret,
-                playlistPageLimit: 1, // optional ( 100 tracks per page )
-                albumPageLimit: 1, // optional ( 50 tracks per page )
-                searchLimit: 10, // optional ( track search limit. Max 50 )
-              }),
-              new Plugins.Deezer(),
-              new Plugins.Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this),
-              new Plugins.Apple({ countryCode: "us" }),
-            ]
-          : [
-              new Plugins.Deezer(),
-              new Plugins.Nico({ searchLimit: 10 }),
-              new Plugins.PlayerMoved(this),
-              new Plugins.Apple({ countryCode: "us" }),
-            ],
-      },
-      new Connectors.DiscordJS(this),
-      this.config.lavalink.NODES,
-      this.config.features.AUTOFIX_LAVALINK.enable
-        ? {
-            reconnectTries:
-              this.config.features.AUTOFIX_LAVALINK.reconnectTries,
-            restTimeout: this.config.features.AUTOFIX_LAVALINK.restTimeout,
-          }
-        : this.config.lavalink.SHOUKAKU_OPTIONS
-    );
-
-    if (this.config.features.AUTOFIX_LAVALINK.enable) {
-      check_lavalink_server(this);
-      setInterval(async () => {
-        check_lavalink_server(this);
-      }, 1800000);
-    }
+    this.manager = new KazagumoInit(this).init;
 
     if (this.config.features.WEB_SERVER.enable) {
-      WebServer(this);
+      new WebServer(this);
     }
-    const loadFile = [
-      "loadEvents.js",
-      "loadNodeEvents.js",
-      "loadPlayer.js",
-      "loadCommand.js",
-    ];
-    if (!this.config.features.WEB_SERVER.websocket.enable)
-      loadFile.splice(loadFile.indexOf("loadWebsocket.js"), 1);
-    loadFile.forEach(async (x) => {
-      (await import(`./handlers/${x}`)).default(this);
-    });
-
-    connectDB(this);
+    new DeployService(this);
+    new initHandler(this);
+    new DatabaseService(this);
   }
 
   connect() {

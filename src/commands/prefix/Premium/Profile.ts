@@ -1,25 +1,24 @@
 import { EmbedBuilder, Message } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "profile",
-  description: "View your premium profile!",
-  category: "Premium",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: true,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "profile";
+  description = "View your premium profile!";
+  category = "Premium";
+  accessableby = Accessableby.Premium;
+  usage = "";
+  aliases = [];
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const PremiumPlan = await client.db.premium.get(`${message.author.id}`);
     const expires = moment(PremiumPlan!.expiresAt).format(
       "do/MMMM/YYYY (HH:mm:ss)"
@@ -41,5 +40,5 @@ export default {
       .setTimestamp();
 
     return message.reply({ embeds: [embed] });
-  },
-};
+  }
+}

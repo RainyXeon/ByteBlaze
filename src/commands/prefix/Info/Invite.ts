@@ -1,24 +1,24 @@
 import { ButtonStyle, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "invite",
-  description: "Shows the invite information of the Bot",
-  category: "Info",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements PrefixCommand {
+  name = "invite";
+  description = "Shows the invite information of the Bot";
+  category = "Info";
+  usage = "";
+  aliases = [];
+  accessableby = Accessableby.Member;
+  lavalink = false;
+
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const invite = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "inv_title", {
@@ -52,5 +52,5 @@ export default {
     );
 
     await message.reply({ embeds: [invite], components: [row2] });
-  },
-};
+  }
+}

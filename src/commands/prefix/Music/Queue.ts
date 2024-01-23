@@ -1,28 +1,26 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
-import { NormalPage } from "../../../structures/PageQueue.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "queue",
-  description: "Show the queue of songs.",
-  category: "Music",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "queue";
+  description = "Show the queue of songs.";
+  category = "Music";
+  usage = "";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
 
     if (value && isNaN(+value))
@@ -70,7 +68,7 @@ export default {
         current
       );
     }
-    const qduration = `${formatDuration(fixedduration())}`;
+    const qduration = `${new FormatDuration().parse(fixedduration())}`;
     const thumbnail = `https://img.youtube.com/vi/${
       song!.identifier
     }/hqdefault.jpg`;
@@ -82,9 +80,9 @@ export default {
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
       songStrings.push(
-        `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatDuration(
-          song.length
-        )}]\`
+        `**${i + 1}.** [${song.title}](${
+          song.uri
+        }) \`[${new FormatDuration().parse(song.length)}]\`
                     `
       );
     }
@@ -107,7 +105,7 @@ export default {
             title: String(song!.title),
             url: String(song!.uri),
             request: String(song!.requester),
-            duration: formatDuration(song!.length),
+            duration: new FormatDuration().parse(song!.length),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
@@ -125,15 +123,13 @@ export default {
 
     if (!value) {
       if (pages.length == pagesNum && player.queue.length > 10)
-        NormalPage(
+        await new PageQueue(
           client,
-          message,
           pages,
           60000,
           player.queue.length,
-          Number(qduration),
           language
-        );
+        ).prefixPage(message, Number(qduration));
       else return message.reply({ embeds: [pages[0]] });
     } else {
       if (isNaN(+value))
@@ -161,5 +157,5 @@ export default {
       const pageNum = Number(value) == 0 ? 1 : Number(value) - 1;
       return message.reply({ embeds: [pages[pageNum]] });
     }
-  },
-};
+  }
+}

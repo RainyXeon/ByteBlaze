@@ -1,26 +1,25 @@
 import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
-import { Radiostations } from "../../../utils/radioLink.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { Radiostations } from "../../../assets/radioLink.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 // Main code
-export default {
-  name: "radio",
-  description: "Play radio in voice channel",
-  category: "Music",
-  usage: "",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "radio";
+  description = "Play radio in voice channel";
+  category = "Music";
+  usage = "";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -267,7 +266,7 @@ export default {
           `${client.i18n.get(language, "music", "play_track", {
             title: args2[0],
             url: res.tracks[0].uri,
-            duration: convertTime(res.tracks[0].length as number),
+            duration: new ConvertTime().parse(res.tracks[0].length as number),
             request: String(res.tracks[0].requester),
           })}`
         )
@@ -275,5 +274,5 @@ export default {
       msg.edit({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();
     }
-  },
-};
+  }
+}

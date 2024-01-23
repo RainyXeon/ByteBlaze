@@ -7,47 +7,38 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
-export default {
-  name: ["playlist", "save", "queue"],
-  description: "Save the current queue to a playlist",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "save", "queue"];
+  description = "Save the current queue to a playlist";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
-      name: "name",
-      description: "The name of the playlist",
+      name: "id",
+      description: "The id of the playlist",
       required: true,
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
       interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
+    ).getString("id");
 
-    const pid = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
-      );
-    });
-
-    const playlist = pid[0].value;
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return interaction.editReply({
@@ -100,6 +91,17 @@ export default {
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;
 
+    if (queue.length == 0 && !current)
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "savequeue_no_tracks")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
@@ -117,7 +119,7 @@ export default {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
-            name: Plist,
+            name: value!,
           })}`
         )
         .setColor(client.color);
@@ -127,7 +129,7 @@ export default {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "savequeue_saved", {
-          name: Plist,
+          name: value!,
           tracks: String(Result!.length),
         })}`
       )
@@ -135,7 +137,7 @@ export default {
     await interaction.editReply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.playlist.push(`${pid[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,
@@ -148,5 +150,5 @@ export default {
     TrackAdd.length = 0;
     TrackExist.length = 0;
     Result = null;
-  },
-};
+  }
+}

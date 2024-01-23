@@ -6,17 +6,16 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoLoop, KazagumoLoopMode } from "../../../@types/Lavalink.js";
+import { KazagumoLoop } from "../../../@types/Lavalink.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["loop"],
-  description: "Loop song in queue type all/current!",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["loop"];
+  description = "Loop song in queue type all/current!";
+  category = "Music";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "type",
       description: "Type of loop",
@@ -37,12 +36,13 @@ export default {
         },
       ],
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const msg = await interaction.editReply({
       embeds: [
@@ -104,5 +104,5 @@ export default {
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [looped] });
     }
-  },
-};
+  }
+}

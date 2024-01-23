@@ -4,29 +4,28 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 let playlist: Playlist | null;
 
-export default {
-  name: "playlist-import",
-  description: "Import a playlist to queue.",
-  category: "Playlist",
-  usage: "<playlist_name_or_id>",
-  aliases: ["pl-import"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-import";
+  description = "Import a playlist to queue.";
+  category = "Playlist";
+  usage = "<playlist_id>";
+  aliases = ["pl-import"];
+  accessableby = Accessableby.Member;
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
 
     if (value == null)
@@ -40,40 +39,8 @@ export default {
         ],
       });
 
-    const { channel } = message.member!.voice;
-    if (!channel)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
-    const player = await client.manager.createPlayer({
-      guildId: message.guild!.id,
-      voiceId: message.member!.voice.channel!.id,
-      textId: message.channel.id,
-      deaf: true,
-    });
-
-    const SongAdd = [];
-    let SongLoad = 0;
-
     if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const filter_level_1 = fullList.filter(function (data) {
-        return (
-          data.value.owner == message.author.id && data.value.name == Plist
-        );
-      });
-
-      playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+      playlist = await client.db.playlist.get(`${value}`);
     }
 
     if (!playlist)
@@ -100,7 +67,21 @@ export default {
       return;
     }
 
-    const totalDuration = convertTime(
+    const { channel } = message.member!.voice;
+    if (!channel)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+    const SongAdd = [];
+    let SongLoad = 0;
+
+    const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
@@ -112,6 +93,24 @@ export default {
           )
           .setColor(client.color),
       ],
+    });
+
+    if (playlist.tracks?.length == 0)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_empty")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = await client.manager.createPlayer({
+      guildId: message.guild!.id,
+      voiceId: message.member!.voice.channel!.id,
+      textId: message.channel.id,
+      deaf: true,
     });
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
@@ -149,5 +148,5 @@ export default {
         }
       }
     }
-  },
-};
+  }
+}

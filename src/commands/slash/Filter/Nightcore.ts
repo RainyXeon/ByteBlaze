@@ -3,20 +3,21 @@ import { Manager } from "../../../manager.js";
 
 import { EmbedBuilder } from "discord.js";
 import delay from "delay";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "nightcore"],
-  description: "Turning on nightcore filter",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["filter", "nightcore"];
+  description = "Turning on nightcore filter";
+  category = "Filter";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const msg = await interaction.editReply({
@@ -79,5 +80,5 @@ export default {
 
     await delay(2000);
     msg.edit({ content: " ", embeds: [nightcored] });
-  },
-};
+  }
+}

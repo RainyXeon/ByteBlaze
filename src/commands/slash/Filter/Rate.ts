@@ -6,28 +6,28 @@ import {
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import delay from "delay";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "rate"],
-  description: "Sets the rate of the song.",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["filter", "rate"];
+  description = "Sets the rate of the song.";
+  category = "Filter";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "amount",
       description: "The amount of rate to set.",
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const value = (
@@ -110,5 +110,5 @@ export default {
       .setColor(client.color);
     await delay(2000);
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

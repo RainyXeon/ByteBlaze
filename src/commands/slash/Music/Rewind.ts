@@ -5,32 +5,31 @@ import {
   GuildMember,
   ApplicationCommandOptionType,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 const rewindNum = 10;
 
 // Main code
-export default {
-  name: ["rewind"],
-  description: "Rewind timestamp in the song!",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["rewind"];
+  description = "Rewind timestamp in the song!";
+  category = "Music";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "seconds",
       description: "Rewind timestamp in the song!",
       type: ApplicationCommandOptionType.Number,
       required: false,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -74,7 +73,7 @@ export default {
       });
 
     const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position);
 
     if (value && !isNaN(value)) {
       if (song_position - value * 1000 > 0) {
@@ -147,5 +146,5 @@ export default {
         });
       }
     }
-  },
-};
+  }
+}

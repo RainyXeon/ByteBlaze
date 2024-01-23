@@ -3,31 +3,30 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { KazagumoTrack } from "better-kazagumo";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 
-export default {
-  name: "playlist-add",
-  description: "Add song to a playlist",
-  category: "Playlist",
-  usage: "<playlist_name> <url_or_name>",
-  aliases: ["pl-add"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-add";
+  description = "Add song to a playlist";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  usage = "<playlist_id> <url_or_name>";
+  aliases = ["pl-add"];
+  lavalink = true;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     if (value == null || !value)
       return message.reply({
@@ -41,7 +40,6 @@ export default {
       });
     const input = args[1];
 
-    const PlaylistName = value!.replace(/_/g, " ");
     const Inputed = input;
 
     const msg = await message.reply({
@@ -53,6 +51,18 @@ export default {
           .setColor(client.color),
       ],
     });
+
+    if (!input)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_match")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     const result = await client.manager.search(input, {
       requester: message.author,
     });
@@ -60,14 +70,20 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        content: `${client.i18n.get(language, "music", "add_match")}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "add_match")}`
+            )
+            .setColor(client.color),
+        ],
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
-    const Duration = convertTime(tracks[0].length as number);
-    const TotalDuration = StartQueueDuration(tracks);
+    const Duration = new ConvertTime().parse(tracks[0].length as number);
+    const TotalDuration = new StartQueueDuration().parse(tracks);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -75,7 +91,7 @@ export default {
           `${client.i18n.get(language, "playlist", "add_playlist", {
             title: tracks[0].title,
             url: Inputed,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             track: String(tracks.length),
             user: String(message.author),
           })}`
@@ -111,15 +127,7 @@ export default {
       return msg.edit(`${client.i18n.get(language, "playlist", "add_match")}`);
     }
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return (
-        data.value.owner == message.author.id && data.value.name == PlaylistName
-      );
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value);
 
     if (!playlist)
       return message.reply({
@@ -164,7 +172,7 @@ export default {
     }
 
     TrackAdd.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,
@@ -178,12 +186,12 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "playlist", "add_added", {
           count: String(TrackAdd.length),
-          playlist: PlaylistName,
+          playlist: value,
         })}`
       )
       .setColor(client.color);
 
     message.reply({ content: " ", embeds: [embed] });
     TrackAdd.length = 0;
-  },
-};
+  }
+}

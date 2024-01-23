@@ -1,28 +1,28 @@
 import { CommandInteraction } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["avatar"],
-  description: "Show your or someone else's profile picture",
-  category: "Image",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["avatar"];
+  description = "Show your or someone else's profile picture";
+  category = "Image";
+  accessableby = Accessableby.Member;
+  lavalink = false;
+  options = [
     {
       name: "user",
       description: "Type your user here",
       type: ApplicationCommandOptionType.User,
       required: false,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = interaction.options.getUser("user");
 
@@ -53,5 +53,5 @@ export default {
         });
       await interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

@@ -62,7 +62,8 @@ Version numbers can come in different combinations, depending on the release typ
 ## 💫 Special thanks
 
 - [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
-- [@Pain6900](https://github.com/Pain6900) [My friend]
-- [@Adivise](https://github.com/Adivise) [Original source]
+- [@PAINFUEG0](https://github.com/PAINFUEG0) [My friend]
+- [@Adivise](https://github.com/Adivise) [inspiration]
 - [@mrstebo](https://github.com/mrstebo) [env praser]
+- [@ZoldZap](https://github.com/ZoldZap) [Bug hunter]
 - And everyone who starred and contribute my project 💖

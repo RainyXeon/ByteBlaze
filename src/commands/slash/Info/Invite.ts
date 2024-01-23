@@ -7,20 +7,25 @@ import {
   ButtonStyle,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import {
+  Accessableby,
+  CommandOptionInterface,
+  SlashCommand,
+} from "../../../@types/Command.js";
 
-export default {
-  name: ["invite"],
-  description: "Shows the invite information of the Bot",
-  category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["info", "invite"];
+  description = "Shows the invite information of the Bot";
+  category = "Info";
+  accessableby = Accessableby.Member;
+  options = [];
+  lavalink = false;
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const invite = new EmbedBuilder()
       .setTitle(
@@ -55,5 +60,5 @@ export default {
     );
 
     await interaction.editReply({ embeds: [invite], components: [row2] });
-  },
-};
+  }
+}

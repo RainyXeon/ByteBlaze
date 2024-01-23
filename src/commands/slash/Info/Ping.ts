@@ -7,20 +7,21 @@ import {
   ButtonStyle,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["ping"],
-  description: "Shows the ping information of the Bot",
-  category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  run: async (
+export default class implements SlashCommand {
+  name = ["info", "ping"];
+  description = "Shows the ping information of the Bot";
+  category = "Info";
+  options = [];
+  lavalink = false;
+  accessableby = Accessableby.Member;
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const ping = new EmbedBuilder()
       .setTitle(
@@ -46,5 +47,5 @@ export default {
     );
 
     await interaction.editReply({ embeds: [ping], components: [row3] });
-  },
-};
+  }
+}

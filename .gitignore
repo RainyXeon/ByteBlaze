@@ -131,8 +131,12 @@ dist
 
 app.yml
 cylane.database.json
+byteblaze.database.json
 .cylane/
 
 .env
 
 .clinic
+
+draft/
+temp/

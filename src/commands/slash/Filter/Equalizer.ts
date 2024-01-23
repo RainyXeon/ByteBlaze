@@ -7,27 +7,27 @@ import {
 } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["filter", "equalizer"],
-  description: "Custom Equalizer!",
-  category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["filter", "equalizer"];
+  description = "Custom Equalizer!";
+  category = "Filter";
+  lavalink = true;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "bands",
       description: "Number of bands to use (max 14 bands.)",
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -150,5 +150,5 @@ export default {
 
     await delay(2000);
     return msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

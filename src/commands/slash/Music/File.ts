@@ -7,28 +7,28 @@ import {
   GuildMember,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["mp3"],
-  description: "Play the music file for the bot",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["mp3"];
+  description = "Play the music file for the bot";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "file",
       description: "The music file to play",
       type: ApplicationCommandOptionType.Attachment,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const file = await (
@@ -172,5 +172,5 @@ export default {
       msg.edit(`${client.i18n.get(language, "music", "play_match")}`);
       player.destroy();
     }
-  },
-};
+  }
+}

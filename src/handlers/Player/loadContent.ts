@@ -1,351 +1,90 @@
 import { Manager } from "../../manager.js";
-import {
-  EmbedBuilder,
-  Client,
-  Message,
-  Awaitable,
-  GuildMember,
-} from "discord.js";
-import { convertTime } from "../../structures/ConvertTime.js";
+import { EmbedBuilder, Message, GuildMember } from "discord.js";
+import { ConvertTime } from "../../structures/ConvertTime.js";
 import delay from "delay";
 import { QueueDuration } from "../../structures/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 
+// Button Commands
+import { ButtonPrevious } from "./ButtonCommands/Previous.js";
+import { ButtonSkip } from "./ButtonCommands/Skip.js";
+import { ButtonStop } from "./ButtonCommands/Stop.js";
+import { ButtonLoop } from "./ButtonCommands/Loop.js";
+import { ButtonPause } from "./ButtonCommands/Pause.js";
+
 /**
  * @param {Client} client
  */
-export async function playerLoadContent(client: Manager) {
-  try {
-    client.on(
-      "interactionCreate",
-      async (interaction: GlobalInteraction): Promise<void> => {
-        if (!interaction.guild || interaction.user.bot) return;
-        if (interaction.isButton()) {
-          const { customId, member } = interaction;
-          let voiceMember = interaction.guild.members.cache.get(
-            (member as GuildMember)!.id
-          );
-          let channel = voiceMember!.voice.channel;
 
-          let player = await client.manager.players.get(interaction.guild.id);
-          if (!player) return;
-
-          const playChannel = client.channels.cache.get(player.textId);
-          if (!playChannel) return;
-
-          let guildModel = await client.db.language.get(`${player.guildId}`);
-          if (!guildModel) {
-            guildModel = await client.db.language.set(
-              `${player.guildId}`,
-              client.config.bot.LANGUAGE
-            );
-          }
-
-          const language = guildModel;
-
-          switch (customId) {
-            case "sprevious":
-              {
-                if (!channel) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (
-                  interaction.guild.members.me!.voice.channel &&
-                  !interaction.guild.members.me!.voice.channel.equals(channel)
-                ) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (!player || !player.queue.previous) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(
-                            language,
-                            "music",
-                            "previous_notfound"
-                          )}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else {
-                  await player.queue.unshift(player.queue.previous);
-                  await player.skip();
-
-                  const embed = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "music", "previous_msg")}`
-                    )
-                    .setColor(client.color);
-
-                  interaction.reply({ embeds: [embed] });
-                }
-              }
-              break;
-
-            case "sskip":
-              {
-                if (!channel) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (
-                  interaction.guild.members.me!.voice.channel &&
-                  !interaction.guild.members.me!.voice.channel.equals(channel)
-                ) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (!player) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(
-                            language,
-                            "noplayer",
-                            "no_player"
-                          )}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else {
-                }
-                if (player.queue.size == 0) {
-                  await player.destroy();
-                  await client.UpdateMusic(player);
-
-                  const embed = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "music", "skip_msg")}`
-                    )
-                    .setColor(client.color);
-
-                  interaction.reply({ embeds: [embed] });
-                } else {
-                  await player.skip();
-
-                  const embed = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "music", "skip_msg")}`
-                    )
-                    .setColor(client.color);
-
-                  interaction.reply({ embeds: [embed] });
-                }
-              }
-              break;
-
-            case "sstop":
-              {
-                if (!channel) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (
-                  interaction.guild.members.me!.voice.channel &&
-                  !interaction.guild.members.me!.voice.channel.equals(channel)
-                ) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (!player) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(
-                            language,
-                            "noplayer",
-                            "no_player"
-                          )}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else {
-                  await player.destroy();
-                  await client.UpdateMusic(player);
-
-                  const embed = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "player", "stop_msg")}`
-                    )
-                    .setColor(client.color);
-
-                  interaction.reply({ embeds: [embed] });
-                }
-              }
-              break;
-
-            case "spause":
-              {
-                if (!channel) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (
-                  interaction.guild.members.me!.voice.channel &&
-                  !interaction.guild.members.me!.voice.channel.equals(channel)
-                ) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(language, "noplayer", "no_voice")}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else if (!player) {
-                  interaction.reply({
-                    embeds: [
-                      new EmbedBuilder()
-                        .setDescription(
-                          `${client.i18n.get(
-                            language,
-                            "noplayer",
-                            "no_player"
-                          )}`
-                        )
-                        .setColor(client.color),
-                    ],
-                  });
-                  return;
-                } else {
-                  await player.pause(!player.paused);
-                  const uni = player.paused
-                    ? `${client.i18n.get(language, "player", "switch_pause")}`
-                    : `${client.i18n.get(language, "player", "switch_resume")}`;
-
-                  const embed = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "player", "pause_msg", {
-                        pause: uni,
-                      })}`
-                    )
-                    .setColor(client.color);
-
-                  interaction.reply({ embeds: [embed] });
-                }
-              }
-              break;
-
-            case "sloop":
-              {
-                if (!player) {
-                  return;
-                }
-                const loop_mode = {
-                  none: "none",
-                  track: "track",
-                  queue: "queue",
-                };
-
-                if (player.loop === "queue") {
-                  await player.setLoop(
-                    loop_mode.none as "none" | "queue" | "track"
-                  );
-
-                  const unloopall = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "music", "unloopall")}`
-                    )
-                    .setColor(client.color);
-                  await interaction.reply({
-                    content: " ",
-                    embeds: [unloopall],
-                  });
-                  return;
-                } else if (player.loop === "none") {
-                  await player.setLoop(
-                    loop_mode.queue as "none" | "queue" | "track"
-                  );
-                  const loopall = new EmbedBuilder()
-                    .setDescription(
-                      `${client.i18n.get(language, "music", "loopall")}`
-                    )
-                    .setColor(client.color);
-                  await interaction.reply({
-                    content: " ",
-                    embeds: [loopall],
-                  });
-                  return;
-                }
-              }
-              break;
-            default:
-              break;
-          }
-        }
-      }
-    );
-  } catch (e) {
-    console.log(e);
+export class playerLoadContent {
+  client: Manager;
+  constructor(client: Manager) {
+    this.client = client;
+    this.register();
   }
-  /**
-   * @param {Client} client
-   * @param {Message} message
-   */
 
-  client.on("messageCreate", async (message: Message): Promise<void> => {
+  register() {
+    try {
+      this.client.on(
+        "interactionCreate",
+        this.interaction.bind(null, this.client)
+      );
+      this.client.on("messageCreate", this.message.bind(null, this.client));
+    } catch (err) {
+      this.client.logger.log({ level: "error", message: err });
+    }
+  }
+
+  async interaction(
+    client: Manager,
+    interaction: GlobalInteraction
+  ): Promise<void> {
+    if (!interaction.guild || interaction.user.bot) return;
+    if (!interaction.isButton()) return;
+    const { customId, member } = interaction;
+    let voiceMember = interaction.guild.members.cache.get(
+      (member as GuildMember)!.id
+    );
+    let channel = voiceMember!.voice.channel;
+
+    let player = await client.manager.players.get(interaction.guild.id);
+    if (!player) return;
+
+    const playChannel = client.channels.cache.get(player.textId);
+    if (!playChannel) return;
+
+    let guildModel = await client.db.language.get(`${player.guildId}`);
+    if (!guildModel) {
+      guildModel = await client.db.language.set(
+        `${player.guildId}`,
+        client.config.bot.LANGUAGE
+      );
+    }
+
+    const language = guildModel;
+
+    switch (customId) {
+      case "sprevious":
+        new ButtonPrevious(client, interaction, channel, language, player);
+        break;
+      case "sskip":
+        new ButtonSkip(client, interaction, channel, language, player);
+        break;
+      case "sstop":
+        new ButtonStop(client, interaction, channel, language, player);
+        break;
+      case "sloop":
+        new ButtonLoop(client, interaction, language, player);
+        break;
+      case "spause":
+        new ButtonPause(client, interaction, channel, language, player);
+        break;
+      default:
+        break;
+    }
+  }
+
+  async message(client: Manager, message: Message): Promise<void> {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.setup.get(`${message.guild.id}`);
     let player = client.manager.players.get(message.guild.id);
@@ -395,9 +134,9 @@ export async function playerLoadContent(client: Manager) {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_voice")}`
+                `${this.client.i18n.get(language, "noplayer", "no_voice")}`
               )
-              .setColor(client.color),
+              .setColor(this.client.color),
           ],
         })
         .then((msg: Message) => {
@@ -439,7 +178,7 @@ export async function playerLoadContent(client: Manager) {
       for (let track of tracks) player.queue.add(track);
     else player.play(tracks[0]);
 
-    const TotalDuration = QueueDuration(player);
+    const TotalDuration = new QueueDuration().parse(player);
 
     if (result.type === "PLAYLIST") {
       if (!player.playing) player.play();
@@ -448,7 +187,7 @@ export async function playerLoadContent(client: Manager) {
           `${client.i18n.get(language, "music", "play_playlist", {
             title: result.tracks[0].title,
             url: result.tracks[0].uri,
-            duration: convertTime(TotalDuration),
+            duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
           })}`
@@ -462,7 +201,9 @@ export async function playerLoadContent(client: Manager) {
           `${client.i18n.get(language, "music", "play_track", {
             title: result.tracks[0].title,
             url: result.tracks[0].uri,
-            duration: convertTime(result.tracks[0].length as number),
+            duration: new ConvertTime().parse(
+              result.tracks[0].length as number
+            ),
             request: `${result.tracks[0].requester}`,
           })}`
         )
@@ -474,7 +215,7 @@ export async function playerLoadContent(client: Manager) {
         `${client.i18n.get(language, "music", "play_result", {
           title: result.tracks[0].title,
           url: result.tracks[0].uri,
-          duration: convertTime(result.tracks[0].length as number),
+          duration: new ConvertTime().parse(result.tracks[0].length as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );
@@ -482,5 +223,5 @@ export async function playerLoadContent(client: Manager) {
     }
 
     await client.UpdateQueueMsg(player);
-  });
+  }
 }

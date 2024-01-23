@@ -6,29 +6,29 @@ import {
   GuildMember,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["volume"],
-  description: "Adjusts the volume of the bot.",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["volume"];
+  description = "Adjusts the volume of the bot.";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "amount",
       description: "The amount of volume to set the bot to.",
       type: ApplicationCommandOptionType.Number,
       required: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -104,5 +104,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [changevol] });
-  },
-};
+  }
+}

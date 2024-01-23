@@ -1,58 +1,20 @@
-function convertTime(duration: number) {
-  var milliseconds = parseInt(`${(duration % 1000) / 100}`),
-    seconds: string | number = parseInt(`${(duration / 1000) % 60}`),
-    minutes: string | number = parseInt(`${(duration / (1000 * 60)) % 60}`),
-    hours: string | number = parseInt(`${(duration / (1000 * 60 * 60)) % 24}`);
+export class ConvertTime {
+  parse(duration: number) {
+    let milliseconds = parseInt(`${(duration % 1000) / 100}`);
+    let seconds: string | number = parseInt(`${(duration / 1000) % 60}`);
+    let minutes: string | number = parseInt(`${(duration / (1000 * 60)) % 60}`);
+    let hours: string | number = parseInt(
+      `${(duration / (1000 * 60 * 60)) % 24}`
+    );
 
-  hours = hours < 10 ? "0" + hours : hours;
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  if (duration < 3600000) {
-    return minutes + ":" + seconds;
-  } else {
-    return hours + ":" + minutes + ":" + seconds;
-  }
-}
-
-function convertNumber(number: number, decPlaces: number) {
-  decPlaces = Math.pow(10, decPlaces);
-
-  var abbrev = ["K", "M", "B", "T"];
-
-  for (var i = abbrev.length - 1; i >= 0; i--) {
-    var size = Math.pow(10, (i + 1) * 3);
-
-    if (size <= number) {
-      number = Math.round((number * decPlaces) / size) / decPlaces;
-
-      if (number == 1000 && i < abbrev.length - 1) {
-        number = 1;
-        i++;
-      }
-
-      let res = String(number);
-
-      res += abbrev[i];
-
-      break;
+    if (duration < 3600000) {
+      return minutes + ":" + seconds;
+    } else {
+      return hours + ":" + minutes + ":" + seconds;
     }
   }
-
-  return number;
 }
-
-function convertHmsToMs(hms: string) {
-  if (hms.length < 3) {
-    const a = hms.split(":");
-    return (hms = String(+a[0] * 1000));
-  } else if (hms.length < 6) {
-    const a = hms.split(":");
-    return (hms = String((+a[0] * 60 + +a[1]) * 1000));
-  } else {
-    const a = hms.split(":");
-    return (hms = String((+a[0] * 60 * 60 + +a[1] * 60 + +a[2]) * 1000));
-  }
-}
-
-export { convertTime, convertNumber, convertHmsToMs };

@@ -1,10 +1,10 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { NormalModeIcons } from "../assets/normalMode.js";
 import { SafeModeIcons } from "../assets/safeMode.js";
-import * as configData from "../utils/config.js";
+import { ConfigDataService } from "../services/ConfigDataService.js";
 import { Config } from "../@types/Config.js";
 
-const data: Config = configData.default;
+const data: Config = new ConfigDataService().data;
 
 let icons = data.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 

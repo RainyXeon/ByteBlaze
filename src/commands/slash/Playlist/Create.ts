@@ -6,16 +6,15 @@ import {
 } from "discord.js";
 import id from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["playlist", "create"],
-  description: "Create a new playlist",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "create"];
+  description = "Create a new playlist";
+  category = "Playlist";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "name",
       description: "The name of the playlist",
@@ -27,12 +26,13 @@ export default {
       description: "The description of the playlist",
       type: ApplicationCommandOptionType.String,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -61,7 +61,6 @@ export default {
         ],
       });
 
-    const PlaylistName = value!.replace(/_/g, " ");
     const msg = await interaction.editReply({
       embeds: [
         new EmbedBuilder()
@@ -78,23 +77,6 @@ export default {
       return data.value.owner == interaction.user.id;
     });
 
-    const Exist = fullList.filter(function (data) {
-      return (
-        data.value.owner == interaction.user.id &&
-        data.value.name == PlaylistName
-      );
-    });
-
-    if (Object.keys(Exist).length !== 0)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "create_name_exist")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     if (Object.keys(Limit).length >= client.config.bot.LIMIT_PLAYLIST) {
       msg.edit({
         embeds: [
@@ -119,7 +101,7 @@ export default {
 
     await client.db.playlist.set(`${idgen}`, {
       id: idgen[0],
-      name: PlaylistName,
+      name: value,
       owner: interaction.user.id,
       tracks: [],
       private: true,
@@ -130,10 +112,11 @@ export default {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "create_created", {
-          playlist: PlaylistName,
+          playlist: String(value),
+          id: idgen[0],
         })}`
       )
       .setColor(client.color);
     return msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

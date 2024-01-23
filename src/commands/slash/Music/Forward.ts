@@ -5,32 +5,31 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 const fastForwardNum = 10;
 
 // Main code
-export default {
-  name: ["forward"],
-  description: "Forward timestamp in the song!",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["forward"];
+  description = "Forward timestamp in the song!";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "seconds",
       description: "The number of seconds to forward the timestamp by.",
       type: ApplicationCommandOptionType.Number,
       required: false,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
@@ -74,7 +73,7 @@ export default {
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position);
 
     if (value && !isNaN(value)) {
       if (song_position + value * 1000 < song!.length!) {
@@ -129,5 +128,5 @@ export default {
         );
       }
     }
-  },
-};
+  }
+}

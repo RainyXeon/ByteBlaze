@@ -5,25 +5,24 @@ import {
 } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "equalizer",
-  description: "Custom Equalizer!",
-  category: "Filter",
-  usage: "<number>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "equalizer";
+  description = "Custom Equalizer!";
+  category = "Filter";
+  usage = "<number>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
 
     if (value && isNaN(+value))
@@ -154,5 +153,5 @@ export default {
 
     await delay(2000);
     return msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

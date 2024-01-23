@@ -1,5 +1,5 @@
 import { ClusterManager } from "discord-hybrid-sharding";
-import * as configData from "./utils/config.js";
+import { ConfigDataService } from "./services/ConfigDataService.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";
@@ -15,7 +15,7 @@ const manager = new ClusterManager(join(__dirname, "index.js"), {
   shardsPerClusters: 2,
   // totalClusters: 7,
   mode: "process", // you can also choose "worker"
-  token: configData.default.bot.TOKEN,
+  token: new ConfigDataService().data.bot.TOKEN,
 });
 
 manager.on("clusterCreate", (cluster) =>

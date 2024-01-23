@@ -1,27 +1,26 @@
 import { Message } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: "remove",
-  description: "Remove song from queue.",
-  category: "Music",
-  usage: "<position>",
-  aliases: ["rm"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "remove";
+  description = "Remove song from queue.";
+  category = "Music";
+  usage = "<position>";
+  aliases = ["rm"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -99,12 +98,12 @@ export default {
         `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
           url: song.uri,
-          duration: convertTime(player.shoukaku.position),
+          duration: new ConvertTime().parse(player.shoukaku.position),
           request: String(song.requester),
         })}`
       )
       .setColor(client.color);
 
     return msg.edit({ embeds: [embed] });
-  },
-};
+  }
+}

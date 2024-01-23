@@ -7,16 +7,15 @@ import {
 import moment from "moment";
 import voucher_codes from "voucher-code-generator";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["premium", "generate"],
-  description: "Generate a premium code!",
-  category: "Premium",
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["premium", "generate"];
+  description = "Generate a premium code!";
+  category = "Premium";
+  accessableby = Accessableby.Owner;
+  lavalink = false;
+  options = [
     {
       name: "plan",
       description: "Avalible: daily, weekly, monthly, yearly",
@@ -47,12 +46,13 @@ export default {
       type: ApplicationCommandOptionType.Number,
       required: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
     const name = (
@@ -117,5 +117,5 @@ export default {
       });
 
     interaction.editReply({ embeds: [embed] });
-  },
-};
+  }
+}

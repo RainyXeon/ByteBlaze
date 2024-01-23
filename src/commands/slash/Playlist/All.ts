@@ -4,32 +4,31 @@ import {
   CommandInteraction,
   CommandInteractionOptionResolver,
 } from "discord.js";
-import { SlashPlaylist } from "../../../structures/PageQueue.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["playlist", "all"],
-  description: "View all your playlists",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["playlist", "all"];
+  description = "View all your playlists";
+  category = "Playlist";
+  lavalink = false;
+  accessableby = Accessableby.Member;
+  options = [
     {
       name: "page",
       description: "The page you want to view",
       required: false,
       type: ApplicationCommandOptionType.Integer,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     const number = (
       interaction.options as CommandInteractionOptionResolver
@@ -58,7 +57,7 @@ export default {
       playlistStrings.push(
         `${client.i18n.get(language, "playlist", "view_embed_playlist", {
           num: String(i + 1),
-          name: playlist.name,
+          name: playlist.id,
           tracks: String(playlist.tracks!.length),
           create: created,
         })}
@@ -90,14 +89,13 @@ export default {
     }
     if (!number) {
       if (pages.length == pagesNum && playlists.length > 10) {
-        SlashPlaylist(
+        new PageQueue(
           client,
-          interaction,
           pages,
           30000,
           playlists.length,
           language
-        );
+        ).slashPlaylistPage(interaction);
         return (playlists.length = 0);
       } else {
         await interaction.editReply({ embeds: [pages[0]] });
@@ -130,5 +128,5 @@ export default {
       await interaction.editReply({ embeds: [pages[pageNum]] });
       return (playlists.length = 0);
     }
-  },
-};
+  }
+}

@@ -1,33 +1,28 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoTrack } from "better-kazagumo";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 const TrackExist: string[] = [];
 let Result: KazagumoTrack[] | null = null;
 
-export default {
-  name: "playlist-save-queue",
-  description: "Save the current queue to a playlist",
-  category: "Playlist",
-  usage: "<playlist_name>",
-  aliases: ["pl-sq", "pl-save-queue", "pl-save"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-save-queue";
+  description = "Save the current queue to a playlist";
+  category = "Playlist";
+  usage = "<playlist_id>";
+  aliases = ["pl-sq", "pl-save-queue"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     if (value == null)
       return message.reply({
@@ -39,14 +34,8 @@ export default {
             .setColor(client.color),
         ],
       });
-    const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
 
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(`${value}`);
 
     if (!playlist)
       return message.reply({
@@ -99,6 +88,17 @@ export default {
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;
 
+    if (queue.length == 0 && !current)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "noplayer", "savequeue_no_tracks")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
@@ -116,7 +116,7 @@ export default {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
-            name: Plist,
+            name: value,
           })}`
         )
         .setColor(client.color);
@@ -126,7 +126,7 @@ export default {
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "savequeue_saved", {
-          name: Plist,
+          name: value,
           tracks: String(queue.length + 1),
         })}`
       )
@@ -134,7 +134,7 @@ export default {
     await message.reply({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,
@@ -147,5 +147,5 @@ export default {
     TrackAdd.length = 0;
     TrackExist.length = 0;
     Result = null;
-  },
-};
+  }
+}

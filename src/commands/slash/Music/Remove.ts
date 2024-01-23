@@ -5,31 +5,31 @@ import {
   GuildMember,
   ApplicationCommandOptionType,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
 // Main code
-export default {
-  name: ["remove"],
-  description: "Remove song from queue",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["remove"];
+  description = "Remove song from queue";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "position",
       description: "The position in queue want to remove.",
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     const msg = await interaction.editReply({
       embeds: [
         new EmbedBuilder()
@@ -100,12 +100,12 @@ export default {
         `${client.i18n.get(language, "music", "removetrack_desc", {
           name: song.title,
           url: song.uri,
-          duration: convertTime(song.length as number),
+          duration: new ConvertTime().parse(song.length as number),
           request: String(song.requester),
         })}`
       )
       .setColor(client.color);
 
     return interaction.editReply({ embeds: [embed] });
-  },
-};
+  }
+}

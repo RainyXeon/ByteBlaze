@@ -1,25 +1,24 @@
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 import { Manager } from "../../../manager.js";
 import { EmbedBuilder, Message } from "discord.js";
 
 // Main code
-export default {
-  name: "previous",
-  description: "Play the previous song in the queue.",
-  category: "Music",
-  usage: "",
-  aliases: ["pre"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "previous";
+  description = "Play the previous song in the queue.";
+  category = "Music";
+  usage = "";
+  aliases = ["pre"];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const msg = await message.reply({
       embeds: [
         new EmbedBuilder()
@@ -74,5 +73,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [embed] });
-  },
-};
+  }
+}

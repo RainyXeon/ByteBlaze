@@ -3,29 +3,28 @@ import {
   ApplicationCommandOptionType,
   Message,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
-import { NormalPage } from "../../../structures/PageQueue.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
+import { PageQueue } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
 import { PlaylistTrack } from "../../../database/schema/Playlist.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "playlist-detail",
-  description: "Detail a playlist",
-  category: "Playlist",
-  usage: "<playlist_name> <number>",
-  aliases: ["pl-detail"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "playlist-detail";
+  description = "Detail a playlist";
+  category = "Playlist";
+  usage = "<playlist_id> <number>";
+  aliases = ["pl-detail"];
+  lavalink = false;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0] ? args[0] : null;
     const number = args[1];
 
@@ -40,15 +39,18 @@ export default {
         ],
       });
 
-    const Plist = value!.replace(/_/g, " ");
+    if (!value)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "detail_notfound")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
-    const fullList = await client.db.playlist.all();
-
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
-    });
-
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.playlist.get(value!);
 
     if (!playlist)
       return message.reply({
@@ -83,13 +85,13 @@ export default {
           title: String(playlists.title),
           url: playlists.uri,
           author: String(playlists.author),
-          duration: formatDuration(playlists.length),
+          duration: new FormatDuration().parse(playlists.length),
         })}
                 `
       );
     }
 
-    const totalDuration = formatDuration(
+    const totalDuration = new FormatDuration().parse(
       playlist.tracks!.reduce(
         (acc: number, cur: PlaylistTrack) => acc + cur.length!,
         0
@@ -126,15 +128,13 @@ export default {
     }
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks!.length > 10)
-        NormalPage(
+        await new PageQueue(
           client,
-          message,
           pages,
           60000,
           playlist.tracks!.length,
-          Number(totalDuration),
           language
-        );
+        ).prefixPage(message, Number(totalDuration));
       else return message.reply({ embeds: [pages[0]] });
     } else {
       if (isNaN(+number))
@@ -167,5 +167,5 @@ export default {
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
       return message.reply({ embeds: [pages[pageNum]] });
     }
-  },
-};
+  }
+}

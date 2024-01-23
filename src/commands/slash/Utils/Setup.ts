@@ -7,16 +7,15 @@ import {
   CommandInteractionOptionResolver,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["settings", "setup"],
-  description: "Setup channel song request",
-  category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
-  options: [
+export default class implements SlashCommand {
+  name = ["settings", "setup"];
+  description = "Setup channel song request";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  lavalink = false;
+  options = [
     {
       name: "type",
       description: "Type of channel",
@@ -33,18 +32,33 @@ export default {
         },
       ],
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
         "type"
       ) === "create"
     ) {
+      const SetupChannel = await client.db.setup.get(
+        `${interaction.guild!.id}`
+      );
+      console.log(SetupChannel);
+      if (SetupChannel!.enable == true)
+        return interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "setup", "setup_enable")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const parent = await interaction.guild!.channels.create({
         name: `${client.user!.username} Music Zone`,
         type: ChannelType.GuildCategory,
@@ -74,17 +88,7 @@ export default {
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
           }.jpeg?size=300`
-        )
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`
-        )
-        .setFooter({
-          text: `${client.i18n.get(
-            language,
-            "setup",
-            "setup_playembed_footer"
-          )}`,
-        });
+        );
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
@@ -130,14 +134,13 @@ export default {
       );
 
       const embed_none = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_deleted", {
-            channel: String(undefined),
-          })}`
-        )
+        .setDescription(`${client.i18n.get(language, "setup", "setup_null")}`)
         .setColor(client.color);
 
-      if (!SetupChannel) return interaction.editReply({ embeds: [embed_none] });
+      if (SetupChannel == null)
+        return interaction.editReply({ embeds: [embed_none] });
+      if (SetupChannel.enable == false)
+        return interaction.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = interaction.guild!.channels.cache.get(
         SetupChannel.channel
@@ -174,5 +177,5 @@ export default {
 
       return interaction.editReply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

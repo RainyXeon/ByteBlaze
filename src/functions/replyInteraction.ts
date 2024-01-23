@@ -1,17 +1,24 @@
 import { EmbedBuilder, ButtonInteraction } from "discord.js";
 import { Manager } from "../manager.js";
 
-export async function replyInteraction(
-  client: Manager,
-  message: ButtonInteraction,
-  content: string
-) {
-  const embed = new EmbedBuilder()
-    .setDescription(content)
-    .setColor(client.color);
+export class ReplyInteractionService {
+  client: Manager;
+  message: ButtonInteraction;
+  content: string;
+  constructor(client: Manager, message: ButtonInteraction, content: string) {
+    this.client = client;
+    this.content = content;
+    this.message = message;
+  }
 
-  const msg = await message.reply({ embeds: [embed], ephemeral: false });
-  setTimeout(() => {
-    msg.delete();
-  }, client.config.bot.DELETE_MSG_TIMEOUT);
+  async execute() {
+    const embed = new EmbedBuilder()
+      .setDescription(this.content)
+      .setColor(this.client.color);
+
+    const msg = await this.message.reply({ embeds: [embed], ephemeral: false });
+    setTimeout(() => {
+      msg.delete();
+    }, this.client.config.bot.DELETE_MSG_TIMEOUT);
+  }
 }

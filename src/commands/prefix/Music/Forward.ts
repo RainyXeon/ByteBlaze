@@ -1,27 +1,26 @@
 import { EmbedBuilder, Message } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 const fastForwardNum = 10;
 
 // Main code
-export default {
-  name: "forward",
-  description: "Forward timestamp in the song!",
-  category: "Music",
-  usage: "<seconds>",
-  aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
+export default class implements PrefixCommand {
+  name = "forward";
+  description = "Forward timestamp in the song!";
+  category = "Music";
+  usage = "<seconds>";
+  aliases = [];
+  lavalink = true;
+  accessableby = Accessableby.Member;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     const value = args[0];
 
     const msg = await message.reply({
@@ -62,7 +61,7 @@ export default {
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = formatDuration(song_position);
+    const CurrentDuration = new FormatDuration().parse(song_position);
 
     if (value && !isNaN(+value)) {
       if (song_position + Number(value) * 1000 < song!.length!) {
@@ -135,5 +134,5 @@ export default {
         });
       }
     }
-  },
-};
+  }
+}

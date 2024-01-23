@@ -1,25 +1,24 @@
 import { Message } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { EmbedBuilder, PermissionsBitField } from "discord.js";
+import { EmbedBuilder } from "discord.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "prefix",
-  aliases: ["setprefix"],
-  usage: "<input>",
-  category: "Utils",
-  description: "Change the prefix for the bot",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+export default class implements PrefixCommand {
+  name = "prefix";
+  aliases = ["setprefix"];
+  usage = "<input>";
+  accessableby = Accessableby.Manager;
+  category = "Utils";
+  description = "Change the prefix for the bot";
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     if (!args[0])
       return message.reply({
         embeds: [
@@ -68,5 +67,5 @@ export default {
 
       return message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}

@@ -5,20 +5,19 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
 } from "discord.js";
-import formatDuration from "../../../structures/FormatDuration.js";
+import { FormatDuration } from "../../../structures/FormatDuration.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 const time_regex = /(^[0-9][\d]{0,3}):(0[0-9]{1}$|[1-5]{1}[0-9])/;
 
 // Main code
-export default {
-  name: ["seek"],
-  description: "Seek timestamp in the song!",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
+export default class implements SlashCommand {
+  name = ["seek"];
+  description = "Seek timestamp in the song!";
+  category = "Music";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "time",
       description:
@@ -26,12 +25,13 @@ export default {
       type: ApplicationCommandOptionType.String,
       required: true,
     },
-  ],
-  run: async (
+  ];
+
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
     let value;
     const time = (
@@ -115,7 +115,7 @@ export default {
 
     console.log(final_res / 1000);
 
-    const Duration = formatDuration(final_res);
+    const Duration = new FormatDuration().parse(final_res);
 
     const seeked = new EmbedBuilder()
       .setDescription(
@@ -126,5 +126,5 @@ export default {
       .setColor(client.color);
 
     msg.edit({ content: " ", embeds: [seeked] });
-  },
-};
+  }
+}

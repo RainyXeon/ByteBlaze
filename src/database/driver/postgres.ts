@@ -1,23 +1,30 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
-import { PostgresDriver } from "quick.db/PostgresDriver";
+import { PostgresDriver } from "dreamvast.quick.db/PostgresDriver";
 import { TableSetup } from "../setup/table.js";
 import { keyChecker } from "../keyChecker.js";
 
-export async function PostgresConnectDriver(
-  client: Manager,
-  db_config: Database
-) {
-  const sampleConfig = {
-    host: "localhost",
-    user: "me",
-    password: "secret",
-    database: "my_db",
-  };
+export class PostgresConnectDriver {
+  client: Manager;
+  dbConfig: Database;
+  constructor(client: Manager, dbConfig: Database) {
+    this.client = client;
+    this.dbConfig = dbConfig;
+    this.connect();
+  }
 
-  keyChecker(db_config.config, sampleConfig, "postgres");
+  async connect() {
+    const sampleConfig = {
+      host: "localhost",
+      user: "me",
+      password: "secret",
+      database: "my_db",
+    };
 
-  const mysqlDriver = new PostgresDriver(db_config.config);
+    new keyChecker(this.dbConfig.config, sampleConfig, "postgres");
 
-  await TableSetup(client, mysqlDriver, "Postgres");
+    const mysqlDriver = new PostgresDriver(this.dbConfig.config);
+
+    new TableSetup(this.client, mysqlDriver, "Postgres");
+  }
 }

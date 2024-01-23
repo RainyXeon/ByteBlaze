@@ -6,100 +6,38 @@ import {
   CommandInteractionOptionResolver,
   GuildMember,
 } from "discord.js";
-import { convertTime } from "../../../structures/ConvertTime.js";
+import { ConvertTime } from "../../../structures/ConvertTime.js";
 import { Playlist } from "../../../database/schema/Playlist.js";
 import { Manager } from "../../../manager.js";
-let playlist: Playlist | null;
+import { Accessableby, SlashCommand } from "../../../@types/Command.js";
 
-export default {
-  name: ["playlist", "import"],
-  description: "Import a playlist to queue.",
-  category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
-  options: [
-    {
-      name: "name",
-      description: "The name of the playlist",
-      type: ApplicationCommandOptionType.String,
-    },
+export default class implements SlashCommand {
+  name = ["playlist", "import"];
+  description = "Import a playlist to queue.";
+  category = "Playlist";
+  accessableby = Accessableby.Member;
+  lavalink = true;
+  options = [
     {
       name: "id",
       description: "The id of the playlist",
       type: ApplicationCommandOptionType.String,
+      required: true,
     },
-  ],
-  run: async (
+  ];
+  async run(
     interaction: CommandInteraction,
     client: Manager,
     language: string
-  ) => {
+  ) {
     await interaction.deferReply({ ephemeral: false });
 
-    const value = (
-      interaction.options as CommandInteractionOptionResolver
-    ).getString("name");
     const id = (
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
-    const { channel } = (interaction.member as GuildMember).voice;
-    if (!channel)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
 
-    const player = await client.manager.createPlayer({
-      guildId: interaction.guild!.id,
-      voiceId: (interaction.member as GuildMember)!.voice.channel!.id,
-      textId: interaction.channel!.id,
-      deaf: true,
-    });
+    const playlist = await client.db.playlist.get(`${id}`);
 
-    const SongAdd = [];
-    let SongLoad = 0;
-
-    if (id) playlist = await client.db.playlist.get(`${id}`);
-    if (value) {
-      const Plist = value.replace(/_/g, " ");
-
-      const fullList = await client.db.playlist.all();
-
-      const pid = fullList.filter(function (data) {
-        return (
-          data.value.owner == interaction.user.id && data.value.name == Plist
-        );
-      });
-
-      playlist = pid[0].value;
-    }
-    if (!id && !value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    if (id && value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     if (!playlist)
       return interaction.editReply({
         embeds: [
@@ -124,7 +62,22 @@ export default {
       return;
     }
 
-    const totalDuration = convertTime(
+    const { channel } = (interaction.member as GuildMember).voice;
+    if (!channel)
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_voice")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const SongAdd = [];
+    let SongLoad = 0;
+
+    const totalDuration = new ConvertTime().parse(
       playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
     );
 
@@ -136,6 +89,24 @@ export default {
           )
           .setColor(client.color),
       ],
+    });
+
+    if (playlist.tracks?.length == 0)
+      return msg.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "playlist", "import_empty")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    const player = await client.manager.createPlayer({
+      guildId: interaction.guild!.id,
+      voiceId: (interaction.member as GuildMember)!.voice.channel!.id,
+      textId: interaction.channel!.id,
+      deaf: true,
     });
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
@@ -173,5 +144,5 @@ export default {
         }
       }
     }
-  },
-};
+  }
+}

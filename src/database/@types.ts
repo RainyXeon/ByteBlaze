@@ -1,4 +1,4 @@
-import { QuickDB } from "quick.db";
+import { QuickDB } from "dreamvast.quick.db";
 import { AutoReconnect } from "./schema/AutoReconnect.js";
 import { Playlist } from "./schema/Playlist.js";
 import { Code } from "./schema/Code.js";

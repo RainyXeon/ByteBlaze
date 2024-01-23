@@ -1,29 +1,23 @@
-import {
-  EmbedBuilder,
-  PermissionsBitField,
-  ChannelType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ChannelType, Message } from "discord.js";
 import { Manager } from "../../../manager.js";
+import { Accessableby, PrefixCommand } from "../../../@types/Command.js";
 
-export default {
-  name: "setup",
-  description: "Setup channel song request",
-  category: "Utils",
-  aliases: ["setup-channel"],
-  usage: "<create or delete>",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+export default class implements PrefixCommand {
+  name = "setup";
+  description = "Setup channel song request";
+  category = "Utils";
+  accessableby = Accessableby.Manager;
+  aliases = ["setup-channel"];
+  usage = "<create or delete>";
+  lavalink = false;
 
-  run: async (
+  async run(
     client: Manager,
     message: Message,
     args: string[],
     language: string,
     prefix: string
-  ) => {
+  ) {
     let option = ["create", "delete"];
     if (!args[0] || !option.includes(args[0]))
       return message.reply({
@@ -41,6 +35,18 @@ export default {
     const choose = args[0];
 
     if (choose === "create") {
+      const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
+      if (SetupChannel!.enable == true)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "setup", "setup_enable")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+
       const parent = await message.guild!.channels.create({
         name: `${client.user!.username} Music Zone`,
         type: ChannelType.GuildCategory,
@@ -71,17 +77,7 @@ export default {
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
           }.jpeg?size=300`
-        )
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`
-        )
-        .setFooter({
-          text: `${client.i18n.get(
-            language,
-            "setup",
-            "setup_playembed_footer"
-          )}`,
-        });
+        );
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
@@ -121,14 +117,18 @@ export default {
       const SetupChannel = await client.db.setup.get(`${message.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(language, "setup", "setup_deleted", {
-            channel: String(undefined),
-          })}`
-        )
+        .setDescription(`${client.i18n.get(language, "setup", "setup_null")}`)
         .setColor(client.color);
 
-      if (!SetupChannel) return message.reply({ embeds: [embed_none] });
+      if (SetupChannel == null)
+        return message.reply({
+          embeds: [embed_none],
+        });
+
+      if (SetupChannel.enable == false)
+        return message.reply({
+          embeds: [embed_none],
+        });
 
       const fetchedTextChannel = message.guild!.channels.cache.get(
         SetupChannel.channel
@@ -166,5 +166,5 @@ export default {
 
       return message.reply({ embeds: [embed] });
     }
-  },
-};
+  }
+}
