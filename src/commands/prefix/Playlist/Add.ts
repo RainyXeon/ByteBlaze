@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo";
 import { Manager } from "../../../manager.js";
 
 const TrackAdd: KazagumoTrack[] = [];
@@ -16,43 +16,23 @@ export default {
   category: "Playlist",
   usage: "<playlist_name> <url_or_name>",
   aliases: ["pl-add"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0] ? args[0] : null;
-    if (value == null || !value)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const input = args[1];
 
     const PlaylistName = value!.replace(/_/g, " ");
     const Inputed = input;
 
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "playlist", "add_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "playlist", "add_loading")}`,
+    );
     const result = await client.manager.search(input, {
       requester: message.author,
     });
@@ -78,7 +58,7 @@ export default {
             duration: convertTime(TotalDuration),
             track: String(tracks.length),
             user: String(message.author),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -90,7 +70,7 @@ export default {
             url: tracks[0].uri,
             duration: Duration,
             user: String(message.author),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -102,7 +82,7 @@ export default {
             url: tracks[0].uri,
             duration: Duration,
             user: String(message.author),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -111,60 +91,38 @@ export default {
       return msg.edit(`${client.i18n.get(language, "playlist", "add_match")}`);
     }
 
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    const filter_level_1 = fullList.filter(function (data) {
+    const pid = Object.keys(fullList).filter(function (key) {
       return (
-        data.value.owner == message.author.id && data.value.name == PlaylistName
+        fullList[key].owner == message.author.id &&
+        fullList[key].name == PlaylistName
       );
     });
 
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
-
-    if (!playlist)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    const playlist = fullList[pid[0]];
 
     if (playlist.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "add_owner")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      message.channel.send(
+        `${client.i18n.get(language, "playlist", "add_owner")}`,
+      );
       TrackAdd.length = 0;
       return;
     }
-    const LimitTrack = playlist.tracks!.length + TrackAdd.length;
+    const LimitTrack = playlist.tracks.length + TrackAdd.length;
 
     if (LimitTrack > client.config.bot.LIMIT_TRACK) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "add_limit_track", {
-                limit: String(client.config.bot.LIMIT_TRACK),
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      message.channel.send(
+        `${client.i18n.get(language, "playlist", "add_limit_track", {
+          limit: client.config.bot.LIMIT_TRACK,
+        })}`,
+      );
       TrackAdd.length = 0;
       return;
     }
 
     TrackAdd.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.push(`playlist.${pid[0]}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,
@@ -179,11 +137,11 @@ export default {
         `${client.i18n.get(language, "playlist", "add_added", {
           count: String(TrackAdd.length),
           playlist: PlaylistName,
-        })}`
+        })}`,
       )
       .setColor(client.color);
 
-    message.reply({ content: " ", embeds: [embed] });
+    message.channel.send({ content: " ", embeds: [embed] });
     TrackAdd.length = 0;
   },
 };

@@ -8,16 +8,12 @@ export default {
   category: "Info",
   usage: "",
   aliases: ["dev"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const xeondex = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "info", "dev_title")}`)
@@ -30,19 +26,19 @@ export default {
         new ButtonBuilder()
           .setLabel("Github (Adivise)")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://github.com/Adivise")
+          .setURL("https://github.com/Adivise"),
       )
       .addComponents(
         new ButtonBuilder()
           .setLabel("Github (XeonDex)")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://github.com/XeonE52680v3")
+          .setURL("https://github.com/XeonE52680v3"),
       )
       .addComponents(
         new ButtonBuilder()
           .setLabel("Support Server")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://discord.com/invite/xHvsCMjnhU")
+          .setURL("https://discord.com/invite/xHvsCMjnhU"),
       );
 
     await message.reply({ embeds: [xeondex], components: [row1] });

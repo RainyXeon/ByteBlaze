@@ -1,14 +1,14 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 
 export default async (client: Manager, player: KazagumoPlayer) => {
   if (!client.is_db_connected)
     return client.logger.warn(
-      "The database is not yet connected so this event will temporarily not execute. Please try again later!"
+      "The database is not yet connected so this event will temporarily not execute. Please try again later!",
     );
 
   const guild = await client.guilds.cache.get(player.guildId);
-  let data = await client.db.language.get(`${player.guildId}`);
+  let data = await client.db.get(`autoreconnect.guild_${player.guildId}`);
 
   if (player.data.get("autoplay") === true) {
     const requester = player.data.get("requester");
@@ -27,6 +27,6 @@ export default async (client: Manager, player: KazagumoPlayer) => {
   await player.destroy();
   if (client.websocket)
     client.websocket.send(
-      JSON.stringify({ op: "player_destroy", guild: player.guildId })
+      JSON.stringify({ op: "player_destroy", guild: player.guildId }),
     );
 };

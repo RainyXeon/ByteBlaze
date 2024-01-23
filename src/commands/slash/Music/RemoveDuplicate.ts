@@ -1,7 +1,7 @@
 import { EmbedBuilder, CommandInteraction, GuildMember } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo";
 
 let OriginalQueueLength: null | number;
 
@@ -10,52 +10,23 @@ export default {
   name: ["remove-duplicate"],
   description: "Remove duplicated song from queue",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
-    await interaction.deferReply({ ephemeral: false });
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "removetrack_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.deferReply({ ephemeral: false });
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     OriginalQueueLength = player.queue.length;
 
@@ -64,7 +35,7 @@ export default {
       if (player.queue.current!.uri == element.uri) {
         player.queue.splice(
           player.queue.indexOf(player.queue.current as KazagumoTrack),
-          1
+          1,
         );
       }
     }
@@ -80,7 +51,7 @@ export default {
           original: String(OriginalQueueLength),
           new: String(unique.length),
           removed: String(OriginalQueueLength - unique.length),
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

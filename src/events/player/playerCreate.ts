@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 
 export default async (client: Manager, player: KazagumoPlayer) => {
@@ -6,6 +6,6 @@ export default async (client: Manager, player: KazagumoPlayer) => {
   client.logger.info(`Player Created in @ ${guild!.name} / ${player.guildId}`);
   if (client.websocket)
     client.websocket.send(
-      JSON.stringify({ op: "player_create", guild: player.guildId })
+      JSON.stringify({ op: "player_create", guild: player.guildId }),
     );
 };

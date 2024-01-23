@@ -6,20 +6,19 @@ export default {
   name: ["profile"],
   description: "View your premium profile!",
   category: "Premium",
-  owner: false,
   premium: true,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
-    const PremiumPlan = await client.db.premium.get(`${interaction.user.id}`);
-    const expires = moment(PremiumPlan!.expiresAt).format(
-      "do/MMMM/YYYY (HH:mm:ss)"
+    const PremiumPlan = await client.db.get(
+      `premium.user_${interaction.user.id}`,
+    );
+    const expires = moment(PremiumPlan.expiresAt).format(
+      "do/MMMM/YYYY (HH:mm:ss)",
     );
 
     const embed = new EmbedBuilder()
@@ -30,9 +29,9 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "premium", "profile_desc", {
           user: interaction.user.tag,
-          plan: PremiumPlan!.plan,
+          plan: PremiumPlan.plan,
           expires: expires,
-        })}`
+        })}`,
       )
       .setColor(client.color)
       .setTimestamp();

@@ -7,10 +7,10 @@ import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { stripIndents } from "common-tags";
 import humanizeDuration from "humanize-duration";
-import { Playlist } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 import { Manager } from "../../../manager.js";
 
-let info: Playlist | null;
+let info: PlaylistInterface | null;
 
 export default {
   name: "playlist-info",
@@ -18,65 +18,48 @@ export default {
   category: "Playlist",
   usage: "<playlist_name_or_id>",
   aliases: ["pl-info"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0] ? args[0] : null;
+    const id = value ? null : args[0];
 
-    if (value == null)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
+    if (id) info = await client.db.get(`playlist.pid_${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.playlist.all();
+      const fullList = await client.db.get("playlist");
 
-      const filter_level_1 = fullList.filter(function (data) {
+      const pid = Object.keys(fullList).filter(function (key) {
         return (
-          data.value.owner == message.author.id && data.value.name == Plist
+          fullList[key].owner == message.author.id &&
+          fullList[key].name == Plist
         );
       });
 
-      info = filter_level_1[0].value;
+      info = fullList[pid[0]];
     }
-
+    if (!id && !value)
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "no_id_or_name")}`,
+      );
+    if (id && value)
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "got_id_and_name")}`,
+      );
     if (!info)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "invalid")}`,
+      );
     if (info.private && info.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      message.channel.send(
+        `${client.i18n.get(language, "playlist", "import_private")}`,
+      );
       return;
     }
     const created = humanizeDuration(Date.now() - Number(info.created), {
@@ -89,7 +72,7 @@ export default {
       .setTitle(
         `${client.i18n.get(language, "playlist", "info_title", {
           name: info.name,
-        })}`
+        })}`,
       )
       .addFields([
         {
@@ -136,6 +119,6 @@ export default {
         },
       ])
       .setColor(client.color);
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
   },
 };

@@ -12,10 +12,6 @@ export default {
   name: ["filter", "bassboost"],
   description: "Turning on bassboost filter",
   category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "amount",
@@ -26,7 +22,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const value = (
@@ -34,30 +30,19 @@ export default {
     ).getInteger("amount");
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
+
     if (!value) {
       const data = {
         op: "filters",
@@ -82,22 +67,16 @@ export default {
 
       await player["send"](data);
 
-      const msg1 = await interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_loading", {
-                name: "bassboost",
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      const msg1 = await interaction.editReply(
+        `${client.i18n.get(language, "filters", "filter_loading", {
+          name: client.commands.get("bassboost").config.name,
+        })}`,
+      );
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "filters", "filter_on", {
-            name: "bassboost",
-          })}`
+            name: client.commands.get("bassboost").config.name,
+          })}`,
         )
         .setColor(client.color);
 
@@ -106,25 +85,13 @@ export default {
     }
 
     if (isNaN(value))
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_number")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "filters", "filter_number")}`,
+      );
     if (value > 10 || value < -10)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "bassboost_limit")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "filters", "bassboost_limit")}`,
+      );
     const data = {
       op: "filters",
       guildId: interaction.guild!.id,
@@ -146,22 +113,16 @@ export default {
       ],
     };
     await player["send"](data);
-    const msg2 = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "filters", "bassboost_loading", {
-              amount: String(value),
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg2 = await interaction.editReply(
+      `${client.i18n.get(language, "filters", "bassboost_loading", {
+        amount: String(value),
+      })}`,
+    );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "bassboost_set", {
           amount: String(value),
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

@@ -7,16 +7,12 @@ import {
 import { SlashPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { Playlist } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 
 export default {
   name: ["playlist", "all"],
   description: "View all your playlists",
   category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "page",
@@ -28,22 +24,22 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const number = (
       interaction.options as CommandInteractionOptionResolver
     ).getInteger("page");
-    const playlists: Playlist[] = [];
+    const playlists: PlaylistInterface[] = [];
 
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    fullList
-      .filter(function (data) {
-        return data.value.owner == interaction.user.id;
+    Object.keys(fullList)
+      .filter(function (key) {
+        return fullList[key].owner == interaction.user.id;
       })
-      .forEach(async (data) => {
-        playlists.push(data.value);
+      .forEach(async (key, index) => {
+        playlists.push(fullList[key]);
       });
 
     let pagesNum = Math.ceil(playlists.length / 10);
@@ -62,7 +58,7 @@ export default {
           tracks: String(playlist.tracks!.length),
           create: created,
         })}
-                `
+                `,
       );
     }
 
@@ -96,7 +92,7 @@ export default {
           pages,
           30000,
           playlists.length,
-          language
+          language,
         );
         return (playlists.length = 0);
       } else {
@@ -106,25 +102,18 @@ export default {
     } else {
       if (isNaN(number))
         return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "view_notnumber")}`
-              )
-              .setColor(client.color),
-          ],
+          content: `${client.i18n.get(language, "playlist", "view_notnumber")}`,
         });
       if (number > pagesNum)
         return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "view_page_notfound", {
-                  page: String(pagesNum),
-                })}`
-              )
-              .setColor(client.color),
-          ],
+          content: `${client.i18n.get(
+            language,
+            "playlist",
+            "view_page_notfound",
+            {
+              page: String(pagesNum),
+            },
+          )}`,
         });
       const pageNum = number == 0 ? 1 : number - 1;
       await interaction.editReply({ embeds: [pages[pageNum]] });

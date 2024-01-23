@@ -13,10 +13,7 @@ export default {
   name: ["mp3"],
   description: "Play the music file for the bot",
   category: "Music",
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
   options: [
     {
       name: "file",
@@ -27,83 +24,40 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
+    let player = client.manager.players.get(interaction.guild!.id);
 
     const file = await (
       interaction.options as CommandInteractionOptionResolver
     ).getAttachment("file");
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "247_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
-    let player = client.manager.players.get(interaction.guild!.id);
-    if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "play_loading", {
+        result: file!.name,
+      })}`,
+    );
+    const { channel } = (interaction.member as GuildMember).voice;
+    if (!channel)
+      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
     if (
-      !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
-        interaction.guild!.members.me!.voice.channel
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Connect)
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
     if (
       !interaction
         .guild!.members.cache.get(client.user!.id)!
         .permissions.has(PermissionsBitField.Flags.Speak)
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_speak")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
     if (file!.contentType !== "audio/mpeg" && file!.contentType !== "audio/ogg")
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_invalid_file")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(
+        `${client.i18n.get(language, "music", "play_invalid_file")}`,
+      );
     if (!file!.contentType)
-      msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_warning_file")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      msg.edit(`${client.i18n.get(language, "music", "play_warning_file")}`);
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -120,13 +74,7 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_match")}`
-            )
-            .setColor(client.color),
-        ],
+        content: `${client.i18n.get(language, "music", "play_match")}`,
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);
@@ -143,7 +91,7 @@ export default {
             title: file!.name,
             url: String(file?.proxyURL),
             length: String(tracks.length),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -154,7 +102,7 @@ export default {
           `${client.i18n.get(language, "music", "play_track", {
             title: file!.name,
             url: String(file?.proxyURL),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -164,7 +112,7 @@ export default {
         `${client.i18n.get(language, "music", "play_result", {
           title: file!.name,
           url: String(file?.proxyURL),
-        })}`
+        })}`,
       );
       msg.edit({ content: " ", embeds: [embed] });
       if (!player.playing) player.play();

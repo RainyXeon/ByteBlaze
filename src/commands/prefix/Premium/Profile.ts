@@ -8,21 +8,19 @@ export default {
   category: "Premium",
   usage: "",
   aliases: [],
-  owner: false,
   premium: true,
-  lavalink: false,
-  isManager: false,
-
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
-    const PremiumPlan = await client.db.premium.get(`${message.author.id}`);
-    const expires = moment(PremiumPlan!.expiresAt).format(
-      "do/MMMM/YYYY (HH:mm:ss)"
+    const PremiumPlan = await client.db.get(
+      `premium.user_${message.author.id}`,
+    );
+    const expires = moment(PremiumPlan.expiresAt).format(
+      "do/MMMM/YYYY (HH:mm:ss)",
     );
 
     const embed = new EmbedBuilder()
@@ -33,13 +31,13 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "premium", "profile_desc", {
           user: message.author.tag,
-          plan: PremiumPlan!.plan,
+          plan: PremiumPlan.plan,
           expires: expires,
-        })}`
+        })}`,
       )
       .setColor(client.color)
       .setTimestamp();
 
-    return message.reply({ embeds: [embed] });
+    return message.channel.send({ embeds: [embed] });
   },
 };

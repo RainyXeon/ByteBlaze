@@ -6,8 +6,8 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
-import { Playlist } from "../../../database/schema/Playlist.js";
-let playlist: Playlist | null;
+import { PlaylistInterface } from "../../../types/Playlist.js";
+let playlist: PlaylistInterface | null;
 
 export default {
   name: "playlist-import",
@@ -15,42 +15,41 @@ export default {
   category: "Playlist",
   usage: "<playlist_name_or_id>",
   aliases: ["pl-import"],
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0] ? args[0] : null;
-
-    if (value == null)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+    const id = value ? null : args[0];
 
     const { channel } = message.member!.voice;
     if (!channel)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "import_voice")}`,
+      );
+    if (
+      !message
+        .guild!.members.cache!.get(client.user!.id)!
+        .permissionsIn(channel)
+        .has(PermissionsBitField.Flags.Connect)
+    )
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "import_join")}`,
+      );
+    if (
+      !message
+        .guild!.members.cache!.get(client.user!.id)!
+        .permissionsIn(channel)
+        .has(PermissionsBitField.Flags.Speak)
+    )
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "import_speak")}`,
+      );
 
     const player = await client.manager.createPlayer({
       guildId: message.guild!.id,
@@ -62,57 +61,48 @@ export default {
     const SongAdd = [];
     let SongLoad = 0;
 
+    if (id) playlist = await client.db.get(`playlist.pid_${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.playlist.all();
+      const fullList = await client.db.get("playlist");
 
-      const filter_level_1 = fullList.filter(function (data) {
+      const pid = Object.keys(fullList).filter(function (key) {
         return (
-          data.value.owner == message.author.id && data.value.name == Plist
+          fullList[key].owner == message.author.id &&
+          fullList[key].name == Plist
         );
       });
 
-      playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+      playlist = fullList[pid[0]];
     }
-
+    if (!id && !value)
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "no_id_or_name")}`,
+      );
+    if (id && value)
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "got_id_and_name")}`,
+      );
     if (!playlist)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "invalid")}`,
+      );
 
     if (playlist.private && playlist.owner !== message.author.id) {
-      message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      message.channel.send(
+        `${client.i18n.get(language, "playlist", "import_private")}`,
+      );
       return;
     }
 
     const totalDuration = convertTime(
-      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
+      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0),
     );
 
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "playlist", "import_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "playlist", "import_loading")}`,
+    );
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const res = await player.search(playlist.tracks![i].uri, {
@@ -139,7 +129,7 @@ export default {
               tracks: String(playlist.tracks!.length),
               duration: totalDuration,
               user: String(message.author),
-            })}`
+            })}`,
           )
           .setColor(client.color);
 

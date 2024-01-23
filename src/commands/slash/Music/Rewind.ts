@@ -14,10 +14,6 @@ export default {
   name: ["rewind"],
   description: "Rewind timestamp in the song!",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "seconds",
@@ -29,49 +25,26 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "rewind_loading")}`,
+    );
     const value = (
       interaction.options as CommandInteractionOptionResolver
     ).getNumber("seconds");
 
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "rewind_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     const song_position = player.shoukaku.position;
     const CurrentDuration = formatDuration(song_position);
@@ -88,34 +61,22 @@ export default {
           .setDescription(
             `${client.i18n.get(language, "music", "rewind_msg", {
               duration: CurrentDuration,
-            })}`
+            })}`,
           )
           .setColor(client.color);
 
         msg.edit({ content: " ", embeds: [rewind1] });
       } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "rewind_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return msg.edit(
+          `${client.i18n.get(language, "music", "rewind_beyond")}`,
+        );
       }
     } else if (value && isNaN(value)) {
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "rewind_invalid", {
-                prefix: "/",
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(
+        `${client.i18n.get(language, "music", "rewind_invalid", {
+          prefix: "/",
+        })}`,
+      );
     }
 
     if (!value) {
@@ -130,21 +91,15 @@ export default {
           .setDescription(
             `${client.i18n.get(language, "music", "rewind_msg", {
               duration: CurrentDuration,
-            })}`
+            })}`,
           )
           .setColor(client.color);
 
         msg.edit({ content: " ", embeds: [rewind2] });
       } else {
-        return msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "rewind_beyond")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return msg.edit(
+          `${client.i18n.get(language, "music", "rewind_beyond")}`,
+        );
       }
     }
   },

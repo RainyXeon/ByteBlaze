@@ -15,10 +15,6 @@ export default {
   name: ["queue"],
   description: "Show the queue of songs.",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "page",
@@ -30,7 +26,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const value = (
@@ -39,37 +35,25 @@ export default {
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
     const { channel } = (interaction.member as GuildMember)!.voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
 
     const song = player.queue.current;
     function fixedduration() {
       const current = player!.queue.current!.length ?? 0;
       return player!.queue.reduce(
         (acc, cur) => acc + (cur.length || 0),
-        current
+        current,
       );
     }
     const qduration = `${formatDuration(fixedduration())}`;
@@ -85,9 +69,9 @@ export default {
       const song = player.queue[i];
       songStrings.push(
         `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatDuration(
-          song.length
+          song.length,
         )}]\`
-                    `
+                    `,
       );
     }
 
@@ -111,7 +95,7 @@ export default {
             request: String(song!.requester),
             duration: formatDuration(song!.length),
             rest: str == "" ? "  Nothing" : "\n" + str,
-          })}`
+          })}`,
         )
         .setFooter({
           text: `${client.i18n.get(language, "music", "queue_footer", {
@@ -134,32 +118,20 @@ export default {
           60000,
           player.queue.length,
           Number(qduration),
-          language
+          language,
         );
       else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(value))
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "queue_notnumber")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return interaction.editReply(
+          `${client.i18n.get(language, "music", "queue_notnumber")}`,
+        );
       if (value > pagesNum)
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "queue_page_notfound", {
-                  page: String(pagesNum),
-                })}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return interaction.editReply(
+          `${client.i18n.get(language, "music", "queue_page_notfound", {
+            page: String(pagesNum),
+          })}`,
+        );
       const pageNum = value == 0 ? 1 : value - 1;
       return interaction.editReply({ embeds: [pages[pageNum]] });
     }

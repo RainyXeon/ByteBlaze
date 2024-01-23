@@ -6,10 +6,6 @@ export default {
   name: ["avatar"],
   description: "Show your or someone else's profile picture",
   category: "Image",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "user",
@@ -21,7 +17,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const value = interaction.options.getUser("user");
@@ -30,7 +26,7 @@ export default {
       const embed = new EmbedBuilder()
         .setTitle(value.username + " " + value.discriminator)
         .setImage(
-          `https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`
+          `https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`,
         )
         .setColor(client.color)
         .setFooter({
@@ -41,10 +37,10 @@ export default {
     } else {
       const embed = new EmbedBuilder()
         .setTitle(
-          interaction.user.username + " " + interaction.user.discriminator
+          interaction.user.username + " " + interaction.user.discriminator,
         )
         .setImage(
-          `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg?size=300`
+          `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg?size=300`,
         )
         .setColor(client.color)
         .setFooter({

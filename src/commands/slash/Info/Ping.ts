@@ -12,25 +12,21 @@ export default {
   name: ["ping"],
   description: "Shows the ping information of the Bot",
   category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const ping = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "ping_title")}` +
-          client.user!.username
+          client.user!.username,
       )
       .setDescription(
         `${client.i18n.get(language, "info", "ping_desc", {
           ping: String(client.ws.ping),
-        })}`
+        })}`,
       )
       .setTimestamp()
       .setColor(client.color);
@@ -41,8 +37,8 @@ export default {
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
+          }&permissions=8&scope=bot%20applications.commands`,
+        ),
     );
 
     await interaction.editReply({ embeds: [ping], components: [row3] });

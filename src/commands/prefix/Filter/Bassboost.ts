@@ -12,61 +12,33 @@ export default {
   category: "Filter",
   usage: "<number>",
   aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0];
     if (value && isNaN(+value))
-      return message.reply(
-        `${client.i18n.get(language, "music", "number_invalid")}`
+      return message.channel.send(
+        `${client.i18n.get(language, "music", "number_invalid")}`,
       );
-
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "filters", "filter_loading", {
-              name: "vibrate",
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
 
     if (!value) {
       const data = {
@@ -92,22 +64,16 @@ export default {
 
       await player["send"](data);
 
-      const msg1 = await message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_loading", {
-                name: "bassboost",
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      const msg1 = await message.channel.send(
+        `${client.i18n.get(language, "filters", "filter_loading", {
+          name: client.commands.get("bassboost").config.name,
+        })}`,
+      );
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "filters", "filter_on", {
-            name: "bassboost",
-          })}`
+            name: client.commands.get("bassboost").config.name,
+          })}`,
         )
         .setColor(client.color);
 
@@ -116,25 +82,13 @@ export default {
     }
 
     if (isNaN(+value))
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_number")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "filters", "filter_number")}`,
+      );
     if (Number(value) > 10 || Number(value) < -10)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "bassboost_limit")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "filters", "bassboost_limit")}`,
+      );
     const data = {
       op: "filters",
       guildId: message.guild!.id,
@@ -156,22 +110,16 @@ export default {
       ],
     };
     await player["send"](data);
-    const msg2 = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "filters", "bassboost_loading", {
-              amount: value,
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg2 = await message.channel.send(
+      `${client.i18n.get(language, "filters", "bassboost_loading", {
+        amount: value,
+      })}`,
+    );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "bassboost_set", {
           amount: value,
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

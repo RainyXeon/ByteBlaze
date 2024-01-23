@@ -10,10 +10,6 @@ export default {
   name: ["playlist", "delete"],
   description: "Delete a playlist",
   category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "name",
@@ -25,7 +21,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -34,44 +30,33 @@ export default {
     ).getString("name");
     const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    const filter_level_1 = fullList.filter(function (data) {
+    const filter_level_1 = Object.keys(fullList).filter(function (key) {
       return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
+        fullList[key].owner == interaction.user.id &&
+        fullList[key].name == Plist
       );
     });
 
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = await client.db.get(`playlist.${filter_level_1[0]}`);
 
     if (!playlist)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "delete_notfound")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "delete_notfound")}`,
+      );
     if (playlist.owner !== interaction.user.id)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "delete_owner")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "delete_owner")}`,
+      );
     if (playlist.id == "thedreamvastghost0923849084") return;
 
-    await client.db.playlist.delete(`${filter_level_1[0].id}`);
+    await client.db.delete(`playlist.pid_${filter_level_1}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "delete_deleted", {
           name: Plist,
-        })}`
+        })}`,
       )
       .setColor(client.color);
     interaction.editReply({ embeds: [embed] });

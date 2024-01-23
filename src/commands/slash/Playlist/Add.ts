@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo";
 import { Manager } from "../../../manager.js";
 
 const TrackAdd: KazagumoTrack[] = [];
@@ -15,10 +15,6 @@ export default {
   name: ["playlist", "add"],
   description: "Add song to a playlist",
   category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "name",
@@ -37,12 +33,12 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     try {
       if (
         (interaction.options as CommandInteractionOptionResolver).getString(
-          "search"
+          "search",
         )
       ) {
         await interaction.deferReply({ ephemeral: false });
@@ -56,15 +52,9 @@ export default {
         const PlaylistName = value!.replace(/_/g, " ");
         const Inputed = input;
 
-        const msg = await interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "add_loading")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        const msg = await interaction.editReply(
+          `${client.i18n.get(language, "playlist", "add_loading")}`,
+        );
         const result = await client.manager.search(input as string, {
           requester: interaction.user,
         });
@@ -72,13 +62,7 @@ export default {
 
         if (!result.tracks.length)
           return msg.edit({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "music", "add_match")}`
-                )
-                .setColor(client.color),
-            ],
+            content: `${client.i18n.get(language, "music", "add_match")}`,
           });
         if (result.type === "PLAYLIST")
           for (let track of tracks) TrackAdd.push(track);
@@ -96,7 +80,7 @@ export default {
                 duration: convertTime(TotalDuration),
                 track: String(tracks.length),
                 user: String(interaction.user),
-              })}`
+              })}`,
             )
             .setColor(client.color);
           msg.edit({ content: " ", embeds: [embed] });
@@ -108,7 +92,7 @@ export default {
                 url: tracks[0].uri,
                 duration: Duration,
                 user: String(interaction.user),
-              })}`
+              })}`,
             )
             .setColor(client.color);
           msg.edit({ content: " ", embeds: [embed] });
@@ -120,80 +104,56 @@ export default {
                 url: tracks[0].uri,
                 duration: Duration,
                 user: String(interaction.user),
-              })}`
+              })}`,
             )
             .setColor(client.color);
           msg.edit({ content: " ", embeds: [embed] });
         } else {
           //The playlist link is invalid.
-          return msg.edit({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "playlist", "add_match")}`
-                )
-                .setColor(client.color),
-            ],
-          });
+          return msg.edit(
+            `${client.i18n.get(language, "playlist", "add_match")}`,
+          );
         }
 
-        const fullList = await client.db.playlist.all();
+        const fullList = await client.db.get("playlist");
 
-        const pid = fullList.filter(function (data) {
+        const pid = Object.keys(fullList).filter(function (key) {
           return (
-            data.value.owner == interaction.user.id &&
-            data.value.name == PlaylistName
+            fullList[key].owner == interaction.user.id &&
+            fullList[key].name == PlaylistName
           );
         });
 
-        const playlist = await client.db.playlist.get(pid[0].id);
+        const playlist = fullList[pid[0]];
 
         if (!playlist) {
-          interaction.followUp({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "playlist", "public_notfound")}`
-                )
-                .setColor(client.color),
-            ],
-          });
+          interaction.followUp(
+            `${client.i18n.get(language, "playlist", "public_notfound")}`,
+          );
           TrackAdd.length = 0;
           return;
         }
         if (playlist.owner !== interaction.user.id) {
-          interaction.followUp({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "playlist", "add_owner")}`
-                )
-                .setColor(client.color),
-            ],
-          });
+          interaction.followUp(
+            `${client.i18n.get(language, "playlist", "add_owner")}`,
+          );
           TrackAdd.length = 0;
           return;
         }
 
-        const LimitTrack = playlist.tracks!.length + TrackAdd.length;
+        const LimitTrack = playlist.tracks.length + TrackAdd.length;
         if (LimitTrack > client.config.bot.LIMIT_TRACK) {
-          interaction.followUp({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "playlist", "add_limit_track", {
-                    limit: String(client.config.bot.LIMIT_TRACK),
-                  })}`
-                )
-                .setColor(client.color),
-            ],
-          });
+          interaction.followUp(
+            `${client.i18n.get(language, "playlist", "add_limit_track", {
+              limit: client.config.bot.LIMIT_TRACK,
+            })}`,
+          );
           TrackAdd.length = 0;
           return;
         }
 
         TrackAdd.forEach(async (track) => {
-          await client.db.playlist.push(`${pid[0].id}.tracks`, {
+          await client.db.push(`playlist.${pid[0]}.tracks`, {
             title: track.title,
             uri: track.uri,
             length: track.length,
@@ -208,7 +168,7 @@ export default {
             `${client.i18n.get(language, "playlist", "add_added", {
               count: String(TrackAdd.length),
               playlist: PlaylistName,
-            })}`
+            })}`,
           )
           .setColor(client.color);
         interaction.followUp({ content: " ", embeds: [embed] });

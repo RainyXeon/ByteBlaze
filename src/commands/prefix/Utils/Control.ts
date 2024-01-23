@@ -8,19 +8,21 @@ export default {
   usage: "<input>",
   category: "Utils",
   description: "Change the player mode for the bot",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
+  accessableby: "Members",
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
-    const db = await client.db.control.get(`${message.guild!.id}`);
+    if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageGuild))
+      return message.channel.send(
+        `${client.i18n.get(language, "utilities", "control_perm")}`,
+      );
+
+    const db = await client.db.get(`control.guild_${message.guild!.id}`);
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "utilities", "control_set", {
@@ -28,14 +30,14 @@ export default {
             db == "enable"
               ? `${client.i18n.get(language, "music", "disabled")}`
               : `${client.i18n.get(language, "music", "enabled")}`,
-        })}`
+        })}`,
       )
       .setColor(client.color);
 
-    await message.reply({ embeds: [embed] });
-    await client.db.control.set(
-      `${message.guild!.id}`,
-      db == "enable" ? "disable" : "enable"
+    await message.channel.send({ embeds: [embed] });
+    await client.db.set(
+      `control.guild_${message.guild!.id}`,
+      db == "enable" ? "disable" : "enable",
     );
   },
 };

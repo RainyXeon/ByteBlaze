@@ -7,63 +7,38 @@ export default {
   category: "Music",
   usage: "",
   aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "247_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "music", "247_loading")}`,
+    );
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
-    let data = await client.db.autoreconnect.get(`${message.guild?.id}`);
+    let data = await client.db.get(`autoreconnect.guild_${message.guild!.id}`);
 
     if (data) {
-      await client.db.autoreconnect.delete(`${message.guild!.id}`);
+      await client.db.delete(`autoreconnect.guild_${message.guild!.id}`);
       const on = new EmbedBuilder()
         .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [on] });
     } else if (!data) {
-      await client.db.autoreconnect.set(`${message.guild!.id}`, {
+      await client.db.set(`autoreconnect.guild_${message.guild!.id}`, {
         guild: player.guildId,
         text: player.textId,
         voice: player.voiceId,

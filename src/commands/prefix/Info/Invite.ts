@@ -8,27 +8,23 @@ export default {
   category: "Info",
   usage: "",
   aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const invite = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "inv_title", {
           username: client.user!.username,
-        })}`
+        })}`,
       )
       .setDescription(
         `${client.i18n.get(language, "info", "inv_desc", {
           username: client.user!.username,
-        })}`
+        })}`,
       )
       .addFields([
         {
@@ -47,8 +43,8 @@ export default {
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
+          }&permissions=8&scope=bot%20applications.commands`,
+        ),
     );
 
     await message.reply({ embeds: [invite], components: [row2] });

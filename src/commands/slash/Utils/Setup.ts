@@ -12,10 +12,6 @@ export default {
   name: ["settings", "setup"],
   description: "Setup channel song request",
   category: "Utils",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: true,
   options: [
     {
       name: "type",
@@ -37,12 +33,20 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     if (
+      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
+        PermissionsBitField.Flags.ManageGuild,
+      )
+    )
+      return interaction.editReply(
+        `${client.i18n.get(language, "utilities", "lang_perm")}`,
+      );
+    if (
       (interaction.options as CommandInteractionOptionResolver).getString(
-        "type"
+        "type",
       ) === "create"
     ) {
       const parent = await interaction.guild!.channels.create({
@@ -58,7 +62,7 @@ export default {
       const queueMsg = `${client.i18n.get(
         language,
         "setup",
-        "setup_queuemsg"
+        "setup_queuemsg",
       )}`;
 
       const playEmbed = new EmbedBuilder()
@@ -67,22 +71,22 @@ export default {
           name: `${client.i18n.get(
             language,
             "setup",
-            "setup_playembed_author"
+            "setup_playembed_author",
           )}`,
         })
         .setImage(
           `https://cdn.discordapp.com/avatars/${client.user!.id}/${
             client.user!.avatar
-          }.jpeg?size=300`
+          }.jpeg?size=300`,
         )
         .setDescription(
-          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`
+          `${client.i18n.get(language, "setup", "setup_playembed_desc")}`,
         )
         .setFooter({
           text: `${client.i18n.get(
             language,
             "setup",
-            "setup_playembed_footer"
+            "setup_playembed_footer",
           )}`,
         });
 
@@ -108,13 +112,13 @@ export default {
         category: parent.id,
       };
 
-      await client.db.setup.set(`${interaction.guild!.id}`, new_data);
+      await client.db.set(`setup.guild_${interaction.guild!.id}`, new_data);
 
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "setup", "setup_msg", {
             channel: String(textChannel),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       return interaction.followUp({ embeds: [embed] });
@@ -122,38 +126,38 @@ export default {
 
     if (
       (interaction.options as CommandInteractionOptionResolver).getString(
-        "type"
+        "type",
       ) === "delete"
     ) {
-      const SetupChannel = await client.db.setup.get(
-        `${interaction.guild!.id}`
+      const SetupChannel = await client.db.get(
+        `setup.guild_${interaction.guild!.id}`,
       );
 
       const embed_none = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: String(undefined),
-          })}`
+          })}`,
         )
         .setColor(client.color);
 
       if (!SetupChannel) return interaction.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = interaction.guild!.channels.cache.get(
-        SetupChannel.channel
+        SetupChannel.channel,
       );
       const fetchedVoiceChannel = interaction.guild!.channels.cache.get(
-        SetupChannel.voice
+        SetupChannel.voice,
       );
       const fetchedCategory = interaction.guild!.channels.cache.get(
-        SetupChannel.category
+        SetupChannel.category,
       );
 
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "setup", "setup_deleted", {
             channel: String(fetchedTextChannel),
-          })}`
+          })}`,
         )
         .setColor(client.color);
 
@@ -170,7 +174,7 @@ export default {
         category: "",
       };
 
-      await client.db.setup.set(`${interaction.guild!.id}`, deleted_data);
+      await client.db.set(`setup.guild_${interaction.guild!.id}`, deleted_data);
 
       return interaction.editReply({ embeds: [embed] });
     }

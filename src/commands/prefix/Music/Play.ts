@@ -9,44 +9,39 @@ export default {
   category: "Music",
   usage: "<name_or_url>",
   aliases: ["p", "pl", "pp"],
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     let player = client.manager.players.get(message.guild!.id);
     const value = args[0];
 
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "play_loading", {
-              result: value,
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "music", "play_loading", {
+        result: value,
+      })}`,
+    );
 
     const { channel } = message.member!.voice;
     if (!channel)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
+    if (
+      !message
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Connect)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
+    if (
+      !message
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Speak)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
 
     if (!player)
       player = await client.manager.createPlayer({
@@ -61,13 +56,7 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "play_match")}`
-            )
-            .setColor(client.color),
-        ],
+        content: `${client.i18n.get(language, "music", "play_match")}`,
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);
@@ -89,7 +78,7 @@ export default {
             url: tracks[0].uri,
             duration: convertTime(tracks[0].length as number),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
 
@@ -103,7 +92,7 @@ export default {
             duration: convertTime(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
 
@@ -116,7 +105,7 @@ export default {
           url: tracks[0].uri,
           duration: convertTime(tracks[0].length as number),
           request: String(tracks[0].requester),
-        })}`
+        })}`,
       );
 
       msg.edit({ content: " ", embeds: [embed] });

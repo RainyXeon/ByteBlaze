@@ -6,18 +6,14 @@ import {
 } from "discord.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { Playlist } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 
-let info: Playlist | null;
+let info: PlaylistInterface | null;
 
 export default {
   name: ["playlist", "info"],
   description: "Check the playlist infomation",
   category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "name",
@@ -33,7 +29,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const value = (
@@ -43,62 +39,38 @@ export default {
       interaction.options as CommandInteractionOptionResolver
     ).getString("id");
 
-    if (id) info = await client.db.playlist.get(`${id}`);
+    if (id) info = await client.db.get(`playlist.pid_${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.playlist.all();
+      const fullList = await client.db.get("playlist");
 
-      const pid = fullList.filter(function (data) {
+      const pid = Object.keys(fullList).filter(function (key) {
         return (
-          data.value.owner == interaction.user.id && data.value.name == Plist
+          fullList[key].owner == interaction.user.id &&
+          fullList[key].name == Plist
         );
       });
 
-      info = pid[0].value;
+      info = fullList[pid[0]];
     }
 
     if (!id && !value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "no_id_or_name")}`,
+      );
     if (id && value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "got_id_and_name")}`,
+      );
     if (!info)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "invalid")}`,
+      );
     if (info.private && info.owner !== interaction.user.id) {
-      interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      interaction.editReply(
+        `${client.i18n.get(language, "playlist", "import_private")}`,
+      );
       return;
     }
     const created = humanizeDuration(Date.now() - info.created, { largest: 1 });
@@ -109,7 +81,7 @@ export default {
       .setTitle(
         `${client.i18n.get(language, "playlist", "info_title", {
           name: info.name,
-        })}`
+        })}`,
       )
       .addFields([
         {

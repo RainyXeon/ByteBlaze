@@ -14,10 +14,6 @@ export default {
   name: ["seek"],
   description: "Seek timestamp in the song!",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "time",
@@ -30,7 +26,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     let value;
@@ -40,15 +36,9 @@ export default {
 
     console.log(time_regex.test(time!), time!.split(/:/));
     if (!time_regex.test(time!))
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "seek_invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "music", "seek_invalid")}`,
+      );
     else {
       const [m, s] = time!.split(/:/);
       const min = Number(m) * 60;
@@ -57,53 +47,23 @@ export default {
       console.log(value);
     }
 
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "seek_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "seek_loading")}`,
+    );
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     if (value * 1000 >= player.queue.current!.length! || value < 0)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "seek_beyond")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "seek_beyond")}`);
     await player.seek(value * 1000);
 
     const song_position = player.shoukaku.position;
@@ -121,7 +81,7 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "music", "seek_msg", {
           duration: Duration,
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

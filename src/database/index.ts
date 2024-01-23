@@ -1,31 +1,60 @@
-import { MongoConnectDriver } from "./driver/mongodb.js";
-import { JSONConnectDriver } from "./driver/json.js";
-import { MySQLConnectDriver } from "./driver/mysql.js";
+import { MongoConnectDriver } from "./driver/MongoDriver.js";
+import { JSONConnectDriver } from "./driver/JSONDriver.js";
+import { SQLConnectDriver } from "./driver/SQLDriver.js";
 import { Manager } from "../manager.js";
-import { PostgresConnectDriver } from "./driver/postgres.js";
+import { handler } from "./handler.js";
+
+const JSONDriver = JSONConnectDriver;
+const MongoDriver = MongoConnectDriver;
+const SQLDriver = SQLConnectDriver;
 
 export async function connectDB(client: Manager) {
   try {
-    const databaseConfig = client.config.features.DATABASE;
+    const db_config = client.config.features.DATABASE;
 
-    switch (databaseConfig.driver) {
-      case "json":
-        await JSONConnectDriver(client, databaseConfig);
-        break;
-      case "mongodb":
-        await MongoConnectDriver(client, databaseConfig);
-        break;
-      case "mysql":
-        await MySQLConnectDriver(client, databaseConfig);
-        break;
-      case "postgres":
-        await PostgresConnectDriver(client, databaseConfig);
-        break;
-      default:
-        await JSONConnectDriver(client, databaseConfig);
-        break;
+    function load_db() {
+      client.is_db_connected = true;
+      handler(client);
+    }
+
+    if (
+      db_config.JSON.enable &&
+      !db_config.MYSQL.enable &&
+      !db_config.MONGO_DB.enable
+    ) {
+      await JSONDriver(client, db_config).then(async () => {
+        await load_db();
+      });
+      return;
+    }
+
+    if (
+      db_config.MONGO_DB.enable &&
+      !db_config.JSON.enable &&
+      !db_config.MYSQL.enable
+    ) {
+      await MongoDriver(client, db_config).then(async () => {
+        await load_db();
+      });
+      return;
+    }
+
+    if (
+      db_config.MYSQL.enable &&
+      !db_config.JSON.enable &&
+      !db_config.MONGO_DB.enable
+    ) {
+      await SQLDriver(client, db_config).then(async () => {
+        await load_db();
+      });
+      return;
+    } else {
+      await JSONDriver(client, db_config).then(async () => {
+        await load_db();
+      });
+      return;
     }
   } catch (error) {
-    return client.logger.log({ level: "error", message: String(error) });
+    return client.logger.log({ level: "error", message: error });
   }
 }

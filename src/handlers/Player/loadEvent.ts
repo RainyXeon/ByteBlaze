@@ -1,26 +1,22 @@
-import chillout from "chillout";
-import readdirRecursive from "recursive-readdir";
-import { resolve } from "path";
-import { join, dirname } from "path";
-import { fileURLToPath, pathToFileURL } from "url";
+import { readdirSync } from "fs";
 import { Manager } from "../../manager.js";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export async function playerLoadEvent(client: Manager) {
-  let eventsPath = resolve(join(__dirname, "..", "..", "events", "player"));
-  let eventsFile = await readdirRecursive(eventsPath);
-
-  await chillout.forEach(eventsFile, async (path) => {
-    const events = await import(pathToFileURL(path).toString());
-
-    var splitPath = function (str: string) {
-      return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
-    };
-
-    const eName = splitPath(path);
-    client.manager.on(
-      eName as "playerUpdate",
-      events.default.bind(null, client)
-    );
+export default async (client: Manager) => {
+  const events = readdirSync(
+    join(__dirname, "..", "..", "events", "player"),
+  ).filter((d) => {
+    if (d.endsWith(".ts")) {
+      return d;
+    } else if (d.endsWith(".js")) {
+      return d;
+    }
   });
-}
+  for (let file of events) {
+    const evt = await import(`../../events/player/${file}`);
+    const eName = file.split(".")[0];
+    client.manager.on(eName as "playerUpdate", evt.default.bind(null, client));
+  }
+};

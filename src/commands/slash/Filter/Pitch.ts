@@ -11,10 +11,6 @@ export default {
   name: ["filter", "pitch"],
   description: "Sets the pitch of the song.",
   category: "Filter",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "amount",
@@ -26,7 +22,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -36,76 +32,46 @@ export default {
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
-        interaction.guild!.members.me!.voice.channel
+      (interaction.member as GuildMember).voice.channel !==
+        interaction.guild?.members.me!.voice.channel
     )
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
 
     if (value! < 0)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_greater")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "filters", "filter_greater")}`,
+      );
     if (value! > 10)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "filters", "filter_less")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "filters", "filter_less")}`,
+      );
 
     const data = {
       op: "filters",
-      guildId: interaction.guild!.id,
+      guildId: interaction.guild.id,
       timescale: { pitch: value },
     };
 
     await player["send"](data);
 
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "filters", "pitch_loading", {
-              amount: String(value),
-            })}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "filters", "pitch_loading", {
+        amount: String(value),
+      })}`,
+    );
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "filters", "pitch_on", {
           amount: String(value),
-        })}`
+        })}`,
       )
       .setColor(client.color);
     await delay(2000);

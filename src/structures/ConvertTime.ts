@@ -42,6 +42,14 @@ function convertNumber(number: number, decPlaces: number) {
   return number;
 }
 
+function chunk(arr: Array<any>, size: number) {
+  const temp = [];
+  for (let i = 0; i < arr.length; i += size) {
+    temp.push(arr.slice(i, i + size));
+  }
+  return temp;
+}
+
 function convertHmsToMs(hms: string) {
   if (hms.length < 3) {
     const a = hms.split(":");
@@ -55,4 +63,4 @@ function convertHmsToMs(hms: string) {
   }
 }
 
-export { convertTime, convertNumber, convertHmsToMs };
+export { convertTime, convertNumber, convertHmsToMs, chunk };

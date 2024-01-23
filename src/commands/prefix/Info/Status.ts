@@ -15,16 +15,12 @@ export default {
   category: "Info",
   usage: "",
   aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const info = new EmbedBuilder()
       .setTitle(client.user!.tag + " Status")
@@ -42,9 +38,9 @@ export default {
         {
           name: "Memory",
           value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
-            2
+            2,
           )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-            2
+            2,
           )} MB Heap\`\`\``,
           inline: true,
         },
@@ -55,10 +51,7 @@ export default {
         },
         {
           name: "User Count",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\`\`\``,
+          value: `\`\`\`${client.users.cache.size} users\`\`\``,
           inline: true,
         },
         {
@@ -68,10 +61,7 @@ export default {
         },
         {
           name: "Cached Data",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\n${client.emojis.cache.size} emojis\`\`\``,
+          value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
           inline: true,
         },
         { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
@@ -86,8 +76,8 @@ export default {
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
+          }&permissions=8&scope=bot%20applications.commands`,
+        ),
     );
     await message.reply({ embeds: [info], components: [row] });
   },

@@ -7,16 +7,12 @@ import {
 import formatDuration from "../../../structures/FormatDuration.js";
 import { SlashPage } from "../../../structures/PageQueue.js";
 import { Manager } from "../../../manager.js";
-import { Playlist, PlaylistTrack } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 
 export default {
   name: ["playlist", "detail"],
   description: "Detail a playlist",
   category: "Playlist",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "name",
@@ -34,7 +30,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -47,61 +43,50 @@ export default {
 
     const Plist = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    const pid = fullList.filter(function (data) {
+    const pid = Object.keys(fullList).filter(function (key) {
       return (
-        data.value.owner == interaction.user.id && data.value.name == Plist
+        fullList[key].owner == interaction.user.id &&
+        fullList[key].name == Plist
       );
     });
 
-    const playlist = pid[0].value;
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "detail_notfound")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "detail_notfound")}`,
+      );
     if (playlist.private && playlist.owner !== interaction.user.id)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "detail_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "detail_private")}`,
+      );
 
-    let pagesNum = Math.ceil(playlist.tracks!.length / 10);
+    let pagesNum = Math.ceil(playlist.tracks.length / 10);
     if (pagesNum === 0) pagesNum = 1;
 
     const playlistStrings = [];
 
-    for (let i = 0; i < playlist.tracks!.length; i++) {
-      const playlists = playlist.tracks![i];
+    for (let i = 0; i < playlist.tracks.length; i++) {
+      const playlists = playlist.tracks[i];
       playlistStrings.push(
         `${client.i18n.get(language, "playlist", "detail_track", {
           num: String(i + 1),
-          title: String(playlists.title),
+          title: playlists.title,
           url: playlists.uri,
-          author: String(playlists.author),
+          author: playlists.author,
           duration: formatDuration(playlists.length),
         })}
-                `
+                `,
       );
     }
 
     const totalDuration = formatDuration(
-      playlist.tracks!.reduce(
-        (acc: number, cur: PlaylistTrack) => acc + cur.length!,
-        0
-      )
+      playlist.tracks.reduce(
+        (acc: PlaylistInterface, cur: any) => acc + cur.length,
+        0,
+      ),
     );
 
     const pages = [];
@@ -124,54 +109,37 @@ export default {
             {
               page: String(i + 1),
               pages: String(pagesNum),
-              songs: String(playlist.tracks!.length),
+              songs: playlist.tracks.length,
               duration: totalDuration,
-            }
+            },
           )}`,
         });
 
       pages.push(embed);
     }
     if (!number) {
-      if (pages.length == pagesNum && playlist.tracks!.length > 10)
+      if (pages.length == pagesNum && playlist.tracks.length > 10)
         SlashPage(
           client,
           interaction,
           pages,
           60000,
-          playlist.tracks!.length,
+          playlist.tracks.length,
           Number(totalDuration),
-          language
+          language,
         );
       else return interaction.editReply({ embeds: [pages[0]] });
     } else {
       if (isNaN(number))
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "detail_notnumber")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return interaction.editReply(
+          `${client.i18n.get(language, "playlist", "detail_notnumber")}`,
+        );
       if (number > pagesNum)
-        return interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(
-                  language,
-                  "playlist",
-                  "detail_page_notfound",
-                  {
-                    page: String(pagesNum),
-                  }
-                )}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return interaction.editReply(
+          `${client.i18n.get(language, "playlist", "detail_page_notfound", {
+            page: String(pagesNum),
+          })}`,
+        );
       const pageNum = number == 0 ? 1 : number - 1;
       return interaction.editReply({ embeds: [pages[pageNum]] });
     }

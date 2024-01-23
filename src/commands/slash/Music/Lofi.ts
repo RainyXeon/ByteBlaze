@@ -7,43 +7,38 @@ import {
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { StartQueueDuration } from "../../../structures/QueueDuration.js";
 import { Manager } from "../../../manager.js";
-const value = "http://stream.laut.fm/lofi.m3u";
 
 export default {
   name: ["lofi"],
   description: "Play a lofi radio station",
   category: "Music",
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "radio_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "radio_loading")}`,
+    );
+    const value = "http://stream.laut.fm/lofi.m3u";
 
-    const { channel } = (interaction.member as GuildMember)!.voice;
+    const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "radio_invoice")}`);
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Connect)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Speak)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
 
     const player = await client.manager.createPlayer({
       guildId: interaction.guild!.id,
@@ -74,7 +69,7 @@ export default {
             duration: convertTime(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -87,7 +82,7 @@ export default {
             url: tracks[0].uri,
             duration: convertTime(tracks[0].length as number),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -98,7 +93,7 @@ export default {
           url: tracks[0].uri,
           duration: convertTime(tracks[0].length as number),
           request: String(tracks[0].requester),
-        })}`
+        })}`,
       );
       msg.edit({ content: " ", embeds: [embed] });
     }

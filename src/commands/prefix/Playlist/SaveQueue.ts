@@ -4,7 +4,7 @@ import {
   Message,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoTrack } from "better-kazagumo";
+import { KazagumoTrack } from "kazagumo";
 
 const TrackAdd: KazagumoTrack[] = [];
 const TrackExist: string[] = [];
@@ -16,85 +16,49 @@ export default {
   category: "Playlist",
   usage: "<playlist_name>",
   aliases: ["pl-sq", "pl-save-queue", "pl-save"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0] ? args[0] : null;
-    if (value == null)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const Plist = value!.replace(/_/g, " ");
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == Plist;
+    const pid = Object.keys(fullList).filter(function (key) {
+      return (
+        fullList[key].owner == message.author.id && fullList[key].name == Plist
+      );
     });
 
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "savequeue_notfound")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "savequeue_notfound")}`,
+      );
     if (playlist.owner !== message.author.id)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "savequeue_owner")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "savequeue_owner")}`,
+      );
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
 
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
 
     const queue = player.queue.map((track) => track);
     const current = player.queue.current;
@@ -102,7 +66,7 @@ export default {
     TrackAdd.push(current as KazagumoTrack);
     TrackAdd.push(...queue);
 
-    if (!playlist) Result = TrackAdd;
+    if (!playlist && playlist.tracks.length === 0) Result = TrackAdd;
 
     if (playlist.tracks) {
       for (let i = 0; i < playlist.tracks.length; i++) {
@@ -117,10 +81,10 @@ export default {
         .setDescription(
           `${client.i18n.get(language, "playlist", "savequeue_no_new_saved", {
             name: Plist,
-          })}`
+          })}`,
         )
         .setColor(client.color);
-      return message.reply({ embeds: [embed] });
+      return message.channel.send({ embeds: [embed] });
     }
 
     const embed = new EmbedBuilder()
@@ -128,13 +92,13 @@ export default {
         `${client.i18n.get(language, "playlist", "savequeue_saved", {
           name: Plist,
           tracks: String(queue.length + 1),
-        })}`
+        })}`,
       )
       .setColor(client.color);
-    await message.reply({ embeds: [embed] });
+    await message.channel.send({ embeds: [embed] });
 
     Result!.forEach(async (track) => {
-      await client.db.playlist.push(`${filter_level_1[0].id}.tracks`, {
+      await client.db.push(`playlist.${pid[0]}.tracks`, {
         title: track.title,
         uri: track.uri,
         length: track.length,

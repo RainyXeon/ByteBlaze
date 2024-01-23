@@ -1,28 +1,33 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, TextChannel } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  AttachmentBuilder,
+  TextChannel,
+} from "discord.js";
 import formatDuration from "../../structures/FormatDuration.js";
 import { QueueDuration } from "../../structures/QueueDuration.js";
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo";
 
-export async function playerLoadUpdate(client: Manager) {
+export default async (client: Manager) => {
+  const file = new AttachmentBuilder("../../../assets/banner.jpg");
   client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
-    let data = await client.db.setup.get(`${player.guildId}`);
-    if (!data) return;
+    let data = await client.db.get(`setup.guild_${player.guildId}`);
     if (data.enable === false) return;
 
     let channel = (await client.channels.cache.get(
-      data.channel
+      data.channel,
     )) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
+    let guildModel = await client.db.get(`language.guild_${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
+      guildModel = await client.db.set(
         `language.guild_${player.guildId}`,
-        client.config.bot.LANGUAGE
+        client.config.bot.LANGUAGE,
       );
     }
 
@@ -36,24 +41,10 @@ export async function playerLoadUpdate(client: Manager) {
           title: song.title,
           duration: formatDuration(song.length),
           request: `${song.requester}`,
-        })}`
+        })}`,
     );
 
-    const current_song = `${client.i18n.get(
-      language,
-      "setup",
-      "setup_content_queue",
-      {
-        index: `${1}`,
-        title: player.queue.current!.title,
-        duration: formatDuration(player.queue.current!.length),
-        request: `${player.queue.current!.requester}`,
-      }
-    )}`;
-
     await songStrings.push(...queuedSongs);
-
-    await songStrings.unshift(current_song);
 
     const Str = songStrings.slice(0, 10).join("\n");
 
@@ -73,18 +64,10 @@ export async function playerLoadUpdate(client: Manager) {
           url: cSong!.uri,
           duration: formatDuration(cSong!.length),
           request: `${cSong!.requester}`,
-        })}`
+        })}`,
       ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
       .setColor(client.color)
-      .setImage(
-        `${
-          cSong!.thumbnail
-            ? cSong!.thumbnail
-            : `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-                client.user!.avatar
-              }.jpeg?size=300`
-        }`
-      )
+      .setImage(`${cSong!.thumbnail}`)
       .setFooter({
         text: `${client.i18n.get(language, "setup", "setup_footer", {
           songs: `${player.queue.size}`,
@@ -111,23 +94,22 @@ export async function playerLoadUpdate(client: Manager) {
    * @param {Player} player
    */
   client.UpdateMusic = async function (player: KazagumoPlayer) {
-    let data = await client.db.setup.get(`${player.guildId}`);
-    if (!data) return;
+    let data = await client.db.get(`setup.guild_${player.guildId}`);
     if (data.enable === false) return;
 
     let channel = (await client.channels.cache.get(
-      data.channel
+      data.channel,
     )) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(data.playmsg);
     if (!playMsg) return;
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
+    let guildModel = await client.db.get(`language.guild_${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
+      guildModel = await client.db.set(
         `language.guild_${player.guildId}`,
-        client.config.bot.LANGUAGE
+        client.config.bot.LANGUAGE,
       );
     }
 
@@ -143,12 +125,12 @@ export async function playerLoadUpdate(client: Manager) {
       .setImage(
         `https://cdn.discordapp.com/avatars/${client.user!.id}/${
           client.user!.avatar
-        }.jpeg?size=300`
+        }.jpeg?size=300`,
       )
       .setDescription(
         `${client.i18n.get(language, "setup", "setup_playembed_desc", {
           clientId: client.user!.id,
-        })}`
+        })}`,
       )
       .setFooter({
         text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}`,
@@ -162,4 +144,4 @@ export async function playerLoadUpdate(client: Manager) {
       })
       .catch((e) => {});
   };
-}
+};

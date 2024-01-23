@@ -13,9 +13,6 @@ export default {
   description: "Generate a premium code!",
   category: "Premium",
   owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   options: [
     {
       name: "plan",
@@ -51,7 +48,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -82,10 +79,10 @@ export default {
       });
 
       const code = codePremium.toString().toUpperCase();
-      const find = await client.db.code.get(`${code}`);
+      const find = await client.db.get(`code.pmc_${code}`);
 
       if (!find) {
-        await client.db.code.set(`${code}`, {
+        await client.db.set(`code.pmc_${code}`, {
           code: code,
           plan: plan,
           expiresAt: time,
@@ -106,7 +103,7 @@ export default {
           codes: codes.join("\n"),
           plan: String(plan),
           expires: moment(time).format("dddd, MMMM Do YYYY"),
-        })}`
+        })}`,
       )
       .setTimestamp()
       .setFooter({

@@ -2,11 +2,9 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  CacheType,
   CommandInteraction,
   EmbedBuilder,
   Message,
-  UserSelectMenuInteraction,
 } from "discord.js";
 import { Manager } from "../manager.js";
 
@@ -17,20 +15,20 @@ export const SlashPage = async (
   timeout: number,
   queueLength: number,
   queueDuration: number,
-  language: string
+  language: string,
 ) => {
-  if (!interaction && !(interaction as CommandInteraction).channel)
+  if (!interaction && !(interaction as any).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setEmoji(client.icons.arrow_previous)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("⬅")
+    .setStyle(ButtonStyle.Primary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setEmoji(client.icons.arrow_next)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("➡")
+    .setStyle(ButtonStyle.Primary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
@@ -50,8 +48,9 @@ export const SlashPage = async (
   });
   if (pages.length == 0) return;
 
+  const filter = (m: any) => m.author.id === interaction.user.id;
   const collector = await curPage.createMessageComponentCollector({
-    filter: (m) => m.user.id === interaction.user.id,
+    filter,
     time: timeout,
   });
 
@@ -80,7 +79,7 @@ export const SlashPage = async (
   collector.on("end", () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true)
+      row2.setDisabled(true),
     );
     curPage.edit({
       embeds: [
@@ -106,20 +105,20 @@ export const SlashPlaylist = async (
   pages: EmbedBuilder[],
   timeout: number,
   queueLength: number,
-  language: string
+  language: string,
 ) => {
-  if (!interaction && !(interaction as CommandInteraction).channel)
+  if (!interaction && !(interaction as any).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setEmoji(client.icons.arrow_previous)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("⬅")
+    .setStyle(ButtonStyle.Primary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setEmoji(client.icons.arrow_next)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("➡")
+    .setStyle(ButtonStyle.Primary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
@@ -138,8 +137,9 @@ export const SlashPlaylist = async (
   });
   if (pages.length == 0) return;
 
+  const filter = (m: any) => m.user.id === interaction.user.id;
   const collector = await curPage.createMessageComponentCollector({
-    filter: (m) => m.user.id === interaction.user.id,
+    filter,
     time: timeout,
   });
 
@@ -166,7 +166,7 @@ export const SlashPlaylist = async (
   collector.on("end", () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true)
+      row2.setDisabled(true),
     );
     curPage.edit({
       embeds: [
@@ -191,24 +191,24 @@ export const NormalPage = async (
   timeout: number,
   queueLength: number,
   queueDuration: number,
-  language: string
+  language: string,
 ) => {
-  if (!message && !(message as Message).channel)
+  if (!message && !(message as any).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setEmoji(client.icons.arrow_previous)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("⬅")
+    .setStyle(ButtonStyle.Primary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setEmoji(client.icons.arrow_next)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("➡")
+    .setStyle(ButtonStyle.Primary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
-  const curPage = await message.reply({
+  const curPage = await message.channel.send({
     embeds: [
       pages[page].setFooter({
         text: `${client.i18n.get(language, "music", "queue_footer", {
@@ -224,11 +224,12 @@ export const NormalPage = async (
   });
   if (pages.length == 0) return;
 
+  const filter = (interaction: any) =>
+    interaction.user.id === message.author.id
+      ? true
+      : false && interaction.deferUpdate();
   const collector = await curPage.createMessageComponentCollector({
-    filter: (interaction) =>
-      interaction.user.id === message.author.id
-        ? true
-        : false && interaction.deferUpdate(),
+    filter,
     time: timeout,
   });
 
@@ -256,7 +257,7 @@ export const NormalPage = async (
   collector.on("end", () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true)
+      row2.setDisabled(true),
     );
     curPage.edit({
       embeds: [
@@ -281,24 +282,24 @@ export const NormalPlaylist = async (
   pages: EmbedBuilder[],
   timeout: number,
   queueLength: number,
-  language: string
+  language: string,
 ) => {
-  if (!message && !(message as Message).channel)
+  if (!message && !(message as any).channel)
     throw new Error("Channel is inaccessible.");
   if (!pages) throw new Error("Pages are not given.");
 
   const row1 = new ButtonBuilder()
     .setCustomId("back")
-    .setEmoji(client.icons.arrow_previous)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("⬅")
+    .setStyle(ButtonStyle.Primary);
   const row2 = new ButtonBuilder()
     .setCustomId("next")
-    .setEmoji(client.icons.arrow_next)
-    .setStyle(ButtonStyle.Secondary);
+    .setLabel("➡")
+    .setStyle(ButtonStyle.Primary);
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
   let page = 0;
-  const curPage = await message.reply({
+  const curPage = await message.channel.send({
     embeds: [
       pages[page].setFooter({
         text: `${client.i18n.get(language, "playlist", "view_embed_footer", {
@@ -313,11 +314,12 @@ export const NormalPlaylist = async (
   });
   if (pages.length == 0) return;
 
+  const filter = (interaction: any) =>
+    interaction.user.id === message.author.id
+      ? true
+      : false && interaction.deferUpdate();
   const collector = await curPage.createMessageComponentCollector({
-    filter: (interaction) =>
-      interaction.user.id === message.author.id
-        ? true
-        : false && interaction.deferUpdate(),
+    filter,
     time: timeout,
   });
 
@@ -344,7 +346,7 @@ export const NormalPlaylist = async (
   collector.on("end", () => {
     const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
       row1.setDisabled(true),
-      row2.setDisabled(true)
+      row2.setDisabled(true),
     );
     curPage.edit({
       embeds: [

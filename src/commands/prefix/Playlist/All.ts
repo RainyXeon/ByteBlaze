@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from "discord.js";
 import { NormalPlaylist } from "../../../structures/PageQueue.js";
 import humanizeDuration from "humanize-duration";
 import { Manager } from "../../../manager.js";
-import { Playlist } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 
 export default {
   name: "playlist-all",
@@ -10,39 +10,29 @@ export default {
   category: "Playlist",
   usage: "<number>",
   aliases: ["pl-all"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const number = args[0] ? args[0] : null;
     if (number && isNaN(+number))
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "number_invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "music", "number_invalid")}`,
+      );
 
-    const playlists: Playlist[] = [];
-    const fullList = await client.db.playlist.all();
+    const playlists: PlaylistInterface[] = [];
+    const fullList = await client.db.get("playlist");
 
-    fullList
-      .filter((data) => {
-        return data.value.owner == message.author.id;
+    Object.keys(fullList)
+      .filter(function (key) {
+        return fullList[key].owner == message.author.id;
       })
-      .forEach((data) => {
-        playlists.push(data.value);
+      .forEach(async (key, index) => {
+        playlists.push(fullList[key]);
       });
 
     let pagesNum = Math.ceil(playlists.length / 10);
@@ -61,7 +51,7 @@ export default {
           tracks: String(playlist.tracks!.length),
           create: created,
         })}
-                `
+                `,
       );
     }
 
@@ -95,37 +85,31 @@ export default {
           pages,
           30000,
           playlists.length,
-          language
+          language,
         );
         return (playlists.length = 0);
       } else {
-        await message.reply({ embeds: [pages[0]] });
+        await message.channel.send({ embeds: [pages[0]] });
         return (playlists.length = 0);
       }
     } else {
       if (isNaN(+number))
-        return message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "playlist", "view_notnumber")}`
-              )
-              .setColor(client.color),
-          ],
+        return message.channel.send({
+          content: `${client.i18n.get(language, "playlist", "view_notnumber")}`,
         });
       if (Number(number) > pagesNum)
-        return message.reply({
+        return message.channel.send({
           content: `${client.i18n.get(
             language,
             "playlist",
             "view_page_notfound",
             {
               page: String(pagesNum),
-            }
+            },
           )}`,
         });
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
-      await message.reply({ embeds: [pages[pageNum]] });
+      await message.channel.send({ embeds: [pages[pageNum]] });
       return (playlists.length = 0);
     }
   },

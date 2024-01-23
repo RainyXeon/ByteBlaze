@@ -5,18 +5,14 @@ import {
   GuildMember,
   PermissionsBitField,
 } from "discord.js";
-import { Radiostations } from "../../../utils/radioLink.js";
+import { Radiostations } from "../../../plugins/radioLink.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
 import { Manager } from "../../../manager.js";
 // Main code
 export default {
   name: ["radio"],
   description: "Play radio in voice channel",
-  category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
+  lavalink: true,
   options: [
     {
       name: "number",
@@ -28,33 +24,32 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "radio_loading")}`,
+    );
     const value = (
       interaction.options as CommandInteractionOptionResolver
     ).getInteger("number");
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "radio_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
-    const { channel } = (interaction.member as GuildMember)!.voice;
+    const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(
+        `${client.i18n.get(language, "music", "search_invoice")}`,
+      );
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Connect)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Speak)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
 
     const resultsEmbed = new EmbedBuilder()
       .setTitle(`${client.i18n.get(language, "radio", "available_radio")}`) //
@@ -276,7 +271,7 @@ export default {
             url: res.tracks[0].uri,
             duration: convertTime(res.tracks[0].length as number),
             request: String(res.tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });

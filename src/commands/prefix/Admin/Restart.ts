@@ -7,23 +7,20 @@ export default {
   description: "Shuts down the client!",
   category: "Admin",
   accessableby: "Owner",
+  owner: true,
   usage: "",
   aliases: [],
-  owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const restart = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(language, "utilities", "restart_msg")}`
+        `${client.i18n.get(language, "utilities", "restart_msg")}`,
       )
       .setColor(client.color)
       .setFooter({
@@ -31,7 +28,7 @@ export default {
         iconURL: client.user!.displayAvatarURL(),
       });
 
-    await message.reply({ embeds: [restart] });
+    await message.channel.send({ embeds: [restart] });
 
     process.exit();
   },

@@ -13,14 +13,10 @@ export default {
   name: ["status"],
   description: "Shows the status information of the Bot",
   category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const info = new EmbedBuilder()
@@ -39,9 +35,9 @@ export default {
         {
           name: "Memory",
           value: `\`\`\`${(process.memoryUsage().rss / 1024 / 1024).toFixed(
-            2
+            2,
           )} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-            2
+            2,
           )} MB Heap\`\`\``,
           inline: true,
         },
@@ -52,10 +48,7 @@ export default {
         },
         {
           name: "User Count",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\`\`\``,
+          value: `\`\`\`${client.users.cache.size} users\`\`\``,
           inline: true,
         },
         {
@@ -65,10 +58,7 @@ export default {
         },
         {
           name: "Cached Data",
-          value: `\`\`\`${client.guilds.cache.reduce(
-            (a, b) => a + b.memberCount,
-            0
-          )} users\n${client.emojis.cache.size} emojis\`\`\``,
+          value: `\`\`\`${client.users.cache.size} users\n${client.emojis.cache.size} emojis\`\`\``,
           inline: true,
         },
         { name: "Discord.js", value: `\`\`\`${version}\`\`\``, inline: true },
@@ -82,8 +72,8 @@ export default {
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
+          }&permissions=8&scope=bot%20applications.commands`,
+        ),
     );
     await interaction.editReply({ embeds: [info], components: [row] });
   },

@@ -9,40 +9,35 @@ export default {
   category: "Music",
   usage: "",
   aliases: [],
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "radio_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "music", "radio_loading")}`,
+    );
     const value = "http://stream.laut.fm/lofi.m3u";
 
     const { channel } = message.member!.voice;
     if (!channel)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "radio_invoice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "music", "radio_invoice")}`);
+    if (
+      !message
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Connect)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_join")}`);
+    if (
+      !message
+        .guild!.members.cache.get(client.user!.id)!
+        .permissions.has(PermissionsBitField.Flags.Speak)
+    )
+      return msg.edit(`${client.i18n.get(language, "music", "radio_speak")}`);
 
     const player = await client.manager.createPlayer({
       guildId: message.guild!.id,
@@ -56,13 +51,7 @@ export default {
 
     if (!result.tracks.length)
       return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "radio_match")}`
-            )
-            .setColor(client.color),
-        ],
+        content: `${client.i18n.get(language, "music", "radio_match")}`,
       });
     if (result.type === "PLAYLIST")
       for (let track of tracks) player.queue.add(track);
@@ -79,7 +68,7 @@ export default {
             duration: convertTime(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -92,7 +81,7 @@ export default {
             url: tracks[0].uri,
             duration: convertTime(tracks[0].length as number),
             request: String(tracks[0].requester),
-          })}`
+          })}`,
         )
         .setColor(client.color);
       msg.edit({ content: " ", embeds: [embed] });
@@ -103,7 +92,7 @@ export default {
           url: tracks[0].uri,
           duration: convertTime(tracks[0].length as number),
           request: String(tracks[0].requester),
-        })}`
+        })}`,
       );
       msg.edit({ content: " ", embeds: [embed] });
     }

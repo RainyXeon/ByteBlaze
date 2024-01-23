@@ -5,7 +5,6 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Message,
-  Embed,
 } from "discord.js";
 import FormatDuration from "../../../structures/FormatDuration.js";
 import { QueueDuration } from "../../../structures/QueueDuration.js";
@@ -15,43 +14,23 @@ export default {
   name: "nowplaying",
   description: "Display the song currently playing.",
   category: "Music",
-  usage: "",
-  aliases: ["np"],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const realtime = client.config.lavalink.NP_REALTIME;
-
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(`${client.i18n.get(language, "music", "np_loading")}`)
-          .setColor(client.color),
-      ],
-    });
-
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "music", "np_loading")}`,
+    );
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
 
     const song = player.queue.current;
-    const position = player.position;
+    const position = player.shoukaku.position;
     const CurrentDuration = FormatDuration(position);
     const TotalDuration = FormatDuration(song!.length);
     const Thumbnail =
@@ -102,7 +81,7 @@ export default {
           name: `${client.i18n.get(
             language,
             "player",
-            "total_duration_title"
+            "total_duration_title",
           )}`,
           value: `${FormatDuration(QueueDuration(player))}`,
           inline: true,
@@ -130,16 +109,16 @@ export default {
       .setTimestamp();
 
     const NEmbed = await msg.edit({ content: " ", embeds: [embeded] });
-    let interval = null;
+    var interval = null;
 
-    if (realtime) {
+    if (realtime === "true") {
       interval = setInterval(async () => {
         if (!player.playing) return;
         const CurrentDuration = FormatDuration(position);
         const Part = Math.floor((position / song!.length!) * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
-        (embeded as unknown as Embed).fields[6] = {
+        (embeded as any).fields[6] = {
           name: `${client.i18n.get(language, "music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
@@ -151,7 +130,7 @@ export default {
 
         if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
       }, 5000);
-    } else if (!realtime) {
+    } else if (realtime === "false") {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
     }

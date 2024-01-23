@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "better-kazagumo";
+import { KazagumoPlayer } from "kazagumo";
 import { Manager } from "../../manager.js";
 
 export default async (client: Manager, player: KazagumoPlayer) => {

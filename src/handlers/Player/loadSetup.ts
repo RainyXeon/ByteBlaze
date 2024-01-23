@@ -1,12 +1,17 @@
 import { Manager } from "../../manager.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import {
+  Client,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from "discord.js";
 
 /**
  *
  * @param {Client} client
  */
 
-export async function playerLoadSetup(client: Manager) {
+export default async (client: Manager) => {
   client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
     new ButtonBuilder()
       .setStyle(ButtonStyle.Success)
@@ -57,4 +62,4 @@ export async function playerLoadSetup(client: Manager) {
       .setEmoji("🔄")
       .setDisabled(true),
   ]);
-}
+};

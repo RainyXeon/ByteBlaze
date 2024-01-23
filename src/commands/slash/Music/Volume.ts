@@ -12,10 +12,6 @@ export default {
   name: ["volume"],
   description: "Adjusts the volume of the bot.",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "amount",
@@ -27,71 +23,37 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const value = (
       interaction.options as CommandInteractionOptionResolver
     ).getNumber("amount");
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "volume_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "music", "volume_loading")}`,
+    );
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     if (!value)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "volume_usage", {
-                volume: String(player.volume),
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(
+        `${client.i18n.get(language, "music", "volume_usage", {
+          volume: String(player.volume),
+        })}`,
+      );
     if (Number(value) <= 0 || Number(value) > 100)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "volume_invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(
+        `${client.i18n.get(language, "music", "volume_invalid")}`,
+      );
 
     await player.setVolume(Number(value));
 
@@ -99,7 +61,7 @@ export default {
       .setDescription(
         `${client.i18n.get(language, "music", "volume_msg", {
           volume: String(value),
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

@@ -13,14 +13,10 @@ export default {
   name: ["developer"],
   description: "Shows the developer information of the Bot (Credit)",
   category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const xeondex = new EmbedBuilder()
@@ -34,13 +30,13 @@ export default {
         new ButtonBuilder()
           .setLabel("Github (RainyXeon)")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://github.com/XeonE52680v3")
+          .setURL("https://github.com/XeonE52680v3"),
       )
       .addComponents(
         new ButtonBuilder()
           .setLabel("Support Server")
           .setStyle(ButtonStyle.Link)
-          .setURL("https://discord.com/invite/xHvsCMjnhU")
+          .setURL("https://discord.com/invite/xHvsCMjnhU"),
       );
 
     await interaction.editReply({ embeds: [xeondex], components: [row1] });

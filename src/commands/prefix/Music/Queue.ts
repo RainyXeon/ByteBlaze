@@ -11,63 +11,41 @@ export default {
   category: "Music",
   usage: "",
   aliases: [],
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0];
 
     if (value && isNaN(+value))
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "number_invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "music", "number_invalid")}`,
+      );
 
     const player = client.manager.players.get(message.guild!.id);
     if (!player)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_player")}`,
+      );
     const { channel } = message.member!.voice;
     if (
       !channel ||
       message.member!.voice.channel !== message.guild!.members.me!.voice.channel
     )
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "noplayer", "no_voice")}`,
+      );
 
     const song = player.queue.current;
     function fixedduration() {
       const current = player!.queue.current!.length ?? 0;
       return player!.queue.reduce(
         (acc, cur) => acc + (cur.length || 0),
-        current
+        current,
       );
     }
     const qduration = `${formatDuration(fixedduration())}`;
@@ -83,9 +61,9 @@ export default {
       const song = player.queue[i];
       songStrings.push(
         `**${i + 1}.** [${song.title}](${song.uri}) \`[${formatDuration(
-          song.length
+          song.length,
         )}]\`
-                    `
+                    `,
       );
     }
 
@@ -109,7 +87,7 @@ export default {
             request: String(song!.requester),
             duration: formatDuration(song!.length),
             rest: str == "" ? "  Nothing" : "\n" + str,
-          })}`
+          })}`,
         )
         .setFooter({
           text: `${client.i18n.get(language, "music", "queue_footer", {
@@ -132,34 +110,22 @@ export default {
           60000,
           player.queue.length,
           Number(qduration),
-          language
+          language,
         );
-      else return message.reply({ embeds: [pages[0]] });
+      else return message.channel.send({ embeds: [pages[0]] });
     } else {
       if (isNaN(+value))
-        return message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "queue_notnumber")}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return message.channel.send(
+          `${client.i18n.get(language, "music", "queue_notnumber")}`,
+        );
       if (Number(value) > pagesNum)
-        return message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "music", "queue_page_notfound", {
-                  page: String(pagesNum),
-                })}`
-              )
-              .setColor(client.color),
-          ],
-        });
+        return message.channel.send(
+          `${client.i18n.get(language, "music", "queue_page_notfound", {
+            page: String(pagesNum),
+          })}`,
+        );
       const pageNum = Number(value) == 0 ? 1 : Number(value) - 1;
-      return message.reply({ embeds: [pages[pageNum]] });
+      return message.channel.send({ embeds: [pages[pageNum]] });
     }
   },
 };

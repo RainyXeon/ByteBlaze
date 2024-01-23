@@ -11,16 +11,12 @@ export default {
   usage: "<type> <number>",
   aliases: ["pg"],
   owner: true,
-  premium: false,
-  lavalink: false,
-  isManager: false,
-
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const plans = ["daily", "weekly", "monthly", "yearly"];
 
@@ -28,29 +24,17 @@ export default {
     const camount = args[1];
 
     if (!name || !plans.includes(name))
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "utilities", "arg_error", {
-                text: plans.join(", "),
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "utilities", "arg_error", {
+          text: plans.join(", "),
+        })}`,
+      );
     if (!camount)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "utilities", "arg_error", {
-                text: "number",
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "utilities", "arg_error", {
+          text: "number",
+        })}`,
+      );
 
     let codes = [];
 
@@ -71,10 +55,10 @@ export default {
       });
 
       const code = codePremium.toString().toUpperCase();
-      const find = await client.db.code.get(`${code}`);
+      const find = await client.db.get(`code.pmc_${code}`);
 
       if (!find) {
-        await client.db.code.set(`${code}`, {
+        await client.db.set(`code.pmc_${code}`, {
           code: code,
           plan: plan,
           expiresAt: time,
@@ -95,7 +79,7 @@ export default {
           codes: codes.join("\n"),
           plan: plan,
           expires: moment(time).format("dddd, MMMM Do YYYY"),
-        })}`
+        })}`,
       )
       .setTimestamp()
       .setFooter({
@@ -105,6 +89,6 @@ export default {
         iconURL: message.author.displayAvatarURL(),
       });
 
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
   },
 };

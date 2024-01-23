@@ -7,18 +7,15 @@ import {
   GuildMember,
 } from "discord.js";
 import { convertTime } from "../../../structures/ConvertTime.js";
-import { Playlist } from "../../../database/schema/Playlist.js";
+import { PlaylistInterface } from "../../../types/Playlist.js";
 import { Manager } from "../../../manager.js";
-let playlist: Playlist | null;
+let playlist: PlaylistInterface | null;
 
 export default {
   name: ["playlist", "import"],
   description: "Import a playlist to queue.",
   category: "Playlist",
-  owner: false,
-  premium: false,
   lavalink: true,
-  isManager: false,
   options: [
     {
       name: "name",
@@ -34,7 +31,7 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -46,15 +43,27 @@ export default {
     ).getString("id");
     const { channel } = (interaction.member as GuildMember).voice;
     if (!channel)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "import_voice")}`,
+      );
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissionsIn(channel)
+        .has(PermissionsBitField.Flags.Connect)
+    )
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "import_join")}`,
+      );
+    if (
+      !interaction
+        .guild!.members.cache.get(client.user!.id)!
+        .permissionsIn(channel)
+        .has(PermissionsBitField.Flags.Speak)
+    )
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "import_speak")}`,
+      );
 
     const player = await client.manager.createPlayer({
       guildId: interaction.guild!.id,
@@ -66,77 +75,48 @@ export default {
     const SongAdd = [];
     let SongLoad = 0;
 
-    if (id) playlist = await client.db.playlist.get(`${id}`);
+    if (id) playlist = await client.db.get(`playlist.pid_${id}`);
     if (value) {
       const Plist = value.replace(/_/g, " ");
 
-      const fullList = await client.db.playlist.all();
+      const fullList = await client.db.get("playlist");
 
-      const pid = fullList.filter(function (data) {
+      const pid = Object.keys(fullList).filter(function (key) {
         return (
-          data.value.owner == interaction.user.id && data.value.name == Plist
+          fullList[key].owner == interaction.user.id &&
+          fullList[key].name == Plist
         );
       });
 
-      playlist = pid[0].value;
+      playlist = fullList[pid[0]];
     }
     if (!id && !value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "no_id_or_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "no_id_or_name")}`,
+      );
     if (id && value)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "got_id_and_name")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "got_id_and_name")}`,
+      );
     if (!playlist)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "playlist", "invalid")}`,
+      );
 
     if (playlist.private && playlist.owner !== interaction.user.id) {
-      interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "import_private")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      interaction.editReply(
+        `${client.i18n.get(language, "playlist", "import_private")}`,
+      );
       return;
     }
 
     const totalDuration = convertTime(
-      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
+      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0),
     );
 
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "playlist", "import_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.editReply(
+      `${client.i18n.get(language, "playlist", "import_loading")}`,
+    );
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const res = await player.search(playlist.tracks![i].uri, {
@@ -163,7 +143,7 @@ export default {
               tracks: String(playlist.tracks!.length),
               duration: totalDuration,
               user: String(interaction.user),
-            })}`
+            })}`,
           )
           .setColor(client.color);
 

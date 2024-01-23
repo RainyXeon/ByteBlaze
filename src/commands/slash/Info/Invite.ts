@@ -12,26 +12,22 @@ export default {
   name: ["invite"],
   description: "Shows the invite information of the Bot",
   category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
     const invite = new EmbedBuilder()
       .setTitle(
         `${client.i18n.get(language, "info", "inv_title", {
           username: client.user!.username,
-        })}`
+        })}`,
       )
       .setDescription(
         `${client.i18n.get(language, "info", "inv_desc", {
           username: client.user!.username,
-        })}`
+        })}`,
       )
       .addFields([
         {
@@ -50,8 +46,8 @@ export default {
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${
             client.user!.id
-          }&permissions=8&scope=bot%20applications.commands`
-        )
+          }&permissions=8&scope=bot%20applications.commands`,
+        ),
     );
 
     await interaction.editReply({ embeds: [invite], components: [row2] });

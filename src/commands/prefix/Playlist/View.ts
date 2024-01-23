@@ -11,97 +11,67 @@ export default {
   category: "Playlist",
   usage: "<playlist_name>",
   aliases: ["pl-view"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
 
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     const value = args[0] ? args[0] : null;
-    if (value == null)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "invalid")}`
-            )
-            .setColor(client.color),
-        ],
-      });
     const PName = value!.replace(/_/g, " ");
 
-    const fullList = await client.db.playlist.all();
+    const fullList = await client.db.get("playlist");
 
-    const filter_level_1 = fullList.filter(function (data) {
-      return data.value.owner == message.author.id && data.value.name == PName;
+    const pid = Object.keys(fullList).filter(function (key) {
+      return (
+        fullList[key].owner == message.author.id && fullList[key].name == PName
+      );
     });
 
-    const playlist = await client.db.playlist.get(`${filter_level_1[0].id}`);
+    const playlist = fullList[pid[0]];
 
     if (!playlist)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "public_notfound")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "public_notfound")}`,
+      );
     if (playlist.owner !== message.author.id)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "public_owner")}`
-            )
-            .setColor(client.color),
-        ],
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "public_owner")}`,
+      );
+
+    const Public = Object.keys(fullList)
+      .filter(function (key) {
+        return fullList[key].private == false && fullList[key].name == PName;
+        // to cast back from an array of keys to the object, with just the passing ones
+      })
+      .forEach(async (key) => {
+        return fullList[key];
       });
-
-    const Public = fullList.filter(function (data) {
-      return data.value.private == false && data.value.name == PName;
-    });
-
     if (Public !== null || undefined || false)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "playlist", "public_already")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return message.channel.send(
+        `${client.i18n.get(language, "playlist", "public_already")}`,
+      );
 
-    const msg = await message.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "playlist", "public_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
-
-    client.db.playlist.set(
-      `${playlist.id}.private`,
-      playlist.private == true ? false : true
+    const msg = await message.channel.send(
+      `${client.i18n.get(language, "playlist", "public_loading")}`,
     );
 
-    const playlist_now = await client.db.playlist.get(`${playlist.id}.private`);
+    client.db.set(
+      `playlist.pid_${playlist.id}.private`,
+      playlist.private == true ? false : true,
+    );
+
+    const playlist_now = await client.db.get(
+      `playlist.pid_${playlist.id}.private`,
+    );
 
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(language, "playlist", "public_success", {
-          view: playlist_now?.private == true ? "Private" : "Public",
-        })}`
+          view: playlist_now == true ? "Private" : "Public",
+        })}`,
       )
       .setColor(client.color);
     msg.edit({ content: " ", embeds: [embed] });

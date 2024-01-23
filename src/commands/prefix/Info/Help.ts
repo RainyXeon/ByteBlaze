@@ -16,16 +16,12 @@ export default {
   category: "Info",
   usage: "+ <commamnd_name>",
   aliases: ["h"],
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     client: Manager,
     message: Message,
     args: string[],
     language: string,
-    prefix: string
+    prefix: string,
   ) => {
     if (args[0]) {
       const embed = new EmbedBuilder()
@@ -38,15 +34,15 @@ export default {
         .setColor(client.color);
 
       let command = client.commands.get(
-        client.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase()
+        client.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase(),
       );
       if (!command)
-        return message.reply({
+        return message.channel.send({
           embeds: [
             embed
               .setTitle("Invalid Command.")
               .setDescription(
-                `Do \`${prefix}help\` for the list of the commands.`
+                `Do \`${prefix}help\` for the list of the commands.`,
               ),
           ],
         });
@@ -63,20 +59,14 @@ export default {
                 ? `\`${prefix}${command.name} ${command.usage}\``
                 : "No Usage"
             }
-            **Accessible by:** ${
-              command.isManager
-                ? "Guild Manager"
-                : command.owner
-                ? "Owner"
-                : "Members"
-            }
+            **Accessible by:** ${command.accessableby || "Members"}
             **Aliases:** ${
               command.aliases && command.aliases.length !== 0
                 ? command.aliases.join(", ")
                 : "None."
             }`);
 
-      return message.reply({ embeds: [embed] });
+      return message.channel.send({ embeds: [embed] });
     }
 
     const category = readdirSync("./src/commands/prefix");
@@ -100,20 +90,19 @@ export default {
             ${client.i18n.get(language, "help", "prefix", {
               prefix: `\`${prefix}\``,
             })}
+            ${client.i18n.get(language, "help", "intro4")}
+            ${client.i18n.get(language, "help", "lavalink", {
+              aver: "v3.0-beta",
+            })}
             ${client.i18n.get(language, "help", "ver", {
-              botver: client.metadata.version,
+              botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+                .version,
             })}
             ${client.i18n.get(language, "help", "djs", {
               djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
                 .dependencies["discord.js"],
             })}
-            ${client.i18n.get(language, "help", "lavalink", {
-              aver: client.metadata.autofix,
-            })}
-            ${client.i18n.get(language, "help", "codename", {
-              codename: client.metadata.codename,
-            })}
-            `
+            `,
       )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
@@ -128,7 +117,7 @@ export default {
       new StringSelectMenuBuilder()
         .setCustomId("help-category")
         .setPlaceholder(
-          `${client.i18n.get(language, "utilities", "help_desc")}`
+          `${client.i18n.get(language, "utilities", "help_desc")}`,
         )
         .setMaxValues(1)
         .setMinValues(1)
@@ -138,16 +127,18 @@ export default {
             return new StringSelectMenuOptionBuilder()
               .setLabel(category)
               .setValue(category);
-          })
+          }),
         ),
     ]);
 
     message.reply({ embeds: [embed], components: [row] }).then(async (msg) => {
+      let filter = (i: any) =>
+        i.isStringSelectMenu() &&
+        i.user &&
+        i.message.author.id == client.user!.id &&
+        console.log(i);
       let collector = await msg.createMessageComponentCollector({
-        filter: (i) =>
-          i.isStringSelectMenu() &&
-          i.user &&
-          i.message.author.id == client.user!.id,
+        filter,
         time: 60000,
       });
       collector.on("collect", async (m) => {
@@ -196,7 +187,7 @@ export default {
             .setDescription(
               `${client.i18n.get(language, "utilities", "help_timeout", {
                 prefix: prefix,
-              })}`
+              })}`,
             )
             .setColor(client.color);
 

@@ -13,6 +13,7 @@ import {
   UploadCommandInterface,
 } from "./src/types/Interaction.js";
 import { BotInfoType } from "./src/types/User.js";
+
 (async () => {
   let command: UploadCommandInterface[] = [];
 
@@ -64,15 +65,15 @@ import { BotInfoType } from "./src/types/User.js";
               : `${cmd.name[0]}`
           }" ${cmd.name[1] || ""} ${
             cmd.name[2] || ""
-          } added to the transform list!`
+          } added to the transform list!`,
         );
         store.push(cmd);
-      }
+      },
     );
 
     store = store.sort(
       (a: CommandInterface, b: CommandInterface) =>
-        a.name.length - b.name.length
+        a.name.length - b.name.length,
     );
 
     command = store.reduce(
@@ -151,7 +152,7 @@ import { BotInfoType } from "./src/types/User.js";
                       i.name == current.name[1] &&
                       i.type == ApplicationCommandOptionType.SubcommandGroup
                     );
-                  }
+                  },
                 );
                 if (!GroupItem) {
                   SubItem.options!.push({
@@ -182,7 +183,7 @@ import { BotInfoType } from "./src/types/User.js";
 
         return all;
       },
-      []
+      [],
     );
 
     // command = command.map((i: RESTPostAPIApplicationCommandsJSONBody) =>{
@@ -202,7 +203,7 @@ import { BotInfoType } from "./src/types/User.js";
   console.info(
     `Account information received! ${(client as BotInfoType).username}#${
       (client as BotInfoType).discriminator
-    } (${(client as BotInfoType).id})`
+    } (${(client as BotInfoType).id})`,
   );
 
   console.info(`Interactions are posted on discord!`);
@@ -214,11 +215,11 @@ import { BotInfoType } from "./src/types/User.js";
       await rest.put(
         Routes.applicationGuildCommands(
           (client as BotInfoType).id as string,
-          guildId as string
+          guildId as string,
         ),
         {
           body: command,
-        }
+        },
       );
 
       console.info(`Shared commands may take 3-5 seconds to arrive.`);
@@ -232,7 +233,7 @@ import { BotInfoType } from "./src/types/User.js";
       });
 
       console.info(
-        `Shared commands can take up to 1 hour to arrive. If you want it to come immediately, you can throw your bot from your server and get it back.`
+        `Shared commands can take up to 1 hour to arrive. If you want it to come immediately, you can throw your bot from your server and get it back.`,
       );
       break;
     }

@@ -13,10 +13,6 @@ export default {
   name: ["remove"],
   description: "Remove song from queue",
   category: "Music",
-  owner: false,
-  premium: false,
-  lavalink: true,
-  isManager: false,
   options: [
     {
       name: "position",
@@ -28,68 +24,32 @@ export default {
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
-    const msg = await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            `${client.i18n.get(language, "music", "removetrack_loading")}`
-          )
-          .setColor(client.color),
-      ],
-    });
+    const msg = await interaction.deferReply({ ephemeral: false });
 
     const player = client.manager.players.get(interaction.guild!.id);
     if (!player)
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_player")}`
-            )
-            .setColor(client.color),
-        ],
-      });
-    const { channel } = (interaction.member as GuildMember)!.voice;
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
+    const { channel } = (interaction.member as GuildMember).voice;
     if (
       !channel ||
-      (interaction.member as GuildMember)!.voice.channel !==
+      (interaction.member as GuildMember).voice.channel !==
         interaction.guild!.members.me!.voice.channel
     )
-      return msg.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
     const tracks = (
       interaction.options as CommandInteractionOptionResolver
     ).getInteger("position");
     if (tracks == 0)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "removetrack_already")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "music", "removetrack_already")}`,
+      );
     if (Number(tracks) > player.queue.length)
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "music", "removetrack_notfound")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+      return interaction.editReply(
+        `${client.i18n.get(language, "music", "removetrack_notfound")}`,
+      );
 
     const song = player.queue[Number(tracks) - 1];
 
@@ -102,7 +62,7 @@ export default {
           url: song.uri,
           duration: convertTime(song.length as number),
           request: String(song.requester),
-        })}`
+        })}`,
       )
       .setColor(client.color);
 

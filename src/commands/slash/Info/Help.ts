@@ -15,14 +15,10 @@ export default {
   name: ["help"],
   description: "Displays all commands that the bot has.",
   category: "Info",
-  owner: false,
-  premium: false,
-  lavalink: false,
-  isManager: false,
   run: async (
     interaction: CommandInteraction,
     client: Manager,
-    language: string
+    language: string,
   ) => {
     await interaction.deferReply({ ephemeral: false });
 
@@ -43,20 +39,19 @@ export default {
             ${client.i18n.get(language, "help", "intro2")}
             ${client.i18n.get(language, "help", "intro3")}
             ${client.i18n.get(language, "help", "prefix", { prefix: `\`/\`` })}
+            ${client.i18n.get(language, "help", "intro4")}
             ${client.i18n.get(language, "help", "ver", {
-              botver: client.metadata.version,
+              botver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
+                .version,
             })}
             ${client.i18n.get(language, "help", "djs", {
               djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
                 .dependencies["discord.js"],
             })}
             ${client.i18n.get(language, "help", "lavalink", {
-              aver: client.metadata.autofix,
+              aver: "v3.0-beta",
             })}
-            ${client.i18n.get(language, "help", "codename", {
-              codename: client.metadata.codename,
-            })}
-            `
+            `,
       )
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color);
@@ -65,7 +60,7 @@ export default {
       new StringSelectMenuBuilder()
         .setCustomId("help-category")
         .setPlaceholder(
-          `${client.i18n.get(language, "utilities", "help_desc")}`
+          `${client.i18n.get(language, "utilities", "help_desc")}`,
         )
         .setMaxValues(1)
         .setMinValues(1)
@@ -75,18 +70,19 @@ export default {
             return new StringSelectMenuOptionBuilder()
               .setLabel(category)
               .setValue(category);
-          })
+          }),
         ),
     ]);
 
     interaction
       .editReply({ embeds: [embed], components: [row] })
       .then(async (msg) => {
+        let filter = (i: any) =>
+          i.isStringSelectMenu() &&
+          i.user &&
+          i.message.author.id == client.user!.id;
         let collector = await msg.createMessageComponentCollector({
-          filter: (i) =>
-            i.isStringSelectMenu() &&
-            i.user &&
-            i.message.author.id == client.user!.id,
+          filter,
           time: 60000,
         });
         collector.on("collect", async (m) => {
@@ -135,7 +131,7 @@ export default {
               .setDescription(
                 `${client.i18n.get(language, "utilities", "help_timeout", {
                   prefix: "/",
-                })}`
+                })}`,
               )
               .setColor(client.color);
 
