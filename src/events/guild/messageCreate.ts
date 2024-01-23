@@ -109,7 +109,7 @@ export default class {
         client: client,
         language: language,
         message: message,
-        time: 2,
+        time: Number(((ratelimit.expires - Date.now()) / 1000).toFixed(1)),
       }).reply();
       return;
     }
