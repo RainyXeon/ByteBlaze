@@ -38,7 +38,6 @@ lyrics_toolong: "`⚠️` | Lyrics are too long to be displayed!"
 ### Nowplaying command!
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 np_title: "Now Playing"
-np_title_pause: "Paused"
 np_current_duration: "`⏰` | Current Duration: `[%{current_duration} / %{total_duration}]`"
 
 ### Pause command!
@@ -52,7 +51,6 @@ play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
 
 ### File command!
-file_loading: "`⏳` | **Loading**..."
 file_notfound: "`⚠️` | Please provide a valid File!"
 play_invalid_file: "`⚠️` | Invalid File type. Please use **mp3** or **ogg**!"
 play_warning_file: "`⚠️` | I could not detect the File type. Please use **mp3** or **ogg**!"

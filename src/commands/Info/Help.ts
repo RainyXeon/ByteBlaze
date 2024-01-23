@@ -106,7 +106,7 @@ export default class implements Command {
       })
       .addFields(embedFieldArray)
       .setFooter({
-        text: `${handler.guild!.members.me!.displayName} | ${client.i18n.get(
+        text: `${client.i18n.get(
           handler.language,
           "utilities",
           "ce_total"

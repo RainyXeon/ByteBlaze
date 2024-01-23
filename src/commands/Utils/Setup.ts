@@ -74,7 +74,7 @@ export default class implements Command {
         });
 
       const parent = await handler.guild!.channels.create({
-        name: `${client.user!.username} Music Zone`,
+        name: `${client.user!.username}'s Music`,
         type: ChannelType.GuildCategory,
       });
       const textChannel = await handler.guild!.channels.create({
@@ -111,10 +111,10 @@ export default class implements Command {
       });
 
       const voiceChannel = await handler.guild!.channels.create({
-        name: `${client.user!.username} Music`,
+        name: `${client.user!.username}`,
         type: ChannelType.GuildVoice,
         parent: parent.id,
-        userLimit: 30,
+        userLimit: 99,
       });
 
       const new_data = {
@@ -179,7 +179,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "setup", "setup_already")}`
+                `${client.i18n.get(handler.language, "setup", "setup_null")}`
               )
               .setColor(client.color),
           ],

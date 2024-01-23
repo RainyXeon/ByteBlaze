@@ -47,8 +47,12 @@ export default class implements Command {
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "player", "request_title")}`,
-        value: `${song!.requester}`,
+        name: `${client.i18n.get(
+          handler.language,
+          "player",
+          "duration_title"
+        )}`,
+        value: `${new FormatDuration().parse(song!.length)}`,
         inline: true,
       },
       {
@@ -65,20 +69,16 @@ export default class implements Command {
         name: `${client.i18n.get(
           handler.language,
           "player",
-          "duration_title"
-        )}`,
-        value: `${new FormatDuration().parse(song!.length)}`,
-        inline: true,
-      },
-      {
-        name: `${client.i18n.get(
-          handler.language,
-          "player",
           "total_duration_title"
         )}`,
         value: `${new FormatDuration().parse(
           new QueueDuration().parse(player)
         )}`,
+        inline: true,
+      },
+      {
+        name: `${client.i18n.get(handler.language, "player", "request_title")}`,
+        value: `${song!.requester}`,
         inline: true,
       },
       {

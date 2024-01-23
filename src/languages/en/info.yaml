@@ -5,7 +5,7 @@ dev_foot: "Consider joining my server or inviting my bots :) This would help me 
 
 ### Invite command!
 inv_title: "✉️ %{username}"
-inv_desc: "Thanks for inviting me in advance!"
+inv_desc: "Thanks for Inviting me in advance!"
 
 ### Ping command!
 ping_title: "🏓 "
