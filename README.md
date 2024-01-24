@@ -41,12 +41,21 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 | (DB) P**nHub (No recommended) |           ❌          |            ✅            |
 |         (DB) soundgasm        |           ❌          |            ✅            |
 
+- ✅ **Full support with default lavalink config**
+- ⚠️ **Support but resolve from youtube or soundcloud only**
+- ❌ **Unsupported**
+- (LS) **Source from LavaSrc plugin**
+- (DB) **Source from DuncleBot plugin**
+
 ## 💾 Support Database
 
 - [x] Mysql
 - [x] Mongo DB
 - [x] JSON
 - [x] Postgres
+
+## 🌀 Requirements
+- Check requirements by [click here!](https://github.com/RainyXeon/ByteBlaze/wiki/1.-Setting-up-your-bot#%EF%B8%8F-setting-up-enviroment)
 
 ## ⚙️ Guide
 

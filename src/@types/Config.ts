@@ -22,7 +22,6 @@ export interface Features {
   MESSAGE_CONTENT: MessageContent;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;
-  DEV_ID: string[];
 }
 
 export interface AutofixLavalink {

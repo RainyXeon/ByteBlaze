@@ -62,7 +62,6 @@ export class Manager extends Client {
   logger: any;
   db!: DatabaseTable;
   owner: string;
-  dev: string[];
   color: ColorResolvable;
   i18n: I18n;
   prefix: string;
@@ -123,7 +122,6 @@ export class Manager extends Client {
     this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
-    this.dev = this.config.features.DEV_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",

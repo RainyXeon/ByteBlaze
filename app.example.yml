@@ -21,8 +21,8 @@ lavalink:
     # Your spotify id and secret, you can get it from here: https://developer.spotify.com/
     # If you don't have or don't want, you can disable it
     enable: false
-    id: "a98a98s9a89as98a9s8a98"
-    secret: "a98a98s9a89as98a9s8a98"
+    id: ""
+    secret: ""
 
   DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
 
@@ -34,9 +34,9 @@ lavalink:
   NODES:
     [
       {
-        url: "localhost:2333",
-        name: "Lavalink_Server",
-        auth: "youshallnotpass",
+        url: "",
+        name: "",
+        auth: "",
         secure: false,
       },
     ]
@@ -76,6 +76,3 @@ features:
       secret: "-19023454588-0934825" # You must add your secret key to use ws. A secret key is anything you want
       auth: false
       trusted: ["http://localhost:3000"]
-
-  # Your id or friend id (disable global command)
-  DEV_ID: []
