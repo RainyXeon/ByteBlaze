@@ -10,9 +10,8 @@ import { ButtonSkip } from "./ButtonCommands/Skip.js";
 import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
-import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-const queryRateLimitManager = new RateLimitManager(1000);
+const rateLimitManager = new RateLimitManager(2000);
 
 /**
  * @param {Client} client
@@ -126,17 +125,6 @@ export class playerLoadContent {
     const song = message.cleanContent;
     if (!song) return;
 
-    const ratelimit = queryRateLimitManager.acquire(`${message.author.id}`);
-    if (ratelimit.limited) {
-      new RatelimitReplyService({
-        client: client,
-        language: language,
-        time: 1,
-        message: message,
-      }).reply();
-      return;
-    }
-
     if (message.author.id !== client.user!.id) {
       await delay(1000);
       const checkFromChannel = (await client.channels.fetch(
@@ -145,6 +133,12 @@ export class playerLoadContent {
       const checkAbility = await checkFromChannel.messages.fetch(message.id);
       checkAbility ? checkAbility.delete() : true;
     }
+
+    const ratelimit = rateLimitManager.acquire(message.author.id);
+
+    if (ratelimit.limited) return;
+
+    ratelimit.consume();
 
     let voiceChannel = await message.member!.voice.channel;
     if (!voiceChannel)

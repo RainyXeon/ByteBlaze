@@ -18,14 +18,28 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 
 ## 🎶 Support Source
 
-- [x] Youtube
-- [x] SoundCloud
-- [x] Spotify
-- [x] Https (Radio)
-- [x] Deezer
-- [x] Twitch
-- [x] Bandcamp
-- [x] NicoVideo
+|          Music Source         | With lavalink plugin | Without lavalink plugin |
+|:-----------------------------:|:--------------------:|:-----------------------:|
+|            Youtube            |           ✅          |            ✅            |
+|           SoundCloud          |           ✅          |            ✅            |
+|          (LS) Spotify         |           ⚠️          |            ✅            |
+|           Https link          |           ✅          |            ✅            |
+|          (LS) Deezer          |           ⚠️          |            ✅            |
+|             Twitch            |           ✅          |            ✅            |
+|            Bandcamp           |           ✅          |            ✅            |
+|           Nicovideo           |           ⚠️          |            ⚠️            |
+|           (LS) Apple          |           ⚠️          |            ✅            |
+|          (LS) Yandex          |           ❌          |            ✅            |
+|        (LS) Flowery TTS       |           ❌          |            ✅            |
+|         (DB) Mixcloud         |           ❌          |            ✅            |
+|        (DB) ocremix.org       |           ❌          |            ✅            |
+|          (DB) Clyp.it         |           ❌          |            ✅            |
+|          (DB) Reddit          |           ❌          |            ✅            |
+|        (DB) getyarn.io        |           ❌          |            ✅            |
+|      (DB) Text to speech      |           ❌          |            ✅            |
+|       (DB)TikTok (BETA)       |           ❌          |            ✅            |
+| (DB) P**nHub (No recommended) |           ❌          |            ✅            |
+|         (DB) soundgasm        |           ❌          |            ✅            |
 
 ## 💾 Support Database
 

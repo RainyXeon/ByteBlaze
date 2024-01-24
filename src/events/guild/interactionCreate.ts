@@ -21,7 +21,7 @@ import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-const commandRateLimitManager = new RateLimitManager(2000);
+const commandRateLimitManager = new RateLimitManager(1000);
 
 /**
  * @param {GlobalInteraction} interaction
@@ -83,24 +83,6 @@ export default class {
 
       if (!command) return commandNameArray.length == 0;
 
-      //////////////////////////////// Ratelimit check start ////////////////////////////////
-      const ratelimit = commandRateLimitManager.acquire(
-        `${interaction.user.id}@${command.name.join("-")}`
-      );
-
-      if (ratelimit.limited) {
-        new RatelimitReplyService({
-          client: client,
-          language: language,
-          interaction: interaction as NoAutoInteraction,
-          time: Number(((ratelimit.expires - Date.now()) / 1000).toFixed(1)),
-        }).reply();
-        return;
-      }
-
-      ratelimit.consume();
-      //////////////////////////////// Ratelimit check end ////////////////////////////////
-
       if (
         Number(interaction.type) ==
           InteractionType.ApplicationCommandAutocomplete &&
@@ -116,6 +98,24 @@ export default class {
         }
         return;
       }
+
+      //////////////////////////////// Ratelimit check start ////////////////////////////////
+      const ratelimit = commandRateLimitManager.acquire(
+        `${interaction.user.id}@${command.name.join("-")}`
+      );
+
+      if (ratelimit.limited && (interaction.isCommand() || interaction.isChatInputCommand())) {
+        new RatelimitReplyService({
+          client: client,
+          language: language,
+          interaction: interaction,
+          time: Number(((ratelimit.expires - Date.now()) / 1000).toFixed(1)),
+        }).reply();
+        return;
+      } else if (ratelimit.limited) return
+
+      ratelimit.consume();
+      //////////////////////////////// Ratelimit check end ////////////////////////////////
 
       //////////////////////////////// Permission check start ////////////////////////////////
       const permissionChecker = new CheckPermissionServices();

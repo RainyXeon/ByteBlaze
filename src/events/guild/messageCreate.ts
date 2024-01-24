@@ -8,7 +8,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-const commandRateLimitManager = new RateLimitManager(2000);
+const commandRateLimitManager = new RateLimitManager(1000);
 
 export default class {
   async execute(client: Manager, message: Message) {
