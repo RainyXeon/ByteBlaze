@@ -104,7 +104,10 @@ export default class {
         `${interaction.user.id}@${command.name.join("-")}`
       );
 
-      if (ratelimit.limited && (interaction.isCommand() || interaction.isChatInputCommand())) {
+      if (
+        ratelimit.limited &&
+        (interaction.isCommand() || interaction.isChatInputCommand())
+      ) {
         new RatelimitReplyService({
           client: client,
           language: language,
@@ -112,7 +115,7 @@ export default class {
           time: Number(((ratelimit.expires - Date.now()) / 1000).toFixed(1)),
         }).reply();
         return;
-      } else if (ratelimit.limited) return
+      } else if (ratelimit.limited) return;
 
       ratelimit.consume();
       //////////////////////////////// Ratelimit check end ////////////////////////////////

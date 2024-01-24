@@ -16,6 +16,7 @@ join_voice: "`⚠️` | Bạn không ở cùng kênh thoại với tôi!"
 switch_pause: Đã tạm dừng
 switch_resume: Đã tiếp tục
 pause_msg: "`⏸️` | Đã tạm dừng **Người chơi**!"
+resume_msg: "`▶️` | Tiếp tục lại  **Người chơi**!"
 skip_msg: "`⏭️` | Đã bỏ qua **Bài hát**!"
 stop_msg: "`⏹️` | Đã dừng **Người chơi**!"
 shuffle_msg: "`🔀` | Đã xáo trộn **Hàng đợi**!"

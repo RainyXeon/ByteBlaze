@@ -16,6 +16,7 @@ join_voice: "`⚠️` | You are not in the same voice channel as me!"
 switch_pause: Paused
 switch_resume: Resumed
 pause_msg: "`⏸️` | Paused the **Player**!"
+resume_msg: "`▶️` | Resumed the **Player**!"
 skip_msg: "`⏭️` | Skipped the **Song**!"
 stop_msg: "`⏹️` | Stopped the **Player**!"
 shuffle_msg: "`🔀` | Shuffled the **Queue**!"
