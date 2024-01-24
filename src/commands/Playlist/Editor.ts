@@ -458,7 +458,7 @@ export default class implements Command {
     await collector.deferReply();
 
     if (!playlist)
-      return interaction.editReply({
+      return collector.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -488,7 +488,7 @@ export default class implements Command {
 
     if (newId) {
       if (!this.vaildId(newId))
-        return interaction.editReply({
+        return collector.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -505,7 +505,7 @@ export default class implements Command {
       const isAlreadyId = await client.db.playlist.get(newId);
 
       if (isAlreadyId)
-        return interaction.editReply({
+        return collector.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -520,7 +520,7 @@ export default class implements Command {
         });
 
       if (this.validMode(String(newMode)) == null)
-        return interaction.editReply({
+        return collector.editReply({
           embeds: [
             new EmbedBuilder()
               .setDescription(
@@ -540,7 +540,7 @@ export default class implements Command {
         created: playlist.created,
       });
 
-      await interaction.editReply({
+      await collector.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -562,7 +562,7 @@ export default class implements Command {
     }
 
     if (this.validMode(String(newMode)) == null)
-      return interaction.editReply({
+      return collector.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
@@ -576,7 +576,7 @@ export default class implements Command {
     await client.db.playlist.set(`${value}.description`, newDes);
     await client.db.playlist.set(`${value}.private`, newMode);
 
-    await interaction.editReply({
+    await collector.editReply({
       embeds: [
         new EmbedBuilder()
           .setDescription(
