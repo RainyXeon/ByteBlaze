@@ -18,7 +18,7 @@ A versatile and powerful music bot for Discord that brings rhythm and melody to 
 
 ## 🎶 Support Source
 
-|          Music Source         | With lavalink plugin | Without lavalink plugin |
+|          Music Source         | Without lavalink plugin | With lavalink plugin |
 |:-----------------------------:|:--------------------:|:-----------------------:|
 |            Youtube            |           ✅          |            ✅            |
 |           SoundCloud          |           ✅          |            ✅            |
