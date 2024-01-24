@@ -22,6 +22,14 @@ export default class implements PlayerButton {
     if (!player) {
       collector.stop();
     }
+
+    if (player.queue.size == 0)
+      return await new ReplyInteractionService(
+        client,
+        message,
+        `${client.i18n.get(language, "player", "skip_notfound")}`
+      );
+
     player.skip();
 
     client.emit("playerSkip", player);

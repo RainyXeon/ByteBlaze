@@ -26,12 +26,9 @@ export default class implements Command {
     ) as KazagumoPlayer;
 
     if (player.queue.size == 0) {
-      await player.destroy();
-      await client.UpdateMusic(player);
-
       const skipped = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "skip_msg")}`
+          `${client.i18n.get(handler.language, "music", "skip_notfound")}`
         )
         .setColor(client.color);
 
@@ -46,6 +43,7 @@ export default class implements Command {
         .setColor(client.color);
 
       handler.editReply({ content: " ", embeds: [skipped] });
+      client.emit("playerSkip", player);
     }
   }
 }

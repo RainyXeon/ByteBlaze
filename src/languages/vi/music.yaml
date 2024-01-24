@@ -91,6 +91,7 @@ shuffle_msg: "`🔀` | Đã xáo trộn **Hàng đợi**!"
 
 ### Skip command!
 skip_msg: "`⏭️` | Đã bỏ qua **Bài hát**!"
+skip_notfound: "`⚠️` | Không tìm thấy bài hát nào để bỏ qua!"
 
 ### Volume command!
 volume_msg: "`🔊` | Âm lượng đã được đặt thành **%{volume}%**"

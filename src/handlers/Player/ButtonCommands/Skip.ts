@@ -64,12 +64,9 @@ export class ButtonSkip {
     }
 
     if (this.player.queue.size == 0) {
-      await this.player.destroy();
-      await this.client.UpdateMusic(this.player);
-
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "music", "skip_msg")}`
+          `${this.client.i18n.get(this.language, "music", "skip_notfound")}`
         )
         .setColor(this.client.color);
 
@@ -84,6 +81,7 @@ export class ButtonSkip {
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });
+      this.client.emit("playerSkip", this.player);
     }
   }
 }

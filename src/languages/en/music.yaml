@@ -91,6 +91,7 @@ shuffle_msg: "`🔀` | Shuffled the **Queue**!"
 
 ### Skip command!
 skip_msg: "`⏭️` | Skipped the **Song**!"
+skip_notfound: "`⚠️` | No song was found to skip!"
 
 ### Volume command!
 volume_msg: "`🔊` | Volume has been set to **%{volume}%**"
