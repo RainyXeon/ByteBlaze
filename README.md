@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/RainyXeon/ByteBlaze">
-    <img src="https://cdn.discordapp.com/attachments/1189540069778919457/1199780331239248084/ByteBlaze.png" alt="ByteBlaze" width="200" height="200">
+    <img src="https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/logo.png" alt="ByteBlaze" width="200" height="200">
   </a>
 
   <h1 align="center">ByteBlaze</h1>
@@ -34,7 +34,7 @@
 - Auto Reconnect
 - Auto Pause/Resume
 - Auto Complete Search
-- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl) 
+- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl)
 
 ## 🎶 Supported Sources
 
@@ -76,8 +76,7 @@
 
 ## 🖼️ Showcase
 
-![help_command](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png
-)
+![help_command](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png)
 ![song_req](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/song_request.png)
 ![playlist_info](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/playlist_info.png)
 ![pm_gen](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/pm_gen.png)
