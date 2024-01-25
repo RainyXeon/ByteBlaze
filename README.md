@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/RainyXeon/ByteBlaze">
-    <img src="https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/logo.png" alt="ByteBlaze" width="200" height="200">
+    <img src="https://cdn.discordapp.com/attachments/1189540069778919457/1199780331239248084/ByteBlaze.png" alt="ByteBlaze" width="200" height="200">
   </a>
 
   <h1 align="center">ByteBlaze</h1>
@@ -34,32 +34,32 @@
 - Auto Reconnect
 - Auto Pause/Resume
 - Auto Complete Search
-- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl)
+- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl) 
 
 ## 🎶 Supported Sources
 
-|           Music Source           | Without Lavalink Plugin | With Lavalink Plugin |
-| :------------------------------: | :---------------------: | :------------------: |
-|             YouTube              |           ✅            |          ✅          |
-|            SoundCloud            |           ✅            |          ✅          |
-|           (LS) Spotify           |           ⚠️            |          ✅          |
-|            Https Link            |           ✅            |          ✅          |
-|           (LS) Deezer            |           ⚠️            |          ✅          |
-|              Twitch              |           ✅            |          ✅          |
-|             Bandcamp             |           ✅            |          ✅          |
-|            Nicovideo             |           ⚠️            |          ⚠️          |
-|            (LS) Apple            |           ⚠️            |          ✅          |
-|           (LS) Yandex            |           ❌            |          ✅          |
-|         (LS) Flowery TTS         |           ❌            |          ✅          |
-|          (DB) Mixcloud           |           ❌            |          ✅          |
-|         (DB) ocremix.org         |           ❌            |          ✅          |
-|           (DB) Clyp.it           |           ❌            |          ✅          |
-|           (DB) Reddit            |           ❌            |          ✅          |
-|         (DB) getyarn.io          |           ❌            |          ✅          |
-|       (DB) Text to Speech        |           ❌            |          ✅          |
-|        (DB)TikTok (BETA)         |           ❌            |          ✅          |
-| (DB) P\*\*nHub (Not recommended) |           ❌            |          ✅          |
-|          (DB) Soundgasm          |           ❌            |          ✅          |
+|          Music Source         | Without Lavalink Plugin | With Lavalink Plugin |
+|:-----------------------------:|:--------------------:|:-----------------------:|
+|            YouTube            |           ✅          |            ✅            |
+|           SoundCloud          |           ✅          |            ✅            |
+|          (LS) Spotify         |           ⚠️          |            ✅            |
+|           Https Link          |           ✅          |            ✅            |
+|          (LS) Deezer          |           ⚠️          |            ✅            |
+|             Twitch            |           ✅          |            ✅            |
+|            Bandcamp           |           ✅          |            ✅            |
+|           Nicovideo           |           ⚠️          |            ⚠️            |
+|           (LS) Apple          |           ⚠️          |            ✅            |
+|          (LS) Yandex          |           ❌          |            ✅            |
+|        (LS) Flowery TTS       |           ❌          |            ✅            |
+|         (DB) Mixcloud         |           ❌          |            ✅            |
+|        (DB) ocremix.org       |           ❌          |            ✅            |
+|          (DB) Clyp.it         |           ❌          |            ✅            |
+|          (DB) Reddit          |           ❌          |            ✅            |
+|        (DB) getyarn.io        |           ❌          |            ✅            |
+|      (DB) Text to Speech      |           ❌          |            ✅            |
+|       (DB)TikTok (BETA)       |           ❌          |            ✅            |
+| (DB) P**nHub (Not recommended) |           ❌          |            ✅            |
+|         (DB) Soundgasm        |           ❌          |            ✅            |
 
 - ✅ **Full support with the default Lavalink configuration**
 - ⚠️ **Supports but resolves from YouTube or SoundCloud only**
@@ -76,7 +76,8 @@
 
 ## 🖼️ Showcase
 
-![help_command](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png)
+![help_command](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png
+)
 ![song_req](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/song_request.png)
 ![playlist_info](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/playlist_info.png)
 ![pm_gen](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/pm_gen.png)
@@ -92,7 +93,7 @@
 
 1. Clone this repository using `git clone https://github.com/RainyXeon/ByteBlaze.git`
 2. run `cd ByteBlaze` to go to the **ByteBlaze** folder.
-3. Change the name of **app.example.yml** to **app.yml** and fill it with `TOKEN` and `NODES` ([Free Lavalink by It'z Zoldy⚡](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl/#hosted-by-itz-zoldy)).
+3. Change the name of **app.example.yml** to **app.yml** and fill it with `TOKEN` and `NODES` ([Free Lavalink by It'z Zoldy⚡](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl/#hosted-by-itz-zoldy))
 4. run `npm i` to install the required packages.
 5. run `npm run build:full` to build the bot.
 6. run `npm start` to start the bot.
