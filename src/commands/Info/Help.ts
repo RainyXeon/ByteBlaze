@@ -106,11 +106,9 @@ export default class implements Command {
       })
       .addFields(embedFieldArray)
       .setFooter({
-        text: `${client.i18n.get(
-          handler.language,
-          "utilities",
-          "ce_total"
-        )} ${client.commands.size}`,
+        text: `${client.i18n.get(handler.language, "utilities", "ce_total")} ${
+          client.commands.size
+        }`,
         iconURL: client.user!.displayAvatarURL(),
       });
     await handler.editReply({ embeds: [embed] });
