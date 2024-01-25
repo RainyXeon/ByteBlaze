@@ -14,8 +14,7 @@
     "start:shard": "node ./dist/shard.js",
     "start:docker": "tsx ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
-    "build:prettier": "prettier -w ./src",
-    "replit:start": "npm run build:full && npm start"
+    "build:prettier": "prettier -w ./src"
   },
   "repository": {
     "type": "git",
