@@ -31,15 +31,7 @@ lavalink:
   LEAVE_TIMEOUT: 100 # The number of leave time you want
 
   # You can add more lavalink server!
-  NODES:
-    [
-      {
-        url: "",
-        name: "",
-        auth: "",
-        secure: false,
-      },
-    ]
+  NODES: [{ url: "", name: "", auth: "", secure: false }]
   SHOUKAKU_OPTIONS:
     {
       moveOnDisconnect: true,

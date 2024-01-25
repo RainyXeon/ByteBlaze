@@ -34,32 +34,32 @@
 - Auto Reconnect
 - Auto Pause/Resume
 - Auto Complete Search
-- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl) 
+- Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl)
 
 ## 🎶 Supported Sources
 
-|          Music Source         | Without Lavalink Plugin | With Lavalink Plugin |
-|:-----------------------------:|:--------------------:|:-----------------------:|
-|            YouTube            |           ✅          |            ✅            |
-|           SoundCloud          |           ✅          |            ✅            |
-|          (LS) Spotify         |           ⚠️          |            ✅            |
-|           Https Link          |           ✅          |            ✅            |
-|          (LS) Deezer          |           ⚠️          |            ✅            |
-|             Twitch            |           ✅          |            ✅            |
-|            Bandcamp           |           ✅          |            ✅            |
-|           Nicovideo           |           ⚠️          |            ⚠️            |
-|           (LS) Apple          |           ⚠️          |            ✅            |
-|          (LS) Yandex          |           ❌          |            ✅            |
-|        (LS) Flowery TTS       |           ❌          |            ✅            |
-|         (DB) Mixcloud         |           ❌          |            ✅            |
-|        (DB) ocremix.org       |           ❌          |            ✅            |
-|          (DB) Clyp.it         |           ❌          |            ✅            |
-|          (DB) Reddit          |           ❌          |            ✅            |
-|        (DB) getyarn.io        |           ❌          |            ✅            |
-|      (DB) Text to Speech      |           ❌          |            ✅            |
-|       (DB)TikTok (BETA)       |           ❌          |            ✅            |
-| (DB) P**nHub (Not recommended) |           ❌          |            ✅            |
-|         (DB) Soundgasm        |           ❌          |            ✅            |
+|           Music Source           | Without Lavalink Plugin | With Lavalink Plugin |
+| :------------------------------: | :---------------------: | :------------------: |
+|             YouTube              |           ✅            |          ✅          |
+|            SoundCloud            |           ✅            |          ✅          |
+|           (LS) Spotify           |           ⚠️            |          ✅          |
+|            Https Link            |           ✅            |          ✅          |
+|           (LS) Deezer            |           ⚠️            |          ✅          |
+|              Twitch              |           ✅            |          ✅          |
+|             Bandcamp             |           ✅            |          ✅          |
+|            Nicovideo             |           ⚠️            |          ⚠️          |
+|            (LS) Apple            |           ⚠️            |          ✅          |
+|           (LS) Yandex            |           ❌            |          ✅          |
+|         (LS) Flowery TTS         |           ❌            |          ✅          |
+|          (DB) Mixcloud           |           ❌            |          ✅          |
+|         (DB) ocremix.org         |           ❌            |          ✅          |
+|           (DB) Clyp.it           |           ❌            |          ✅          |
+|           (DB) Reddit            |           ❌            |          ✅          |
+|         (DB) getyarn.io          |           ❌            |          ✅          |
+|       (DB) Text to Speech        |           ❌            |          ✅          |
+|        (DB)TikTok (BETA)         |           ❌            |          ✅          |
+| (DB) P\*\*nHub (Not recommended) |           ❌            |          ✅          |
+|          (DB) Soundgasm          |           ❌            |          ✅          |
 
 - ✅ **Full support with the default Lavalink configuration**
 - ⚠️ **Supports but resolves from YouTube or SoundCloud only**
