@@ -6,12 +6,10 @@ server: # REST and WS server
 
 lavalink:
   plugins:
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.0"
-      repository: "https://maven.lavalink.dev/releases"
     - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
       repository: "https://maven.lavalink.dev/releases"
     - dependency: "com.dunctebot:skybot-lavalink-plugin:1.6.3"
-      repository : "https://maven.lavalink.dev/releases"
+      repository: "https://maven.lavalink.dev/releases"
     - dependency: "com.github.topi314.sponsorblock:sponsorblock-plugin:3.0.0"
       repository: "https://maven.lavalink.dev/releases"
     - dependency: "me.rohank05:lavalink-filter-plugin:0.0.4"
@@ -57,41 +55,6 @@ lavalink:
 plugins:
   lyrics:
     countryCode: en #country code for resolving isrc tracks
-  lavasrc:
-    providers: # Custom providers for track loading. This is the default
-      # - "dzisrc:%ISRC%" # Deezer ISRC provider
-      # - "dzsearch:%QUERY%" # Deezer search provider
-      - "ytsearch:\"%ISRC%\"" # Will be ignored if track does not have an ISRC. See https://en.wikipedia.org/wiki/International_Standard_Recording_Code
-      - "ytsearch:%QUERY%" # Will be used if track has no ISRC or no track could be found for the ISRC
-      #  you can add multiple other fallback sources here
-    sources:
-      spotify: true # Enable Spotify source
-      applemusic: true # Enable Apple Music source
-      deezer: true # Enable Deezer source
-      yandexmusic: true # Enable Yandex Music source
-      flowerytts: true # Enable Flowery TTS source
-      youtube: true # Enable YouTube search source (https://github.com/topi314/LavaSearch)
-    spotify:
-      clientId: "48a5d212fa8241e9aa0fbe754b540d7b"
-      clientSecret: "af665fc224914c389bb63d855a49370c"
-      countryCode: "US" # the country code you want to use for filtering the artists top tracks. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-      playlistLoadLimit: 6 # The number of pages at 100 tracks each
-      albumLoadLimit: 6 # The number of pages at 50 tracks each
-    applemusic:
-      countryCode: "US" # the country code you want to use for filtering the artists top tracks and language. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-      mediaAPIToken: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IldlYlBsYXlLaWQifQ.eyJpc3MiOiJBTVBXZWJQbGF5IiwiaWF0IjoxNzAyNTAyMjM0LCJleHAiOjE3MDk3NTk4MzQsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ.zzeMLmez71PLinP9GozYSQnF7NYyCiXHB9tKL3-cyu3LzyeRnYz0ejLj4CrNJs0dlNkFg9_mwKmMLueUAR-KRg' # apple music api token
-      playlistLoadLimit: 6 # The number of pages at 300 tracks each
-      albumLoadLimit: 6 # The number of pages at 300 tracks each
-    deezer:
-      masterDecryptionKey: 'g4el58wc0zvf9na1' # the master key used for decrypting the deezer tracks. (yes this is not here you need to get it from somewhere else)
-    yandexmusic:
-      accessToken: "0c4181a7c2cf4521964a72ff57a34a07" # the token used for accessing the yandex music api. See https://github.com/TopiSenpai/LavaSrc#yandex-music
-    flowerytts:
-      voice: "default voice" # (case-sensitive) get default voice from here https://api.flowery.pw/v1/tts/voices
-      translate: false # whether to translate the text to the native language of voice
-      silence: 0 # the silence parameter is in milliseconds. Range is 0 to 10000. The default is 0.
-      speed: 1.0 # the speed parameter is a float between 0.5 and 10. The default is 1.0. (0.5 is half speed, 2.0 is double speed, etc.)
-      audioFormat: "mp3" # supported formats are: mp3, ogg_opus, ogg_vorbis, aac, wav, and flac. Default format is mp3
   dunctebot:
     ttsLanguage: "en-AU" # language of the TTS engine
     sources:
