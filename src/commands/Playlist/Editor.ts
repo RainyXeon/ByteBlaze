@@ -117,8 +117,8 @@ export default class implements Command {
           desCol.length !== 0
             ? desCol
             : playlist.description
-            ? playlist.description
-            : "null";
+              ? playlist.description
+              : "null";
         const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
         if (newId) {
@@ -482,8 +482,8 @@ export default class implements Command {
       desCol.length !== 0
         ? desCol
         : playlist.description
-        ? playlist.description
-        : "null";
+          ? playlist.description
+          : "null";
     const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
     if (newId) {

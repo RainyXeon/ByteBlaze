@@ -22,8 +22,8 @@ export interface ErrorResponse {
 export type ResponseData<F extends SearchParams["fields"]> = F extends "*"
   ? Omit<Fields, "tagsExact">[]
   : F extends ResponseField[]
-  ? Pick<Fields, F[number]>[]
-  : never;
+    ? Pick<Fields, F[number]>[]
+    : never;
 
 export interface SearchParams {
   q: string;
