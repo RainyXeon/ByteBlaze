@@ -50,6 +50,8 @@ const REGEX = [
   /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/,
   /(?:https:\/\/music\.apple\.com\/)(?:.+)?(artist|album|music-video|playlist)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)/,
   /^https?:\/\/(?:www\.|secure\.|sp\.)?nicovideo\.jp\/watch\/([a-z]{2}[0-9]+)/,
+  /(?:https:\/\/spotify\.link)\/([A-Za-z0-9]+)/,
+  /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
 ];
 
 loggerService.info("Booting client...");

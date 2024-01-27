@@ -13,6 +13,7 @@ const API_URL = "https://api.deezer.com/";
 
 const REGEX =
   /^https?:\/\/(?:www\.)?deezer\.com\/[a-z]+\/(track|album|playlist)\/(\d+)$/;
+const SHORT_REGEX = /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/;
 
 export class KazagumoPlugin extends Plugin {
   private _search:
@@ -53,9 +54,15 @@ export class KazagumoPlugin extends Plugin {
       throw new KazagumoError(1, "kazagumo-deezer is not loaded yet.");
 
     if (!query) throw new KazagumoError(3, "Query is required");
-    const [, type, id] = REGEX.exec(query) || [];
 
     const isUrl = /^https?:\/\//.test(query);
+
+    if (SHORT_REGEX.test(query)) {
+      const res = await axios.head(query);
+      query = String(res.headers.location);
+    }
+
+    const [, type, id] = REGEX.exec(query) || [];
 
     if (type in this.methods) {
       try {
