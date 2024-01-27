@@ -52,7 +52,7 @@ lavalink:
 features:
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default
-    driver: "json" # MongoDB, MySQL, JSON, PostgresSQL
+    driver: "json" # mongodb, mysql, json, postgres
     # Config depends on driver, you can see sample config at src/database/driver
     config: { path: "./cylane.database.json" }
 
