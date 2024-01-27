@@ -1,7 +1,7 @@
 ### Generate command!
 gen_author: "Tạo phí bảo hiểm"
 gen_desc: "`🔑` | **Đã tạo** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Kế hoạch:** `%{plan}`\n`📅` | **Hết hạn:** `%{expires}`"
-gen_footer: "Đổi trả phí • %{prefix}redeem code"
+gen_footer: "Đổi trả phí • %{prefix}redeem <mã số>"
 
 ### Profile command!
 profile_author: "Hồ sơ cao cấp"

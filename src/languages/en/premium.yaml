@@ -1,7 +1,7 @@
 ### Generate command!
 gen_author: "Generate Premium"
 gen_desc: "`🔑` | **Generated** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
-gen_footer: "Redeem Premium • %{prefix}redeem code"
+gen_footer: "Redeem Premium • %{prefix}redeem <code>"
 
 ### Profile command!
 profile_author: "Premium Profile"

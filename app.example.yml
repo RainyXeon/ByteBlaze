@@ -1,24 +1,24 @@
-# Cylane config file via .yaml
-# Version 3.0
+# ByteBlaze config file via .yml
+# Version 5.0.0
 # You can use ${} to pass an enviroment varible from .env file
 # Eg:
 # something: ${DATA}
 
 bot:
-  TOKEN: "Your token"
-  EMBED_COLOR: "#2b2d31"
-  OWNER_ID: "Your id"
-  LANGUAGE: "en" # You can set it to vi, en, th,...
+  TOKEN: "Your Token"
+  EMBED_COLOR: "#2B2D31"
+  OWNER_ID: "Your ID"
+  LANGUAGE: "en" # You can set it to en, vi...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
-  SAFE_ICONS_MODE: false # If the new icon doesn't appears, try change this to true
-  SAFE_PLAYER_MODE: false # Set to embed instead of image for avoid error
+  SAFE_ICONS_MODE: false # If the new icon doesn't appear, try changing this to true
+  SAFE_PLAYER_MODE: false # Set to embed instead of image to avoid error
   DELETE_MSG_TIMEOUT: 3000
   DEBUG_MODE: false
 
 lavalink:
   SPOTIFY:
-    # Your spotify id and secret, you can get it from here: https://developer.spotify.com/
+    # Your Spotify ID and Secret, you can get it from here: https://developer.spotify.com
     # If you don't have or don't want, you can disable it
     enable: false
     id: ""
@@ -28,13 +28,13 @@ lavalink:
 
   NP_REALTIME: false # Enable this if you want to use realtime duation in nowplaying command
 
-  LEAVE_TIMEOUT: 100 # The number of leave time you want
+  LEAVE_TIMEOUT: 60000 # The number of leave time you want
 
-  # You can add more lavalink server!
+  # You can add more Lavalink servers!
   NODES: [
     { 
       url: "139.99.124.43:7784", # It'z Zoldy⚡'s Lavalink 
-      name: "Special Thanks to Zoldy⚡", 
+      name: "Special Thanks to It'z Zoldy⚡", 
       auth: "PasswordIsZoldy", 
       secure: false 
     }
@@ -53,7 +53,7 @@ features:
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default
     driver: "json" # mongodb, mysql, json, postgres
-    # Config depend on driver, you can see sample config at src/database/driver
+    # Config depends on driver, you can see sample config at src/database/driver
     config: { path: "./cylane.database.json" }
 
   MESSAGE_CONTENT:
@@ -62,7 +62,7 @@ features:
       enable: true
       prefix: "d!" # The prefix you want
 
-  AUTOFIX_LAVALINK: # Fix the lavalink server when the current is down
+  AUTOFIX_LAVALINK: # Fix the Lavalink server when the current is down
     enable: true
     reconnectTries: 5
     restTimeout: 3000
