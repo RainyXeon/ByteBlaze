@@ -30,7 +30,6 @@ export default class {
   async execute(client: Manager, interaction: GlobalInteraction) {
     if (interaction.isAutocomplete())
       return new AutoCompleteService(client, interaction);
-    if (!interaction.isCommand()) return;
     if (!interaction.isChatInputCommand()) return;
     if (!interaction.guild || interaction.user.bot) return;
 

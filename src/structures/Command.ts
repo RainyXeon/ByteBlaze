@@ -1,14 +1,7 @@
 import {
   ApplicationCommandOptionType,
-  CommandInteraction,
-  EmbedBuilder,
-  Guild,
-  GuildMember,
-  Message,
-  User,
 } from "discord.js";
 import { Manager } from "../manager.js";
-import { GlobalInteraction } from "../@types/Interaction.js";
 import { CommandHandler } from "./CommandHandler.js";
 
 export enum Accessableby {

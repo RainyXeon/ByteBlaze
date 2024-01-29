@@ -159,63 +159,6 @@ export class CommandHandler {
     }
   }
 
-  public async checkArgs(options: {
-    args: number;
-    usage: string;
-    commandName: string[];
-  }): Promise<boolean | "error"> {
-    const commandString = this.interaction
-      ? options.commandName.join(" ")
-      : options.commandName.join("-");
-    const exampleString = `${this.prefix}${commandString} ${options.usage}`;
-
-    if (!this.msg) {
-      this.client.logger.error("You have not declared deferReply()");
-      return "error";
-    }
-
-    if (this.args.length !== options.args) {
-      this.editReply({
-        embeds: [
-          new EmbedBuilder().setDescription(
-            `${this.client.i18n.get(this.language, "error", "wrong_args", {
-              example: exampleString,
-            })}`
-          ),
-        ],
-      });
-      return false;
-    }
-    return true;
-  }
-
-  public async sendArgsError(options: {
-    args: number;
-    usage: string;
-    commandName: string[];
-  }): Promise<void> {
-    const commandString = this.interaction
-      ? options.commandName.join(" ")
-      : options.commandName.join("-");
-    const exampleString = `${this.prefix}${commandString} ${options.usage}`;
-
-    if (!this.msg) {
-      this.client.logger.error("You have not declared deferReply()");
-      return;
-    }
-
-    this.editReply({
-      embeds: [
-        new EmbedBuilder().setDescription(
-          `${this.client.i18n.get(this.language, "error", "wrong_args", {
-            example: exampleString,
-          })}`
-        ),
-      ],
-    });
-    return;
-  }
-
   public async parseMentions(data: string): Promise<ParseMentionInterface> {
     if (this.USERS_PATTERN.test(data)) {
       const extract = this.USERS_PATTERN.exec(data);
