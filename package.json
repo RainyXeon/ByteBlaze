@@ -15,7 +15,7 @@
     "start:docker": "tsx ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
     "build:prettier": "npx prettier -w ./src",
-    "start:pm2": "pm2-runtime start ecosystem.config.cjs --env production"
+    "start:pm2": "npx pm2-runtime start ecosystem.config.cjs --env production"
   },
   "repository": {
     "type": "git",
