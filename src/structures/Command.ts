@@ -1,6 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-} from "discord.js";
+import { ApplicationCommandOptionType } from "discord.js";
 import { Manager } from "../manager.js";
 import { CommandHandler } from "./CommandHandler.js";
 
