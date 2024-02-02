@@ -21,27 +21,17 @@ export default class implements Command {
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
-    const total = os.totalmem() / 1024 / 1024;
-    const used = process.memoryUsage().rss / 1024 / 1024;
-
-    const hostInfo = stripIndents`\`\`\`
-    - OS: ${os.type()} ${os.release()} (${os.arch()})
-    - CPU: ${os.cpus()[0].model}
-    - Uptime: ${ms(client.uptime as number)}
-    - RAM: ${(total / 1024).toFixed(2)} GB
-    - Memory Usage: ${used.toFixed(2)}/${total.toFixed(2)} (MB)
-    - Node.js: ${process.version}
-    \`\`\``;
 
     const botInfo = stripIndents`\`\`\`
-    - Codename: ${client.metadata.codename}
-    - Bot version: ${client.metadata.version}
-    - Autofix version: ${client.metadata.autofix}
-    - Discord.js: ${version}
-    - WebSocket Ping: ${client.ws.ping}ms
-    - Response time: ${Date.now() - handler.createdAt}ms
-    - Guild Count: ${client.guilds.cache.size}
-    - User count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    - Codename        | ${client.metadata.codename}
+    - Bot version     | ${client.metadata.version}
+    - Autofix version | ${client.metadata.autofix}
+    - Discord.js      | ${version}
+    - WebSocket Ping  | ${client.ws.ping}ms
+    - Response time   | ${Date.now() - handler.createdAt}ms
+    - Guild Count     | ${client.guilds.cache.size}
+    - User count      | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    - Node.js         | ${process.version}
     \`\`\``;
 
     const embed = new EmbedBuilder()
@@ -50,10 +40,7 @@ export default class implements Command {
         iconURL: String(client.user!.displayAvatarURL({ size: 2048 })),
       })
       .setColor(client.color)
-      .addFields(
-        { name: "Host Info", value: hostInfo },
-        { name: "Bot Info", value: botInfo }
-      )
+      .addFields({ name: "Bot Info", value: botInfo })
       .setTimestamp();
     await handler.editReply({ embeds: [embed] });
   }
