@@ -5,15 +5,16 @@ import Websocket from "ws";
 
 export class CheckLavalinkServer {
   client: Manager;
-  constructor(client: Manager) {
+  constructor(client: Manager, isLogEnable: boolean = true) {
     this.client = client;
-    this.execute();
+    this.execute(isLogEnable);
   }
 
-  async execute() {
-    this.client.logger.lavalink(
-      "Running check lavalink server from [https://lavalink.darrennathanael.com/] source"
-    );
+  async execute(isLogEnable: boolean) {
+    if (isLogEnable)
+      this.client.logger.lavalink(
+        "Running check lavalink server from [https://lavalink.darrennathanael.com/] source"
+      );
 
     const getLavalinkServerClass = new GetLavalinkServer();
 

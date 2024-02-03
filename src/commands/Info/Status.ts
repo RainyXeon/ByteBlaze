@@ -1,8 +1,6 @@
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
-import os from "os";
-import ms from "pretty-ms";
 import { stripIndents } from "common-tags";
 import { EmbedBuilder, version } from "discord.js";
 
@@ -30,7 +28,10 @@ export default class implements Command {
     - WebSocket Ping  | ${client.ws.ping}ms
     - Response time   | ${Date.now() - handler.createdAt}ms
     - Guild Count     | ${client.guilds.cache.size}
-    - User count      | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    - User count      | ${client.guilds.cache.reduce(
+      (a, b) => a + b.memberCount,
+      0
+    )}
     - Node.js         | ${process.version}
     \`\`\``;
 

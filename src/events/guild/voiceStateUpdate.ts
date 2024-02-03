@@ -145,11 +145,13 @@ export default class {
                 .setColor(client.color),
             ],
           });
-          setTimeout(
-            async () =>
-              setup && setup.channel !== player.textId ? msg.delete() : true,
-            client.config.bot.DELETE_MSG_TIMEOUT
-          );
+          setTimeout(async () => {
+            const isChannelAvalible = await client.channels.fetch(
+              msg.channelId
+            );
+            if (!isChannelAvalible) return;
+            setup && setup.channel !== player.textId ? msg.delete() : true;
+          }, client.config.bot.DELETE_MSG_TIMEOUT);
         }
 
         // Delay leave timeout

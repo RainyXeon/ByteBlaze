@@ -68,6 +68,20 @@ export default class implements Command {
         ],
       });
 
+    const emotes = (str: string) =>
+      str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
+
+    if (emotes(value) !== null)
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "music", "play_emoji")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
     if (!player)
       player = await client.manager.createPlayer({
         guildId: handler.guild!.id,

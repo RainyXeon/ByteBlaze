@@ -49,6 +49,7 @@ play_playlist: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` �
 play_result: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
 play_match: "`⚠️` | Bài hát không được tìm thấy!"
+play_emoji: "`⚠️` | Không được phép sử dụng biểu tượng cảm xúc để tìm kiếm và truy vấn bài hát trên bot này!"
 
 ### File command!
 file_notfound: "`⚠️` | Vui lòng cung cấp một tệp hợp lệ!"
@@ -87,7 +88,7 @@ seek_beyond: "`⚠️` | Bạn không thể Tìm kiếm vượt quá thời lư�
 seek_invalid: "`⚠️` | Thời lượng tìm kiếm không hợp lệ. Vui lòng sử dụng dấu thời gian hợp lệ. Ví dụ: **1:30**!"
 
 ### Shuffle command!
-shuffle_msg: "`🔀` | Đã xáo trộn **Hàng đợi**!"
+shuffle_msg: "🔀 Đã xáo trộn hàng đợi"
 
 ### Skip command!
 skip_msg: "`⏭️` | Đã bỏ qua **Bài hát**!"

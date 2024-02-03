@@ -154,6 +154,22 @@ export class playerLoadContent {
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
+    const emotes = (str: string) =>
+      str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
+
+    if (emotes(song) !== null) {
+      msg.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "music", "play_emoji")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+      return;
+    }
+
     if (!player)
       player = await client.manager.createPlayer({
         guildId: message.guild.id,

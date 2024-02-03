@@ -49,6 +49,7 @@ play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{so
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
+play_emoji: "`⚠️` | Using emoji to search and query song is not allowed on this bot!"
 
 ### File command!
 file_notfound: "`⚠️` | Please provide a valid File!"
@@ -87,7 +88,7 @@ seek_beyond: "`⚠️` | You can not Seek beyond the song duration!"
 seek_invalid: "`⚠️` | Invalid Seek duration. Please use a valid timestamp. Example: **1:30**!"
 
 ### Shuffle command!
-shuffle_msg: "`🔀` | Shuffled the **Queue**!"
+shuffle_msg: "🔀 Shuffled the Queue"
 
 ### Skip command!
 skip_msg: "`⏭️` | Skipped the **Song**!"

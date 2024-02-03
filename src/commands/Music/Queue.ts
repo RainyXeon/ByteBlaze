@@ -120,7 +120,7 @@ export default class implements Command {
             60000,
             player.queue.length,
             handler.language
-          ).prefixPage(handler.message, Number(qduration));
+          ).prefixPage(handler.message, qduration);
         } else if (handler.interaction) {
           await new PageQueue(
             client,
@@ -128,7 +128,7 @@ export default class implements Command {
             60000,
             player.queue.length,
             handler.language
-          ).slashPage(handler.interaction, Number(qduration));
+          ).slashPage(handler.interaction, qduration);
         } else return;
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {

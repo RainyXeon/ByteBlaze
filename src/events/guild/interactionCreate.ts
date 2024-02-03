@@ -172,9 +172,15 @@ export default class {
       command.accessableby == Accessableby.Owner &&
       interaction.user.id != client.owner
     )
-      return interaction.reply(
-        `${client.i18n.get(language, "interaction", "owner_only")}`
-      );
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "interaction", "owner_only")}`
+            )
+            .setColor(client.color),
+        ],
+      });
 
     if (command.accessableby == Accessableby.Premium) {
       const user = client.premiums.get(interaction.user.id);

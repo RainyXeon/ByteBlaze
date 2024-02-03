@@ -8,7 +8,7 @@ export class loadCheck {
       new CheckLavalinkServer(client);
 
       cron.schedule("0 */30 * * * *", async () => {
-        new CheckLavalinkServer(client);
+        new CheckLavalinkServer(client, false);
       });
     }
   }
