@@ -59,9 +59,9 @@ export default class implements Command {
       const str = songStrings.slice(i * 10, i * 10 + 10).join("");
 
       const embed = new EmbedBuilder()
-        .setTitle(
-          `${client.i18n.get(handler.language, "music", "shuffle_msg")}`
-        )
+        .setAuthor({
+          name: `${client.i18n.get(handler.language, "music", "shuffle_msg")}`,
+        })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(

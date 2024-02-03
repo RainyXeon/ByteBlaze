@@ -55,7 +55,9 @@ export default class implements PlayerButton {
       const embed = new EmbedBuilder()
         .setThumbnail(thumbnail)
         .setColor(client.color)
-        .setTitle(`${client.i18n.get(language, "music", "shuffle_msg")}`)
+        .setAuthor({
+          name: `${client.i18n.get(language, "music", "shuffle_msg")}`,
+        })
         .setDescription(
           `${client.i18n.get(language, "player", "queue_description", {
             track: song!.title,
