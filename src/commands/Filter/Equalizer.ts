@@ -134,6 +134,8 @@ export default class implements Command {
       bandsStr += `${bands[i]} `;
     }
 
+    player?.data.set("filter-mode", this.name[0]);
+
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "eq_on", {

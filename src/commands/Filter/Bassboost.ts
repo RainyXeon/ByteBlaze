@@ -123,6 +123,8 @@ export default class implements Command {
     };
     await player?.send(data);
 
+    player?.data.set("filter-mode", this.name[0]);
+
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "bassboost_set", {
