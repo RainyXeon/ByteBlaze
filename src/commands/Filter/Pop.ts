@@ -22,6 +22,26 @@ export default class implements Command {
 
     const player = client.manager.players.get(handler.guild!.id);
 
+    if (player?.data.get("filter-mode") == this.name[0])
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                handler.language,
+                "filters",
+                "filter_already",
+                {
+                  name: this.name[0],
+                }
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    player?.data.set("filter-mode", this.name[0]);
+
     const data = {
       op: "filters",
       guildId: handler.guild!.id,
@@ -52,7 +72,7 @@ export default class implements Command {
     const popped = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "Pop",
+          name: this.name[0],
         })}`
       )
       .setColor(client.color);

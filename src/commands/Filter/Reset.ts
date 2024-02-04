@@ -22,6 +22,19 @@ export default class implements Command {
 
     const player = client.manager.players.get(handler.guild!.id);
 
+    if (!player?.data.get("filter-mode"))
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(handler.language, "filters", "reset_already")}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    player?.data.delete("filter-mode");
+
     const data = {
       guildId: handler.guild!.id,
       playerOptions: {

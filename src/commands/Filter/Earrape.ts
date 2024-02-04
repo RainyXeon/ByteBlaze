@@ -22,12 +22,32 @@ export default class implements Command {
 
     const player = client.manager.players.get(handler.guild!.id);
 
+    if (player?.data.get("filter-mode") == this.name[0])
+      return handler.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(
+                handler.language,
+                "filters",
+                "filter_already",
+                {
+                  name: this.name[0],
+                }
+              )}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    player?.data.set("filter-mode", this.name[0]);
+
     await player?.setVolume(500);
 
     const earrapped = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "filters", "filter_on", {
-          name: "Earrape",
+          name: this.name[0],
         })}`
       )
       .setColor(client.color);
