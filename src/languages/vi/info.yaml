@@ -10,3 +10,7 @@ inv_desc: "Cảm ơn đã mời tôi trước!"
 ### Ping command!
 ping_title: "🏓 "
 ping_desc: "Ping của tôi là **%{ping}ms**!"
+
+### Uptime command!
+uptime_title: "🕛 "
+uptime_desc: "Thời gian tôi đã chạy là: **%{uptime}**!"

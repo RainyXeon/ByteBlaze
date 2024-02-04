@@ -2,10 +2,11 @@ import { EmbedBuilder } from "discord.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
+import prettyMilliseconds from "pretty-ms";
 
 export default class implements Command {
-  public name = ["ping"];
-  public description = "Shows the ping information of the Bot";
+  public name = ["uptime"];
+  public description = "Shows the uptime information of the Bot";
   public category = "Info";
   public accessableby = Accessableby.Member;
   public usage = "";
@@ -18,20 +19,21 @@ export default class implements Command {
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
-    const ping = new EmbedBuilder()
+    const uptime = new EmbedBuilder()
       .setAuthor({
         name:
-          `${client.i18n.get(handler.language, "info", "ping_title")}` +
+          `${client.i18n.get(handler.language, "info", "uptime_title")}` +
           client.user!.username,
       })
+
       .setDescription(
-        `${client.i18n.get(handler.language, "info", "ping_desc", {
-          ping: String(client.ws.ping),
+        `${client.i18n.get(handler.language, "info", "uptime_desc", {
+          uptime: prettyMilliseconds(Number(client.uptime)),
         })}`
       )
       .setTimestamp()
       .setColor(client.color);
 
-    await handler.editReply({ embeds: [ping] });
+    await handler.editReply({ embeds: [uptime] });
   }
 }
