@@ -20,10 +20,6 @@ export class ConfigDataService {
       lavalink_changedata.auth = String(process.env.NODE_AUTH);
       lavalink_changedata.secure = false;
 
-      // Change bot data
-      const bot_chagedata = doc.bot;
-      bot_chagedata.TOKEN = String(process.env.TOKEN);
-
       // Change db data
       const db_chnagedata = doc.features.DATABASE;
       if (db_chnagedata.driver == "mongodb") {
