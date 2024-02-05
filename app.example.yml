@@ -30,15 +30,17 @@ lavalink:
 
   LEAVE_TIMEOUT: 60000 # The number of leave time you want
 
+  DEFAULT_VOLUME: 100 # Must not over 1000 or bot crash
+
   # You can add more Lavalink servers!
   NODES: [
-    { 
-      url: "139.99.124.43:7784", # It'z Zoldy⚡'s Lavalink 
-      name: "Special Thanks to It'z Zoldy⚡", 
-      auth: "PasswordIsZoldy", 
-      secure: false 
-    }
-  ]
+      {
+        url: "139.99.124.43:7784", # It'z Zoldy⚡'s Lavalink
+        name: "Special Thanks to It'z Zoldy⚡",
+        auth: "PasswordIsZoldy",
+        secure: false,
+      },
+    ]
 
   SHOUKAKU_OPTIONS:
     {

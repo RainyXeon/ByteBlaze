@@ -40,6 +40,7 @@ export default class implements Command {
         voiceId: handler.member!.voice.channel!.id,
         textId: handler.channel!.id,
         deaf: true,
+        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
     else if (
       player &&
@@ -53,6 +54,7 @@ export default class implements Command {
       voiceId: handler.member!.voice.channel!.id,
       textId: handler.channel!.id,
       deaf: true,
+      volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
 
     const embed = new EmbedBuilder()

@@ -41,6 +41,7 @@ export default class {
           voiceId: data.voice!,
           textId: data.text!,
           deaf: true,
+          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
         });
       } else await client.db.autoreconnect.delete(player.guildId);
     }

@@ -66,6 +66,7 @@ export interface Lavalink {
   LEAVE_TIMEOUT: number;
   NODES: Node[];
   SHOUKAKU_OPTIONS: ShoukakuOptions;
+  DEFAULT_VOLUME: number;
 }
 
 export interface Node {

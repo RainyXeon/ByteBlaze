@@ -133,6 +133,12 @@ export class Manager extends Client {
     this.shardStatus = false;
     this.REGEX = REGEX;
 
+    if (!this.configVolCheck(this.config.lavalink.DEFAULT_VOLUME)) {
+      this.logger.warn(
+        "Default config volume must between 1 and 100, use default volume (100)"
+      );
+    }
+
     // Initial autofix lavalink varibles
     this.lavalinkList = [];
     this.lavalinkUsing = [];
@@ -192,5 +198,13 @@ export class Manager extends Client {
     new initHandler(this);
     new DatabaseService(this);
     super.login(this.token);
+  }
+
+  configVolCheck(vol?: number) {
+    if (vol && (vol > 100 || vol < 1)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

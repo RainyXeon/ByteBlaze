@@ -105,6 +105,7 @@ export class AutoReconnectLavalinkService {
       voiceId: data.value.voice,
       textId: data.value.text,
       deaf: true,
+      volume: this.client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
 
     if (data.value.current && data.value.current.length !== 0) {

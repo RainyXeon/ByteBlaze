@@ -176,6 +176,7 @@ export class playerLoadContent {
         voiceId: message.member!.voice.channel!.id,
         textId: message.channel.id,
         deaf: true,
+        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
     else {
       if (

@@ -26,6 +26,7 @@ export default class implements RequestInterface {
       voiceId: Member!.voice.channel!.id,
       textId: String(channel?.id),
       deaf: true,
+      volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
   };
 }

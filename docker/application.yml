@@ -85,7 +85,6 @@ logging:
     includePayload: true
     maxPayloadLength: 10000
 
-
   logback:
     rollingpolicy:
       max-file-size: 1GB

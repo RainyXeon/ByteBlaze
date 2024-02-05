@@ -31,7 +31,7 @@ const ignored = [
   "tsconfig.json",
   ".github",
   "out",
-  "logs"
+  "logs",
 ];
 
 function logger(data, type) {

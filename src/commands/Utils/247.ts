@@ -108,6 +108,7 @@ export default class implements Command {
           voiceId: handler.member!.voice.channel!.id,
           textId: String(handler.channel?.id),
           deaf: true,
+          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
         });
 
       data.voice
