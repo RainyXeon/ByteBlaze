@@ -12,7 +12,6 @@ bot:
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
   SAFE_ICONS_MODE: false # If the new icon doesn't appear, try changing this to true
-  SAFE_PLAYER_MODE: false # Set to embed instead of image to avoid error
   DELETE_MSG_TIMEOUT: 3000
   DEBUG_MODE: false
 
@@ -24,7 +23,8 @@ lavalink:
     id: ""
     secret: ""
 
-  DEFAULT: ["yorushika", "yoasobi", "tuyu", "hinkik"]
+  # Default search suggestion for auto complete, leave it empty will use default
+  AUTOCOMPLETE_SEARCH: ["yorushika", "yoasobi", "tuyu", "hinkik"]
 
   NP_REALTIME: false # Enable this if you want to use realtime duation in nowplaying command
 
@@ -41,15 +41,6 @@ lavalink:
         secure: false,
       },
     ]
-
-  SHOUKAKU_OPTIONS:
-    {
-      moveOnDisconnect: true,
-      resumable: true,
-      resumableTimeout: 600,
-      reconnectTries: "Infinity",
-      restTimeout: 3000,
-    }
 
 features:
   DATABASE:

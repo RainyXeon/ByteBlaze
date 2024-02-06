@@ -61,11 +61,10 @@ export interface Websocket {
 
 export interface Lavalink {
   SPOTIFY: Spotify;
-  DEFAULT: string[];
+  AUTOCOMPLETE_SEARCH: string[];
   NP_REALTIME: boolean;
   LEAVE_TIMEOUT: number;
   NODES: Node[];
-  SHOUKAKU_OPTIONS: ShoukakuOptions;
   DEFAULT_VOLUME: number;
 }
 
@@ -74,14 +73,6 @@ export interface Node {
   name: string;
   auth: string;
   secure: boolean;
-}
-
-export interface ShoukakuOptions {
-  moveOnDisconnect: boolean;
-  resumable: boolean;
-  resumableTimeout: number;
-  reconnectTries: number;
-  restTimeout: number;
 }
 
 export interface Spotify {

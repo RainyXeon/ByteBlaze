@@ -448,6 +448,7 @@ export class PageQueue {
       ],
       components: [row],
       allowedMentions: { repliedUser: false },
+      ephemeral: true,
     });
     if (this.pages.length == 0) return;
 
@@ -464,7 +465,7 @@ export class PageQueue {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
+      interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
@@ -489,7 +490,7 @@ export class PageQueue {
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
+      interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(

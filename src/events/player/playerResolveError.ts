@@ -52,6 +52,13 @@ export default class {
     client.logger.error(
       `Track Error in ${guild!.name} / ${player.guildId}. Auto-Leaved!`
     );
-    await player.destroy();
+
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
+    }
   }
 }

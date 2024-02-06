@@ -231,8 +231,10 @@ export default class implements Command {
     );
 
     const Random =
-      client.config.lavalink.DEFAULT[
-        Math.floor(Math.random() * client.config.lavalink.DEFAULT.length)
+      client.config.lavalink.AUTOCOMPLETE_SEARCH[
+        Math.floor(
+          Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length
+        )
       ];
 
     const match = client.REGEX.some((match) => {

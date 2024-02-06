@@ -133,9 +133,15 @@ export class Manager extends Client {
     this.shardStatus = false;
     this.REGEX = REGEX;
 
-    if (!this.configVolCheck(this.config.lavalink.DEFAULT_VOLUME)) {
+    if (!this.configVolCheck()) {
       this.logger.warn(
         "Default config volume must between 1 and 100, use default volume (100)"
+      );
+    }
+
+    if (!this.configSearchCheck()) {
+      this.logger.warn(
+        "Default config search have string element, use default"
       );
     }
 
@@ -200,11 +206,31 @@ export class Manager extends Client {
     super.login(this.token);
   }
 
-  configVolCheck(vol?: number) {
-    if (vol && (vol > 100 || vol < 1)) {
+  configVolCheck(vol: number = this.config.lavalink.DEFAULT_VOLUME) {
+    if (!vol || isNaN(vol) || vol > 100 || vol < 1) {
+      this.config.lavalink.DEFAULT_VOLUME = 100;
       return false;
-    } else {
-      return true;
     }
+    return true;
+  }
+
+  configSearchCheck(data: string[] = this.config.lavalink.AUTOCOMPLETE_SEARCH) {
+    const defaultSearch = ["yorushika", "yoasobi", "tuyu", "hinkik"];
+    if (!data || data.length == 0) {
+      this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+      return false;
+    }
+    for (const element of data) {
+      if (!this.stringCheck(element)) {
+        this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+        return false;
+      }
+    }
+    return true;
+  }
+
+  stringCheck(data: unknown) {
+    if (typeof data === "string" || data instanceof String) return true;
+    return false;
   }
 }

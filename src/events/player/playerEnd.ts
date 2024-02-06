@@ -34,6 +34,12 @@ export default class {
     if (player.loop !== "none")
       return new ClearMessageService(client, channel, player);
 
-    player.destroy();
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
+    }
   }
 }
