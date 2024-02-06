@@ -19,7 +19,7 @@ export class ConfigDataService {
       lavalink_changedata.secure = false;
 
       // Change db data
-      const db_chnagedata = doc.features.DATABASE;
+      const db_chnagedata = res.features.DATABASE;
       if (db_chnagedata.driver == "mongodb") {
         db_chnagedata.config.uri = String(process.env.MONGO_URI);
       }
