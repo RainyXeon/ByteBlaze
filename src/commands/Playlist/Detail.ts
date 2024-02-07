@@ -166,7 +166,7 @@ export default class implements Command {
             30000,
             playlist.tracks!.length,
             handler.language
-          ).prefixPage(handler.message, Number(totalDuration));
+          ).prefixPage(handler.message, totalDuration);
         } else if (handler.interaction) {
           await new PageQueue(
             client,
@@ -174,7 +174,7 @@ export default class implements Command {
             30000,
             playlist.tracks!.length,
             handler.language
-          ).slashPage(handler.interaction, Number(totalDuration));
+          ).slashPage(handler.interaction, totalDuration);
         }
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
