@@ -20,8 +20,9 @@ export class ConfigDataService {
 
       // Change db data
       const db_chnagedata = res.features.DATABASE;
-      db_chnagedata.driver = "mongodb";
-      db_chnagedata.config.uri = String(process.env.MONGO_URI);
+      if (db_chnagedata.driver == "mongodb") {
+        db_chnagedata.config.uri = String(process.env.MONGO_URI);
+      }
     }
 
     return res;
