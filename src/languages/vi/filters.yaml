@@ -1,6 +1,6 @@
 ### All filter command!
 filter_on: "`✅` | Bộ lọc %{name} hiện **Đã bật**!"
-filter_already: "`⚠️` | Đã bật bộ lọc **%{name}**!"
+filter_already: "`⚠️` | Bộ lọc %{name} đã được **Bật**!"
 filter_number: "`⚠️` | Vui lòng cung cấp số hợp lệ!"
 filter_greater: "`⚠️` | Số phải lớn hơn **0**!"
 filter_less: "`⚠️` | Số phải nhỏ hơn **10**!"
@@ -32,4 +32,4 @@ speed_on: "`🎚️` | Speed đã được đặt thành **%{amount}x**!"
 
 ### Reset command!
 reset_on: "`❌` | Bộ lọc đã được **Đặt lại**!"
-reset_already: "`⚠️` | Đã đặt lại bộ lọc!"
+reset_already: "`⚠️` | Bộ lọc đã được **Đặt lại**!"

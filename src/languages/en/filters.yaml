@@ -1,6 +1,6 @@
 ### All filter command!
-filter_on: "`✅` | Now enabled **%{name}** filter!"
-filter_already: "`⚠️` | Already enabled **%{name}** filter!"
+filter_on: "`✅` | %{name} filter is now **Enabled**!"
+filter_already: "`⚠️` | %{name} filter is already **Enabled**!"
 filter_number: "`⚠️` | Please provide a valid number!"
 filter_greater: "`⚠️` | Number must be greater than **0**!"
 filter_less: "`⚠️` | Number must be lesser than **10**!"
@@ -32,4 +32,4 @@ speed_on: "`🎚️` | Speed has been set to **%{amount}x**!"
 
 ### Reset command!
 reset_on: "`❌` | Filter has been **Reset**!"
-reset_already: "`⚠️` | Filters have been reset!"
+reset_already: "`⚠️` | Filter has already been **Reset**!"

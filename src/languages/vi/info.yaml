@@ -12,5 +12,5 @@ ping_title: "🏓 "
 ping_desc: "**Thời gian phản hồi máy chủ:** `%{ping}ms`\n**Thời gian phản hồi tin nhắn:** `%{response}ms`"
 
 ### Uptime command!
-uptime_title: "🕛 "
+uptime_title: "🕒 "
 uptime_desc: "**Thời gian đã chạy:** `%{uptime}`"
