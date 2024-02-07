@@ -8,6 +8,8 @@ COPY tsconfig.json /main/bot
 RUN npm i -g pnpm
 RUN pnpm i
 COPY . /main/bot
-LABEL name="byteblaze" version="1.5"
+ENV NODE_PATH=/usr/local/lib/node_modules
+LABEL name="byteblaze" version="5.0"
 # Start the bot.
-CMD ["npm", "run", "start:docker"]
+RUN pnpm build:full
+CMD ["pnpm", "start"]
