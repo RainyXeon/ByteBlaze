@@ -27,6 +27,7 @@ export default class implements Command {
       .setDescription(
         `${client.i18n.get(handler.language, "info", "ping_desc", {
           ping: String(client.ws.ping),
+          response: String(Date.now() - handler.createdAt),
         })}`
       )
       .setTimestamp()

@@ -9,8 +9,8 @@ inv_desc: "Thanks for Inviting me in advance!"
 
 ### Ping command!
 ping_title: "🏓 "
-ping_desc: "My Ping is **%{ping}ms**!"
+ping_desc: "**Ping:** `%{ping}ms`\n**Response Time:** `%{response}ms`"
 
 ### Uptime command!
 uptime_title: "🕛 "
-uptime_desc: "My Uptime is **%{uptime}**!"
+uptime_desc: "**Uptime:** `%{uptime}`"

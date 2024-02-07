@@ -5,7 +5,7 @@ import { stripIndents } from "common-tags";
 import { EmbedBuilder, version } from "discord.js";
 
 export default class implements Command {
-  public name = ["status"];
+  public name = ["info"];
   public description = "Shows the status information of the Bot";
   public category = "Info";
   public accessableby = Accessableby.Member;
@@ -21,18 +21,16 @@ export default class implements Command {
     await handler.deferReply();
 
     const botInfo = stripIndents`\`\`\`
-    - Codename        | ${client.metadata.codename}
-    - Bot version     | ${client.metadata.version}
-    - Autofix version | ${client.metadata.autofix}
-    - Discord.js      | ${version}
-    - WebSocket Ping  | ${client.ws.ping}ms
-    - Response time   | ${Date.now() - handler.createdAt}ms
-    - Guild Count     | ${client.guilds.cache.size}
-    - User count      | ${client.guilds.cache.reduce(
+    Codename        | ${client.metadata.codename}
+    Bot version     | ${client.metadata.version}
+    Autofix version | ${client.metadata.autofix}
+    Discord.js      | ${version}
+    Guild Count     | ${client.guilds.cache.size}
+    User count      | ${client.guilds.cache.reduce(
       (a, b) => a + b.memberCount,
       0
     )}
-    - Node.js         | ${process.version}
+    Node.js         | ${process.version}
     \`\`\``;
 
     const embed = new EmbedBuilder()
