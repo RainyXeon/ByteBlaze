@@ -5,9 +5,9 @@
 # something: ${DATA}
 
 bot:
-  TOKEN: "Your Token"
+  TOKEN: "Bot Token"
   EMBED_COLOR: "#2B2D31"
-  OWNER_ID: "Your ID"
+  OWNER_ID: "Your User ID"
   LANGUAGE: "en" # You can set it to en, vi...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
@@ -35,9 +35,9 @@ lavalink:
   # You can add more Lavalink servers!
   NODES: [
       {
-        url: "139.99.124.43:7784", # It'z Zoldy⚡'s Lavalink
-        name: "Special Thanks to It'z Zoldy⚡",
-        auth: "PasswordIsZoldy",
+        url: "IP:Port",
+        name: "Name",
+        auth: "Password",
         secure: false,
       },
     ]

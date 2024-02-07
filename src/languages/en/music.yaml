@@ -49,7 +49,7 @@ play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{so
 play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
-play_emoji: "`⚠️` | Using emoji to search and query song is not allowed on this bot!"
+play_emoji: "`⚠️` | You can not play songs using emoji!"
 
 ### File command!
 file_notfound: "`⚠️` | Please provide a valid File!"

@@ -12,5 +12,5 @@ ping_title: "🏓 "
 ping_desc: "**Ping:** `%{ping}ms`\n**Response Time:** `%{response}ms`"
 
 ### Uptime command!
-uptime_title: "🕛 "
+uptime_title: "🕒 "
 uptime_desc: "**Uptime:** `%{uptime}`"
