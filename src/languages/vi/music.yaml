@@ -49,7 +49,7 @@ play_playlist: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` �
 play_result: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
 play_match: "`⚠️` | Bài hát không được tìm thấy!"
-play_emoji: "`⚠️` | Không được phép sử dụng biểu tượng cảm xúc để tìm kiếm và truy vấn bài hát trên bot này!"
+play_emoji: "`⚠️` | Bạn không thể phát các bài hát bằng biểu tượng cảm xúc!"
 
 ### File command!
 file_notfound: "`⚠️` | Vui lòng cung cấp một tệp hợp lệ!"

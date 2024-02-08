@@ -13,12 +13,12 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["sudo-status"];
+  public name = ["status"];
   public description = "Create bot status channel";
   public category = "Owner";
   public accessableby = Accessableby.Owner;
   public usage = "<create> or <delete>";
-  public aliases = ["status-channel", "sudo-sc"];
+  public aliases = ["status-channel", "sc"];
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
