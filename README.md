@@ -49,7 +49,7 @@
 |             Bandcamp             |           ✅            |          ✅          |
 |            Nicovideo             |           ⚠️            |          ⚠️          |
 |         (LS) Apple Music         |           ⚠️            |          ✅          |
-|         (LS) Yandex Music        |           ❌            |          ✅          |
+|        (LS) Yandex Music         |           ❌            |          ✅          |
 |         (LS) Flowery TTS         |           ❌            |          ✅          |
 |          (DB) Mixcloud           |           ❌            |          ✅          |
 |          (DB) OC ReMix           |           ❌            |          ✅          |
@@ -57,7 +57,7 @@
 |           (DB) Reddit            |           ❌            |          ✅          |
 |           (DB) GetYarn           |           ❌            |          ✅          |
 |       (DB) Text to Speech        |           ❌            |          ✅          |
-|       (DB) TikTok (BETA)         |           ❌            |          ✅          |
+|        (DB) TikTok (BETA)        |           ❌            |          ✅          |
 | (DB) P\*\*nhub (Not recommended) |           ❌            |          ✅          |
 |          (DB) Soundgasm          |           ❌            |          ✅          |
 
