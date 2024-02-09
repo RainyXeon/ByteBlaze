@@ -21,8 +21,6 @@ export class GetLavalinkServer {
 
   getLavalinkServerInfo(data: string) {
     const MdCodeTagFilter: string[] = [];
-    const LavalinkCredentailsFilter: string[] = [];
-    const FinalData: LavalinkDataType[] = [];
 
     var result = md.parse(data, "");
 
@@ -32,10 +30,10 @@ export class GetLavalinkServer {
       }
     });
 
-    this.parseData(MdCodeTagFilter, LavalinkCredentailsFilter);
-    this.commitData(LavalinkCredentailsFilter, FinalData);
+    const lavalinkCredentailsFilter = this.parseData(MdCodeTagFilter);
+    const final = this.commitData(lavalinkCredentailsFilter);
 
-    return FinalData;
+    return final;
   }
 
   parseBoolean(value: string) {
@@ -50,7 +48,8 @@ export class GetLavalinkServer {
     }
   }
 
-  parseData(MdCodeTagFilter: string[], LavalinkCredentailsFilter: string[]) {
+  parseData(MdCodeTagFilter: string[]) {
+    const LavalinkCredentailsFilter: string[] = [];
     for (let i = 0; i < MdCodeTagFilter.length; i++) {
       const element = MdCodeTagFilter[i];
       // Phrase data
@@ -63,26 +62,28 @@ export class GetLavalinkServer {
       const res7 = res6.replace(/[&\/\\#,+()$~%'"*?<>{}]/g, "");
       LavalinkCredentailsFilter.push(res7);
     }
+    return LavalinkCredentailsFilter;
   }
 
-  commitData(
-    LavalinkCredentailsFilter: string[],
-    FinalData: LavalinkDataType[]
-  ) {
+  async commitData(LavalinkCredentailsFilter: string[]) {
+    const FinalData = [];
     for (let i = 0; i < LavalinkCredentailsFilter.length; i++) {
       const regexExtract =
         /:(.{0,99999}):([0-9]{0,99999}):(.{0,99999}):(false|true)/;
       const element = LavalinkCredentailsFilter[i];
       const res = regexExtract.exec(element);
-      FinalData.push({
-        host: res![1],
-        port: Number(res![2]),
-        pass: res![3],
-        secure: this.parseBoolean(res![4]),
-        name: `${res![1]}:${Number(res![2])}`,
-        online: false,
-      });
+      res
+        ? FinalData.push({
+            host: res![1],
+            port: Number(res![2]),
+            pass: res![3],
+            secure: this.parseBoolean(res![4]),
+            name: `${res![1]}:${Number(res![2])}`,
+            online: false,
+          })
+        : true;
     }
+    return FinalData;
   }
 }
 

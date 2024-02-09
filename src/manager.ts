@@ -14,19 +14,18 @@ import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
-import { Kazagumo, KazagumoPlayer } from "kazagumo.mod";
+import { Kazagumo, KazagumoPlayer } from "./lib/main.js";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { WebServer } from "./webserver/index.js";
 import WebSocket from "ws";
 import { Metadata } from "./@types/Metadata.js";
 import { ManifestService } from "./services/ManifestService.js";
-import { PrefixCommand, SlashCommand } from "./@types/Command.js";
 import { Config } from "./@types/Config.js";
 import { PremiumUser } from "./@types/User.js";
 import { IconType } from "./@types/Emoji.js";
-import { NormalModeIcons } from "./assets/normalMode.js";
-import { SafeModeIcons } from "./assets/safeMode.js";
+import { NormalModeIcons } from "./assets/NormalModeIcons.js";
+import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { DatabaseTable } from "./database/@types.js";
 import { initHandler } from "./handlers/index.js";
@@ -35,6 +34,8 @@ import utils from "node:util";
 import { RequestInterface } from "./webserver/RequestInterface.js";
 import { DeployService } from "./services/DeployService.js";
 import { PlayerButton } from "./@types/Button.js";
+import { Command } from "./structures/Command.js";
+import { GlobalMsg } from "./structures/CommandHandler.js";
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -49,6 +50,8 @@ const REGEX = [
   /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/,
   /(?:https:\/\/music\.apple\.com\/)(?:.+)?(artist|album|music-video|playlist)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)/,
   /^https?:\/\/(?:www\.|secure\.|sp\.)?nicovideo\.jp\/watch\/([a-z]{2}[0-9]+)/,
+  /(?:https:\/\/spotify\.link)\/([A-Za-z0-9]+)/,
+  /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
 ];
 
 loggerService.info("Booting client...");
@@ -61,7 +64,6 @@ export class Manager extends Client {
   logger: any;
   db!: DatabaseTable;
   owner: string;
-  dev: string[];
   color: ColorResolvable;
   i18n: I18n;
   prefix: string;
@@ -71,14 +73,15 @@ export class Manager extends Client {
   lavalinkUsing: LavalinkUsingDataType[];
   lavalinkUsed: LavalinkUsingDataType[];
   manager: Kazagumo;
-  slash: Collection<string, SlashCommand>;
-  commands: Collection<string, PrefixCommand>;
+  commands: Collection<string, Command>;
   premiums: Collection<string, PremiumUser>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
   nplayingMsg: Collection<string, Message>;
   aliases: Collection<string, string>;
   plButton: Collection<string, PlayerButton>;
+  leaveDelay: Collection<string, NodeJS.Timeout>;
+  nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
   websocket?: WebSocket;
   wsMessage?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: KazagumoPlayer) => Promise<void | Message<true>>;
@@ -121,7 +124,6 @@ export class Manager extends Client {
     this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
-    this.dev = this.config.features.DEV_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",
@@ -130,6 +132,18 @@ export class Manager extends Client {
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shardStatus = false;
     this.REGEX = REGEX;
+
+    if (!this.configVolCheck()) {
+      this.logger.warn(
+        "Default config volume must between 1 and 100, use default volume (100)"
+      );
+    }
+
+    if (!this.configSearchCheck()) {
+      this.logger.warn(
+        "Default config search have string element, use default"
+      );
+    }
 
     // Initial autofix lavalink varibles
     this.lavalinkList = [];
@@ -142,7 +156,6 @@ export class Manager extends Client {
       : undefined;
 
     // Collections
-    this.slash = new Collection();
     this.commands = new Collection();
     this.premiums = new Collection();
     this.interval = new Collection();
@@ -150,6 +163,8 @@ export class Manager extends Client {
     this.aliases = new Collection();
     this.nplayingMsg = new Collection();
     this.plButton = new Collection();
+    this.leaveDelay = new Collection();
+    this.nowPlaying = new Collection();
     this.isDatabaseConnected = false;
 
     // Sharing
@@ -188,9 +203,34 @@ export class Manager extends Client {
     new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);
+    super.login(this.token);
   }
 
-  connect() {
-    super.login(this.token);
+  configVolCheck(vol: number = this.config.lavalink.DEFAULT_VOLUME) {
+    if (!vol || isNaN(vol) || vol > 100 || vol < 1) {
+      this.config.lavalink.DEFAULT_VOLUME = 100;
+      return false;
+    }
+    return true;
+  }
+
+  configSearchCheck(data: string[] = this.config.lavalink.AUTOCOMPLETE_SEARCH) {
+    const defaultSearch = ["yorushika", "yoasobi", "tuyu", "hinkik"];
+    if (!data || data.length == 0) {
+      this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+      return false;
+    }
+    for (const element of data) {
+      if (!this.stringCheck(element)) {
+        this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+        return false;
+      }
+    }
+    return true;
+  }
+
+  stringCheck(data: unknown) {
+    if (typeof data === "string" || data instanceof String) return true;
+    return false;
   }
 }

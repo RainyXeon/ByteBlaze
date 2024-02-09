@@ -4,11 +4,11 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { KazagumoLoop } from "../@types/Lavalink.js";
-import { ReplyInteractionService } from "../utilities/ReplyInteractionService.js";
+import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 
 export default class implements PlayerButton {
   name = "loop";
@@ -68,7 +68,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.i18n.get(language, "music", "unloopall")}`
+          `${client.i18n.get(language, "music", "unloop_all")}`
         );
 
         break;

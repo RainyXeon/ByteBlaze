@@ -1,26 +1,41 @@
 ### Language command!
 lang_set: "`📙` | Language has been set to **%{language}**!"
 lang_change: "`📙` | Language has been changed to **%{language}**!"
-lang_perm: "`⚠️` | You don't have permission to use this command!"
-provide_lang: "`⚠️` | Invalid language. Please use %{languages}!"
+lang_perm: "`⚠️` | You do not have permission to use this command!"
+provide_lang: "`⚠️` | Invalid Language. Please use %{languages}!"
 
 ### Shutdown command!
-restart_msg: "`🛑` | **Shutting down**..."
-
-### Control command!
-control_set: "`🎚️` | Control has been set to **%{toggle}**!"
-control_perm: "`⚠️` | You don't have permission to use this command!"
-
-### Help command!
-help_desc: "Click Me!"
-help_timeout: "`⏳` | Help Menu timed out. Please use **%{prefix}help** again!"
+restart_msg: "`🔌` | **Shutting Down**..."
 
 ### Prefix command!
 prefix_set: "`㊙️` | Prefix has been set to **%{prefix}**"
 prefix_change: "`㊙️` | Prefix has been changed to **%{prefix}**"
-prefix_perm: "`⚠️` | You don't have permission to use this command!"
-prefix_arg: "`⚠️` | Please provide a prefix!"
-prefix_length: "`⚠️` | Prefix can't be longer than **10 Characters**!"
+prefix_arg: "`⚠️` | Please provide a valid Prefix!"
+prefix_length: "`⚠️` | Prefix can not be longer than **10 Characters**!"
+arg_error: "`⚠️` | Invalid argument. Please use %{text}"
 
+### SongNoti command!
+songnoti_set: "`🔔` | Song Notifications has been set to **%{toggle}**!"
+songnoti_already_on: "`⚠️` | Song Notifications are already **Enabled**!"
+songnoti_already_off: "`⚠️` | Song Notifications are already **Disabled**!"
 
-arg_error: "`⚠️` | Invalid argument. Please use **%{text}**"
+### Help command!
+ce_finder_name: "**Command:**"
+ce_finder_des: "**Description:**"
+ce_finder_usage: "**Usage:**"
+ce_finder_access: "**Accessible by:**"
+ce_finder_aliases: "**Aliases:**"
+ce_finder_slash: "**Slash:**"
+ce_finder_des_no: "No Description"
+ce_finder_usage_no: "No Usage"
+ce_finder_aliases_prefix: " [Prefix only]"
+ce_finder_aliases_no: "No Aliases"
+ce_finder_slash_enable: "Enabled"
+ce_finder_slash_disable: "Disabled"
+ce_finder_invalid: "Invalid Command"
+ce_finder_example: "`⚠️` | Please provide a valid **Command Name**!"
+ce_name: "Help Command"
+ce_total: "Total Commands: "
+
+### Rate limit!
+ratelimit: "`⚠️` | You are performing actions too quickly. Please wait for **%{time} Seconds**!"

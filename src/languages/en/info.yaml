@@ -1,13 +1,16 @@
 ### Developer command!
 dev_title: "RainyXeon"
-dev_desc: "A versatile and powerful music bot for Discord that brings rhythm and melody to your server. "
-dev_foot: "Consider Joining the server or Inviting the Bot :) This would help me alot!"
+dev_desc: "I'm just an incognito developer. And an official creator of Dreamvast and RainyProduction!"
+dev_foot: "Consider joining my server or inviting my bots :) This would help me a lot!"
 
 ### Invite command!
-inv_title: "🙌 Thanks for Inviting %{username}"
-inv_desc: "**%{username}** Powered by **RainyXeon**"
-
+inv_title: "✉️ %{username}"
+inv_desc: "Thanks for Inviting me in advance!"
 
 ### Ping command!
 ping_title: "🏓 "
-ping_desc: "My Ping is **%{ping}ms**!"
+ping_desc: "**Ping:** `%{ping}ms`\n**Response Time:** `%{response}ms`"
+
+### Uptime command!
+uptime_title: "🕒 "
+uptime_desc: "**Uptime:** `%{uptime}`"

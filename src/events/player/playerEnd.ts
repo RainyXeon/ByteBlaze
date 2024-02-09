@@ -1,8 +1,8 @@
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Client, TextChannel } from "discord.js";
-import { ClearMessageService } from "../../utilities/ClearMessageService.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { ClearMessageService } from "../../services/ClearMessageService.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -20,7 +20,7 @@ export default class {
 
     client.emit("playerEnd", player);
 
-    let data = await new AutoReconnectBuilder(client, player).get(
+    let data = await new AutoReconnectBuilderService(client, player).get(
       player.guildId
     );
     const channel = client.channels.cache.get(player.textId) as TextChannel;
@@ -34,30 +34,12 @@ export default class {
     if (player.loop !== "none")
       return new ClearMessageService(client, channel, player);
 
-    let guildModel = await client.db.language.get(`${player.guildId}`);
-    if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${player.guildId}`,
-        client.config.bot.LANGUAGE
-      );
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
     }
-
-    const language = guildModel;
-
-    const embed = new EmbedBuilder()
-      .setColor(client.color)
-      .setDescription(
-        `${client.i18n.get(language, "player", "queue_end_desc")}`
-      );
-
-    if (channel) {
-      const msg = await channel.send({ embeds: [embed] });
-      setTimeout(
-        async () => msg.delete(),
-        client.config.bot.DELETE_MSG_TIMEOUT
-      );
-    }
-
-    player.destroy();
   }
 }

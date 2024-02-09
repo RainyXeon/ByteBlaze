@@ -1,9 +1,8 @@
-##### Need to join voice channel to use command! #####
+### Voice Event!
 
-# No song playing in guild!
-no_player: "Không có bài hát nào hiện đang phát trong server này hoặc bot không tham gia kênh."
+# No song is currently playing!
+no_player: "`⚠️` | Hiện tại không có bài hát nào đang phát!"
 
 # Need to join voice & same voice to use command!
-no_voice_247: "Bạn cần tham gia kênh thoại."
-no_voice: "Bạn cần phải ở trong cùng một kênh/giọng nói."
-no_music: "Bạn cần phát một bài hát để sử dụng lệnh này"
+no_voice_247: "`⚠️` | Bạn không ở trong kênh thoại!"
+no_voice: "`⚠️` | Bạn không ở cùng kênh thoại với tôi!"

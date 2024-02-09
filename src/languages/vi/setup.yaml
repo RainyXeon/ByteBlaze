@@ -1,26 +1,25 @@
-##### Setup command #####
-setup_topic: "⏯ *Tạm dừng/Tiếp tục bài hát.*\n⬅ *Quay lại bài hát trước kia.*\n⏹ *Dừng bài hát*\n➡ *Bỏ qua bài hát.*\n🔁 *Lặp/Dừng lặp bài hát.*"
-setup_msg: "*`Thiết lập thành công hệ thống âm nhạc trong kênh`* %{channel}\n```Lưu ý: Không xóa bất kỳ tin nhắn nào của bot đã được gửi! (ĐỂ THIẾT LẬP BẢNG ĐIỀU KHIỂN!)```"
-setup_deleted: "*`Xóa kênh chơi nhạc thành công!`*"
-setup_null: "*`Không có kênh nào tồn tại để xóa!`*"
+### Setup command!
+setup_msg: "**`⚙️` | Đã tạo Hệ thống âm nhạc** %{channel}\n```Lưu ý: Không xóa bất kỳ tin nhắn nào do tôi gửi để Hệ thống âm nhạc hoạt động bình thường!```"
+setup_deleted: "**`⚙️` | Hệ thống âm nhạc đã bị xóa!**"
+setup_topic: "⏹ **Dừng**\n⏮️ **Trước**\n⏯ **Tạm dừng/Tiếp tục**\n⏭️ **Bỏ qua**\n🔁 **Lặp lại/Mở vòng lặp**"
+setup_enable: "`⚠️` | Hệ thống âm nhạc đã tồn tại!"
+setup_null: "`⚠️` | Hệ thống âm nhạc không được tìm thấy!"
 
-##### Setup Handler #####
-setup_queuemsg: "**__Hàng đợi:__**\nTham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
+### Setup handler!
+setup_queuemsg: "Tham gia kênh thoại và phát các bài hát bằng tên hoặc URL tại đây!"
+setup_playembed_author: "Hiện không có bài hát nào đang phát"
 
-setup_playembed_author: "Hiện không có bài hát nào đang phát."
-
-##### Setup Update Handler #####
-
-setup_author: "Đang bắt đầu chơi nhạc..."
+### Update handler!
+setup_author: "Đang chơi"
 setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
-setup_footer: "%{songs} • Bài hát trong hàng đợi | Âm lượng • %{volume}% | %{duration} • Tổng thời lượng"
+setup_desc: "**[%{title}](%{url})** `[%{duration}]` • %{request}"
+setup_footer: "Khối lượng • %{volume}% | Tổng thời lượng • %{duration}"
+setup_content: "**__Xếp hàng:__**"
+setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
+setup_content_empty: "Tham gia kênh thoại và phát các bài hát bằng tên hoặc URL tại đây!"
 
-setup_content: "**__Hàng đợi:__**"
-setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
-setup_content_empty: "Tham gia kênh thoại và xếp các bài hát theo tên hoặc url tại đây."
-
-setup_enable: "*`Đã có kênh thiết lập, không thể sử dụng lệnh này.`*"
-status_deleted: "*`Xóa kênh trạng thái thành công!`*"
-status_enable: "*`Đã có kênh trạng thái, không thể sử dụng lệnh này.`*"
-status_null: "*`Không có kênh nào tồn tại để xóa!`*"
+### Status command!
+status_create: "**`📊` | Kênh trạng thái đã tạo!**"
+status_delete: "**`📊` | Kênh trạng thái đã xóa!**"
+status_enable: "`⚠️` | Kênh trạng thái đã tồn tại!"
+status_null: "`⚠️` | Không tìm thấy kênh trạng thái!"

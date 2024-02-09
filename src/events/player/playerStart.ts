@@ -1,14 +1,14 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { ButtonInteraction, ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { FormatDuration } from "../../structures/FormatDuration.js";
+import { FormatDuration } from "../../utilities/FormatDuration.js";
 import {
   playerRowOne,
   playerRowTwo,
-} from "../../utilities/PlayerControlButton.js";
-import { ControlEnum } from "../../database/schema/Control.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+} from "../../assets/PlayerControlButton.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -22,11 +22,12 @@ export default class {
       `Player Started in @ ${guild!.name} / ${player.guildId}`
     );
 
-    let Control = await client.db.control.get(`${player.guildId}`);
-    if (!Control) {
-      await client.db.control.set(`${player.guildId}`, ControlEnum.Disable);
-      Control = await client.db.control.get(`${player.guildId}`);
-    }
+    let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
+    if (!SongNoti)
+      SongNoti = await client.db.songNoti.set(
+        `${player.guildId}`,
+        SongNotiEnum.Enable
+      );
 
     if (!player) return;
 
@@ -39,25 +40,10 @@ export default class {
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
 
-    let data = await client.db.setup.get(`${channel.guild.id}`);
-    if (data && player.textId === data.channel) return;
-
-    let guildModel = await client.db.language.get(`${channel.guild.id}`);
-    if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `language.guild_${channel.guild.id}`,
-        "en"
-      );
-    }
-
-    const language = guildModel;
-
-    const song = player.queue.current;
-
     client.emit("playerStart", player);
     client.emit("playerQueue", player);
 
-    const autoreconnect = new AutoReconnectBuilder(client, player);
+    const autoreconnect = new AutoReconnectBuilderService(client, player);
 
     if (await autoreconnect.get(player.guildId)) {
       await client.db.autoreconnect.set(
@@ -81,12 +67,39 @@ export default class {
         return res.length !== 0 ? res : [];
       }
 
+      function previousUri() {
+        const res = [];
+        for (let data of player.queue.previous) {
+          res.push(data.uri);
+        }
+        return res.length !== 0 ? res : [];
+      }
+
       await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
+      await client.db.autoreconnect.set(
+        `${player.guildId}.previous`,
+        previousUri()
+      );
     } else {
       await autoreconnect.playerBuild(player.guildId);
     }
 
-    if (Control == ControlEnum.Disable) return;
+    let data = await client.db.setup.get(`${channel.guild.id}`);
+    if (data && player.textId === data.channel) return;
+
+    let guildModel = await client.db.language.get(`${channel.guild.id}`);
+    if (!guildModel) {
+      guildModel = await client.db.language.set(
+        `${channel.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
+    }
+
+    const language = guildModel;
+
+    const song = player.queue.current;
+
+    if (SongNoti == SongNotiEnum.Disable) return;
 
     const embeded = new EmbedBuilder()
       .setAuthor({
@@ -101,13 +114,13 @@ export default class {
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "player", "request_title")}`,
-          value: `${song!.requester}`,
+          name: `${client.i18n.get(language, "player", "duration_title")}`,
+          value: `${new FormatDuration().parse(song!.length)}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "player", "duration_title")}`,
-          value: `${new FormatDuration().parse(song!.length)}`,
+          name: `${client.i18n.get(language, "player", "request_title")}`,
+          value: `${song!.requester}`,
           inline: true,
         },
         {
@@ -124,11 +137,6 @@ export default class {
       .setThumbnail(
         `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
       )
-      .setFooter({
-        text: `${client.i18n.get(language, "player", "queue_title")} ${
-          player.queue.length + 1
-        }`,
-      })
       .setTimestamp();
 
     const playing_channel = client.channels.cache.get(
@@ -167,15 +175,23 @@ export default class {
       async (message: ButtonInteraction): Promise<void> => {
         const id = message.customId;
         const button = client.plButton.get(id);
-        if (button)
-          await button.run(
-            client,
-            message,
-            language,
-            player,
-            nplaying,
-            collector
-          );
+
+        const language = guildModel;
+
+        if (button) {
+          try {
+            button.run(
+              client,
+              message,
+              String(language),
+              player,
+              nplaying,
+              collector
+            );
+          } catch (err) {
+            client.logger.log({ level: "error", message: err });
+          }
+        }
       }
     );
   }

@@ -5,7 +5,7 @@ import {
   Message,
 } from "discord.js";
 import { Manager } from "../manager.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 
 export class PlayerButton {
   name: string = "";

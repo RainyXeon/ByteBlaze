@@ -1,6 +1,7 @@
 import { Manager } from "../manager.js";
 import { LavalinkDataType } from "../@types/Lavalink.js";
 import { CheckLavalinkServer } from "./CheckLavalinkServer.js";
+import chalk from "chalk";
 const regex =
   /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
@@ -20,17 +21,28 @@ export class AutoFixLavalink {
   }
 
   async fixLavalink() {
+    const autofixError = chalk.hex("#e12885");
+    const autofixErrorMess = autofixError("Error: ");
+
     this.checkLavalink();
     await this.removeCurrentLavalink();
+    if (this.client.lavalinkList.filter((i) => i.online).length == 0) {
+      this.client.logger.lavalink(
+        autofixErrorMess + "No lavalink online or avalible for this bot."
+      );
+      this.client.logger.lavalink(
+        autofixErrorMess +
+          "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
+      );
+      this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
+      return;
+    }
     const nodeInfo = await this.applyNewLavalink();
 
-    this.client.lavalinkUsing.push({
-      host: nodeInfo.host,
-      port: nodeInfo.port,
-      pass: nodeInfo.pass,
-      secure: nodeInfo.secure,
-      name: `${nodeInfo.host}:${nodeInfo.port}`,
-    });
+    this.client.logger.lavalink(
+      "Now used new lavalink, please wait 1 second to make it connect."
+    );
+    this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
   }
 
   checkLavalink() {

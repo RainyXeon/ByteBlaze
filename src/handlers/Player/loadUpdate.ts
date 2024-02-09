@@ -1,8 +1,8 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { FormatDuration } from "../../structures/FormatDuration.js";
-import { QueueDuration } from "../../structures/QueueDuration.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { QueueDuration } from "../../utilities/QueueDuration.js";
+import { KazagumoPlayer } from "../../lib/main.js";
 
 export class playerLoadUpdate {
   client: Manager;
@@ -28,7 +28,7 @@ export class playerLoadUpdate {
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
         guildModel = await client.db.language.set(
-          `language.guild_${player.guildId}`,
+          `${player.guildId}`,
           client.config.bot.LANGUAGE
         );
       }
@@ -46,21 +46,7 @@ export class playerLoadUpdate {
           })}`
       );
 
-      const current_song = `${client.i18n.get(
-        language,
-        "setup",
-        "setup_content_queue",
-        {
-          index: `${1}`,
-          title: player.queue.current!.title,
-          duration: new FormatDuration().parse(player.queue.current!.length),
-          request: `${player.queue.current!.requester}`,
-        }
-      )}`;
-
       await songStrings.push(...queuedSongs);
-
-      await songStrings.unshift(current_song);
 
       const Str = songStrings.slice(0, 10).join("\n");
 
@@ -94,19 +80,21 @@ export class playerLoadUpdate {
         )
         .setFooter({
           text: `${client.i18n.get(language, "setup", "setup_footer", {
-            songs: `${player.queue.size}`,
             volume: `${player.volume * 100}`,
             duration: qDuration,
           })}`,
-        }); //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration
+        }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
+
+      const queueString = `${client.i18n.get(
+        language,
+        "setup",
+        "setup_content"
+      )}\n${Str == "" ? " " : "\n" + Str}`;
 
       return await playMsg
         .edit({
-          content: `${client.i18n.get(language, "setup", "setup_content")}\n${
-            Str == ""
-              ? `${client.i18n.get(language, "setup", "setup_content_empty")}`
-              : "\n" + Str
-          }`,
+          content:
+            player.queue.current && player.queue.size == 0 ? " " : queueString,
           embeds: [embed],
           components: [client.enSwitchMod],
         })
@@ -133,7 +121,7 @@ export class playerLoadUpdate {
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
         guildModel = await client.db.language.set(
-          `language.guild_${player.guildId}`,
+          `${player.guildId}`,
           client.config.bot.LANGUAGE
         );
       }

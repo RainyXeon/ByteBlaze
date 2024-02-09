@@ -1,9 +1,16 @@
+### Developer command!
 dev_title: "RainyXeon"
-dev_desc: "Một bot âm nhạc linh hoạt và mạnh mẽ dành cho Discord mang nhịp điệu và giai điệu đến máy chủ của bạn."
-dev_foot: "Hãy tham gia máy chủ hoặc mời Bot :) Điều này sẽ giúp tôi rất nhiều!"
+dev_desc: "Tôi chỉ là một nhà phát triển ẩn danh. Và là người sáng tạo chính thức của Dreamvast và RainyProduction!"
+dev_foot: "Hãy cân nhắc việc tham gia máy chủ của tôi hoặc mời bot của tôi :) Điều này sẽ giúp tôi rất nhiều!"
 
-inv_title: "**Cảm ơn đã mời %{username}**"
-inv_desc: "**%{username} được phát triển bởi RainyXeon**"
+### Invite command!
+inv_title: "✉️ %{username}"
+inv_desc: "Cảm ơn đã mời tôi trước!"
 
-ping_title: "**Ping của **"
-ping_desc: "Ping của tôi là ***%{ping}ms***"
+### Ping command!
+ping_title: "🏓 "
+ping_desc: "**Thời gian phản hồi máy chủ:** `%{ping}ms`\n**Thời gian phản hồi tin nhắn:** `%{response}ms`"
+
+### Uptime command!
+uptime_title: "🕒 "
+uptime_desc: "**Thời gian đã chạy:** `%{uptime}`"

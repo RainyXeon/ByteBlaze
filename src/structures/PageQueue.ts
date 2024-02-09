@@ -1,14 +1,14 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
   ButtonStyle,
-  CacheType,
   CommandInteraction,
   EmbedBuilder,
   Message,
-  UserSelectMenuInteraction,
 } from "discord.js";
 import { Manager } from "../manager.js";
+import { RatelimitReplyService } from "../services/RatelimitReplyService.js";
 
 export class PageQueue {
   client: Manager;
@@ -31,7 +31,7 @@ export class PageQueue {
     this.language = language;
   }
 
-  async slashPage(interaction: CommandInteraction, queueDuration: number) {
+  async slashPage(interaction: CommandInteraction, queueDuration: string) {
     if (!interaction && !(interaction as CommandInteraction).channel)
       throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
@@ -75,6 +75,7 @@ export class PageQueue {
 
     collector.on("collect", async (interaction) => {
       if (!interaction.deferred) await interaction.deferUpdate();
+
       if (interaction.customId === "back") {
         page = page > 0 ? --page : this.pages.length - 1;
       } else if (interaction.customId === "next") {
@@ -220,7 +221,7 @@ export class PageQueue {
     return curPage;
   }
 
-  async prefixPage(message: Message, queueDuration: number) {
+  async prefixPage(message: Message, queueDuration: string) {
     if (!message && !(message as Message).channel)
       throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
@@ -410,6 +411,105 @@ export class PageQueue {
         components: [disabled],
       });
     });
+    return curPage;
+  }
+
+  async buttonPage(interaction: ButtonInteraction, queueDuration: string) {
+    if (!interaction && !(interaction as CommandInteraction).channel)
+      throw new Error("Channel is inaccessible.");
+    if (!this.pages) throw new Error("Pages are not given.");
+
+    const row1 = new ButtonBuilder()
+      .setCustomId("back")
+      .setEmoji(this.client.icons.arrow_previous)
+      .setStyle(ButtonStyle.Secondary);
+    const row2 = new ButtonBuilder()
+      .setCustomId("next")
+      .setEmoji(this.client.icons.arrow_next)
+      .setStyle(ButtonStyle.Secondary);
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+
+    let page = 0;
+    const curPage = await interaction.reply({
+      embeds: [
+        this.pages[page].setFooter({
+          text: `${this.client.i18n.get(
+            this.language,
+            "music",
+            "queue_footer",
+            {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            }
+          )}`,
+        }),
+      ],
+      components: [row],
+      allowedMentions: { repliedUser: false },
+      ephemeral: true,
+    });
+    if (this.pages.length == 0) return;
+
+    const collector = await curPage.createMessageComponentCollector({
+      filter: (m) => m.user.id === interaction.user.id,
+      time: this.timeout,
+    });
+
+    collector.on("collect", async (interaction) => {
+      if (!interaction.deferred) await interaction.deferUpdate();
+
+      if (interaction.customId === "back") {
+        page = page > 0 ? --page : this.pages.length - 1;
+      } else if (interaction.customId === "next") {
+        page = page + 1 < this.pages.length ? ++page : 0;
+      }
+      interaction.editReply({
+        embeds: [
+          this.pages[page].setFooter({
+            text: `${this.client.i18n.get(
+              this.language,
+              "music",
+              "queue_footer",
+              {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              }
+            )}`,
+          }),
+        ],
+        components: [row],
+      });
+    });
+
+    collector.on("end", () => {
+      const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        row1.setDisabled(true),
+        row2.setDisabled(true)
+      );
+      interaction.editReply({
+        embeds: [
+          this.pages[page].setFooter({
+            text: `${this.client.i18n.get(
+              this.language,
+              "music",
+              "queue_footer",
+              {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              }
+            )}`,
+          }),
+        ],
+        components: [disabled],
+      });
+    });
+
     return curPage;
   }
 }

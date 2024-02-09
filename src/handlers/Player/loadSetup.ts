@@ -1,5 +1,5 @@
-import { NormalModeIcons } from "../../assets/normalMode.js";
-import { SafeModeIcons } from "../../assets/safeMode.js";
+import { NormalModeIcons } from "../../assets/NormalModeIcons.js";
+import { SafeModeIcons } from "../../assets/SafeModeIcons.js";
 import { Manager } from "../../manager.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
@@ -86,7 +86,7 @@ export class playerLoadSetup {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("spause")
-        .setEmoji(this.icons.pause)
+        .setEmoji(this.icons.play)
         .setDisabled(true),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)

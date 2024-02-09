@@ -1,8 +1,8 @@
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { ClearMessageService } from "../../utilities/ClearMessageService.js";
-import { AutoReconnectBuilder } from "../../database/build/AutoReconnect.js";
+import { ClearMessageService } from "../../services/ClearMessageService.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -23,7 +23,7 @@ export default class {
     client.emit("playerDestroy", player);
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     client.sentQueue.set(player.guildId, false);
-    let data = await new AutoReconnectBuilder(client, player).get(
+    let data = await new AutoReconnectBuilderService(client, player).get(
       player.guildId
     );
 
@@ -31,26 +31,32 @@ export default class {
 
     if (player.state == 5 && data !== null && data) {
       if (data.twentyfourseven) {
-        await new AutoReconnectBuilder(client, player).build247(
+        await new AutoReconnectBuilderService(client, player).build247(
           player.guildId,
           true,
           data.voice
         );
-        await client.manager.createPlayer({
+        client.manager.createPlayer({
           guildId: data.guild!,
           voiceId: data.voice!,
           textId: data.text!,
           deaf: true,
+          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
         });
       } else await client.db.autoreconnect.delete(player.guildId);
     }
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${channel.guild.id}`, "en");
+      guildModel = await client.db.language.set(
+        `${channel.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
     }
 
     const language = guildModel;
+
+    const isSudoDestroy = player.data.get("sudo-destroy");
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
@@ -58,10 +64,12 @@ export default class {
         `${client.i18n.get(language, "player", "queue_end_desc")}`
       );
 
-    if (player.queue.current) {
+    if (!isSudoDestroy) {
+      const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => msg.delete(),
+        async () =>
+          setup && setup.channel !== player.textId ? msg.delete() : true,
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }

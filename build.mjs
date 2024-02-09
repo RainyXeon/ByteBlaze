@@ -31,6 +31,7 @@ const ignored = [
   "tsconfig.json",
   ".github",
   "out",
+  "logs",
 ];
 
 function logger(data, type) {
@@ -48,6 +49,9 @@ function logger(data, type) {
   }
 }
 
+logger("ByteBlaze .zip build script", "info");
+logger("Version: 1.0.0", "info");
+
 if (!acceptedParams.includes(args.get(0))) {
   throw new Error("Only clean or build, example: node build.mjs build");
 }
@@ -63,8 +67,6 @@ if (args.get(0) == acceptedParams[0]) {
   logger("Clean successfully!", "info");
   process.exit();
 }
-
-console.log(args.get(0), acceptedParams[2]);
 
 if (args.get(0) == acceptedParams[2]) {
   const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", [

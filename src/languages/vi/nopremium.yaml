@@ -1,4 +1,4 @@
-##### No premium Event #####
-premium_author: "Chỉ được sử dụng khi có gói premium!"
-premium_desc: "*Bạn cần đăng kí gói premium để sử dụng lệnh này.*"
-premium_error: "Có gì đó không ổn, vui lòng thử lại."
+### No premium Event!
+premium_author: "Phần thưởng"
+premium_desc: "`⚠️` | Bạn không phải là người dùng cao cấp!"
+premium_error: "`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại!"

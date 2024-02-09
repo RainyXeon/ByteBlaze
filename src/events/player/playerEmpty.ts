@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer, PlayerState } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 
 export default class {
@@ -27,6 +27,12 @@ export default class {
 
     client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
-    await player.destroy();
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
+    }
   }
 }

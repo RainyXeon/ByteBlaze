@@ -1,10 +1,14 @@
 import { ChannelType, Message, PermissionFlagsBits } from "discord.js";
 import { Manager } from "../../manager.js";
-import { PermissionsBitField, EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { Accessableby } from "../../@types/Command.js";
-import { CheckPermissionServices } from "../../utilities/CheckPermissionServices.js";
+import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
+import { CommandHandler } from "../../structures/CommandHandler.js";
+import { Accessableby } from "../../structures/Command.js";
+import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
+import { RateLimitManager } from "@sapphire/ratelimits";
+const commandRateLimitManager = new RateLimitManager(1000);
 
 export default class {
   async execute(client: Manager, message: Message) {
@@ -31,11 +35,10 @@ export default class {
 
     const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
     if (GuildPrefix) PREFIX = GuildPrefix;
-    else if (!GuildPrefix) {
-      await client.db.language.set(`${message.guild!.id}`, client.prefix);
-      const newPrefix = await client.db.language.get(`${message.guild!.id}`);
-      PREFIX = String(newPrefix);
-    }
+    else if (!GuildPrefix)
+      PREFIX = String(
+        await client.db.prefix.set(`${message.guild!.id}`, client.prefix)
+      );
 
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()
@@ -51,13 +54,13 @@ export default class {
           ${client.i18n.get(language, "help", "intro2")}
           ${client.i18n.get(language, "help", "intro3")}
           ${client.i18n.get(language, "help", "prefix", {
-            prefix: `\`${PREFIX}\``,
+            prefix: `\`${PREFIX}\` or \`/\``,
           })}
           ${client.i18n.get(language, "help", "help1", {
-            help: `\`${PREFIX}help\` / \`/help\``,
+            help: `\`${PREFIX}help\` or \`/help\``,
           })}
           ${client.i18n.get(language, "help", "help2", {
-            botinfo: `\`${PREFIX}status\` / \`/status\``,
+            botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
           ${client.i18n.get(language, "help", "ver", {
             botver: client.metadata.version,
@@ -95,6 +98,24 @@ export default class {
       client.commands.get(cmd) ||
       client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
+
+    //////////////////////////////// Ratelimit check start ////////////////////////////////
+    const ratelimit = commandRateLimitManager.acquire(
+      `${message.author.id}@${command.name.join("-")}`
+    );
+
+    if (ratelimit.limited) {
+      new RatelimitReplyService({
+        client: client,
+        language: language,
+        message: message,
+        time: Number(((ratelimit.expires - Date.now()) / 1000).toFixed(1)),
+      }).reply();
+      return;
+    }
+
+    ratelimit.consume();
+    //////////////////////////////// Ratelimit check end ////////////////////////////////
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
@@ -148,7 +169,7 @@ export default class {
         musicPermissions
       );
       if (returnData !== "PermissionPass") return respondError(returnData);
-    } else if (command.name !== "help") {
+    } else if (command.name.join("-") !== "help") {
       const returnData = await permissionChecker.message(
         message,
         allCommandPermissions
@@ -157,6 +178,7 @@ export default class {
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
+    //////////////////////////////// Access check start ////////////////////////////////
     if (
       command.accessableby == Accessableby.Owner &&
       message.author.id != client.owner
@@ -230,8 +252,59 @@ export default class {
       });
     }
 
+    if (command.playerCheck) {
+      const player = client.manager.players.get(message.guild!.id);
+      if (!player)
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_player")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+    }
+
+    if (command.sameVoiceCheck) {
+      const { channel } = message.member!.voice;
+      if (
+        !channel ||
+        message.member!.voice.channel !==
+          message.guild!.members.me!.voice.channel
+      )
+        return message.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `${client.i18n.get(language, "noplayer", "no_voice")}`
+              )
+              .setColor(client.color),
+          ],
+        });
+    }
+
+    //////////////////////////////// Access check end ////////////////////////////////
+
     try {
-      command.run(client, message, args, language, PREFIX);
+      const handler = new CommandHandler({
+        message: message,
+        language: language,
+        client: client,
+        args: args,
+        prefix: PREFIX || client.prefix || "d!",
+      });
+
+      if (message.attachments.size !== 0)
+        handler.addAttachment(message.attachments);
+
+      client.logger.info(
+        `[COMMAND] ${command.name.join("-")} used by ${
+          message.author.username
+        } from ${message.guild?.name} (${message.guild?.id})`
+      );
+
+      command.execute(client, handler);
     } catch (error) {
       client.logger.error(error);
       message.reply({

@@ -1,27 +1,41 @@
-##### Language command #####
-lang_perm: "Bạn cần quyền `MANAGE_GUILD` để sử dụng lệnh này."
-lang_arg: "Vui lòng chỉ định một ngôn ngữ!"
-provide_lang: "**Vui lòng cung cấp ngôn ngữ:** \n`%{languages}`"
-lang_set: "`🔧` | **Ngôn ngữ đã được đặt thành:** `%{language}`"
-lang_change: "`🔧` | **Ngôn ngữ đã được thay đổi thành:** `%{language}`"
-lang_error: "Đã xảy ra sự cố, vui lòng thử lại sau."
+### Language command!
+lang_set: "`📙` | Ngôn ngữ đã được đặt thành **%{language}**!"
+lang_change: "`📙` | Ngôn ngữ đã được thay đổi thành **%{language}**!"
+lang_perm: "`⚠️` | Bạn không có quyền sử dụng lệnh này!"
+provide_lang: "`⚠️` | Ngôn ngữ không hợp lệ. Vui lòng sử dụng %{languages}!"
 
-##### Restart command #####
-restart_msg: "`🤖` | *Hệ thống đã:* `Tắt nguồn`"
+### Shutdown command!
+restart_msg: "`🔌` | **Đang Tắt**..."
 
-##### PLayer control command #####
-control_perm: "Bạn cần quyền `MANAGE_GUILD` để sử dụng lệnh này."
-control_set: "`🔧` | *Chế độ điều khiển trình phát đã được đặt thành:* `%{toggle}`"
-control_change: "`🔧` | *Chế độ điều khiển trình phát đã được thay đổi thành:* `%{toggle}`"
-control_err: "Đã xảy ra lỗi khi đặt chế độ điều khiển trình phát!"
+### Prefix command!
+prefix_set: "`㊙️` | Tiền tố đã được đặt thành **%{prefix}**"
+prefix_change: "`㊙️` | Tiền tố đã được đổi thành **%{prefix}**"
+prefix_arg: "`⚠️` | Vui lòng cung cấp Tiền tố hợp lệ!"
+prefix_length: "`⚠️` | Tiền tố không được dài hơn **10 ký tự**!"
+arg_error: "`⚠️` | Đối số không hợp lệ. Vui lòng sử dụng %{text}"
 
-##### Help command #####
-help_desc: "Vui lòng chọn một danh mục!"
-help_category_desc: "Vui lòng chon danh mục %{category} để thấy tất cả các lệnh."
-help_category: "%{category}"
-help_timeout: "```Menu trợ giúp đã hết hiệu lực, vui lòng dùng lệnh %{prefix}help để xem lại lần nữa.```"
+### SongNoti command!
+songnoti_set: "`🔔` | Thông báo bài hát đã được đặt thành **%{toggle}**!"
+songnoti_already_on: "`⚠️` | Thông báo bài hát đã được **Bật**!"
+songnoti_already_off: "`⚠️` | Thông báo bài hát đã **Đã tắt**!"
 
-arg_error: "Vui lòng cho một `%{text}`!"
+### Help command!
+ce_finder_name: "**Yêu cầu:**"
+ce_finder_des: "**Sự miêu tả:**"
+ce_finder_usage: "**Cách sử dụng:**"
+ce_finder_access: "**Có thể truy cập bởi:**"
+ce_finder_aliases: "**Bí danh:**"
+ce_finder_slash: "**Gạch chéo:**"
+ce_finder_des_no: "Không có mô tả"
+ce_finder_usage_no: "Không sử dụng"
+ce_finder_aliases_prefix: " [Chỉ tiền tố]"
+ce_finder_aliases_no: "Bật"
+ce_finder_slash_enable: "Đã bật"
+ce_finder_slash_disable: "Tàn tật"
+ce_finder_invalid: "Lệnh không hợp lệ"
+ce_finder_example: "`⚠️` | Vui lòng cung cấp giá trị hợp lệ **Tên lệnh**!"
+ce_name: "Lệnh trợ giúp"
+ce_total: "Tổng số lệnh: "
 
-page_title: "Trực tuyến: 🟢 / Ngoại tuyến: 🔴"
-page_footer: "Trang • %{page}/%{pages}"
+### Rate limit!
+ratelimit: "`⚠️` | Bạn đang thực hiện hành động quá nhanh. Vui lòng đợi **%{time} Giây**!"

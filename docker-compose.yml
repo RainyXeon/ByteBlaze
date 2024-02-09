@@ -1,23 +1,22 @@
-version: "3"
+version: "3.8"
 
 services:
   lavalink:
-    image: ghcr.io/lavalink-devs/lavalink # pin the image version to Lavalink v4
+    image: ghcr.io/lavalink-devs/lavalink:4-alpine
     container_name: lavalink
     restart: unless-stopped
     environment:
-      - _JAVA_OPTIONS=-Xmx6G # set Java options here
-      - SERVER_PORT=2333 # set lavalink server port
-      - LAVALINK_SERVER_PASSWORD=youshallnotpass # set password for lavalink
+      - SERVER_PORT=2333
+      - LAVALINK_SERVER_PASSWORD=youshallnotpass
     volumes:
-      - ./docker/application.yml:/opt/Lavalink/application.yml # mount application.yml from the same directory or use environment variables
-      - ./plugins/:/opt/Lavalink/plugins/ # persist plugins between restarts, make sure to set the correct permissions (user: 322, group: 322)
+      - ./docker/application.yml:/opt/Lavalink/application.yml
+      - ./plugins/:/opt/Lavalink/plugins/
     networks:
       - lavalink
     expose:
-      - 2333 # lavalink exposes port 2333 to connect to for other containers (this is for documentation purposes only)
+      - 2333
     ports:
-      - 2333:2333 # you only need this if you want to make your lavalink accessible from outside of containers
+      - "2333:2333"
 
   mongodb:
     container_name: mongodb

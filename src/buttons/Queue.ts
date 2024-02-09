@@ -5,10 +5,10 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { FormatDuration } from "../structures/FormatDuration.js";
+import { FormatDuration } from "../utilities/FormatDuration.js";
 
 export default class implements PlayerButton {
   name = "queue";
@@ -53,7 +53,6 @@ export default class implements PlayerButton {
           name: `${client.i18n.get(language, "player", "queue_author", {
             guild: message.guild!.name,
           })}`,
-          iconURL: String(message.guild!.iconURL()),
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
@@ -61,7 +60,7 @@ export default class implements PlayerButton {
           `${client.i18n.get(language, "player", "queue_description", {
             track: song!.title,
             track_url: String(song!.uri),
-            duration: new FormatDuration().parse(position),
+            duration: new FormatDuration().parse(song?.length),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
           })}`

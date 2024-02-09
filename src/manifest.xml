@@ -7,8 +7,9 @@
 
 <metadata>
   <bot>
-    <version>4.2.0</version>
-    <autofix>4.2.0</autofix>
-    <codename>hatsuharu (AzurLane)</codename>
+    <version>5.0.0</version>
+    <autofix>5.0.0</autofix>
+    <kazagumo>3.0.0</kazagumo>
+    <codename>vocaloid_kaito</codename>
   </bot>
 </metadata>

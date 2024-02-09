@@ -1,4 +1,4 @@
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { TrackExceptionEvent } from "shoukaku";
 import { TextChannel } from "discord.js";
@@ -21,6 +21,13 @@ export default class {
         "Player get exception, please contact with owner to fix this error"
       );
     }
-    await player.destroy();
+
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
+    }
   }
 }

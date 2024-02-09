@@ -4,15 +4,15 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import {
   playerRowOne,
   playerRowOneEdited,
   playerRowTwo,
-} from "../utilities/PlayerControlButton.js";
-import { ReplyInteractionService } from "../utilities/ReplyInteractionService.js";
+} from "../assets/PlayerControlButton.js";
+import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 
 export default class implements PlayerButton {
   name = "pause";
@@ -27,12 +27,10 @@ export default class implements PlayerButton {
     if (!player) {
       collector.stop();
     }
-    await player.pause(!player.paused);
-    const uni = player.paused
-      ? `${client.i18n.get(language, "player", "switch_pause")}`
-      : `${client.i18n.get(language, "player", "switch_resume")}`;
 
-    player.paused
+    const newPlayer = await player.pause(!player.paused);
+
+    newPlayer.paused
       ? nplaying.edit({
           components: [playerRowOneEdited, playerRowTwo],
         })
@@ -43,9 +41,11 @@ export default class implements PlayerButton {
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "pause_msg", {
-        pause: uni,
-      })}`
+      `${client.i18n.get(
+        language,
+        "player",
+        newPlayer.paused ? "pause_msg" : "resume_msg"
+      )}`
     );
 
     client.emit("playerPause", player);

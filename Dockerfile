@@ -1,13 +1,14 @@
-FROM node:latest
+FROM node:alpine
 # Create the bot's directory
 RUN mkdir -p /main/bot
 WORKDIR /main/bot
 ENV NODE_PATH=/usr/local/lib/node_modules
 COPY package.json /main/bot
 COPY tsconfig.json /main/bot
-RUN npm i -g pnpm
-RUN pnpm i
+RUN npm i
 COPY . /main/bot
-LABEL name="byteblaze" version="1.5"
+ENV NODE_PATH=/usr/local/lib/node_modules
+LABEL name="byteblaze" version="5.0"
 # Start the bot.
-CMD ["npm", "run", "start:docker"]
+RUN npm run build:full
+CMD ["npm", "run", "start"]

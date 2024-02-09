@@ -4,10 +4,10 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { ReplyInteractionService } from "../utilities/ReplyInteractionService.js";
+import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 
 export default class implements PlayerButton {
   name = "volup";

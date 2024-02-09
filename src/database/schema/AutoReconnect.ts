@@ -1,5 +1,3 @@
-import { KazagumoTrack } from "kazagumo.mod";
-
 export interface AutoReconnect {
   guild: string;
   text: string;
@@ -10,5 +8,6 @@ export interface AutoReconnect {
     volume: number;
   };
   queue: string[];
+  previous: string[];
   twentyfourseven: boolean;
 }

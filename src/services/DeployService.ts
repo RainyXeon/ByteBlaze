@@ -4,12 +4,7 @@ import chillout from "chillout";
 import { makeSureFolderExists } from "stuffs";
 import path from "path";
 import readdirRecursive from "recursive-readdir";
-import {
-  ApplicationCommandOptionType,
-  ApplicationCommandManager,
-  ApplicationCommandDataResolvable,
-  REST,
-} from "discord.js";
+import { ApplicationCommandOptionType, REST } from "discord.js";
 import {
   CommandInterface,
   UploadCommandInterface,
@@ -30,38 +25,27 @@ export class DeployService {
   async combineDir() {
     let store: CommandInterface[] = [];
 
-    let interactionsFolder = path.resolve(
-      join(__dirname, "..", "commands", "slash")
-    );
-
-    let contextsFolder = path.resolve(
-      join(__dirname, "..", "commands", "context")
-    );
+    let interactionsFolder = path.resolve(join(__dirname, "..", "commands"));
 
     await makeSureFolderExists(interactionsFolder);
-    await makeSureFolderExists(contextsFolder);
 
     let interactionFilePaths = await readdirRecursive(interactionsFolder);
-    let contextFilePaths = await readdirRecursive(contextsFolder);
 
     interactionFilePaths = interactionFilePaths.filter((i: string) => {
       let state = path.basename(i).startsWith("-");
       return !state;
     });
 
-    contextFilePaths = contextFilePaths.filter((i: string) => {
-      let state = path.basename(i).startsWith("-");
-      return !state;
-    });
-
-    const fullPath = interactionFilePaths.concat(contextFilePaths);
-
-    await chillout.forEach(fullPath, async (interactionFilePath: string) => {
-      const cmd = new (
-        await import(pathToFileURL(interactionFilePath).toString())
-      ).default();
-      return store.push(cmd);
-    });
+    await chillout.forEach(
+      interactionFilePaths,
+      async (interactionFilePath: string) => {
+        const cmd = new (
+          await import(pathToFileURL(interactionFilePath).toString())
+        ).default();
+        cmd.usingInteraction ? store.push(cmd) : true;
+        return;
+      }
+    );
 
     return store;
   }

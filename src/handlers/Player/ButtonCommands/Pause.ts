@@ -5,7 +5,7 @@ import {
   VoiceBasedChannel,
 } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "kazagumo.mod";
+import { KazagumoPlayer } from "../../../lib/main.js";
 
 export class ButtonPause {
   client: Manager;
@@ -77,12 +77,9 @@ export class ButtonPause {
       );
       if (!playMsg) return;
 
-      await this.player.pause(!this.player.paused);
-      const uni = this.player.paused
-        ? `${this.client.i18n.get(this.language, "player", "switch_pause")}`
-        : `${this.client.i18n.get(this.language, "player", "switch_resume")}`;
+      const newPlayer = await this.player.pause(!this.player.paused);
 
-      this.player.paused
+      newPlayer.paused
         ? playMsg.edit({
             // content: playMsg.content,
             // embeds: new EmbedBuilder(playMsg.embeds),
@@ -96,9 +93,11 @@ export class ButtonPause {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "player", "pause_msg", {
-            pause: uni,
-          })}`
+          `${this.client.i18n.get(
+            this.language,
+            "player",
+            newPlayer.paused ? "pause_msg" : "resume_msg"
+          )}`
         )
         .setColor(this.client.color);
 

@@ -1,4 +1,4 @@
-import { KazagumoPlayer, KazagumoTrack } from "kazagumo.mod";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { TextChannel, EmbedBuilder } from "discord.js";
 
@@ -27,7 +27,10 @@ export default class {
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${channel.guild.id}`, "en");
+      guildModel = await client.db.language.set(
+        `${channel.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
     }
 
     const language = guildModel;
@@ -37,9 +40,11 @@ export default class {
       .setDescription(`${client.i18n.get(language, "player", "error_desc")}`);
 
     if (channel) {
+      const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => msg.delete(),
+        async () =>
+          setup && setup.channel !== player.textId ? msg.delete() : true,
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }
@@ -47,6 +52,13 @@ export default class {
     client.logger.error(
       `Track Error in ${guild!.name} / ${player.guildId}. Auto-Leaved!`
     );
-    await player.destroy();
+
+    const currentPlayer = (await client.manager.getPlayer(
+      player.guildId
+    )) as KazagumoPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.voiceId !== null) {
+      await player.destroy();
+    }
   }
 }
