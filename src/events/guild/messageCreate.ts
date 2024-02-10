@@ -99,6 +99,10 @@ export default class {
       client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
 
+    const setup = await client.db.setup.get(String(message.guildId));
+
+    if (setup && setup.channel == message.channelId) return;
+
     //////////////////////////////// Ratelimit check start ////////////////////////////////
     const ratelimit = commandRateLimitManager.acquire(
       `${message.author.id}@${command.name.join("-")}`
