@@ -43,7 +43,8 @@ export default class implements Command {
     let player = client.manager.players.get(
       handler.guild!.id
     ) as KazagumoPlayer;
-    const value = handler.args[0];
+
+    const value = handler.args.join(" ");
 
     if (!value)
       return handler.editReply({
