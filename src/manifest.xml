@@ -7,9 +7,9 @@
 
 <metadata>
   <bot>
-    <version>5.0.0</version>
-    <autofix>5.0.0</autofix>
-    <kazagumo>3.0.0</kazagumo>
+    <version>5.0.1</version>
+    <autofix>5.0.1</autofix>
+    <kazagumo>3.0.1</kazagumo>
     <codename>vocaloid_kaito</codename>
   </bot>
 </metadata>

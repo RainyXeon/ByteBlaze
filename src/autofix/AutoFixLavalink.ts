@@ -7,8 +7,10 @@ const regex =
 
 export class AutoFixLavalink {
   client: Manager;
-  constructor(client: Manager) {
+  lavalinkName: string;
+  constructor(client: Manager, lavalinkName: string) {
     this.client = client;
+    this.lavalinkName = lavalinkName;
     this.execute();
   }
 
@@ -37,7 +39,8 @@ export class AutoFixLavalink {
       this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
       return;
     }
-    const nodeInfo = await this.applyNewLavalink();
+
+    await this.applyNewLavalink();
 
     this.client.logger.lavalink(
       "Now used new lavalink, please wait 1 second to make it connect."
@@ -64,36 +67,39 @@ export class AutoFixLavalink {
   }
 
   async removeCurrentLavalink() {
+    const lavalinkIndex = this.client.lavalinkUsing.findIndex(
+      (data) => data.name == this.lavalinkName
+    );
+    const targetLavalink = this.client.lavalinkUsing[lavalinkIndex];
     if (
       this.client.manager.shoukaku.nodes.size == 0 &&
       this.client.lavalinkUsing.length != 0
     ) {
-      this.client.lavalinkUsed.push(this.client.lavalinkUsing[0]);
-      this.client.lavalinkUsing.splice(0, 1);
+      this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     } else if (
       this.client.manager.shoukaku.nodes.size !== 0 &&
       this.client.lavalinkUsing.length !== 0
     ) {
-      this.client.lavalinkUsed.push(this.client.lavalinkUsing[0]);
-      await this.client.manager.shoukaku.removeNode(
-        this.client.lavalinkUsing[0].name
+      const isLavalinkExist = this.client.manager.shoukaku.nodes.has(
+        targetLavalink.name
       );
-      this.client.lavalinkUsing.splice(0, 1);
+      if (isLavalinkExist)
+        await this.client.manager.shoukaku.removeNode(targetLavalink.name);
+      this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     }
   }
 
   async applyNewLavalink() {
-    const online_list: LavalinkDataType[] = [];
+    const onlineList: LavalinkDataType[] = [];
 
     this.client.lavalinkList.filter(async (data) => {
-      if (data.online == true) return online_list.push(data);
+      if (data.online == true) return onlineList.push(data);
     });
 
-    const nodeInfo =
-      online_list[Math.floor(Math.random() * online_list.length)];
+    const nodeInfo = onlineList[Math.floor(Math.random() * onlineList.length)];
 
     const newNodeInfo = {
-      name: `${nodeInfo.host}:${nodeInfo.port}`,
+      name: `${nodeInfo.host.replace(/[^A-Z0-9]+/gi, "_")}`,
       url: `${nodeInfo.host}:${nodeInfo.port}`,
       auth: nodeInfo.pass,
       secure: nodeInfo.secure,

@@ -33,7 +33,16 @@ lavalink:
   DEFAULT_VOLUME: 100 # Must not over 1000 or bot crash
 
   # You can add more Lavalink servers!
-  NODES: [{ url: "IP:Port", name: "Name", auth: "Password", secure: false }]
+  NODES:
+    - url: "IP:Port"
+      name: "Name" #only a-z A-Z 0-9 and _
+      auth: "Password"
+      secure: false
+
+    # - url: "IP:Port"
+    #   name: "Name"
+    #   auth: "Password"
+    #   secure: false
 
 features:
   DATABASE:
