@@ -13,7 +13,7 @@ export default class {
     if (players) players.map((player: KazagumoPlayer) => player.destroy());
     client.logger.debug(`Lavalink ${name}: Disconnected`);
     if (client.config.features.AUTOFIX_LAVALINK.enable) {
-      new AutoFixLavalink(client);
+      new AutoFixLavalink(client, name);
     }
   }
 }

@@ -291,6 +291,12 @@ export class Kazagumo extends EventEmitter {
   ) {
     super();
 
+    if (!this.precheckNode(nodes))
+      throw new KazagumoError(
+        1,
+        "Node name must not have the same name and just include a-z, A-Z, 0-9 and _"
+      );
+
     this.shoukaku = new Shoukaku(connector, nodes, options);
 
     if (this.KazagumoOptions.plugins) {
@@ -305,6 +311,15 @@ export class Kazagumo extends EventEmitter {
     }
 
     this.players = new Map<string, KazagumoPlayer>();
+  }
+
+  protected precheckNode(node: NodeOption[]) {
+    const regex = /^[a-zA-Z0-9_.-]*$/;
+    for (const data of node) {
+      if (!regex.test(data.name)) return false;
+      if (node.filter((e) => e.name === data.name).length > 1) return false;
+    }
+    return true;
   }
 
   // Modified version of Shoukaku#joinVoiceChannel
