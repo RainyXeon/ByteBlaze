@@ -20,6 +20,7 @@ import { RequestInterface } from "../webserver/RequestInterface.js";
 import { KazagumoPlayer } from "../lib/main.js";
 import { IconType } from "./Emoji.js";
 import { ClusterClient } from "discord-hybrid-sharding";
+import WebSocket from "ws";
 
 export interface ByteBlaze extends Client {
   metadata: Metadata;
@@ -45,13 +46,13 @@ export interface ByteBlaze extends Client {
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
-  websocket: WebSocket | undefined;
-  wsMessage?: Collection<string, RequestInterface>;
-  UpdateMusic?: (player: KazagumoPlayer) => Promise<void | Message<true>>;
-  UpdateQueueMsg?: (player: KazagumoPlayer) => Promise<void | Message<true>>;
-  enSwitch?: ActionRowBuilder<ButtonBuilder>;
-  diSwitch?: ActionRowBuilder<ButtonBuilder>;
-  enSwitchMod?: ActionRowBuilder<ButtonBuilder>;
+  websocket?: WebSocket;
+  wsMessage: Collection<string, RequestInterface>;
+  UpdateMusic: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  UpdateQueueMsg: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  enSwitch: ActionRowBuilder<ButtonBuilder>;
+  diSwitch: ActionRowBuilder<ButtonBuilder>;
+  enSwitchMod: ActionRowBuilder<ButtonBuilder>;
   icons: IconType;
   cluster?: ClusterClient<Client>;
   REGEX: RegExp[];
