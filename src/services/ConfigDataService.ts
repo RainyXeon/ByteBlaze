@@ -14,14 +14,16 @@ export class ConfigDataService {
       // Change lavalink data
       const lavalink_changedata = res.lavalink.NODES[0];
       lavalink_changedata.url = String(process.env.NODE_URL);
-      lavalink_changedata.name = String(process.env.NODE_URL);
+      lavalink_changedata.name = "node_1";
       lavalink_changedata.auth = String(process.env.NODE_AUTH);
       lavalink_changedata.secure = false;
 
-      // Change db data
-      const db_chnagedata = res.features.DATABASE;
-      if (db_chnagedata.driver == "mongodb") {
-        db_chnagedata.config.uri = String(process.env.MONGO_URI);
+      if (process.env.DOCKER_COMPOSE_DATABASE) {
+        // Change db data
+        const db_chnagedata = res.features.DATABASE;
+        if (db_chnagedata.driver == "mongodb") {
+          db_chnagedata.config.uri = String(process.env.MONGO_URI);
+        }
       }
     }
 
