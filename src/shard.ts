@@ -10,11 +10,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 process.env.IS_SHARING = "true";
 
 const manager = new ClusterManager(join(__dirname, "index.js"), {
-  totalShards: 7, // or 'auto'
-  /// Check below for more options
-  shardsPerClusters: 2,
-  // totalClusters: 7,
-  mode: "process", // you can also choose "worker"
+  totalShards: "auto",
+  shardsPerClusters: 3,
+  totalClusters: "auto",
+  mode: "worker",
   token: new ConfigDataService().data.bot.TOKEN,
 });
 

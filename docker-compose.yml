@@ -45,6 +45,7 @@ services:
       - lavalink
       - mongodb
     environment:
+      - DOCKER_COMPOSE_DATABASE=true
       - DOCKER_COMPOSE_MODE=true
       # Database
       - MONGO_URI=mongodb://byteblaze:cylane@mongodb:27017/streamhatchet?directConnection=true&authSource=admin&replicaSet=replicaset&retryWrites=true
