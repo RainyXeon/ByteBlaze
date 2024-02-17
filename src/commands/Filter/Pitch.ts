@@ -38,7 +38,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "number_invalid")}`
+              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
             )
             .setColor(client.color),
         ],
@@ -65,7 +65,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "filters", "filter_less")}`
+              `${client.i18n.get(handler.language, "command.filter", "filter_less")}`
             )
             .setColor(client.color),
         ],
@@ -86,7 +86,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "pitch_on", {
+        `${client.i18n.get(handler.language, "command.filter", "pitch_on", {
           amount: value,
         })}`
       )

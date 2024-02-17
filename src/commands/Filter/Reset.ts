@@ -27,7 +27,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "filters", "reset_already")}`
+              `${client.i18n.get(handler.language, "command.filter", "reset_already")}`
             )
             .setColor(client.color),
         ],
@@ -47,7 +47,7 @@ export default class implements Command {
 
     const resetted = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "reset_on")}`
+        `${client.i18n.get(handler.language, "command.filter", "reset_on")}`
       )
       .setColor(client.color);
 

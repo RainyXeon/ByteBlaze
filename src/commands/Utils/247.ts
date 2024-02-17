@@ -53,7 +53,7 @@ export default class implements Command {
       if (!data.twentyfourseven) {
         const offAl = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(handler.language, "music", "247_off_already")}`
+            `${client.i18n.get(handler.language, "command.utils", "247_already", { mode: handler.modeLang.disable })}`
           )
           .setColor(client.color);
         return handler.editReply({ content: " ", embeds: [offAl] });
@@ -72,7 +72,7 @@ export default class implements Command {
 
       const on = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "247_off")}`
+          `${client.i18n.get(handler.language, "command.utils", "247_off")}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [on] });
@@ -83,11 +83,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "noplayer",
-                  "no_voice_247"
-                )}`
+                `${client.i18n.get(handler.language, "error", "no_in_voice")}`
               )
               .setColor(client.color),
           ],
@@ -96,7 +92,7 @@ export default class implements Command {
       if (data.twentyfourseven) {
         const onAl = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(handler.language, "music", "247_on_already")}`
+            `${client.i18n.get(handler.language, "command.utils", "247_already", { mode: handler.modeLang.enable })}`
           )
           .setColor(client.color);
         return handler.editReply({ content: " ", embeds: [onAl] });
@@ -123,14 +119,14 @@ export default class implements Command {
 
       const on = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "247_on")}`
+          `${client.i18n.get(handler.language, "command.utils", "247_on")}`
         )
         .setColor(client.color);
       return handler.editReply({ content: " ", embeds: [on] });
     } else {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "arg_error", {
+          `${client.i18n.get(handler.language, "error", "arg_error", {
             text: "**enable** or **disable**!",
           })}`
         )

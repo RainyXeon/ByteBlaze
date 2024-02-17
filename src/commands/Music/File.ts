@@ -44,7 +44,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "file_notfound")}`
+              `${client.i18n.get(handler.language, "command.music", "file_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -110,7 +110,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "play_match")}`
+              `${client.i18n.get(handler.language, "command.music", "play_match")}`
             )
             .setColor(client.color),
         ],
@@ -130,13 +130,18 @@ export default class implements Command {
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "play_playlist", {
-            title: file.name,
-            url: file.url,
-            duration: new ConvertTime().parse(TotalDuration),
-            songs: String(tracks.length),
-            request: String(tracks[0].requester),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.music",
+            "play_playlist",
+            {
+              title: file.name,
+              url: file.url,
+              duration: new ConvertTime().parse(TotalDuration),
+              songs: String(tracks.length),
+              request: String(tracks[0].requester),
+            }
+          )}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
@@ -144,7 +149,7 @@ export default class implements Command {
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "play_track", {
+          `${client.i18n.get(handler.language, "command.music", "play_track", {
             title: file.name,
             url: file.url,
             duration: new ConvertTime().parse(tracks[0].length as number),
@@ -156,7 +161,7 @@ export default class implements Command {
       if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(handler.language, "music", "play_result", {
+        `${client.i18n.get(handler.language, "command.music", "play_result", {
           title: file.name,
           url: file.url,
           duration: new ConvertTime().parse(tracks[0].length as number),
@@ -170,7 +175,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "play_match")}`
+              `${client.i18n.get(handler.language, "command.music", "play_match")}`
             )
             .setColor(client.color),
         ],

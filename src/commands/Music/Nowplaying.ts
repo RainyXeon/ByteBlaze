@@ -111,8 +111,8 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "music", "np_title")}`,
-        iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
+        name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+        iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
       .setDescription(`**[${song!.title}](${song!.uri})**`)
@@ -163,8 +163,8 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(handler.language, "music", "np_title")}`,
-            iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
+            name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+            iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
           .setDescription(`**[${song!.title}](${song!.uri})**`)

@@ -1,12 +1,7 @@
-### 24/7 command!
-247_on: "`✅` | 24/7 mode is now **%{mode}**!"
-247_off: "`❌` | 24/7 mode is now **%{mode}**!"
-247_on_already: "`⚠️` | 24/7 mode is already **%{mode}**!"
-247_off_already: "`⚠️` | 24/7 mode is already **%{mode}**!"
-
 ### Autoplay command!
-autoplay_on: "`✅` | Autoplay is now **%{mode}**!"
-autoplay_off: "`❌` | Autoplay is now **%{mode}**!"
+autoplay_on: "`✅` | Autoplay is now **Enabled**!"
+autoplay_off: "`❌` | Autoplay is now **Disabled**!"
+autoplay_already: "`⚠️` | Autoplay is already **%{mode}**!"
 
 ### ClearQueue command!
 clearqueue_msg: "`🗑️` | Queue has been **Cleared**!"

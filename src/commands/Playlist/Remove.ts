@@ -51,7 +51,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "number_invalid")}`
+              `${client.i18n.get(handler.language, "error", "number_invalid")}`
             )
             .setColor(client.color),
         ],

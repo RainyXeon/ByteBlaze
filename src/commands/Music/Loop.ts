@@ -61,9 +61,14 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "loop_invalid", {
-                mode: this.changeBold(mode_array).join(", "),
-              })}`
+              `${client.i18n.get(
+                handler.language,
+                "command.music",
+                "loop_invalid",
+                {
+                  mode: this.changeBold(mode_array).join(", "),
+                }
+              )}`
             )
             .setColor(client.color),
         ],
@@ -74,9 +79,14 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "loop_already", {
-                mode: mode,
-              })}`
+              `${client.i18n.get(
+                handler.language,
+                "command.music",
+                "loop_already",
+                {
+                  mode: mode,
+                }
+              )}`
             )
             .setColor(client.color),
         ],
@@ -88,7 +98,7 @@ export default class implements Command {
 
       const looped = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "loop_current")}`
+          `${client.i18n.get(handler.language, "command.music", "loop_current")}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
@@ -98,7 +108,7 @@ export default class implements Command {
 
       const looped_queue = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "loop_all")}`
+          `${client.i18n.get(handler.language, "command.music", "loop_all")}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped_queue] });
@@ -108,7 +118,7 @@ export default class implements Command {
 
       const looped = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "unloop_all")}`
+          `${client.i18n.get(handler.language, "command.music", "unloop_all")}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });

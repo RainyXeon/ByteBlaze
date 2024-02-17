@@ -33,7 +33,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "number_invalid")}`
+              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
             )
             .setColor(client.color),
         ],
@@ -44,12 +44,12 @@ export default class implements Command {
     if (!value) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "filters", "eq_author")}`,
-          iconURL: `${client.i18n.get(handler.language, "filters", "eq_icon")}`,
+          name: `${client.i18n.get(handler.language, "command.filter", "eq_author")}`,
+          iconURL: `${client.i18n.get(handler.language, "command.filter", "eq_icon")}`,
         })
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "filters", "eq_desc")}`
+          `${client.i18n.get(handler.language, "command.filter", "eq_desc")}`
         )
         .addFields({
           name: `${client.i18n.get(
@@ -68,9 +68,14 @@ export default class implements Command {
           inline: false,
         })
         .setFooter({
-          text: `${client.i18n.get(handler.language, "filters", "eq_footer", {
-            prefix: handler.prefix,
-          })}`,
+          text: `${client.i18n.get(
+            handler.language,
+            "command.filter",
+            "eq_footer",
+            {
+              prefix: handler.prefix,
+            }
+          )}`,
         });
       return handler.editReply({ embeds: [embed] });
     } else if (value == "off" || value == "reset") {
@@ -92,7 +97,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "filters", "eq_number")}`
+                `${client.i18n.get(handler.language, "command.filter", "eq_number")}`
               )
               .setColor(client.color),
           ],
@@ -102,7 +107,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "filters", "eq_than")}`
+                `${client.i18n.get(handler.language, "command.filter", "eq_than")}`
               )
               .setColor(client.color),
           ],
@@ -113,7 +118,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "filters", "eq_greater")}`
+                `${client.i18n.get(handler.language, "command.filter", "eq_greater")}`
               )
               .setColor(client.color),
           ],
@@ -138,7 +143,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "eq_on", {
+        `${client.i18n.get(handler.language, "command.filter", "eq_on", {
           bands: bandsStr,
         })}`
       )

@@ -62,7 +62,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "arg_error", {
+              `${client.i18n.get(handler.language, "error", "arg_error", {
                 text: "**daily**, **weekly**, **monthly**, **yearly**!",
               })}`
             )
@@ -74,7 +74,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "arg_error", {
+              `${client.i18n.get(handler.language, "error", "arg_error", {
                 text: "**Number**!",
               })}`
             )

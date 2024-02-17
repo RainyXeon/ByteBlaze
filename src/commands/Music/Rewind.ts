@@ -42,7 +42,7 @@ export default class implements Command {
 
       const rewind2 = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "rewind_msg", {
+          `${client.i18n.get(handler.language, "command.music", "rewind_msg", {
             duration: CurrentDuration,
           })}`
         )
@@ -54,7 +54,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "rewind_beyond")}`
+              `${client.i18n.get(handler.language, "command.music", "rewind_beyond")}`
             )
             .setColor(client.color),
         ],

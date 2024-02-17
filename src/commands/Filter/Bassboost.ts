@@ -37,7 +37,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "filters", "filter_number")}`
+              `${client.i18n.get(handler.language, "command.filter", "filter_number")}`
             )
             .setColor(client.color),
         ],
@@ -74,7 +74,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "filters", "filter_on", {
+          `${client.i18n.get(handler.language, "command.filter", "filter_on", {
             name: "Bassboost",
           })}`
         )
@@ -127,9 +127,14 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "bassboost_set", {
-          amount: value,
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.filter",
+          "bassboost_set",
+          {
+            amount: value,
+          }
+        )}`
       )
       .setColor(client.color);
 

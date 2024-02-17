@@ -28,7 +28,7 @@ export default class implements Command {
     if (player.queue.size == 0) {
       const skipped = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "skip_notfound")}`
+          `${client.i18n.get(handler.language, "command.music", "skip_notfound")}`
         )
         .setColor(client.color);
 
@@ -38,7 +38,7 @@ export default class implements Command {
 
       const skipped = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "skip_msg")}`
+          `${client.i18n.get(handler.language, "command.music", "skip_msg")}`
         )
         .setColor(client.color);
 

@@ -70,7 +70,7 @@ export default class implements Command {
 
     const tbed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "filter_on", {
+        `${client.i18n.get(handler.language, "command.filter", "filter_on", {
           name: this.name[0],
         })}`
       )

@@ -20,6 +20,12 @@ unexpected_error: "`⚠️` | Something went wrong. Please try again later!"
 # Client owner!
 owner_only: "`⚠️` | You are not my **Owner**!"
 
-### No premium Event!
+# No premium Event!
 no_premium_author: "Premium"
 no_premium_desc: "`⚠️` | You are not a Premium user!"
+
+# Rate limit!
+ratelimit: "`⚠️` | You are performing actions too quickly. Please wait for **%{time} Seconds**!"
+
+# Missing args
+arg_error: "`⚠️` | Invalid argument. Please use %{text}"

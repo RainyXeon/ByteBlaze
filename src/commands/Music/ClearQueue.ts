@@ -25,7 +25,7 @@ export default class implements Command {
 
     const cleared = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "clearqueue_msg")}`
+        `${client.i18n.get(handler.language, "command.music", "clearqueue_msg")}`
       )
       .setColor(client.color);
     await handler.editReply({ content: " ", embeds: [cleared] });

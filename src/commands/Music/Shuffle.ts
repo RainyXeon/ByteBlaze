@@ -60,26 +60,36 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "music", "shuffle_msg")}`,
+          name: `${client.i18n.get(handler.language, "command.music", "shuffle_msg")}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "queue_description", {
-            title: String(song!.title),
-            url: String(song!.uri),
-            request: String(song!.requester),
-            duration: new FormatDuration().parse(song!.length),
-            rest: str == "" ? "  Nothing" : "\n" + str,
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.music",
+            "queue_description",
+            {
+              title: String(song!.title),
+              url: String(song!.uri),
+              request: String(song!.requester),
+              duration: new FormatDuration().parse(song!.length),
+              rest: str == "" ? "  Nothing" : "\n" + str,
+            }
+          )}`
         )
         .setFooter({
-          text: `${client.i18n.get(handler.language, "music", "queue_footer", {
-            page: String(i + 1),
-            pages: String(pagesNum),
-            queue_lang: String(newQueue.length),
-            duration: qduration,
-          })}`,
+          text: `${client.i18n.get(
+            handler.language,
+            "command.music",
+            "queue_footer",
+            {
+              page: String(i + 1),
+              pages: String(pagesNum),
+              queue_lang: String(newQueue.length),
+              duration: qduration,
+            }
+          )}`,
         });
 
       pages.push(embed);
