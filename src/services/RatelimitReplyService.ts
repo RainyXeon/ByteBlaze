@@ -41,7 +41,11 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
-      if (this.interaction.channelId !== setup?.channel)
+      if (
+        !setup ||
+        setup == null ||
+        setup.channel !== this.interaction.channelId
+      )
         setTimeout(
           () => msg.delete(),
           this.client.config.bot.DELETE_MSG_TIMEOUT
@@ -63,7 +67,7 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
-      if (this.button.channelId !== setup?.channel)
+      if (!setup || setup == null || setup.channel !== this.button.channelId)
         setTimeout(
           () => msg.delete(),
           this.client.config.bot.DELETE_MSG_TIMEOUT
@@ -85,7 +89,7 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
-      if (this.message.channelId !== setup?.channel)
+      if (!setup || setup == null || setup.channel !== this.message.channelId)
         setTimeout(
           () => msg.delete(),
           this.client.config.bot.DELETE_MSG_TIMEOUT

@@ -74,7 +74,7 @@ export class Manager extends Client {
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",
-      directory: resolve(join(__dirname, "rslp_0.0.3")),
+      directory: resolve(join(__dirname, "languages")),
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shardStatus = false;
