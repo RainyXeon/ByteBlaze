@@ -1,0 +1,20 @@
+### Setup handler!
+setup_queuemsg: "Tham gia vào 1 kênh đàm thoại bất kì và nhập tên hoặc url bài hát vào đây!"
+setup_playembed_author: "Hiện đang không chơi nhạc nào!"
+
+### Update handler!
+setup_author: "Đang chơi"
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "**[%{title}](%{url})** `[%{duration}]` • %{request}"
+setup_footer: "Âm lượng • %{volume}% | Tổng thười lượng • %{duration}"
+setup_content: "**__Danh sách phát:__**"
+setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
+setup_content_empty: "Tham gia vào 1 kênh đàm thoại bất kì và nhập tên hoặc url bài hát vào đây!"
+
+# Play!
+play_track: "`💾` | Đã thêm vào danh sách phát bài **[%{title}](%{url})** `%{duration}` • %{request}"
+play_playlist: "`💾` | Đã thêm vào danh sách phát bài **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
+play_result: "`💾` | Đã thêm vào danh sách phát bài **[%{title}](%{url})** `%{duration}` • %{request}"
+play_arg: "`⚠️` | Vui lòng nhập 1 tên hoặc URL bài hát hợp lệ!"
+play_match: "`⚠️` | Không tìm thấy bài hát!"
+play_emoji: "`⚠️` | Bạn không thế chơi bài hát bằng emoji!"

@@ -29,7 +29,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "filters",
+                "command.filter",
                 "filter_already",
                 {
                   name: this.name[0],

@@ -28,7 +28,7 @@ export default class implements PlayerButton {
       return await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "music", "previous_notfound")}`
+        `${client.i18n.get(language, "button.music", "previous_notfound")}`
       );
 
     player.previous();
@@ -36,7 +36,7 @@ export default class implements PlayerButton {
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "music", "previous_msg")}`
+      `${client.i18n.get(language, "button.music", "previous_msg")}`
     );
     return;
   }

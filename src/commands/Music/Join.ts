@@ -26,7 +26,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "join_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
             )
             .setColor(client.color),
         ],
@@ -76,7 +76,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_same_voice")}`
             )
             .setColor(client.color),
         ],

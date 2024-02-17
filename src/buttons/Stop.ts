@@ -29,7 +29,7 @@ export default class implements PlayerButton {
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "stop_msg")}`
+      `${client.i18n.get(language, "button.music", "stop_msg")}`
     );
   }
 }

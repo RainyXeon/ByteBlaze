@@ -146,7 +146,7 @@ export class playerLoadContent {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "noplayer", "no_voice")}`
+              `${client.i18n.get(language, "error", "no_in_voice")}`
             )
             .setColor(client.color),
         ],
@@ -162,7 +162,7 @@ export class playerLoadContent {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "music", "play_emoji")}`
+              `${client.i18n.get(language, "event.setup", "play_emoji")}`
             )
             .setColor(client.color),
         ],
@@ -187,7 +187,7 @@ export class playerLoadContent {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_voice")}`
+                `${client.i18n.get(language, "error", "no_same_voice")}`
               )
               .setColor(client.color),
           ],
@@ -203,9 +203,9 @@ export class playerLoadContent {
       msg.edit({
         content: `${client.i18n.get(
           language,
-          "setup",
+          "event.setup",
           "setup_content"
-        )}\n${`${client.i18n.get(language, "setup", "setup_content_empty")}`}`,
+        )}\n${`${client.i18n.get(language, "event.setup", "setup_content_empty")}`}`,
       });
       return;
     }
@@ -223,7 +223,7 @@ export class playerLoadContent {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "music", "play_playlist", {
+          `${client.i18n.get(language, "event.setup", "play_playlist", {
             title: result.tracks[0].title,
             url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(TotalDuration),
@@ -237,7 +237,7 @@ export class playerLoadContent {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "music", "play_track", {
+          `${client.i18n.get(language, "event.setup", "play_track", {
             title: result.tracks[0].title,
             url: String(result.tracks[0].uri),
             duration: new ConvertTime().parse(
@@ -251,7 +251,7 @@ export class playerLoadContent {
     } else if (result.type === "SEARCH") {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(language, "music", "play_result", {
+        `${client.i18n.get(language, "event.setup", "play_result", {
           title: result.tracks[0].title,
           url: String(result.tracks[0].uri),
           duration: new ConvertTime().parse(result.tracks[0].length as number),

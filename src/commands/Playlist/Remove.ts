@@ -40,7 +40,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -65,7 +65,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "remove_notfound"
               )}`
             )
@@ -77,7 +77,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "remove_owner")}`
+              `${client.i18n.get(handler.language, "command.playlist", "remove_owner")}`
             )
             .setColor(client.color),
         ],
@@ -92,7 +92,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "remove_song_notfound"
               )}`
             )
@@ -105,10 +105,15 @@ export default class implements Command {
     );
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "playlist", "remove_removed", {
-          name: value,
-          position: pos,
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.playlist",
+          "remove_removed",
+          {
+            name: value,
+            position: pos,
+          }
+        )}`
       )
       .setColor(client.color);
     handler.editReply({ embeds: [embed] });

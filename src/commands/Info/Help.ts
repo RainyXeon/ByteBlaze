@@ -51,14 +51,14 @@ export default class implements Command {
               .setTitle(
                 `${client.i18n.get(
                   handler.language,
-                  "info",
+                  "command.info",
                   "ce_finder_invalid"
                 )}`
               )
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "info",
+                  "command.info",
                   "ce_finder_example",
                   {
                     command: `${handler.prefix}${this.name[0]}`,
@@ -102,11 +102,11 @@ export default class implements Command {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "info", "ce_name")}`,
+        name: `${client.i18n.get(handler.language, "command.info", "ce_name")}`,
       })
       .addFields(embedFieldArray)
       .setFooter({
-        text: `${client.i18n.get(handler.language, "info", "ce_total")} ${
+        text: `${client.i18n.get(handler.language, "command.info", "ce_total")} ${
           client.commands.size
         }`,
         iconURL: client.user!.displayAvatarURL(),
@@ -147,48 +147,48 @@ export default class implements Command {
 
   private transalatedFinder(client: Manager, handler: CommandHandler) {
     return {
-      name: `${client.i18n.get(handler.language, "info", "ce_finder_name")}`,
-      des: `${client.i18n.get(handler.language, "info", "ce_finder_des")}`,
-      usage: `${client.i18n.get(handler.language, "info", "ce_finder_usage")}`,
+      name: `${client.i18n.get(handler.language, "command.info", "ce_finder_name")}`,
+      des: `${client.i18n.get(handler.language, "command.info", "ce_finder_des")}`,
+      usage: `${client.i18n.get(handler.language, "command.info", "ce_finder_usage")}`,
       access: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_access"
       )}`,
       aliases: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_aliases"
       )}`,
-      slash: `${client.i18n.get(handler.language, "info", "ce_finder_slash")}`,
+      slash: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash")}`,
       desNone: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_des_no"
       )}`,
       usageNone: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_usage_no"
       )}`,
       aliasesPrefix: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_aliases_prefix"
       )}`,
       aliasesNone: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_aliases_no"
       )}`,
       slashEnable: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_slash_enable"
       )}`,
       slashDisable: `${client.i18n.get(
         handler.language,
-        "info",
+        "command.info",
         "ce_finder_slash_disable"
       )}`,
     };

@@ -27,7 +27,7 @@ export default class implements PlayerButton {
       return await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "music", "skip_notfound")}`
+        `${client.i18n.get(language, "button.music", "skip_notfound")}`
       );
 
     player.skip();
@@ -37,7 +37,7 @@ export default class implements PlayerButton {
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "skip_msg")}`
+      `${client.i18n.get(language, "button.music", "skip_msg")}`
     );
   }
 }

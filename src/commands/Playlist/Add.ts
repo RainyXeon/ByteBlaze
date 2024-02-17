@@ -53,7 +53,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -68,7 +68,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "add_match")}`
+              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
             )
             .setColor(client.color),
         ],
@@ -84,7 +84,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "add_match")}`
+              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
             )
             .setColor(client.color),
         ],
@@ -99,37 +99,52 @@ export default class implements Command {
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "playlist", "add_playlist", {
-            title: tracks[0].title,
-            url: Inputed,
-            duration: new ConvertTime().parse(TotalDuration),
-            track: String(tracks.length),
-            user: String(handler.user),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.playlist",
+            "add_playlist",
+            {
+              title: tracks[0].title,
+              url: Inputed,
+              duration: new ConvertTime().parse(TotalDuration),
+              track: String(tracks.length),
+              user: String(handler.user),
+            }
+          )}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "playlist", "add_track", {
-            title: tracks[0].title,
-            url: String(tracks[0].uri),
-            duration: Duration,
-            user: String(handler.user),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.playlist",
+            "add_track",
+            {
+              title: tracks[0].title,
+              url: String(tracks[0].uri),
+              duration: Duration,
+              user: String(handler.user),
+            }
+          )}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "playlist", "add_search", {
-            title: tracks[0].title,
-            url: String(tracks[0].uri),
-            duration: Duration,
-            user: String(handler.user),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.playlist",
+            "add_search",
+            {
+              title: tracks[0].title,
+              url: String(tracks[0].uri),
+              duration: Duration,
+              user: String(handler.user),
+            }
+          )}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
@@ -139,7 +154,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "add_match")}`
+              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
             )
             .setColor(client.color),
         ],
@@ -153,7 +168,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -164,7 +179,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "add_owner")}`
+              `${client.i18n.get(handler.language, "command.playlist", "add_owner")}`
             )
             .setColor(client.color),
         ],
@@ -181,7 +196,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "add_limit_track",
                 {
                   limit: String(client.config.bot.LIMIT_TRACK),
@@ -208,7 +223,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "playlist", "add_added", {
+        `${client.i18n.get(handler.language, "command.playlist", "add_added", {
           count: String(TrackAdd.length),
           playlist: value,
         })}`
@@ -251,8 +266,8 @@ export default class implements Command {
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.i18n.get(language, "music", "no_node")}`,
-        value: `${client.i18n.get(language, "music", "no_node")}`,
+        name: `${client.i18n.get(language, "error", "no_node")}`,
+        value: `${client.i18n.get(language, "error", "no_node")}`,
       });
       return;
     }

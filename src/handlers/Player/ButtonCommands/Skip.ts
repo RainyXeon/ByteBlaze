@@ -29,7 +29,7 @@ export class ButtonSkip {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_in_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -43,7 +43,7 @@ export class ButtonSkip {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_same_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -54,7 +54,7 @@ export class ButtonSkip {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_player")}`
+              `${this.client.i18n.get(this.language, "error", "no_player")}`
             )
             .setColor(this.client.color),
         ],
@@ -66,7 +66,7 @@ export class ButtonSkip {
     if (this.player.queue.size == 0) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "music", "skip_notfound")}`
+          `${this.client.i18n.get(this.language, "button.music", "skip_notfound")}`
         )
         .setColor(this.client.color);
 
@@ -76,7 +76,7 @@ export class ButtonSkip {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "music", "skip_msg")}`
+          `${this.client.i18n.get(this.language, "button.music", "skip_msg")}`
         )
         .setColor(this.client.color);
 

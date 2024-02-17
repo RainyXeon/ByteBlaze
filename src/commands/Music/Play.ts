@@ -63,7 +63,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
             )
             .setColor(client.color),
         ],
@@ -180,7 +180,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_same_voice")}`
             )
             .setColor(client.color),
         ],
@@ -223,8 +223,8 @@ export default class implements Command {
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.i18n.get(language, "music", "no_node")}`,
-        value: `${client.i18n.get(language, "music", "no_node")}`,
+        name: `${client.i18n.get(language, "command.music", "no_node")}`,
+        value: `${client.i18n.get(language, "command.music", "no_node")}`,
       });
       return;
     }

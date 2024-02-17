@@ -154,7 +154,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "music",
+                  "command.music",
                   "queue_notnumber"
                 )}`
               )
@@ -168,7 +168,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "music",
+                  "command.music",
                   "queue_page_notfound",
                   {
                     page: String(pagesNum),

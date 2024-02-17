@@ -38,7 +38,7 @@ export class ButtonPause {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_in_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -52,7 +52,7 @@ export class ButtonPause {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_same_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -63,7 +63,7 @@ export class ButtonPause {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_player")}`
+              `${this.client.i18n.get(this.language, "error", "no_player")}`
             )
             .setColor(this.client.color),
         ],
@@ -95,7 +95,7 @@ export class ButtonPause {
         .setDescription(
           `${this.client.i18n.get(
             this.language,
-            "player",
+            "button.music",
             newPlayer.paused ? "pause_msg" : "resume_msg"
           )}`
         )

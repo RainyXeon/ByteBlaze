@@ -29,17 +29,22 @@ export default class implements Command {
       .setAuthor({
         name: `${client.i18n.get(
           handler.language,
-          "premium",
+          "command.premium",
           "profile_author"
         )}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "premium", "profile_desc", {
-          user: String(handler.user?.tag),
-          plan: PremiumPlan!.plan,
-          expires: expires,
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.premium",
+          "profile_desc",
+          {
+            user: String(handler.user?.tag),
+            plan: PremiumPlan!.plan,
+            expires: expires,
+          }
+        )}`
       )
       .setColor(client.color)
       .setTimestamp();

@@ -52,7 +52,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "music",
+                "command.music",
                 "removetrack_already"
               )}`
             )
@@ -66,7 +66,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "music",
+                "command.music",
                 "removetrack_notfound"
               )}`
             )

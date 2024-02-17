@@ -1,0 +1,20 @@
+### Generate command!
+gen_author: "Tạo key gói dịch vụ trả phí"
+gen_desc: "`🔑` | **Đã tạo thành công** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
+gen_footer: "Để hoàn thành • %{prefix}redeem <code>"
+
+### Profile command!
+profile_author: "Thông tin người dùng gói dịch vụ trả phí"
+profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
+
+### Redeem command!
+redeem_title: "Đăng kí người dùng gói dịch vụ trả phí"
+redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
+redeem_already: "`⚠️` | Bạn đã là người dùng gới trả phí!"
+redeem_invalid: "`⚠️` | Key nhập không hợp lệ. Vui lòng nhập key khác!"
+
+### Remove command!
+remove_desc: "`✅` | Đã thành công gỡ gói dịch vụ trả phí của %{user}!"
+remove_already: "`⚠️` | Người dùng %{user} đã bị gỡ!"
+remove_no_params: "`⚠️` | Vui lòng đề cập đến 1 người dùng hoặc cung cấp ID người dùng!"
+remove_404: "`⚠️` | %{userid} không phải là người dùng gói dịch vụ trả phí!"

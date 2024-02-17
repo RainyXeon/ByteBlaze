@@ -36,7 +36,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "premium",
+                "command.premium",
                 "redeem_invalid"
               )}`
             ),
@@ -49,7 +49,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "premium", "redeem_already")}`
+          `${client.i18n.get(handler.language, "command.premium", "redeem_already")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -60,7 +60,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "premium", "redeem_invalid")}`
+          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -69,7 +69,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "premium", "redeem_invalid")}`
+          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -78,11 +78,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "premium", "redeem_title")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "redeem_title")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "premium", "redeem_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "redeem_desc", {
           expires: expires,
           plan: premium.plan,
         })}`

@@ -29,7 +29,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "filters",
+                "command.filter",
                 "filter_already",
                 {
                   name: this.name[0],
@@ -43,7 +43,6 @@ export default class implements Command {
     player?.data.set("filter-mode", this.name[0]);
 
     const data = {
-      op: "filters",
       guildId: handler.guild!.id,
       playerOptions: {
         filters: {

@@ -50,14 +50,14 @@ export default class implements PlayerButton {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, "player", "queue_author", {
+          name: `${client.i18n.get(language, "button.music", "queue_author", {
             guild: message.guild!.name,
           })}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(language, "player", "queue_description", {
+          `${client.i18n.get(language, "button.music", "queue_description", {
             track: song!.title,
             track_url: String(song!.uri),
             duration: new FormatDuration().parse(song?.length),
@@ -66,7 +66,7 @@ export default class implements PlayerButton {
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(language, "player", "queue_footer", {
+          text: `${client.i18n.get(language, "button.music", "queue_footer", {
             page: `${i + 1}`,
             pages: `${pagesNum}`,
             queue_lang: `${player.queue.length}`,

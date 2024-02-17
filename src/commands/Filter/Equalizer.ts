@@ -54,12 +54,12 @@ export default class implements Command {
         .addFields({
           name: `${client.i18n.get(
             handler.language,
-            "filters",
+            "command.filter",
             "eq_field_title"
           )}`,
           value: `${client.i18n.get(
             handler.language,
-            "filters",
+            "command.filter",
             "eq_field_value",
             {
               prefix: handler.prefix,

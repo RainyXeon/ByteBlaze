@@ -38,7 +38,7 @@ export class playerLoadUpdate {
       const songStrings = [];
       const queuedSongs = player.queue.map(
         (song, i) =>
-          `${client.i18n.get(language, "setup", "setup_content_queue", {
+          `${client.i18n.get(language, "event.setup", "setup_content_queue", {
             index: `${i + 1}`,
             title: song.title,
             duration: new FormatDuration().parse(song.length),
@@ -57,11 +57,11 @@ export class playerLoadUpdate {
 
       let embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, "setup", "setup_author")}`,
-          iconURL: `${client.i18n.get(language, "setup", "setup_author_icon")}`,
+          name: `${client.i18n.get(language, "event.setup", "setup_author")}`,
+          iconURL: `${client.i18n.get(language, "event.setup", "setup_author_icon")}`,
         })
         .setDescription(
-          `${client.i18n.get(language, "setup", "setup_desc", {
+          `${client.i18n.get(language, "event.setup", "setup_desc", {
             title: cSong!.title,
             url: String(cSong!.uri),
             duration: new FormatDuration().parse(cSong!.length),
@@ -79,7 +79,7 @@ export class playerLoadUpdate {
           }`
         )
         .setFooter({
-          text: `${client.i18n.get(language, "setup", "setup_footer", {
+          text: `${client.i18n.get(language, "event.setup", "setup_footer", {
             volume: `${player.volume * 100}`,
             duration: qDuration,
           })}`,
@@ -87,7 +87,7 @@ export class playerLoadUpdate {
 
       const queueString = `${client.i18n.get(
         language,
-        "setup",
+        "event.setup",
         "setup_content"
       )}\n${Str == "" ? " " : "\n" + Str}`;
 
@@ -130,7 +130,7 @@ export class playerLoadUpdate {
 
       const queueMsg = `${client.i18n.get(
         language,
-        "setup",
+        "event.setup",
         "setup_queuemsg"
       )}`;
 
@@ -139,7 +139,7 @@ export class playerLoadUpdate {
         .setAuthor({
           name: `${client.i18n.get(
             language,
-            "setup",
+            "event.setup",
             "setup_playembed_author"
           )}`,
         })

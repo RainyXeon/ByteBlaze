@@ -16,3 +16,11 @@ status_create: "**`📊` | Created Status Channel!**"
 status_delete: "**`📊` | Deleted Status Channel!**"
 status_enable: "`⚠️` | Status Channel already exists!"
 status_null: "`⚠️` | Status Channel not found!"
+
+# Play!
+play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
+play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
+play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
+play_arg: "`⚠️` | Please provide a valid song name or URL!"
+play_match: "`⚠️` | Song not found!"
+play_emoji: "`⚠️` | You can not play songs using emoji!"

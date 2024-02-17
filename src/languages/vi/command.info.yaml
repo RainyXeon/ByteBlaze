@@ -1,0 +1,34 @@
+### Developer command!
+dev_title: "RainyXeon"
+dev_desc: "Tôi là đứa làm ra con bot này :0"
+dev_foot: "Hãy cân nhắc việc tham gia máy chủ của tôi hoặc mời bot của tôi :) Điều này sẽ giúp tôi rất nhiều!"
+
+### Invite command!
+inv_title: "✉️ %{username}"
+inv_desc: "Cảm ơn bạn vì đã mời!"
+
+### Ping command!
+ping_title: "🏓 "
+ping_desc: "**Ping:** `%{ping}ms`\n**Tốc độ phản hồi:** `%{response}ms`"
+
+### Uptime command!
+uptime_title: "🕒 "
+uptime_desc: "**Đã online được:** `%{uptime}`"
+
+### Help command!
+ce_finder_name: "**Lệnh:**"
+ce_finder_des: "**Mô tả:**"
+ce_finder_usage: "**Cách dùng:**"
+ce_finder_access: "**Được phép dùng bởi:**"
+ce_finder_aliases: "**Truy cập nhanh:**"
+ce_finder_slash: "**Lệnh slash của discord:**"
+ce_finder_des_no: "Không có mô tả"
+ce_finder_usage_no: "Không có cách dùng cụ thể, điều này có nghĩa là bạn chỉ cần nhập lệnh là được"
+ce_finder_aliases_prefix: " [Chỉ sử dụng ở chế độ lệnh bằng tin nhắn]"
+ce_finder_aliases_no: "Không có cách truy cập nhanh"
+ce_finder_slash_enable: "Đã bật"
+ce_finder_slash_disable: "Đã tắt"
+ce_finder_invalid: "Lệnh không hợp lệ"
+ce_finder_example: "`⚠️` | Vui lòng nhập 1 tên lệnh hợp lệ!"
+ce_name: "Lệnh giúp"
+ce_total: "Tổng số lệnh: "

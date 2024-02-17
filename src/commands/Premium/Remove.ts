@@ -35,7 +35,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "premium",
+                "command.premium",
                 "remove_no_params"
               )}`
             )
@@ -47,9 +47,14 @@ export default class implements Command {
 
     if (!db)
       return handler.editReply({
-        content: `${client.i18n.get(handler.language, "premium", "remove_404", {
-          userid: id as string,
-        })}`,
+        content: `${client.i18n.get(
+          handler.language,
+          "command.premium",
+          "remove_404",
+          {
+            userid: id as string,
+          }
+        )}`,
       });
 
     if (db.isPremium) {
@@ -67,18 +72,28 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "premium", "remove_desc", {
-            user: db.redeemedBy?.username as string,
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.premium",
+            "remove_desc",
+            {
+              user: db.redeemedBy?.username as string,
+            }
+          )}`
         )
         .setColor(client.color);
       handler.editReply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "premium", "remove_already", {
-            user: db.redeemedBy?.username as string,
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.premium",
+            "remove_already",
+            {
+              user: db.redeemedBy?.username as string,
+            }
+          )}`
         )
         .setColor(client.color);
 

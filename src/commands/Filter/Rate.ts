@@ -49,7 +49,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "filters",
+                "command.filter",
                 "filter_greater"
               )}`
             )

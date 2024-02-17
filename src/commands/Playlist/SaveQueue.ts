@@ -38,7 +38,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -53,7 +53,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "savequeue_notfound"
               )}`
             )
@@ -67,7 +67,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "savequeue_owner"
               )}`
             )
@@ -115,7 +115,7 @@ export default class implements Command {
         .setDescription(
           `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "savequeue_no_new_saved",
             {
               name: value,
@@ -128,10 +128,15 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "playlist", "savequeue_saved", {
-          name: value,
-          tracks: String(queue?.length! + 1),
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.playlist",
+          "savequeue_saved",
+          {
+            name: value,
+            tracks: String(queue?.length! + 1),
+          }
+        )}`
       )
       .setColor(client.color);
     await handler.editReply({ embeds: [embed] });

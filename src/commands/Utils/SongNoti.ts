@@ -48,8 +48,9 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "utilities",
-                  "songnoti_already_on"
+                  "command.utils",
+                  "songnoti_already",
+                  { mode: handler.modeLang.enable }
                 )}`
               )
               .setColor(client.color),
@@ -80,8 +81,9 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "utilities",
-                  "songnoti_already"
+                  "command.utils",
+                  "songnoti_already",
+                  { mode: handler.modeLang.disable }
                 )}`
               )
               .setColor(client.color),

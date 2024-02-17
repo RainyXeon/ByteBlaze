@@ -1,0 +1,12 @@
+### Help command!
+intro1: "・**%{bot}** là một con bot nhạc nhiều tính năng và ổn định!"
+intro2: "・Phát triển bởi **RainyXeon**"
+intro3: "・Hợp tác với **1sT - Services**"
+prefix: "・**Prefix của bot:** %{prefix}"
+ver: "・**Phiên bản:** `%{botver}`"
+djs: "・**Discord.js:** `%{djsver}`"
+lavalink: "・**Autofix:** `%{aver}`"
+help1: "・**Để bắt đầu, hãy dùng lệnh:** %{help}"
+help2: "・**Để Để biết thêm nhiều thông tin, hãy dùng lệnh:** %{botinfo}"
+wel: "👋 Chào mừng đến với %{bot}"
+codename: "・**Mã sản phẩm:** `%{codename}`"

@@ -1,6 +1,5 @@
 export class ConvertTime {
   parse(duration: number) {
-    let milliseconds = parseInt(`${(duration % 1000) / 100}`);
     let seconds: string | number = parseInt(`${(duration / 1000) % 60}`);
     let minutes: string | number = parseInt(`${(duration / (1000 * 60)) % 60}`);
     let hours: string | number = parseInt(

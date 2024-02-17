@@ -27,7 +27,7 @@ export default class implements PlayerButton {
     new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "clear_msg")}`
+      `${client.i18n.get(language, "button.music", "clear_msg")}`
     );
 
     return;

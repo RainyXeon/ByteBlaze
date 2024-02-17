@@ -8,7 +8,6 @@ import {
   Message,
 } from "discord.js";
 import { Manager } from "../manager.js";
-import { RatelimitReplyService } from "../services/RatelimitReplyService.js";
 
 export class PageQueue {
   client: Manager;
@@ -52,7 +51,7 @@ export class PageQueue {
         this.pages[page].setFooter({
           text: `${this.client.i18n.get(
             this.language,
-            "music",
+            "command.music",
             "queue_footer",
             {
               page: String(page + 1),
@@ -86,7 +85,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
@@ -111,7 +110,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
@@ -150,7 +149,7 @@ export class PageQueue {
         this.pages[page].setFooter({
           text: `${this.client.i18n.get(
             this.language,
-            "playlist",
+            "command.playlist",
             "view_embed_footer",
             {
               page: String(page + 1),
@@ -182,7 +181,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "playlist",
+              "command.playlist",
               "view_embed_footer",
               {
                 page: String(page + 1),
@@ -205,7 +204,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "playlist",
+              "command.playlist",
               "view_embed_footer",
               {
                 page: String(page + 1),
@@ -242,7 +241,7 @@ export class PageQueue {
         this.pages[page].setFooter({
           text: `${this.client.i18n.get(
             this.language,
-            "music",
+            "command.music",
             "queue_footer",
             {
               page: String(page + 1),
@@ -278,7 +277,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
@@ -302,7 +301,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
@@ -340,7 +339,7 @@ export class PageQueue {
         this.pages[page].setFooter({
           text: `${this.client.i18n.get(
             this.language,
-            "playlist",
+            "command.playlist",
             "view_embed_footer",
             {
               page: String(page + 1),
@@ -375,7 +374,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "playlist",
+              "command.playlist",
               "view_embed_footer",
               {
                 page: String(page + 1),
@@ -398,7 +397,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "playlist",
+              "command.playlist",
               "view_embed_footer",
               {
                 page: String(page + 1),
@@ -435,7 +434,7 @@ export class PageQueue {
         this.pages[page].setFooter({
           text: `${this.client.i18n.get(
             this.language,
-            "music",
+            "command.music",
             "queue_footer",
             {
               page: String(page + 1),
@@ -470,7 +469,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
@@ -495,7 +494,7 @@ export class PageQueue {
           this.pages[page].setFooter({
             text: `${this.client.i18n.get(
               this.language,
-              "music",
+              "command.music",
               "queue_footer",
               {
                 page: String(page + 1),
