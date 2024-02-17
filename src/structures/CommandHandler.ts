@@ -4,7 +4,6 @@ import {
   Channel,
   Collection,
   CommandInteraction,
-  EmbedBuilder,
   Guild,
   GuildMember,
   InteractionResponse,
@@ -55,6 +54,7 @@ export class CommandHandler {
   public createdAt: number;
   public msg: GlobalMsg;
   public prefix: string;
+  public modeLang: { enable: string; disable: string };
   public USERS_PATTERN: RegExp = /<@!?(\d{17,19})>/;
   public ROLES_PATTERN: RegExp = /<@&(\d{17,19})>/;
   public CHANNELS_PATTERN: RegExp = /<#(\d{17,19})>/;
@@ -72,6 +72,7 @@ export class CommandHandler {
     this.createdAt = this.createdStimeStampData;
     this.prefix = options.prefix;
     this.channel = this.channelData;
+    this.modeLang = this.modeLangData;
   }
 
   get userData() {
@@ -80,6 +81,13 @@ export class CommandHandler {
     } else {
       return this.message?.author;
     }
+  }
+
+  get modeLangData() {
+    return {
+      enable: `${this.client.i18n.get(this.language, "global", "enable")}`,
+      disable: `${this.client.i18n.get(this.language, "global", "disable")}`,
+    };
   }
 
   get guildData() {

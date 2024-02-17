@@ -74,7 +74,7 @@ export class Manager extends Client {
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.i18n = new I18n({
       defaultLocale: this.config.bot.LANGUAGE || "en",
-      directory: resolve(join(__dirname, "languages")),
+      directory: resolve(join(__dirname, "rslp_0.0.3")),
     });
     this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shardStatus = false;
@@ -88,7 +88,7 @@ export class Manager extends Client {
 
     if (!this.configSearchCheck()) {
       this.logger.warn(
-        "Default config search have string element, use default"
+        "Default config search must have string element, use default"
       );
     }
 
