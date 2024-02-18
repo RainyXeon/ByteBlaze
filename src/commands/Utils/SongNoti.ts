@@ -48,8 +48,9 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "utilities",
-                  "songnoti_already_on"
+                  "command.utils",
+                  "songnoti_already",
+                  { mode: handler.modeLang.enable }
                 )}`
               )
               .setColor(client.color),
@@ -60,9 +61,14 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "songnoti_set", {
-            toggle: `${client.i18n.get(handler.language, "music", "enabled")}`,
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.utils",
+            "songnoti_set",
+            {
+              toggle: handler.modeLang.enable,
+            }
+          )}`
         )
         .setColor(client.color);
 
@@ -75,8 +81,9 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "utilities",
-                  "songnoti_already_off"
+                  "command.utils",
+                  "songnoti_already",
+                  { mode: handler.modeLang.disable }
                 )}`
               )
               .setColor(client.color),
@@ -89,9 +96,14 @@ export default class implements Command {
       );
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "songnoti_set", {
-            toggle: `${client.i18n.get(handler.language, "music", "disabled")}`,
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.utils",
+            "songnoti_set",
+            {
+              toggle: handler.modeLang.disable,
+            }
+          )}`
         )
         .setColor(client.color);
 
@@ -99,7 +111,7 @@ export default class implements Command {
     } else {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "arg_error", {
+          `${client.i18n.get(handler.language, "error", "arg_error", {
             text: "**enable** or **disable**!",
           })}`
         )

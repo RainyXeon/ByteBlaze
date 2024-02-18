@@ -19,9 +19,7 @@ export default class implements PlayerButton {
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
-    if (!player) {
-      return collector.stop();
-    }
+    collector.stop();
 
     player.data.set("sudo-destroy", true);
     player.destroy();
@@ -29,7 +27,7 @@ export default class implements PlayerButton {
     await new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "player", "stop_msg")}`
+      `${client.i18n.get(language, "button.music", "stop_msg")}`
     );
   }
 }

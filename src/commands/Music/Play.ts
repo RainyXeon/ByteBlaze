@@ -51,7 +51,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "play_arg")}`
+              `${client.i18n.get(handler.language, "command.music", "play_arg")}`
             )
             .setColor(client.color),
         ],
@@ -63,7 +63,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
             )
             .setColor(client.color),
         ],
@@ -77,7 +77,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "play_emoji")}`
+              `${client.i18n.get(handler.language, "command.music", "play_emoji")}`
             )
             .setColor(client.color),
         ],
@@ -106,7 +106,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "play_match")}`
+              `${client.i18n.get(handler.language, "command.music", "play_match")}`
             )
             .setColor(client.color),
         ],
@@ -126,7 +126,7 @@ export default class implements Command {
     if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "play_track", {
+          `${client.i18n.get(handler.language, "command.music", "play_track", {
             title: tracks[0].title,
             url: String(tracks[0].uri),
             duration: new ConvertTime().parse(tracks[0].length as number),
@@ -140,13 +140,18 @@ export default class implements Command {
     } else if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "music", "play_playlist", {
-            title: tracks[0].title,
-            url: value,
-            duration: new ConvertTime().parse(TotalDuration),
-            songs: String(tracks.length),
-            request: String(tracks[0].requester),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.music",
+            "play_playlist",
+            {
+              title: tracks[0].title,
+              url: value,
+              duration: new ConvertTime().parse(TotalDuration),
+              songs: String(tracks.length),
+              request: String(tracks[0].requester),
+            }
+          )}`
         )
         .setColor(client.color);
 
@@ -154,7 +159,7 @@ export default class implements Command {
       if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(handler.language, "music", "play_result", {
+        `${client.i18n.get(handler.language, "command.music", "play_result", {
           title: tracks[0].title,
           url: String(tracks[0].uri),
           duration: new ConvertTime().parse(tracks[0].length as number),
@@ -175,7 +180,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "noplayer", "no_voice")}`
+              `${client.i18n.get(handler.language, "error", "no_same_voice")}`
             )
             .setColor(client.color),
         ],
@@ -218,8 +223,8 @@ export default class implements Command {
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.i18n.get(language, "music", "no_node")}`,
-        value: `${client.i18n.get(language, "music", "no_node")}`,
+        name: `${client.i18n.get(language, "command.music", "no_node")}`,
+        value: `${client.i18n.get(language, "command.music", "no_node")}`,
       });
       return;
     }

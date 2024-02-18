@@ -20,12 +20,14 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     const xeondex = new EmbedBuilder()
-      .setTitle(`${client.i18n.get(handler.language, "info", "dev_title")}`)
+      .setTitle(
+        `${client.i18n.get(handler.language, "command.info", "dev_title")}`
+      )
       .setDescription(
-        `${client.i18n.get(handler.language, "info", "dev_desc")}`
+        `${client.i18n.get(handler.language, "command.info", "dev_desc")}`
       )
       .setFooter({
-        text: `${client.i18n.get(handler.language, "info", "dev_foot")}`,
+        text: `${client.i18n.get(handler.language, "command.info", "dev_foot")}`,
       })
       .setColor(client.color);
 

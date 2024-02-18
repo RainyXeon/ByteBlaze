@@ -106,7 +106,7 @@ export default class {
     ) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "interaction", "no_perms", {
+          `${client.i18n.get(language, "error", "no_perms", {
             perm: permission,
           })}`
         )
@@ -152,7 +152,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "utilities", "lang_perm")}`
+              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
             )
             .setColor(client.color),
         ],
@@ -162,7 +162,7 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "music", "no_node")}`)
+            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
             .setColor(client.color),
         ],
       });
@@ -176,7 +176,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "interaction", "owner_only")}`
+              `${client.i18n.get(language, "error", "owner_only")}`
             )
             .setColor(client.color),
         ],
@@ -187,11 +187,11 @@ export default class {
       if (!user || !user.isPremium) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(language, "nopremium", "premium_author")}`,
+            name: `${client.i18n.get(language, "error", "no_premium_author")}`,
             iconURL: client.user!.displayAvatarURL(),
           })
           .setDescription(
-            `${client.i18n.get(language, "nopremium", "premium_desc")}`
+            `${client.i18n.get(language, "error", "no_premium_desc")}`
           )
           .setColor(client.color)
           .setTimestamp();
@@ -209,7 +209,7 @@ export default class {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_player")}`
+                `${client.i18n.get(language, "error", "no_player")}`
               )
               .setColor(client.color),
           ],
@@ -227,7 +227,7 @@ export default class {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_voice")}`
+                `${client.i18n.get(language, "error", "no_voice")}`
               )
               .setColor(client.color),
           ],
@@ -278,6 +278,13 @@ export default class {
       client.logger.log({
         level: "error",
         message: error,
+      });
+      interaction.reply({
+        content: `${client.i18n.get(
+          language,
+          "error",
+          "unexpected_error"
+        )}\n ${error}`,
       });
     }
   }

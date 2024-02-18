@@ -43,36 +43,36 @@ export default class {
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, "help", "wel", {
+          name: `${client.i18n.get(language, "event.message", "wel", {
             bot: message.guild!.members.me!.displayName,
           })}`,
         })
         .setColor(client.color).setDescription(stripIndents`
-          ${client.i18n.get(language, "help", "intro1", {
+          ${client.i18n.get(language, "event.message", "intro1", {
             bot: message.guild!.members.me!.displayName,
           })}
-          ${client.i18n.get(language, "help", "intro2")}
-          ${client.i18n.get(language, "help", "intro3")}
-          ${client.i18n.get(language, "help", "prefix", {
+          ${client.i18n.get(language, "event.message", "intro2")}
+          ${client.i18n.get(language, "event.message", "intro3")}
+          ${client.i18n.get(language, "event.message", "prefix", {
             prefix: `\`${PREFIX}\` or \`/\``,
           })}
-          ${client.i18n.get(language, "help", "help1", {
+          ${client.i18n.get(language, "event.message", "help1", {
             help: `\`${PREFIX}help\` or \`/help\``,
           })}
-          ${client.i18n.get(language, "help", "help2", {
+          ${client.i18n.get(language, "event.message", "help2", {
             botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
-          ${client.i18n.get(language, "help", "ver", {
+          ${client.i18n.get(language, "event.message", "ver", {
             botver: client.metadata.version,
           })}
-          ${client.i18n.get(language, "help", "djs", {
+          ${client.i18n.get(language, "event.message", "djs", {
             djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
               .dependencies["discord.js"],
           })}
-          ${client.i18n.get(language, "help", "lavalink", {
+          ${client.i18n.get(language, "event.message", "lavalink", {
             aver: client.metadata.autofix,
           })}
-          ${client.i18n.get(language, "help", "codename", {
+          ${client.i18n.get(language, "event.message", "codename", {
             codename: client.metadata.codename,
           })}
           `);
@@ -141,7 +141,7 @@ export default class {
     async function respondError(permission: string) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "interaction", "no_perms", {
+          `${client.i18n.get(language, "error", "no_perms", {
             perm: permission,
           })}`
         )
@@ -191,7 +191,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "interaction", "owner_only")}`
+              `${client.i18n.get(language, "error", "owner_only")}`
             )
             .setColor(client.color),
         ],
@@ -205,7 +205,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "utilities", "lang_perm")}`
+              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
             )
             .setColor(client.color),
         ],
@@ -219,13 +219,13 @@ export default class {
             .setAuthor({
               name: `${client.i18n.get(
                 language,
-                "nopremium",
-                "premium_author"
+                "error",
+                "no_premium_author"
               )}`,
               iconURL: client.user!.displayAvatarURL(),
             })
             .setDescription(
-              `${client.i18n.get(language, "nopremium", "premium_desc")}`
+              `${client.i18n.get(language, "error", "no_premium_desc")}`
             )
             .setColor(client.color)
             .setTimestamp();
@@ -239,7 +239,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "nopremium", "premium_error")}`
+              `${client.i18n.get(language, "error", "unexpected_error")}`
             )
             .setColor(client.color),
         ],
@@ -250,7 +250,7 @@ export default class {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "music", "no_node")}`)
+            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
             .setColor(client.color),
         ],
       });
@@ -263,7 +263,7 @@ export default class {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_player")}`
+                `${client.i18n.get(language, "error", "no_player")}`
               )
               .setColor(client.color),
           ],
@@ -281,7 +281,7 @@ export default class {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "noplayer", "no_voice")}`
+                `${client.i18n.get(language, "error", "no_voice")}`
               )
               .setColor(client.color),
           ],
@@ -314,8 +314,8 @@ export default class {
       message.reply({
         content: `${client.i18n.get(
           language,
-          "interaction",
-          "error"
+          "error",
+          "unexpected_error"
         )}\n ${error}`,
       });
     }

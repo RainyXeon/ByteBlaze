@@ -29,7 +29,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "filters",
+                "command.filter",
                 "filter_already",
                 {
                   name: this.name[0],
@@ -58,7 +58,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "filters", "filter_on", {
+        `${client.i18n.get(handler.language, "command.filter", "filter_on", {
           name: this.name[0],
         })}`
       )

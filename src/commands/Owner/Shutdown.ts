@@ -21,7 +21,7 @@ export default class implements Command {
 
     const restart = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "utilities", "restart_msg")}`
+        `${client.i18n.get(handler.language, "command.utils", "restart_msg")}`
       )
       .setColor(client.color)
       .setFooter({

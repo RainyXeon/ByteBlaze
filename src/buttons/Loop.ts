@@ -42,7 +42,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.i18n.get(language, "music", "loop_current")}`
+          `${client.i18n.get(language, "button.music", "loop_current")}`
         );
 
         break;
@@ -55,7 +55,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.i18n.get(language, "music", "loop_all")}`
+          `${client.i18n.get(language, "button.music", "loop_all")}`
         );
 
         break;
@@ -68,7 +68,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.i18n.get(language, "music", "unloop_all")}`
+          `${client.i18n.get(language, "button.music", "unloop_all")}`
         );
 
         break;

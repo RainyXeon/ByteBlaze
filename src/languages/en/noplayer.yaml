@@ -1,8 +1,0 @@
-### Voice Event!
-
-# No song is currently playing!
-no_player: "`⚠️` | No song is currently playing!"
-
-# Need to join voice & same voice to use command!
-no_voice_247: "`⚠️` | You are not in a voice channel!"
-no_voice: "`⚠️` | You are not in the same voice channel as me!"

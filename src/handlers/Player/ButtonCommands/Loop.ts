@@ -35,7 +35,7 @@ export class ButtonLoop {
 
         const looptrack = new EmbedBuilder()
           .setDescription(
-            `${this.client.i18n.get(this.language, "music", "loop_current")}`
+            `${this.client.i18n.get(this.language, "button.music", "loop_current")}`
           )
           .setColor(this.client.color);
         await this.interaction.reply({
@@ -51,7 +51,7 @@ export class ButtonLoop {
 
         const loopall = new EmbedBuilder()
           .setDescription(
-            `${this.client.i18n.get(this.language, "music", "loop_all")}`
+            `${this.client.i18n.get(this.language, "button.music", "loop_all")}`
           )
           .setColor(this.client.color);
         await this.interaction.reply({
@@ -67,7 +67,7 @@ export class ButtonLoop {
 
         const unloopall = new EmbedBuilder()
           .setDescription(
-            `${this.client.i18n.get(this.language, "music", "unloop_all")}`
+            `${this.client.i18n.get(this.language, "button.music", "unloop_all")}`
           )
           .setColor(this.client.color);
         await this.interaction.reply({

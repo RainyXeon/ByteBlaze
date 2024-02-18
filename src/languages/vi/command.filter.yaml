@@ -1,0 +1,35 @@
+### All filter command!
+filter_on: "`✅` | Filter %{name} đã ở chế độ **%{mode}**!"
+filter_already: "`⚠️` | Filter %{name} đã ở được bật trước đó!"
+filter_number: "`⚠️` | Vui lòng nhập 1 số hợp lệ!"
+filter_greater: "`⚠️` | Số bạn nhập phải lớn hơn **0**!"
+filter_less: "`⚠️` | Số bạn nhập phải nhỏ hơn **10**!"
+
+### Bassboost command!
+bassboost_set: "`🎚️` | Bassboost đã được đặt ở **%{amount}dB**!"
+bassboost_limit: "`⚠️` | Hạy nhập 1 số từ **-10** đến **10**!"
+
+### Equalizer command!
+eq_author: "Bộ cân bằng âm thanh"
+eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
+eq_desc: "`🎚️` | Ở đây bot có **14 dải âm** có thể được đặt từ **-10** đến **10**. Không cần phải đặt hết tất cả 14 dải!"
+eq_field_title: "Ví dụ:"
+eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
+eq_footer: "Đặt lại bộ cân bằng âm thanh • %{prefix}eq reset"
+eq_on: "`🎚️` | Bộ cân bằng âm thanh đã được đặt thành **%{bands}**!"
+eq_number: "`⚠️` | Vui lòng nhập 1 số hợp lệ!"
+eq_greater: "`⚠️` | Số bạn nhập phải lớn hơn **-10**!"
+eq_than: "`⚠️` | Số bạn nhập phải nhỏ hơn **10**!"
+
+### Pitch command!
+pitch_on: "`🎚️` | Cao độ đã được đặt thành **%{amount}**!"
+
+### Rate command!
+rate_on: "`🎚️` | Tần số âm thaaanh đã được đặt thành **%{amount}x**!"
+
+### Speed command!
+speed_on: "`🎚️` | Tốc độ đã được đặt thành **%{amount}x**!"
+
+### Reset command!
+reset_on: "`❌` | Filter đã được **đặt lại**!"
+reset_already: "`⚠️` | Filter đã được **đặt lại** trước đó!"

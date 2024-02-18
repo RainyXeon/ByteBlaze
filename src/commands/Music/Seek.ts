@@ -39,7 +39,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "seek_invalid")}`
+              `${client.i18n.get(handler.language, "command.music", "seek_invalid")}`
             )
             .setColor(client.color),
         ],
@@ -60,7 +60,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "seek_beyond")}`
+              `${client.i18n.get(handler.language, "command.music", "seek_beyond")}`
             )
             .setColor(client.color),
         ],
@@ -78,7 +78,7 @@ export default class implements Command {
 
     const seeked = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "seek_msg", {
+        `${client.i18n.get(handler.language, "command.music", "seek_msg", {
           duration: Duration,
         })}`
       )

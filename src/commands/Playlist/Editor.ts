@@ -64,7 +64,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "edit_arg")}`
+              `${client.i18n.get(language, "command.playlist", "edit_arg")}`
             )
             .setColor(client.color),
         ],
@@ -77,7 +77,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "edit_notfound")}`
+              `${client.i18n.get(language, "command.playlist", "edit_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -87,7 +87,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "edit_playlist_owner")}`
+              `${client.i18n.get(language, "command.playlist", "edit_playlist_owner")}`
             )
             .setColor(client.color),
         ],
@@ -129,7 +129,7 @@ export default class implements Command {
                   .setDescription(
                     `${client.i18n.get(
                       language,
-                      "playlist",
+                      "command.playlist",
                       "edit_invalid_id"
                     )}`
                   )
@@ -151,7 +151,7 @@ export default class implements Command {
                   .setDescription(
                     `${client.i18n.get(
                       language,
-                      "playlist",
+                      "command.playlist",
                       "ineraction_edit_invalid_id"
                     )}`
                   )
@@ -166,7 +166,7 @@ export default class implements Command {
                   .setDescription(
                     `${client.i18n.get(
                       language,
-                      "playlist",
+                      "command.playlist",
                       "edit_invalid_mode"
                     )}`
                   )
@@ -193,9 +193,14 @@ export default class implements Command {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `${client.i18n.get(language, "playlist", "edit_success", {
-                    playlistId: newId,
-                  })}`
+                  `${client.i18n.get(
+                    language,
+                    "command.playlist",
+                    "edit_success",
+                    {
+                      playlistId: newId,
+                    }
+                  )}`
                 )
                 .setColor(client.color),
             ],
@@ -214,7 +219,7 @@ export default class implements Command {
                 .setDescription(
                   `${client.i18n.get(
                     language,
-                    "playlist",
+                    "command.playlist",
                     "edit_invalid_mode"
                   )}`
                 )
@@ -233,7 +238,7 @@ export default class implements Command {
 
         const embed = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(language, "playlist", "edit_success", {
+            `${client.i18n.get(language, "command.playlist", "edit_success", {
               playlistId: playlist.id,
             })}`
           )
@@ -251,28 +256,28 @@ export default class implements Command {
       {
         question: `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "edit_playlist_id_label"
         )}`,
       },
       {
         question: `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "edit_playlist_name_label"
         )}`,
       },
       {
         question: `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "edit_playlist_des_label"
         )}`,
       },
       {
         question: `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "edit_playlist_private_label"
         )}`,
       },
@@ -311,7 +316,7 @@ export default class implements Command {
       .setLabel(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_id_label"
         )}`
       )
@@ -319,7 +324,7 @@ export default class implements Command {
       .setPlaceholder(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_id_placeholder"
         )}`
       )
@@ -330,7 +335,7 @@ export default class implements Command {
       .setLabel(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_name_label"
         )}`
       )
@@ -338,7 +343,7 @@ export default class implements Command {
       .setPlaceholder(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_name_placeholder"
         )}`
       )
@@ -348,7 +353,7 @@ export default class implements Command {
       .setLabel(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_des_label"
         )}`
       )
@@ -356,7 +361,7 @@ export default class implements Command {
       .setPlaceholder(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_des_placeholder"
         )}`
       )
@@ -366,7 +371,7 @@ export default class implements Command {
       .setLabel(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_private_label"
         )}`
       )
@@ -374,7 +379,7 @@ export default class implements Command {
       .setPlaceholder(
         `${client.i18n.get(
           language,
-          "playlist",
+          "command.playlist",
           "ineraction_edit_playlist_private_placeholder"
         )}`
       )
@@ -404,7 +409,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 language,
-                "playlist",
+                "command.playlist",
                 "ineraction_edit_notfound"
               )}`
             )
@@ -419,7 +424,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 language,
-                "playlist",
+                "command.playlist",
                 "ineraction_edit_playlist_owner"
               )}`
             )
@@ -446,7 +451,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 language,
-                "playlist",
+                "command.playlist",
                 "ineraction_edit_playlist_error"
               )}`
             )
@@ -464,7 +469,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 language,
-                "playlist",
+                "command.playlist",
                 "ineraction_edit_notfound"
               )}`
             )
@@ -494,7 +499,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   language,
-                  "playlist",
+                  "command.playlist",
                   "ineraction_edit_invalid_id"
                 )}`
               )
@@ -511,7 +516,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   language,
-                  "playlist",
+                  "command.playlist",
                   "ineraction_edit_invalid_id"
                 )}`
               )
@@ -524,7 +529,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "playlist", "edit_invalid_mode")}`
+                `${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`
               )
               .setColor(client.color),
           ],
@@ -546,7 +551,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 language,
-                "playlist",
+                "command.playlist",
                 "ineraction_edit_success",
                 {
                   playlistId: newId,
@@ -566,7 +571,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "playlist", "edit_invalid_mode")}`
+              `${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`
             )
             .setColor(client.color),
         ],
@@ -582,7 +587,7 @@ export default class implements Command {
           .setDescription(
             `${client.i18n.get(
               language,
-              "playlist",
+              "command.playlist",
               "ineraction_edit_success",
               {
                 playlistId: playlist.id,

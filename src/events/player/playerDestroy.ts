@@ -61,7 +61,7 @@ export default class {
     const embed = new EmbedBuilder()
       .setColor(client.color)
       .setDescription(
-        `${client.i18n.get(language, "player", "queue_end_desc")}`
+        `${client.i18n.get(language, "event.player", "queue_end_desc")}`
       );
 
     if (!isSudoDestroy) {

@@ -1,10 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  PermissionsBitField,
-  CommandInteraction,
-  CommandInteractionOptionResolver,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -39,9 +33,14 @@ export default class implements Command {
     if (!languages.includes(input as string)) {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "provide_lang", {
-            languages: languages.join(", "),
-          })}`
+          `${client.i18n.get(
+            handler.language,
+            "command.utils",
+            "provide_lang",
+            {
+              languages: languages.join(", "),
+            }
+          )}`
         )
         .setColor(client.color);
       return handler.editReply({ content: " ", embeds: [onsome] });
@@ -53,7 +52,7 @@ export default class implements Command {
       await client.db.language.set(`${handler.guild!.id}`, input);
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "lang_set", {
+          `${client.i18n.get(handler.language, "command.utils", "lang_set", {
             language: String(input),
           })}`
         )
@@ -65,7 +64,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "utilities", "lang_change", {
+          `${client.i18n.get(handler.language, "command.utils", "lang_change", {
             language: String(input),
           })}`
         )

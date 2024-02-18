@@ -43,7 +43,7 @@ export default class implements PlayerButton {
       message,
       `${client.i18n.get(
         language,
-        "player",
+        "button.music",
         newPlayer.paused ? "pause_msg" : "resume_msg"
       )}`
     );

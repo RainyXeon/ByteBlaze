@@ -88,7 +88,7 @@ export class Manager extends Client {
 
     if (!this.configSearchCheck()) {
       this.logger.warn(
-        "Default config search have string element, use default"
+        "Default config search must have string element, use default"
       );
     }
 

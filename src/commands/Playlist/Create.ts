@@ -40,7 +40,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -53,7 +53,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "create_toolong"
               )}`
             )
@@ -65,7 +65,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "des_toolong")}`
+              `${client.i18n.get(handler.language, "command.playlist", "des_toolong")}`
             )
             .setColor(client.color),
         ],
@@ -84,7 +84,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "create_limit_playlist",
                 {
                   limit: String(client.config.bot.LIMIT_PLAYLIST),
@@ -111,10 +111,15 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "playlist", "create_created", {
-          playlist: String(value),
-          id: idgen[0],
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.playlist",
+          "create_created",
+          {
+            playlist: String(value),
+            id: idgen[0],
+          }
+        )}`
       )
       .setColor(client.color);
     handler.editReply({ content: " ", embeds: [embed] });

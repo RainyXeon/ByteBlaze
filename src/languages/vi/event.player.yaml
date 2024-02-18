@@ -1,0 +1,24 @@
+### Playing event!
+track_title: "Bắt đầu chơi"
+track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+author_title: "`✒️` | Tác giả:"
+request_title: "`👤` | Người yêu cầu:"
+volume_title: "`🔊` | Âm lượng:"
+queue_title: "`💾` | Tổng số bài hát:"
+duration_title: "`🕒` | Thời lượng bài hát:"
+total_duration_title: "`🕰️` | Tổng thời lượng danh sách phát:"
+download_title: "`⬇️` | Tải xuống:"
+
+### Same voice!
+join_voice: "`⚠️` | Bạn hiện đang không ở cùng kênh đàm thoại với tôi!"
+
+### QueueEnd event!
+queue_end_desc: "`🔚` | Bài hấ đã **kết thúc**!"
+
+### Song error!
+error_desc: "`⚠️` | Bài hát này đang bị lỗi. Tiến hành bỏ qua **bài hát** này!"
+
+### Auto function!
+player_end: "`🛑` | Bot đã rời <#%{leave}> bởi vì không còn ai ở kênh này!"
+leave_pause: "`⏸️` | Nhạc đã bị dừng lại bởi vì tôi đã bị bỏ lại 1 mình!"
+leave_resume: "`▶️` | Nhạc đã khởi động lại do có ai đó vào!"

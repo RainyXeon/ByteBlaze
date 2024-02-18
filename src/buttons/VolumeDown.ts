@@ -23,15 +23,20 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const reply_msg = `${client.i18n.get(language, "player", "voldown_msg", {
-      volume: `${player.volume * 100 - 10}`,
-    })}`;
+    const reply_msg = `${client.i18n.get(
+      language,
+      "button.music",
+      "voldown_msg",
+      {
+        volume: `${player.volume * 100 - 10}`,
+      }
+    )}`;
 
     if (player.volume <= 0.1) {
       await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "music", "volume_invalid")}`
+        `${client.i18n.get(language, "button.music", "volume_invalid")}`
       );
       return;
     }

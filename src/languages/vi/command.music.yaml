@@ -1,9 +1,3 @@
-### 24/7 command!
-247_on: "`✅` | Chế độ 24/7 hiện được **Bật**!"
-247_off: "`❌` | Chế độ 24/7 hiện bị **Đã tắt**!"
-247_on_already: "`⚠️` | Chế độ 24/7 đã được **Bật**!"
-247_off_already: "`⚠️` | Chế độ 24/7 đã **Đã tắt**!"
-
 ### Autoplay command!
 autoplay_on: "`✅` | Tính năng tự động phát hiện đã được **Bật**!"
 autoplay_off: "`❌` | Tính năng tự động phát hiện đã được **Đã tắt**!"
@@ -44,9 +38,9 @@ np_current_duration: "`⏰` | Thời lượng hiện tại: `[%{current_duration
 pause_msg: "`⏸️` | Đã tạm dừng **Người chơi**!"
 
 ### Play command!
-play_track: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` • (**%{songs} Bài hát**) • %{request}"
-play_result: "`💾` | Đã xếp hàng **[%{title}](%{url})** `%{duration}` • %{request}"
+play_track: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • %{request}"
+play_playlist: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • (**%{songs} Bài hát**) • %{request}"
+play_result: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
 play_match: "`⚠️` | Bài hát không được tìm thấy!"
 play_emoji: "`⚠️` | Bạn không thể phát các bài hát bằng biểu tượng cảm xúc!"
@@ -97,9 +91,3 @@ skip_notfound: "`⚠️` | Không tìm thấy bài hát nào để Bỏ qua!"
 ### Volume command!
 volume_msg: "`🔊` | Âm lượng đã được đặt thành **%{volume}%**"
 volume_invalid: "`⚠️` | Khối lượng không hợp lệ. Vui lòng sử dụng số từ **1** đến **100**!"
-
-### Utils
-enabled: "Đã bật"
-disabled: "Tàn tật"
-number_invalid: "`⚠️` | Vui lòng cung cấp số hợp lệ!"
-no_node: "`⚠️` | Không tìm thấy máy chủ Lavalink. Vui lòng thử lại sau **5 phút**!"

@@ -47,7 +47,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "number_invalid")}`
+              `${client.i18n.get(handler.language, "error", "number_invalid")}`
             )
             .setColor(client.color),
         ],
@@ -60,7 +60,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "detail_notfound"
               )}`
             )
@@ -77,7 +77,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "detail_notfound"
               )}`
             )
@@ -91,7 +91,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "playlist",
+                "command.playlist",
                 "detail_private"
               )}`
             )
@@ -106,13 +106,18 @@ export default class implements Command {
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const playlists = playlist.tracks![i];
       playlistStrings.push(
-        `${client.i18n.get(handler.language, "playlist", "detail_track", {
-          num: String(i + 1),
-          title: String(playlists.title),
-          url: playlists.uri,
-          author: String(playlists.author),
-          duration: new FormatDuration().parse(playlists.length),
-        })}
+        `${client.i18n.get(
+          handler.language,
+          "command.playlist",
+          "detail_track",
+          {
+            num: String(i + 1),
+            title: String(playlists.title),
+            url: playlists.uri,
+            author: String(playlists.author),
+            duration: new FormatDuration().parse(playlists.length),
+          }
+        )}
                 `
       );
     }
@@ -131,7 +136,7 @@ export default class implements Command {
         .setAuthor({
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "detail_embed_title",
             {
               name: playlist.name,
@@ -144,7 +149,7 @@ export default class implements Command {
         .setFooter({
           text: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "detail_embed_footer",
             {
               page: String(i + 1),
@@ -185,7 +190,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "playlist",
+                  "command.playlist",
                   "detail_notnumber"
                 )}`
               )
@@ -199,7 +204,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "playlist",
+                  "command.playlist",
                   "detail_page_notfound",
                   {
                     page: String(pagesNum),

@@ -1,10 +1,3 @@
-### Setup command!
-setup_msg: "**`⚙️` | Created Music System** %{channel}\n```Note: Do not delete any messages sent by me for the Music System to work properly!```"
-setup_deleted: "**`⚙️` | Deleted Music System!**"
-setup_topic: "⏹ **Stop**\n⏮️ **Previous**\n⏯ **Pause/Resume**\n⏭️ **Skip**\n🔁 **Loop/Unloop**"
-setup_enable: "`⚠️` | Music System already exists!"
-setup_null: "`⚠️` | Music System not found!"
-
 ### Setup handler!
 setup_queuemsg: "Join a voice channel and play songs using name or URL in here!"
 setup_playembed_author: "No Song Is Currently Playing"
@@ -23,3 +16,11 @@ status_create: "**`📊` | Created Status Channel!**"
 status_delete: "**`📊` | Deleted Status Channel!**"
 status_enable: "`⚠️` | Status Channel already exists!"
 status_null: "`⚠️` | Status Channel not found!"
+
+# Play!
+play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
+play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
+play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
+play_arg: "`⚠️` | Please provide a valid song name or URL!"
+play_match: "`⚠️` | Song not found!"
+play_emoji: "`⚠️` | You can not play songs using emoji!"

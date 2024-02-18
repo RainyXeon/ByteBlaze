@@ -40,7 +40,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "music", "number_invalid")}`
+              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
             )
             .setColor(client.color),
         ],
@@ -52,7 +52,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "music",
+                "command.music",
                 "removetrack_already"
               )}`
             )
@@ -66,7 +66,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "music",
+                "command.music",
                 "removetrack_notfound"
               )}`
             )
@@ -80,12 +80,17 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "removetrack_desc", {
-          name: song.title,
-          url: String(song.uri),
-          duration: new ConvertTime().parse(player.shoukaku.position),
-          request: String(song.requester),
-        })}`
+        `${client.i18n.get(
+          handler.language,
+          "command.music",
+          "removetrack_desc",
+          {
+            name: song.title,
+            url: String(song.uri),
+            duration: new ConvertTime().parse(player.shoukaku.position),
+            request: String(song.requester),
+          }
+        )}`
       )
       .setColor(client.color);
 

@@ -38,7 +38,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -51,7 +51,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "playlist", "invalid")}`
+              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
             )
             .setColor(client.color),
         ],
@@ -69,39 +69,39 @@ export default class implements Command {
         {
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "info_owner"
           )}`,
           value: `${name.username}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "playlist", "info_id")}`,
+          name: `${client.i18n.get(handler.language, "command.playlist", "info_id")}`,
           value: `${info.id}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "playlist", "info_des")}`,
+          name: `${client.i18n.get(handler.language, "command.playlist", "info_des")}`,
           value: `${
             info.description === null || info.description === "null"
-              ? client.i18n.get(handler.language, "playlist", "no_des")
+              ? client.i18n.get(handler.language, "command.playlist", "no_des")
               : info.description
           }`,
         },
         {
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "info_private"
           )}`,
           value: `${
             info.private
-              ? client.i18n.get(handler.language, "playlist", "public")
-              : client.i18n.get(handler.language, "playlist", "private")
+              ? client.i18n.get(handler.language, "command.playlist", "public")
+              : client.i18n.get(handler.language, "command.playlist", "private")
           }`,
         },
         {
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "info_created"
           )}`,
           value: `${created}`,
@@ -109,7 +109,7 @@ export default class implements Command {
         {
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "info_total"
           )}`,
           value: `${info.tracks!.length}`,

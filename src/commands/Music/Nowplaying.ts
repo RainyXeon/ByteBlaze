@@ -42,33 +42,33 @@ export default class implements Command {
 
     const fieldDataGlobal = [
       {
-        name: `${client.i18n.get(handler.language, "player", "author_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "author_title")}`,
         value: `${song!.author}`,
         inline: true,
       },
       {
         name: `${client.i18n.get(
           handler.language,
-          "player",
+          "event.player",
           "duration_title"
         )}`,
         value: `${new FormatDuration().parse(song!.length)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "player", "volume_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "volume_title")}`,
         value: `${player.volume * 100}%`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "player", "queue_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "queue_title")}`,
         value: `${player.queue.length}`,
         inline: true,
       },
       {
         name: `${client.i18n.get(
           handler.language,
-          "player",
+          "event.player",
           "total_duration_title"
         )}`,
         value: `${new FormatDuration().parse(
@@ -77,14 +77,14 @@ export default class implements Command {
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "player", "request_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "request_title")}`,
         value: `${song!.requester}`,
         inline: true,
       },
       {
         name: `${client.i18n.get(
           handler.language,
-          "player",
+          "event.player",
           "download_title"
         )}`,
         value: `**[${
@@ -95,7 +95,7 @@ export default class implements Command {
       {
         name: `${client.i18n.get(
           handler.language,
-          "music",
+          "command.music",
           "np_current_duration",
           {
             current_duration: CurrentDuration,
@@ -111,8 +111,8 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "music", "np_title")}`,
-        iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
+        name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+        iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
       .setDescription(`**[${song!.title}](${song!.uri})**`)
@@ -148,7 +148,7 @@ export default class implements Command {
         editedField.push({
           name: `${client.i18n.get(
             handler.language,
-            "music",
+            "command.music",
             "np_current_duration",
             {
               current_duration: CurrentDuration,
@@ -163,8 +163,8 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(handler.language, "music", "np_title")}`,
-            iconURL: `${client.i18n.get(handler.language, "music", "np_icon")}`,
+            name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+            iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
           .setDescription(`**[${song!.title}](${song!.uri})**`)

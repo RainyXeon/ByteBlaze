@@ -54,7 +54,7 @@ export default class implements Command {
       playlistStrings.push(
         `${client.i18n.get(
           handler.language,
-          "playlist",
+          "command.playlist",
           "view_embed_playlist",
           {
             num: String(i + 1),
@@ -74,7 +74,7 @@ export default class implements Command {
         .setAuthor({
           name: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "view_embed_title",
             {
               user: handler.user!.username,
@@ -87,7 +87,7 @@ export default class implements Command {
         .setFooter({
           text: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "view_embed_footer",
             {
               page: String(i + 1),
@@ -131,7 +131,7 @@ export default class implements Command {
               .setDescription(
                 `${client.i18n.get(
                   handler.language,
-                  "playlist",
+                  "command.playlist",
                   "view_notnumber"
                 )}`
               )
@@ -142,7 +142,7 @@ export default class implements Command {
         return handler.editReply({
           content: `${client.i18n.get(
             handler.language,
-            "playlist",
+            "command.playlist",
             "view_page_notfound",
             {
               page: String(pagesNum),

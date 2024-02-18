@@ -1,0 +1,34 @@
+### Developer command!
+dev_title: "RainyXeon"
+dev_desc: "I'm just an incognito developer. And an official creator of Dreamvast and RainyProduction!"
+dev_foot: "Consider joining my server or inviting my bots :) This would help me a lot!"
+
+### Invite command!
+inv_title: "✉️ %{username}"
+inv_desc: "Thanks for Inviting me in advance!"
+
+### Ping command!
+ping_title: "🏓 "
+ping_desc: "**Ping:** `%{ping}ms`\n**Response Time:** `%{response}ms`"
+
+### Uptime command!
+uptime_title: "🕒 "
+uptime_desc: "**Uptime:** `%{uptime}`"
+
+### Help command!
+ce_finder_name: "**Command:**"
+ce_finder_des: "**Description:**"
+ce_finder_usage: "**Usage:**"
+ce_finder_access: "**Accessible by:**"
+ce_finder_aliases: "**Aliases:**"
+ce_finder_slash: "**Slash:**"
+ce_finder_des_no: "No Description"
+ce_finder_usage_no: "No Usage"
+ce_finder_aliases_prefix: " [Prefix only]"
+ce_finder_aliases_no: "No Aliases"
+ce_finder_slash_enable: "Enabled"
+ce_finder_slash_disable: "Disabled"
+ce_finder_invalid: "Invalid Command"
+ce_finder_example: "`⚠️` | Please provide a valid **Command Name**!"
+ce_name: "Help Command"
+ce_total: "Total Commands: "

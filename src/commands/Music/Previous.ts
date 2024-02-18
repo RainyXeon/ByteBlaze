@@ -37,7 +37,7 @@ export default class implements Command {
             .setDescription(
               `${client.i18n.get(
                 handler.language,
-                "music",
+                "command.music",
                 "previous_notfound"
               )}`
             )
@@ -49,7 +49,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "previous_msg")}`
+        `${client.i18n.get(handler.language, "command.music", "previous_msg")}`
       )
       .setColor(client.color);
 

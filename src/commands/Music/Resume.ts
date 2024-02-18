@@ -31,7 +31,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "music", "resume_msg")}`
+        `${client.i18n.get(handler.language, "command.music", "resume_msg")}`
       )
       .setColor(client.color);
 

@@ -29,7 +29,7 @@ export class ButtonPrevious {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_in_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -43,7 +43,7 @@ export class ButtonPrevious {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "noplayer", "no_voice")}`
+              `${this.client.i18n.get(this.language, "error", "no_same_voice")}`
             )
             .setColor(this.client.color),
         ],
@@ -56,7 +56,7 @@ export class ButtonPrevious {
             .setDescription(
               `${this.client.i18n.get(
                 this.language,
-                "music",
+                "button.music",
                 "previous_notfound"
               )}`
             )
@@ -69,7 +69,7 @@ export class ButtonPrevious {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "music", "previous_msg")}`
+          `${this.client.i18n.get(this.language, "button.music", "previous_msg")}`
         )
         .setColor(this.client.color);
 

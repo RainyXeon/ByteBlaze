@@ -8,7 +8,7 @@ export default class {
       client.user!.setPresence({
         activities: [
           {
-            name: `v${client.metadata.version}`,
+            name: `v${client.metadata.version} | /play`,
             type: 2,
           },
         ],

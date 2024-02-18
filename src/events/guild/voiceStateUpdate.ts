@@ -108,7 +108,7 @@ export default class {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "player", "leave_resume")}`
+                `${client.i18n.get(language, "event.player", "leave_resume")}`
               )
               .setColor(client.color),
           ],
@@ -140,7 +140,7 @@ export default class {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `${client.i18n.get(language, "player", "leave_pause")}`
+                  `${client.i18n.get(language, "event.player", "leave_pause")}`
                 )
                 .setColor(client.color),
             ],
@@ -166,7 +166,7 @@ export default class {
             if (newPlayer) player.destroy();
             const TimeoutEmbed = new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "player", "player_end", {
+                `${client.i18n.get(language, "event.player", "player_end", {
                   leave: vcRoom,
                 })}`
               )

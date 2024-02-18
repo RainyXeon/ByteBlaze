@@ -1,0 +1,31 @@
+# Invalid Number
+number_invalid: "`⚠️` | Hãy nhập 1 số hợp lệ!"
+
+# Execute when invalid
+no_node: "`⚠️` | Hiện không có máy chủ lavalink để chơi nhạc. Vui lòng thử lại sau **5 phút**!"
+
+# No song is currently playing!
+no_player: "`⚠️` | Hiện giờ không có nhạc nào đang chơi!"
+
+# Need to join voice & same voice to use command!
+no_in_voice: "`⚠️` | Bạn không ở trong kênh đàm thoại với tôi!"
+no_same_voice: "`⚠️` | Bạn không ở cùng kênh đàm thoại với tôi!"
+
+# No permission!
+no_perms: "`⚠️` | Bot không có quyền **%{perm}** để thực hiện lệnh này!"
+
+# Getting error!
+unexpected_error: "`⚠️` | Có gì đó không ổn. Vui lòng thử lại!"
+
+# Client owner!
+owner_only: "`⚠️` | Bạn không phải chủ nhân của tôi!"
+
+# No premium Event!
+no_premium_author: "Dịch vụ trả phí"
+no_premium_desc: "`⚠️` | Bạn không phải người dùng gói dịch vụ trả phí!"
+
+# Rate limit!
+ratelimit: "`⚠️` | Bạn dùng lệnh quá nhanh. Hãy đợi **%{time} giây**!"
+
+# Missing args
+arg_error: "`⚠️` | Dữ liệu đi theo không hợp lệ. Vui lòng chỉ sử dụng %{text}"

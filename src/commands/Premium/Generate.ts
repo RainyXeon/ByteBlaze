@@ -62,7 +62,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "arg_error", {
+              `${client.i18n.get(handler.language, "error", "arg_error", {
                 text: "**daily**, **weekly**, **monthly**, **yearly**!",
               })}`
             )
@@ -74,7 +74,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "utilities", "arg_error", {
+              `${client.i18n.get(handler.language, "error", "arg_error", {
                 text: "**Number**!",
               })}`
             )
@@ -116,11 +116,11 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setColor(client.color)
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "premium", "gen_author")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "gen_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       }) //${lang.description.replace("{codes_length}", codes.length).replace("{codes}", codes.join('\n')).replace("{plan}", plan).replace("{expires}", moment(time).format('dddd, MMMM Do YYYY'))}
       .setDescription(
-        `${client.i18n.get(handler.language, "premium", "gen_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "gen_desc", {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
@@ -129,9 +129,14 @@ export default class implements Command {
       )
       .setTimestamp()
       .setFooter({
-        text: `${client.i18n.get(handler.language, "premium", "gen_footer", {
-          prefix: "/",
-        })}`,
+        text: `${client.i18n.get(
+          handler.language,
+          "command.premium",
+          "gen_footer",
+          {
+            prefix: "/",
+          }
+        )}`,
         iconURL: handler.user?.displayAvatarURL(),
       });
 
