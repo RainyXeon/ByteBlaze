@@ -19,9 +19,7 @@ export default class implements PlayerButton {
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
-    if (!player) {
-      return collector.stop();
-    }
+    collector.stop();
 
     player.data.set("sudo-destroy", true);
     player.destroy();

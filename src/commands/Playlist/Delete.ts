@@ -120,8 +120,8 @@ export default class implements Command {
           )
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
-        msg?.delete();
         collector.stop();
+        msg?.delete();
       } else if (id == "no") {
         const embed = new EmbedBuilder()
           .setDescription(
@@ -129,8 +129,8 @@ export default class implements Command {
           )
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
-        msg?.delete();
         collector.stop();
+        msg?.delete();
       }
     });
 
