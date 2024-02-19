@@ -178,7 +178,8 @@ export default class {
                   : undefined;
                 setTimeout(
                   async () =>
-                    msg && setup && setup.channel !== player.textId
+                    msg &&
+                    (!setup || setup == null || setup.channel !== player.textId)
                       ? msg.delete()
                       : undefined,
                   client.config.bot.DELETE_MSG_TIMEOUT

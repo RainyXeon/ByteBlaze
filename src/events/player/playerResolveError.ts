@@ -46,7 +46,9 @@ export default class {
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
         async () =>
-          setup && setup.channel !== player.textId ? msg.delete() : true,
+          !setup || setup == null || setup.channel !== channel.id
+            ? msg.delete()
+            : true,
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }
