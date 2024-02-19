@@ -112,8 +112,7 @@ export default class implements Command {
           "detail_track",
           {
             num: String(i + 1),
-            title: String(playlists.title),
-            url: playlists.uri,
+            title: this.getTitle(client, playlists),
             author: String(playlists.author),
             duration: new FormatDuration().parse(playlists.length),
           }
@@ -216,6 +215,13 @@ export default class implements Command {
         });
       const pageNum = Number(number) == 0 ? 1 : Number(number) - 1;
       return handler.editReply({ embeds: [pages[pageNum]] });
+    }
+  }
+
+  getTitle(client: Manager, tracks: PlaylistTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return String(tracks.title);
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
     }
   }
 }

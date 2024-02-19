@@ -3,7 +3,6 @@ import {
   AutocompleteInteraction,
   CommandInteraction,
   EmbedBuilder,
-  Message,
 } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
@@ -14,7 +13,11 @@ import {
   GlobalInteraction,
 } from "../../@types/Interaction.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import {
+  KazagumoPlayer,
+  KazagumoTrack,
+  SearchResultTypes,
+} from "../../lib/main.js";
 
 export default class implements Command {
   public name = ["play"];
@@ -127,8 +130,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(handler.language, "command.music", "play_track", {
-            title: tracks[0].title,
-            url: String(tracks[0].uri),
+            title: this.getTitle(client, result.type, tracks),
             duration: new ConvertTime().parse(tracks[0].length as number),
             request: String(tracks[0].requester),
           })}`
@@ -145,8 +147,7 @@ export default class implements Command {
             "command.music",
             "play_playlist",
             {
-              title: tracks[0].title,
-              url: value,
+              title: this.getTitle(client, result.type, tracks, value),
               duration: new ConvertTime().parse(TotalDuration),
               songs: String(tracks.length),
               request: String(tracks[0].requester),
@@ -160,8 +161,7 @@ export default class implements Command {
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(handler.language, "command.music", "play_result", {
-          title: tracks[0].title,
-          url: String(tracks[0].uri),
+          title: this.getTitle(client, result.type, tracks),
           duration: new ConvertTime().parse(tracks[0].length as number),
           request: String(tracks[0].requester),
         })}`
@@ -189,6 +189,22 @@ export default class implements Command {
     }
 
     return true;
+  }
+
+  getTitle(
+    client: Manager,
+    type: SearchResultTypes,
+    tracks: KazagumoTrack[],
+    value?: string
+  ): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+    else {
+      if (type === "PLAYLIST") {
+        return `[${tracks[0].title}](${value})`;
+      } else {
+        return `[${tracks[0].title}](${tracks[0].uri})`;
+      }
+    }
   }
 
   // Autocomplete function

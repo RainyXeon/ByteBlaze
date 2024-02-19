@@ -5,7 +5,7 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { FormatDuration } from "../utilities/FormatDuration.js";
@@ -24,7 +24,6 @@ export default class implements PlayerButton {
       collector.stop();
     }
     const song = player.queue.current;
-    const position = player.shoukaku.position;
     const qduration = `${new FormatDuration().parse(song!.length)}`;
     const thumbnail = `https://img.youtube.com/vi/${
       song!.identifier
@@ -37,9 +36,7 @@ export default class implements PlayerButton {
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
       songStrings.push(
-        `**${i + 1}.** [${song.title}](${
-          song.uri
-        }) \`[${new FormatDuration().parse(song.length)}]\`
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\`
         `
       );
     }
@@ -58,8 +55,7 @@ export default class implements PlayerButton {
         .setColor(client.color)
         .setDescription(
           `${client.i18n.get(language, "button.music", "queue_description", {
-            track: song!.title,
-            track_url: String(song!.uri),
+            track: this.getTitle(client, song!),
             duration: new FormatDuration().parse(song?.length),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
@@ -77,5 +73,12 @@ export default class implements PlayerButton {
       pages.push(embed);
     }
     message.reply({ embeds: [pages[0]], ephemeral: true });
+  }
+
+  getTitle(client: Manager, tracks: KazagumoTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
+    }
   }
 }

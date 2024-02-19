@@ -32,6 +32,9 @@ lavalink:
 
   DEFAULT_VOLUME: 100 # Must not over 1000 or bot crash
 
+  # Enable this to avoid your bot get suspended (Recommended to be enable)
+  AVOID_SUSPEND: true
+
   # You can add more Lavalink servers!
   NODES:
     - url: "IP:Port"

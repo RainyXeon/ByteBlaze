@@ -11,6 +11,7 @@ import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
+import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 const rateLimitManager = new RateLimitManager(2000);
 
 /**
@@ -224,8 +225,7 @@ export class playerLoadContent {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "event.setup", "play_playlist", {
-            title: result.tracks[0].title,
-            url: String(result.tracks[0].uri),
+            title: getTitle(result.tracks),
             duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
@@ -238,8 +238,7 @@ export class playerLoadContent {
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.i18n.get(language, "event.setup", "play_track", {
-            title: result.tracks[0].title,
-            url: String(result.tracks[0].uri),
+            title: getTitle(result.tracks),
             duration: new ConvertTime().parse(
               result.tracks[0].length as number
             ),
@@ -252,13 +251,19 @@ export class playerLoadContent {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "event.setup", "play_result", {
-          title: result.tracks[0].title,
-          url: String(result.tracks[0].uri),
+          title: getTitle(result.tracks),
           duration: new ConvertTime().parse(result.tracks[0].length as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );
       msg.reply({ content: " ", embeds: [embed] });
+    }
+
+    function getTitle(tracks: KazagumoTrack[]): string {
+      if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+      else {
+        return `[${tracks[0].title}](${tracks[0].uri})`;
+      }
     }
 
     await client.UpdateQueueMsg(player);

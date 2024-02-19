@@ -5,7 +5,7 @@ import {
   InteractionCollector,
   Message,
 } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
@@ -41,9 +41,7 @@ export default class implements PlayerButton {
     for (let i = 0; i < newQueue.length; i++) {
       const song = newQueue[i];
       songStrings.push(
-        `**${i + 1}.** [${song.title}](${
-          song.uri
-        }) \`[${new FormatDuration().parse(song.length)}]\`
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\`
         `
       );
     }
@@ -60,8 +58,7 @@ export default class implements PlayerButton {
         })
         .setDescription(
           `${client.i18n.get(language, "button.music", "queue_description", {
-            track: song!.title,
-            track_url: String(song!.uri),
+            track: this.getTitle(client, song!),
             duration: new FormatDuration().parse(song?.length),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
@@ -88,5 +85,12 @@ export default class implements PlayerButton {
         language
       ).buttonPage(message, qduration);
     } else message.reply({ embeds: [pages[0]], ephemeral: true });
+  }
+
+  getTitle(client: Manager, tracks: KazagumoTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
+    }
   }
 }

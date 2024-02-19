@@ -39,9 +39,9 @@ np_current_duration: "`⏰` | Current Duration: `[%{current_duration} / %{total_
 pause_msg: "`⏸️` | Paused the **Player**!"
 
 ### Play command!
-play_track: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
-play_result: "`💾` | Queued **[%{title}](%{url})** `%{duration}` • %{request}"
+play_track: "`💾` | Queued **%{title}** `%{duration}` • %{request}"
+play_playlist: "`💾` | Queued **%{title}** `%{duration}` • (**%{songs} Songs**) • %{request}"
+play_result: "`💾` | Queued **%{title}** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Please provide a valid song name or URL!"
 play_match: "`⚠️` | Song not found!"
 play_emoji: "`⚠️` | You can not play songs using emoji!"
@@ -57,7 +57,7 @@ previous_notfound: "`⚠️` | No Previous song was found!"
 
 ### Queue command!
 queue_author: "💾 %{guild}"
-queue_description: "`📀` | Currently Playing:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | Rest of Queue:**%{rest}**"
+queue_description: "`📀` | Currently Playing:\n**%{title}** `[%{duration}]` • %{request}\n\n`💤` | Rest of Queue:**%{rest}**"
 queue_footer: "Page • %{page}/%{pages} | Songs • %{queue_lang} | Total Duration • %{duration}"
 queue_notnumber: "`⚠️` | Please provide a valid page number!"
 queue_page_notfound: "`⚠️` | There are only **%{page} Pages**!"
@@ -73,7 +73,7 @@ rewind_msg: "`⏪` | Rewinded to `%{duration}`"
 rewind_beyond: "`⚠️` | Song just started. You can not Rewind beyond it!"
 
 ### RemoveTrack command!
-removetrack_desc: "`🗑️` | Removed **[%{name}](%{url})** `%{duration}` • %{request}"
+removetrack_desc: "`🗑️` | Removed **%{name}** `%{duration}` • %{request}"
 removetrack_already: "`⚠️` | I can not Remove a song that is already playing!"
 removetrack_notfound: "`⚠️` | Song not found!"
 

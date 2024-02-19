@@ -5,9 +5,9 @@ des_toolong: "`⚠️` | Mô tả danh sách phát không được dài hơn **1
 create_limit_playlist: "`⚠️` | Bạn không thể tạo nhiều hơn **%{limit} Danh sách phát**!"
 
 ### Add command!
-add_track: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • %{user}"
-add_playlist: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • (**%{track} Bài hát**) • %{user}"
-add_search: "`🔍` | Đã tìm kiếm **[%{title}](%{url})** `%{duration}` • %{user}"
+add_track: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}"
+add_playlist: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • (**%{track} Bài hát**) • %{user}"
+add_search: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}"
 add_added: "`➕` | Đã thêm **%{count} Bài hát** vào `%{playlist}`"
 add_match: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
 add_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
@@ -24,7 +24,7 @@ delete_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách 
 detail_private: "`🔒` | Danh sách phát là **Riêng tư**!"
 detail_embed_title: "%{name}"
 detail_embed_footer: "Trang • %{page}/%{pages} | Bài hát • %{songs} | Tổng thời lượng • %{duration}"
-detail_track: "%{num}. **[%{title}](%{url})** `[%{duration}]` • Tác giả: **%{author}**"
+detail_track: "%{num}. **%{title}** `[%{duration}]` • Tác giả: **%{author}**"
 detail_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
 detail_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
 detail_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"

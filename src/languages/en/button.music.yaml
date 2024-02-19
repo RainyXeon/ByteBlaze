@@ -1,5 +1,5 @@
 queue_author: "💾 %{guild}"
-queue_description: "`📀` | Currently Playing:\n**[%{track}](%{track_url})** `[%{duration}]` • %{requester}\n\n`💤` | Rest of Queue:**%{list_song}**"
+queue_description: "`📀` | Currently Playing:\n**%{track}** `[%{duration}]` • %{requester}\n\n`💤` | Rest of Queue:**%{list_song}**"
 queue_footer: "Page • %{page}/%{pages} | Songs • %{queue_lang} | Total Duration • %{total_duration}"
 # Pause
 pause_msg: "`⏸️` | Paused the **Player**!"

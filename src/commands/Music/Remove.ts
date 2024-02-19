@@ -4,7 +4,7 @@ import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 
 // Main code
 export default class implements Command {
@@ -85,8 +85,7 @@ export default class implements Command {
           "command.music",
           "removetrack_desc",
           {
-            name: song.title,
-            url: String(song.uri),
+            name: this.getTitle(client, song),
             duration: new ConvertTime().parse(player.shoukaku.position),
             request: String(song.requester),
           }
@@ -95,5 +94,12 @@ export default class implements Command {
       .setColor(client.color);
 
     return handler.editReply({ embeds: [embed] });
+  }
+
+  getTitle(client: Manager, tracks: KazagumoTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
+    }
   }
 }

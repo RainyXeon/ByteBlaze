@@ -80,18 +80,20 @@ export class Manager extends Client {
     this.shardStatus = false;
     this.REGEX = REGEX;
 
-    if (!this.configVolCheck()) {
+    if (!this.configVolCheck())
       this.logger.warn(
         "Default config volume must between 1 and 100, use default volume (100)"
       );
-    }
 
-    if (!this.configSearchCheck()) {
+    if (!this.configSearchCheck())
       this.logger.warn(
         "Default config search must have string element, use default"
       );
-    }
 
+    if (!this.config.lavalink.AVOID_SUSPEND)
+      this.logger.warn(
+        "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
+      );
     // Initial autofix lavalink varibles
     this.lavalinkList = [];
     this.lavalinkUsing = [];

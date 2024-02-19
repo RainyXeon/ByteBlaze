@@ -136,7 +136,6 @@ export default class implements Command {
             "play_playlist",
             {
               title: file.name,
-              url: file.url,
               duration: new ConvertTime().parse(TotalDuration),
               songs: String(tracks.length),
               request: String(tracks[0].requester),
@@ -151,7 +150,6 @@ export default class implements Command {
         .setDescription(
           `${client.i18n.get(handler.language, "command.music", "play_track", {
             title: file.name,
-            url: file.url,
             duration: new ConvertTime().parse(tracks[0].length as number),
             request: String(tracks[0].requester),
           })}`
@@ -163,7 +161,6 @@ export default class implements Command {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(handler.language, "command.music", "play_result", {
           title: file.name,
-          url: file.url,
           duration: new ConvertTime().parse(tracks[0].length as number),
           request: String(tracks[0].requester),
         })}`

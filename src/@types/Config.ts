@@ -66,6 +66,7 @@ export interface Lavalink {
   LEAVE_TIMEOUT: number;
   NODES: Node[];
   DEFAULT_VOLUME: number;
+  AVOID_SUSPEND: boolean;
 }
 
 export interface Node {

@@ -38,9 +38,9 @@ np_current_duration: "`⏰` | Thời lượng hiện tại: `[%{current_duration
 pause_msg: "`⏸️` | Đã tạm dừng **Người chơi**!"
 
 ### Play command!
-play_track: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • (**%{songs} Bài hát**) • %{request}"
-play_result: "`💾` | Đã thêm vào danh sách phát **[%{title}](%{url})** `%{duration}` • %{request}"
+play_track: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}"
+play_playlist: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • (**%{songs} Bài hát**) • %{request}"
+play_result: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}"
 play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
 play_match: "`⚠️` | Bài hát không được tìm thấy!"
 play_emoji: "`⚠️` | Bạn không thể phát các bài hát bằng biểu tượng cảm xúc!"
@@ -56,7 +56,7 @@ previous_notfound: "`⚠️` | Không tìm thấy bài hát trước đó!"
 
 ### Queue command!
 queue_author: "💾 %{guild}"
-queue_description: "`📀` | Đang phát:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | Phần còn lại của hàng đợi:**%{rest}**"
+queue_description: "`📀` | Đang phát:\n**%{title}** `[%{duration}]` • %{request}\n\n`💤` | Phần còn lại của hàng đợi:**%{rest}**"
 queue_footer: "Trang • %{page}/%{pages} | Bài hát • %{queue_lang} | Tổng thời lượng • %{duration}"
 queue_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
 queue_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
@@ -72,7 +72,7 @@ rewind_msg: "`⏪` | Đã tua lại về `%{duration}`"
 rewind_beyond: "`⚠️` | Bài hát vừa mới bắt đầu. Bạn không thể Tua lại ngoài nó!"
 
 ### RemoveTrack command!
-removetrack_desc: "`🗑️` | Đã xóa **[%{name}](%{url})** `%{duration}` • %{request}"
+removetrack_desc: "`🗑️` | Đã xóa **%{name}** `%{duration}` • %{request}"
 removetrack_already: "`⚠️` | Tôi không thể xóa bài hát đang phát!"
 removetrack_notfound: "`⚠️` | Bài hát không được tìm thấy!"
 
