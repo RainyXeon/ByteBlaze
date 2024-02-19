@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
-import { KazagumoTrack } from "../../lib/main.js";
+import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -104,8 +104,7 @@ export default class implements Command {
             "command.playlist",
             "add_playlist",
             {
-              title: tracks[0].title,
-              url: Inputed,
+              title: this.getTitle(client, result.type, tracks, Inputed),
               duration: new ConvertTime().parse(TotalDuration),
               track: String(tracks.length),
               user: String(handler.user),
@@ -122,8 +121,7 @@ export default class implements Command {
             "command.playlist",
             "add_track",
             {
-              title: tracks[0].title,
-              url: String(tracks[0].uri),
+              title: this.getTitle(client, result.type, tracks),
               duration: Duration,
               user: String(handler.user),
             }
@@ -139,8 +137,7 @@ export default class implements Command {
             "command.playlist",
             "add_search",
             {
-              title: tracks[0].title,
-              url: String(tracks[0].uri),
+              title: this.getTitle(client, result.type, tracks),
               duration: Duration,
               user: String(handler.user),
             }
@@ -232,6 +229,22 @@ export default class implements Command {
 
     handler.followUp({ content: " ", embeds: [embed] });
     TrackAdd.length = 0;
+  }
+
+  getTitle(
+    client: Manager,
+    type: SearchResultTypes,
+    tracks: KazagumoTrack[],
+    value?: string
+  ): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+    else {
+      if (type === "PLAYLIST") {
+        return `[${tracks[0].title}](${value})`;
+      } else {
+        return `[${tracks[0].title}](${tracks[0].uri})`;
+      }
+    }
   }
 
   // Autocomplete function

@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 
 export class playerLoadUpdate {
   client: Manager;
@@ -55,6 +55,13 @@ export class playerLoadUpdate {
       let cSong = player.queue.current;
       let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
 
+      function getTitle(tracks: KazagumoTrack): string {
+        if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+        else {
+          return `[${tracks.title}](${tracks.uri})`;
+        }
+      }
+
       let embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.i18n.get(language, "event.setup", "setup_author")}`,
@@ -62,8 +69,7 @@ export class playerLoadUpdate {
         })
         .setDescription(
           `${client.i18n.get(language, "event.setup", "setup_desc", {
-            title: cSong!.title,
-            url: String(cSong!.uri),
+            title: getTitle(cSong!),
             duration: new FormatDuration().parse(cSong!.length),
             request: `${cSong!.requester}`,
           })}`

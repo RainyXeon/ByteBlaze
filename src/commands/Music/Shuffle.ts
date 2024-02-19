@@ -2,7 +2,7 @@ import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 
@@ -47,9 +47,7 @@ export default class implements Command {
     for (let i = 0; i < newQueue.length; i++) {
       const song = newQueue[i];
       songStrings.push(
-        `**${i + 1}.** [${song.title}](${
-          song.uri
-        }) \`[${new FormatDuration().parse(song.length)}]\`
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\`
                     `
       );
     }
@@ -70,8 +68,7 @@ export default class implements Command {
             "command.music",
             "queue_description",
             {
-              title: String(song!.title),
-              url: String(song!.uri),
+              title: this.getTitle(client, song!),
               request: String(song!.requester),
               duration: new FormatDuration().parse(song!.length),
               rest: str == "" ? "  Nothing" : "\n" + str,
@@ -114,5 +111,12 @@ export default class implements Command {
         ).slashPage(handler.interaction, qduration);
       } else return;
     } else return handler.editReply({ embeds: [pages[0]] });
+  }
+
+  getTitle(client: Manager, tracks: KazagumoTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
+    }
   }
 }

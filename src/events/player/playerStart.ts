@@ -101,12 +101,19 @@ export default class {
 
     if (SongNoti == SongNotiEnum.Disable) return;
 
+    function getTitle(tracks: KazagumoTrack): string {
+      if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+      else {
+        return `[${tracks.title}](${tracks.uri})`;
+      }
+    }
+
     const embeded = new EmbedBuilder()
       .setAuthor({
         name: `${client.i18n.get(language, "event.player", "track_title")}`,
         iconURL: `${client.i18n.get(language, "event.player", "track_icon")}`,
       })
-      .setDescription(`**[${track.title}](${track.uri})**`)
+      .setDescription(`**${getTitle(track)}**`)
       .addFields([
         {
           name: `${client.i18n.get(language, "event.player", "author_title")}`,
@@ -127,9 +134,7 @@ export default class {
           name: `${client.i18n.get(language, "event.player", "download_title")}`,
           value: `**[${
             song!.title
-          } - y2mate.com](https://www.y2mate.com/youtube/${
-            song!.identifier
-          })**`,
+          } - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
           inline: false,
         },
       ])

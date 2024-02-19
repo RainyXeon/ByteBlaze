@@ -4,7 +4,7 @@ import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 
 // Main code
 export default class implements Command {
@@ -89,7 +89,7 @@ export default class implements Command {
         )}`,
         value: `**[${
           song!.title
-        } - y2mate.com](https://www.y2mate.com/youtube/${song!.identifier})**`,
+        }](https://www.000tube.com/watch?v=${song?.identifier})**`,
         inline: false,
       },
       {
@@ -115,7 +115,7 @@ export default class implements Command {
         iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
-      .setDescription(`**[${song!.title}](${song!.uri})**`)
+      .setDescription(`**${this.getTitle(client, song!)}**`)
       .setThumbnail(Thumbnail)
       .addFields(fieldDataGlobal)
       .setTimestamp();
@@ -167,7 +167,7 @@ export default class implements Command {
             iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
-          .setDescription(`**[${song!.title}](${song!.uri})**`)
+          .setDescription(`**${this.getTitle(client, song!)}**`)
           .setThumbnail(Thumbnail)
           .addFields(editedField)
           .setTimestamp();
@@ -177,6 +177,13 @@ export default class implements Command {
     } else if (!realtime) {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
+    }
+  }
+
+  getTitle(client: Manager, tracks: KazagumoTrack): string {
+    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    else {
+      return `[${tracks.title}](${tracks.uri})`;
     }
   }
 }
