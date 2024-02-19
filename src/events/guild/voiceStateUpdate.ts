@@ -150,7 +150,9 @@ export default class {
               msg.channelId
             );
             if (!isChannelAvalible) return;
-            setup && setup.channel !== player.textId ? msg.delete() : true;
+            !setup || setup == null || setup.channel !== player.textId
+              ? msg.delete()
+              : true;
           }, client.config.bot.DELETE_MSG_TIMEOUT);
         }
 
