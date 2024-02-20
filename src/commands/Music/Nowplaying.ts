@@ -18,6 +18,8 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {

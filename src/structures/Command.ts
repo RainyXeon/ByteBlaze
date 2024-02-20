@@ -36,5 +36,6 @@ export class Command {
   usingInteraction: boolean = false;
   sameVoiceCheck: boolean = false;
   options: CommandOptionInterface[] = [];
+  permissions: bigint[] = [];
   async execute(client: Manager, handler: CommandHandler): Promise<any> {}
 }

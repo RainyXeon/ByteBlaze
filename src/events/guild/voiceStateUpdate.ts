@@ -115,7 +115,9 @@ export default class {
         });
         setTimeout(
           async () =>
-          (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : true,
+            !setup || setup == null || setup.channel !== player.textId
+              ? msg.delete()
+              : true,
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }

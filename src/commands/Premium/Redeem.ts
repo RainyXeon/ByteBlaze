@@ -15,6 +15,8 @@ export default class implements Command {
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "code",

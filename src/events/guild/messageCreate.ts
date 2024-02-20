@@ -123,19 +123,18 @@ export default class {
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
+
+    //Default permission
     const defaultPermissions = [
       PermissionFlagsBits.SendMessages,
       PermissionFlagsBits.ViewChannel,
       PermissionFlagsBits.EmbedLinks,
     ];
-
     const allCommandPermissions = [PermissionFlagsBits.ManageMessages];
-
     const musicPermissions = [
       PermissionFlagsBits.Speak,
       PermissionFlagsBits.Connect,
     ];
-
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(permission: string) {
@@ -177,6 +176,12 @@ export default class {
       const returnData = await permissionChecker.message(
         message,
         allCommandPermissions
+      );
+      if (returnData !== "PermissionPass") return respondError(returnData);
+    } else if (command.permissions.length !== 0) {
+      const returnData = await permissionChecker.message(
+        message,
+        command.permissions
       );
       if (returnData !== "PermissionPass") return respondError(returnData);
     }

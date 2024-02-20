@@ -17,6 +17,7 @@ export default class implements Command {
   public usingInteraction = true;
   public sameVoiceCheck = true;
   public options = [];
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

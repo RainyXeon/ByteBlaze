@@ -91,13 +91,13 @@ export default class {
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
-    const defaultPermissions = [PermissionFlagsBits.ManageMessages];
 
+    // Default permission
+    const defaultPermissions = [PermissionFlagsBits.ManageMessages];
     const musicPermissions = [
       PermissionFlagsBits.Speak,
       PermissionFlagsBits.Connect,
     ];
-
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(
@@ -136,6 +136,13 @@ export default class {
       const returnData = await permissionChecker.interaction(
         interaction,
         managePermissions
+      );
+      if (returnData !== "PermissionPass")
+        return respondError(interaction, returnData);
+    } else if (command.permissions.length !== 0) {
+      const returnData = await permissionChecker.interaction(
+        interaction,
+        command.permissions
       );
       if (returnData !== "PermissionPass")
         return respondError(interaction, returnData);

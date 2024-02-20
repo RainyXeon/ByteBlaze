@@ -18,6 +18,8 @@ export default class implements Command {
   public lavalink = true;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "type",
