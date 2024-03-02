@@ -13,17 +13,24 @@ export class ReplyInteractionService {
   }
 
   async execute() {
-    const embed = new EmbedBuilder()
-      .setDescription(this.content)
-      .setColor(this.client.color);
+    try {
+      const embed = new EmbedBuilder()
+        .setDescription(this.content)
+        .setColor(this.client.color);
 
-    const msg = await this.message.reply({ embeds: [embed], ephemeral: false });
-    const setup = await this.client.db.setup.get(String(this.message.guildId));
+      const msg = await this.message.reply({
+        embeds: [embed],
+        ephemeral: false,
+      });
+      const setup = await this.client.db.setup.get(
+        String(this.message.guildId)
+      );
 
-    setTimeout(() => {
-      !setup || setup == null || setup.channel !== this.message.channelId
-        ? msg.delete()
-        : true;
-    }, this.client.config.bot.DELETE_MSG_TIMEOUT);
+      setTimeout(() => {
+        !setup || setup == null || setup.channel !== this.message.channelId
+          ? msg.delete()
+          : true;
+      }, this.client.config.bot.DELETE_MSG_TIMEOUT);
+    } catch (err) {}
   }
 }

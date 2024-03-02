@@ -14,9 +14,11 @@ export class ClearMessageService {
   }
 
   async execute() {
-    const nplayingMsg = this.client.nplayingMsg.get(this.player.guildId);
-    if (!nplayingMsg) return;
-    nplayingMsg.delete();
-    this.client.nplayingMsg.delete(this.player.guildId);
+    try {
+      const nplayingMsg = this.client.nplayingMsg.get(this.player.guildId);
+      if (!nplayingMsg) return;
+      nplayingMsg.delete();
+      this.client.nplayingMsg.delete(this.player.guildId);
+    } catch (err) {}
   }
 }

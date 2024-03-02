@@ -14,6 +14,10 @@ export default class {
   async execute(client: Manager, message: Message) {
     if (message.author.bot || message.channel.type == ChannelType.DM) return;
 
+    console.log(client.dokdo);
+
+    if (client.dokdo) client.dokdo.run(message);
+
     if (!client.isDatabaseConnected)
       return client.logger.warn(
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"

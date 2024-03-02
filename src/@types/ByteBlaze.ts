@@ -21,6 +21,7 @@ import { KazagumoPlayer } from "../lib/main.js";
 import { IconType } from "./Emoji.js";
 import { ClusterClient } from "discord-hybrid-sharding";
 import WebSocket from "ws";
+import Dokdo from "dokdo";
 
 export interface ByteBlaze extends Client {
   metadata: Metadata;
