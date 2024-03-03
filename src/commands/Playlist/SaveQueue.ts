@@ -38,9 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -51,13 +49,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "savequeue_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "savequeue_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -65,13 +57,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "savequeue_owner"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "savequeue_owner")}`)
             .setColor(client.color),
         ],
       });
@@ -85,13 +71,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "noplayer",
-                "savequeue_no_tracks"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "noplayer", "savequeue_no_tracks")}`)
             .setColor(client.color),
         ],
       });
@@ -106,22 +86,15 @@ export default class implements Command {
         const element = playlist.tracks[i].uri;
         TrackExist.push(element);
       }
-      Result = TrackAdd.filter(
-        (track) => !TrackExist.includes(String(track.uri))
-      );
+      Result = TrackAdd.filter((track) => !TrackExist.includes(String(track.uri)));
     }
 
     if (Result!.length == 0) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "savequeue_no_new_saved",
-            {
-              name: value,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.playlist", "savequeue_no_new_saved", {
+            name: value,
+          })}`
         )
         .setColor(client.color);
       return handler.editReply({ embeds: [embed] });
@@ -129,15 +102,10 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(
-          handler.language,
-          "command.playlist",
-          "savequeue_saved",
-          {
-            name: value,
-            tracks: String(queue?.length! + 1),
-          }
-        )}`
+        `${client.i18n.get(handler.language, "command.playlist", "savequeue_saved", {
+          name: value,
+          tracks: String(queue?.length! + 1),
+        })}`
       )
       .setColor(client.color);
     await handler.editReply({ embeds: [embed] });

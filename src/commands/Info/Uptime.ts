@@ -22,9 +22,7 @@ export default class implements Command {
     await handler.deferReply();
     const uptime = new EmbedBuilder()
       .setAuthor({
-        name:
-          `${client.i18n.get(handler.language, "command.info", "uptime_title")}` +
-          client.user!.username,
+        name: `${client.i18n.get(handler.language, "command.info", "uptime_title")}` + client.user!.username,
       })
 
       .setDescription(

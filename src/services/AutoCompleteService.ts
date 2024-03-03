@@ -10,9 +10,7 @@ export class AutoCompleteService {
     this.execute();
   }
   async execute() {
-    let guildModel = await this.client.db.language.get(
-      `${this.interaction.guild?.id}`
-    );
+    let guildModel = await this.client.db.language.get(`${this.interaction.guild?.id}`);
 
     if (!guildModel) {
       guildModel = await this.client.db.language.set(
@@ -34,10 +32,8 @@ export class AutoCompleteService {
 
     const commandNameArray = [];
 
-    if (this.interaction.commandName)
-      commandNameArray.push(this.interaction.commandName);
-    if (subCommandName.length !== 0 && !subCommandGroupName)
-      commandNameArray.push(subCommandName);
+    if (this.interaction.commandName) commandNameArray.push(this.interaction.commandName);
+    if (subCommandName.length !== 0 && !subCommandGroupName) commandNameArray.push(subCommandName);
     if (subCommandGroupName) {
       commandNameArray.push(subCommandGroupName);
       commandNameArray.push(subCommandName);

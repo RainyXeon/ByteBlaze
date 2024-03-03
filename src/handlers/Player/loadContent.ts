@@ -27,26 +27,18 @@ export class playerLoadContent {
 
   register() {
     try {
-      this.client.on(
-        "interactionCreate",
-        this.interaction.bind(null, this.client)
-      );
+      this.client.on("interactionCreate", this.interaction.bind(null, this.client));
       this.client.on("messageCreate", this.message.bind(null, this.client));
     } catch (err) {
       this.client.logger.log({ level: "error", message: err });
     }
   }
 
-  async interaction(
-    client: Manager,
-    interaction: GlobalInteraction
-  ): Promise<void> {
+  async interaction(client: Manager, interaction: GlobalInteraction): Promise<void> {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = interaction.guild.members.cache.get(
-      (member as GuildMember)!.id
-    );
+    let voiceMember = interaction.guild.members.cache.get((member as GuildMember)!.id);
     let channel = voiceMember!.voice.channel;
 
     let player = await client.manager.players.get(interaction.guild.id);
@@ -57,10 +49,7 @@ export class playerLoadContent {
 
     let guildModel = await client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${player.guildId}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${player.guildId}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -95,28 +84,21 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.cache.get(
-      database!.channel
-    )) as TextChannel;
+    let channel = (await message.guild.channels.cache.get(database!.channel)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
 
     let guildModel = await client.db.language.get(`${message.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${message.guild.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${message.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
 
     if (message.author.id === client.user!.id) {
       await delay(client.config.bot.DELETE_MSG_TIMEOUT);
-      const checkFromChannel = (await client.channels.fetch(
-        channel.id
-      )) as TextChannel;
+      const checkFromChannel = (await client.channels.fetch(channel.id)) as TextChannel;
       const checkAbility = await checkFromChannel.messages.fetch(message.id);
       checkAbility ? checkAbility.delete() : true;
     }
@@ -128,9 +110,7 @@ export class playerLoadContent {
 
     if (message.author.id !== client.user!.id) {
       await delay(1000);
-      const checkFromChannel = (await client.channels.fetch(
-        channel.id
-      )) as TextChannel;
+      const checkFromChannel = (await client.channels.fetch(channel.id)) as TextChannel;
       const checkAbility = await checkFromChannel.messages.fetch(message.id);
       checkAbility ? checkAbility.delete() : true;
     }
@@ -146,25 +126,20 @@ export class playerLoadContent {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
 
     let msg = await message.channel.messages.fetch(database!.playmsg);
 
-    const emotes = (str: string) =>
-      str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
+    const emotes = (str: string) => str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
 
     if (emotes(song) !== null) {
       msg.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "event.setup", "play_emoji")}`
-            )
+            .setDescription(`${client.i18n.get(language, "event.setup", "play_emoji")}`)
             .setColor(client.color),
         ],
       });
@@ -180,16 +155,11 @@ export class playerLoadContent {
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
     else {
-      if (
-        message.member!.voice.channel !==
-        message.guild!.members.me!.voice.channel
-      ) {
+      if (message.member!.voice.channel !== message.guild!.members.me!.voice.channel) {
         msg.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "error", "no_same_voice")}`
-              )
+              .setDescription(`${client.i18n.get(language, "error", "no_same_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -210,12 +180,9 @@ export class playerLoadContent {
       });
       return;
     }
-    if (result.type === "PLAYLIST")
-      for (let track of tracks) player.queue.add(track);
-    else if (player.playing && result.type === "SEARCH")
-      player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH")
-      for (let track of tracks) player.queue.add(track);
+    if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
+    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = new QueueDuration().parse(player);
@@ -239,9 +206,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "event.setup", "play_track", {
             title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(
-              result.tracks[0].length as number
-            ),
+            duration: new ConvertTime().parse(result.tracks[0].length as number),
             request: `${result.tracks[0].requester}`,
           })}`
         )

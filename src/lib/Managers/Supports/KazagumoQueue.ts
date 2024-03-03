@@ -46,13 +46,9 @@ export class KazagumoQueue extends Array<KazagumoTrack> {
    * @returns KazagumoQueue
    */
   public add(track: KazagumoTrack | KazagumoTrack[]): KazagumoQueue {
-    if (
-      Array.isArray(track) &&
-      track.some((t) => !(t instanceof KazagumoTrack))
-    )
+    if (Array.isArray(track) && track.some((t) => !(t instanceof KazagumoTrack)))
       throw new KazagumoError(1, "Track must be an instance of KazagumoTrack");
-    if (!Array.isArray(track) && !(track instanceof KazagumoTrack))
-      track = [track];
+    if (!Array.isArray(track) && !(track instanceof KazagumoTrack)) track = [track];
 
     if (!this.current) {
       if (Array.isArray(track)) this.current = track.shift();
@@ -75,10 +71,7 @@ export class KazagumoQueue extends Array<KazagumoTrack> {
    */
   public remove(position: number): KazagumoQueue {
     if (position < 0 || position >= this.length)
-      throw new KazagumoError(
-        1,
-        "Position must be between 0 and " + (this.length - 1)
-      );
+      throw new KazagumoError(1, "Position must be between 0 and " + (this.length - 1));
     this.splice(position, 1);
     this.emitChanges();
     return this;
@@ -102,10 +95,6 @@ export class KazagumoQueue extends Array<KazagumoTrack> {
   }
 
   private emitChanges(): void {
-    this.kazagumoPlayer.shoukaku.emit(
-      Events.QueueUpdate,
-      this.kazagumoPlayer,
-      this
-    );
+    this.kazagumoPlayer.shoukaku.emit(Events.QueueUpdate, this.kazagumoPlayer, this);
   }
 }

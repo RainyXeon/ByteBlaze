@@ -3,10 +3,7 @@ import { Manager } from "../../manager.js";
 import { ButtonInteraction, ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import {
-  playerRowOne,
-  playerRowTwo,
-} from "../../assets/PlayerControlButton.js";
+import { playerRowOne, playerRowTwo } from "../../assets/PlayerControlButton.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 
@@ -18,16 +15,10 @@ export default class {
       );
 
     const guild = client.guilds.cache.get(player.guildId);
-    client.logger.info(
-      `Player Started in @ ${guild!.name} / ${player.guildId}`
-    );
+    client.logger.info(`Player Started in @ ${guild!.name} / ${player.guildId}`);
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
-    if (!SongNoti)
-      SongNoti = await client.db.songNoti.set(
-        `${player.guildId}`,
-        SongNotiEnum.Enable
-      );
+    if (!SongNoti) SongNoti = await client.db.songNoti.set(`${player.guildId}`, SongNotiEnum.Enable);
 
     if (!player) return;
 
@@ -46,18 +37,9 @@ export default class {
     const autoreconnect = new AutoReconnectBuilderService(client, player);
 
     if (await autoreconnect.get(player.guildId)) {
-      await client.db.autoreconnect.set(
-        `${player.guildId}.current`,
-        player.queue.current?.uri
-      );
-      await client.db.autoreconnect.set(
-        `${player.guildId}.config.volume`,
-        player.volume
-      );
-      await client.db.autoreconnect.set(
-        `${player.guildId}.config.loop`,
-        player.loop
-      );
+      await client.db.autoreconnect.set(`${player.guildId}.current`, player.queue.current?.uri);
+      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, player.volume);
+      await client.db.autoreconnect.set(`${player.guildId}.config.loop`, player.loop);
 
       function queueUri() {
         const res = [];
@@ -76,10 +58,7 @@ export default class {
       }
 
       await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
-      await client.db.autoreconnect.set(
-        `${player.guildId}.previous`,
-        previousUri()
-      );
+      await client.db.autoreconnect.set(`${player.guildId}.previous`, previousUri());
     } else {
       await autoreconnect.playerBuild(player.guildId);
     }
@@ -89,10 +68,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${channel.guild.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${channel.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -132,21 +108,15 @@ export default class {
         },
         {
           name: `${client.i18n.get(language, "event.player", "download_title")}`,
-          value: `**[${
-            song!.title
-          } - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
+          value: `**[${song!.title} - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
           inline: false,
         },
       ])
       .setColor(client.color)
-      .setThumbnail(
-        `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-      )
+      .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
       .setTimestamp();
 
-    const playing_channel = client.channels.cache.get(
-      player.textId
-    ) as TextChannel;
+    const playing_channel = client.channels.cache.get(player.textId) as TextChannel;
 
     const nplaying = await playing_channel.send({
       embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],
@@ -161,8 +131,7 @@ export default class {
       filter: (message) => {
         if (
           message.guild!.members.me!.voice.channel &&
-          message.guild!.members.me!.voice.channelId ===
-            message.member!.voice.channelId
+          message.guild!.members.me!.voice.channelId === message.member!.voice.channelId
         )
           return true;
         else {
@@ -175,29 +144,19 @@ export default class {
       },
     });
 
-    collector.on(
-      "collect",
-      async (message: ButtonInteraction): Promise<void> => {
-        const id = message.customId;
-        const button = client.plButton.get(id);
+    collector.on("collect", async (message: ButtonInteraction): Promise<void> => {
+      const id = message.customId;
+      const button = client.plButton.get(id);
 
-        const language = guildModel;
+      const language = guildModel;
 
-        if (button) {
-          try {
-            button.run(
-              client,
-              message,
-              String(language),
-              player,
-              nplaying,
-              collector
-            );
-          } catch (err) {
-            client.logger.log({ level: "error", message: err });
-          }
+      if (button) {
+        try {
+          button.run(client, message, String(language), player, nplaying, collector);
+        } catch (err) {
+          client.logger.log({ level: "error", message: err });
         }
       }
-    );
+    });
   }
 }

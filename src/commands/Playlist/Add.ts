@@ -10,10 +10,7 @@ import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import {
-  AutocompleteInteractionChoices,
-  GlobalInteraction,
-} from "../../@types/Interaction.js";
+import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
 
 const TrackAdd: KazagumoTrack[] = [];
 
@@ -54,9 +51,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -69,9 +64,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "add_match")}`)
             .setColor(client.color),
         ],
       });
@@ -85,14 +78,11 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "add_match")}`)
             .setColor(client.color),
         ],
       });
-    if (result.type === "PLAYLIST")
-      for (let track of tracks) TrackAdd.push(track);
+    if (result.type === "PLAYLIST") for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
     const Duration = new ConvertTime().parse(tracks[0].length as number);
@@ -101,49 +91,34 @@ export default class implements Command {
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "add_playlist",
-            {
-              title: this.getTitle(client, result.type, tracks, Inputed),
-              duration: new ConvertTime().parse(TotalDuration),
-              track: String(tracks.length),
-              user: String(handler.user),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.playlist", "add_playlist", {
+            title: this.getTitle(client, result.type, tracks, Inputed),
+            duration: new ConvertTime().parse(TotalDuration),
+            track: String(tracks.length),
+            user: String(handler.user),
+          })}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "add_track",
-            {
-              title: this.getTitle(client, result.type, tracks),
-              duration: Duration,
-              user: String(handler.user),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.playlist", "add_track", {
+            title: this.getTitle(client, result.type, tracks),
+            duration: Duration,
+            user: String(handler.user),
+          })}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "add_search",
-            {
-              title: this.getTitle(client, result.type, tracks),
-              duration: Duration,
-              user: String(handler.user),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.playlist", "add_search", {
+            title: this.getTitle(client, result.type, tracks),
+            duration: Duration,
+            user: String(handler.user),
+          })}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
@@ -152,9 +127,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "add_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "add_match")}`)
             .setColor(client.color),
         ],
       });
@@ -166,9 +139,7 @@ export default class implements Command {
       return handler.followUp({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -177,9 +148,7 @@ export default class implements Command {
       handler.followUp({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "add_owner")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "add_owner")}`)
             .setColor(client.color),
         ],
       });
@@ -193,14 +162,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "add_limit_track",
-                {
-                  limit: String(client.config.bot.LIMIT_TRACK),
-                }
-              )}`
+              `${client.i18n.get(handler.language, "command.playlist", "add_limit_track", {
+                limit: String(client.config.bot.LIMIT_TRACK),
+              })}`
             )
             .setColor(client.color),
         ],
@@ -233,12 +197,7 @@ export default class implements Command {
     TrackAdd.length = 0;
   }
 
-  getTitle(
-    client: Manager,
-    type: SearchResultTypes,
-    tracks: KazagumoTrack[],
-    value?: string
-  ): string {
+  getTitle(client: Manager, type: SearchResultTypes, tracks: KazagumoTrack[], value?: string): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
@@ -250,21 +209,13 @@ export default class implements Command {
   }
 
   // Autocomplete function
-  public async autocomplete(
-    client: Manager,
-    interaction: GlobalInteraction,
-    language: string
-  ) {
+  public async autocomplete(client: Manager, interaction: GlobalInteraction, language: string) {
     let choice: AutocompleteInteractionChoices[] = [];
-    const url = String(
-      (interaction as CommandInteraction).options.get("search")!.value
-    );
+    const url = String((interaction as CommandInteraction).options.get("search")!.value);
 
     const Random =
       client.config.lavalink.AUTOCOMPLETE_SEARCH[
-        Math.floor(
-          Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length
-        )
+        Math.floor(Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length)
       ];
 
     const match = client.REGEX.some((match) => {
@@ -273,9 +224,7 @@ export default class implements Command {
 
     if (match == true) {
       choice.push({ name: url, value: url });
-      await (interaction as AutocompleteInteraction)
-        .respond(choice)
-        .catch(() => {});
+      await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
       return;
     }
 
@@ -300,8 +249,6 @@ export default class implements Command {
       });
     }
 
-    await (interaction as AutocompleteInteraction)
-      .respond(choice)
-      .catch(() => {});
+    await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
   }
 }

@@ -12,9 +12,7 @@ export default class {
       );
 
     const guild = await client.guilds.cache.get(player.guildId);
-    client.logger.info(
-      `Player Destroy in @ ${guild!.name} / ${player.guildId}`
-    );
+    client.logger.info(`Player Destroy in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -23,19 +21,13 @@ export default class {
     client.emit("playerDestroy", player);
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     client.sentQueue.set(player.guildId, false);
-    let data = await new AutoReconnectBuilderService(client, player).get(
-      player.guildId
-    );
+    let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
 
     if (!channel) return;
 
     if (player.state == 5 && data !== null && data) {
       if (data.twentyfourseven) {
-        await new AutoReconnectBuilderService(client, player).build247(
-          player.guildId,
-          true,
-          data.voice
-        );
+        await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
         client.manager.createPlayer({
           guildId: data.guild!,
           voiceId: data.voice!,
@@ -48,10 +40,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${channel.guild.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${channel.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -60,18 +49,13 @@ export default class {
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
-      .setDescription(
-        `${client.i18n.get(language, "event.player", "queue_end_desc")}`
-      );
+      .setDescription(`${client.i18n.get(language, "event.player", "queue_end_desc")}`);
 
     if (!isSudoDestroy) {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () =>
-          !setup || setup == null || setup.channel !== channel.id
-            ? msg.delete()
-            : true,
+        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete() : true),
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }

@@ -1,9 +1,5 @@
 import { Manager } from "../../manager.js";
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
 import delay from "delay";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -37,9 +33,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "filter_number")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.filter", "filter_number")}`)
             .setColor(client.color),
         ],
       });
@@ -89,13 +83,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.filter",
-                "bassboost_limit"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.filter", "bassboost_limit")}`)
             .setColor(client.color),
         ],
       });
@@ -128,14 +116,9 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(
-          handler.language,
-          "command.filter",
-          "bassboost_set",
-          {
-            amount: value,
-          }
-        )}`
+        `${client.i18n.get(handler.language, "command.filter", "bassboost_set", {
+          amount: value,
+        })}`
       )
       .setColor(client.color);
 

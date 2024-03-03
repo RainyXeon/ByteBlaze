@@ -2,8 +2,7 @@ import { Manager } from "../manager.js";
 import { LavalinkDataType } from "../@types/Lavalink.js";
 import { CheckLavalinkServer } from "./CheckLavalinkServer.js";
 import chalk from "chalk";
-const regex =
-  /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
+const regex = /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
 export class AutoFixLavalink {
   client: Manager;
@@ -29,12 +28,9 @@ export class AutoFixLavalink {
     this.checkLavalink();
     await this.removeCurrentLavalink();
     if (this.client.lavalinkList.filter((i) => i.online).length == 0) {
+      this.client.logger.lavalink(autofixErrorMess + "No lavalink online or avalible for this bot.");
       this.client.logger.lavalink(
-        autofixErrorMess + "No lavalink online or avalible for this bot."
-      );
-      this.client.logger.lavalink(
-        autofixErrorMess +
-          "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
+        autofixErrorMess + "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
       );
       this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
       return;
@@ -42,17 +38,12 @@ export class AutoFixLavalink {
 
     await this.applyNewLavalink();
 
-    this.client.logger.lavalink(
-      "Now used new lavalink, please wait 1 second to make it connect."
-    );
+    this.client.logger.lavalink("Now used new lavalink, please wait 1 second to make it connect.");
     this.client.logger.lavalink("----- Terminated autofix lavalink. -----");
   }
 
   checkLavalink() {
-    if (
-      this.client.manager.shoukaku.nodes.size !== 0 &&
-      this.client.lavalinkUsing.length == 0
-    ) {
+    if (this.client.manager.shoukaku.nodes.size !== 0 && this.client.lavalinkUsing.length == 0) {
       this.client.manager.shoukaku.nodes.forEach((data, index) => {
         const res = regex.exec(data["url"]);
         this.client.lavalinkUsing.push({
@@ -67,24 +58,13 @@ export class AutoFixLavalink {
   }
 
   async removeCurrentLavalink() {
-    const lavalinkIndex = this.client.lavalinkUsing.findIndex(
-      (data) => data.name == this.lavalinkName
-    );
+    const lavalinkIndex = this.client.lavalinkUsing.findIndex((data) => data.name == this.lavalinkName);
     const targetLavalink = this.client.lavalinkUsing[lavalinkIndex];
-    if (
-      this.client.manager.shoukaku.nodes.size == 0 &&
-      this.client.lavalinkUsing.length != 0
-    ) {
+    if (this.client.manager.shoukaku.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
-    } else if (
-      this.client.manager.shoukaku.nodes.size !== 0 &&
-      this.client.lavalinkUsing.length !== 0
-    ) {
-      const isLavalinkExist = this.client.manager.shoukaku.nodes.has(
-        targetLavalink.name
-      );
-      if (isLavalinkExist)
-        await this.client.manager.shoukaku.removeNode(targetLavalink.name);
+    } else if (this.client.manager.shoukaku.nodes.size !== 0 && this.client.lavalinkUsing.length !== 0) {
+      const isLavalinkExist = this.client.manager.shoukaku.nodes.has(targetLavalink.name);
+      if (isLavalinkExist) await this.client.manager.shoukaku.removeNode(targetLavalink.name);
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     }
   }

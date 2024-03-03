@@ -1,9 +1,4 @@
-import {
-  ButtonInteraction,
-  CacheType,
-  InteractionCollector,
-  Message,
-} from "discord.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
@@ -26,10 +21,7 @@ export default class implements PlayerButton {
 
     async function setLoop247(loop: string) {
       if (await client.db.autoreconnect.get(player.guildId)) {
-        await client.db.autoreconnect.set(
-          `${player.guildId}.config.loop`,
-          loop
-        );
+        await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
       }
     }
 

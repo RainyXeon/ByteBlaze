@@ -8,10 +8,7 @@ export default class implements RequestInterface {
   run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     const player = client.manager.players.get(json.guild);
 
-    if (!player)
-      return ws.send(
-        JSON.stringify({ error: "0x100", message: "No player on this guild" })
-      );
+    if (!player) return ws.send(JSON.stringify({ error: "0x100", message: "No player on this guild" }));
 
     await player.seek(json.position * 1000);
 

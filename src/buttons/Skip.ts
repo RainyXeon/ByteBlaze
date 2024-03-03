@@ -1,9 +1,4 @@
-import {
-  ButtonInteraction,
-  CacheType,
-  InteractionCollector,
-  Message,
-} from "discord.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";

@@ -131,14 +131,9 @@ export default class implements Command {
       )
       .setTimestamp()
       .setFooter({
-        text: `${client.i18n.get(
-          handler.language,
-          "command.premium",
-          "gen_footer",
-          {
-            prefix: "/",
-          }
-        )}`,
+        text: `${client.i18n.get(handler.language, "command.premium", "gen_footer", {
+          prefix: "/",
+        })}`,
         iconURL: handler.user?.displayAvatarURL(),
       });
 

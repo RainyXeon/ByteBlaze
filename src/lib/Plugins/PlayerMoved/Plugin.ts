@@ -37,10 +37,7 @@ export class KazagumoPlugin extends Plugin {
    * Unload the plugin.
    */
   public unload(): void {
-    this.client.removeListener(
-      "voiceStateUpdate",
-      this.onVoiceStateUpdate.bind(this)
-    );
+    this.client.removeListener("voiceStateUpdate", this.onVoiceStateUpdate.bind(this));
     this.kazagumo = null;
   }
 
@@ -57,8 +54,7 @@ export class KazagumoPlugin extends Plugin {
     let state = "UNKNOWN";
     if (!oldChannelId && newChannelId) state = "JOINED";
     else if (oldChannelId && !newChannelId) state = "LEFT";
-    else if (oldChannelId && newChannelId && oldChannelId !== newChannelId)
-      state = "MOVED";
+    else if (oldChannelId && newChannelId && oldChannelId !== newChannelId) state = "MOVED";
 
     if (state === "UNKNOWN") return;
 

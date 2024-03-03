@@ -14,10 +14,7 @@ export default class {
 
       const GuildPrefix = await client.db.prefix.get(`${guild!.id}`);
       if (GuildPrefix) PREFIX = GuildPrefix;
-      else if (!GuildPrefix)
-        PREFIX = String(
-          await client.db.prefix.set(`${guild!.id}`, client.prefix)
-        );
+      else if (!GuildPrefix) PREFIX = String(await client.db.prefix.set(`${guild!.id}`, client.prefix));
 
       const userDm = await owner.createDM(true);
       userDm.send({
@@ -46,9 +43,7 @@ export default class {
                 botver: client.metadata.version,
               })}
               ${client.i18n.get(language, "event.message", "djs", {
-                djsver: JSON.parse(
-                  await fs.readFileSync("package.json", "utf-8")
-                ).dependencies["discord.js"],
+                djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies["discord.js"],
               })}
               ${client.i18n.get(language, "event.message", "lavalink", {
                 aver: client.metadata.autofix,
@@ -65,9 +60,7 @@ export default class {
 
     if (!client.config.features.GUILD_LOG_CHANNEL) return;
     try {
-      const eventChannel = await client.channels.fetch(
-        client.config.features.GUILD_LOG_CHANNEL
-      );
+      const eventChannel = await client.channels.fetch(client.config.features.GUILD_LOG_CHANNEL);
       if (!eventChannel || !eventChannel.isTextBased()) return;
       const embed = new EmbedBuilder()
         .setAuthor({

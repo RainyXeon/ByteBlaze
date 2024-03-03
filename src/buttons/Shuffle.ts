@@ -1,10 +1,4 @@
-import {
-  ButtonInteraction,
-  CacheType,
-  EmbedBuilder,
-  InteractionCollector,
-  Message,
-} from "discord.js";
+import { ButtonInteraction, CacheType, EmbedBuilder, InteractionCollector, Message } from "discord.js";
 import { KazagumoPlayer, KazagumoTrack } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
@@ -30,9 +24,7 @@ export default class implements PlayerButton {
 
     const song = newQueue.current;
     const qduration = `${new FormatDuration().parse(song!.length)}`;
-    const thumbnail = `https://img.youtube.com/vi/${
-      song!.identifier
-    }/hqdefault.jpg`;
+    const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(newQueue.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -77,13 +69,7 @@ export default class implements PlayerButton {
     }
 
     if (pages.length == pagesNum && newQueue.length > 10) {
-      await new PageQueue(
-        client,
-        pages,
-        60000,
-        newQueue.length,
-        language
-      ).buttonPage(message, qduration);
+      await new PageQueue(client, pages, 60000, newQueue.length, language).buttonPage(message, qduration);
     } else message.reply({ embeds: [pages[0]], ephemeral: true });
   }
 

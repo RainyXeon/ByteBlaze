@@ -22,16 +22,11 @@ export class SpotifyRequest {
     this.authorization = `&client_id=${this.client.clientId}&client_secret=${this.client.clientSecret}`;
   }
 
-  public async makeRequest<T>(
-    endpoint: string,
-    disableBaseUri: boolean = false
-  ): Promise<T> {
+  public async makeRequest<T>(endpoint: string, disableBaseUri: boolean = false): Promise<T> {
     await this.renew();
 
     const request = await fetch(
-      disableBaseUri
-        ? endpoint
-        : `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
+      disableBaseUri ? endpoint : `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
       {
         headers: { Authorization: this.token },
       }
@@ -40,9 +35,7 @@ export class SpotifyRequest {
     const data = (await request.json()) as Promise<T>;
 
     if (request.headers.get("x-ratelimit-remaining") === "0") {
-      this.handleRateLimited(
-        Number(request.headers.get("x-ratelimit-reset")) * 1000
-      );
+      this.handleRateLimited(Number(request.headers.get("x-ratelimit-reset")) * 1000);
       throw new KazagumoError(2, "Rate limited by spotify");
     }
     this.stats.requests++;
@@ -74,11 +67,7 @@ export class SpotifyRequest {
       expires_in: number;
     };
 
-    if (!access_token)
-      throw new KazagumoError(
-        3,
-        "Failed to get access token due to invalid spotify client"
-      );
+    if (!access_token) throw new KazagumoError(3, "Failed to get access token due to invalid spotify client");
 
     this.token = `Bearer ${access_token}`;
     this.nextRenew = Date.now() + expires_in * 1000;

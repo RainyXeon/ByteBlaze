@@ -52,11 +52,7 @@ export type CommandInterface = {
   description: string;
   options: CommandOptionInterface[];
   defaultPermission?: undefined | typeof PermissionFlagsBits;
-  run: (
-    interaction: GlobalInteraction,
-    client: Manager,
-    language: string
-  ) => void;
+  run: (interaction: GlobalInteraction, client: Manager, language: string) => void;
 };
 
 export type UploadCommandInterface = {

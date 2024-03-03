@@ -32,18 +32,10 @@ const credentials = {
 
 export class KazagumoPlugin extends Plugin {
   public options: AppleOptions;
-  private _search:
-    | ((
-        query: string,
-        options?: KazagumoSearchOptions
-      ) => Promise<KazagumoSearchResult>)
-    | null;
+  private _search: ((query: string, options?: KazagumoSearchOptions) => Promise<KazagumoSearchResult>) | null;
   private kazagumo: Kazagumo | null;
   private credentials: HeaderType;
-  private readonly methods: Record<
-    string,
-    (id: string, requester: unknown) => Promise<Result>
-  >;
+  private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
   private fetchURL: string;
   private baseURL: string;
   public countryCode: string;
@@ -61,12 +53,8 @@ export class KazagumoPlugin extends Plugin {
     this.options = appleOptions;
     this.kazagumo = null;
     this._search = null;
-    this.countryCode = this.options?.countryCode
-      ? this.options?.countryCode
-      : "us";
-    this.imageHeight = this.options?.imageHeight
-      ? this.options?.imageHeight
-      : 900;
+    this.countryCode = this.options?.countryCode ? this.options?.countryCode : "us";
+    this.imageHeight = this.options?.imageHeight ? this.options?.imageHeight : 900;
     this.imageWidth = this.options?.imageWidth ? this.options?.imageWidth : 600;
     this.baseURL = "https://api.music.apple.com/v1/";
     this.fetchURL = `https://amp-api.music.apple.com/v1/catalog/${this.countryCode}`;
@@ -96,16 +84,12 @@ export class KazagumoPlugin extends Plugin {
     return req.data;
   }
 
-  private async search(
-    query: string,
-    options?: KazagumoSearchOptions
-  ): Promise<KazagumoSearchResult> {
+  private async search(query: string, options?: KazagumoSearchOptions): Promise<KazagumoSearchResult> {
     let type: string;
     let id: string;
     let isTrack: boolean = false;
 
-    if (!this.kazagumo || !this._search)
-      throw new KazagumoError(1, "kazagumo-apple is not loaded yet.");
+    if (!this.kazagumo || !this._search) throw new KazagumoError(1, "kazagumo-apple is not loaded yet.");
 
     if (!query) throw new KazagumoError(3, "Query is required");
 
@@ -159,22 +143,15 @@ export class KazagumoPlugin extends Plugin {
     };
   }
 
-  private async searchTrack(
-    query: string,
-    requester: unknown
-  ): Promise<Result> {
+  private async searchTrack(query: string, requester: unknown): Promise<Result> {
     try {
       const res = await this.getSearchData(
-        `/search?types=songs&term=${query
-          .replace(/ /g, "+")
-          .toLocaleLowerCase()}`
+        `/search?types=songs&term=${query.replace(/ /g, "+").toLocaleLowerCase()}`
       ).catch((e) => {
         throw new Error(e);
       });
       return {
-        tracks: res.results.songs.data.map((track: Track) =>
-          this.buildKazagumoTrack(track, requester)
-        ),
+        tracks: res.results.songs.data.map((track: Track) => this.buildKazagumoTrack(track, requester)),
       };
     } catch (e: any) {
       throw new Error(e);
@@ -194,11 +171,9 @@ export class KazagumoPlugin extends Plugin {
 
   private async getArtist(id: string, requester: unknown): Promise<Result> {
     try {
-      const track = await this.getData(`/artists/${id}/view/top-songs`).catch(
-        (e) => {
-          throw new Error(e);
-        }
-      );
+      const track = await this.getData(`/artists/${id}/view/top-songs`).catch((e) => {
+        throw new Error(e);
+      });
       return { tracks: [this.buildKazagumoTrack(track[0], requester)] };
     } catch (e: any) {
       throw new Error(e);
@@ -252,9 +227,7 @@ export class KazagumoPlugin extends Plugin {
           sourceName: "apple",
           identifier: appleTrack.id,
           isSeekable: true,
-          author: appleTrack.attributes.artistName
-            ? appleTrack.attributes.artistName
-            : "Unknown",
+          author: appleTrack.attributes.artistName ? appleTrack.attributes.artistName : "Unknown",
           length: appleTrack.attributes.durationInMillis,
           isStream: false,
           position: 0,

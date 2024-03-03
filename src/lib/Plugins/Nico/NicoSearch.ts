@@ -3,14 +3,9 @@
 
 import axios from "axios";
 import { responseFields } from "./NicoSearchConst.js";
-import {
-  ErrorResponse,
-  SearchAPIResponse,
-  SearchParams,
-} from "./@types/NicoSearch.js";
+import { ErrorResponse, SearchAPIResponse, SearchParams } from "./@types/NicoSearch.js";
 
-const apiUrl =
-  "https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search";
+const apiUrl = "https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search";
 
 export default async function search<P extends SearchParams>({
   q,

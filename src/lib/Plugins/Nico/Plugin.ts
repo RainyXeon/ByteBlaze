@@ -21,18 +21,10 @@ export interface NicoOptions {
 
 export class KazagumoPlugin extends Plugin {
   public options: NicoOptions;
-  private _search:
-    | ((
-        query: string,
-        options?: KazagumoSearchOptions
-      ) => Promise<KazagumoSearchResult>)
-    | null;
+  private _search: ((query: string, options?: KazagumoSearchOptions) => Promise<KazagumoSearchResult>) | null;
   private kazagumo: Kazagumo | null;
 
-  private readonly methods: Record<
-    string,
-    (id: string, requester: unknown) => Promise<Result>
-  >;
+  private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
 
   constructor(nicoOptions: NicoOptions) {
     super();
@@ -50,12 +42,8 @@ export class KazagumoPlugin extends Plugin {
     kazagumo.search = this.search.bind(this);
   }
 
-  private async search(
-    query: string,
-    options?: KazagumoSearchOptions
-  ): Promise<KazagumoSearchResult> {
-    if (!this.kazagumo || !this._search)
-      throw new KazagumoError(1, "kazagumo-nico is not loaded yet.");
+  private async search(query: string, options?: KazagumoSearchOptions): Promise<KazagumoSearchResult> {
+    if (!this.kazagumo || !this._search) throw new KazagumoError(1, "kazagumo-nico is not loaded yet.");
 
     if (!query) throw new KazagumoError(3, "Query is required");
     const [, id] = REGEX.exec(query) || [];
@@ -70,11 +58,7 @@ export class KazagumoPlugin extends Plugin {
       const playlistName = result.name ?? undefined;
 
       const tracks = result.tracks.filter(this.filterNullOrUndefined);
-      return this.buildSearch(
-        playlistName,
-        tracks && tracks.length !== 0 ? tracks : [],
-        loadType
-      );
+      return this.buildSearch(playlistName, tracks && tracks.length !== 0 ? tracks : [], loadType);
     } else if (options?.engine === "niconicotv" && !isUrl) {
       const result = await this.searchTrack(query, options?.requester);
 
@@ -110,9 +94,7 @@ export class KazagumoPlugin extends Plugin {
 
       for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        const nico = new NicoResolver(
-          `https://www.nicovideo.jp/watch/${element.contentId}`
-        );
+        const nico = new NicoResolver(`https://www.nicovideo.jp/watch/${element.contentId}`);
         const info = await nico.getVideoInfo();
         res.push(info);
       }

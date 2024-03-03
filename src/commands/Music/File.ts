@@ -45,9 +45,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "file_notfound")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "file_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -57,9 +55,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -68,13 +64,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "play_invalid_file"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_invalid_file")}`)
             .setColor(client.color),
         ],
       });
@@ -82,13 +72,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "play_warning_file"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_warning_file")}`)
             .setColor(client.color),
         ],
       });
@@ -111,18 +95,13 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "play_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_match")}`)
             .setColor(client.color),
         ],
       });
-    if (result.type === "PLAYLIST")
-      for (let track of tracks) player.queue.add(track);
-    else if (player.playing && result.type === "SEARCH")
-      player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH")
-      for (let track of tracks) player.queue.add(track);
+    if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
+    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = new StartQueueDuration().parse(tracks);
@@ -132,17 +111,12 @@ export default class implements Command {
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "play_playlist",
-            {
-              title: file.name,
-              duration: new ConvertTime().parse(TotalDuration),
-              songs: String(tracks.length),
-              request: String(tracks[0].requester),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.music", "play_playlist", {
+            title: file.name,
+            duration: new ConvertTime().parse(TotalDuration),
+            songs: String(tracks.length),
+            request: String(tracks[0].requester),
+          })}`
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
@@ -173,9 +147,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "play_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_match")}`)
             .setColor(client.color),
         ],
       });

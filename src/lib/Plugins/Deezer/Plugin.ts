@@ -11,23 +11,14 @@ import axios from "axios";
 
 const API_URL = "https://api.deezer.com/";
 
-const REGEX =
-  /^https?:\/\/(?:www\.)?deezer\.com\/[a-z]+\/(track|album|playlist)\/(\d+)$/;
+const REGEX = /^https?:\/\/(?:www\.)?deezer\.com\/[a-z]+\/(track|album|playlist)\/(\d+)$/;
 const SHORT_REGEX = /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/;
 
 export class KazagumoPlugin extends Plugin {
-  private _search:
-    | ((
-        query: string,
-        options?: KazagumoSearchOptions
-      ) => Promise<KazagumoSearchResult>)
-    | null;
+  private _search: ((query: string, options?: KazagumoSearchOptions) => Promise<KazagumoSearchResult>) | null;
   private kazagumo: Kazagumo | null;
 
-  private readonly methods: Record<
-    string,
-    (id: string, requester: unknown) => Promise<Result>
-  >;
+  private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
 
   constructor() {
     super();
@@ -46,12 +37,8 @@ export class KazagumoPlugin extends Plugin {
     kazagumo.search = this.search.bind(this);
   }
 
-  private async search(
-    query: string,
-    options?: KazagumoSearchOptions
-  ): Promise<KazagumoSearchResult> {
-    if (!this.kazagumo || !this._search)
-      throw new KazagumoError(1, "kazagumo-deezer is not loaded yet.");
+  private async search(query: string, options?: KazagumoSearchOptions): Promise<KazagumoSearchResult> {
+    if (!this.kazagumo || !this._search) throw new KazagumoError(1, "kazagumo-deezer is not loaded yet.");
 
     if (!query) throw new KazagumoError(3, "Query is required");
 
@@ -98,20 +85,13 @@ export class KazagumoPlugin extends Plugin {
     };
   }
 
-  private async searchTrack(
-    query: string,
-    requester: unknown
-  ): Promise<Result> {
+  private async searchTrack(query: string, requester: unknown): Promise<Result> {
     try {
-      const request = await axios.get(
-        `${API_URL}/search/track?q=${decodeURIComponent(query)}`
-      );
+      const request = await axios.get(`${API_URL}/search/track?q=${decodeURIComponent(query)}`);
 
       const res = request.data as SearchResult;
       return {
-        tracks: res.data.map((track) =>
-          this.buildKazagumoTrack(track, requester)
-        ),
+        tracks: res.data.map((track) => this.buildKazagumoTrack(track, requester)),
       };
     } catch (e: any) {
       throw new Error(e);

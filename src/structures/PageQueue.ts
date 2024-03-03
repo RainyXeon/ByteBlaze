@@ -49,17 +49,12 @@ export class PageQueue {
     const curPage = await interaction.editReply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.i18n.get(
-            this.language,
-            "command.music",
-            "queue_footer",
-            {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            }
-          )}`,
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+            page: String(page + 1),
+            pages: String(this.pages.length),
+            queue_lang: String(this.queueLength),
+            duration: String(queueDuration),
+          })}`,
         }),
       ],
       components: [row],
@@ -83,17 +78,12 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [row],
@@ -108,17 +98,12 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [disabled],
@@ -147,16 +132,11 @@ export class PageQueue {
     const curPage = await interaction.editReply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.i18n.get(
-            this.language,
-            "command.playlist",
-            "view_embed_footer",
-            {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            }
-          )}`,
+          text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+            page: String(page + 1),
+            pages: String(this.pages.length),
+            songs: String(this.queueLength),
+          })}`,
         }),
       ],
       components: [row],
@@ -179,16 +159,11 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.playlist",
-              "view_embed_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                songs: String(this.queueLength),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              songs: String(this.queueLength),
+            })}`,
           }),
         ],
         components: [row],
@@ -202,16 +177,11 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.playlist",
-              "view_embed_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                songs: String(this.queueLength),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              songs: String(this.queueLength),
+            })}`,
           }),
         ],
         components: [disabled],
@@ -221,8 +191,7 @@ export class PageQueue {
   }
 
   async prefixPage(message: Message, queueDuration: string) {
-    if (!message && !(message as Message).channel)
-      throw new Error("Channel is inaccessible.");
+    if (!message && !(message as Message).channel) throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
     const row1 = new ButtonBuilder()
@@ -239,17 +208,12 @@ export class PageQueue {
     const curPage = await message.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.i18n.get(
-            this.language,
-            "command.music",
-            "queue_footer",
-            {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            }
-          )}`,
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+            page: String(page + 1),
+            pages: String(this.pages.length),
+            queue_lang: String(this.queueLength),
+            duration: String(queueDuration),
+          })}`,
         }),
       ],
       components: [row],
@@ -259,9 +223,7 @@ export class PageQueue {
 
     const collector = await curPage.createMessageComponentCollector({
       filter: (interaction) =>
-        interaction.user.id === message.author.id
-          ? true
-          : false && interaction.deferUpdate(),
+        interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
     });
 
@@ -275,17 +237,12 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [row],
@@ -299,17 +256,12 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [disabled],
@@ -319,8 +271,7 @@ export class PageQueue {
   }
 
   async prefixPlaylistPage(message: Message) {
-    if (!message && !(message as Message).channel)
-      throw new Error("Channel is inaccessible.");
+    if (!message && !(message as Message).channel) throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
     const row1 = new ButtonBuilder()
@@ -337,16 +288,11 @@ export class PageQueue {
     const curPage = await message.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.i18n.get(
-            this.language,
-            "command.playlist",
-            "view_embed_footer",
-            {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            }
-          )}`,
+          text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+            page: String(page + 1),
+            pages: String(this.pages.length),
+            songs: String(this.queueLength),
+          })}`,
         }),
       ],
       components: [row],
@@ -356,9 +302,7 @@ export class PageQueue {
 
     const collector = await curPage.createMessageComponentCollector({
       filter: (interaction) =>
-        interaction.user.id === message.author.id
-          ? true
-          : false && interaction.deferUpdate(),
+        interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
     });
 
@@ -372,16 +316,11 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.playlist",
-              "view_embed_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                songs: String(this.queueLength),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              songs: String(this.queueLength),
+            })}`,
           }),
         ],
         components: [row],
@@ -395,16 +334,11 @@ export class PageQueue {
       curPage.edit({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.playlist",
-              "view_embed_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                songs: String(this.queueLength),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              songs: String(this.queueLength),
+            })}`,
           }),
         ],
         components: [disabled],
@@ -432,17 +366,12 @@ export class PageQueue {
     const curPage = await interaction.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.i18n.get(
-            this.language,
-            "command.music",
-            "queue_footer",
-            {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            }
-          )}`,
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+            page: String(page + 1),
+            pages: String(this.pages.length),
+            queue_lang: String(this.queueLength),
+            duration: String(queueDuration),
+          })}`,
         }),
       ],
       components: [row],
@@ -467,17 +396,12 @@ export class PageQueue {
       interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [row],
@@ -492,17 +416,12 @@ export class PageQueue {
       interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.i18n.get(
-              this.language,
-              "command.music",
-              "queue_footer",
-              {
-                page: String(page + 1),
-                pages: String(this.pages.length),
-                queue_lang: String(this.queueLength),
-                duration: String(queueDuration),
-              }
-            )}`,
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
+              page: String(page + 1),
+              pages: String(this.pages.length),
+              queue_lang: String(this.queueLength),
+              duration: String(queueDuration),
+            })}`,
           }),
         ],
         components: [disabled],

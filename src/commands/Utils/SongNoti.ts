@@ -48,12 +48,9 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.utils",
-                  "songnoti_already",
-                  { mode: handler.modeLang.enable }
-                )}`
+                `${client.i18n.get(handler.language, "command.utils", "songnoti_already", {
+                  mode: handler.modeLang.enable,
+                })}`
               )
               .setColor(client.color),
           ],
@@ -63,14 +60,9 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.utils",
-            "songnoti_set",
-            {
-              toggle: handler.modeLang.enable,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.utils", "songnoti_set", {
+            toggle: handler.modeLang.enable,
+          })}`
         )
         .setColor(client.color);
 
@@ -81,31 +73,20 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.utils",
-                  "songnoti_already",
-                  { mode: handler.modeLang.disable }
-                )}`
+                `${client.i18n.get(handler.language, "command.utils", "songnoti_already", {
+                  mode: handler.modeLang.disable,
+                })}`
               )
               .setColor(client.color),
           ],
         });
 
-      await client.db.songNoti.set(
-        `${handler.guild!.id}`,
-        SongNotiEnum.Disable
-      );
+      await client.db.songNoti.set(`${handler.guild!.id}`, SongNotiEnum.Disable);
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.utils",
-            "songnoti_set",
-            {
-              toggle: handler.modeLang.disable,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.utils", "songnoti_set", {
+            toggle: handler.modeLang.disable,
+          })}`
         )
         .setColor(client.color);
 

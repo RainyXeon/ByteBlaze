@@ -7,19 +7,10 @@ import WebSocket from "ws";
 export default class implements RequestInterface {
   name = "status";
   run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
-    if (!json.user)
-      return ws.send(
-        JSON.stringify({ error: "0x115", message: "No user's id provided" })
-      );
-    if (!json.guild)
-      return ws.send(
-        JSON.stringify({ error: "0x120", message: "No guild's id provided" })
-      );
+    if (!json.user) return ws.send(JSON.stringify({ error: "0x115", message: "No user's id provided" }));
+    if (!json.guild) return ws.send(JSON.stringify({ error: "0x120", message: "No guild's id provided" }));
     const player = client.manager.players.get(json.guild);
-    if (!player)
-      return ws.send(
-        JSON.stringify({ error: "0x100", message: "No player on this guild" })
-      );
+    if (!player) return ws.send(JSON.stringify({ error: "0x100", message: "No player on this guild" }));
 
     const Guild = await client.guilds.fetch(json.guild);
     const Member = await Guild.members.fetch(json.user);

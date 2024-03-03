@@ -22,10 +22,7 @@ export interface KazagumoOptions {
   /** Source that will be forced to resolve when playing it */
   sourceForceResolve?: string[];
   /** The track resolver. Make sure you set <KazagumoTrack>.track for it to work. (I'm not responsible for any error during playback if you don't set it right) */
-  trackResolver?: (
-    this: KazagumoTrack,
-    options?: ResolveOptions
-  ) => Promise<boolean>;
+  trackResolver?: (this: KazagumoTrack, options?: ResolveOptions) => Promise<boolean>;
   /** The default youtube thumbnail's size */
   defaultYoutubeThumbnail?: YoutubeThumbnail;
   /** Extend some of the Structures */
@@ -37,12 +34,7 @@ export interface KazagumoOptions {
 }
 
 export type SearchEngines = "youtube" | "soundcloud" | "youtube_music" | string;
-export type YoutubeThumbnail =
-  | "default"
-  | "hqdefault"
-  | "mqdefault"
-  | "sddefault"
-  | "maxresdefault";
+export type YoutubeThumbnail = "default" | "hqdefault" | "mqdefault" | "sddefault" | "maxresdefault";
 
 export interface Payload {
   /** The OP code */
@@ -55,8 +47,7 @@ export interface Payload {
   };
 }
 
-export const escapeRegExp = (str: string) =>
-  str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+export const escapeRegExp = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export const SourceIDs = {
   youtube: "yt",

@@ -1,11 +1,4 @@
-import {
-  PermissionsBitField,
-  EmbedBuilder,
-  VoiceState,
-  GuildMember,
-  Role,
-  TextChannel,
-} from "discord.js";
+import { PermissionsBitField, EmbedBuilder, VoiceState, GuildMember, Role, TextChannel } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
@@ -19,19 +12,14 @@ export default class {
     const player = client.manager?.players.get(newState.guild.id);
     if (!player) return;
 
-    if (
-      newState.channelId == null &&
-      newState.member?.user.id === client.user?.id
-    ) {
+    if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
       player.data.set("sudo-destroy", true);
       player.voiceId !== null ? player.destroy() : true;
     }
 
     if (oldState.member?.user.bot || newState.member?.user.bot) return;
 
-    let data = await new AutoReconnectBuilderService(client).get(
-      newState.guild.id
-    );
+    let data = await new AutoReconnectBuilderService(client).get(newState.guild.id);
 
     const setup = await client.db.setup.get(newState.guild.id);
 
@@ -40,10 +28,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${newState.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${newState.guild.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${newState.guild.id}`, client.config.bot.LANGUAGE);
     }
     const language = guildModel;
 
@@ -58,9 +43,7 @@ export default class {
       newState.guild.members.me!.voice.suppress
     ) {
       if (
-        newState.guild.members.me!.permissions.has(
-          PermissionsBitField.Flags.Connect
-        ) ||
+        newState.guild.members.me!.permissions.has(PermissionsBitField.Flags.Connect) ||
         (newState.channel &&
           newState.channel
             .permissionsFor(newState.guild.members.me as GuildMember | Role)
@@ -71,8 +54,7 @@ export default class {
     }
 
     if (oldState.id === client.user!.id) return;
-    if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId)
-      return;
+    if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
@@ -80,18 +62,11 @@ export default class {
 
     if (
       newState.guild.members.me!.voice?.channel &&
-      newState.guild.members.me!.voice.channel.members.filter(
-        (m) => !m.user.bot
-      ).size !== 0
+      newState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size !== 0
     ) {
       if (oldState.channelId) return;
       if (oldState.channelId === newState.channelId) return;
-      if (
-        newState.guild.members.me!.voice.channel.members.filter(
-          (m) => !m.user.bot
-        ).size > 2
-      )
-        return;
+      if (newState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size > 2) return;
       // Resume player
 
       const leaveTimeout = client.leaveDelay.get(newState.guild.id);
@@ -107,31 +82,21 @@ export default class {
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "event.player", "leave_resume")}`
-              )
+              .setDescription(`${client.i18n.get(language, "event.player", "leave_resume")}`)
               .setColor(client.color),
           ],
         });
         setTimeout(
-          async () =>
-            !setup || setup == null || setup.channel !== player.textId
-              ? msg.delete()
-              : true,
+          async () => (!setup || setup == null || setup.channel !== player.textId ? msg.delete() : true),
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }
     }
 
-    if (
-      oldState.guild.members.cache.get(client.user!.id)!.voice.channelId ===
-      oldState.channelId
-    ) {
+    if (oldState.guild.members.cache.get(client.user!.id)!.voice.channelId === oldState.channelId) {
       if (
         oldState.guild.members.me!.voice?.channel &&
-        oldState.guild.members.me!.voice.channel.members.filter(
-          (m) => !m.user.bot
-        ).size === 0
+        oldState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size === 0
       ) {
         // Pause player
         const currentPause = player.paused;
@@ -141,29 +106,20 @@ export default class {
           const msg = await leaveEmbed.send({
             embeds: [
               new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(language, "event.player", "leave_pause")}`
-                )
+                .setDescription(`${client.i18n.get(language, "event.player", "leave_pause")}`)
                 .setColor(client.color),
             ],
           });
           setTimeout(async () => {
-            const isChannelAvalible = await client.channels.fetch(
-              msg.channelId
-            );
+            const isChannelAvalible = await client.channels.fetch(msg.channelId);
             if (!isChannelAvalible) return;
-            !setup || setup == null || setup.channel !== player.textId
-              ? msg.delete()
-              : true;
+            !setup || setup == null || setup.channel !== player.textId ? msg.delete() : true;
           }, client.config.bot.DELETE_MSG_TIMEOUT);
         }
 
         // Delay leave timeout
         let leaveDelayTimeout = setTimeout(async () => {
-          const vcMembers =
-            oldState.guild.members.me!.voice.channel?.members.filter(
-              (m) => !m.user.bot
-            ).size;
+          const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter((m) => !m.user.bot).size;
           if (!vcMembers || vcMembers === 1) {
             const newPlayer = client.manager?.players.get(newState.guild.id);
             player.data.set("sudo-destroy", true);
@@ -177,13 +133,10 @@ export default class {
               .setColor(client.color);
             try {
               if (leaveEmbed) {
-                const msg = newPlayer
-                  ? await leaveEmbed.send({ embeds: [TimeoutEmbed] })
-                  : undefined;
+                const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
                 setTimeout(
                   async () =>
-                    msg &&
-                    (!setup || setup == null || setup.channel !== player.textId)
+                    msg && (!setup || setup == null || setup.channel !== player.textId)
                       ? msg.delete()
                       : undefined,
                   client.config.bot.DELETE_MSG_TIMEOUT

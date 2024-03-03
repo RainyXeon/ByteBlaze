@@ -1,9 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-  Message,
-  PermissionsBitField,
-} from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Manager } from "../../manager.js";
 import { KazagumoLoop } from "../../@types/Lavalink.js";
 import { KazagumoPlayer } from "../../lib/main.js";
@@ -49,9 +44,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const mode_array = ["song", "queue", "none"];
 
@@ -62,14 +55,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "loop_invalid",
-                {
-                  mode: this.changeBold(mode_array).join(", "),
-                }
-              )}`
+              `${client.i18n.get(handler.language, "command.music", "loop_invalid", {
+                mode: this.changeBold(mode_array).join(", "),
+              })}`
             )
             .setColor(client.color),
         ],
@@ -80,14 +68,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "loop_already",
-                {
-                  mode: mode,
-                }
-              )}`
+              `${client.i18n.get(handler.language, "command.music", "loop_already", {
+                mode: mode,
+              })}`
             )
             .setColor(client.color),
         ],
@@ -98,9 +81,7 @@ export default class implements Command {
       this.setLoop247(client, player, String(KazagumoLoop.track));
 
       const looped = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "loop_current")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_current")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     } else if (mode == "queue") {
@@ -108,9 +89,7 @@ export default class implements Command {
       this.setLoop247(client, player, String(KazagumoLoop.queue));
 
       const looped_queue = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "loop_all")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_all")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped_queue] });
     } else if (mode === "none") {
@@ -118,18 +97,14 @@ export default class implements Command {
       this.setLoop247(client, player, String(KazagumoLoop.none));
 
       const looped = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "unloop_all")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "unloop_all")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     }
   }
 
   async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
-    const data = await new AutoReconnectBuilderService(client, player).execute(
-      player.guildId
-    );
+    const data = await new AutoReconnectBuilderService(client, player).execute(player.guildId);
     if (data) {
       await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);
     }

@@ -31,18 +31,14 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const tracks = handler.args[0];
     if (tracks && isNaN(+tracks))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,13 +46,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "removetrack_already"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "removetrack_already")}`)
             .setColor(client.color),
         ],
       });
@@ -64,13 +54,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "removetrack_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "removetrack_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -81,16 +65,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(
-          handler.language,
-          "command.music",
-          "removetrack_desc",
-          {
-            name: this.getTitle(client, song),
-            duration: new ConvertTime().parse(player.shoukaku.position),
-            request: String(song.requester),
-          }
-        )}`
+        `${client.i18n.get(handler.language, "command.music", "removetrack_desc", {
+          name: this.getTitle(client, song),
+          duration: new ConvertTime().parse(player.shoukaku.position),
+          request: String(song.requester),
+        })}`
       )
       .setColor(client.color);
 

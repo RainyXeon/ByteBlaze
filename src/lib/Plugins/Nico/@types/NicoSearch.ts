@@ -42,12 +42,7 @@ export type FilterField = Exclude<
   "contentId" | "title" | "description" | "thumbnailUrl" | "lastResBody"
 >;
 export type ResponseField = Exclude<keyof Fields, "tagsExact">;
-export type JsonFilter =
-  | EqualFilter
-  | RangeFilter
-  | AndFilter
-  | OrFilter
-  | NotFilter;
+export type JsonFilter = EqualFilter | RangeFilter | AndFilter | OrFilter | NotFilter;
 export type Sort = `${"+" | "-"}${
   | "viewCounter"
   | "mylistCounter"

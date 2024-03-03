@@ -36,13 +36,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setColor(client.color)
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.premium",
-                "redeem_invalid"
-              )}`
-            ),
+            .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`),
         ],
       });
 
@@ -51,9 +45,7 @@ export default class implements Command {
     if (member && member.isPremium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.premium", "redeem_already")}`
-        );
+        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_already")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
@@ -62,18 +54,14 @@ export default class implements Command {
     if (!premium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
-        );
+        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
     if (premium.expiresAt < Date.now()) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
-        );
+        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
@@ -109,11 +97,7 @@ export default class implements Command {
     return;
   }
 
-  protected async sendRedeemLog(
-    client: Manager,
-    premium: Premium,
-    user?: User | null
-  ): Promise<void> {
+  protected async sendRedeemLog(client: Manager, premium: Premium, user?: User | null): Promise<void> {
     if (!client.config.features.PREMIUM_LOG_CHANNEL) return;
     const language = client.config.bot.LANGUAGE;
 
@@ -155,9 +139,7 @@ export default class implements Command {
       .setColor(client.color);
 
     try {
-      const channel = await client.channels.fetch(
-        client.config.features.PREMIUM_LOG_CHANNEL
-      );
+      const channel = await client.channels.fetch(client.config.features.PREMIUM_LOG_CHANNEL);
       if (!channel || (channel && !channel.isTextBased())) return;
       channel.messages.channel.send({ embeds: [embed] });
     } catch {}

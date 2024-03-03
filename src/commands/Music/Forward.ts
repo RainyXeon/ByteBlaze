@@ -24,15 +24,11 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const song = player.queue.current;
     const song_position = player.shoukaku.position;
-    const CurrentDuration = new FormatDuration().parse(
-      song_position + fastForwardNum * 1000
-    );
+    const CurrentDuration = new FormatDuration().parse(song_position + fastForwardNum * 1000);
 
     if (song_position + fastForwardNum * 1000 < song!.length!) {
       player.send({
@@ -55,9 +51,7 @@ export default class implements Command {
       return await handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "forward_beyond")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "forward_beyond")}`)
             .setColor(client.color),
         ],
       });

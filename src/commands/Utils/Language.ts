@@ -35,14 +35,9 @@ export default class implements Command {
     if (!languages.includes(input as string)) {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.utils",
-            "provide_lang",
-            {
-              languages: languages.join(", "),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.utils", "provide_lang", {
+            languages: languages.join(", "),
+          })}`
         )
         .setColor(client.color);
       return handler.editReply({ content: " ", embeds: [onsome] });

@@ -1,8 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
 import delay from "delay";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -38,9 +34,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -51,13 +45,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.filter",
-                "filter_greater"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.filter", "filter_greater")}`)
             .setColor(client.color),
         ],
       });
@@ -65,9 +53,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "filter_less")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.filter", "filter_less")}`)
             .setColor(client.color),
         ],
       });

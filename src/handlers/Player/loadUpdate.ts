@@ -17,9 +17,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(
-        data.channel
-      )) as TextChannel;
+      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);
@@ -27,10 +25,7 @@ export class playerLoadUpdate {
 
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
-        guildModel = await client.db.language.set(
-          `${player.guildId}`,
-          client.config.bot.LANGUAGE
-        );
+        guildModel = await client.db.language.set(`${player.guildId}`, client.config.bot.LANGUAGE);
       }
 
       const language = guildModel;
@@ -79,9 +74,7 @@ export class playerLoadUpdate {
           `${
             cSong!.thumbnail
               ? cSong!.thumbnail
-              : `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-                  client.user!.avatar
-                }.jpeg?size=300`
+              : `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
           }`
         )
         .setFooter({
@@ -99,8 +92,7 @@ export class playerLoadUpdate {
 
       return await playMsg
         .edit({
-          content:
-            player.queue.current && player.queue.size == 0 ? " " : queueString,
+          content: player.queue.current && player.queue.size == 0 ? " " : queueString,
           embeds: [embed],
           components: [client.enSwitchMod],
         })
@@ -116,9 +108,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(
-        data.channel
-      )) as TextChannel;
+      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);
@@ -126,33 +116,20 @@ export class playerLoadUpdate {
 
       let guildModel = await client.db.language.get(`${player.guildId}`);
       if (!guildModel) {
-        guildModel = await client.db.language.set(
-          `${player.guildId}`,
-          client.config.bot.LANGUAGE
-        );
+        guildModel = await client.db.language.set(`${player.guildId}`, client.config.bot.LANGUAGE);
       }
 
       const language = guildModel;
 
-      const queueMsg = `${client.i18n.get(
-        language,
-        "event.setup",
-        "setup_queuemsg"
-      )}`;
+      const queueMsg = `${client.i18n.get(language, "event.setup", "setup_queuemsg")}`;
 
       const playEmbed = new EmbedBuilder()
         .setColor(client.color)
         .setAuthor({
-          name: `${client.i18n.get(
-            language,
-            "event.setup",
-            "setup_playembed_author"
-          )}`,
+          name: `${client.i18n.get(language, "event.setup", "setup_playembed_author")}`,
         })
         .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-            client.user!.avatar
-          }.jpeg?size=300`
+          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
         );
 
       return await playMsg

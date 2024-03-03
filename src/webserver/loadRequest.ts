@@ -20,21 +20,15 @@ export class loadRequest {
     await this.register(eventsFile);
 
     if (this.client.wsMessage?.size) {
-      this.client.logger.websocket(
-        `${this.client.wsMessage?.size} Websocket Request Loaded!`
-      );
+      this.client.logger.websocket(`${this.client.wsMessage?.size} Websocket Request Loaded!`);
     } else {
-      this.client.logger.websocket(
-        `No websocket request file loaded, is websocket ok?`
-      );
+      this.client.logger.websocket(`No websocket request file loaded, is websocket ok?`);
     }
   }
 
   async register(eventsFile: string[]) {
     await chillout.forEach(eventsFile, async (path) => {
-      const events = new (
-        await import(pathToFileURL(path).toString())
-      ).default();
+      const events = new (await import(pathToFileURL(path).toString())).default();
       this.client.wsMessage!.set(events.name, events);
     });
   }

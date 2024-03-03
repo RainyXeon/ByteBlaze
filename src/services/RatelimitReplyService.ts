@@ -41,15 +41,8 @@ export class RatelimitReplyService {
             .setColor(this.client.color),
         ],
       });
-      if (
-        !setup ||
-        setup == null ||
-        setup.channel !== this.interaction.channelId
-      )
-        setTimeout(
-          () => msg.delete(),
-          this.client.config.bot.DELETE_MSG_TIMEOUT
-        );
+      if (!setup || setup == null || setup.channel !== this.interaction.channelId)
+        setTimeout(() => msg.delete(), this.client.config.bot.DELETE_MSG_TIMEOUT);
 
       return;
     }
@@ -68,10 +61,7 @@ export class RatelimitReplyService {
         ],
       });
       if (!setup || setup == null || setup.channel !== this.button.channelId)
-        setTimeout(
-          () => msg.delete(),
-          this.client.config.bot.DELETE_MSG_TIMEOUT
-        );
+        setTimeout(() => msg.delete(), this.client.config.bot.DELETE_MSG_TIMEOUT);
 
       return;
     }
@@ -90,10 +80,7 @@ export class RatelimitReplyService {
         ],
       });
       if (!setup || setup == null || setup.channel !== this.message.channelId)
-        setTimeout(
-          () => msg.delete(),
-          this.client.config.bot.DELETE_MSG_TIMEOUT
-        );
+        setTimeout(() => msg.delete(), this.client.config.bot.DELETE_MSG_TIMEOUT);
 
       return;
     }

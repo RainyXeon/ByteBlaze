@@ -17,7 +17,5 @@ const manager = new ClusterManager(join(__dirname, "index.js"), {
   token: new ConfigDataService().data.bot.TOKEN,
 });
 
-manager.on("clusterCreate", (cluster) =>
-  console.log(`Launched Cluster ${cluster.id}`)
-);
+manager.on("clusterCreate", (cluster) => console.log(`Launched Cluster ${cluster.id}`));
 manager.spawn({ timeout: -1 });

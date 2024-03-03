@@ -13,7 +13,6 @@ export class initHandler {
     new loadNodeEvents(client);
     new loadPlayer(client);
     new loadCommand(client);
-    if (client.config.features.WEB_SERVER.websocket.enable)
-      new loadWebsocketEvents(client);
+    if (client.config.features.WEB_SERVER.websocket.enable) new loadWebsocketEvents(client);
   }
 }

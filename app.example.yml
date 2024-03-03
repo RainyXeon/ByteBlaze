@@ -48,7 +48,7 @@ lavalink:
     #   secure: false
 
 features:
-  # Log all premium activities
+  # Log register premium activities
   PREMIUM_LOG_CHANNEL: ""
   # Log all the guild that bot joined or leaved
   GUILD_LOG_CHANNEL: ""

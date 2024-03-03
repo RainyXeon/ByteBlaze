@@ -21,27 +21,20 @@ export class WebsocketService {
 
     const reqUrl = new URL(this.req.url, baseURL);
 
-    if (
-      reqUrl.searchParams.get("secret") !==
-      this.client.config.features.WEB_SERVER.websocket.secret
-    ) {
+    if (reqUrl.searchParams.get("secret") !== this.client.config.features.WEB_SERVER.websocket.secret) {
       this.ws.close();
       this.ws.send(
         JSON.stringify({
           error: `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`,
         })
       );
-      this.client.logger.websocket(
-        `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`
-      );
+      this.client.logger.websocket(`Disconnected to client (${verificationOrigin}) beacuse wrong secret!`);
       return;
     }
 
     if (
       this.client.config.features.WEB_SERVER.websocket.auth &&
-      !this.client.config.features.WEB_SERVER.websocket.trusted.includes(
-        verificationOrigin as string
-      )
+      !this.client.config.features.WEB_SERVER.websocket.trusted.includes(verificationOrigin as string)
     ) {
       this.ws.close();
       this.ws.send(
@@ -56,14 +49,10 @@ export class WebsocketService {
     }
 
     if (!this.client.config.features.WEB_SERVER.websocket.auth)
-      this.client.logger.websocket(
-        `[UNSECURE] Connected to client (${verificationOrigin})`
-      );
+      this.client.logger.websocket(`[UNSECURE] Connected to client (${verificationOrigin})`);
 
     if (this.client.config.features.WEB_SERVER.websocket.auth)
-      this.client.logger.websocket(
-        `Connected to client (${verificationOrigin})`
-      );
+      this.client.logger.websocket(`Connected to client (${verificationOrigin})`);
   }
 
   async execute() {
@@ -79,9 +68,7 @@ export class WebsocketService {
 
       if (!req) return;
       if (req) {
-        this.client.logger.websocket(
-          `Used [${json.message}] req by ${json.guild}`
-        );
+        this.client.logger.websocket(`Used [${json.message}] req by ${json.guild}`);
         try {
           req.run(this.client, json, this.ws);
         } catch (error) {
@@ -96,8 +83,6 @@ export class WebsocketService {
     this.ws.on("error", (error) => {
       this.ws.send(JSON.stringify({ error: error }));
     });
-    this.ws.on("close", () =>
-      this.client.logger.websocket("Closed connection to client")
-    );
+    this.ws.on("close", () => this.client.logger.websocket("Closed connection to client"));
   }
 }

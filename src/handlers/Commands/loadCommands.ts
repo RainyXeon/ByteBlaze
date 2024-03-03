@@ -32,21 +32,15 @@ export class loadCommands {
 
   async register(commandFile: string) {
     const rltPath = relative(__dirname, commandFile);
-    const command = new (
-      await import(pathToFileURL(commandFile).toString())
-    ).default();
+    const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(
-        `"${rltPath}" The command file does not have a name. Skipping...`
-      );
+      this.client.logger.warn(`"${rltPath}" The command file does not have a name. Skipping...`);
       return;
     }
 
     if (this.client.commands.has(command.name)) {
-      this.client.logger.warn(
-        `"${command.name}" command has already been installed. Skipping...`
-      );
+      this.client.logger.warn(`"${command.name}" command has already been installed. Skipping...`);
       return;
     }
 
@@ -62,9 +56,7 @@ export class loadCommands {
     this.client.commands.set(command.name.join("-"), command);
 
     if (command.aliases && command.aliases.length !== 0)
-      command.aliases.forEach((a: string) =>
-        this.client.aliases.set(a, command.name.join("-"))
-      );
+      command.aliases.forEach((a: string) => this.client.aliases.set(a, command.name.join("-")));
   }
 
   keyChecker(obj: Record<string, any>): KeyCheckerEnum {

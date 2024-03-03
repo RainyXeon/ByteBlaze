@@ -1,14 +1,7 @@
 import { Metadata } from "./Metadata.js";
 import { Config } from "./Config.js";
 import { DatabaseTable } from "../database/@types.js";
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  Client,
-  Collection,
-  ColorResolvable,
-  Message,
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, Client, Collection, ColorResolvable, Message } from "discord.js";
 import { I18n } from "@hammerhq/localization";
 import { LavalinkDataType, LavalinkUsingDataType } from "./Lavalink.js";
 import { Kazagumo } from "../lib/Kazagumo.js";

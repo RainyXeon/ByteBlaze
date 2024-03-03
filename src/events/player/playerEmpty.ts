@@ -27,9 +27,7 @@ export default class {
 
     client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
-    const currentPlayer = (await client.manager.getPlayer(
-      player.guildId
-    )) as KazagumoPlayer;
+    const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;
     if (currentPlayer.voiceId !== null) {
       await player.destroy();

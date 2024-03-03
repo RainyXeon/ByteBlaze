@@ -27,9 +27,7 @@ export default class implements Command {
 
     const realtime = client.config.lavalink.NP_REALTIME;
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const song = player.queue.current;
     const position = player.position;
@@ -37,9 +35,7 @@ export default class implements Command {
     const TotalDuration = new FormatDuration().parse(song!.length);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
-      `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-        client.user!.avatar
-      }.jpeg`;
+      `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg`;
     const Part = Math.floor((position / song!.length!) * 30);
 
     const fieldDataGlobal = [
@@ -49,11 +45,7 @@ export default class implements Command {
         inline: true,
       },
       {
-        name: `${client.i18n.get(
-          handler.language,
-          "event.player",
-          "duration_title"
-        )}`,
+        name: `${client.i18n.get(handler.language, "event.player", "duration_title")}`,
         value: `${new FormatDuration().parse(song!.length)}`,
         inline: true,
       },
@@ -68,14 +60,8 @@ export default class implements Command {
         inline: true,
       },
       {
-        name: `${client.i18n.get(
-          handler.language,
-          "event.player",
-          "total_duration_title"
-        )}`,
-        value: `${new FormatDuration().parse(
-          new QueueDuration().parse(player)
-        )}`,
+        name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
+        value: `${new FormatDuration().parse(new QueueDuration().parse(player))}`,
         inline: true,
       },
       {
@@ -84,29 +70,16 @@ export default class implements Command {
         inline: true,
       },
       {
-        name: `${client.i18n.get(
-          handler.language,
-          "event.player",
-          "download_title"
-        )}`,
-        value: `**[${
-          song!.title
-        }](https://www.000tube.com/watch?v=${song?.identifier})**`,
+        name: `${client.i18n.get(handler.language, "event.player", "download_title")}`,
+        value: `**[${song!.title}](https://www.000tube.com/watch?v=${song?.identifier})**`,
         inline: false,
       },
       {
-        name: `${client.i18n.get(
-          handler.language,
-          "command.music",
-          "np_current_duration",
-          {
-            current_duration: CurrentDuration,
-            total_duration: TotalDuration,
-          }
-        )}`,
-        value: `\`\`\`🔴 | ${
-          "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
-        }\`\`\``,
+        name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+          current_duration: CurrentDuration,
+          total_duration: TotalDuration,
+        })}`,
+        value: `\`\`\`🔴 | ${"─".repeat(Part) + "🎶" + "─".repeat(30 - Part)}\`\`\``,
         inline: false,
       },
     ];
@@ -148,18 +121,11 @@ export default class implements Command {
 
         editedField.splice(7, 1);
         editedField.push({
-          name: `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "np_current_duration",
-            {
-              current_duration: CurrentDuration,
-              total_duration: TotalDuration,
-            }
-          )}`,
-          value: `\`\`\`🔴 | ${
-            "─".repeat(Part) + "🎶" + "─".repeat(30 - Part)
-          }\`\`\``,
+          name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+            current_duration: CurrentDuration,
+            total_duration: TotalDuration,
+          })}`,
+          value: `\`\`\`🔴 | ${"─".repeat(Part) + "🎶" + "─".repeat(30 - Part)}\`\`\``,
           inline: false,
         });
 

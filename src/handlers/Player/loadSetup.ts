@@ -13,62 +13,35 @@ export class playerLoadSetup {
   icons: typeof SafeModeIcons | typeof NormalModeIcons;
   constructor(client: Manager) {
     this.client = client;
-    this.icons = this.client.config.bot.SAFE_ICONS_MODE
-      ? SafeModeIcons
-      : NormalModeIcons;
+    this.icons = this.client.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
     this.registerDisableSwitch();
     this.registerEnableSwitch();
     this.registerEnableSwitchMod();
   }
   registerEnableSwitch() {
     this.client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("sstop")
-        .setEmoji(this.icons.stop),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sstop").setEmoji(this.icons.stop),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("sprevious")
         .setEmoji(this.icons.previous),
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("spause")
-        .setEmoji(this.icons.play),
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("sskip")
-        .setEmoji(this.icons.skip),
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("sloop")
-        .setEmoji(this.icons.loop),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("spause").setEmoji(this.icons.play),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sskip").setEmoji(this.icons.skip),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sloop").setEmoji(this.icons.loop),
     ]);
   }
 
   registerEnableSwitchMod() {
-    this.client.enSwitchMod =
-      new ActionRowBuilder<ButtonBuilder>().addComponents([
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("sstop")
-          .setEmoji(this.icons.stop),
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("sprevious")
-          .setEmoji(this.icons.previous),
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("spause")
-          .setEmoji(this.icons.pause),
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("sskip")
-          .setEmoji(this.icons.skip),
-        new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("sloop")
-          .setEmoji(this.icons.loop),
-      ]);
+    this.client.enSwitchMod = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sstop").setEmoji(this.icons.stop),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("sprevious")
+        .setEmoji(this.icons.previous),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("spause").setEmoji(this.icons.pause),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sskip").setEmoji(this.icons.skip),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sloop").setEmoji(this.icons.loop),
+    ]);
   }
 
   registerDisableSwitch() {

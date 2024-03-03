@@ -28,10 +28,7 @@ export default class implements Command {
     Discord.js      | ${version}
     Autofix Version | ${client.metadata.autofix}
     Guild Count     | ${client.guilds.cache.size}
-    User Count      | ${client.guilds.cache.reduce(
-      (a, b) => a + b.memberCount,
-      0
-    )}
+    User Count      | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
     \`\`\``;
 
     const embed = new EmbedBuilder()

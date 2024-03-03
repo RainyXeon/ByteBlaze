@@ -21,18 +21,14 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     await player.pause(true);
 
     client.emit("playerPause", player);
 
     const embed = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "pause_msg")}`
-      )
+      .setDescription(`${client.i18n.get(handler.language, "command.music", "pause_msg")}`)
       .setColor(client.color);
 
     handler.editReply({ content: " ", embeds: [embed] });

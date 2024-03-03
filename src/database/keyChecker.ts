@@ -6,11 +6,7 @@ export class keyChecker {
   obj: Record<string, any>;
   sampleConfig: Record<string, any>;
   dbName: string;
-  constructor(
-    obj: Record<string, any>,
-    sampleConfig: Record<string, any>,
-    dbName: string
-  ) {
+  constructor(obj: Record<string, any>, sampleConfig: Record<string, any>, dbName: string) {
     this.dbName = dbName;
     this.obj = obj;
     this.sampleConfig = sampleConfig;
@@ -25,9 +21,7 @@ export class keyChecker {
     if (res == KeyCheckerEnum.Pass) return true;
 
     logger.error(`
-      Invalid config [${res}], please set [${objReqKey.join(
-        ", "
-      )}] only. Example: 
+      Invalid config [${res}], please set [${objReqKey.join(", ")}] only. Example: 
       DATABASE:
         driver: "${this.dbName}"
         config: ${utils.inspect(this.sampleConfig)}`);

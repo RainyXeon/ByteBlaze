@@ -21,9 +21,7 @@ export default class implements Command {
     await handler.deferReply();
     const ping = new EmbedBuilder()
       .setAuthor({
-        name:
-          `${client.i18n.get(handler.language, "command.info", "ping_title")}` +
-          client.user!.username,
+        name: `${client.i18n.get(handler.language, "command.info", "ping_title")}` + client.user!.username,
       })
       .setDescription(
         `${client.i18n.get(handler.language, "command.info", "ping_desc", {

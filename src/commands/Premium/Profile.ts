@@ -23,30 +23,19 @@ export default class implements Command {
     await handler.deferReply();
 
     const PremiumPlan = await client.db.premium.get(`${handler.user?.id}`);
-    const expires = moment(PremiumPlan!.expiresAt).format(
-      "do/MMMM/YYYY (HH:mm:ss)"
-    );
+    const expires = moment(PremiumPlan!.expiresAt).format("do/MMMM/YYYY (HH:mm:ss)");
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(
-          handler.language,
-          "command.premium",
-          "profile_author"
-        )}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(
-          handler.language,
-          "command.premium",
-          "profile_desc",
-          {
-            user: String(handler.user?.tag),
-            plan: PremiumPlan!.plan,
-            expires: expires,
-          }
-        )}`
+        `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
+          user: String(handler.user?.tag),
+          plan: PremiumPlan!.plan,
+          expires: expires,
+        })}`
       )
       .setColor(client.color)
       .setTimestamp();
