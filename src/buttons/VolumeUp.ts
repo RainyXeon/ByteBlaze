@@ -1,9 +1,4 @@
-import {
-  ButtonInteraction,
-  CacheType,
-  InteractionCollector,
-  Message,
-} from "discord.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
@@ -23,14 +18,9 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const reply_msg = `${client.i18n.get(
-      language,
-      "button.music",
-      "volup_msg",
-      {
-        volume: `${player.volume * 100 + 10}`,
-      }
-    )}`;
+    const reply_msg = `${client.i18n.get(language, "button.music", "volup_msg", {
+      volume: `${player.volume * 100 + 10}`,
+    })}`;
 
     if (player.volume * 100 >= 100) {
       await new ReplyInteractionService(

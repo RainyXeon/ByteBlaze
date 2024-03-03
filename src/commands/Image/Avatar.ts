@@ -1,8 +1,5 @@
 import { Accessableby, Command } from "../../structures/Command.js";
-import {
-  CommandHandler,
-  ParseMentionEnum,
-} from "../../structures/CommandHandler.js";
+import { CommandHandler, ParseMentionEnum } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
 import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
 
@@ -17,6 +14,7 @@ export default class implements Command {
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
+  public permissions = [];
   public options = [
     {
       name: "user",
@@ -49,9 +47,7 @@ export default class implements Command {
     if (value && (value as any) !== "error") {
       const embed = new EmbedBuilder()
         .setTitle(value.username)
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`
-        )
+        .setImage(`https://cdn.discordapp.com/avatars/${value.id}/${value.avatar}.jpeg?size=300`)
         .setColor(client.color)
         .setTimestamp();
       await handler.editReply({ embeds: [embed] });

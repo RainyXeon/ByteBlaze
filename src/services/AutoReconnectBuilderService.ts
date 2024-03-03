@@ -48,8 +48,7 @@ export class AutoReconnectBuilderService {
         volume: this.player?.volume,
       },
       queue: this.player?.queue.length !== 0 ? this.queueUri() : [],
-      previous:
-        this.player?.queue.previous.length !== 0 ? this.previousUri() : [],
+      previous: this.player?.queue.previous.length !== 0 ? this.previousUri() : [],
       twentyfourseven: two47mode,
     });
   }

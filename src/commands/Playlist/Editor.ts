@@ -27,6 +27,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "id",
@@ -38,13 +40,7 @@ export default class implements Command {
 
   public async execute(client: Manager, handler: CommandHandler) {
     if (handler.message) {
-      await this.prefixMode(
-        client,
-        handler.message,
-        handler.args,
-        handler.language,
-        handler.prefix
-      );
+      await this.prefixMode(client, handler.message, handler.args, handler.language, handler.prefix);
     } else if (handler.interaction) {
       await this.interactionMode(client, handler.interaction, handler.language);
     } else return;
@@ -63,9 +59,7 @@ export default class implements Command {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "command.playlist", "edit_arg")}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "edit_arg")}`)
             .setColor(client.color),
         ],
       });
@@ -76,9 +70,7 @@ export default class implements Command {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "command.playlist", "edit_notfound")}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "edit_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -86,9 +78,7 @@ export default class implements Command {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "command.playlist", "edit_playlist_owner")}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "edit_playlist_owner")}`)
             .setColor(client.color),
         ],
       });
@@ -113,12 +103,7 @@ export default class implements Command {
 
         const newId = idCol.length !== 0 ? idCol : null;
         const newName = nameCol.length !== 0 ? nameCol : playlist.name;
-        const newDes =
-          desCol.length !== 0
-            ? desCol
-            : playlist.description
-              ? playlist.description
-              : "null";
+        const newDes = desCol.length !== 0 ? desCol : playlist.description ? playlist.description : "null";
         const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
         if (newId) {
@@ -126,13 +111,7 @@ export default class implements Command {
             message.reply({
               embeds: [
                 new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(
-                      language,
-                      "command.playlist",
-                      "edit_invalid_id"
-                    )}`
-                  )
+                  .setDescription(`${client.i18n.get(language, "command.playlist", "edit_invalid_id")}`)
                   .setColor(client.color),
               ],
             });
@@ -149,11 +128,7 @@ export default class implements Command {
               embeds: [
                 new EmbedBuilder()
                   .setDescription(
-                    `${client.i18n.get(
-                      language,
-                      "command.playlist",
-                      "ineraction_edit_invalid_id"
-                    )}`
+                    `${client.i18n.get(language, "command.playlist", "ineraction_edit_invalid_id")}`
                   )
                   .setColor(client.color),
               ],
@@ -163,13 +138,7 @@ export default class implements Command {
             message.reply({
               embeds: [
                 new EmbedBuilder()
-                  .setDescription(
-                    `${client.i18n.get(
-                      language,
-                      "command.playlist",
-                      "edit_invalid_mode"
-                    )}`
-                  )
+                  .setDescription(`${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`)
                   .setColor(client.color),
               ],
             });
@@ -193,20 +162,14 @@ export default class implements Command {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `${client.i18n.get(
-                    language,
-                    "command.playlist",
-                    "edit_success",
-                    {
-                      playlistId: newId,
-                    }
-                  )}`
+                  `${client.i18n.get(language, "command.playlist", "edit_success", {
+                    playlistId: newId,
+                  })}`
                 )
                 .setColor(client.color),
             ],
           });
-          if (playlist.id !== newId)
-            await client.db.playlist.delete(playlist.id);
+          if (playlist.id !== newId) await client.db.playlist.delete(playlist.id);
           count = 0;
           answer.length = 0;
           return;
@@ -216,13 +179,7 @@ export default class implements Command {
           message.reply({
             embeds: [
               new EmbedBuilder()
-                .setDescription(
-                  `${client.i18n.get(
-                    language,
-                    "command.playlist",
-                    "edit_invalid_mode"
-                  )}`
-                )
+                .setDescription(`${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`)
                 .setColor(client.color),
             ],
           });
@@ -254,32 +211,16 @@ export default class implements Command {
   private questionString(client: Manager, language: string) {
     return [
       {
-        question: `${client.i18n.get(
-          language,
-          "command.playlist",
-          "edit_playlist_id_label"
-        )}`,
+        question: `${client.i18n.get(language, "command.playlist", "edit_playlist_id_label")}`,
       },
       {
-        question: `${client.i18n.get(
-          language,
-          "command.playlist",
-          "edit_playlist_name_label"
-        )}`,
+        question: `${client.i18n.get(language, "command.playlist", "edit_playlist_name_label")}`,
       },
       {
-        question: `${client.i18n.get(
-          language,
-          "command.playlist",
-          "edit_playlist_des_label"
-        )}`,
+        question: `${client.i18n.get(language, "command.playlist", "edit_playlist_des_label")}`,
       },
       {
-        question: `${client.i18n.get(
-          language,
-          "command.playlist",
-          "edit_playlist_private_label"
-        )}`,
+        question: `${client.i18n.get(language, "command.playlist", "edit_playlist_private_label")}`,
       },
     ];
   }
@@ -307,81 +248,37 @@ export default class implements Command {
   }
 
   // Interaction mode
-  private async interactionMode(
-    client: Manager,
-    interaction: CommandInteraction,
-    language: string
-  ) {
+  private async interactionMode(client: Manager, interaction: CommandInteraction, language: string) {
     const playlistId = new TextInputBuilder()
-      .setLabel(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_id_label"
-        )}`
-      )
+      .setLabel(`${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_id_label")}`)
       .setStyle(TextInputStyle.Short)
       .setPlaceholder(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_id_placeholder"
-        )}`
+        `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_id_placeholder")}`
       )
       .setCustomId("pl_id")
       .setRequired(false);
 
     const playlistName = new TextInputBuilder()
-      .setLabel(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_name_label"
-        )}`
-      )
+      .setLabel(`${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_name_label")}`)
       .setStyle(TextInputStyle.Short)
       .setPlaceholder(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_name_placeholder"
-        )}`
+        `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_name_placeholder")}`
       )
       .setCustomId("pl_name")
       .setRequired(false);
     const playlistDes = new TextInputBuilder()
-      .setLabel(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_des_label"
-        )}`
-      )
+      .setLabel(`${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_des_label")}`)
       .setStyle(TextInputStyle.Short)
       .setPlaceholder(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_des_placeholder"
-        )}`
+        `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_des_placeholder")}`
       )
       .setCustomId("pl_des")
       .setRequired(false);
     const playlistPrivate = new TextInputBuilder()
-      .setLabel(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_private_label"
-        )}`
-      )
+      .setLabel(`${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_private_label")}`)
       .setStyle(TextInputStyle.Short)
       .setPlaceholder(
-        `${client.i18n.get(
-          language,
-          "command.playlist",
-          "ineraction_edit_playlist_private_placeholder"
-        )}`
+        `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_private_placeholder")}`
       )
       .setCustomId("pl_mode")
       .setRequired(false);
@@ -396,9 +293,7 @@ export default class implements Command {
         new ActionRowBuilder<TextInputBuilder>().addComponents(playlistPrivate)
       );
 
-    const value = (
-      interaction.options as CommandInteractionOptionResolver
-    ).getString("id");
+    const value = (interaction.options as CommandInteractionOptionResolver).getString("id");
 
     const playlist = await client.db.playlist.get(value!);
 
@@ -406,13 +301,7 @@ export default class implements Command {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                language,
-                "command.playlist",
-                "ineraction_edit_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "ineraction_edit_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -422,11 +311,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                language,
-                "command.playlist",
-                "ineraction_edit_playlist_owner"
-              )}`
+              `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_owner")}`
             )
             .setColor(client.color),
         ],
@@ -449,11 +334,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                language,
-                "command.playlist",
-                "ineraction_edit_playlist_error"
-              )}`
+              `${client.i18n.get(language, "command.playlist", "ineraction_edit_playlist_error")}`
             )
             .setColor(client.color),
         ],
@@ -466,13 +347,7 @@ export default class implements Command {
       return collector.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                language,
-                "command.playlist",
-                "ineraction_edit_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "ineraction_edit_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -483,12 +358,7 @@ export default class implements Command {
 
     const newId = idCol.length !== 0 ? idCol : null;
     const newName = nameCol.length !== 0 ? nameCol : playlist.name;
-    const newDes =
-      desCol.length !== 0
-        ? desCol
-        : playlist.description
-          ? playlist.description
-          : "null";
+    const newDes = desCol.length !== 0 ? desCol : playlist.description ? playlist.description : "null";
     const newMode = modeCol.length !== 0 ? modeCol : playlist.private;
 
     if (newId) {
@@ -497,11 +367,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  language,
-                  "command.playlist",
-                  "ineraction_edit_invalid_id"
-                )}`
+                `${client.i18n.get(language, "command.playlist", "ineraction_edit_invalid_id")}`
               )
               .setColor(client.color),
           ],
@@ -514,11 +380,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  language,
-                  "command.playlist",
-                  "ineraction_edit_invalid_id"
-                )}`
+                `${client.i18n.get(language, "command.playlist", "ineraction_edit_invalid_id")}`
               )
               .setColor(client.color),
           ],
@@ -528,9 +390,7 @@ export default class implements Command {
         return collector.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`
-              )
+              .setDescription(`${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`)
               .setColor(client.color),
           ],
         });
@@ -549,14 +409,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                language,
-                "command.playlist",
-                "ineraction_edit_success",
-                {
-                  playlistId: newId,
-                }
-              )}`
+              `${client.i18n.get(language, "command.playlist", "ineraction_edit_success", {
+                playlistId: newId,
+              })}`
             )
             .setColor(client.color),
         ],
@@ -570,9 +425,7 @@ export default class implements Command {
       return collector.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`
-            )
+            .setDescription(`${client.i18n.get(language, "command.playlist", "edit_invalid_mode")}`)
             .setColor(client.color),
         ],
       });
@@ -585,14 +438,9 @@ export default class implements Command {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(
-              language,
-              "command.playlist",
-              "ineraction_edit_success",
-              {
-                playlistId: playlist.id,
-              }
-            )}`
+            `${client.i18n.get(language, "command.playlist", "ineraction_edit_success", {
+              playlistId: playlist.id,
+            })}`
           )
           .setColor(client.color),
       ],

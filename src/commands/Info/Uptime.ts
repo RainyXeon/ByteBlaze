@@ -16,14 +16,13 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     const uptime = new EmbedBuilder()
       .setAuthor({
-        name:
-          `${client.i18n.get(handler.language, "command.info", "uptime_title")}` +
-          client.user!.username,
+        name: `${client.i18n.get(handler.language, "command.info", "uptime_title")}` + client.user!.username,
       })
 
       .setDescription(

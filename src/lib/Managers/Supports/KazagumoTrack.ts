@@ -73,9 +73,7 @@ export class KazagumoTrack {
     this.author = raw.info.author;
     this.length = raw.info.length;
     this.thumbnail = raw.info.artworkUrl;
-    this.realUri = SupportedSources.includes(this.sourceName)
-      ? this.uri
-      : undefined;
+    this.realUri = SupportedSources.includes(this.sourceName) ? this.uri : undefined;
 
     this.requester = requester;
 
@@ -151,13 +149,8 @@ export class KazagumoTrack {
       (await this.kazagumo.KazagumoOptions.trackResolver.bind(this)(options))
     )
       return this;
-    const resolveSource =
-      this.kazagumo.KazagumoOptions?.sourceForceResolve?.includes(
-        this.sourceName
-      );
-    const { forceResolve, overwrite } = options
-      ? options
-      : { forceResolve: false, overwrite: false };
+    const resolveSource = this.kazagumo.KazagumoOptions?.sourceForceResolve?.includes(this.sourceName);
+    const { forceResolve, overwrite } = options ? options : { forceResolve: false, overwrite: false };
 
     if (!forceResolve && this.readyToPlay) return this;
     if (resolveSource && this.resolvedBySource) return this;
@@ -193,8 +186,7 @@ export class KazagumoTrack {
   public async getTrack(player: KazagumoPlayer | null): Promise<Track> {
     if (!this.kazagumo) throw new Error("Kazagumo is not set");
 
-    const defaultSearchEngine =
-      this.kazagumo.KazagumoOptions.defaultSearchEngine;
+    const defaultSearchEngine = this.kazagumo.KazagumoOptions.defaultSearchEngine;
     const source = (SourceIDs as any)[defaultSearchEngine || "youtube"] || "yt";
     const query = [this.author, this.title].filter((x) => !!x).join(" - ");
     const node = await this.kazagumo.getLeastUsedNode();
@@ -207,8 +199,7 @@ export class KazagumoTrack {
           engine: defaultSearchEngine,
           requester: this.requester,
         });
-    if (!result || !result.tracks.length)
-      throw new KazagumoError(2, "No results found");
+    if (!result || !result.tracks.length) throw new KazagumoError(2, "No results found");
 
     const rawTracks = result.tracks.map((x) => x.getRaw()._raw);
 
@@ -216,12 +207,8 @@ export class KazagumoTrack {
       const author = [this.author, `${this.author} - Topic`];
       const officialTrack = rawTracks.find(
         (track) =>
-          author.some((name) =>
-            new RegExp(`^${escapeRegExp(name)}$`, "i").test(track.info.author)
-          ) ||
-          new RegExp(`^${escapeRegExp(this.title)}$`, "i").test(
-            track.info.title
-          )
+          author.some((name) => new RegExp(`^${escapeRegExp(name)}$`, "i").test(track.info.author)) ||
+          new RegExp(`^${escapeRegExp(this.title)}$`, "i").test(track.info.title)
       );
       if (officialTrack) return officialTrack;
     }

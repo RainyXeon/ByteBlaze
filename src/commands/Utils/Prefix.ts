@@ -14,6 +14,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = false;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
@@ -23,9 +25,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.utils", "prefix_arg")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.utils", "prefix_arg")}`)
             .setColor(client.color),
         ],
       });
@@ -34,13 +34,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.utils",
-                "prefix_length"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.utils", "prefix_length")}`)
             .setColor(client.color),
         ],
       });
@@ -64,14 +58,9 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.utils",
-            "prefix_change",
-            {
-              prefix: handler.args[0],
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.utils", "prefix_change", {
+            prefix: handler.args[0],
+          })}`
         )
         .setColor(client.color);
 

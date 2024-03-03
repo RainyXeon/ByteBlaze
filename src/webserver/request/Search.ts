@@ -11,8 +11,6 @@ export default class implements RequestInterface {
       requester: null,
     });
 
-    ws.send(
-      JSON.stringify({ op: "search", guild: json.guild, queue: result.tracks })
-    );
+    ws.send(JSON.stringify({ op: "search", guild: json.guild, queue: result.tracks }));
   };
 }

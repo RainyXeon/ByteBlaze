@@ -1,9 +1,4 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  EmbedBuilder,
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Manager } from "../../manager.js";
@@ -20,6 +15,7 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();

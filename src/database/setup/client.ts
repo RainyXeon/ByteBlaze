@@ -33,10 +33,7 @@ export class ClientDataService {
     - Discord.js: ${version}
     - WebSocket Ping: ${this.client.ws.ping}ms
     - Guild Count: ${this.client.guilds.cache.size}
-    - User count: ${this.client.guilds.cache.reduce(
-      (a, b) => a + b.memberCount,
-      0
-    )}
+    - User count: ${this.client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
     \`\`\``;
 
     return new EmbedBuilder()
@@ -45,10 +42,7 @@ export class ClientDataService {
         iconURL: String(this.client.user!.displayAvatarURL({ size: 2048 })),
       })
       .setColor(this.client.color)
-      .addFields(
-        { name: "Host info", value: hostInfo },
-        { name: "Bot info", value: botInfo }
-      )
+      .addFields({ name: "Host info", value: hostInfo }, { name: "Bot info", value: botInfo })
       .setTimestamp();
   }
 
@@ -80,9 +74,7 @@ export class ClientDataService {
 
       SetupChannel.forEach(async (g) => {
         const fetch_channel =
-          g.channel.length !== 0
-            ? await this.client.channels.fetch(g.channel)
-            : undefined;
+          g.channel.length !== 0 ? await this.client.channels.fetch(g.channel) : undefined;
         if (!fetch_channel) return;
         const text_channel = fetch_channel! as TextChannel;
         const interval_text = await text_channel.messages!.fetch(g.statmsg);
@@ -94,15 +86,11 @@ export class ClientDataService {
   async execute() {
     const Client = chalk.hex("#02f75c");
     const client_mess = Client("Client: ");
-    this.client.logger.data_loader(
-      client_mess + "Setting up data for client..."
-    );
+    this.client.logger.data_loader(client_mess + "Setting up data for client...");
 
     this.setupPremium();
     this.setupInfoChennel();
 
-    this.client.logger.data_loader(
-      client_mess + "Setting up data for client complete!"
-    );
+    this.client.logger.data_loader(client_mess + "Setting up data for client complete!");
   }
 }

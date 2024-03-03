@@ -16,23 +16,20 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     await player.pause(false);
 
     client.emit("playerPause", player);
 
     const embed = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "resume_msg")}`
-      )
+      .setDescription(`${client.i18n.get(handler.language, "command.music", "resume_msg")}`)
       .setColor(client.color);
 
     await handler.editReply({ content: " ", embeds: [embed] });

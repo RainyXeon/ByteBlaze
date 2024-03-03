@@ -17,13 +17,12 @@ export default class implements Command {
   public usingInteraction = true;
   public sameVoiceCheck = true;
   public options = [];
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
     const previousIndex = player.queue.previous.length - 1;
 
     if (
@@ -34,13 +33,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "previous_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "previous_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -48,9 +41,7 @@ export default class implements Command {
     player.previous();
 
     const embed = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "previous_msg")}`
-      )
+      .setDescription(`${client.i18n.get(handler.language, "command.music", "previous_msg")}`)
       .setColor(client.color);
 
     handler.editReply({ content: " ", embeds: [embed] });

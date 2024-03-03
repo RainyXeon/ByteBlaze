@@ -1,8 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  APIEmbedField,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, APIEmbedField } from "discord.js";
 import { readdirSync } from "fs";
 import { stripIndents } from "common-tags";
 import { join, dirname } from "path";
@@ -23,6 +19,7 @@ export default class implements Command {
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
+  public permissions = [];
   public options = [
     {
       name: "command",
@@ -41,29 +38,17 @@ export default class implements Command {
         .setColor(client.color);
 
       let command = client.commands.get(
-        client.aliases.get(handler.args[0].toLowerCase()) ||
-          handler.args[0].toLowerCase()
+        client.aliases.get(handler.args[0].toLowerCase()) || handler.args[0].toLowerCase()
       );
       if (!command)
         return handler.editReply({
           embeds: [
             embed
-              .setTitle(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.info",
-                  "ce_finder_invalid"
-                )}`
-              )
+              .setTitle(`${client.i18n.get(handler.language, "command.info", "ce_finder_invalid")}`)
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.info",
-                  "ce_finder_example",
-                  {
-                    command: `${handler.prefix}${this.name[0]}`,
-                  }
-                )}`
+                `${client.i18n.get(handler.language, "command.info", "ce_finder_example", {
+                  command: `${handler.prefix}${this.name[0]}`,
+                })}`
               ),
           ],
         });
@@ -76,9 +61,7 @@ export default class implements Command {
         ${eString.usage} ${
           command.usage
             ? `\`${handler.prefix}${
-                handler.interaction
-                  ? command.name.join(" ")
-                  : command.name.join("-")
+                handler.interaction ? command.name.join(" ") : command.name.join("-")
               } ${command.usage}\``
             : `\`${eString.usageNone}\``
         }
@@ -88,9 +71,7 @@ export default class implements Command {
             ? command.aliases.join(", ") + eString.aliasesPrefix
             : eString.aliasesNone
         }\`
-        ${eString.slash} \`${
-          command.usingInteraction ? eString.slashEnable : eString.slashDisable
-        }\`
+        ${eString.slash} \`${command.usingInteraction ? eString.slashEnable : eString.slashDisable}\`
         `);
 
       return handler.editReply({ embeds: [embed] });
@@ -106,26 +87,19 @@ export default class implements Command {
       })
       .addFields(embedFieldArray)
       .setFooter({
-        text: `${client.i18n.get(handler.language, "command.info", "ce_total")} ${
-          client.commands.size
-        }`,
+        text: `${client.i18n.get(handler.language, "command.info", "ce_total")} ${client.commands.size}`,
         iconURL: client.user!.displayAvatarURL(),
       });
     await handler.editReply({ embeds: [embed] });
   }
 
-  private fieldArray(
-    client: Manager,
-    handler: CommandHandler
-  ): APIEmbedField[] {
+  private fieldArray(client: Manager, handler: CommandHandler): APIEmbedField[] {
     const fieldRes: APIEmbedField[] = [];
     const categories = readdirSync(join(__dirname, "..", "..", "commands"));
 
     for (const category of categories) {
       const obj = {
-        name: `❯  ${category.toUpperCase()} [${
-          client.commands.filter((c) => c.category === category).size
-        }]`,
+        name: `❯  ${category.toUpperCase()} [${client.commands.filter((c) => c.category === category).size}]`,
         value: `${client.commands
           .filter((c) => c.category === category)
           .filter((c) => {
@@ -150,47 +124,15 @@ export default class implements Command {
       name: `${client.i18n.get(handler.language, "command.info", "ce_finder_name")}`,
       des: `${client.i18n.get(handler.language, "command.info", "ce_finder_des")}`,
       usage: `${client.i18n.get(handler.language, "command.info", "ce_finder_usage")}`,
-      access: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_access"
-      )}`,
-      aliases: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_aliases"
-      )}`,
+      access: `${client.i18n.get(handler.language, "command.info", "ce_finder_access")}`,
+      aliases: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases")}`,
       slash: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash")}`,
-      desNone: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_des_no"
-      )}`,
-      usageNone: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_usage_no"
-      )}`,
-      aliasesPrefix: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_aliases_prefix"
-      )}`,
-      aliasesNone: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_aliases_no"
-      )}`,
-      slashEnable: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_slash_enable"
-      )}`,
-      slashDisable: `${client.i18n.get(
-        handler.language,
-        "command.info",
-        "ce_finder_slash_disable"
-      )}`,
+      desNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_des_no")}`,
+      usageNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_usage_no")}`,
+      aliasesPrefix: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases_prefix")}`,
+      aliasesNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases_no")}`,
+      slashEnable: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash_enable")}`,
+      slashDisable: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash_disable")}`,
     };
   }
 }

@@ -23,9 +23,7 @@ export type CommandHandlerOptions = {
   prefix: string;
 };
 
-export type GlobalMsg =
-  | InteractionResponse<boolean>
-  | (Message<boolean> | undefined);
+export type GlobalMsg = InteractionResponse<boolean> | (Message<boolean> | undefined);
 
 export enum ParseMentionEnum {
   ERROR,
@@ -143,16 +141,13 @@ export class CommandHandler {
       const data = await this.interaction.deferReply({ ephemeral: false });
       return (this.msg = data);
     } else {
-      const data = await this.message?.reply(
-        `**${this.client.user?.username}** is thinking...`
-      );
+      const data = await this.message?.reply(`**${this.client.user?.username}** is thinking...`);
       return (this.msg = data);
     }
   }
 
   public async editReply(data: BaseMessageOptions): Promise<GlobalMsg> {
-    if (!this.msg)
-      return this.client.logger.error("You have not declared deferReply()");
+    if (!this.msg) return this.client.logger.error("You have not declared deferReply()");
     if (this.interaction) {
       return this.msg.edit(data);
     } else {

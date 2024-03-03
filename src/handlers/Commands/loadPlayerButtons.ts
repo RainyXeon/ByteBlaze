@@ -24,9 +24,7 @@ export class loadPlayerButtons {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(
-        `${this.client.plButton.size} player buttons Loaded!`
-      );
+      this.client.logger.loader(`${this.client.plButton.size} player buttons Loaded!`);
     } else {
       this.client.logger.warn(`No player button loaded, is everything ok?`);
     }
@@ -34,21 +32,15 @@ export class loadPlayerButtons {
 
   async register(commandFile: string) {
     const rltPath = relative(__dirname, commandFile);
-    const command = new (
-      await import(pathToFileURL(commandFile).toString())
-    ).default();
+    const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(
-        `"${rltPath}" The player button file does not have a name. Skipping...`
-      );
+      this.client.logger.warn(`"${rltPath}" The player button file does not have a name. Skipping...`);
       return;
     }
 
     if (this.client.plButton.has(command.name)) {
-      this.client.logger.warn(
-        `"${command.name}" player button has already been installed. Skipping...`
-      );
+      this.client.logger.warn(`"${command.name}" player button has already been installed. Skipping...`);
       return;
     }
 

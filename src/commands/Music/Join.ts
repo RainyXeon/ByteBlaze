@@ -16,6 +16,7 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
@@ -25,9 +26,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -42,10 +41,7 @@ export default class implements Command {
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
-    else if (
-      player &&
-      !this.checkSameVoice(client, handler, handler.language)
-    ) {
+    else if (player && !this.checkSameVoice(client, handler, handler.language)) {
       return;
     }
 
@@ -69,34 +65,23 @@ export default class implements Command {
   }
 
   checkSameVoice(client: Manager, handler: CommandHandler, language: string) {
-    if (
-      handler.member!.voice.channel !== handler.guild!.members.me!.voice.channel
-    ) {
+    if (handler.member!.voice.channel !== handler.guild!.members.me!.voice.channel) {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "no_same_voice")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_same_voice")}`)
             .setColor(client.color),
         ],
       });
       return false;
-    } else if (
-      handler.member!.voice.channel === handler.guild!.members.me!.voice.channel
-    ) {
+    } else if (handler.member!.voice.channel === handler.guild!.members.me!.voice.channel) {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.music",
-                "join_already",
-                {
-                  channel: String(handler.member!.voice.channel),
-                }
-              )}`
+              `${client.i18n.get(handler.language, "command.music", "join_already", {
+                channel: String(handler.member!.voice.channel),
+              })}`
             )
             .setColor(client.color),
         ],

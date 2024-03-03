@@ -16,14 +16,13 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const { channel } = handler.member!.voice;
 

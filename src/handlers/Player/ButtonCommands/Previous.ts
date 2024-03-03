@@ -28,9 +28,7 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(this.language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -42,9 +40,7 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(this.language, "error", "no_same_voice")}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -53,13 +49,7 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(
-                this.language,
-                "button.music",
-                "previous_notfound"
-              )}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "button.music", "previous_notfound")}`)
             .setColor(this.client.color),
         ],
       });
@@ -68,9 +58,7 @@ export class ButtonPrevious {
       this.player.previous();
 
       const embed = new EmbedBuilder()
-        .setDescription(
-          `${this.client.i18n.get(this.language, "button.music", "previous_msg")}`
-        )
+        .setDescription(`${this.client.i18n.get(this.language, "button.music", "previous_msg")}`)
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });

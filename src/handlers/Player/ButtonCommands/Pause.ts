@@ -1,9 +1,4 @@
-import {
-  ButtonInteraction,
-  EmbedBuilder,
-  TextChannel,
-  VoiceBasedChannel,
-} from "discord.js";
+import { ButtonInteraction, EmbedBuilder, TextChannel, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
 import { KazagumoPlayer } from "../../../lib/main.js";
 
@@ -37,9 +32,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(this.language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -51,9 +44,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(this.language, "error", "no_same_voice")}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -62,9 +53,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${this.client.i18n.get(this.language, "error", "no_player")}`
-            )
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
             .setColor(this.client.color),
         ],
       });
@@ -72,9 +61,7 @@ export class ButtonPause {
     } else {
       const getChannel = await this.client.channels.cache.get(data.channel);
       if (!getChannel) return;
-      let playMsg = await (getChannel as TextChannel)!.messages.fetch(
-        data.playmsg
-      );
+      let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg);
       if (!playMsg) return;
 
       const newPlayer = await this.player.pause(!this.player.paused);

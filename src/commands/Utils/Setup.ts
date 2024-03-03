@@ -1,8 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  ChannelType,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, ChannelType } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -18,6 +14,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   options = [
     {
       name: "type",
@@ -63,9 +61,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(handler.language, "command.utils", "setup_enable")}`
-              )
+              .setDescription(`${client.i18n.get(handler.language, "command.utils", "setup_enable")}`)
               .setColor(client.color),
           ],
         });
@@ -80,25 +76,15 @@ export default class implements Command {
         topic: `${client.i18n.get(handler.language, "command.utils", "setup_topic")}`,
         parent: parent.id,
       });
-      const queueMsg = `${client.i18n.get(
-        handler.language,
-        "event.setup",
-        "setup_queuemsg"
-      )}`;
+      const queueMsg = `${client.i18n.get(handler.language, "event.setup", "setup_queuemsg")}`;
 
       const playEmbed = new EmbedBuilder()
         .setColor(client.color)
         .setAuthor({
-          name: `${client.i18n.get(
-            handler.language,
-            "event.setup",
-            "setup_playembed_author"
-          )}`,
+          name: `${client.i18n.get(handler.language, "event.setup", "setup_playembed_author")}`,
         })
         .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${
-            client.user!.avatar
-          }.jpeg?size=300`
+          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
         );
 
       const channel_msg = await textChannel.send({
@@ -137,15 +123,11 @@ export default class implements Command {
       const SetupChannel = await client.db.setup.get(`${handler.guild!.id}`);
 
       const embed_none = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.utils", "setup_null")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.utils", "setup_null")}`)
         .setColor(client.color);
 
-      if (SetupChannel == null)
-        return handler.editReply({ embeds: [embed_none] });
-      if (SetupChannel.enable == false)
-        return handler.editReply({ embeds: [embed_none] });
+      if (SetupChannel == null) return handler.editReply({ embeds: [embed_none] });
+      if (SetupChannel.enable == false) return handler.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = SetupChannel.channel
         ? handler.guild!.channels.cache.get(SetupChannel.channel)
@@ -159,14 +141,9 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.utils",
-            "setup_deleted",
-            {
-              channel: String(fetchedTextChannel),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.utils", "setup_deleted", {
+            channel: String(fetchedTextChannel),
+          })}`
         )
         .setColor(client.color);
 
@@ -180,9 +157,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(handler.language, "command.utils", "setup_null")}`
-              )
+              .setDescription(`${client.i18n.get(handler.language, "command.utils", "setup_null")}`)
               .setColor(client.color),
           ],
         });

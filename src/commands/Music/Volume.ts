@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-  Message,
-} from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../manager.js";
 import { KazagumoPlayer } from "../../lib/main.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
@@ -21,6 +17,7 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [
     {
       name: "amount",
@@ -38,24 +35,18 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     if (!value)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -63,9 +54,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "volume_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "volume_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -86,9 +75,7 @@ export default class implements Command {
   }
 
   async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
-    const data = await new AutoReconnectBuilderService(client, player).execute(
-      player.guildId
-    );
+    const data = await new AutoReconnectBuilderService(client, player).execute(player.guildId);
     if (data) {
       await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
     }

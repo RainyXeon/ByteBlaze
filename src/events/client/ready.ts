@@ -4,16 +4,14 @@ export default class {
   async execute(client: Manager) {
     client.logger.info(`Logged in ${client.user!.tag}`);
 
-    setInterval(() => {
-      client.user!.setPresence({
-        activities: [
-          {
-            name: `v${client.metadata.version} | /play`,
-            type: 2,
-          },
-        ],
-        status: "online",
-      });
-    }, 15000);
+    client.user!.setPresence({
+      activities: [
+        {
+          name: `v${client.metadata.version} | /play`,
+          type: 2,
+        },
+      ],
+      status: "online",
+    });
   }
 }

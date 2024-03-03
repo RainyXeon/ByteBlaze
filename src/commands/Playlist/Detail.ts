@@ -1,8 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  Message,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
@@ -21,6 +17,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "id",
@@ -46,9 +44,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -57,13 +53,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "detail_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "detail_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -74,13 +64,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "detail_notfound"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "detail_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -88,13 +72,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.playlist",
-                "detail_private"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "detail_private")}`)
             .setColor(client.color),
         ],
       });
@@ -106,26 +84,18 @@ export default class implements Command {
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const playlists = playlist.tracks![i];
       playlistStrings.push(
-        `${client.i18n.get(
-          handler.language,
-          "command.playlist",
-          "detail_track",
-          {
-            num: String(i + 1),
-            title: this.getTitle(client, playlists),
-            author: String(playlists.author),
-            duration: new FormatDuration().parse(playlists.length),
-          }
-        )}
+        `${client.i18n.get(handler.language, "command.playlist", "detail_track", {
+          num: String(i + 1),
+          title: this.getTitle(client, playlists),
+          author: String(playlists.author),
+          duration: new FormatDuration().parse(playlists.length),
+        })}
                 `
       );
     }
 
     const totalDuration = new FormatDuration().parse(
-      playlist.tracks!.reduce(
-        (acc: number, cur: PlaylistTrack) => acc + cur.length!,
-        0
-      )
+      playlist.tracks!.reduce((acc: number, cur: PlaylistTrack) => acc + cur.length!, 0)
     );
 
     const pages = [];
@@ -133,30 +103,20 @@ export default class implements Command {
       const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`);
       const embed = new EmbedBuilder() //${playlist.name}'s Playlists
         .setAuthor({
-          name: `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "detail_embed_title",
-            {
-              name: playlist.name,
-            }
-          )}`,
+          name: `${client.i18n.get(handler.language, "command.playlist", "detail_embed_title", {
+            name: playlist.name,
+          })}`,
           iconURL: handler.user?.displayAvatarURL(),
         })
         .setDescription(`${str == "" ? "  Nothing" : "\n" + str}`)
         .setColor(client.color) //Page • ${i + 1}/${pagesNum} | ${playlist.tracks.length} • Songs | ${totalDuration} • Total duration
         .setFooter({
-          text: `${client.i18n.get(
-            handler.language,
-            "command.playlist",
-            "detail_embed_footer",
-            {
-              page: String(i + 1),
-              pages: String(pagesNum),
-              songs: String(playlist.tracks!.length),
-              duration: totalDuration,
-            }
-          )}`,
+          text: `${client.i18n.get(handler.language, "command.playlist", "detail_embed_footer", {
+            page: String(i + 1),
+            pages: String(pagesNum),
+            songs: String(playlist.tracks!.length),
+            duration: totalDuration,
+          })}`,
         });
 
       pages.push(embed);
@@ -164,21 +124,15 @@ export default class implements Command {
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks!.length > 10) {
         if (handler.message) {
-          await new PageQueue(
-            client,
-            pages,
-            30000,
-            playlist.tracks!.length,
-            handler.language
-          ).prefixPage(handler.message, totalDuration);
+          await new PageQueue(client, pages, 30000, playlist.tracks!.length, handler.language).prefixPage(
+            handler.message,
+            totalDuration
+          );
         } else if (handler.interaction) {
-          await new PageQueue(
-            client,
-            pages,
-            30000,
-            playlist.tracks!.length,
-            handler.language
-          ).slashPage(handler.interaction, totalDuration);
+          await new PageQueue(client, pages, 30000, playlist.tracks!.length, handler.language).slashPage(
+            handler.interaction,
+            totalDuration
+          );
         }
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
@@ -186,13 +140,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.playlist",
-                  "detail_notnumber"
-                )}`
-              )
+              .setDescription(`${client.i18n.get(handler.language, "command.playlist", "detail_notnumber")}`)
               .setColor(client.color),
           ],
         });
@@ -201,14 +149,9 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.playlist",
-                  "detail_page_notfound",
-                  {
-                    page: String(pagesNum),
-                  }
-                )}`
+                `${client.i18n.get(handler.language, "command.playlist", "detail_page_notfound", {
+                  page: String(pagesNum),
+                })}`
               )
               .setColor(client.color),
           ],

@@ -20,8 +20,7 @@ export class CheckLavalinkServer {
 
     const lavalink_data = await getLavalinkServerClass.execute();
 
-    if (this.client.lavalinkList.length !== 0)
-      this.client.lavalinkList.length = 0;
+    if (this.client.lavalinkList.length !== 0) this.client.lavalinkList.length = 0;
 
     for (let i = 0; i < lavalink_data!.length; i++) {
       const config = lavalink_data![i];

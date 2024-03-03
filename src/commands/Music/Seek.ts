@@ -18,11 +18,11 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [
     {
       name: "time",
-      description:
-        "Set the position of the playing track. Example: 0:10 or 120:10",
+      description: "Set the position of the playing track. Example: 0:10 or 120:10",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
@@ -38,9 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "seek_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -51,17 +49,13 @@ export default class implements Command {
       value = min + sec;
     }
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     if (value * 1000 >= player.queue.current!.length! || value < 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "seek_beyond")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_beyond")}`)
             .setColor(client.color),
         ],
       });

@@ -1,9 +1,4 @@
-import {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  ColorResolvable,
-} from "discord.js";
+import { Client, GatewayIntentBits, Collection, ColorResolvable } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
@@ -45,8 +40,7 @@ export class Manager extends Client {
   constructor() {
     super({
       shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
-      shardCount:
-        process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
+      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
@@ -58,11 +52,7 @@ export class Manager extends Client {
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
           ]
-        : [
-            GatewayIntentBits.Guilds,
-            GatewayIntentBits.GuildVoiceStates,
-            GatewayIntentBits.GuildMessages,
-          ],
+        : [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages],
     });
 
     // Initial basic bot config
@@ -81,14 +71,10 @@ export class Manager extends Client {
     this.REGEX = REGEX;
 
     if (!this.configVolCheck())
-      this.logger.warn(
-        "Default config volume must between 1 and 100, use default volume (100)"
-      );
+      this.logger.warn("Default config volume must between 1 and 100, use default volume (100)");
 
     if (!this.configSearchCheck())
-      this.logger.warn(
-        "Default config search must have string element, use default"
-      );
+      this.logger.warn("Default config search must have string element, use default");
 
     if (!this.config.lavalink.AVOID_SUSPEND)
       this.logger.warn(
@@ -100,9 +86,7 @@ export class Manager extends Client {
     this.lavalinkUsed = [];
 
     // Ws varible
-    this.config.features.WEB_SERVER.websocket.enable
-      ? (this.wsMessage = new Collection())
-      : undefined;
+    this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Collection()) : undefined;
 
     // Collections
     this.commands = new Collection();
@@ -117,16 +101,13 @@ export class Manager extends Client {
     this.isDatabaseConnected = false;
 
     // Sharing
-    this.cluster =
-      process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
+    this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
 
     // Remove support for musicard, implements doc check at wiki
     this.config.bot.SAFE_PLAYER_MODE = true;
 
     // Icons setup
-    this.icons = this.config.bot.SAFE_ICONS_MODE
-      ? SafeModeIcons
-      : NormalModeIcons;
+    this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
     process.on("unhandledRejection", (error) =>
       this.logger.log({ level: "error", message: utils.inspect(error) })

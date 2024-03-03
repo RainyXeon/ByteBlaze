@@ -1,8 +1,5 @@
 import { PlayerState } from "../../lib/main.js";
-import {
-  playerRowOneEdited,
-  playerRowTwo,
-} from "../../assets/PlayerControlButton.js";
+import { playerRowOneEdited, playerRowTwo } from "../../assets/PlayerControlButton.js";
 import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { TextChannel } from "discord.js";

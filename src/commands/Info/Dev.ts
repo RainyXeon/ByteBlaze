@@ -16,16 +16,13 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     const xeondex = new EmbedBuilder()
-      .setTitle(
-        `${client.i18n.get(handler.language, "command.info", "dev_title")}`
-      )
-      .setDescription(
-        `${client.i18n.get(handler.language, "command.info", "dev_desc")}`
-      )
+      .setTitle(`${client.i18n.get(handler.language, "command.info", "dev_title")}`)
+      .setDescription(`${client.i18n.get(handler.language, "command.info", "dev_desc")}`)
       .setFooter({
         text: `${client.i18n.get(handler.language, "command.info", "dev_foot")}`,
       })

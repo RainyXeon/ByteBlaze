@@ -22,6 +22,8 @@ export interface Features {
   MESSAGE_CONTENT: MessageContent;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;
+  PREMIUM_LOG_CHANNEL: string;
+  GUILD_LOG_CHANNEL: string;
 }
 
 export interface AutofixLavalink {

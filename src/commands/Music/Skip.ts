@@ -16,20 +16,17 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     if (player.queue.size == 0) {
       const skipped = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "skip_notfound")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "skip_notfound")}`)
         .setColor(client.color);
 
       handler.editReply({ content: " ", embeds: [skipped] });
@@ -37,9 +34,7 @@ export default class implements Command {
       await player.skip();
 
       const skipped = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "skip_msg")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);
 
       handler.editReply({ content: " ", embeds: [skipped] });

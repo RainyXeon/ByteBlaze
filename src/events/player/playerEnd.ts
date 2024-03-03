@@ -20,9 +20,7 @@ export default class {
 
     client.emit("playerEnd", player);
 
-    let data = await new AutoReconnectBuilderService(client, player).get(
-      player.guildId
-    );
+    let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = client.channels.cache.get(player.textId) as TextChannel;
     if (!channel) return;
 
@@ -31,12 +29,9 @@ export default class {
     if (player.queue.length || player!.queue!.current)
       return new ClearMessageService(client, channel, player);
 
-    if (player.loop !== "none")
-      return new ClearMessageService(client, channel, player);
+    if (player.loop !== "none") return new ClearMessageService(client, channel, player);
 
-    const currentPlayer = (await client.manager.getPlayer(
-      player.guildId
-    )) as KazagumoPlayer;
+    const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;
     if (currentPlayer.voiceId !== null) {
       await player.destroy();

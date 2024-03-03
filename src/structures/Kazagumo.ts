@@ -21,9 +21,7 @@ export class KazagumoInit {
       },
       new Connectors.DiscordJS(this.client),
       this.client.config.lavalink.NODES,
-      this.client.config.features.AUTOFIX_LAVALINK.enable
-        ? this.autofixConfig
-        : this.defaultConfig
+      this.client.config.features.AUTOFIX_LAVALINK.enable ? this.autofixConfig : this.defaultConfig
     );
   }
 
@@ -39,8 +37,7 @@ export class KazagumoInit {
 
   get autofixConfig(): ShoukakuOptions {
     return {
-      reconnectTries:
-        this.client.config.features.AUTOFIX_LAVALINK.reconnectTries,
+      reconnectTries: this.client.config.features.AUTOFIX_LAVALINK.reconnectTries,
       restTimeout: this.client.config.features.AUTOFIX_LAVALINK.restTimeout,
     };
   }

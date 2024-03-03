@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-  Message,
-} from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -18,6 +14,8 @@ export default class implements Command {
   public lavalink = true;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "type",
@@ -60,20 +58,13 @@ export default class implements Command {
       }
 
       data.current || data.current.length !== 0
-        ? await client.db.autoreconnect.set(
-            `${handler.guild!.id}.twentyfourseven`,
-            false
-          )
+        ? await client.db.autoreconnect.set(`${handler.guild!.id}.twentyfourseven`, false)
         : await client.db.autoreconnect.delete(`${handler.guild!.id}`);
 
-      player && player.voiceId && handler.member!.voice.channel == null
-        ? player.destroy()
-        : true;
+      player && player.voiceId && handler.member!.voice.channel == null ? player.destroy() : true;
 
       const on = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.utils", "247_off")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.utils", "247_off")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [on] });
     } else if (value == "enable") {
@@ -82,9 +73,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(handler.language, "error", "no_in_voice")}`
-              )
+              .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -108,19 +97,11 @@ export default class implements Command {
         });
 
       data.voice
-        ? await client.db.autoreconnect.set(
-            `${handler.guild!.id}.twentyfourseven`,
-            true
-          )
-        : new AutoReconnectBuilderService(client, player).playerBuild(
-            player?.guildId,
-            true
-          );
+        ? await client.db.autoreconnect.set(`${handler.guild!.id}.twentyfourseven`, true)
+        : new AutoReconnectBuilderService(client, player).playerBuild(player?.guildId, true);
 
       const on = new EmbedBuilder()
-        .setDescription(
-          `${client.i18n.get(handler.language, "command.utils", "247_on")}`
-        )
+        .setDescription(`${client.i18n.get(handler.language, "command.utils", "247_on")}`)
         .setColor(client.color);
       return handler.editReply({ content: " ", embeds: [on] });
     } else {

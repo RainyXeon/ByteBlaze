@@ -1,18 +1,10 @@
-import {
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-  Message,
-} from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import {
-  KazagumoPlayer,
-  KazagumoTrack,
-  SearchResultTypes,
-} from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 
 // Main code
 export default class implements Command {
@@ -26,6 +18,7 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [
     {
       name: "page",
@@ -44,29 +37,20 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "number_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
 
-    const player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const song = player.queue.current;
     function fixedduration() {
       const current = player!.queue.current!.length ?? 0;
-      return player!.queue.reduce(
-        (acc, cur) => acc + (cur.length || 0),
-        current
-      );
+      return player!.queue.reduce((acc, cur) => acc + (cur.length || 0), current);
     }
     const qduration = `${new FormatDuration().parse(fixedduration())}`;
-    const thumbnail = `https://img.youtube.com/vi/${
-      song!.identifier
-    }/hqdefault.jpg`;
+    const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(player.queue.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -85,42 +69,27 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "queue_author",
-            {
-              guild: handler.guild!.name,
-            }
-          )}`,
+          name: `${client.i18n.get(handler.language, "command.music", "queue_author", {
+            guild: handler.guild!.name,
+          })}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "queue_description",
-            {
-              title: this.getTitle(client, song!),
-              request: String(song!.requester),
-              duration: new FormatDuration().parse(song!.length),
-              rest: str == "" ? "  Nothing" : "\n" + str,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+            title: this.getTitle(client, song!),
+            request: String(song!.requester),
+            duration: new FormatDuration().parse(song!.length),
+            rest: str == "" ? "  Nothing" : "\n" + str,
+          })}`
         )
         .setFooter({
-          text: `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "queue_footer",
-            {
-              page: String(i + 1),
-              pages: String(pagesNum),
-              queue_lang: String(player.queue.length),
-              duration: qduration,
-            }
-          )}`,
+          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
+            page: String(i + 1),
+            pages: String(pagesNum),
+            queue_lang: String(player.queue.length),
+            duration: qduration,
+          })}`,
         });
 
       pages.push(embed);
@@ -129,21 +98,15 @@ export default class implements Command {
     if (!value) {
       if (pages.length == pagesNum && player.queue.length > 10) {
         if (handler.message) {
-          await new PageQueue(
-            client,
-            pages,
-            60000,
-            player.queue.length,
-            handler.language
-          ).prefixPage(handler.message, qduration);
+          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).prefixPage(
+            handler.message,
+            qduration
+          );
         } else if (handler.interaction) {
-          await new PageQueue(
-            client,
-            pages,
-            60000,
-            player.queue.length,
-            handler.language
-          ).slashPage(handler.interaction, qduration);
+          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).slashPage(
+            handler.interaction,
+            qduration
+          );
         } else return;
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
@@ -151,13 +114,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.music",
-                  "queue_notnumber"
-                )}`
-              )
+              .setDescription(`${client.i18n.get(handler.language, "command.music", "queue_notnumber")}`)
               .setColor(client.color),
           ],
         });
@@ -166,14 +123,9 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(
-                  handler.language,
-                  "command.music",
-                  "queue_page_notfound",
-                  {
-                    page: String(pagesNum),
-                  }
-                )}`
+                `${client.i18n.get(handler.language, "command.music", "queue_page_notfound", {
+                  page: String(pagesNum),
+                })}`
               )
               .setColor(client.color),
           ],

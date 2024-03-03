@@ -7,8 +7,7 @@ export default class {
 
     const prevoiusIndex = player.queue.previous.length - 1;
 
-    const song =
-      player.queue.previous[prevoiusIndex === -1 ? 0 : prevoiusIndex];
+    const song = player.queue.previous[prevoiusIndex === -1 ? 0 : prevoiusIndex];
 
     const currentData = song
       ? {

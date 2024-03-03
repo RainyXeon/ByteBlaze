@@ -45,18 +45,10 @@ export class KazagumoPlugin extends Plugin {
   public options: SpotifyOptions;
   private axios = axios;
 
-  private _search:
-    | ((
-        query: string,
-        options?: KazagumoSearchOptions
-      ) => Promise<KazagumoSearchResult>)
-    | null;
+  private _search: ((query: string, options?: KazagumoSearchOptions) => Promise<KazagumoSearchResult>) | null;
   private kazagumo: Kazagumo | null;
 
-  private readonly methods: Record<
-    string,
-    (id: string, requester: unknown) => Promise<Result>
-  >;
+  private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
   private requestManager: RequestManager;
 
   constructor(spotifyOptions: SpotifyOptions) {
@@ -80,12 +72,8 @@ export class KazagumoPlugin extends Plugin {
     kazagumo.search = this.search.bind(this);
   }
 
-  private async search(
-    query: string,
-    options?: KazagumoSearchOptions
-  ): Promise<KazagumoSearchResult> {
-    if (!this.kazagumo || !this._search)
-      throw new KazagumoError(1, "kazagumo-spotify is not loaded yet.");
+  private async search(query: string, options?: KazagumoSearchOptions): Promise<KazagumoSearchResult> {
+    if (!this.kazagumo || !this._search) throw new KazagumoError(1, "kazagumo-spotify is not loaded yet.");
 
     if (!query) throw new KazagumoError(3, "Query is required");
 
@@ -132,14 +120,9 @@ export class KazagumoPlugin extends Plugin {
     };
   }
 
-  private async searchTrack(
-    query: string,
-    requester: unknown
-  ): Promise<Result> {
+  private async searchTrack(query: string, requester: unknown): Promise<Result> {
     const limit =
-      this.options.searchLimit &&
-      this.options.searchLimit > 0 &&
-      this.options.searchLimit < 50
+      this.options.searchLimit && this.options.searchLimit > 0 && this.options.searchLimit < 50
         ? this.options.searchLimit
         : 10;
     const tracks = await this.requestManager.makeRequest<SearchResult>(
@@ -148,16 +131,12 @@ export class KazagumoPlugin extends Plugin {
       )}&type=track&limit=${limit}&market=${this.options.searchMarket ?? "US"}`
     );
     return {
-      tracks: tracks.tracks.items.map((track) =>
-        this.buildKazagumoTrack(track, requester)
-      ),
+      tracks: tracks.tracks.items.map((track) => this.buildKazagumoTrack(track, requester)),
     };
   }
 
   private async getTrack(id: string, requester: unknown): Promise<Result> {
-    const track = await this.requestManager.makeRequest<TrackResult>(
-      `/tracks/${id}`
-    );
+    const track = await this.requestManager.makeRequest<TrackResult>(`/tracks/${id}`);
     return { tracks: [this.buildKazagumoTrack(track, requester)] };
   }
 
@@ -167,25 +146,14 @@ export class KazagumoPlugin extends Plugin {
     );
     const tracks = album.tracks.items
       .filter(this.filterNullOrUndefined)
-      .map((track) =>
-        this.buildKazagumoTrack(track, requester, album.images[0]?.url)
-      );
+      .map((track) => this.buildKazagumoTrack(track, requester, album.images[0]?.url));
 
     if (album && tracks.length) {
       let next = album.tracks.next;
       let page = 1;
 
-      while (
-        next &&
-        (!this.options.playlistPageLimit
-          ? true
-          : page < this.options.playlistPageLimit ?? 1)
-      ) {
-        const nextTracks =
-          await this.requestManager.makeRequest<PlaylistTracks>(
-            next ?? "",
-            true
-          );
+      while (next && (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)) {
+        const nextTracks = await this.requestManager.makeRequest<PlaylistTracks>(next ?? "", true);
         page++;
         if (nextTracks.items.length) {
           next = nextTracks.next;
@@ -193,13 +161,7 @@ export class KazagumoPlugin extends Plugin {
             ...nextTracks.items
               .filter(this.filterNullOrUndefined)
               .filter((a) => a.track)
-              .map((track) =>
-                this.buildKazagumoTrack(
-                  track.track!,
-                  requester,
-                  album.images[0]?.url
-                )
-              )
+              .map((track) => this.buildKazagumoTrack(track.track!, requester, album.images[0]?.url))
           );
         }
       }
@@ -209,18 +171,14 @@ export class KazagumoPlugin extends Plugin {
   }
 
   private async getArtist(id: string, requester: unknown): Promise<Result> {
-    const artist = await this.requestManager.makeRequest<Artist>(
-      `/artists/${id}`
-    );
+    const artist = await this.requestManager.makeRequest<Artist>(`/artists/${id}`);
     const fetchedTracks = await this.requestManager.makeRequest<ArtistResult>(
       `/artists/${id}/top-tracks?market=${this.options.searchMarket ?? "US"}`
     );
 
     const tracks = fetchedTracks.tracks
       .filter(this.filterNullOrUndefined)
-      .map((track) =>
-        this.buildKazagumoTrack(track, requester, artist.images[0]?.url)
-      );
+      .map((track) => this.buildKazagumoTrack(track, requester, artist.images[0]?.url));
 
     return { tracks, name: artist.name };
   }
@@ -232,24 +190,13 @@ export class KazagumoPlugin extends Plugin {
 
     const tracks = playlist.tracks.items
       .filter(this.filterNullOrUndefined)
-      .map((track) =>
-        this.buildKazagumoTrack(track.track, requester, playlist.images[0]?.url)
-      );
+      .map((track) => this.buildKazagumoTrack(track.track, requester, playlist.images[0]?.url));
 
     if (playlist && tracks.length) {
       let next = playlist.tracks.next;
       let page = 1;
-      while (
-        next &&
-        (!this.options.playlistPageLimit
-          ? true
-          : page < this.options.playlistPageLimit ?? 1)
-      ) {
-        const nextTracks =
-          await this.requestManager.makeRequest<PlaylistTracks>(
-            next ?? "",
-            true
-          );
+      while (next && (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)) {
+        const nextTracks = await this.requestManager.makeRequest<PlaylistTracks>(next ?? "", true);
         page++;
         if (nextTracks.items.length) {
           next = nextTracks.next;
@@ -257,13 +204,7 @@ export class KazagumoPlugin extends Plugin {
             ...nextTracks.items
               .filter(this.filterNullOrUndefined)
               .filter((a) => a.track)
-              .map((track) =>
-                this.buildKazagumoTrack(
-                  track.track!,
-                  requester,
-                  playlist.images[0]?.url
-                )
-              )
+              .map((track) => this.buildKazagumoTrack(track.track!, requester, playlist.images[0]?.url))
           );
         }
       }
@@ -275,11 +216,7 @@ export class KazagumoPlugin extends Plugin {
     return obj !== undefined && obj !== null;
   }
 
-  private buildKazagumoTrack(
-    spotifyTrack: Track,
-    requester: unknown,
-    thumbnail?: string
-  ) {
+  private buildKazagumoTrack(spotifyTrack: Track, requester: unknown, thumbnail?: string) {
     return new KazagumoTrack(
       {
         encoded: "",
@@ -287,17 +224,13 @@ export class KazagumoPlugin extends Plugin {
           sourceName: "spotify",
           identifier: spotifyTrack.id,
           isSeekable: true,
-          author: spotifyTrack.artists[0]
-            ? spotifyTrack.artists[0].name
-            : "Unknown",
+          author: spotifyTrack.artists[0] ? spotifyTrack.artists[0].name : "Unknown",
           length: spotifyTrack.duration_ms,
           isStream: false,
           position: 0,
           title: spotifyTrack.name,
           uri: `https://open.spotify.com/track/${spotifyTrack.id}`,
-          artworkUrl: thumbnail
-            ? thumbnail
-            : spotifyTrack.album?.images[0]?.url,
+          artworkUrl: thumbnail ? thumbnail : spotifyTrack.album?.images[0]?.url,
         },
         pluginInfo: {
           name: "kazagumo.mod@spotify",

@@ -14,15 +14,15 @@ export default class implements Command {
   public usingInteraction = true;
   public playerCheck = false;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
     const restart = new EmbedBuilder()
-      .setDescription(
-        `${client.i18n.get(handler.language, "command.utils", "restart_msg")}`
-      )
+      .setDescription(`${client.i18n.get(handler.language, "command.utils", "restart_msg")}`)
       .setColor(client.color)
       .setFooter({
         text: `${handler.guild!.members.me!.displayName}`,

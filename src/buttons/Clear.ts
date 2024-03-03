@@ -1,9 +1,4 @@
-import {
-  ButtonInteraction,
-  CacheType,
-  InteractionCollector,
-  Message,
-} from "discord.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
@@ -24,11 +19,7 @@ export default class implements PlayerButton {
     }
     player.queue.clear();
 
-    new ReplyInteractionService(
-      client,
-      message,
-      `${client.i18n.get(language, "button.music", "clear_msg")}`
-    );
+    new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "clear_msg")}`);
 
     return;
   }

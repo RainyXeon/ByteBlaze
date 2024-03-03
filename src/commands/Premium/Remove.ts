@@ -14,6 +14,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "id",
@@ -32,13 +34,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.premium",
-                "remove_no_params"
-              )}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.premium", "remove_no_params")}`)
             .setColor(client.color),
         ],
       });
@@ -47,14 +43,9 @@ export default class implements Command {
 
     if (!db)
       return handler.editReply({
-        content: `${client.i18n.get(
-          handler.language,
-          "command.premium",
-          "remove_404",
-          {
-            userid: id as string,
-          }
-        )}`,
+        content: `${client.i18n.get(handler.language, "command.premium", "remove_404", {
+          userid: id as string,
+        })}`,
       });
 
     if (db.isPremium) {
@@ -72,28 +63,18 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.premium",
-            "remove_desc",
-            {
-              user: db.redeemedBy?.username as string,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.premium", "remove_desc", {
+            user: db.redeemedBy?.username as string,
+          })}`
         )
         .setColor(client.color);
       handler.editReply({ embeds: [embed] });
     } else {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.premium",
-            "remove_already",
-            {
-              user: db.redeemedBy?.username as string,
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.premium", "remove_already", {
+            user: db.redeemedBy?.username as string,
+          })}`
         )
         .setColor(client.color);
 

@@ -68,8 +68,7 @@ export class GetLavalinkServer {
   async commitData(LavalinkCredentailsFilter: string[]) {
     const FinalData = [];
     for (let i = 0; i < LavalinkCredentailsFilter.length; i++) {
-      const regexExtract =
-        /:(.{0,99999}):([0-9]{0,99999}):(.{0,99999}):(false|true)/;
+      const regexExtract = /:(.{0,99999}):([0-9]{0,99999}):(.{0,99999}):(false|true)/;
       const element = LavalinkCredentailsFilter[i];
       const res = regexExtract.exec(element);
       res

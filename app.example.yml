@@ -48,6 +48,11 @@ lavalink:
     #   secure: false
 
 features:
+  # Log register premium activities
+  PREMIUM_LOG_CHANNEL: ""
+  # Log all the guild that bot joined or leaved
+  GUILD_LOG_CHANNEL: ""
+
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default
     driver: "json" # mongodb, mysql, json, postgres

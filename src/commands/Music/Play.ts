@@ -8,16 +8,9 @@ import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
-import {
-  AutocompleteInteractionChoices,
-  GlobalInteraction,
-} from "../../@types/Interaction.js";
+import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import {
-  KazagumoPlayer,
-  KazagumoTrack,
-  SearchResultTypes,
-} from "../../lib/main.js";
+import { KazagumoPlayer, KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 
 export default class implements Command {
   public name = ["play"];
@@ -30,6 +23,8 @@ export default class implements Command {
   public playerCheck = false;
   public usingInteraction = true;
   public sameVoiceCheck = false;
+  public permissions = [];
+
   public options = [
     {
       name: "search",
@@ -43,9 +38,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    let player = client.manager.players.get(
-      handler.guild!.id
-    ) as KazagumoPlayer;
+    let player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
 
     const value = handler.args.join(" ");
 
@@ -53,9 +46,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "play_arg")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_arg")}`)
             .setColor(client.color),
         ],
       });
@@ -65,23 +56,18 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "no_in_voice")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
 
-    const emotes = (str: string) =>
-      str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
+    const emotes = (str: string) => str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
 
     if (emotes(value) !== null)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "play_emoji")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_emoji")}`)
             .setColor(client.color),
         ],
       });
@@ -94,10 +80,7 @@ export default class implements Command {
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
-    else if (
-      player &&
-      !this.checkSameVoice(client, handler, handler.language)
-    ) {
+    else if (player && !this.checkSameVoice(client, handler, handler.language)) {
       return;
     }
 
@@ -108,18 +91,13 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "play_match")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_match")}`)
             .setColor(client.color),
         ],
       });
-    if (result.type === "PLAYLIST")
-      for (let track of tracks) player.queue.add(track);
-    else if (player.playing && result.type === "SEARCH")
-      player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH")
-      for (let track of tracks) player.queue.add(track);
+    if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
+    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = new StartQueueDuration().parse(tracks);
@@ -142,17 +120,12 @@ export default class implements Command {
     } else if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(
-            handler.language,
-            "command.music",
-            "play_playlist",
-            {
-              title: this.getTitle(client, result.type, tracks, value),
-              duration: new ConvertTime().parse(TotalDuration),
-              songs: String(tracks.length),
-              request: String(tracks[0].requester),
-            }
-          )}`
+          `${client.i18n.get(handler.language, "command.music", "play_playlist", {
+            title: this.getTitle(client, result.type, tracks, value),
+            duration: new ConvertTime().parse(TotalDuration),
+            songs: String(tracks.length),
+            request: String(tracks[0].requester),
+          })}`
         )
         .setColor(client.color);
 
@@ -173,15 +146,11 @@ export default class implements Command {
   }
 
   checkSameVoice(client: Manager, handler: CommandHandler, language: string) {
-    if (
-      handler.member!.voice.channel !== handler.guild!.members.me!.voice.channel
-    ) {
+    if (handler.member!.voice.channel !== handler.guild!.members.me!.voice.channel) {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "error", "no_same_voice")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_same_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -191,12 +160,7 @@ export default class implements Command {
     return true;
   }
 
-  getTitle(
-    client: Manager,
-    type: SearchResultTypes,
-    tracks: KazagumoTrack[],
-    value?: string
-  ): string {
+  getTitle(client: Manager, type: SearchResultTypes, tracks: KazagumoTrack[], value?: string): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
@@ -208,21 +172,13 @@ export default class implements Command {
   }
 
   // Autocomplete function
-  async autocomplete(
-    client: Manager,
-    interaction: GlobalInteraction,
-    language: string
-  ) {
+  async autocomplete(client: Manager, interaction: GlobalInteraction, language: string) {
     let choice: AutocompleteInteractionChoices[] = [];
-    const url = String(
-      (interaction as CommandInteraction).options.get("search")!.value
-    );
+    const url = String((interaction as CommandInteraction).options.get("search")!.value);
 
     const Random =
       client.config.lavalink.AUTOCOMPLETE_SEARCH[
-        Math.floor(
-          Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length
-        )
+        Math.floor(Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length)
       ];
 
     const match = client.REGEX.some((match) => {
@@ -231,9 +187,7 @@ export default class implements Command {
 
     if (match == true) {
       choice.push({ name: url, value: url });
-      await (interaction as AutocompleteInteraction)
-        .respond(choice)
-        .catch(() => {});
+      await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
       return;
     }
 
@@ -258,8 +212,6 @@ export default class implements Command {
       });
     }
 
-    await (interaction as AutocompleteInteraction)
-      .respond(choice)
-      .catch(() => {});
+    await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
   }
 }

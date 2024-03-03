@@ -9,12 +9,7 @@ export class ButtonLoop {
   interaction: ButtonInteraction;
   language: string;
   player: KazagumoPlayer;
-  constructor(
-    client: Manager,
-    interaction: ButtonInteraction,
-    language: string,
-    player: KazagumoPlayer
-  ) {
+  constructor(client: Manager, interaction: ButtonInteraction, language: string, player: KazagumoPlayer) {
     this.client = client;
     this.language = language;
     this.player = player;
@@ -34,9 +29,7 @@ export class ButtonLoop {
         this.setLoop247(String(KazagumoLoop.track));
 
         const looptrack = new EmbedBuilder()
-          .setDescription(
-            `${this.client.i18n.get(this.language, "button.music", "loop_current")}`
-          )
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_current")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",
@@ -50,9 +43,7 @@ export class ButtonLoop {
         this.setLoop247(String(KazagumoLoop.queue));
 
         const loopall = new EmbedBuilder()
-          .setDescription(
-            `${this.client.i18n.get(this.language, "button.music", "loop_all")}`
-          )
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_all")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",
@@ -66,9 +57,7 @@ export class ButtonLoop {
         this.setLoop247(String(KazagumoLoop.none));
 
         const unloopall = new EmbedBuilder()
-          .setDescription(
-            `${this.client.i18n.get(this.language, "button.music", "unloop_all")}`
-          )
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "unloop_all")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",
@@ -79,15 +68,11 @@ export class ButtonLoop {
   }
 
   async setLoop247(loop: string) {
-    const check = await new AutoReconnectBuilderService(
-      this.client,
-      this.player
-    ).execute(this.player.guildId);
+    const check = await new AutoReconnectBuilderService(this.client, this.player).execute(
+      this.player.guildId
+    );
     if (check) {
-      await this.client.db.autoreconnect.set(
-        `${this.player.guildId}.config.loop`,
-        loop
-      );
+      await this.client.db.autoreconnect.set(`${this.player.guildId}.config.loop`, loop);
     }
   }
 }

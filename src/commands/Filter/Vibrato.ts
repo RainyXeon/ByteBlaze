@@ -15,6 +15,7 @@ export default class implements Command {
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
+  public permissions = [];
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
@@ -27,14 +28,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(
-                handler.language,
-                "command.filter",
-                "filter_already",
-                {
-                  name: this.name[0],
-                }
-              )}`
+              `${client.i18n.get(handler.language, "command.filter", "filter_already", {
+                name: this.name[0],
+              })}`
             )
             .setColor(client.color),
         ],

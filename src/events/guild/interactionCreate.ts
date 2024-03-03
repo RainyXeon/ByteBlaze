@@ -9,10 +9,7 @@ import {
   ChatInputCommandInteraction,
 } from "discord.js";
 import { Manager } from "../../manager.js";
-import {
-  GlobalInteraction,
-  NoAutoInteraction,
-} from "../../@types/Interaction.js";
+import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
 import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
@@ -28,8 +25,7 @@ const commandRateLimitManager = new RateLimitManager(1000);
 
 export default class {
   async execute(client: Manager, interaction: GlobalInteraction) {
-    if (interaction.isAutocomplete())
-      return new AutoCompleteService(client, interaction);
+    if (interaction.isAutocomplete()) return new AutoCompleteService(client, interaction);
     if (!interaction.isChatInputCommand()) return;
     if (!interaction.guild || interaction.user.bot) return;
 
@@ -40,10 +36,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${interaction.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${interaction.guild.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${interaction.guild.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -60,8 +53,7 @@ export default class {
     const commandNameArray = [];
 
     if (interaction.commandName) commandNameArray.push(interaction.commandName);
-    if (subCommandName.length !== 0 && !subCommandGroupName)
-      commandNameArray.push(subCommandName);
+    if (subCommandName.length !== 0 && !subCommandGroupName) commandNameArray.push(subCommandName);
     if (subCommandGroupName) {
       commandNameArray.push(subCommandGroupName);
       commandNameArray.push(subCommandName);
@@ -72,9 +64,7 @@ export default class {
     if (!command) return commandNameArray.length == 0;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = commandRateLimitManager.acquire(
-      `${interaction.user.id}@${command.name.join("-")}`
-    );
+    const ratelimit = commandRateLimitManager.acquire(`${interaction.user.id}@${command.name.join("-")}`);
 
     if (ratelimit.limited) {
       new RatelimitReplyService({
@@ -91,13 +81,10 @@ export default class {
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
+
+    // Default permission
     const defaultPermissions = [PermissionFlagsBits.ManageMessages];
-
-    const musicPermissions = [
-      PermissionFlagsBits.Speak,
-      PermissionFlagsBits.Connect,
-    ];
-
+    const musicPermissions = [PermissionFlagsBits.Speak, PermissionFlagsBits.Connect];
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(
@@ -117,28 +104,19 @@ export default class {
     }
 
     if (command.name[0] !== "help") {
-      const returnData = await permissionChecker.interaction(
-        interaction,
-        defaultPermissions
-      );
-      if (returnData !== "PermissionPass")
-        return respondError(interaction, returnData);
+      const returnData = await permissionChecker.interaction(interaction, defaultPermissions);
+      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.category.toLocaleLowerCase() == "music") {
-      const returnData = await permissionChecker.interaction(
-        interaction,
-        musicPermissions
-      );
-      if (returnData !== "PermissionPass")
-        return respondError(interaction, returnData);
+      const returnData = await permissionChecker.interaction(interaction, musicPermissions);
+      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = await permissionChecker.interaction(
-        interaction,
-        managePermissions
-      );
-      if (returnData !== "PermissionPass")
-        return respondError(interaction, returnData);
+      const returnData = await permissionChecker.interaction(interaction, managePermissions);
+      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
+    } else if (command.permissions.length !== 0) {
+      const returnData = await permissionChecker.interaction(interaction, command.permissions);
+      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
@@ -151,9 +129,7 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`)
             .setColor(client.color),
         ],
       });
@@ -168,16 +144,11 @@ export default class {
       });
     }
 
-    if (
-      command.accessableby == Accessableby.Owner &&
-      interaction.user.id != client.owner
-    )
+    if (command.accessableby == Accessableby.Owner && interaction.user.id != client.owner)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "owner_only")}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
             .setColor(client.color),
         ],
       });
@@ -190,9 +161,7 @@ export default class {
             name: `${client.i18n.get(language, "error", "no_premium_author")}`,
             iconURL: client.user!.displayAvatarURL(),
           })
-          .setDescription(
-            `${client.i18n.get(language, "error", "no_premium_desc")}`
-          )
+          .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
           .setColor(client.color)
           .setTimestamp();
         return interaction.reply({
@@ -208,9 +177,7 @@ export default class {
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "error", "no_player")}`
-              )
+              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -220,15 +187,12 @@ export default class {
       const { channel } = (interaction.member as GuildMember)!.voice;
       if (
         !channel ||
-        (interaction.member as GuildMember)!.voice.channel !==
-          interaction.guild!.members.me!.voice.channel
+        (interaction.member as GuildMember)!.voice.channel !== interaction.guild!.members.me!.voice.channel
       )
         return (interaction as NoAutoInteraction).reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "error", "no_voice")}`
-              )
+              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -280,11 +244,7 @@ export default class {
         message: error,
       });
       interaction.reply({
-        content: `${client.i18n.get(
-          language,
-          "error",
-          "unexpected_error"
-        )}\n ${error}`,
+        content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });
     }
   }

@@ -24,9 +24,7 @@ export class SongRequesterCleanSetup {
   }
 
   async restore(setupData: Setup) {
-    let channel = (await this.client.channels.cache.get(
-      setupData.channel
-    )) as TextChannel;
+    let channel = (await this.client.channels.cache.get(setupData.channel)) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(setupData.playmsg);
@@ -34,33 +32,20 @@ export class SongRequesterCleanSetup {
 
     let guildModel = await this.client.db.language.get(`${setupData.guild}`);
     if (!guildModel) {
-      guildModel = await this.client.db.language.set(
-        `${setupData.guild}`,
-        this.client.config.bot.LANGUAGE
-      );
+      guildModel = await this.client.db.language.set(`${setupData.guild}`, this.client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
 
-    const queueMsg = `${this.client.i18n.get(
-      language,
-      "setup",
-      "setup_queuemsg"
-    )}`;
+    const queueMsg = `${this.client.i18n.get(language, "setup", "setup_queuemsg")}`;
 
     const playEmbed = new EmbedBuilder()
       .setColor(this.client.color)
       .setAuthor({
-        name: `${this.client.i18n.get(
-          language,
-          "setup",
-          "setup_playembed_author"
-        )}`,
+        name: `${this.client.i18n.get(language, "setup", "setup_playembed_author")}`,
       })
       .setImage(
-        `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${
-          this.client.user!.avatar
-        }.jpeg?size=300`
+        `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`
       );
 
     return await playMsg

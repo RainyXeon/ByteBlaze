@@ -21,10 +21,7 @@ export default class {
 
     let guildModel = await client.db.language.get(`${message.guild!.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(
-        `${message.guild!.id}`,
-        client.config.bot.LANGUAGE
-      );
+      guildModel = await client.db.language.set(`${message.guild!.id}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -35,10 +32,7 @@ export default class {
 
     const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
     if (GuildPrefix) PREFIX = GuildPrefix;
-    else if (!GuildPrefix)
-      PREFIX = String(
-        await client.db.prefix.set(`${message.guild!.id}`, client.prefix)
-      );
+    else if (!GuildPrefix) PREFIX = String(await client.db.prefix.set(`${message.guild!.id}`, client.prefix));
 
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()
@@ -66,8 +60,7 @@ export default class {
             botver: client.metadata.version,
           })}
           ${client.i18n.get(language, "event.message", "djs", {
-            djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8"))
-              .dependencies["discord.js"],
+            djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies["discord.js"],
           })}
           ${client.i18n.get(language, "event.message", "lavalink", {
             aver: client.metadata.autofix,
@@ -79,24 +72,14 @@ export default class {
       await message.reply({ embeds: [mention_embed] });
       return;
     }
-    const escapeRegex = (str: string) =>
-      str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const prefixRegex = new RegExp(
-      `^(<@!?${client.user!.id}>|${escapeRegex(PREFIX)})\\s*`
-    );
+    const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${escapeRegex(PREFIX)})\\s*`);
     if (!prefixRegex.test(message.content)) return;
-    const [matchedPrefix] = message.content.match(
-      prefixRegex
-    ) as RegExpMatchArray;
-    const args = message.content
-      .slice(matchedPrefix.length)
-      .trim()
-      .split(/ +/g);
+    const [matchedPrefix] = message.content.match(prefixRegex) as RegExpMatchArray;
+    const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
     const cmd = args.shift()!.toLowerCase();
 
-    const command =
-      client.commands.get(cmd) ||
-      client.commands.get(client.aliases.get(cmd) as string);
+    const command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
 
     const setup = await client.db.setup.get(String(message.guildId));
@@ -104,9 +87,7 @@ export default class {
     if (setup && setup.channel == message.channelId) return;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = commandRateLimitManager.acquire(
-      `${message.author.id}@${command.name.join("-")}`
-    );
+    const ratelimit = commandRateLimitManager.acquire(`${message.author.id}@${command.name.join("-")}`);
 
     if (ratelimit.limited) {
       new RatelimitReplyService({
@@ -123,19 +104,15 @@ export default class {
 
     //////////////////////////////// Permission check start ////////////////////////////////
     const permissionChecker = new CheckPermissionServices();
+
+    //Default permission
     const defaultPermissions = [
       PermissionFlagsBits.SendMessages,
       PermissionFlagsBits.ViewChannel,
       PermissionFlagsBits.EmbedLinks,
     ];
-
     const allCommandPermissions = [PermissionFlagsBits.ManageMessages];
-
-    const musicPermissions = [
-      PermissionFlagsBits.Speak,
-      PermissionFlagsBits.Connect,
-    ];
-
+    const musicPermissions = [PermissionFlagsBits.Speak, PermissionFlagsBits.Connect];
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(permission: string) {
@@ -147,52 +124,36 @@ export default class {
         )
         .setColor(client.color);
       const dmChannel =
-        message.author.dmChannel == null
-          ? await message.author.createDM()
-          : message.author.dmChannel;
+        message.author.dmChannel == null ? await message.author.createDM() : message.author.dmChannel;
       dmChannel.send({
         embeds: [embed],
       });
     }
 
-    const returnData = await permissionChecker.message(
-      message,
-      defaultPermissions
-    );
+    const returnData = await permissionChecker.message(message, defaultPermissions);
     if (returnData !== "PermissionPass") return respondError(returnData);
 
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = await permissionChecker.message(
-        message,
-        managePermissions
-      );
+      const returnData = await permissionChecker.message(message, managePermissions);
       if (returnData !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
-      const returnData = await permissionChecker.message(
-        message,
-        musicPermissions
-      );
+      const returnData = await permissionChecker.message(message, musicPermissions);
       if (returnData !== "PermissionPass") return respondError(returnData);
     } else if (command.name.join("-") !== "help") {
-      const returnData = await permissionChecker.message(
-        message,
-        allCommandPermissions
-      );
+      const returnData = await permissionChecker.message(message, allCommandPermissions);
+      if (returnData !== "PermissionPass") return respondError(returnData);
+    } else if (command.permissions.length !== 0) {
+      const returnData = await permissionChecker.message(message, command.permissions);
       if (returnData !== "PermissionPass") return respondError(returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
     //////////////////////////////// Access check start ////////////////////////////////
-    if (
-      command.accessableby == Accessableby.Owner &&
-      message.author.id != client.owner
-    )
+    if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "owner_only")}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
             .setColor(client.color),
         ],
       });
@@ -204,9 +165,7 @@ export default class {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`)
             .setColor(client.color),
         ],
       });
@@ -217,16 +176,10 @@ export default class {
         if (!user || !user.isPremium) {
           const embed = new EmbedBuilder()
             .setAuthor({
-              name: `${client.i18n.get(
-                language,
-                "error",
-                "no_premium_author"
-              )}`,
+              name: `${client.i18n.get(language, "error", "no_premium_author")}`,
               iconURL: client.user!.displayAvatarURL(),
             })
-            .setDescription(
-              `${client.i18n.get(language, "error", "no_premium_desc")}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
             .setColor(client.color)
             .setTimestamp();
 
@@ -238,9 +191,7 @@ export default class {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(language, "error", "unexpected_error")}`
-            )
+            .setDescription(`${client.i18n.get(language, "error", "unexpected_error")}`)
             .setColor(client.color),
         ],
       });
@@ -262,9 +213,7 @@ export default class {
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "error", "no_player")}`
-              )
+              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -272,17 +221,11 @@ export default class {
 
     if (command.sameVoiceCheck) {
       const { channel } = message.member!.voice;
-      if (
-        !channel ||
-        message.member!.voice.channel !==
-          message.guild!.members.me!.voice.channel
-      )
+      if (!channel || message.member!.voice.channel !== message.guild!.members.me!.voice.channel)
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${client.i18n.get(language, "error", "no_voice")}`
-              )
+              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -299,8 +242,7 @@ export default class {
         prefix: PREFIX || client.prefix || "d!",
       });
 
-      if (message.attachments.size !== 0)
-        handler.addAttachment(message.attachments);
+      if (message.attachments.size !== 0) handler.addAttachment(message.attachments);
 
       client.logger.info(
         `[COMMAND] ${command.name.join("-")} used by ${
@@ -312,11 +254,7 @@ export default class {
     } catch (error) {
       client.logger.error(error);
       message.reply({
-        content: `${client.i18n.get(
-          language,
-          "error",
-          "unexpected_error"
-        )}\n ${error}`,
+        content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });
     }
   }
