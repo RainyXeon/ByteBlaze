@@ -17,6 +17,7 @@ import { KazagumoInit } from "./structures/Kazagumo.js";
 import utils from "node:util";
 import { DeployService } from "./services/DeployService.js";
 import { ByteBlaze } from "./@types/ByteBlaze.js";
+import Dokdo from "dokdo";
 
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -57,6 +58,10 @@ export class Manager extends Client {
 
     // Initial basic bot config
     loggerService.info("Booting client...");
+    const isEnableDebug = configData.features.DEBUG_TOOLS;
+    this.dokdo = isEnableDebug
+      ? new Dokdo.Client(this, { aliases: ["dokdo", "dok", "rdc"], prefix: "sudo " })
+      : undefined;
     this.logger = loggerService;
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;

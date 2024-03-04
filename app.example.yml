@@ -48,6 +48,11 @@ lavalink:
     #   secure: false
 
 features:
+  # Enable debug tools for execute code from bot
+  # use dokdo package, owner only, no prefix changes
+  # You have to enable message_content to use
+  # use: sudo rdc help, for more command 
+  DEBUG_TOOLS: true
   # Log register premium activities
   PREMIUM_LOG_CHANNEL: ""
   # Log all the guild that bot joined or leaved
@@ -66,7 +71,7 @@ features:
       prefix: "d!" # The prefix you want
 
   AUTOFIX_LAVALINK: # Fix the Lavalink server when the current is down
-    enable: true
+    enable: false
     reconnectTries: 5
     restTimeout: 3000
 

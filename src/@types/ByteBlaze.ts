@@ -17,6 +17,7 @@ import WebSocket from "ws";
 import Dokdo from "dokdo";
 
 export interface ByteBlaze extends Client {
+  dokdo?: Dokdo.Client;
   metadata: Metadata;
   config: Config;
   logger: any;

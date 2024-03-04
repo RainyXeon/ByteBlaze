@@ -19,6 +19,8 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
+    if (client.dokdo) client.dokdo.run(message);
+
     let guildModel = await client.db.language.get(`${message.guild!.id}`);
     if (!guildModel) {
       guildModel = await client.db.language.set(`${message.guild!.id}`, client.config.bot.LANGUAGE);
