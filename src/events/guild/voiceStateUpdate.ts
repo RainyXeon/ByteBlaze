@@ -144,7 +144,7 @@ export default class {
                 );
               }
             } catch (error) {
-              client.logger.error(import.meta.url, String(error));
+              client.logger.error(import.meta.url, error);
             }
           }
         }, client.config.lavalink.LEAVE_TIMEOUT);

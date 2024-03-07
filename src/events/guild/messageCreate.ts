@@ -188,7 +188,7 @@ export default class {
         }
       }
     } catch (err) {
-      client.logger.error(import.meta.url, String(err));
+      client.logger.error(import.meta.url, err);
       return message.reply({
         embeds: [
           new EmbedBuilder()
@@ -254,7 +254,7 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error(import.meta.url, String(error));
+      client.logger.error(import.meta.url, error);
       message.reply({
         content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });

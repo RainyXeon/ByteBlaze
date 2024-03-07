@@ -77,7 +77,7 @@ export class LoggerService {
     });
   }
 
-  public error(file: string, msg: string) {
+  public error(file: string, msg: unknown) {
     return this.preLog.log({
       level: "error",
       message: `${chalk.hex(this.color)(
@@ -134,7 +134,7 @@ export class LoggerService {
 
   public deploy(file: string, msg: string) {
     return this.preLog.log({
-      level: "websocket",
+      level: "deploy",
       message: `${chalk.hex(this.color)(
         fileURLToPath(file)
           .replace(/^.*[\\\/]/, "")
@@ -143,7 +143,7 @@ export class LoggerService {
     });
   }
 
-  public unhandled(file: string, msg: string) {
+  public unhandled(file: string, msg: unknown) {
     return this.preLog.log({
       level: "unhandled",
       message: `${chalk.hex(this.color)(

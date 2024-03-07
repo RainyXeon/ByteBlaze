@@ -155,7 +155,7 @@ export default class {
         try {
           button.run(client, message, String(language), player, nplaying, collector);
         } catch (err) {
-          client.logger.error(import.meta.url, String(err));
+          client.logger.error(import.meta.url, err);
         }
       }
     });

@@ -241,7 +241,7 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error(import.meta.url, String(error));
+      client.logger.error(import.meta.url, error);
       interaction.reply({
         content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });

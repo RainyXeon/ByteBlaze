@@ -112,8 +112,8 @@ export class Manager extends Client {
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
-    process.on("unhandledRejection", (error) => this.logger.unhandled(import.meta.url, String(error)));
-    process.on("uncaughtException", (error) => this.logger.unhandled(import.meta.url, String(error)));
+    process.on("unhandledRejection", (error) => this.logger.unhandled(import.meta.url, error));
+    process.on("uncaughtException", (error) => this.logger.unhandled(import.meta.url, error));
 
     if (
       this.config.features.WEB_SERVER.websocket.enable &&
