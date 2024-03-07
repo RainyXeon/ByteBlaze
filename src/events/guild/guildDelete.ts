@@ -3,7 +3,7 @@ import { EmbedBuilder, Guild } from "discord.js";
 
 export default class {
   async execute(client: Manager, guild: Guild) {
-    client.logger.info(`Left guild ${guild.name} @ ${guild.id}`);
+    client.logger.info(import.meta.url, `Left guild ${guild.name} @ ${guild.id}`);
     const language = client.config.bot.LANGUAGE;
 
     if (!client.config.features.GUILD_LOG_CHANNEL) return;

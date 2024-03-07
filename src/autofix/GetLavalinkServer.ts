@@ -1,17 +1,9 @@
-import { LavalinkDataType } from "../@types/Lavalink.js";
 import axios from "axios";
 import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();
-import fse from "fs-extra";
-import { LoggerService } from "../services/LoggerService.js";
 import Token from "markdown-it/lib/token.js";
 
 export class GetLavalinkServer {
-  logger: any;
-  constructor() {
-    this.logger = new LoggerService().init();
-  }
-
   async execute() {
     const res = await axios.get(
       "https://raw.githubusercontent.com/DarrenOfficial/lavalink-list/master/docs/NoSSL/lavalink-without-ssl.md"

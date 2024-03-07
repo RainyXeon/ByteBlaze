@@ -6,6 +6,7 @@ export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -143,7 +144,7 @@ export default class {
                 );
               }
             } catch (error) {
-              client.logger.error(error);
+              client.logger.error(import.meta.url, String(error));
             }
           }
         }, client.config.lavalink.LEAVE_TIMEOUT);

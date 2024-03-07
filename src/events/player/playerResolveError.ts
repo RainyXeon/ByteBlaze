@@ -6,12 +6,13 @@ export default class {
   async execute(client: Manager, player: KazagumoPlayer, track: KazagumoTrack, message: string) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.cache.get(player.guildId);
 
-    client.logger.log({ level: "error", message: message });
+    client.logger.error(import.meta.url, message);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -40,7 +41,7 @@ export default class {
       );
     }
 
-    client.logger.error(`Track Error in ${guild!.name} / ${player.guildId}. Auto-Leaved!`);
+    client.logger.error(import.meta.url, `Track Error in ${guild!.name} / ${player.guildId}. Auto-Leaved!`);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;

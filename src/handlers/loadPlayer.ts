@@ -10,6 +10,6 @@ export class loadPlayer {
     new playerLoadUpdate(client);
     new playerLoadContent(client);
     new playerLoadSetup(client);
-    client.logger.loader("Shoukaku Player Events Loaded!");
+    client.logger.loader(import.meta.url, "Shoukaku Player Events Loaded!");
   }
 }

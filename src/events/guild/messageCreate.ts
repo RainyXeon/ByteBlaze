@@ -16,10 +16,9 @@ export default class {
 
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
-
-    if (client.dokdo) client.dokdo.run(message);
 
     let guildModel = await client.db.language.get(`${message.guild!.id}`);
     if (!guildModel) {
@@ -189,7 +188,7 @@ export default class {
         }
       }
     } catch (err) {
-      client.logger.error(err);
+      client.logger.error(import.meta.url, String(err));
       return message.reply({
         embeds: [
           new EmbedBuilder()
@@ -247,6 +246,7 @@ export default class {
       if (message.attachments.size !== 0) handler.addAttachment(message.attachments);
 
       client.logger.info(
+        import.meta.url,
         `[COMMAND] ${command.name.join("-")} used by ${
           message.author.username
         } from ${message.guild?.name} (${message.guild?.id})`
@@ -254,7 +254,7 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error(error);
+      client.logger.error(import.meta.url, String(error));
       message.reply({
         content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });

@@ -18,7 +18,7 @@ export class loadWebsocketEvents {
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
     });
-    this.client.logger.websocket(`Websocket Events Loaded!`);
+    this.client.logger.websocket(import.meta.url, `Websocket Events Loaded!`);
   }
 
   async registerPath(eventsPath: string[]) {

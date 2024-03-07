@@ -14,13 +14,12 @@ import { KazagumoPlayer } from "../lib/main.js";
 import { IconType } from "./Emoji.js";
 import { ClusterClient } from "discord-hybrid-sharding";
 import WebSocket from "ws";
-import Dokdo from "dokdo";
+import { LoggerService } from "../services/LoggerService.js";
 
 export interface ByteBlaze extends Client {
-  dokdo?: Dokdo.Client;
   metadata: Metadata;
   config: Config;
-  logger: any;
+  logger: LoggerService;
   db: DatabaseTable;
   owner: string;
   color: ColorResolvable;

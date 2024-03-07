@@ -14,14 +14,10 @@ import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
 import { KazagumoInit } from "./structures/Kazagumo.js";
-import utils from "node:util";
 import { DeployService } from "./services/DeployService.js";
 import { ByteBlaze } from "./@types/ByteBlaze.js";
-import Dokdo from "dokdo";
-
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const loggerService = new LoggerService().init();
 const configData = new ConfigDataService().data;
 const REGEX = [
   /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,
@@ -57,12 +53,10 @@ export class Manager extends Client {
     });
 
     // Initial basic bot config
-    loggerService.info("Booting client...");
+    // process.argv[1].replace(/^.*[\\\/]/, "") + " " +
+    this.logger = new LoggerService();
+    this.logger.info(import.meta.url, "Booting client...");
     const isEnableDebug = configData.features.DEBUG_TOOLS;
-    this.dokdo = isEnableDebug
-      ? new Dokdo.Client(this, { aliases: ["dokdo", "dok", "rdc"], prefix: "sudo " })
-      : undefined;
-    this.logger = loggerService;
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
@@ -76,13 +70,17 @@ export class Manager extends Client {
     this.REGEX = REGEX;
 
     if (!this.configVolCheck())
-      this.logger.warn("Default config volume must between 1 and 100, use default volume (100)");
+      this.logger.warn(
+        import.meta.url,
+        "Default config volume must between 1 and 100, use default volume (100)"
+      );
 
     if (!this.configSearchCheck())
-      this.logger.warn("Default config search must have string element, use default");
+      this.logger.warn(import.meta.url, "Default config search must have string element, use default");
 
     if (!this.config.lavalink.AVOID_SUSPEND)
       this.logger.warn(
+        import.meta.url,
         "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
       );
     // Initial autofix lavalink varibles
@@ -114,19 +112,15 @@ export class Manager extends Client {
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
-    process.on("unhandledRejection", (error) =>
-      this.logger.log({ level: "error", message: utils.inspect(error) })
-    );
-    process.on("uncaughtException", (error) =>
-      this.logger.log({ level: "error", message: utils.inspect(error) })
-    );
+    process.on("unhandledRejection", (error) => this.logger.unhandled(import.meta.url, String(error)));
+    process.on("uncaughtException", (error) => this.logger.unhandled(import.meta.url, String(error)));
 
     if (
       this.config.features.WEB_SERVER.websocket.enable &&
       (!this.config.features.WEB_SERVER.websocket.secret ||
         this.config.features.WEB_SERVER.websocket.secret.length == 0)
     ) {
-      this.logger.error("Must have secret in your ws config for secure!");
+      this.logger.error(import.meta.url, "Must have secret in your ws config for secure!");
       process.exit();
     }
 

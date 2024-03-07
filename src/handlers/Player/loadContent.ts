@@ -30,7 +30,7 @@ export class playerLoadContent {
       this.client.on("interactionCreate", this.interaction.bind(null, this.client));
       this.client.on("messageCreate", this.message.bind(null, this.client));
     } catch (err) {
-      this.client.logger.log({ level: "error", message: err });
+      this.client.logger.error(import.meta.url, String(err));
     }
   }
 
