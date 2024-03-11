@@ -98,7 +98,6 @@ export class AutoReconnectLavalinkService {
       if (data.value.previous.length !== 0) await this.previousDataPush(data.value.previous, player);
 
       if (data.value.config.loop !== "none") player.setLoop(data.value.config.loop as KazagumoLoopMode);
-      if (data.value.config.volume !== 1) player.setVolume(data.value.config.volume);
       await player.play(search.tracks[0]);
     }
   }

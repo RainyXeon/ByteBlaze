@@ -33,15 +33,7 @@ export default class implements PlayerButton {
 
     player.setVolume(player.volume * 100 - 10);
 
-    this.setVol247(client, player, player.volume * 100 - 10);
-
     await new ReplyInteractionService(client, message, reply_msg);
     return;
-  }
-
-  async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
-    if (await client.db.autoreconnect.get(player.guildId)) {
-      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
-    }
   }
 }

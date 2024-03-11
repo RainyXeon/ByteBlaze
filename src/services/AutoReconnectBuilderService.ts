@@ -30,7 +30,6 @@ export class AutoReconnectBuilderService {
       current: "",
       config: {
         loop: "none",
-        volume: 100,
       },
       queue: [],
       twentyfourseven: false,
@@ -45,7 +44,6 @@ export class AutoReconnectBuilderService {
       current: this.player?.queue.current?.uri ?? "",
       config: {
         loop: this.player?.loop,
-        volume: this.player?.volume,
       },
       queue: this.player?.queue.length !== 0 ? this.queueUri() : [],
       previous: this.player?.queue.previous.length !== 0 ? this.previousUri() : [],
@@ -61,7 +59,6 @@ export class AutoReconnectBuilderService {
       current: "",
       config: {
         loop: "none",
-        volume: 100,
       },
       queue: [],
       twentyfourseven: mode,

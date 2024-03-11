@@ -1,5 +1,8 @@
+import { TextChannel } from "discord.js";
 import { KazagumoPlayer, PlayerState } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { ClearMessageService } from "../../services/ClearMessageService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
@@ -27,6 +30,11 @@ export default class {
     }
 
     client.logger.info(import.meta.url, `Player Empty in @ ${guild!.name} / ${player.guildId}`);
+
+    const data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
+    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    if (data !== null && data && data.twentyfourseven && channel)
+      return new ClearMessageService(client, channel, player);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;
