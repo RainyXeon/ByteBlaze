@@ -65,7 +65,7 @@ export default class implements Command {
 
     const pages = [];
     for (let i = 0; i < pagesNum; i++) {
-      const str = songStrings.slice(i * 10, i * 10 + 10).join("");
+      const str = songStrings.slice(i * 10, i * 10 + 10).join("\n");
 
       const embed = new EmbedBuilder()
         .setAuthor({

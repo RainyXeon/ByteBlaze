@@ -91,3 +91,8 @@ skip_notfound: "`⚠️` | Không tìm thấy bài hát nào để Bỏ qua!"
 ### Volume command!
 volume_msg: "`🔊` | Âm lượng đã được đặt thành **%{volume}%**"
 volume_invalid: "`⚠️` | Khối lượng không hợp lệ. Vui lòng sử dụng số từ **1** đến **100**!"
+
+### Insert command!
+insert_desc: "`➕` | Đã chèn nhạc **%{name}** `%{duration}` • %{request}"
+insert_already: "`⚠️` | Tôi không thể chèn vào bài hát đang phát!"
+insert_notfound: "`⚠️` | Bài hát không được tìm thấy!"
