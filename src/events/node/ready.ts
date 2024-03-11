@@ -13,6 +13,6 @@ export default class {
       });
     });
 
-    client.logger.info(`Lavalink [${name}] connected.`);
+    client.logger.info(import.meta.url, `Lavalink [${name}] connected.`);
   }
 }

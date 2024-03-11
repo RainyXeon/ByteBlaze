@@ -8,11 +8,12 @@ export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.cache.get(player.guildId);
-    client.logger.info(`Player End in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info(import.meta.url, `Player End in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);

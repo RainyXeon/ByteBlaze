@@ -1,11 +1,9 @@
-import chalk from "chalk";
 import { Manager } from "../../manager.js";
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
 import { KazagumoLoopMode } from "../../@types/Lavalink.js";
 import { KazagumoPlayer } from "../../lib/main.js";
 import { VoiceChannel } from "discord.js";
-import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
 export class AutoReconnectLavalinkService {
   client: Manager;
@@ -15,32 +13,34 @@ export class AutoReconnectLavalinkService {
   }
 
   async execute() {
-    const lavalink = chalk.hex("#ffc61c");
-    const lavalink_mess = lavalink("Lavalink: ");
-    this.client.logger.data_loader(lavalink_mess + `Setting up data for lavalink...`);
-    this.client.logger.data_loader(lavalink_mess + `Auto ReConnect Collecting player 24/7 data`);
+    const lavalink_mess = "Lavalink: ";
+    this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink...`);
+    this.client.logger.setup(import.meta.url, lavalink_mess + `Auto ReConnect Collecting player 24/7 data`);
     const maindata = await this.client.db.autoreconnect.all();
 
     if (!maindata || maindata.length == 0) {
-      this.client.logger.data_loader(lavalink_mess + `Auto ReConnect found in 0 servers!`);
-      this.client.logger.data_loader(lavalink_mess + `Setting up data for lavalink complete!`);
+      this.client.logger.setup(import.meta.url, lavalink_mess + `Auto ReConnect found in 0 servers!`);
+      this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink complete!`);
       return;
     }
 
-    this.client.logger.data_loader(
+    this.client.logger.setup(
+      import.meta.url,
       lavalink_mess + `Auto ReConnect found in ${Object.keys(maindata).length} servers!`
     );
     if (Object.keys(maindata).length === 0) return;
 
     let retry_interval = setInterval(async () => {
       if (this.client.lavalinkUsing.length == 0 || this.client.manager.shoukaku.nodes.size == 0)
-        return this.client.logger.data_loader(
+        return this.client.logger.setup(
+          import.meta.url,
           lavalink_mess + `No lavalink avalible, try again after 3 seconds!`
         );
 
       clearInterval(retry_interval);
 
-      this.client.logger.data_loader(
+      this.client.logger.setup(
+        import.meta.url,
         lavalink_mess + `Lavalink avalible, remove interval and continue setup!`
       );
 
@@ -48,21 +48,22 @@ export class AutoReconnectLavalinkService {
         setTimeout(async () => this.connectChannel(data));
       });
 
-      this.client.logger.data_loader(
+      this.client.logger.setup(
+        import.meta.url,
         lavalink_mess + `Reconnected to all ${Object.keys(maindata).length} servers!`
       );
 
-      this.client.logger.data_loader(lavalink_mess + `Setting up data for lavalink complete!`);
+      this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink complete!`);
     }, 3000);
   }
 
   async connectChannel(data: { id: string; value: AutoReconnect }) {
-    const lavalink = chalk.hex("#ffc61c");
-    const lavalink_mess = lavalink("Lavalink: ");
+    const lavalink_mess = "Lavalink: ";
     const channel = this.client.channels.cache.get(data.value.text);
     const voice = this.client.channels.cache.get(data.value.voice) as VoiceChannel;
     if (!channel || !voice) {
-      this.client.logger.data_loader(
+      this.client.logger.setup(
+        import.meta.url,
         lavalink_mess +
           `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
       );
@@ -70,7 +71,8 @@ export class AutoReconnectLavalinkService {
     }
 
     if (!data.value.twentyfourseven && voice.members.filter((m) => !m.user.bot).size == 0) {
-      this.client.logger.data_loader(
+      this.client.logger.setup(
+        import.meta.url,
         lavalink_mess +
           `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
       );

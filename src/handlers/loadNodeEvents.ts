@@ -17,7 +17,7 @@ export class loadNodeEvents {
     let eventsFile = await readdirRecursive(eventsPath);
     await this.register(eventsFile);
 
-    this.client.logger.loader("Lavalink Server Events Loaded!");
+    this.client.logger.loader(import.meta.url, "Lavalink Server Events Loaded!");
   }
 
   async register(eventsFile: string[]) {

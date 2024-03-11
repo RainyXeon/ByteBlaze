@@ -1,7 +1,8 @@
-import { createLogger, transports, format, addColors } from "winston";
+import { createLogger, transports, format, Logger } from "winston";
 const { timestamp, prettyPrint, printf } = format;
-import moment from "moment";
+import { fileURLToPath } from "url";
 import chalk from "chalk";
+import util from "node:util";
 
 type InfoDataType = {
   message: string;
@@ -10,8 +11,11 @@ type InfoDataType = {
 };
 
 export class LoggerService {
-  init() {
-    return createLogger({
+  private preLog: Logger;
+  private padding = 22;
+  private color = "#02faf0";
+  constructor() {
+    this.preLog = createLogger({
       levels: {
         error: 0,
         warn: 1,
@@ -19,39 +23,139 @@ export class LoggerService {
         websocket: 3,
         lavalink: 4,
         loader: 5,
-        data_loader: 6,
-        deploy_slash: 7,
+        setup: 6,
+        deploy: 7,
         debug: 8,
+        unhandled: 9,
       },
 
       transports: [
         new transports.Console({
-          level: "debug",
+          level: "unhandled",
           format: this.consoleFormat,
         }),
 
-        new transports.Console({
-          level: "error",
-          format: this.fileFormat,
-        }),
-
         new transports.File({
-          level: "info",
-          filename: "./logs/info.log",
-          format: this.fileFormat,
-        }),
-
-        new transports.File({
-          level: "error",
-          filename: "./logs/error.log",
+          level: "unhandled",
+          filename: "./logs/byteblaze.log",
           format: this.fileFormat,
         }),
       ],
     });
   }
 
-  filter(info: InfoDataType) {
-    const pad = 12;
+  public info(file: string, msg: string) {
+    return this.preLog.log({
+      level: "info",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public debug(file: string, msg: string) {
+    return this.preLog.log({
+      level: "debug",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public warn(file: string, msg: string) {
+    return this.preLog.log({
+      level: "warn",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public error(file: string, msg: unknown) {
+    return this.preLog.log({
+      level: "error",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${util.inspect(msg)}`,
+    });
+  }
+
+  public lavalink(file: string, msg: string) {
+    return this.preLog.log({
+      level: "lavalink",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public loader(file: string, msg: string) {
+    return this.preLog.log({
+      level: "loader",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public setup(file: string, msg: string) {
+    return this.preLog.log({
+      level: "setup",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public websocket(file: string, msg: string) {
+    return this.preLog.log({
+      level: "websocket",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public deploy(file: string, msg: string) {
+    return this.preLog.log({
+      level: "deploy",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${msg}`,
+    });
+  }
+
+  public unhandled(file: string, msg: unknown) {
+    return this.preLog.log({
+      level: "unhandled",
+      message: `${chalk.hex(this.color)(
+        fileURLToPath(file)
+          .replace(/^.*[\\\/]/, "")
+          .padEnd(this.padding)
+      )} - ${util.inspect(msg)}`,
+    });
+  }
+
+  private filter(info: InfoDataType) {
+    const pad = 9;
 
     switch (info.level) {
       case "info":
@@ -66,22 +170,20 @@ export class LoggerService {
         return chalk.hex("#ffc61c")(info.level.toUpperCase().padEnd(pad));
       case "loader":
         return chalk.hex("#4402f7")(info.level.toUpperCase().padEnd(pad));
-      case "data_loader":
+      case "setup":
         return chalk.hex("#f7f702")(info.level.toUpperCase().padEnd(pad));
       case "websocket":
         return chalk.hex("#00D100")(info.level.toUpperCase().padEnd(pad));
-      case "deploy_slash":
+      case "deploy":
         return chalk.hex("#7289da")(info.level.toUpperCase().padEnd(pad));
+      case "unhandled":
+        return chalk.hex("#ff0000")(info.level.toUpperCase().padEnd(pad));
     }
   }
 
-  timezone() {
-    return moment().format("DD-MM-YYYY hh:mm:ss:SSS");
-  }
-
-  get consoleFormat() {
+  private get consoleFormat() {
     return format.combine(
-      timestamp({ format: this.timezone }),
+      timestamp(),
       printf((info: InfoDataType) => {
         return `${chalk.hex("#00ddc0")(info.timestamp)} - ${this.filter(
           info
@@ -90,7 +192,7 @@ export class LoggerService {
     );
   }
 
-  get fileFormat() {
-    return format.combine(timestamp({ format: this.timezone }), prettyPrint());
+  private get fileFormat() {
+    return format.combine(timestamp(), prettyPrint());
   }
 }

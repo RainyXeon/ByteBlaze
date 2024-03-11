@@ -37,6 +37,6 @@ export class WebServer {
 
   expose() {
     this.app.listen(this.port);
-    this.client.logger.info(`Running web server in port: ${this.port}`);
+    this.client.logger.info(import.meta.url, `Running web server in port: ${this.port}`);
   }
 }

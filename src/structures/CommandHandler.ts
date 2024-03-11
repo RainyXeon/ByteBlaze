@@ -147,7 +147,10 @@ export class CommandHandler {
   }
 
   public async editReply(data: BaseMessageOptions): Promise<GlobalMsg> {
-    if (!this.msg) return this.client.logger.error("You have not declared deferReply()");
+    if (!this.msg) {
+      this.client.logger.error(import.meta.url, "You have not declared deferReply()");
+      return;
+    }
     if (this.interaction) {
       return this.msg.edit(data);
     } else {

@@ -31,6 +31,7 @@ export default class {
 
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -232,6 +233,7 @@ export default class {
       if (attachments) handler.addSingleAttachment(attachments);
 
       client.logger.info(
+        import.meta.url,
         `[COMMAND] ${commandNameArray.join("-")} used by ${
           interaction.user.username
         } from ${interaction.guild.name} (${interaction.guild.id})`
@@ -239,10 +241,7 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.log({
-        level: "error",
-        message: error,
-      });
+      client.logger.error(import.meta.url, error);
       interaction.reply({
         content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
       });

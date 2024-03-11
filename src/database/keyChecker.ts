@@ -14,17 +14,20 @@ export class keyChecker {
   }
 
   execute() {
-    const logger = new LoggerService().init();
+    const logger = new LoggerService();
     const objReqKey = Object.keys(this.sampleConfig);
     const res = this.checkEngine();
 
     if (res == KeyCheckerEnum.Pass) return true;
 
-    logger.error(`
+    logger.error(
+      import.meta.url,
+      `
       Invalid config [${res}], please set [${objReqKey.join(", ")}] only. Example: 
       DATABASE:
         driver: "${this.dbName}"
-        config: ${utils.inspect(this.sampleConfig)}`);
+        config: ${utils.inspect(this.sampleConfig)}`
+    );
     process.exit();
   }
 

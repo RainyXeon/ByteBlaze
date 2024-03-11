@@ -5,6 +5,7 @@ export default class {
   async execute(client: Manager, player: KazagumoPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -25,7 +26,7 @@ export default class {
       return;
     }
 
-    client.logger.info(`Player Empty in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info(import.meta.url, `Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;

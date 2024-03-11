@@ -24,9 +24,9 @@ export class loadPlayerButtons {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(`${this.client.plButton.size} player buttons Loaded!`);
+      this.client.logger.loader(import.meta.url, `${this.client.plButton.size} player buttons Loaded!`);
     } else {
-      this.client.logger.warn(`No player button loaded, is everything ok?`);
+      this.client.logger.warn(import.meta.url, `No player button loaded, is everything ok?`);
     }
   }
 
@@ -35,12 +35,18 @@ export class loadPlayerButtons {
     const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(`"${rltPath}" The player button file does not have a name. Skipping...`);
+      this.client.logger.warn(
+        import.meta.url,
+        `"${rltPath}" The player button file does not have a name. Skipping...`
+      );
       return;
     }
 
     if (this.client.plButton.has(command.name)) {
-      this.client.logger.warn(`"${command.name}" player button has already been installed. Skipping...`);
+      this.client.logger.warn(
+        import.meta.url,
+        `"${command.name}" player button has already been installed. Skipping...`
+      );
       return;
     }
 
@@ -48,6 +54,7 @@ export class loadPlayerButtons {
 
     if (checkRes !== KeyCheckerEnum.Pass) {
       this.client.logger.warn(
+        import.meta.url,
         `"${command.name}" player button is not implements correctly [${checkRes}]. Skipping...`
       );
       return;

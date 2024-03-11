@@ -7,6 +7,7 @@ export default class {
   async execute(client: Manager, player: KazagumoPlayer, data: TrackStuckEvent) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
+        import.meta.url,
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -39,7 +40,7 @@ export default class {
       );
     }
 
-    client.logger.error(`Track Stuck in ${guild!.name} / ${player.guildId}. Auto-Leaved!`);
+    client.logger.error(import.meta.url, `Track Stuck in ${guild!.name} / ${player.guildId}. Auto-Leaved!`);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;

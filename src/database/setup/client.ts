@@ -86,11 +86,11 @@ export class ClientDataService {
   async execute() {
     const Client = chalk.hex("#02f75c");
     const client_mess = Client("Client: ");
-    this.client.logger.data_loader(client_mess + "Setting up data for client...");
+    this.client.logger.setup(import.meta.url, client_mess + "Setting up data for client...");
 
     this.setupPremium();
     this.setupInfoChennel();
 
-    this.client.logger.data_loader(client_mess + "Setting up data for client complete!");
+    this.client.logger.setup(import.meta.url, client_mess + "Setting up data for client complete!");
   }
 }

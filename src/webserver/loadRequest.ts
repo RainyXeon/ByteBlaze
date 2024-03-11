@@ -20,9 +20,12 @@ export class loadRequest {
     await this.register(eventsFile);
 
     if (this.client.wsMessage?.size) {
-      this.client.logger.websocket(`${this.client.wsMessage?.size} Websocket Request Loaded!`);
+      this.client.logger.websocket(
+        import.meta.url,
+        `${this.client.wsMessage?.size} Websocket Request Loaded!`
+      );
     } else {
-      this.client.logger.websocket(`No websocket request file loaded, is websocket ok?`);
+      this.client.logger.websocket(import.meta.url, `No websocket request file loaded, is websocket ok?`);
     }
   }
 

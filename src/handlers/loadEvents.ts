@@ -18,7 +18,7 @@ export class loadMainEvents {
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
     });
-    this.client.logger.loader(`Client Events Loaded!`);
+    this.client.logger.loader(import.meta.url, `Client Events Loaded!`);
   }
 
   async registerPath(eventsPath: string[]) {
