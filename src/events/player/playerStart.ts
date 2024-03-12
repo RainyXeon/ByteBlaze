@@ -39,7 +39,6 @@ export default class {
 
     if (await autoreconnect.get(player.guildId)) {
       await client.db.autoreconnect.set(`${player.guildId}.current`, player.queue.current?.uri);
-      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, player.volume);
       await client.db.autoreconnect.set(`${player.guildId}.config.loop`, player.loop);
 
       function queueUri() {

@@ -3,6 +3,8 @@ import { Manager } from "../../manager.js";
 import { TrackExceptionEvent } from "shoukaku";
 import { TextChannel } from "discord.js";
 import util from "node:util";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { ClearMessageService } from "../../services/ClearMessageService.js";
 
 export default class {
   async execute(client: Manager, player: KazagumoPlayer, data: TrackExceptionEvent) {
@@ -15,6 +17,11 @@ export default class {
     if (text_channel) {
       await text_channel.send("Player get exception, please contact with owner to fix this error");
     }
+
+    const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
+    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    if (data247 !== null && data247 && data247.twentyfourseven && channel)
+      return new ClearMessageService(client, channel, player);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;

@@ -13,6 +13,7 @@ no_same_voice: "`⚠️` | Bạn không ở cùng kênh đàm thoại với tôi
 
 # No permission!
 no_perms: "`⚠️` | Bot không có quyền **%{perm}** để thực hiện lệnh này!"
+no_perms_channel: "`⚠️` | Bot không có quyền **%{perm}** trong kênh <#%{channel}> để thực hiện lệnh này!"
 
 # Getting error!
 unexpected_error: "`⚠️` | Có gì đó không ổn. Vui lòng thử lại!"

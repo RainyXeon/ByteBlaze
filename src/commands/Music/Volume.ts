@@ -61,8 +61,6 @@ export default class implements Command {
 
     await player.setVolume(Number(value));
 
-    this.setVol247(client, player, Number(value));
-
     const changevol = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "command.music", "volume_msg", {
@@ -72,12 +70,5 @@ export default class implements Command {
       .setColor(client.color);
 
     handler.editReply({ content: " ", embeds: [changevol] });
-  }
-
-  async setVol247(client: Manager, player: KazagumoPlayer, vol: number) {
-    const data = await new AutoReconnectBuilderService(client, player).execute(player.guildId);
-    if (data) {
-      await client.db.autoreconnect.set(`${player.guildId}.config.volume`, vol);
-    }
   }
 }
