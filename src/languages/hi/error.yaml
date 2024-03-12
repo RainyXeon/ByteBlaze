@@ -13,6 +13,7 @@ no_same_voice: "`⚠️` | आप मेरे से समान आवाज 
 
 # No permission!
 no_perms: "`⚠️` | मेरे पास इस कमांड को निष्पादित करने के लिए **%{perm}** अनुमति नहीं है!"
+no_perms_channel: "`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!"
 
 # Getting error!
 unexpected_error: "`⚠️` | कुछ गड़बड़ हो गया है। कृपया बाद में पुनः प्रयास करें!"

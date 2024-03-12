@@ -10,7 +10,10 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
-import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
+import {
+  CheckPermissionResultInterface,
+  CheckPermissionServices,
+} from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
@@ -84,19 +87,30 @@ export default class {
     const permissionChecker = new CheckPermissionServices();
 
     // Default permission
-    const defaultPermissions = [PermissionFlagsBits.ManageMessages];
+    const defaultPermissions = [
+      PermissionFlagsBits.ManageMessages,
+      PermissionFlagsBits.ViewChannel,
+      PermissionFlagsBits.SendMessages,
+      PermissionFlagsBits.EmbedLinks,
+    ];
     const musicPermissions = [PermissionFlagsBits.Speak, PermissionFlagsBits.Connect];
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(
       interaction: ChatInputCommandInteraction | CommandInteraction,
-      permission: string
+      permissionResult: CheckPermissionResultInterface
     ) {
+      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
+        perm: permissionResult.result,
+      })}`;
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "error", "no_perms", {
-            perm: permission,
-          })}`
+          permissionResult.channel == "Self"
+            ? selfErrorString
+            : `${client.i18n.get(language, "error", "no_perms_channel", {
+                perm: permissionResult.result,
+                channel: permissionResult.channel,
+              })}`
         )
         .setColor(client.color);
       await interaction.reply({
@@ -105,19 +119,19 @@ export default class {
     }
 
     if (command.name[0] !== "help") {
-      const returnData = await permissionChecker.interaction(interaction, defaultPermissions);
-      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
+      const returnData = permissionChecker.interaction(interaction, defaultPermissions);
+      if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.category.toLocaleLowerCase() == "music") {
-      const returnData = await permissionChecker.interaction(interaction, musicPermissions);
-      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
+      const returnData = permissionChecker.interaction(interaction, musicPermissions);
+      if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = await permissionChecker.interaction(interaction, managePermissions);
-      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
+      const returnData = permissionChecker.interaction(interaction, managePermissions);
+      if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     } else if (command.permissions.length !== 0) {
-      const returnData = await permissionChecker.interaction(interaction, command.permissions);
-      if (returnData !== "PermissionPass") return respondError(interaction, returnData);
+      const returnData = permissionChecker.interaction(interaction, command.permissions);
+      if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 

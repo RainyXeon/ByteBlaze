@@ -3,7 +3,10 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { CheckPermissionServices } from "../../services/CheckPermissionService.js";
+import {
+  CheckPermissionResultInterface,
+  CheckPermissionServices,
+} from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
@@ -116,12 +119,18 @@ export default class {
     const musicPermissions = [PermissionFlagsBits.Speak, PermissionFlagsBits.Connect];
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
-    async function respondError(permission: string) {
+    async function respondError(permissionResult: CheckPermissionResultInterface) {
+      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
+        perm: permissionResult.result,
+      })}`;
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "error", "no_perms", {
-            perm: permission,
-          })}`
+          permissionResult.channel == "Self"
+            ? selfErrorString
+            : `${client.i18n.get(language, "error", "no_perms_channel", {
+                perm: permissionResult.result,
+                channel: permissionResult.channel,
+              })}`
         )
         .setColor(client.color);
       const dmChannel =
@@ -131,21 +140,21 @@ export default class {
       });
     }
 
-    const returnData = await permissionChecker.message(message, defaultPermissions);
-    if (returnData !== "PermissionPass") return respondError(returnData);
+    const returnData = permissionChecker.message(message, defaultPermissions);
+    if (returnData.result !== "PermissionPass") return respondError(returnData);
 
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = await permissionChecker.message(message, managePermissions);
-      if (returnData !== "PermissionPass") return respondError(returnData);
+      const returnData = permissionChecker.message(message, managePermissions);
+      if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
-      const returnData = await permissionChecker.message(message, musicPermissions);
-      if (returnData !== "PermissionPass") return respondError(returnData);
+      const returnData = permissionChecker.message(message, musicPermissions);
+      if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.name.join("-") !== "help") {
-      const returnData = await permissionChecker.message(message, allCommandPermissions);
-      if (returnData !== "PermissionPass") return respondError(returnData);
+      const returnData = permissionChecker.message(message, allCommandPermissions);
+      if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.permissions.length !== 0) {
-      const returnData = await permissionChecker.message(message, command.permissions);
-      if (returnData !== "PermissionPass") return respondError(returnData);
+      const returnData = permissionChecker.message(message, command.permissions);
+      if (returnData.result !== "PermissionPass") return respondError(returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 

@@ -13,6 +13,7 @@ no_same_voice: "`⚠️` | You are not in the same voice channel as me!"
 
 # No permission!
 no_perms: "`⚠️` | I do not have **%{perm}** permission to execute this command!"
+no_perms_channel: "`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!"
 
 # Getting error!
 unexpected_error: "`⚠️` | Something went wrong. Please try again later!"
