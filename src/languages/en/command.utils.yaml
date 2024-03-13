@@ -2,7 +2,7 @@
 lang_set: "`📙` | Language has been set to **%{language}**!"
 lang_change: "`📙` | Language has been changed to **%{language}**!"
 lang_perm: "`⚠️` | You do not have permission to use this command!"
-provide_lang: "`⚠️` | Invalid Language. Please use %{languages}!"
+provide_lang: "`⚠️` | Invalid Language. Please use:\n`%{languages}`"
 
 ### Shutdown command!
 restart_msg: "`🔌` | **Shutting Down**..."

@@ -1,5 +1,5 @@
 ### All filter command!
-filter_on: "`✅` | Filter %{name} đã ở chế độ **%{mode}**!"
+filter_on: "`✅` | Filter %{name} đã được **bật**!"
 filter_already: "`⚠️` | Filter %{name} đã ở được bật trước đó!"
 filter_number: "`⚠️` | Vui lòng nhập 1 số hợp lệ!"
 filter_greater: "`⚠️` | Số bạn nhập phải lớn hơn **0**!"

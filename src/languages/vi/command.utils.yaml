@@ -2,7 +2,7 @@
 lang_set: "`📙` | Ngôn ngữ đã được đổi thành **%{language}**!"
 lang_change: "`📙` | Ngôn ngữ đã được đổi thành **%{language}**!"
 lang_perm: "`⚠️` | Bạn ko có quyền để sử dụng lệnh này!"
-provide_lang: "`⚠️` | Ngôn ngữ mới ko hợp lệ. Vui lòng chỉ nhập %{languages}!"
+provide_lang: "`⚠️` | Ngôn ngữ mới ko hợp lệ. Vui lòng chỉ nhập\n`%{languages}`"
 
 ### Shutdown command!
 restart_msg: "`🔌` | **Đang tắt nguồn bot**..."

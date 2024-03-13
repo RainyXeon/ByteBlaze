@@ -1,5 +1,5 @@
 ### All filter command!
-filter_on: "`✅` | %{name} filter is now **%{mode}**!"
+filter_on: "`✅` | %{name} filter is now **enable**!"
 filter_already: "`⚠️` | %{name} filter is already **enabled**!"
 filter_number: "`⚠️` | Please provide a valid number!"
 filter_greater: "`⚠️` | Number must be greater than **0**!"

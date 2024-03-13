@@ -1,5 +1,5 @@
 ### All filter command!
-filter_on: "`✅` | %{name} फ़िल्टर अब **%{mode}** है!"
+filter_on: "`✅` | %{name} फ़िल्टर अब **enable** है!"
 filter_already: "`⚠️` | %{name} फ़िल्टर पहले से ही **सक्षम** है!"
 filter_number: "`⚠️` | कृपया एक मान्य संख्या प्रदान करें!"
 filter_greater: "`⚠️` | संख्या **0** से अधिक होनी चाहिए!"

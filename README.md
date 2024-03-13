@@ -128,7 +128,21 @@ Version numbers can come in different combinations, depending on the release typ
     `MAJOR.MINOR.PATCH-PRERELEASE` - Pre-release
     `MAJOR.MINOR.PATCH-PRERELEASE+BUILD` - Pre-release additional build metadata
 
----
+## 📃 Translate Team (Languages)
+
+- [x] **en (English)**
+  - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon`
+- [x] **vi (Vietnamese)**
+  - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon`
+- [x] **hi (Hindi)**
+  - [@anas-ike](https://github.com/anas-ike) **Discord:** `lights.out.`
+- [x] **ko (Korean)**
+  - [@EmuPIKin](https://github.com/EmuPIKin) **Discord:** `emupikin`
+
+## ⁉ Become to translate team?
+
+- [Crowdin](https://crowdin.com/project/byteblaze)
+
 
 ## 💫 Special Thanks
 
@@ -143,3 +157,7 @@ Version numbers can come in different combinations, depending on the release typ
   +) I own nothing in `/src/lib` except Apple Music, Deezer and Nicovideo plugins in `/src/lib/Plugins` folder.
 
 **And Everyone who Starred and Contributed to My Project 💖**
+
+
+## 💫 Credits:
+- [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` As an owner and a creator of this project

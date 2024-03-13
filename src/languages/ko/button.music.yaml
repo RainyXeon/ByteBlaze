@@ -1,0 +1,28 @@
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | 현재 재생 중:\n**%{track}** `[%{duration}]` • %{requester}\n\n`💤` | 대기열에 추가된 항목 **%{list_song}**"
+queue_footer: "페이지 • %{page}/%{pages} | 노래 • %{queue_lang} | 총 재생 시간 • %{total_duration}"
+#Pause
+pause_msg: "`⏸️` | 노래를 일시정지했어요!"
+resume_msg: "`▶️` | 노래를 다시 재생할게요!"
+#Skip
+skip_msg: "`⏭️` | 다음 노래를 재생할게요!"
+skip_notfound: "`⚠️` | 건너 뛸 다음 곡이 없어요!"
+#Stop
+stop_msg: "`⏹️` | 노래를 정지했어요!"
+#Volume
+volup_msg: "`🔊` | 볼륨을 설정했어요! **%{volume}%**"
+voldown_msg: "`🔉` | 볼륨을 설정했어요! **%{volume}%**"
+volume_invalid: "`⚠️` | 볼륨은 **1** 부터 **100** 까지만 설정할수 있어요!"
+#Clear
+clear_msg: "`🗑️` | 대기열을 정리했어요!"
+#Loop
+loop_current: "`🔁` | 한 곡 반복 모드를 설정했어요!"
+loop_all: "`🔁` | 전체 반복 모드를 설정했어요!"
+unloop_all: "`❌` | 반복 모드를 해제했어요!"
+loop_invalid: "`⚠️` | 잘못된 반복 모드입니다. %{mode} 을 사용해 주세요!"
+loop_already: "`⚠️` | 이미 반복 모드가 **%{mode}** 다음으로 설정되어 있어요!"
+#Previous
+previous_msg: "`⏮️` | 이전 노래를 재생할게요!"
+previous_notfound: "`⚠️` | 이전 곡을 찾을 수 없어요!"
+#Shuffle
+shuffle_msg: "🔀 대기열에 등록된 노래를 무작위로 재생할게요!"
