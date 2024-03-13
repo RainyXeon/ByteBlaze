@@ -128,8 +128,6 @@ Version numbers can come in different combinations, depending on the release typ
     `MAJOR.MINOR.PATCH-PRERELEASE` - Pre-release
     `MAJOR.MINOR.PATCH-PRERELEASE+BUILD` - Pre-release additional build metadata
 
----
-
 ## 📃 Translate Team (Languages)
 
 - [x] **en (English)**
