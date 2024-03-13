@@ -1,0 +1,30 @@
+### Developer command!
+dev_title: "RainyXeon"
+dev_desc: "저는 단지 인지도가 없는 개발자일 뿐이지만. Dreamvast 와 RainyProduction 의 공식 크리에이터입니다!"
+dev_foot: "제 서버에 가입하거나 봇을 초대하는 것을 고려해보세요! :) 이것은 저에게 많은 도움이 될 것입니다!"
+### Invite command!
+inv_title: "✉️ %{username}"
+inv_desc: "봇을 사용해 주셔서 감사합니다!"
+### Ping command!
+ping_title: "🏓 "
+ping_desc: "**Ping:** `%{ping}ms`\n**응답시간:** `%{response}ms`"
+### Uptime command!
+uptime_title: "🕒 "
+uptime_desc: "**업타임:** `%{uptime}`"
+### Help command!
+ce_finder_name: "**명령어:**"
+ce_finder_des: "**설명:**"
+ce_finder_usage: "**사용방법:**"
+ce_finder_access: "**명령어 사용 권한:**"
+ce_finder_aliases: "**별칭:**"
+ce_finder_slash: "**Slash 명령:**"
+ce_finder_des_no: "설명이 없어요!"
+ce_finder_usage_no: "사용방법이 없어요!"
+ce_finder_aliases_prefix: " [접두사로만 사용가능]"
+ce_finder_aliases_no: "별칭이 없어요!"
+ce_finder_slash_enable: "활성화"
+ce_finder_slash_disable: "비활성화됨!"
+ce_finder_invalid: "알 수 없는 명령어"
+ce_finder_example: "`⚠️` | 올바른 명령어를 입력해주세요!"
+ce_name: "사용 가능한 명령어 목록"
+ce_total: "총 명령어"

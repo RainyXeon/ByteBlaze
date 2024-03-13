@@ -1,0 +1,22 @@
+#Invalid Number
+number_invalid: "`⚠️` | 알맞은 값을 입력해주세요!"
+#Execute when invalid
+no_node: "`⚠️` | Lavalink 서버를 찾을 수 없습니다. 5분 후에 다시 시도해주세요!"
+#No song is currently playing!
+no_player: "`⚠️` | 현재 재생 중인 노래가 없어요!"
+#Need to join voice & same voice to use command!
+no_in_voice: "`⚠️` | 음성채널에 입장해 있지 않아요 입장후 다시시도 해주세요!"
+no_same_voice: "`⚠️` | 같은 음성채널에 있어야 해요!"
+#No permission!
+no_perms: "`⚠️` | 이 명령을 실행하기 위한 **%{perm}** 권한이 없습니다."
+#Getting error!
+unexpected_error: "`⚠️` | 문제가 발생했습니다 다시 시도 해주세요!"
+#Client owner!
+owner_only: "`⚠️` | 괸리자가 아니여서 처리할수 없어요!"
+#No premium Event!
+no_premium_author: "프리미엄"
+no_premium_desc: "`⚠️` | 프리미엄 사용자가 아니에요!"
+#Rate limit!
+ratelimit: "`⚠️` | **%{time} 초** 후에 다시 시도해 주세요!"
+#Missing args
+arg_error: "`⚠️` | 유효하지 않은 인수입니다. 다음을 사용해주세요! %{text}"

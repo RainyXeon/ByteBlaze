@@ -1,0 +1,12 @@
+### Help command!
+intro1: "・**%{bot}** 은 다양한 기능을 갖춘 고급 음악 봇입니다!"
+intro2: "・Powered by **RainyXeon**"
+intro3: "・Partnered with **1sT - Services**"
+prefix: "・**봇 접두사:** %{prefix}"
+ver: "・**현재 버전:** `%{botver}`"
+djs: "・**Discord.js:** `%{djsver}`"
+lavalink: "・**Autofix:** `%{aver}`"
+help1: "・**봇을 사용할려면:** %{help}"
+help2: "・**봇 정보를 보려면:** %{botinfo}"
+wel: "👋 환영합니다 %{bot}"
+codename: "・**프로젝트 이름:** `%{codename}`"
