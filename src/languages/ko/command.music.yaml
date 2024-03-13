@@ -1,7 +1,7 @@
 ### Autoplay command!
 autoplay_on: "`✅` | 자동 플레이를 설정했어요!"
 autoplay_off: "`❌` | 자동 플레이를 해제했어요!"
-autoplay_already: "`⚠️` | 자동 플레이가 이미 다음으로 설정되어 있어요! **%{mode}**!"
+autoplay_already: "`⚠️` | 자동 플레이가 이미 **%{mode}** 로 설정되어 있어요!"
 ### ClearQueue command!
 clearqueue_msg: "`🗑️` | 대기열을 정리했어요!"
 ### Forward command!
@@ -10,7 +10,7 @@ forward_beyond: "`⚠️` | 노래가 곧 끝날 예정이에요 그 이후로 �
 ### Join command!
 join_msg: "`🔊` | 음성채널에 입장했어요! %{channel}"
 join_voice: "`⚠️` | 이 명령을 사용하려면 음성 채널에 입장해야 해요!"
-join_already: "`⚠️` | 이미 다음 채널에 있어요! %{channel}"
+join_already: "`⚠️` | 이미 해당 채널에 있어요! %{channel}"
 ### Stop command!
 stop_msg: "`⏹️` | 플레이어를 종료할게요!"
 ### Loop command!
@@ -18,7 +18,7 @@ loop_current: "`🔁` | 한 곡 반복 모드를 설정했어요!"
 loop_all: "`🔁` | 전체 반복 모드를 설정했어요!"
 unloop_all: "`❌` | 반복 모드를 해제했어요!"
 loop_invalid: "`⚠️` | 잘못된 반복 모드입니다. %{mode} 을 사용해 주세요!"
-loop_already: "`⚠️` | 이미 반복 모드가 **%{mode}** 다음으로 설정되어 있어요!"
+loop_already: "`⚠️` | 이미 반복 모드가 **%{mode}** 로 설정되어 있어요!"
 ### Lyrics command!
 lyrics_title: "📜 %{song}"
 lyrics_notfound: "`⚠️` | 가사를 찾을 수 없어요!"

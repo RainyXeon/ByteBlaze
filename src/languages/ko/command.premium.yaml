@@ -3,7 +3,7 @@ gen_author: "프리미엄 키 생성!"
 gen_desc: "`🔑` | **생성됨!** `[%{codes_length}]`\n```%{codes}```\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
 gen_footer: "프리미엄 코드 사용법 • %{prefix}redeem <code>"
 ### Profile command!
-profile_author: "프리미엄 정보"
+profile_author: "프리미엄 프로필"
 profile_desc: "`👤` | **사용자:** `%{user}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
 ### Redeem command!
 redeem_title: "프리미엄 키 사용"
