@@ -92,6 +92,7 @@ export default class {
       PermissionFlagsBits.ViewChannel,
       PermissionFlagsBits.SendMessages,
       PermissionFlagsBits.EmbedLinks,
+      PermissionFlagsBits.ReadMessageHistory,
     ];
     const musicPermissions = [PermissionFlagsBits.Speak, PermissionFlagsBits.Connect];
     const managePermissions = [PermissionFlagsBits.ManageChannels];

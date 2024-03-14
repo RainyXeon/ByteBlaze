@@ -1,5 +1,5 @@
 ### All filter command!
-filter_on: "`✅` | %{name} 모드를 설정했어요!"
+filter_on: "`✅` | %{name} 필터를 설정했어요!"
 filter_already: "`⚠️` | %{name} 필터가 이미 **활성화되어 있어요!**"
 filter_number: "`⚠️` | 알맞은 값을 입력해주세요!"
 filter_greater: "`⚠️` | 0 이상의 숫자를 입력해주세요!"

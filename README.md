@@ -9,7 +9,7 @@
   <p align="center">A versatile and powerful music bot for Discord that brings rhythm and melody to your server!
     <br />
     <br />
-    <a href="https://discord.com/api/oauth2/authorize?client_id=992776455790534667&permissions=139657014608&scope=applications.commands%20bot">Invite Dreamvast ♫</a>
+    <a href="https://top.gg/bot/992776455790534667">Invite Dreamvast ♫</a>
     ·
     <a href="https://github.com/RainyXeon/ByteBlaze/issues">Report Issues & Give Suggestions</a>
     ·
