@@ -11,8 +11,8 @@ export default class implements RequestInterface {
     if (json.tracks && json.query)
       return ws.send(JSON.stringify({ error: "0x110", message: "Only 1 - 2 params" }));
 
-    const Guild = client.guilds.cache.get(json.guild);
-    const Member = Guild!.members.cache.get(json.user);
+    const Guild = await client.guilds.fetch(json.guild);
+    const Member = await Guild!.members.fetch(json.user);
     const channel =
       Guild!.channels.cache.find((channel) => channel.name === "general") || Guild!.channels.cache.first();
 

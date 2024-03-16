@@ -59,7 +59,7 @@ export class ButtonPause {
       });
       return;
     } else {
-      const getChannel = await this.client.channels.cache.get(data.channel);
+      const getChannel = await this.client.channels.fetch(data.channel);
       if (!getChannel) return;
       let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg);
       if (!playMsg) return;

@@ -130,13 +130,13 @@ export default class implements Command {
       if (SetupChannel.enable == false) return handler.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = SetupChannel.channel
-        ? handler.guild!.channels.cache.get(SetupChannel.channel)
+        ? await handler.guild!.channels.fetch(SetupChannel.channel)
         : undefined;
       const fetchedVoiceChannel = SetupChannel.voice
-        ? handler.guild!.channels.cache.get(SetupChannel.voice)
+        ? await handler.guild!.channels.fetch(SetupChannel.voice)
         : undefined;
       const fetchedCategory = SetupChannel.category
-        ? handler.guild!.channels.cache.get(SetupChannel.category)
+        ? await handler.guild!.channels.fetch(SetupChannel.category)
         : undefined;
 
       const embed = new EmbedBuilder()

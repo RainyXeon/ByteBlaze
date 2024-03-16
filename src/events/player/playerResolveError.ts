@@ -12,7 +12,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.cache.get(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId);
 
     client.logger.error(import.meta.url, message);
 
@@ -20,7 +20,7 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (!channel) return;
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);

@@ -24,7 +24,7 @@ export class SongRequesterCleanSetup {
   }
 
   async restore(setupData: Setup) {
-    let channel = (await this.client.channels.cache.get(setupData.channel)) as TextChannel;
+    let channel = (await this.client.channels.fetch(setupData.channel)) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(setupData.playmsg);

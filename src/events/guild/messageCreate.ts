@@ -141,20 +141,20 @@ export default class {
       });
     }
 
-    const returnData = permissionChecker.message(message, defaultPermissions);
+    const returnData = await permissionChecker.message(message, defaultPermissions);
     if (returnData.result !== "PermissionPass") return respondError(returnData);
 
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = permissionChecker.message(message, managePermissions);
+      const returnData = await permissionChecker.message(message, managePermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
-      const returnData = permissionChecker.message(message, musicPermissions);
+      const returnData = await permissionChecker.message(message, musicPermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.name.join("-") !== "help") {
-      const returnData = permissionChecker.message(message, allCommandPermissions);
+      const returnData = await permissionChecker.message(message, allCommandPermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.permissions.length !== 0) {
-      const returnData = permissionChecker.message(message, command.permissions);
+      const returnData = await permissionChecker.message(message, command.permissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////

@@ -168,7 +168,12 @@ export class CommandHandler {
   public async parseMentions(data: string): Promise<ParseMentionInterface> {
     if (this.USERS_PATTERN.test(data)) {
       const extract = this.USERS_PATTERN.exec(data);
-      const user = await this.client.users.cache.get(extract![1]);
+      const user = await this.client.users.fetch(extract![1]);
+      if (!user || user == null)
+        return {
+          type: ParseMentionEnum.ERROR,
+          data: "error",
+        };
       return {
         type: ParseMentionEnum.USER,
         data: user,
@@ -176,7 +181,12 @@ export class CommandHandler {
     }
     if (this.CHANNELS_PATTERN.test(data)) {
       const extract = this.CHANNELS_PATTERN.exec(data);
-      const channel = await this.client.channels.cache.get(extract![1]);
+      const channel = await this.client.channels.fetch(extract![1]);
+      if (!channel || channel == null)
+        return {
+          type: ParseMentionEnum.ERROR,
+          data: "error",
+        };
       return {
         type: ParseMentionEnum.CHANNEL,
         data: channel,
@@ -185,8 +195,13 @@ export class CommandHandler {
     if (this.ROLES_PATTERN.test(data)) {
       const extract = this.ROLES_PATTERN.exec(data);
       const role = await (this.message
-        ? this.message.guild?.roles.cache.get(extract![1])
-        : this.interaction?.guild?.roles.cache.get(extract![1]));
+        ? await this.message.guild?.roles.fetch(extract![1])
+        : await this.interaction?.guild?.roles.fetch(extract![1]));
+      if (!role || role == null)
+        return {
+          type: ParseMentionEnum.ERROR,
+          data: "error",
+        };
       return {
         type: ParseMentionEnum.ROLE,
         data: role,

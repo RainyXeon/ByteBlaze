@@ -59,8 +59,8 @@ export class AutoReconnectLavalinkService {
 
   async connectChannel(data: { id: string; value: AutoReconnect }) {
     const lavalink_mess = "Lavalink: ";
-    const channel = this.client.channels.cache.get(data.value.text);
-    const voice = this.client.channels.cache.get(data.value.voice) as VoiceChannel;
+    const channel = await this.client.channels.fetch(data.value.text);
+    const voice = (await this.client.channels.fetch(data.value.voice)) as VoiceChannel;
     if (!channel || !voice) {
       this.client.logger.setup(
         import.meta.url,

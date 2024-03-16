@@ -38,13 +38,13 @@ export class playerLoadContent {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = interaction.guild.members.cache.get((member as GuildMember)!.id);
+    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id);
     let channel = voiceMember!.voice.channel;
 
-    let player = await client.manager.players.get(interaction.guild.id);
+    let player = client.manager.players.get(interaction.guild.id);
     if (!player) return;
 
-    const playChannel = client.channels.cache.get(player.textId);
+    const playChannel = await client.channels.fetch(player.textId);
     if (!playChannel) return;
 
     let guildModel = await client.db.language.get(`${player.guildId}`);
@@ -84,7 +84,7 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.cache.get(database!.channel)) as TextChannel;
+    let channel = (await message.guild.channels.fetch(database!.channel)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;

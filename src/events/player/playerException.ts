@@ -19,7 +19,7 @@ export default class {
     }
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
       return new ClearMessageService(client, channel, player);
 

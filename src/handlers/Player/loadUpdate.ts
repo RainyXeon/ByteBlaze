@@ -17,7 +17,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);
@@ -108,7 +108,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);

@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Collection, ColorResolvable } from "discord.js";
+import { Client, GatewayIntentBits, Collection, ColorResolvable, Snowflake, User } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
@@ -56,7 +56,6 @@ export class Manager extends Client {
     // process.argv[1].replace(/^.*[\\\/]/, "") + " " +
     this.logger = new LoggerService();
     this.logger.info(import.meta.url, "Booting client...");
-    const isEnableDebug = configData.features.DEBUG_TOOLS;
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
