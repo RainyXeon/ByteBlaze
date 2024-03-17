@@ -84,11 +84,9 @@ export class playerLoadUpdate {
           })}`,
         }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
 
-      const queueString = `${client.i18n.get(
-        language,
-        "event.setup",
-        "setup_content"
-      )}\n${Str == "" ? " " : "\n" + Str}`;
+      const queueString = `${client.i18n.get(language, "event.setup", "setup_content")}\n${
+        Str == "" ? " " : "\n" + Str
+      }`;
 
       return await playMsg
         .edit({
@@ -128,9 +126,7 @@ export class playerLoadUpdate {
         .setAuthor({
           name: `${client.i18n.get(language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
-        );
+        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 
       return await playMsg
         .edit({

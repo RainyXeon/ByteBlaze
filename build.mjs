@@ -1,12 +1,9 @@
-// BETA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 import { spawn } from "node:child_process";
 import archiver from "dir-archiver";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import fse from "fs-extra";
 import { plsParseArgs } from "plsargs";
 import copydir from "copy-dir";
-import path from "path";
 const args = plsParseArgs(process.argv.slice(2));
 const parser = new XMLParser();
 const builder = new XMLBuilder();

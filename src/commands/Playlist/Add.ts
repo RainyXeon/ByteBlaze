@@ -1,9 +1,4 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  CommandInteraction,
-  AutocompleteInteraction,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, CommandInteraction, AutocompleteInteraction } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
 import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";

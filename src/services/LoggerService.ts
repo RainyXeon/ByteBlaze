@@ -185,9 +185,7 @@ export class LoggerService {
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${chalk.hex("#00ddc0")(info.timestamp)} - ${this.filter(
-          info
-        )} - ${chalk.hex("#86cecb")(info.message)}`;
+        return `${chalk.hex("#00ddc0")(info.timestamp)} - ${this.filter(info)} - ${chalk.hex("#86cecb")(info.message)}`;
       })
     );
   }

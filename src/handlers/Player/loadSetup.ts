@@ -21,10 +21,7 @@ export class playerLoadSetup {
   registerEnableSwitch() {
     this.client.enSwitch = new ActionRowBuilder<ButtonBuilder>().addComponents([
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sstop").setEmoji(this.icons.stop),
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("sprevious")
-        .setEmoji(this.icons.previous),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sprevious").setEmoji(this.icons.previous),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("spause").setEmoji(this.icons.play),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sskip").setEmoji(this.icons.skip),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sloop").setEmoji(this.icons.loop),
@@ -34,10 +31,7 @@ export class playerLoadSetup {
   registerEnableSwitchMod() {
     this.client.enSwitchMod = new ActionRowBuilder<ButtonBuilder>().addComponents([
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sstop").setEmoji(this.icons.stop),
-      new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
-        .setCustomId("sprevious")
-        .setEmoji(this.icons.previous),
+      new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sprevious").setEmoji(this.icons.previous),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("spause").setEmoji(this.icons.pause),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sskip").setEmoji(this.icons.skip),
       new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("sloop").setEmoji(this.icons.loop),

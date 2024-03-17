@@ -58,9 +58,7 @@ export default class implements Command {
     const songStrings = [];
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
-      songStrings.push(
-        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\``
-      );
+      songStrings.push(`**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\``);
     }
 
     const pages = [];

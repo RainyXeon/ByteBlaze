@@ -10,10 +10,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
-import {
-  CheckPermissionResultInterface,
-  CheckPermissionServices,
-} from "../../services/CheckPermissionService.js";
+import { CheckPermissionResultInterface, CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
@@ -138,9 +135,7 @@ export default class {
 
     if (
       command.accessableby == Accessableby.Manager &&
-      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-        PermissionsBitField.Flags.ManageGuild
-      )
+      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
     )
       return interaction.reply({
         embeds: [
@@ -153,9 +148,7 @@ export default class {
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return interaction.reply({
         embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
-            .setColor(client.color),
+          new EmbedBuilder().setDescription(`${client.i18n.get(language, "error", "no_node")}`).setColor(client.color),
         ],
       });
     }
@@ -249,9 +242,9 @@ export default class {
 
       client.logger.info(
         import.meta.url,
-        `[COMMAND] ${commandNameArray.join("-")} used by ${
-          interaction.user.username
-        } from ${interaction.guild.name} (${interaction.guild.id})`
+        `[COMMAND] ${commandNameArray.join("-")} used by ${interaction.user.username} from ${interaction.guild.name} (${
+          interaction.guild.id
+        })`
       );
 
       command.execute(client, handler);

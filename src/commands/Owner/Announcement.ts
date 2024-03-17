@@ -31,15 +31,11 @@ export default class implements Command {
 
     for (const guild of allGuild) {
       const channelFilterTextBased = guild.channels.cache.filter((channel) => channel.isTextBased());
-      const channelFilterPermission = channelFilterTextBased.filter((channel) =>
-        channel.guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages)
+      const channelFilterPermission = channelFilterTextBased.filter(
+        (channel) => channel.guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages)
       );
-      const channelFilterGeneral = channelFilterPermission.filter((channel) =>
-        channel.name.includes("general")
-      );
-      const channelFilterNonGeneral = channelFilterPermission.filter(
-        (channel) => !channel.name.includes("general")
-      );
+      const channelFilterGeneral = channelFilterPermission.filter((channel) => channel.name.includes("general"));
+      const channelFilterNonGeneral = channelFilterPermission.filter((channel) => !channel.name.includes("general"));
       if (channelFilterGeneral.size !== 0) {
         avalibleChannel.push(channelFilterGeneral.first()!);
       } else {
@@ -70,7 +66,9 @@ export default class implements Command {
 
     const result = new EmbedBuilder()
       .setDescription(
-        `\`🟢\` | **Sent successfully in ${sentSuccesfully}**\n\`🔴\` | **Sent failed in ${avalibleChannel.length - sentSuccesfully}**`
+        `\`🟢\` | **Sent successfully in ${sentSuccesfully}**\n\`🔴\` | **Sent failed in ${
+          avalibleChannel.length - sentSuccesfully
+        }**`
       )
       .setColor(client.color)
       .setFooter({

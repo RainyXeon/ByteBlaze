@@ -1,5 +1,4 @@
-import { REST } from "discord.js";
-import { Routes } from "discord-api-types/v10";
+import { REST, Routes } from "discord.js";
 import fs from "fs";
 import _ from "lodash";
 import { config } from "dotenv";

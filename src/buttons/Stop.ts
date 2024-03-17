@@ -19,10 +19,6 @@ export default class implements PlayerButton {
     player.data.set("sudo-destroy", true);
     player.destroy();
 
-    await new ReplyInteractionService(
-      client,
-      message,
-      `${client.i18n.get(language, "button.music", "stop_msg")}`
-    );
+    await new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "stop_msg")}`);
   }
 }

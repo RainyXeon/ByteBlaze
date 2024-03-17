@@ -83,9 +83,7 @@ export default class implements Command {
         .setAuthor({
           name: `${client.i18n.get(handler.language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
-        );
+        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,

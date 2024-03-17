@@ -44,9 +44,7 @@ export class SongRequesterCleanSetup {
       .setAuthor({
         name: `${this.client.i18n.get(language, "setup", "setup_playembed_author")}`,
       })
-      .setImage(
-        `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`
-      );
+      .setImage(`https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`);
 
     return await playMsg
       .edit({

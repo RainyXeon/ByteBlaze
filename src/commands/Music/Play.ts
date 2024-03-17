@@ -1,9 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  AutocompleteInteraction,
-  CommandInteraction,
-  EmbedBuilder,
-} from "discord.js";
+import { ApplicationCommandOptionType, AutocompleteInteraction, CommandInteraction, EmbedBuilder } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { StartQueueDuration } from "../../utilities/QueueDuration.js";
 import { Manager } from "../../manager.js";

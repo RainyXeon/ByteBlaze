@@ -17,8 +17,7 @@ import { KazagumoTrack } from "../../Managers/Supports/KazagumoTrack.js";
 import { RequestManager } from "./RequestManager.js";
 import axios from "axios";
 
-const REGEX =
-  /(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|album|artist)[\/:]([A-Za-z0-9]+)/;
+const REGEX = /(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|album|artist)[\/:]([A-Za-z0-9]+)/;
 const SHORT_REGEX = /(?:https:\/\/spotify\.link)\/([A-Za-z0-9]+)/;
 
 export interface SpotifyOptions {
@@ -126,9 +125,7 @@ export class KazagumoPlugin extends Plugin {
         ? this.options.searchLimit
         : 10;
     const tracks = await this.requestManager.makeRequest<SearchResult>(
-      `/search?q=${decodeURIComponent(
-        query
-      )}&type=track&limit=${limit}&market=${this.options.searchMarket ?? "US"}`
+      `/search?q=${decodeURIComponent(query)}&type=track&limit=${limit}&market=${this.options.searchMarket ?? "US"}`
     );
     return {
       tracks: tracks.tracks.items.map((track) => this.buildKazagumoTrack(track, requester)),

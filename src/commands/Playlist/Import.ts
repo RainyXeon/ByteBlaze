@@ -78,9 +78,7 @@ export default class implements Command {
     const SongAdd = [];
     let SongLoad = 0;
 
-    const totalDuration = new ConvertTime().parse(
-      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
-    );
+    const totalDuration = new ConvertTime().parse(playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0));
 
     if (playlist.tracks?.length == 0)
       return handler.editReply({

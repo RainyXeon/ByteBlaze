@@ -27,8 +27,7 @@ export default class {
 
     if (data && data.twentyfourseven) return;
 
-    if (player.queue.length || player!.queue!.current)
-      return new ClearMessageService(client, channel, player);
+    if (player.queue.length || player!.queue!.current) return new ClearMessageService(client, channel, player);
 
     if (player.loop !== "none") return new ClearMessageService(client, channel, player);
 

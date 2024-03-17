@@ -79,9 +79,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.playlist", "remove_song_notfound")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "remove_song_notfound")}`)
             .setColor(client.color),
         ],
       });

@@ -172,11 +172,11 @@ export class playerLoadContent {
 
     if (!result.tracks.length) {
       msg.edit({
-        content: `${client.i18n.get(
+        content: `${client.i18n.get(language, "event.setup", "setup_content")}\n${`${client.i18n.get(
           language,
           "event.setup",
-          "setup_content"
-        )}\n${`${client.i18n.get(language, "event.setup", "setup_content_empty")}`}`,
+          "setup_content_empty"
+        )}`}`,
       });
       return;
     }

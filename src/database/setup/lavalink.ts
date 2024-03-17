@@ -73,8 +73,7 @@ export class AutoReconnectLavalinkService {
     if (!data.value.twentyfourseven && voice.members.filter((m) => !m.user.bot).size == 0) {
       this.client.logger.setup(
         import.meta.url,
-        lavalink_mess +
-          `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
+        lavalink_mess + `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
       );
       return this.client.db.autoreconnect.delete(data.value.guild);
     }

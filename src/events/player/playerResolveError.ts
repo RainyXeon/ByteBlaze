@@ -46,8 +46,7 @@ export default class {
     client.logger.error(import.meta.url, `Track Error in ${guild!.name} / ${player.guildId}.`);
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    if (data247 !== null && data247 && data247.twentyfourseven)
-      return new ClearMessageService(client, channel, player);
+    if (data247 !== null && data247 && data247.twentyfourseven) return new ClearMessageService(client, channel, player);
 
     const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
     if (!currentPlayer) return;

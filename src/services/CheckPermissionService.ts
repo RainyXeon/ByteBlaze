@@ -7,10 +7,7 @@ export interface CheckPermissionResultInterface {
 }
 
 export class CheckPermissionServices {
-  async interaction(
-    interaction: GlobalInteraction,
-    permArray: bigint[]
-  ): Promise<CheckPermissionResultInterface> {
+  async interaction(interaction: GlobalInteraction, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
     const voiceChannel = await interaction.guild?.members.fetch(interaction.user.id);
 
     const isUserInVoice = voiceChannel?.voice.channel;

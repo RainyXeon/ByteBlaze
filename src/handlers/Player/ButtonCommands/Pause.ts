@@ -80,11 +80,7 @@ export class ButtonPause {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(
-            this.language,
-            "button.music",
-            newPlayer.paused ? "pause_msg" : "resume_msg"
-          )}`
+          `${this.client.i18n.get(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
         )
         .setColor(this.client.color);
 

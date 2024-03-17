@@ -159,10 +159,7 @@ export class KazagumoTrack {
       return this;
     }
 
-    this.kazagumo.emit(
-      Events.Debug,
-      `Resolving ${this.sourceName} track ${this.title}; Source: ${this.sourceName}`
-    );
+    this.kazagumo.emit(Events.Debug, `Resolving ${this.sourceName} track ${this.title}; Source: ${this.sourceName}`);
 
     const result = await this.getTrack(options?.player ?? null);
     if (!result) throw new KazagumoError(2, "No results found");

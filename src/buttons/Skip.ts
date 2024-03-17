@@ -29,10 +29,6 @@ export default class implements PlayerButton {
 
     client.emit("playerSkip", player);
 
-    await new ReplyInteractionService(
-      client,
-      message,
-      `${client.i18n.get(language, "button.music", "skip_msg")}`
-    );
+    await new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "skip_msg")}`);
   }
 }
