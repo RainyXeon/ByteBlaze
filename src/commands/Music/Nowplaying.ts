@@ -1,7 +1,6 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Message, NewsChannel } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
@@ -61,7 +60,7 @@ export default class implements Command {
       },
       {
         name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
-        value: `${new FormatDuration().parse(new QueueDuration().parse(player))}`,
+        value: `${new FormatDuration().parse(player.queue.durationLength)}`,
         inline: true,
       },
       {

@@ -2,7 +2,6 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember, TextChannel } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
-import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
@@ -185,7 +184,7 @@ export class playerLoadContent {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = new QueueDuration().parse(player);
+    const TotalDuration = player.queue.durationLength;
 
     if (result.type === "PLAYLIST") {
       if (!player.playing) player.play();

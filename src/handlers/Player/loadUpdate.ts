@@ -1,7 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 
 export class playerLoadUpdate {
@@ -45,7 +44,7 @@ export class playerLoadUpdate {
 
       const Str = songStrings.slice(0, 10).join("\n");
 
-      const TotalDuration = new QueueDuration().parse(player);
+      const TotalDuration = player.queue.durationLength;
 
       let cSong = player.queue.current;
       let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
