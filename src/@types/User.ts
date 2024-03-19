@@ -18,11 +18,3 @@ export type BotInfoType = {
   verified?: boolean;
   bio: string;
 };
-
-export type PremiumUser = {
-  id: string;
-  isPremium: boolean;
-  redeemedAt: number | null;
-  expiresAt: number | null;
-  plan: string | null;
-};

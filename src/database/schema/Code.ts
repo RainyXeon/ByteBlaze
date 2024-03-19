@@ -1,5 +1,5 @@
 export interface Code {
   code: string;
   plan: string;
-  expiresAt: number;
+  expiresAt: number | "lifetime";
 }

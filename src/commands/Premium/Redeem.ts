@@ -58,14 +58,14 @@ export default class implements Command {
       return handler.editReply({ embeds: [embed] });
     }
 
-    if (premium.expiresAt < Date.now()) {
+    if (premium.expiresAt !== "lifetime" && premium.expiresAt < Date.now()) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
-    const expires = moment(premium.expiresAt).format("dddd, MMMM Do YYYY");
+    const expires = moment(premium.expiresAt !== "lifetime" ? premium.expiresAt : 0).format("dddd, MMMM Do YYYY");
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -74,7 +74,7 @@ export default class implements Command {
       })
       .setDescription(
         `${client.i18n.get(handler.language, "command.premium", "redeem_desc", {
-          expires: expires,
+          expires: premium.expiresAt !== "lifetime" ? expires : "lifetime",
           plan: premium.plan,
         })}`
       )
@@ -128,7 +128,9 @@ export default class implements Command {
         },
         {
           name: `${client.i18n.get(language, "event.premium", "expiresAt")}`,
-          value: `${moment(premium.expiresAt).format("dddd, MMMM Do YYYY")}`,
+          value: `${
+            premium.expiresAt == "lifetime" ? "lifetime" : moment(premium.expiresAt).format("dddd, MMMM Do YYYY")
+          }`,
         },
         {
           name: `${client.i18n.get(language, "event.premium", "plan")}`,
