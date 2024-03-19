@@ -238,7 +238,7 @@ export default class {
         prefix: "/",
       });
 
-      if (attachments) handler.addSingleAttachment(attachments);
+      if (attachments) handler.attactments.push(attachments);
 
       client.logger.info(
         import.meta.url,

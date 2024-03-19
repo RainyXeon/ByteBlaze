@@ -194,7 +194,7 @@ export class CommandHandler {
     }
     if (this.ROLES_PATTERN.test(data)) {
       const extract = this.ROLES_PATTERN.exec(data);
-      const role = await (this.message
+      const role = (this.message
         ? await this.message.guild?.roles.fetch(extract![1])
         : await this.interaction?.guild?.roles.fetch(extract![1]));
       if (!role || role == null)
@@ -225,10 +225,5 @@ export class CommandHandler {
         return data;
       })
     );
-  }
-
-  public addSingleAttachment(data: Attachment) {
-    this.attactments.push(data);
-    return this.attactments;
   }
 }
