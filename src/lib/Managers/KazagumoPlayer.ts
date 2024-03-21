@@ -29,7 +29,7 @@ import {
   KazagumoSearchResult,
 } from "../Modules/Interfaces.js";
 import { KazagumoTrack } from "./Supports/KazagumoTrack.js";
-import { Snowflake } from "discord.js";
+import { managerToFetchingStrategyOptions, Snowflake } from "discord.js";
 
 export class KazagumoPlayer {
   /**
@@ -440,6 +440,7 @@ export class KazagumoPlayer {
     this.state = PlayerState.DESTROYING;
     this.disconnect();
     await this.kazagumo.shoukaku.leaveVoiceChannel(this.guildId);
+    await this.shoukaku.destroy()
     this.kazagumo.players.delete(this.guildId);
     this.state = PlayerState.DESTROYED;
 
