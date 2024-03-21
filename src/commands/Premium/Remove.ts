@@ -49,17 +49,8 @@ export default class implements Command {
       });
 
     if (db.isPremium) {
-      const data = {
-        id: id,
-        isPremium: false,
-        redeemedAt: null,
-        expiresAt: null,
-        plan: null,
-      };
-
-      await client.db.premium.set(`${data.id}`, data);
-
-      await client.premiums.set(id, data);
+      await client.db.premium.delete(`${id}`);
+      client.premiums.delete(id);
 
       const embed = new EmbedBuilder()
         .setDescription(

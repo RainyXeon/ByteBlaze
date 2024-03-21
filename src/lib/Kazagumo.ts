@@ -208,10 +208,7 @@ export class Kazagumo extends EventEmitter {
     super();
 
     if (!this.precheckNode(nodes))
-      throw new KazagumoError(
-        1,
-        "Node name must not have the same name and just include a-z, A-Z, 0-9 and _"
-      );
+      throw new KazagumoError(1, "Node name must not have the same name and just include a-z, A-Z, 0-9 and _");
 
     this.shoukaku = new Shoukaku(connector, nodes, options);
 
@@ -241,10 +238,7 @@ export class Kazagumo extends EventEmitter {
     newPlayerOptions: VoiceChannelOptions,
     kazagumoPlayerOptions: CreatePlayerOptions
   ): Promise<Player> {
-    if (
-      this.shoukaku.connections.has(newPlayerOptions.guildId) &&
-      this.shoukaku.players.has(newPlayerOptions.guildId)
-    )
+    if (this.shoukaku.connections.has(newPlayerOptions.guildId) && this.shoukaku.players.has(newPlayerOptions.guildId))
       return this.shoukaku.players.get(newPlayerOptions.guildId)!;
     if (
       this.shoukaku.connections.has(newPlayerOptions.guildId) &&
@@ -293,9 +287,7 @@ export class Kazagumo extends EventEmitter {
    * @param options CreatePlayerOptions
    * @returns Promise<KazagumoPlayer>
    */
-  public async createPlayer<T extends KazagumoPlayer>(
-    options: CreatePlayerOptions
-  ): Promise<T | KazagumoPlayer> {
+  public async createPlayer<T extends KazagumoPlayer>(options: CreatePlayerOptions): Promise<T | KazagumoPlayer> {
     const exist = this.players.get(options.guildId);
     if (exist) return exist;
 

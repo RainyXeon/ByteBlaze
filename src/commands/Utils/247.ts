@@ -51,7 +51,9 @@ export default class implements Command {
       if (!data.twentyfourseven) {
         const offAl = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(handler.language, "command.utils", "247_already", { mode: handler.modeLang.disable })}`
+            `${client.i18n.get(handler.language, "command.utils", "247_already", {
+              mode: handler.modeLang.disable,
+            })}`
           )
           .setColor(client.color);
         return handler.editReply({ content: " ", embeds: [offAl] });
@@ -81,7 +83,9 @@ export default class implements Command {
       if (data.twentyfourseven) {
         const onAl = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(handler.language, "command.utils", "247_already", { mode: handler.modeLang.enable })}`
+            `${client.i18n.get(handler.language, "command.utils", "247_already", {
+              mode: handler.modeLang.enable,
+            })}`
           )
           .setColor(client.color);
         return handler.editReply({ content: " ", embeds: [onAl] });

@@ -12,7 +12,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.cache.get(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId);
     client.logger.info(import.meta.url, `Player Destroy in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
@@ -20,7 +20,7 @@ export default class {
     /////////// Update Music Setup ///////////
 
     client.emit("playerDestroy", player);
-    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
 

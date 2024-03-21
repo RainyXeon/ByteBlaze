@@ -35,18 +35,12 @@ export class loadCommands {
     const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(
-        import.meta.url,
-        `"${rltPath}" The command file does not have a name. Skipping...`
-      );
+      this.client.logger.warn(import.meta.url, `"${rltPath}" The command file does not have a name. Skipping...`);
       return;
     }
 
     if (this.client.commands.has(command.name)) {
-      this.client.logger.warn(
-        import.meta.url,
-        `"${command.name}" command has already been installed. Skipping...`
-      );
+      this.client.logger.warn(import.meta.url, `"${command.name}" command has already been installed. Skipping...`);
       return;
     }
 

@@ -22,8 +22,10 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const PremiumPlan = await client.db.premium.get(`${handler.user?.id}`);
-    const expires = moment(PremiumPlan!.expiresAt).format("do/MMMM/YYYY (HH:mm:ss)");
+    const PremiumPlan = client.premiums.get(`${handler.user?.id}`);
+    const expires = moment(PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0).format(
+      "do/MMMM/YYYY (HH:mm:ss)"
+    );
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -34,7 +36,7 @@ export default class implements Command {
         `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: PremiumPlan!.plan,
-          expires: expires,
+          expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,
         })}`
       )
       .setColor(client.color)

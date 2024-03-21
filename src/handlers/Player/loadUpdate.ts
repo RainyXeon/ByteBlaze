@@ -1,7 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 
 export class playerLoadUpdate {
@@ -17,7 +16,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);
@@ -45,7 +44,7 @@ export class playerLoadUpdate {
 
       const Str = songStrings.slice(0, 10).join("\n");
 
-      const TotalDuration = new QueueDuration().parse(player);
+      const TotalDuration = player.queue.durationLength;
 
       let cSong = player.queue.current;
       let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
@@ -84,11 +83,9 @@ export class playerLoadUpdate {
           })}`,
         }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
 
-      const queueString = `${client.i18n.get(
-        language,
-        "event.setup",
-        "setup_content"
-      )}\n${Str == "" ? " " : "\n" + Str}`;
+      const queueString = `${client.i18n.get(language, "event.setup", "setup_content")}\n${
+        Str == "" ? " " : "\n" + Str
+      }`;
 
       return await playMsg
         .edit({
@@ -108,7 +105,7 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.cache.get(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg);
@@ -128,9 +125,7 @@ export class playerLoadUpdate {
         .setAuthor({
           name: `${client.i18n.get(language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
-        );
+        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 
       return await playMsg
         .edit({

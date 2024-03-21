@@ -1,6 +1,6 @@
 import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Client, TextChannel } from "discord.js";
+import { TextChannel } from "discord.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 
@@ -12,7 +12,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.cache.get(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId);
     client.logger.info(import.meta.url, `Player End in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
@@ -22,13 +22,12 @@ export default class {
     client.emit("playerEnd", player);
 
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (!channel) return;
 
     if (data && data.twentyfourseven) return;
 
-    if (player.queue.length || player!.queue!.current)
-      return new ClearMessageService(client, channel, player);
+    if (player.queue.length || player!.queue!.current) return new ClearMessageService(client, channel, player);
 
     if (player.loop !== "none") return new ClearMessageService(client, channel, player);
 

@@ -1,11 +1,5 @@
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  CommandInteraction,
-  AutocompleteInteraction,
-} from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, CommandInteraction, AutocompleteInteraction } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
-import { StartQueueDuration } from "../../utilities/QueueDuration.js";
 import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -86,7 +80,7 @@ export default class implements Command {
     else TrackAdd.push(tracks[0]);
 
     const Duration = new ConvertTime().parse(tracks[0].length as number);
-    const TotalDuration = new StartQueueDuration().parse(tracks);
+    const TotalDuration = tracks.reduce((acc, cur) => acc + (cur.length || 0), tracks[0].length ?? 0);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()

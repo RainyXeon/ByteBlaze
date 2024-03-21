@@ -10,10 +10,7 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
-import {
-  CheckPermissionResultInterface,
-  CheckPermissionServices,
-} from "../../services/CheckPermissionService.js";
+import { CheckPermissionResultInterface, CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
@@ -120,27 +117,25 @@ export default class {
     }
 
     if (command.name[0] !== "help") {
-      const returnData = permissionChecker.interaction(interaction, defaultPermissions);
+      const returnData = await permissionChecker.interaction(interaction, defaultPermissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.category.toLocaleLowerCase() == "music") {
-      const returnData = permissionChecker.interaction(interaction, musicPermissions);
+      const returnData = await permissionChecker.interaction(interaction, musicPermissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = permissionChecker.interaction(interaction, managePermissions);
+      const returnData = await permissionChecker.interaction(interaction, managePermissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     } else if (command.permissions.length !== 0) {
-      const returnData = permissionChecker.interaction(interaction, command.permissions);
+      const returnData = await permissionChecker.interaction(interaction, command.permissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
     if (
       command.accessableby == Accessableby.Manager &&
-      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
-        PermissionsBitField.Flags.ManageGuild
-      )
+      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
     )
       return interaction.reply({
         embeds: [
@@ -153,9 +148,7 @@ export default class {
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return interaction.reply({
         embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
-            .setColor(client.color),
+          new EmbedBuilder().setDescription(`${client.i18n.get(language, "error", "no_node")}`).setColor(client.color),
         ],
       });
     }
@@ -245,13 +238,13 @@ export default class {
         prefix: "/",
       });
 
-      if (attachments) handler.addSingleAttachment(attachments);
+      if (attachments) handler.attactments.push(attachments);
 
       client.logger.info(
         import.meta.url,
-        `[COMMAND] ${commandNameArray.join("-")} used by ${
-          interaction.user.username
-        } from ${interaction.guild.name} (${interaction.guild.id})`
+        `[COMMAND] ${commandNameArray.join("-")} used by ${interaction.user.username} from ${interaction.guild.name} (${
+          interaction.guild.id
+        })`
       );
 
       command.execute(client, handler);

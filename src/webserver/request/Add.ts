@@ -8,11 +8,10 @@ export default class implements RequestInterface {
   run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
     if (!json.user) return ws.send(JSON.stringify({ error: "0x115", message: "No user's id provided" }));
     if (!json.guild) return ws.send(JSON.stringify({ error: "0x120", message: "No guild's id provided" }));
-    if (json.tracks && json.query)
-      return ws.send(JSON.stringify({ error: "0x110", message: "Only 1 - 2 params" }));
+    if (json.tracks && json.query) return ws.send(JSON.stringify({ error: "0x110", message: "Only 1 - 2 params" }));
 
-    const Guild = client.guilds.cache.get(json.guild);
-    const Member = Guild!.members.cache.get(json.user);
+    const Guild = await client.guilds.fetch(json.guild);
+    const Member = await Guild!.members.fetch(json.user);
     const channel =
       Guild!.channels.cache.find((channel) => channel.name === "general") || Guild!.channels.cache.first();
 
@@ -34,8 +33,7 @@ export default class implements RequestInterface {
       return;
     } else if (json.query) {
       const res = await player.search(json.query, { requester: Member });
-      if (res.type === "PLAYLIST" || res.type === "SEARCH")
-        for (let track of res.tracks) player.queue.add(track);
+      if (res.type === "PLAYLIST" || res.type === "SEARCH") for (let track of res.tracks) player.queue.add(track);
       if (!player.playing && !player.paused) return player.play();
     }
   };

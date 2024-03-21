@@ -2,7 +2,6 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember, TextChannel } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import delay from "delay";
-import { QueueDuration } from "../../utilities/QueueDuration.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
@@ -38,13 +37,13 @@ export class playerLoadContent {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = interaction.guild.members.cache.get((member as GuildMember)!.id);
+    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id);
     let channel = voiceMember!.voice.channel;
 
-    let player = await client.manager.players.get(interaction.guild.id);
+    let player = client.manager.players.get(interaction.guild.id);
     if (!player) return;
 
-    const playChannel = client.channels.cache.get(player.textId);
+    const playChannel = await client.channels.fetch(player.textId);
     if (!playChannel) return;
 
     let guildModel = await client.db.language.get(`${player.guildId}`);
@@ -84,7 +83,7 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.cache.get(database!.channel)) as TextChannel;
+    let channel = (await message.guild.channels.fetch(database!.channel)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -172,11 +171,11 @@ export class playerLoadContent {
 
     if (!result.tracks.length) {
       msg.edit({
-        content: `${client.i18n.get(
+        content: `${client.i18n.get(language, "event.setup", "setup_content")}\n${`${client.i18n.get(
           language,
           "event.setup",
-          "setup_content"
-        )}\n${`${client.i18n.get(language, "event.setup", "setup_content_empty")}`}`,
+          "setup_content_empty"
+        )}`}`,
       });
       return;
     }
@@ -185,7 +184,7 @@ export class playerLoadContent {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = new QueueDuration().parse(player);
+    const TotalDuration = player.queue.durationLength;
 
     if (result.type === "PLAYLIST") {
       if (!player.playing) player.play();

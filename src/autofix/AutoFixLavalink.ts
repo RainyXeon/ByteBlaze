@@ -28,10 +28,7 @@ export class AutoFixLavalink {
     this.checkLavalink();
     await this.removeCurrentLavalink();
     if (this.client.lavalinkList.filter((i) => i.online).length == 0) {
-      this.client.logger.lavalink(
-        import.meta.url,
-        autofixErrorMess + "No lavalink online or avalible for this bot."
-      );
+      this.client.logger.lavalink(import.meta.url, autofixErrorMess + "No lavalink online or avalible for this bot.");
       this.client.logger.lavalink(
         import.meta.url,
         autofixErrorMess + "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
@@ -42,10 +39,7 @@ export class AutoFixLavalink {
 
     await this.applyNewLavalink();
 
-    this.client.logger.lavalink(
-      import.meta.url,
-      "Now used new lavalink, please wait 1 second to make it connect."
-    );
+    this.client.logger.lavalink(import.meta.url, "Now used new lavalink, please wait 1 second to make it connect.");
     this.client.logger.lavalink(import.meta.url, "----- Terminated autofix lavalink. -----");
   }
 

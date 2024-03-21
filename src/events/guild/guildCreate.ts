@@ -21,7 +21,9 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setTitle(
-              `${client.i18n.get(language, "event.guild", "join_dm_title", { username: String(client.user?.username) })}`
+              `${client.i18n.get(language, "event.guild", "join_dm_title", {
+                username: String(client.user?.username),
+              })}`
             )
             .setDescription(
               stripIndents`

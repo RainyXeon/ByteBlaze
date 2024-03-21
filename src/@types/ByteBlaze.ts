@@ -6,7 +6,6 @@ import { I18n } from "@hammerhq/localization";
 import { LavalinkDataType, LavalinkUsingDataType } from "./Lavalink.js";
 import { Kazagumo } from "../lib/Kazagumo.js";
 import { Command } from "../structures/Command.js";
-import { PremiumUser } from "./User.js";
 import { PlayerButton } from "./Button.js";
 import { GlobalMsg } from "../structures/CommandHandler.js";
 import { RequestInterface } from "../webserver/RequestInterface.js";
@@ -15,6 +14,7 @@ import { IconType } from "./Emoji.js";
 import { ClusterClient } from "discord-hybrid-sharding";
 import WebSocket from "ws";
 import { LoggerService } from "../services/LoggerService.js";
+import { Premium } from "../database/schema/Premium.js";
 
 export interface ByteBlaze extends Client {
   metadata: Metadata;
@@ -32,7 +32,7 @@ export interface ByteBlaze extends Client {
   lavalinkUsed: LavalinkUsingDataType[];
   manager: Kazagumo;
   commands: Collection<string, Command>;
-  premiums: Collection<string, PremiumUser>;
+  premiums: Collection<string, Premium>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
   nplayingMsg: Collection<string, Message>;

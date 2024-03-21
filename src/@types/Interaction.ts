@@ -6,10 +6,9 @@ import {
   ModalSubmitInteraction,
   ApplicationCommandType,
   PermissionFlagsBits,
+  ApplicationCommandOptionType,
 } from "discord.js";
 import { Manager } from "../manager.js";
-import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import { Accessableby } from "../structures/Command.js";
 
 export type GlobalInteraction =
   | CommandInteraction

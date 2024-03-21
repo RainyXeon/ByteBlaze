@@ -83,9 +83,7 @@ export default class implements Command {
         .setAuthor({
           name: `${client.i18n.get(handler.language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
-        );
+        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
@@ -130,13 +128,13 @@ export default class implements Command {
       if (SetupChannel.enable == false) return handler.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = SetupChannel.channel
-        ? handler.guild!.channels.cache.get(SetupChannel.channel)
+        ? await handler.guild!.channels.fetch(SetupChannel.channel)
         : undefined;
       const fetchedVoiceChannel = SetupChannel.voice
-        ? handler.guild!.channels.cache.get(SetupChannel.voice)
+        ? await handler.guild!.channels.fetch(SetupChannel.voice)
         : undefined;
       const fetchedCategory = SetupChannel.category
-        ? handler.guild!.channels.cache.get(SetupChannel.category)
+        ? await handler.guild!.channels.fetch(SetupChannel.category)
         : undefined;
 
       const embed = new EmbedBuilder()

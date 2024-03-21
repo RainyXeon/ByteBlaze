@@ -9,22 +9,22 @@ export class PremiumScheduleSetup {
     this.execute();
   }
 
-  execute() {
-    cron.schedule("0 */1 * * * *", async () => {
-      const premium = await this.client.db.premium.all();
-      const users = premium.filter((data) => data.value.isPremium == true);
-
-      if (users && users.length !== 0) this.checkUser(users);
-    });
+  async execute() {
+    this.setupChecker();
+    cron.schedule("0 */1 * * * *", () => this.setupChecker());
   }
 
-  async checkUser(users: { id: string; value: Premium }[]) {
-    for (let data of users) {
-      const user = data.value;
+  setupChecker() {
+    const premium = Array.from(this.client.premiums.values());
+    const users = premium.filter((data) => data.isPremium == true && data.expiresAt !== "lifetime");
+    if (users && users.length !== 0) this.checkUser(users);
+  }
 
-      if (Date.now() >= user.expiresAt) {
+  async checkUser(users: Premium[]) {
+    for (let data of users) {
+      if (data.expiresAt !== "lifetime" && Date.now() >= data.expiresAt) {
         await this.client.db.premium.delete(data.id);
-        this.client.premiums.delete(data.value.id);
+        this.client.premiums.delete(data.id);
       }
     }
   }

@@ -29,7 +29,7 @@ import {
   KazagumoSearchResult,
 } from "../Modules/Interfaces.js";
 import { KazagumoTrack } from "./Supports/KazagumoTrack.js";
-import { Snowflake } from "discord.js";
+import { managerToFetchingStrategyOptions, Snowflake } from "discord.js";
 
 export class KazagumoPlayer {
   /**
@@ -108,14 +108,9 @@ export class KazagumoPlayer {
 
     if (options.volume !== 100) this.setVolume(options.volume);
 
-    this.search = (
-      typeof this.options.searchWithSameNode === "boolean" ? this.options.searchWithSameNode : true
-    )
+    this.search = (typeof this.options.searchWithSameNode === "boolean" ? this.options.searchWithSameNode : true)
       ? (query: string, opt?: KazagumoSearchOptions) =>
-          kazagumo.search.bind(kazagumo)(
-            query,
-            opt ? { ...opt, nodeName: this.shoukaku.node.name } : undefined
-          )
+          kazagumo.search.bind(kazagumo)(query, opt ? { ...opt, nodeName: this.shoukaku.node.name } : undefined)
       : kazagumo.search.bind(kazagumo);
 
     this.shoukaku.on("start", () => {
@@ -291,13 +286,11 @@ export class KazagumoPlayer {
   public async play(track?: KazagumoTrack, options?: PlayOptions): Promise<KazagumoPlayer> {
     if (this.state === PlayerState.DESTROYED) throw new KazagumoError(1, "Player is already destroyed");
 
-    if (track && !(track instanceof KazagumoTrack))
-      throw new KazagumoError(1, "track must be a KazagumoTrack");
+    if (track && !(track instanceof KazagumoTrack)) throw new KazagumoError(1, "track must be a KazagumoTrack");
 
     if (!track && !this.queue.totalSize) throw new KazagumoError(1, "No track is available to play");
 
-    if (!options || typeof options.replaceCurrent !== "boolean")
-      options = { ...options, replaceCurrent: false };
+    if (!options || typeof options.replaceCurrent !== "boolean") options = { ...options, replaceCurrent: false };
 
     if (track) {
       if (!options.replaceCurrent && this.queue.current) this.queue.unshift(this.queue.current);
@@ -447,6 +440,7 @@ export class KazagumoPlayer {
     this.state = PlayerState.DESTROYING;
     this.disconnect();
     await this.kazagumo.shoukaku.leaveVoiceChannel(this.guildId);
+    await this.shoukaku.destroy()
     this.kazagumo.players.delete(this.guildId);
     this.state = PlayerState.DESTROYED;
 

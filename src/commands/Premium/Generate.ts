@@ -41,6 +41,10 @@ export default class implements Command {
           name: "Yearly",
           value: "yearly",
         },
+        {
+          name: "Lifetime",
+          value: "lifetime",
+        },
       ],
     },
     {
@@ -54,7 +58,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const plans = ["daily", "weekly", "monthly", "yearly"];
+    const plans = ["daily", "weekly", "monthly", "yearly", "lifetime"];
 
     const name = handler.args[0];
     const camount = Number(handler.args[1]);
@@ -65,7 +69,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setDescription(
               `${client.i18n.get(handler.language, "error", "arg_error", {
-                text: "**daily**, **weekly**, **monthly**, **yearly**!",
+                text: "**daily**, **weekly**, **monthly**, **yearly**, **lifetime**!",
               })}`
             )
             .setColor(client.color),
@@ -93,6 +97,7 @@ export default class implements Command {
     if (plan === "weekly") time = Date.now() + 86400000 * 7;
     if (plan === "monthly") time = Date.now() + 86400000 * 30;
     if (plan === "yearly") time = Date.now() + 86400000 * 365;
+    if (plan === "lifetime") time = "lifetime";
 
     let amount = camount;
     if (!amount) amount = 1;
@@ -120,13 +125,13 @@ export default class implements Command {
       .setAuthor({
         name: `${client.i18n.get(handler.language, "command.premium", "gen_author")}`,
         iconURL: client.user!.displayAvatarURL(),
-      }) //${lang.description.replace("{codes_length}", codes.length).replace("{codes}", codes.join('\n')).replace("{plan}", plan).replace("{expires}", moment(time).format('dddd, MMMM Do YYYY'))}
+      })
       .setDescription(
         `${client.i18n.get(handler.language, "command.premium", "gen_desc", {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
-          expires: moment(time).format("dddd, MMMM Do YYYY"),
+          expires: time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY"),
         })}`
       )
       .setTimestamp()

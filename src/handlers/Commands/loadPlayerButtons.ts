@@ -35,10 +35,7 @@ export class loadPlayerButtons {
     const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(
-        import.meta.url,
-        `"${rltPath}" The player button file does not have a name. Skipping...`
-      );
+      this.client.logger.warn(import.meta.url, `"${rltPath}" The player button file does not have a name. Skipping...`);
       return;
     }
 

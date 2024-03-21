@@ -15,7 +15,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = client.guilds.cache.get(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId);
     client.logger.info(import.meta.url, `Player Started in @ ${guild!.name} / ${player.guildId}`);
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
@@ -29,7 +29,7 @@ export default class {
 
     /////////// Update Music Setup ///////////
 
-    const channel = client.channels.cache.get(player.textId) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (!channel) return;
 
     client.emit("playerStart", player);
@@ -116,7 +116,7 @@ export default class {
       .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
       .setTimestamp();
 
-    const playing_channel = client.channels.cache.get(player.textId) as TextChannel;
+    const playing_channel = (await client.channels.fetch(player.textId)) as TextChannel;
 
     const nplaying = await playing_channel.send({
       embeds: client.config.bot.SAFE_PLAYER_MODE ? [embeded] : [],

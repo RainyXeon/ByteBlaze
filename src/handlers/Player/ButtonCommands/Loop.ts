@@ -68,9 +68,7 @@ export class ButtonLoop {
   }
 
   async setLoop247(loop: string) {
-    const check = await new AutoReconnectBuilderService(this.client, this.player).execute(
-      this.player.guildId
-    );
+    const check = await new AutoReconnectBuilderService(this.client, this.player).execute(this.player.guildId);
     if (check) {
       await this.client.db.autoreconnect.set(`${this.player.guildId}.config.loop`, loop);
     }

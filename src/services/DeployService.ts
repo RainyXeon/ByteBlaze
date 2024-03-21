@@ -4,10 +4,9 @@ import chillout from "chillout";
 import { makeSureFolderExists } from "stuffs";
 import path from "path";
 import readdirRecursive from "recursive-readdir";
-import { ApplicationCommandOptionType, REST } from "discord.js";
+import { ApplicationCommandOptionType, REST, Routes } from "discord.js";
 import { CommandInterface, UploadCommandInterface } from "../@types/Interaction.js";
 import { join, dirname } from "path";
-import { Routes } from "discord-api-types/v10";
 import { BotInfoType } from "../@types/User.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -58,9 +57,9 @@ export class DeployService {
 
     this.client.logger.deploy(
       import.meta.url,
-      `Setting up REST completed! Account information received! ${
-        (client as BotInfoType).username
-      }#${(client as BotInfoType).discriminator} (${(client as BotInfoType).id})`
+      `Setting up REST completed! Account information received! ${(client as BotInfoType).username}#${
+        (client as BotInfoType).discriminator
+      } (${(client as BotInfoType).id})`
     );
 
     if (command.length === 0)

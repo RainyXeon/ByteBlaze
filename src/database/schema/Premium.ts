@@ -5,6 +5,6 @@ export interface Premium {
   isPremium: boolean;
   redeemedBy: User;
   redeemedAt: number;
-  expiresAt: number;
+  expiresAt: number | "lifetime";
   plan: string;
 }

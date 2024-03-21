@@ -1,13 +1,5 @@
-import {
-  ApplicationCommandOptionType,
-  Attachment,
-  Collection,
-  EmbedBuilder,
-  Message,
-  PermissionsBitField,
-} from "discord.js";
+import { ApplicationCommandOptionType, Attachment, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
-import { StartQueueDuration } from "../../utilities/QueueDuration.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -104,7 +96,7 @@ export default class implements Command {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = new StartQueueDuration().parse(tracks);
+    const TotalDuration = player.queue.durationLength;
 
     if (handler.message) await handler.message.delete();
 

@@ -54,9 +54,7 @@ export default class implements Command {
     } else {
       const embed = new EmbedBuilder()
         .setTitle(handler.user!.username)
-        .setImage(
-          `https://cdn.discordapp.com/avatars/${handler.user?.id}/${handler.user?.avatar}.jpeg?size=300`
-        )
+        .setImage(`https://cdn.discordapp.com/avatars/${handler.user?.id}/${handler.user?.avatar}.jpeg?size=300`)
         .setColor(client.color)
         .setTimestamp();
       await handler.editReply({ embeds: [embed] });

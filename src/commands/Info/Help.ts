@@ -43,13 +43,11 @@ export default class implements Command {
       if (!command)
         return handler.editReply({
           embeds: [
-            embed
-              .setTitle(`${client.i18n.get(handler.language, "command.info", "ce_finder_invalid")}`)
-              .setDescription(
-                `${client.i18n.get(handler.language, "command.info", "ce_finder_example", {
-                  command: `${handler.prefix}${this.name[0]}`,
-                })}`
-              ),
+            embed.setTitle(`${client.i18n.get(handler.language, "command.info", "ce_finder_invalid")}`).setDescription(
+              `${client.i18n.get(handler.language, "command.info", "ce_finder_example", {
+                command: `${handler.prefix}${this.name[0]}`,
+              })}`
+            ),
           ],
         });
 
@@ -60,9 +58,9 @@ export default class implements Command {
         ${eString.des} \`${command.description || eString.desNone}\`
         ${eString.usage} ${
           command.usage
-            ? `\`${handler.prefix}${
-                handler.interaction ? command.name.join(" ") : command.name.join("-")
-              } ${command.usage}\``
+            ? `\`${handler.prefix}${handler.interaction ? command.name.join(" ") : command.name.join("-")} ${
+                command.usage
+              }\``
             : `\`${eString.usageNone}\``
         }
         ${eString.access} \`${command.accessableby}\`

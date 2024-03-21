@@ -10,8 +10,5 @@ COPY . /main/bot
 ENV NODE_PATH=/usr/local/lib/node_modules
 LABEL name="byteblaze" version="5.0"
 # Start the bot.
-RUN npm run build:prettier
-RUN npm run build
-RUN npm run build:manifest
-RUN npm run build:languages
+RUN npm run build:full
 CMD ["npm", "run", "start"]

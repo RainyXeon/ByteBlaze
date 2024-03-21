@@ -3,10 +3,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import {
-  CheckPermissionResultInterface,
-  CheckPermissionServices,
-} from "../../services/CheckPermissionService.js";
+import { CheckPermissionResultInterface, CheckPermissionServices } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
@@ -134,27 +131,26 @@ export default class {
               })}`
         )
         .setColor(client.color);
-      const dmChannel =
-        message.author.dmChannel == null ? await message.author.createDM() : message.author.dmChannel;
+      const dmChannel = message.author.dmChannel == null ? await message.author.createDM() : message.author.dmChannel;
       dmChannel.send({
         embeds: [embed],
       });
     }
 
-    const returnData = permissionChecker.message(message, defaultPermissions);
+    const returnData = await permissionChecker.message(message, defaultPermissions);
     if (returnData.result !== "PermissionPass") return respondError(returnData);
 
     if (command.accessableby == Accessableby.Manager) {
-      const returnData = permissionChecker.message(message, managePermissions);
+      const returnData = await permissionChecker.message(message, managePermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
-      const returnData = permissionChecker.message(message, musicPermissions);
+      const returnData = await permissionChecker.message(message, musicPermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.name.join("-") !== "help") {
-      const returnData = permissionChecker.message(message, allCommandPermissions);
+      const returnData = await permissionChecker.message(message, allCommandPermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.permissions.length !== 0) {
-      const returnData = permissionChecker.message(message, command.permissions);
+      const returnData = await permissionChecker.message(message, command.permissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
@@ -211,9 +207,7 @@ export default class {
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return message.reply({
         embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
-            .setColor(client.color),
+          new EmbedBuilder().setDescription(`${client.i18n.get(language, "error", "no_node")}`).setColor(client.color),
         ],
       });
     }
@@ -257,9 +251,8 @@ export default class {
 
       client.logger.info(
         import.meta.url,
-        `[COMMAND] ${command.name.join("-")} used by ${
-          message.author.username
-        } from ${message.guild?.name} (${message.guild?.id})`
+        `[COMMAND] ${command.name.join("-")} used by ${message.author.username} from ${message.guild?.name} (${message
+          .guild?.id})`
       );
 
       command.execute(client, handler);

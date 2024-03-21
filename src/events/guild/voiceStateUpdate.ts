@@ -35,8 +35,9 @@ export default class {
 
     if (data && data.twentyfourseven) return;
 
-    if (!newState.guild.members.cache.get(client.user!.id)!.voice.channelId)
-      player.voiceId !== null ? player.destroy() : true;
+    const isInVoice = await newState.guild.members.fetch(client.user!.id);
+
+    if (!isInVoice || !isInVoice.voice.channelId) player.voiceId !== null ? player.destroy() : true;
 
     if (
       newState.channelId &&
@@ -55,11 +56,12 @@ export default class {
     }
 
     if (oldState.id === client.user!.id) return;
-    if (!oldState.guild.members.cache.get(client.user!.id)!.voice.channelId) return;
+    const isInOldVoice = await oldState.guild.members.fetch(client.user!.id);
+    if (!isInOldVoice || !isInOldVoice.voice.channelId) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
-    const leaveEmbed = client.channels.cache.get(player.textId) as TextChannel;
+    const leaveEmbed = (await client.channels.fetch(player.textId)) as TextChannel;
 
     if (
       newState.guild.members.me!.voice?.channel &&
@@ -94,7 +96,7 @@ export default class {
       }
     }
 
-    if (oldState.guild.members.cache.get(client.user!.id)!.voice.channelId === oldState.channelId) {
+    if (isInOldVoice && isInOldVoice.voice.channelId === oldState.channelId) {
       if (
         oldState.guild.members.me!.voice?.channel &&
         oldState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size === 0
@@ -137,9 +139,7 @@ export default class {
                 const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
                 setTimeout(
                   async () =>
-                    msg && (!setup || setup == null || setup.channel !== player.textId)
-                      ? msg.delete()
-                      : undefined,
+                    msg && (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : undefined,
                   client.config.bot.DELETE_MSG_TIMEOUT
                 );
               }

@@ -31,11 +31,7 @@ export default class implements PlayerButton {
 
         setLoop247(String(KazagumoLoop.none));
 
-        new ReplyInteractionService(
-          client,
-          message,
-          `${client.i18n.get(language, "button.music", "loop_current")}`
-        );
+        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_current")}`);
 
         break;
 
@@ -44,11 +40,7 @@ export default class implements PlayerButton {
 
         setLoop247(String(KazagumoLoop.none));
 
-        new ReplyInteractionService(
-          client,
-          message,
-          `${client.i18n.get(language, "button.music", "loop_all")}`
-        );
+        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_all")}`);
 
         break;
 
@@ -57,11 +49,7 @@ export default class implements PlayerButton {
 
         setLoop247(String(KazagumoLoop.none));
 
-        new ReplyInteractionService(
-          client,
-          message,
-          `${client.i18n.get(language, "button.music", "unloop_all")}`
-        );
+        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "unloop_all")}`);
 
         break;
     }

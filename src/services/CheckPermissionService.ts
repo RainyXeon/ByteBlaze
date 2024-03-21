@@ -7,13 +7,15 @@ export interface CheckPermissionResultInterface {
 }
 
 export class CheckPermissionServices {
-  interaction(interaction: GlobalInteraction, permArray: bigint[]): CheckPermissionResultInterface {
-    const isUserInVoice = interaction.guild?.members.cache.get(interaction.user.id)?.voice.channel;
+  async interaction(interaction: GlobalInteraction, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
+    const voiceChannel = await interaction.guild?.members.fetch(interaction.user.id);
 
-    const isUserInText = interaction.guild?.channels.cache.get(String(interaction.channelId));
+    const isUserInVoice = voiceChannel?.voice.channel;
+
+    const isUserInText = await interaction.guild?.channels.fetch(String(interaction.channelId));
 
     for (const permBit of permArray) {
-      if (isUserInVoice && !isUserInVoice.permissionsFor(interaction.guild.members.me!).has(permBit)) {
+      if (isUserInVoice && !isUserInVoice.permissionsFor(interaction.guild?.members.me!).has(permBit)) {
         return {
           result: String(this.getPermissionName(permBit)),
           channel: isUserInVoice.id,
@@ -38,11 +40,12 @@ export class CheckPermissionServices {
     };
   }
 
-  message(message: Message, permArray: bigint[]): CheckPermissionResultInterface {
-    const isUserInVoice = message.guild?.members.cache.get(message.author.id)?.voice.channel;
-    const isUserInText = message.guild?.channels.cache.get(String(message.channelId));
+  async message(message: Message, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
+    const voiceChannel = await message.guild?.members.fetch(message.author.id);
+    const isUserInVoice = voiceChannel?.voice.channel;
+    const isUserInText = await message.guild?.channels.fetch(String(message.channelId));
     for (const permBit of permArray) {
-      if (isUserInVoice && !isUserInVoice.permissionsFor(message.guild.members.me!).has(permBit)) {
+      if (isUserInVoice && !isUserInVoice.permissionsFor(message.guild?.members.me!).has(permBit)) {
         return {
           result: String(this.getPermissionName(permBit)),
           channel: isUserInVoice.id,
