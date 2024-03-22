@@ -3,7 +3,6 @@
 
 import { parse } from "node-html-parser";
 import { NiconicoAPIData, VideoInfo } from "./@types/NicoResolver.js";
-import axios from "axios";
 
 const niconicoRegexp = RegExp(
   // https://github.com/ytdl-org/youtube-dl/blob/a8035827177d6b59aca03bd717acb6a9bdd75ada/youtube_dl/extractor/niconico.py#L162
@@ -26,7 +25,7 @@ class NiconicoDL {
   }
 
   async getVideoInfo(): Promise<VideoInfo> {
-    const videoSiteDom = parse((await axios.get(this.videoURL)).data.text());
+    const videoSiteDom = parse(await (await fetch(this.videoURL)).text());
     const matchResult = videoSiteDom
       .querySelectorAll("div")
       .filter((a) => a.rawAttributes.id === "js-initial-watch-data");

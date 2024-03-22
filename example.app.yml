@@ -1,0 +1,16 @@
+# ByteBlaze config file via .yml
+# Version 5.0.0
+# You can use ${} to pass an enviroment varible from .env file
+# Eg:
+# something: ${DATA}
+
+bot:
+  TOKEN: "Bot Token"
+  OWNER_ID: "Your User ID"
+
+lavalink:
+  NODES:
+    - url: "IP:Port"
+      name: "Name" #only a-z A-Z 0-9 and _
+      auth: "Password"
+      secure: false

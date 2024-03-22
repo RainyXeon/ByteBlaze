@@ -51,7 +51,7 @@ features:
   # Enable debug tools for execute code from bot
   # use dokdo package, owner only, no prefix changes
   # You have to enable message_content to use
-  # use: sudo rdc help, for more command 
+  # use: sudo rdc help, for more command
   DEBUG_TOOLS: true
   # Log register premium activities
   PREMIUM_LOG_CHANNEL: ""

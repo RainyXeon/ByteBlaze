@@ -440,7 +440,7 @@ export class KazagumoPlayer {
     this.state = PlayerState.DESTROYING;
     this.disconnect();
     await this.kazagumo.shoukaku.leaveVoiceChannel(this.guildId);
-    await this.shoukaku.destroy()
+    await this.shoukaku.destroy();
     this.kazagumo.players.delete(this.guildId);
     this.state = PlayerState.DESTROYED;
 

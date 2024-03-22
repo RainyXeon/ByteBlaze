@@ -57,8 +57,7 @@ if (args.get(0) == acceptedParams[0]) {
   const checkDir = ["./dist", "./out", "./.cylane", "./logs"];
 
   checkDir.forEach(async (data) => {
-    if (fse.existsSync(data))
-      fse.rmdirSync(data, { recursive: true, force: true });
+    if (fse.existsSync(data)) fse.rmdirSync(data, { recursive: true, force: true });
   });
 
   logger("Clean successfully!", "info");
@@ -66,10 +65,7 @@ if (args.get(0) == acceptedParams[0]) {
 }
 
 if (args.get(0) == acceptedParams[2]) {
-  const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", [
-    "run",
-    "build:full",
-  ]);
+  const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", ["run", "build:full"]);
 
   child.stdout.on("data", (data) => {
     logger(data, "build");
@@ -103,11 +99,7 @@ if (args.get(0) == acceptedParams[2]) {
 
     manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
 
-    fse.writeFileSync(
-      "./dist/manifest.xml",
-      builder.build(manifest) + warningData,
-      "utf-8"
-    );
+    fse.writeFileSync("./dist/manifest.xml", builder.build(manifest) + warningData, "utf-8");
 
     logger("Edit manifest file complete!", "build");
 
@@ -128,10 +120,7 @@ if (args.get(0) == acceptedParams[2]) {
   });
 } else {
   // Build (Local build)
-  const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", [
-    "run",
-    "build:full",
-  ]);
+  const child = spawn(/^win/.test(process.platform) ? "npm.cmd" : "npm", ["run", "build:full"]);
 
   child.stdout.on("data", (data) => {
     logger(data, "build");
@@ -165,11 +154,7 @@ if (args.get(0) == acceptedParams[2]) {
 
     manifest.metadata.bot.version = `${botVersion}+${objectDate}`;
 
-    fse.writeFileSync(
-      "./dist/manifest.xml",
-      builder.build(manifest) + warningData,
-      "utf-8"
-    );
+    fse.writeFileSync("./dist/manifest.xml", builder.build(manifest) + warningData, "utf-8");
 
     logger("Edit manifest file complete!", "build");
 

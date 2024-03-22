@@ -24,7 +24,6 @@ export interface Features {
   WEB_SERVER: WebServer;
   PREMIUM_LOG_CHANNEL: string;
   GUILD_LOG_CHANNEL: string;
-  DEBUG_TOOLS: boolean;
 }
 
 export interface AutofixLavalink {

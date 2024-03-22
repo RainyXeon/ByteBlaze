@@ -15,7 +15,6 @@ import {
 import { Kazagumo } from "../../Kazagumo.js";
 import { KazagumoTrack } from "../../Managers/Supports/KazagumoTrack.js";
 import { RequestManager } from "./RequestManager.js";
-import axios from "axios";
 
 const REGEX = /(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|album|artist)[\/:]([A-Za-z0-9]+)/;
 const SHORT_REGEX = /(?:https:\/\/spotify\.link)\/([A-Za-z0-9]+)/;
@@ -42,7 +41,6 @@ export class KazagumoPlugin extends Plugin {
    * The options of the plugin.
    */
   public options: SpotifyOptions;
-  private axios = axios;
 
   private _search: ((query: string, options?: KazagumoSearchOptions) => Promise<KazagumoSearchResult>) | null;
   private kazagumo: Kazagumo | null;
@@ -79,8 +77,8 @@ export class KazagumoPlugin extends Plugin {
     const isUrl = /^https?:\/\//.test(query);
 
     if (SHORT_REGEX.test(query)) {
-      const res = await this.axios.head(query);
-      query = String(res.headers.location);
+      const res = await fetch(query, { method: "HEAD" });
+      query = String(res.headers.get("location"));
     }
 
     const [, type, id] = REGEX.exec(query) || [];

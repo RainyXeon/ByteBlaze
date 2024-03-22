@@ -251,8 +251,9 @@ export default class {
 
       client.logger.info(
         import.meta.url,
-        `[COMMAND] ${command.name.join("-")} used by ${message.author.username} from ${message.guild?.name} (${message
-          .guild?.id})`
+        `[COMMAND] ${command.name.join("-")} used by ${message.author.username} from ${message.guild?.name} (${
+          message.guild?.id
+        })`
       );
 
       command.execute(client, handler);

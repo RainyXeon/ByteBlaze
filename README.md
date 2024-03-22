@@ -92,7 +92,10 @@
 
 1. Clone this repository using `git clone https://github.com/RainyXeon/ByteBlaze.git`
 2. run `cd ByteBlaze` to go to the **ByteBlaze** folder.
-3. Change the name of **app.example.yml** to **app.yml** and fill it with `TOKEN` and `NODES`
+3. Config files:
+   - Note: All type of config must fill `TOKEN`, `OWNER_ID` and `NODES`
+   - If you want to use default config and have minimal config, change the name of **example.app.yml** to **app.yml**
+   - If you want to use all config, change the name of **example.full.app.yml** to **app.yml**
 4. run `npm i` to install the required packages.
 5. run `npm run build:full` to build the bot.
 6. run `npm start` to start the bot.
@@ -143,7 +146,6 @@ Version numbers can come in different combinations, depending on the release typ
 
 - [Crowdin](https://crowdin.com/project/byteblaze)
 
-
 ## 💫 Special Thanks
 
 - [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
@@ -158,6 +160,6 @@ Version numbers can come in different combinations, depending on the release typ
 
 **And Everyone who Starred and Contributed to My Project 💖**
 
-
 ## 💫 Credits:
+
 - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` As an owner and a creator of this project

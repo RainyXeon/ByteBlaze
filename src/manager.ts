@@ -68,12 +68,6 @@ export class Manager extends Client {
     this.shardStatus = false;
     this.REGEX = REGEX;
 
-    if (!this.configVolCheck())
-      this.logger.warn(import.meta.url, "Default config volume must between 1 and 100, use default volume (100)");
-
-    if (!this.configSearchCheck())
-      this.logger.warn(import.meta.url, "Default config search must have string element, use default");
-
     if (!this.config.lavalink.AVOID_SUSPEND)
       this.logger.warn(
         import.meta.url,

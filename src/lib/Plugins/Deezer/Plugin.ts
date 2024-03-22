@@ -7,7 +7,6 @@ import {
 } from "../../Modules/Interfaces.js";
 import { Kazagumo } from "../../Kazagumo.js";
 import { KazagumoTrack } from "../../Managers/Supports/KazagumoTrack.js";
-import axios from "axios";
 
 const API_URL = "https://api.deezer.com/";
 
@@ -45,8 +44,8 @@ export class KazagumoPlugin extends Plugin {
     const isUrl = /^https?:\/\//.test(query);
 
     if (SHORT_REGEX.test(query)) {
-      const res = await axios.head(query);
-      query = String(res.headers.location);
+      const res = await fetch(query, { method: "HEAD" });
+      query = String(res.headers.get("location"));
     }
 
     const [, type, id] = REGEX.exec(query) || [];
@@ -85,9 +84,15 @@ export class KazagumoPlugin extends Plugin {
     };
   }
 
+  public async getData(params: string) {
+    const req = await fetch(`${API_URL}${params}`);
+    const res = await req.json();
+    return res.data;
+  }
+
   private async searchTrack(query: string, requester: unknown): Promise<Result> {
     try {
-      const request = await axios.get(`${API_URL}/search/track?q=${decodeURIComponent(query)}`);
+      const request = await this.getData(`${API_URL}/search/track?q=${decodeURIComponent(query)}`);
 
       const res = request.data as SearchResult;
       return {
@@ -100,7 +105,7 @@ export class KazagumoPlugin extends Plugin {
 
   private async getTrack(id: string, requester: unknown): Promise<Result> {
     try {
-      const request = await axios.get(`${API_URL}/track/${id}/`);
+      const request = await this.getData(`${API_URL}/track/${id}/`);
       const track = request.data as DeezerTrack;
 
       return { tracks: [this.buildKazagumoTrack(track, requester)] };
@@ -111,7 +116,7 @@ export class KazagumoPlugin extends Plugin {
 
   private async getAlbum(id: string, requester: unknown): Promise<Result> {
     try {
-      const request = await axios.get(`${API_URL}/album/${id}`);
+      const request = await this.getData(`${API_URL}/album/${id}`);
       const album = request.data as Album;
 
       const tracks = album.tracks.data
@@ -126,7 +131,7 @@ export class KazagumoPlugin extends Plugin {
 
   private async getPlaylist(id: string, requester: unknown): Promise<Result> {
     try {
-      const request = await axios.get(`${API_URL}/playlist/${id}`);
+      const request = await this.getData(`${API_URL}/playlist/${id}`);
       const playlist = request.data as Playlist;
 
       const tracks = playlist.tracks.data

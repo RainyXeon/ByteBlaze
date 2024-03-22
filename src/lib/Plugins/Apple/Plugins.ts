@@ -7,7 +7,6 @@ import {
 } from "../../Modules/Interfaces.js";
 import { Kazagumo } from "../../Kazagumo.js";
 import { KazagumoTrack } from "../../Managers/Supports/KazagumoTrack.js";
-import axios from "axios";
 
 const REGEX =
   /(?:https:\/\/music\.apple\.com\/)(?:.+)?(artist|album|music-video|playlist)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)\/([\w\-\.]+(\/)+[\w\-\.]+|[^&]+)/;
@@ -71,17 +70,11 @@ export class KazagumoPlugin extends Plugin {
   }
 
   public async getData(params: string) {
-    const req = await axios.get(`${this.fetchURL}${params}`, {
+    const req = await fetch(`${this.fetchURL}${params}`, {
       headers: this.credentials,
     });
-    return req.data.data;
-  }
-
-  public async getSearchData(params: string) {
-    const req = await axios.get(`${this.fetchURL}${params}`, {
-      headers: this.credentials,
-    });
-    return req.data;
+    const res = await req.json();
+    return res.data;
   }
 
   private async search(query: string, options?: KazagumoSearchOptions): Promise<KazagumoSearchResult> {
@@ -145,11 +138,11 @@ export class KazagumoPlugin extends Plugin {
 
   private async searchTrack(query: string, requester: unknown): Promise<Result> {
     try {
-      const res = await this.getSearchData(
-        `/search?types=songs&term=${query.replace(/ /g, "+").toLocaleLowerCase()}`
-      ).catch((e) => {
-        throw new Error(e);
-      });
+      const res = await this.getData(`/search?types=songs&term=${query.replace(/ /g, "+").toLocaleLowerCase()}`).catch(
+        (e) => {
+          throw new Error(e);
+        }
+      );
       return {
         tracks: res.results.songs.data.map((track: Track) => this.buildKazagumoTrack(track, requester)),
       };
