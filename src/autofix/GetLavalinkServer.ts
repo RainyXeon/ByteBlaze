@@ -7,7 +7,7 @@ export class GetLavalinkServer {
     const res = await fetch(
       "https://raw.githubusercontent.com/DarrenOfficial/lavalink-list/master/docs/NoSSL/lavalink-without-ssl.md"
     );
-    const resJson = await res.json();
+    const resJson = await res.text();
     return this.getLavalinkServerInfo(resJson);
   }
 

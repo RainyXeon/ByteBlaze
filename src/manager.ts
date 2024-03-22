@@ -96,9 +96,6 @@ export class Manager extends Client {
     // Sharing
     this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
 
-    // Remove support for musicard, implements doc check at wiki
-    this.config.bot.SAFE_PLAYER_MODE = true;
-
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 

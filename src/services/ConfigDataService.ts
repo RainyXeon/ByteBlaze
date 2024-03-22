@@ -85,8 +85,7 @@ export class ConfigDataService {
         LANGUAGE: "en",
         LIMIT_TRACK: 50,
         LIMIT_PLAYLIST: 20,
-        SAFE_ICONS_MODE: false,
-        SAFE_PLAYER_MODE: true,
+        SAFE_ICONS_MODE: true,
         DELETE_MSG_TIMEOUT: 3000,
         DEBUG_MODE: false,
       },
@@ -101,7 +100,7 @@ export class ConfigDataService {
         LEAVE_TIMEOUT: 30000,
         NODES: [],
         DEFAULT_VOLUME: 100,
-        AVOID_SUSPEND: true,
+        AVOID_SUSPEND: false,
       },
       features: {
         DATABASE: {
@@ -109,14 +108,14 @@ export class ConfigDataService {
           config: { path: "./cylane.database.json" },
         },
         MESSAGE_CONTENT: {
-          enable: false,
+          enable: true,
           commands: {
-            enable: false,
+            enable: true,
             prefix: "d!",
           },
         },
         AUTOFIX_LAVALINK: {
-          enable: false,
+          enable: true,
           reconnectTries: 10,
           restTimeout: 3000,
         },

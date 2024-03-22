@@ -3,6 +3,8 @@
 # You can use ${} to pass an enviroment varible from .env file
 # Eg:
 # something: ${DATA}
+# You can config the full bot at here (example avalible at example.full.app.yml) 
+# or by going to src/services/ConfigDataService.ts
 
 bot:
   TOKEN: "Bot Token"
