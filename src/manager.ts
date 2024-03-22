@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Collection, ColorResolvable, Snowflake, User } from "discord.js";
+import { Client, GatewayIntentBits, Collection, ColorResolvable } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n } from "@hammerhq/localization";
 import { resolve } from "path";
@@ -37,7 +37,7 @@ export class Manager extends Client {
   constructor() {
     super({
       shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
-      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
+      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : 1,
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
