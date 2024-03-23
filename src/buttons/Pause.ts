@@ -1,9 +1,9 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { playerRowOne, playerRowOneEdited, playerRowTwo } from "../assets/PlayerControlButton.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
   name = "pause";
@@ -11,7 +11,7 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
@@ -19,7 +19,7 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const newPlayer = await player.pause(!player.paused);
+    const newPlayer = await player.setPause(!player.paused);
 
     newPlayer.paused
       ? nplaying.edit({

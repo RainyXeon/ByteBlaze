@@ -1,8 +1,8 @@
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer) {
+  async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.websocket) return;
 
     const song = player.queue.current;
@@ -12,8 +12,8 @@ export default class {
       webqueue.push({
         title: track.title,
         uri: track.uri,
-        length: track.length,
-        thumbnail: track.thumbnail,
+        length: track.duration,
+        thumbnail: track.artworkUrl,
         author: track.author,
         requester: track.requester, // Just case can push
       });
@@ -22,8 +22,8 @@ export default class {
     webqueue.unshift({
       title: song!.title,
       uri: song!.uri,
-      length: song!.length,
-      thumbnail: song!.thumbnail,
+      length: song!.duration,
+      thumbnail: song!.artworkUrl,
       author: song!.author,
       requester: song!.requester,
     });

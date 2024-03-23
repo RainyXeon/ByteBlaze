@@ -4,17 +4,16 @@ import { DatabaseTable } from "../database/@types.js";
 import { ActionRowBuilder, ButtonBuilder, Client, Collection, ColorResolvable, Message } from "discord.js";
 import { I18n } from "@hammerhq/localization";
 import { LavalinkDataType, LavalinkUsingDataType } from "./Lavalink.js";
-import { Kazagumo } from "../lib/Kazagumo.js";
 import { Command } from "../structures/Command.js";
 import { PlayerButton } from "./Button.js";
 import { GlobalMsg } from "../structures/CommandHandler.js";
 import { RequestInterface } from "../webserver/RequestInterface.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { IconType } from "./Emoji.js";
 import { ClusterClient } from "discord-hybrid-sharding";
 import WebSocket from "ws";
 import { LoggerService } from "../services/LoggerService.js";
 import { Premium } from "../database/schema/Premium.js";
+import { Rainlink, RainlinkPlayer } from "../rainlink/main.js";
 
 export interface ByteBlaze extends Client {
   metadata: Metadata;
@@ -30,7 +29,7 @@ export interface ByteBlaze extends Client {
   lavalinkList: LavalinkDataType[];
   lavalinkUsing: LavalinkUsingDataType[];
   lavalinkUsed: LavalinkUsingDataType[];
-  manager: Kazagumo;
+  rainlink: Rainlink;
   commands: Collection<string, Command>;
   premiums: Collection<string, Premium>;
   interval: Collection<string, NodeJS.Timer>;
@@ -42,8 +41,8 @@ export interface ByteBlaze extends Client {
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
   websocket?: WebSocket;
   wsMessage: Collection<string, RequestInterface>;
-  UpdateMusic: (player: KazagumoPlayer) => Promise<void | Message<true>>;
-  UpdateQueueMsg: (player: KazagumoPlayer) => Promise<void | Message<true>>;
+  UpdateMusic: (player: RainlinkPlayer) => Promise<void | Message<true>>;
+  UpdateQueueMsg: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   enSwitch: ActionRowBuilder<ButtonBuilder>;
   diSwitch: ActionRowBuilder<ButtonBuilder>;
   enSwitchMod: ActionRowBuilder<ButtonBuilder>;

@@ -17,7 +17,8 @@ export class ConfigDataService {
     if (process.env.DOCKER_COMPOSE_MODE) {
       // Change lavalink data
       const lavalink_changedata = res.lavalink.NODES[0];
-      lavalink_changedata.url = String(process.env.NODE_URL);
+      lavalink_changedata.host = String(process.env.NODE_HOST);
+      lavalink_changedata.port = Number(process.env.NODE_PORT);
       lavalink_changedata.name = "node_1";
       lavalink_changedata.auth = String(process.env.NODE_AUTH);
       lavalink_changedata.secure = false;

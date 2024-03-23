@@ -1,3 +1,5 @@
+import { RainlinkNodeOptions } from "../rainlink/main.js";
+
 export interface Config {
   bot: Bot;
   lavalink: Lavalink;
@@ -65,16 +67,9 @@ export interface Lavalink {
   AUTOCOMPLETE_SEARCH: string[];
   NP_REALTIME: boolean;
   LEAVE_TIMEOUT: number;
-  NODES: Node[];
+  NODES: RainlinkNodeOptions[];
   DEFAULT_VOLUME: number;
   AVOID_SUSPEND: boolean;
-}
-
-export interface Node {
-  url: string;
-  name: string;
-  auth: string;
-  secure: boolean;
 }
 
 export interface Spotify {

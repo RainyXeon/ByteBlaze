@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -21,13 +21,13 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     if (player!.data.get("autoplay") === true) {
       player!.data.set("autoplay", false);
       player!.data.set("identifier", null);
       player!.data.set("requester", null);
-      await player!.queue.clear();
+      player!.queue.clear();
 
       const off = new EmbedBuilder()
         .setDescription(
@@ -49,7 +49,7 @@ export default class implements Command {
 
       player!.data.set("requester", handler.user);
 
-      await player!.queue.add(res.tracks[1]);
+      player!.queue.add(res.tracks[1]);
 
       const on = new EmbedBuilder()
         .setDescription(

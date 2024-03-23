@@ -1,10 +1,10 @@
-import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -42,12 +42,12 @@ export default class implements Command {
         ],
       });
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
     function fixedduration() {
-      const current = player!.queue.current!.length ?? 0;
-      return player!.queue.reduce((acc, cur) => acc + (cur.length || 0), current);
+      const current = player!.queue.current!.duration ?? 0;
+      return player!.queue.reduce((acc, cur) => acc + (cur.duration || 0), current);
     }
     const qduration = `${new FormatDuration().parse(fixedduration())}`;
     const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
@@ -58,7 +58,9 @@ export default class implements Command {
     const songStrings = [];
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
-      songStrings.push(`**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\``);
+      songStrings.push(
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.duration)}]\``
+      );
     }
 
     const pages = [];
@@ -77,7 +79,7 @@ export default class implements Command {
           `${client.i18n.get(handler.language, "command.music", "queue_description", {
             title: this.getTitle(client, song!),
             request: String(song!.requester),
-            duration: new FormatDuration().parse(song!.length),
+            duration: new FormatDuration().parse(song!.duration),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
@@ -133,7 +135,7 @@ export default class implements Command {
     }
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;

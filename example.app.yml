@@ -12,7 +12,8 @@ bot:
 
 lavalink:
   NODES:
-    - url: "IP:Port"
+    - host: "IP"
+      port: 2333 # Your host port here 
       name: "Name" #only a-z A-Z 0-9 and _
       auth: "Password"
       secure: false

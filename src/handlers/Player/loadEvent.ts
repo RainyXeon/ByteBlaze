@@ -12,22 +12,30 @@ export class playerLoadEvent {
     this.client = client;
     this.loader();
   }
+
   async loader() {
-    let eventsPath = resolve(join(__dirname, "..", "..", "events", "player"));
-    let eventsFile = await readdirRecursive(eventsPath);
-    await this.register(eventsFile);
+    await chillout.forEach(["player", "track", "node"], async (path) => {
+      let eventsPath = resolve(join(__dirname, "..", "..", "events", path));
+      let eventsFile = await readdirRecursive(eventsPath);
+      await this.registerPath(eventsFile);
+    });
+    this.client.logger.loader(import.meta.url, `Client Events Loaded!`);
   }
 
-  async register(eventsFile: string[]) {
-    await chillout.forEach(eventsFile, async (path) => {
-      const events = new (await import(pathToFileURL(path).toString())).default();
-
-      var splitPath = function (str: string) {
-        return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
-      };
-
-      const eName = splitPath(path);
-      this.client.manager.on(eName as "playerUpdate", events.execute.bind(null, this.client));
+  async registerPath(eventsPath: string[]) {
+    await chillout.forEach(eventsPath, async (path) => {
+      await this.registerEvents(path);
     });
+  }
+
+  async registerEvents(path: string) {
+    const events = new (await import(pathToFileURL(path).toString())).default();
+
+    var splitPath = function (str: string) {
+      return str.split("\\").pop()!.split("/").pop()!.split(".")[0];
+    };
+
+    const eName = splitPath(path);
+    this.client.rainlink.on(eName as "voiceEndSpeaking", events.execute.bind(null, this.client));
   }
 }

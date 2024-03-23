@@ -1,6 +1,6 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { Manager } from "../manager.js";
-import { KazagumoPlayer } from "../lib/main.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export class PlayerButton {
   name: string = "";
@@ -8,7 +8,7 @@ export class PlayerButton {
     client: Manager,
     message: ButtonInteraction,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {}

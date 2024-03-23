@@ -4,7 +4,7 @@ import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkSearchResultType, RainlinkTrack } from "../../rainlink/main.js";
 
 export default class implements Command {
   public name = ["play"];
@@ -31,7 +31,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    let player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    let player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const value = handler.args.join(" ");
 
@@ -66,10 +66,11 @@ export default class implements Command {
       });
 
     if (!player)
-      player = await client.manager.createPlayer({
+      player = await client.rainlink.create({
         guildId: handler.guild!.id,
         voiceId: handler.member!.voice.channel!.id,
         textId: handler.channel!.id,
+        shardId: handler.guild?.shardId ?? 0,
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
@@ -93,7 +94,7 @@ export default class implements Command {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = player.queue.durationLength;
+    const TotalDuration = player.queue.duration;
 
     if (handler.message) await handler.message.delete();
 
@@ -102,7 +103,7 @@ export default class implements Command {
         .setDescription(
           `${client.i18n.get(handler.language, "command.music", "play_track", {
             title: this.getTitle(client, result.type, tracks),
-            duration: new ConvertTime().parse(tracks[0].length as number),
+            duration: new ConvertTime().parse(tracks[0].duration as number),
             request: String(tracks[0].requester),
           })}`
         )
@@ -128,7 +129,7 @@ export default class implements Command {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(handler.language, "command.music", "play_result", {
           title: this.getTitle(client, result.type, tracks),
-          duration: new ConvertTime().parse(tracks[0].length as number),
+          duration: new ConvertTime().parse(tracks[0].duration as number),
           request: String(tracks[0].requester),
         })}`
       );
@@ -153,7 +154,7 @@ export default class implements Command {
     return true;
   }
 
-  getTitle(client: Manager, type: SearchResultTypes, tracks: KazagumoTrack[], value?: string): string {
+  getTitle(client: Manager, type: RainlinkSearchResultType, tracks: RainlinkTrack[], value?: string): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
@@ -191,7 +192,7 @@ export default class implements Command {
       });
       return;
     }
-    const searchRes = await client.manager.search(url || Random);
+    const searchRes = await client.rainlink.search(url || Random);
 
     if (searchRes.tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: "Error song not matches", value: url });

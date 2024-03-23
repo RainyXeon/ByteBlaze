@@ -3,7 +3,7 @@ import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -26,16 +26,16 @@ export default class implements Command {
 
     const realtime = client.config.lavalink.NP_REALTIME;
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
     const position = player.position;
     const CurrentDuration = new FormatDuration().parse(position);
-    const TotalDuration = new FormatDuration().parse(song!.length);
+    const TotalDuration = new FormatDuration().parse(song!.duration);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
       `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg`;
-    const Part = Math.floor((position / song!.length!) * 30);
+    const Part = Math.floor((position / song!.duration!) * 30);
 
     const fieldDataGlobal = [
       {
@@ -45,12 +45,12 @@ export default class implements Command {
       },
       {
         name: `${client.i18n.get(handler.language, "event.player", "duration_title")}`,
-        value: `${new FormatDuration().parse(song!.length)}`,
+        value: `${new FormatDuration().parse(song!.duration)}`,
         inline: true,
       },
       {
         name: `${client.i18n.get(handler.language, "event.player", "volume_title")}`,
-        value: `${player.volume * 100}%`,
+        value: `${player.volume}%`,
         inline: true,
       },
       {
@@ -60,7 +60,7 @@ export default class implements Command {
       },
       {
         name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
-        value: `${new FormatDuration().parse(player.queue.durationLength)}`,
+        value: `${new FormatDuration().parse(player.queue.duration)}`,
         inline: true,
       },
       {
@@ -114,7 +114,7 @@ export default class implements Command {
         if (!player.queue.current) return clearInterval(interval);
         if (!player.playing) return;
         const CurrentDuration = new FormatDuration().parse(player.position);
-        const Part = Math.floor((player.position / song!.length!) * 30);
+        const Part = Math.floor((player.position / song!.duration!) * 30);
 
         const editedField = fieldDataGlobal;
 
@@ -147,7 +147,7 @@ export default class implements Command {
     }
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;

@@ -1,16 +1,10 @@
-import {
-  ApplicationCommandOptionType,
-  AutocompleteInteraction,
-  CommandInteraction,
-  EmbedBuilder,
-  Message,
-} from "discord.js";
+import { ApplicationCommandOptionType, AutocompleteInteraction, CommandInteraction, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -44,7 +38,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const position = Number(handler.args[0]);
     handler.args.splice(0, 1);
@@ -92,7 +86,7 @@ export default class implements Command {
       .setDescription(
         `${client.i18n.get(handler.language, "command.music", "insert_desc", {
           name: this.getTitle(client, track),
-          duration: new ConvertTime().parse(player.shoukaku.position),
+          duration: new ConvertTime().parse(player.position),
           request: String(track.requester),
         })}`
       )
@@ -101,7 +95,7 @@ export default class implements Command {
     return handler.editReply({ embeds: [embed] });
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;
@@ -135,7 +129,7 @@ export default class implements Command {
       });
       return;
     }
-    const searchRes = await client.manager.search(url || Random);
+    const searchRes = await client.rainlink.search(url || Random);
 
     if (searchRes.tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: "Error song not matches", value: url });

@@ -181,7 +181,7 @@ export default class {
     }
 
     if (command.playerCheck) {
-      const player = client.manager.players.get(interaction.guild!.id);
+      const player = client.rainlink.players.get(interaction.guild!.id);
       if (!player)
         return interaction.reply({
           embeds: [

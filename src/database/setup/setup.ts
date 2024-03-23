@@ -16,7 +16,7 @@ export class SongRequesterCleanSetup {
 
     for (let data of guilds) {
       const extractData = data.value;
-      const player = this.client.manager.players.get(extractData.guild);
+      const player = this.client.rainlink.players.get(extractData.guild);
       if (!extractData.enable) return;
       if (player) return;
       await this.restore(extractData);

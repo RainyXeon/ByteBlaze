@@ -1,11 +1,11 @@
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer) {
+  async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
         import.meta.url,
@@ -26,13 +26,14 @@ export default class {
 
     if (!channel) return;
 
-    if (player.state == 5 && data !== null && data) {
+    if (player.state == RainlinkPlayerState.DESTROYED && data !== null && data) {
       if (data.twentyfourseven) {
         await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
-        client.manager.createPlayer({
+        client.rainlink.create({
           guildId: data.guild!,
           voiceId: data.voice!,
           textId: data.text!,
+          shardId: guild.shardId ?? 0,
           deaf: true,
           volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
         });

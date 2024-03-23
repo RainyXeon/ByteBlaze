@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 export class playerLoadUpdate {
   client: Manager;
@@ -11,7 +11,7 @@ export class playerLoadUpdate {
   }
 
   async loader(client: Manager) {
-    client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
+    client.UpdateQueueMsg = async function (player: RainlinkPlayer) {
       let data = await client.db.setup.get(`${player.guildId}`);
       if (!data) return;
       if (data.enable === false) return;
@@ -35,7 +35,7 @@ export class playerLoadUpdate {
           `${client.i18n.get(language, "event.setup", "setup_content_queue", {
             index: `${i + 1}`,
             title: song.title,
-            duration: new FormatDuration().parse(song.length),
+            duration: new FormatDuration().parse(song.duration),
             request: `${song.requester}`,
           })}`
       );
@@ -44,12 +44,12 @@ export class playerLoadUpdate {
 
       const Str = songStrings.slice(0, 10).join("\n");
 
-      const TotalDuration = player.queue.durationLength;
+      const TotalDuration = player.queue.duration;
 
       let cSong = player.queue.current;
       let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
 
-      function getTitle(tracks: KazagumoTrack): string {
+      function getTitle(tracks: RainlinkTrack): string {
         if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
         else {
           return `[${tracks.title}](${tracks.uri})`;
@@ -64,21 +64,21 @@ export class playerLoadUpdate {
         .setDescription(
           `${client.i18n.get(language, "event.setup", "setup_desc", {
             title: getTitle(cSong!),
-            duration: new FormatDuration().parse(cSong!.length),
+            duration: new FormatDuration().parse(cSong!.duration),
             request: `${cSong!.requester}`,
           })}`
         ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
         .setColor(client.color)
         .setImage(
           `${
-            cSong!.thumbnail
-              ? cSong!.thumbnail
+            cSong!.artworkUrl
+              ? cSong!.artworkUrl
               : `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
           }`
         )
         .setFooter({
           text: `${client.i18n.get(language, "event.setup", "setup_footer", {
-            volume: `${player.volume * 100}`,
+            volume: `${player.volume}`,
             duration: qDuration,
           })}`,
         }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
@@ -100,7 +100,7 @@ export class playerLoadUpdate {
      *
      * @param {Player} player
      */
-    client.UpdateMusic = async function (player: KazagumoPlayer) {
+    client.UpdateMusic = async function (player: RainlinkPlayer) {
       let data = await client.db.setup.get(`${player.guildId}`);
       if (!data) return;
       if (data.enable === false) return;

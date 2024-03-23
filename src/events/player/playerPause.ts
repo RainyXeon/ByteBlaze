@@ -1,11 +1,10 @@
-import { PlayerState } from "../../lib/main.js";
 import { playerRowOneEdited, playerRowTwo } from "../../assets/PlayerControlButton.js";
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { TextChannel } from "discord.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer) {
+  async execute(client: Manager, player: RainlinkPlayer) {
     if (player.voiceId == null) return;
 
     const nowPlaying = client.nplayingMsg.get(`${player.guildId}`);

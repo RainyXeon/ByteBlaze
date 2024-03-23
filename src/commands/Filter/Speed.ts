@@ -56,7 +56,7 @@ export default class implements Command {
         ],
       });
 
-    const player = await client.manager.players.get(handler.guild!.id);
+    const player = await client.rainlink.players.get(handler.guild!.id);
 
     const data = {
       guildId: handler.guild!.id,

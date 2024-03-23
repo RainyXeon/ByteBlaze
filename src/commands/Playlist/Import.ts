@@ -89,10 +89,11 @@ export default class implements Command {
         ],
       });
 
-    const player = await client.manager.createPlayer({
+    const player = await client.rainlink.create({
       guildId: handler.guild!.id,
       voiceId: handler.member!.voice.channel!.id,
       textId: handler.channel!.id,
+      shardId: handler.guild?.shardId ?? 0,
       deaf: true,
       volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });

@@ -3,7 +3,7 @@ import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 const time_regex = /(^[0-9][\d]{0,3}):(0[0-9]{1}$|[1-5]{1}[0-9])/;
 
 // Main code
@@ -49,9 +49,9 @@ export default class implements Command {
       value = min + sec;
     }
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    if (value * 1000 >= player.queue.current!.length! || value < 0)
+    if (value * 1000 >= player.queue.current!.duration! || value < 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
@@ -61,7 +61,7 @@ export default class implements Command {
       });
     await player.seek(value * 1000);
 
-    const song_position = player.shoukaku.position;
+    const song_position = player.position;
 
     let final_res;
 

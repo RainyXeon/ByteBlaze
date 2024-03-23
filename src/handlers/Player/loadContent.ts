@@ -10,7 +10,7 @@ import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
+import { RainlinkTrack } from "../../rainlink/main.js";
 const rateLimitManager = new RateLimitManager(2000);
 
 /**
@@ -40,7 +40,7 @@ export class playerLoadContent {
     let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id);
     let channel = voiceMember!.voice.channel;
 
-    let player = client.manager.players.get(interaction.guild.id);
+    let player = client.rainlink.players.get(interaction.guild.id);
     if (!player) return;
 
     const playChannel = await client.channels.fetch(player.textId);
@@ -77,7 +77,7 @@ export class playerLoadContent {
   async message(client: Manager, message: Message): Promise<any> {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.setup.get(`${message.guild.id}`);
-    let player = client.manager.players.get(message.guild.id);
+    let player = client.rainlink.players.get(message.guild.id);
 
     if (!database) return;
 
@@ -146,10 +146,11 @@ export class playerLoadContent {
     }
 
     if (!player)
-      player = await client.manager.createPlayer({
+      player = await client.rainlink.create({
         guildId: message.guild.id,
         voiceId: message.member!.voice.channel!.id,
         textId: message.channel.id,
+        shardId: message.guild.shardId,
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
@@ -184,7 +185,7 @@ export class playerLoadContent {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = player.queue.durationLength;
+    const TotalDuration = player.queue.duration;
 
     if (result.type === "PLAYLIST") {
       if (!player.playing) player.play();
@@ -205,7 +206,7 @@ export class playerLoadContent {
         .setDescription(
           `${client.i18n.get(language, "event.setup", "play_track", {
             title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(result.tracks[0].length as number),
+            duration: new ConvertTime().parse(result.tracks[0].duration as number),
             request: `${result.tracks[0].requester}`,
           })}`
         )
@@ -216,14 +217,14 @@ export class playerLoadContent {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.i18n.get(language, "event.setup", "play_result", {
           title: getTitle(result.tracks),
-          duration: new ConvertTime().parse(result.tracks[0].length as number),
+          duration: new ConvertTime().parse(result.tracks[0].duration as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );
       msg.reply({ content: " ", embeds: [embed] });
     }
 
-    function getTitle(tracks: KazagumoTrack[]): string {
+    function getTitle(tracks: RainlinkTrack[]): string {
       if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
       else {
         return `[${tracks[0].title}](${tracks[0].uri})`;

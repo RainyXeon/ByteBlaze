@@ -1,10 +1,9 @@
-import { ApplicationCommandOptionType, EmbedBuilder, Message, PermissionsBitField } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
-import { KazagumoLoop } from "../../@types/Lavalink.js";
-import { KazagumoPlayer } from "../../lib/main.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
+import { RainlinkLoopMode, RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class implements Command {
   public name = ["loop"];
@@ -44,7 +43,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const mode_array = ["song", "queue", "none"];
 
@@ -63,7 +62,7 @@ export default class implements Command {
         ],
       });
 
-    if ((mode == "song" && player.loop == "track") || mode == player.loop)
+    if ((mode == "song" && player.loop == RainlinkLoopMode.SONG) || mode == player.loop)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
@@ -77,24 +76,24 @@ export default class implements Command {
       });
 
     if (mode == "song") {
-      await player.setLoop(KazagumoLoop.track);
-      this.setLoop247(client, player, String(KazagumoLoop.track));
+      player.setLoop(RainlinkLoopMode.SONG);
+      this.setLoop247(client, player, RainlinkLoopMode.SONG);
 
       const looped = new EmbedBuilder()
         .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_current")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     } else if (mode == "queue") {
-      await player.setLoop(KazagumoLoop.queue);
-      this.setLoop247(client, player, String(KazagumoLoop.queue));
+      player.setLoop(RainlinkLoopMode.QUEUE);
+      this.setLoop247(client, player, RainlinkLoopMode.QUEUE);
 
       const looped_queue = new EmbedBuilder()
         .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_all")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped_queue] });
     } else if (mode === "none") {
-      await player.setLoop(KazagumoLoop.none);
-      this.setLoop247(client, player, String(KazagumoLoop.none));
+      await player.setLoop(RainlinkLoopMode.NONE);
+      this.setLoop247(client, player, RainlinkLoopMode.NONE);
 
       const looped = new EmbedBuilder()
         .setDescription(`${client.i18n.get(handler.language, "command.music", "unloop_all")}`)
@@ -103,7 +102,7 @@ export default class implements Command {
     }
   }
 
-  async setLoop247(client: Manager, player: KazagumoPlayer, loop: string) {
+  async setLoop247(client: Manager, player: RainlinkPlayer, loop: string) {
     const data = await new AutoReconnectBuilderService(client, player).execute(player.guildId);
     if (data) {
       await client.db.autoreconnect.set(`${player.guildId}.config.loop`, loop);

@@ -4,7 +4,7 @@ import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -31,7 +31,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const tracks = handler.args[0];
     if (tracks && isNaN(+tracks))
@@ -67,7 +67,7 @@ export default class implements Command {
       .setDescription(
         `${client.i18n.get(handler.language, "command.music", "removetrack_desc", {
           name: this.getTitle(client, song),
-          duration: new ConvertTime().parse(player.shoukaku.position),
+          duration: new ConvertTime().parse(player.position),
           request: String(song.requester),
         })}`
       )
@@ -76,7 +76,7 @@ export default class implements Command {
     return handler.editReply({ embeds: [embed] });
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;

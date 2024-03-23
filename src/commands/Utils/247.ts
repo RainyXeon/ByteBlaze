@@ -39,7 +39,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    let player = client.manager.players.get(handler.guild!.id);
+    let player = client.rainlink.players.get(handler.guild!.id);
 
     const value = handler.args[0];
 
@@ -92,10 +92,11 @@ export default class implements Command {
       }
 
       if (!player)
-        player = await client.manager.createPlayer({
+        player = await client.rainlink.create({
           guildId: handler.guild!.id,
           voiceId: handler.member!.voice.channel!.id,
           textId: String(handler.channel?.id),
+          shardId: handler.guild?.shardId ?? 0,
           deaf: true,
           volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
         });

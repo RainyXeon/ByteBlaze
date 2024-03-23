@@ -1,19 +1,19 @@
 import { ButtonInteraction, EmbedBuilder, TextChannel, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "../../../lib/main.js";
+import { RainlinkPlayer } from "../../../rainlink/main.js";
 
 export class ButtonPause {
   client: Manager;
   interaction: ButtonInteraction;
   channel: VoiceBasedChannel | null;
   language: string;
-  player: KazagumoPlayer;
+  player: RainlinkPlayer;
   constructor(
     client: Manager,
     interaction: ButtonInteraction,
     channel: VoiceBasedChannel | null,
     language: string,
-    player: KazagumoPlayer
+    player: RainlinkPlayer
   ) {
     this.channel = channel;
     this.client = client;
@@ -64,7 +64,7 @@ export class ButtonPause {
       let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg);
       if (!playMsg) return;
 
-      const newPlayer = await this.player.pause(!this.player.paused);
+      const newPlayer = await this.player.setPause(!this.player.paused);
 
       newPlayer.paused
         ? playMsg.edit({

@@ -6,7 +6,7 @@ import WebSocket from "ws";
 export default class implements RequestInterface {
   name = "queue";
   run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
-    const player = client.manager.players.get(json.guild);
+    const player = client.rainlink.players.get(json.guild);
     if (!player) return ws.send(JSON.stringify({ error: "0x100", message: "No player on this guild" }));
 
     let webqueue = [];
@@ -17,8 +17,8 @@ export default class implements RequestInterface {
       webqueue.push({
         title: track.title,
         uri: track.uri,
-        length: track.length,
-        thumbnail: track.thumbnail,
+        length: track.duration,
+        thumbnail: track.artworkUrl,
         author: track.author,
         requester: track.requester, // Just case can push
       });
@@ -27,8 +27,8 @@ export default class implements RequestInterface {
     await webqueue.unshift({
       title: song!.title,
       uri: song!.uri,
-      length: song!.length,
-      thumbnail: song!.thumbnail,
+      length: song!.duration,
+      thumbnail: song!.artworkUrl,
       author: song!.author,
       requester: song!.requester,
     });

@@ -1,15 +1,14 @@
-import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
+import { ButtonInteraction, EmbedBuilder } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "../../../lib/main.js";
-import { KazagumoLoop } from "../../../@types/Lavalink.js";
 import { AutoReconnectBuilderService } from "../../../services/AutoReconnectBuilderService.js";
+import { RainlinkLoopMode, RainlinkPlayer } from "../../../rainlink/main.js";
 
 export class ButtonLoop {
   client: Manager;
   interaction: ButtonInteraction;
   language: string;
-  player: KazagumoPlayer;
-  constructor(client: Manager, interaction: ButtonInteraction, language: string, player: KazagumoPlayer) {
+  player: RainlinkPlayer;
+  constructor(client: Manager, interaction: ButtonInteraction, language: string, player: RainlinkPlayer) {
     this.client = client;
     this.language = language;
     this.player = player;
@@ -24,9 +23,9 @@ export class ButtonLoop {
 
     switch (this.player.loop) {
       case "none":
-        await this.player.setLoop(KazagumoLoop.track);
+        await this.player.setLoop(RainlinkLoopMode.SONG);
 
-        this.setLoop247(String(KazagumoLoop.track));
+        this.setLoop247(String(RainlinkLoopMode.SONG));
 
         const looptrack = new EmbedBuilder()
           .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_current")}`)
@@ -37,10 +36,10 @@ export class ButtonLoop {
         });
         break;
 
-      case "track":
-        await this.player.setLoop(KazagumoLoop.queue);
+      case "song":
+        await this.player.setLoop(RainlinkLoopMode.QUEUE);
 
-        this.setLoop247(String(KazagumoLoop.queue));
+        this.setLoop247(String(RainlinkLoopMode.QUEUE));
 
         const loopall = new EmbedBuilder()
           .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_all")}`)
@@ -52,9 +51,9 @@ export class ButtonLoop {
         break;
 
       case "queue":
-        await this.player.setLoop(KazagumoLoop.none);
+        await this.player.setLoop(RainlinkLoopMode.NONE);
 
-        this.setLoop247(String(KazagumoLoop.none));
+        this.setLoop247(String(RainlinkLoopMode.NONE));
 
         const unloopall = new EmbedBuilder()
           .setDescription(`${this.client.i18n.get(this.language, "button.music", "unloop_all")}`)

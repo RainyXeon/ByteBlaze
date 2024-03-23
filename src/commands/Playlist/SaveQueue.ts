@@ -1,12 +1,12 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
-import { KazagumoTrack } from "../../lib/main.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
+import { RainlinkTrack } from "../../rainlink/main.js";
 
-const TrackAdd: KazagumoTrack[] = [];
+const TrackAdd: RainlinkTrack[] = [];
 const TrackExist: string[] = [];
-let Result: KazagumoTrack[] | null = null;
+let Result: RainlinkTrack[] | null = null;
 
 export default class implements Command {
   public name = ["pl-savequeue"];
@@ -62,7 +62,7 @@ export default class implements Command {
         ],
       });
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     const queue = player?.queue.map((track) => track);
     const current = player?.queue.current;
@@ -76,7 +76,7 @@ export default class implements Command {
         ],
       });
 
-    TrackAdd.push(current as KazagumoTrack);
+    TrackAdd.push(current as RainlinkTrack);
     TrackAdd.push(...queue!);
 
     if (!playlist) Result = TrackAdd;
@@ -114,8 +114,8 @@ export default class implements Command {
       await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
-        length: track.length,
-        thumbnail: track.thumbnail,
+        length: track.duration,
+        thumbnail: track.artworkUrl,
         author: track.author,
         requester: track.requester, // Just case can push
       });

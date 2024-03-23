@@ -1,12 +1,12 @@
 import { EmbedBuilder, ApplicationCommandOptionType, CommandInteraction, AutocompleteInteraction } from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
-import { KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
+import { RainlinkSearchResultType, RainlinkTrack } from "../../rainlink/main.js";
 
-const TrackAdd: KazagumoTrack[] = [];
+const TrackAdd: RainlinkTrack[] = [];
 
 export default class implements Command {
   public name = ["pl-add"];
@@ -63,7 +63,7 @@ export default class implements Command {
         ],
       });
 
-    const result = await client.manager.search(input, {
+    const result = await client.rainlink.search(input, {
       requester: handler.user,
     });
     const tracks = result.tracks;
@@ -79,8 +79,8 @@ export default class implements Command {
     if (result.type === "PLAYLIST") for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
-    const Duration = new ConvertTime().parse(tracks[0].length as number);
-    const TotalDuration = tracks.reduce((acc, cur) => acc + (cur.length || 0), tracks[0].length ?? 0);
+    const Duration = new ConvertTime().parse(tracks[0].duration as number);
+    const TotalDuration = tracks.reduce((acc, cur) => acc + (cur.duration || 0), tracks[0].duration ?? 0);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -171,8 +171,8 @@ export default class implements Command {
       await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
-        length: track.length,
-        thumbnail: track.thumbnail,
+        length: track.duration,
+        thumbnail: track.artworkUrl,
         author: track.author,
         requester: track.requester, // Just case can push
       });
@@ -191,7 +191,7 @@ export default class implements Command {
     TrackAdd.length = 0;
   }
 
-  getTitle(client: Manager, type: SearchResultTypes, tracks: KazagumoTrack[], value?: string): string {
+  getTitle(client: Manager, type: RainlinkSearchResultType, tracks: RainlinkTrack[], value?: string): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
@@ -229,7 +229,7 @@ export default class implements Command {
       });
       return;
     }
-    const searchRes = await client.manager.search(url || Random);
+    const searchRes = await client.rainlink.search(url || Random);
 
     if (searchRes.tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: "Error song not matches", value: url });

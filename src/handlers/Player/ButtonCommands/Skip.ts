@@ -1,19 +1,19 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "../../../lib/main.js";
+import { RainlinkPlayer } from "../../../rainlink/main.js";
 
 export class ButtonSkip {
   client: Manager;
   interaction: ButtonInteraction;
   channel: VoiceBasedChannel | null;
   language: string;
-  player: KazagumoPlayer;
+  player: RainlinkPlayer;
   constructor(
     client: Manager,
     interaction: ButtonInteraction,
     channel: VoiceBasedChannel | null,
     language: string,
-    player: KazagumoPlayer
+    player: RainlinkPlayer
   ) {
     this.channel = channel;
     this.client = client;

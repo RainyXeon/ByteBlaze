@@ -1,9 +1,9 @@
-import { EmbedBuilder, Message, PermissionsBitField } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 const rewindNum = 10;
 
 // Main code
@@ -24,9 +24,9 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    const song_position = player.shoukaku.position;
+    const song_position = player.position;
     const CurrentDuration = new FormatDuration().parse(song_position - rewindNum * 1000);
 
     if (song_position - rewindNum * 1000 > 0) {

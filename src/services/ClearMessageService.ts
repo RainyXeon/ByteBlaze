@@ -1,12 +1,12 @@
-import { KazagumoPlayer } from "../lib/main.js";
 import { Manager } from "../manager.js";
 import { TextChannel } from "discord.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export class ClearMessageService {
   client: Manager;
   channel: TextChannel;
-  player: KazagumoPlayer;
-  constructor(client: Manager, channel: TextChannel, player: KazagumoPlayer) {
+  player: RainlinkPlayer;
+  constructor(client: Manager, channel: TextChannel, player: RainlinkPlayer) {
     this.channel = channel;
     this.client = client;
     this.player = player;

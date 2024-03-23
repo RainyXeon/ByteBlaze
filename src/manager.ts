@@ -13,9 +13,9 @@ import { NormalModeIcons } from "./assets/NormalModeIcons.js";
 import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
-import { KazagumoInit } from "./structures/Kazagumo.js";
 import { DeployService } from "./services/DeployService.js";
 import { ByteBlaze } from "./@types/ByteBlaze.js";
+import { RainlinkInit } from "./structures/Rainlink.js";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -111,7 +111,7 @@ export class Manager extends Client {
       process.exit();
     }
 
-    this.manager = new KazagumoInit(this).init;
+    this.rainlink = new RainlinkInit(this).init;
 
     if (this.config.features.WEB_SERVER.enable) {
       new WebServer(this);

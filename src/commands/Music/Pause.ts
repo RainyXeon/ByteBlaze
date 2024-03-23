@@ -1,8 +1,8 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class implements Command {
   public name = ["pause"];
@@ -21,9 +21,9 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    await player.pause(true);
+    await player.pause();
 
     client.emit("playerPause", player);
 

@@ -154,9 +154,6 @@ Version numbers can come in different combinations, depending on the release typ
 - [@brblacky](https://github.com/brblacky) [Inspiration]
 - [@mrstebo](https://github.com/mrstebo) [env Praser]
 - [@ItzZoldy](https://github.com/ItzZoldy) [Designer]
-- [@Takiyo0](https://github.com/Takiyo0) [Original Developer of [Kazagumo](https://www.npmjs.com/package/kazagumo) ([Github](https://github.com/Takiyo0/Kazagumo))]
-
-  +) I own nothing in `/src/lib` except Apple Music, Deezer and Nicovideo plugins in `/src/lib/Plugins` folder.
 
 **And Everyone who Starred and Contributed to My Project 💖**
 

@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -31,13 +31,14 @@ export default class implements Command {
         ],
       });
 
-    let player = client.manager.players.get(handler.guild!.id);
+    let player = client.rainlink.players.get(handler.guild!.id);
 
     if (!player)
-      player = await client.manager.createPlayer({
+      player = await client.rainlink.create({
         guildId: handler.guild!.id,
         voiceId: handler.member!.voice.channel!.id,
         textId: handler.channel!.id,
+        shardId: handler.guild?.shardId ?? 0,
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
@@ -45,10 +46,11 @@ export default class implements Command {
       return;
     }
 
-    await client.manager.createPlayer({
+    await client.rainlink.create({
       guildId: handler.guild!.id,
       voiceId: handler.member!.voice.channel!.id,
       textId: handler.channel!.id,
+      shardId: handler.guild?.shardId ?? 0,
       deaf: true,
       volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });

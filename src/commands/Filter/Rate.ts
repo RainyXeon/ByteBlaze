@@ -39,7 +39,7 @@ export default class implements Command {
         ],
       });
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     if (Number(value) < 0)
       return handler.editReply({

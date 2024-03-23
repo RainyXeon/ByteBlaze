@@ -6,7 +6,7 @@ import WebSocket from "ws";
 export default class implements RequestInterface {
   name = "remove";
   run = async (client: Manager, json: JSON_MESSAGE, ws: WebSocket) => {
-    const player = client.manager.players.get(json.guild);
+    const player = client.rainlink.players.get(json.guild);
     if (!player) return ws.send(JSON.stringify({ error: "0x100", message: "No player on this guild" }));
 
     const index = player.queue.map((e) => e.uri).indexOf(json.uri);
