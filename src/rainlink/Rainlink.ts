@@ -58,7 +58,7 @@ export declare interface Rainlink {
    * Emitted when a player is created.
    * @event Rainlink#playerCreate
    */
-  on(event: "playerCreate", listener: (player: RainlinkPlayer, track: RainlinkTrack) => void): this;
+  on(event: "playerCreate", listener: (player: RainlinkPlayer) => void): this;
   /**
    * Emitted when a player is going to destroyed.
    * @event Rainlink#playerDestroy
@@ -204,7 +204,7 @@ export declare interface Rainlink {
 
   ////// ------------------------- Player Event ------------------------- /////
   /** @ignore */
-  once(event: "playerCreate", listener: (player: RainlinkPlayer, track: RainlinkTrack) => void): this;
+  once(event: "playerCreate", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
   once(event: "playerDestroy", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
@@ -287,7 +287,7 @@ export declare interface Rainlink {
 
   ////// ------------------------- Player Event ------------------------- /////
   /** @ignore */
-  off(event: "playerCreate", listener: (player: RainlinkPlayer, track: RainlinkTrack) => void): this;
+  off(event: "playerCreate", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
   off(event: "playerDestroy", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
