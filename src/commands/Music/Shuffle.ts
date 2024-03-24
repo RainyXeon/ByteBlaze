@@ -55,12 +55,12 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "command.music", "shuffle_msg")}`,
+          name: `${client.getString(handler.language, "command.music", "shuffle_msg")}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+          `${client.getString(handler.language, "command.music", "queue_description", {
             title: this.getTitle(client, song!),
             request: String(song!.requester),
             duration: new FormatDuration().parse(song!.duration),
@@ -68,7 +68,7 @@ export default class implements Command {
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
+          text: `${client.getString(handler.language, "command.music", "queue_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(newQueue.length),

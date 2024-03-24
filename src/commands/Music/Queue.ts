@@ -37,7 +37,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -69,14 +69,14 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "command.music", "queue_author", {
+          name: `${client.getString(handler.language, "command.music", "queue_author", {
             guild: handler.guild!.name,
           })}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+          `${client.getString(handler.language, "command.music", "queue_description", {
             title: this.getTitle(client, song!),
             request: String(song!.requester),
             duration: new FormatDuration().parse(song!.duration),
@@ -84,7 +84,7 @@ export default class implements Command {
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
+          text: `${client.getString(handler.language, "command.music", "queue_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(player.queue.length),
@@ -114,7 +114,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.music", "queue_notnumber")}`)
+              .setDescription(`${client.getString(handler.language, "command.music", "queue_notnumber")}`)
               .setColor(client.color),
           ],
         });
@@ -123,7 +123,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "command.music", "queue_page_notfound", {
+                `${client.getString(handler.language, "command.music", "queue_page_notfound", {
                   page: String(pagesNum),
                 })}`
               )

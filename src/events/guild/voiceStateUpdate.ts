@@ -85,7 +85,7 @@ export default class {
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "event.player", "leave_resume")}`)
+              .setDescription(`${client.getString(language, "event.player", "leave_resume")}`)
               .setColor(client.color),
           ],
         });
@@ -109,7 +109,7 @@ export default class {
           const msg = await leaveEmbed.send({
             embeds: [
               new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "event.player", "leave_pause")}`)
+                .setDescription(`${client.getString(language, "event.player", "leave_pause")}`)
                 .setColor(client.color),
             ],
           });
@@ -129,7 +129,7 @@ export default class {
             if (newPlayer) player.destroy();
             const TimeoutEmbed = new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "event.player", "player_end", {
+                `${client.getString(language, "event.player", "player_end", {
                   leave: vcRoom,
                 })}`
               )

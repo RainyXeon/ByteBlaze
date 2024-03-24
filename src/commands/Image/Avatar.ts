@@ -34,7 +34,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "error", "arg_error", {
+              `${client.getString(handler.language, "error", "arg_error", {
                 text: "**@mention**!",
               })}`
             )

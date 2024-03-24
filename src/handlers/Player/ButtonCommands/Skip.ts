@@ -28,7 +28,7 @@ export class ButtonSkip {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -40,7 +40,7 @@ export class ButtonSkip {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -49,7 +49,7 @@ export class ButtonSkip {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_player")}`)
             .setColor(this.client.color),
         ],
       });
@@ -59,7 +59,7 @@ export class ButtonSkip {
 
     if (this.player.queue.size == 0) {
       const embed = new EmbedBuilder()
-        .setDescription(`${this.client.i18n.get(this.language, "button.music", "skip_notfound")}`)
+        .setDescription(`${this.client.getString(this.language, "button.music", "skip_notfound")}`)
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });
@@ -67,7 +67,7 @@ export class ButtonSkip {
       await this.player.skip();
 
       const embed = new EmbedBuilder()
-        .setDescription(`${this.client.i18n.get(this.language, "button.music", "skip_msg")}`)
+        .setDescription(`${this.client.getString(this.language, "button.music", "skip_msg")}`)
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });

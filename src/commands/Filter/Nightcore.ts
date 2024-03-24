@@ -27,7 +27,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "filter_already", {
+              `${client.getString(handler.language, "command.filter", "filter_already", {
                 name: this.name[0],
               })}`
             )
@@ -54,7 +54,7 @@ export default class implements Command {
 
     const nightcored = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.filter", "filter_on", {
+        `${client.getString(handler.language, "command.filter", "filter_on", {
           name: this.name[0],
         })}`
       )

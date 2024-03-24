@@ -22,13 +22,13 @@ export default class implements PlayerButton {
       return await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "button.music", "skip_notfound")}`
+        `${client.getString(language, "button.music", "skip_notfound")}`
       );
 
     player.skip();
 
     client.emit("playerSkip", player);
 
-    await new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "skip_msg")}`);
+    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "skip_msg")}`);
   }
 }

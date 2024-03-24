@@ -18,7 +18,7 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const reply_msg = `${client.i18n.get(language, "button.music", "volup_msg", {
+    const reply_msg = `${client.getString(language, "button.music", "volup_msg", {
       volume: `${player.volume + 10}`,
     })}`;
 
@@ -26,7 +26,7 @@ export default class implements PlayerButton {
       await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "button.music", "volume_invalid")}`
+        `${client.getString(language, "button.music", "volume_invalid")}`
       );
       return;
     }

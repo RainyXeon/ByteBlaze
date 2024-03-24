@@ -40,7 +40,7 @@ export default class implements Command {
 
       const forward2 = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "forward_msg", {
+          `${client.getString(handler.language, "command.music", "forward_msg", {
             duration: CurrentDuration,
           })}`
         )
@@ -51,7 +51,7 @@ export default class implements Command {
       return await handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "forward_beyond")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "forward_beyond")}`)
             .setColor(client.color),
         ],
       });

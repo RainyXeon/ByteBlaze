@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits, Collection, ColorResolvable } from "discord.js";
 import { DatabaseService } from "./database/index.js";
-import { I18n } from "@hammerhq/localization";
+import { I18n, I18nArgs } from "@hammerhq/localization";
 import { resolve } from "path";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
@@ -148,5 +148,15 @@ export class Manager extends Client {
   stringCheck(data: unknown) {
     if (typeof data === "string" || data instanceof String) return true;
     return false;
+  }
+
+  getString(locale: string, section: string, key: string, args?: I18nArgs | undefined) {
+    const currentString = this.i18n.get(locale, section, key, args);
+    const locateErr = `Locale '${locale}' not found.`;
+    const sectionErr = `Section '${section}' not found in locale '${locale}'`;
+    const keyErr = `Key '${key}' not found in section ${section} in locale '${locale}'`;
+    if (currentString == locateErr || currentString == sectionErr || currentString == keyErr) {
+      return this.i18n.get("en", section, key, args);
+    } else return currentString;
   }
 }

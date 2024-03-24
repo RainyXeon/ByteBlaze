@@ -47,7 +47,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -55,7 +55,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "insert_already")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "insert_already")}`)
             .setColor(client.color),
         ],
       });
@@ -63,7 +63,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "insert_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "insert_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -75,7 +75,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "insert_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "insert_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -84,7 +84,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "insert_desc", {
+        `${client.getString(handler.language, "command.music", "insert_desc", {
           name: this.getTitle(client, track),
           duration: new ConvertTime().parse(player.position),
           request: String(track.requester),
@@ -124,8 +124,8 @@ export default class implements Command {
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.i18n.get(language, "command.music", "no_node")}`,
-        value: `${client.i18n.get(language, "command.music", "no_node")}`,
+        name: `${client.getString(language, "command.music", "no_node")}`,
+        value: `${client.getString(language, "command.music", "no_node")}`,
       });
       return;
     }

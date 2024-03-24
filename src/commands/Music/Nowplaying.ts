@@ -39,42 +39,42 @@ export default class implements Command {
 
     const fieldDataGlobal = [
       {
-        name: `${client.i18n.get(handler.language, "event.player", "author_title")}`,
+        name: `${client.getString(handler.language, "event.player", "author_title")}`,
         value: `${song!.author}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "duration_title")}`,
+        name: `${client.getString(handler.language, "event.player", "duration_title")}`,
         value: `${new FormatDuration().parse(song!.duration)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "volume_title")}`,
+        name: `${client.getString(handler.language, "event.player", "volume_title")}`,
         value: `${player.volume}%`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "queue_title")}`,
+        name: `${client.getString(handler.language, "event.player", "queue_title")}`,
         value: `${player.queue.length}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
+        name: `${client.getString(handler.language, "event.player", "total_duration_title")}`,
         value: `${new FormatDuration().parse(player.queue.duration)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "request_title")}`,
+        name: `${client.getString(handler.language, "event.player", "request_title")}`,
         value: `${song!.requester}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "download_title")}`,
+        name: `${client.getString(handler.language, "event.player", "download_title")}`,
         value: `**[${song!.title}](https://www.000tube.com/watch?v=${song?.identifier})**`,
         inline: false,
       },
       {
-        name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+        name: `${client.getString(handler.language, "command.music", "np_current_duration", {
           current_duration: CurrentDuration,
           total_duration: TotalDuration,
         })}`,
@@ -85,8 +85,8 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
-        iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
+        name: `${client.getString(handler.language, "command.music", "np_title")}`,
+        iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
       .setDescription(`**${this.getTitle(client, song!)}**`)
@@ -120,7 +120,7 @@ export default class implements Command {
 
         editedField.splice(7, 1);
         editedField.push({
-          name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+          name: `${client.getString(handler.language, "command.music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
           })}`,
@@ -130,8 +130,8 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
-            iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
+            name: `${client.getString(handler.language, "command.music", "np_title")}`,
+            iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
           .setDescription(`**${this.getTitle(client, song!)}**`)

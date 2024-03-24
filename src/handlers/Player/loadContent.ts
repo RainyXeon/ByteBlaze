@@ -125,7 +125,7 @@ export class playerLoadContent {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_in_voice")}`)
+            .setDescription(`${client.getString(language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -138,7 +138,7 @@ export class playerLoadContent {
       msg.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "event.setup", "play_emoji")}`)
+            .setDescription(`${client.getString(language, "event.setup", "play_emoji")}`)
             .setColor(client.color),
         ],
       });
@@ -159,7 +159,7 @@ export class playerLoadContent {
         msg.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "error", "no_same_voice")}`)
+              .setDescription(`${client.getString(language, "error", "no_same_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -172,7 +172,7 @@ export class playerLoadContent {
 
     if (!result.tracks.length) {
       msg.edit({
-        content: `${client.i18n.get(language, "event.setup", "setup_content")}\n${`${client.i18n.get(
+        content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
           language,
           "event.setup",
           "setup_content_empty"
@@ -191,7 +191,7 @@ export class playerLoadContent {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "event.setup", "play_playlist", {
+          `${client.getString(language, "event.setup", "play_playlist", {
             title: getTitle(result.tracks),
             duration: new ConvertTime().parse(TotalDuration),
             songs: `${result.tracks.length}`,
@@ -204,7 +204,7 @@ export class playerLoadContent {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(language, "event.setup", "play_track", {
+          `${client.getString(language, "event.setup", "play_track", {
             title: getTitle(result.tracks),
             duration: new ConvertTime().parse(result.tracks[0].duration as number),
             request: `${result.tracks[0].requester}`,
@@ -215,7 +215,7 @@ export class playerLoadContent {
     } else if (result.type === "SEARCH") {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(language, "event.setup", "play_result", {
+        `${client.getString(language, "event.setup", "play_result", {
           title: getTitle(result.tracks),
           duration: new ConvertTime().parse(result.tracks[0].duration as number),
           request: `${result.tracks[0].requester}`,

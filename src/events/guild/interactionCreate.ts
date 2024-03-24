@@ -98,14 +98,14 @@ export default class {
       interaction: ChatInputCommandInteraction | CommandInteraction,
       permissionResult: CheckPermissionResultInterface
     ) {
-      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
+      const selfErrorString = `${client.getString(language, "error", "no_perms", {
         perm: permissionResult.result,
       })}`;
       const embed = new EmbedBuilder()
         .setDescription(
           permissionResult.channel == "Self"
             ? selfErrorString
-            : `${client.i18n.get(language, "error", "no_perms_channel", {
+            : `${client.getString(language, "error", "no_perms_channel", {
                 perm: permissionResult.result,
                 channel: permissionResult.channel,
               })}`
@@ -140,7 +140,7 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`)
+            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`)
             .setColor(client.color),
         ],
       });
@@ -148,7 +148,7 @@ export default class {
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return interaction.reply({
         embeds: [
-          new EmbedBuilder().setDescription(`${client.i18n.get(language, "error", "no_node")}`).setColor(client.color),
+          new EmbedBuilder().setDescription(`${client.getString(language, "error", "no_node")}`).setColor(client.color),
         ],
       });
     }
@@ -157,7 +157,7 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
+            .setDescription(`${client.getString(language, "error", "owner_only")}`)
             .setColor(client.color),
         ],
       });
@@ -167,10 +167,10 @@ export default class {
       if (!user || !user.isPremium) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(language, "error", "no_premium_author")}`,
+            name: `${client.getString(language, "error", "no_premium_author")}`,
             iconURL: client.user!.displayAvatarURL(),
           })
-          .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
+          .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
           .setColor(client.color)
           .setTimestamp();
         return interaction.reply({
@@ -186,7 +186,7 @@ export default class {
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
+              .setDescription(`${client.getString(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -201,7 +201,7 @@ export default class {
         return (interaction as NoAutoInteraction).reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
+              .setDescription(`${client.getString(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -251,7 +251,7 @@ export default class {
     } catch (error) {
       client.logger.error(import.meta.url, error);
       interaction.reply({
-        content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
+        content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
       });
     }
   }

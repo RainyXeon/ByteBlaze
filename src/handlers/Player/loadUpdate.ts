@@ -32,7 +32,7 @@ export class playerLoadUpdate {
       const songStrings = [];
       const queuedSongs = player.queue.map(
         (song, i) =>
-          `${client.i18n.get(language, "event.setup", "setup_content_queue", {
+          `${client.getString(language, "event.setup", "setup_content_queue", {
             index: `${i + 1}`,
             title: song.title,
             duration: new FormatDuration().parse(song.duration),
@@ -58,11 +58,11 @@ export class playerLoadUpdate {
 
       let embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, "event.setup", "setup_author")}`,
-          iconURL: `${client.i18n.get(language, "event.setup", "setup_author_icon")}`,
+          name: `${client.getString(language, "event.setup", "setup_author")}`,
+          iconURL: `${client.getString(language, "event.setup", "setup_author_icon")}`,
         })
         .setDescription(
-          `${client.i18n.get(language, "event.setup", "setup_desc", {
+          `${client.getString(language, "event.setup", "setup_desc", {
             title: getTitle(cSong!),
             duration: new FormatDuration().parse(cSong!.duration),
             request: `${cSong!.requester}`,
@@ -77,13 +77,13 @@ export class playerLoadUpdate {
           }`
         )
         .setFooter({
-          text: `${client.i18n.get(language, "event.setup", "setup_footer", {
+          text: `${client.getString(language, "event.setup", "setup_footer", {
             volume: `${player.volume}`,
             duration: qDuration,
           })}`,
         }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
 
-      const queueString = `${client.i18n.get(language, "event.setup", "setup_content")}\n${
+      const queueString = `${client.getString(language, "event.setup", "setup_content")}\n${
         Str == "" ? " " : "\n" + Str
       }`;
 
@@ -118,12 +118,12 @@ export class playerLoadUpdate {
 
       const language = guildModel;
 
-      const queueMsg = `${client.i18n.get(language, "event.setup", "setup_queuemsg")}`;
+      const queueMsg = `${client.getString(language, "event.setup", "setup_queuemsg")}`;
 
       const playEmbed = new EmbedBuilder()
         .setColor(client.color)
         .setAuthor({
-          name: `${client.i18n.get(language, "event.setup", "setup_playembed_author")}`,
+          name: `${client.getString(language, "event.setup", "setup_playembed_author")}`,
         })
         .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 

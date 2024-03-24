@@ -86,28 +86,28 @@ export default class {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(language, "event.player", "track_title")}`,
-        iconURL: `${client.i18n.get(language, "event.player", "track_icon")}`,
+        name: `${client.getString(language, "event.player", "track_title")}`,
+        iconURL: `${client.getString(language, "event.player", "track_icon")}`,
       })
       .setDescription(`**${getTitle(track)}**`)
       .addFields([
         {
-          name: `${client.i18n.get(language, "event.player", "author_title")}`,
+          name: `${client.getString(language, "event.player", "author_title")}`,
           value: `${song!.author}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "event.player", "duration_title")}`,
+          name: `${client.getString(language, "event.player", "duration_title")}`,
           value: `${new FormatDuration().parse(song!.duration)}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "event.player", "request_title")}`,
+          name: `${client.getString(language, "event.player", "request_title")}`,
           value: `${song!.requester}`,
           inline: true,
         },
         {
-          name: `${client.i18n.get(language, "event.player", "download_title")}`,
+          name: `${client.getString(language, "event.player", "download_title")}`,
           value: `**[${song!.title} - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
           inline: false,
         },
@@ -136,7 +136,7 @@ export default class {
           return true;
         else {
           message.reply({
-            content: `${client.i18n.get(language, "event.player", "join_voice")}`,
+            content: `${client.getString(language, "event.player", "join_voice")}`,
             ephemeral: true,
           });
           return false;

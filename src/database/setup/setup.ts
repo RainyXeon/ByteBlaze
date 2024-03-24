@@ -37,12 +37,12 @@ export class SongRequesterCleanSetup {
 
     const language = guildModel;
 
-    const queueMsg = `${this.client.i18n.get(language, "setup", "setup_queuemsg")}`;
+    const queueMsg = `${this.client.getString(language, "setup", "setup_queuemsg")}`;
 
     const playEmbed = new EmbedBuilder()
       .setColor(this.client.color)
       .setAuthor({
-        name: `${this.client.i18n.get(language, "setup", "setup_playembed_author")}`,
+        name: `${this.client.getString(language, "setup", "setup_playembed_author")}`,
       })
       .setImage(`https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`);
 

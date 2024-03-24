@@ -33,7 +33,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -44,7 +44,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "delete_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -52,7 +52,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_owner")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "delete_owner")}`)
             .setColor(client.color),
         ],
       });
@@ -65,7 +65,7 @@ export default class implements Command {
     const msg = await handler.editReply({
       embeds: [
         new EmbedBuilder().setDescription(
-          `${client.i18n.get(handler.language, "command.playlist", "delete_confirm", {
+          `${client.getString(handler.language, "command.playlist", "delete_confirm", {
             playlist_id: value,
           })}`
         ),
@@ -84,7 +84,7 @@ export default class implements Command {
         await client.db.playlist.delete(value);
         const embed = new EmbedBuilder()
           .setDescription(
-            `${client.i18n.get(handler.language, "command.playlist", "delete_deleted", {
+            `${client.getString(handler.language, "command.playlist", "delete_deleted", {
               name: value,
             })}`
           )
@@ -94,7 +94,7 @@ export default class implements Command {
         msg?.delete();
       } else if (id == "no") {
         const embed = new EmbedBuilder()
-          .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_no")}`)
+          .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
         collector.stop();
@@ -105,7 +105,7 @@ export default class implements Command {
     collector?.on("end", async () => {
       const checkMsg = await handler.channel?.messages.fetch(String(msg?.id));
       const embed = new EmbedBuilder()
-        .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_no")}`)
+        .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);
       checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }) : true;
     });

@@ -26,7 +26,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
+            .setDescription(`${client.getString(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -57,7 +57,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "join_msg", {
+        `${client.getString(handler.language, "command.music", "join_msg", {
           channel: String(channel),
         })}`
       )
@@ -71,7 +71,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "no_same_voice")}`)
+            .setDescription(`${client.getString(handler.language, "error", "no_same_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -81,7 +81,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "join_already", {
+              `${client.getString(handler.language, "command.music", "join_already", {
                 channel: String(handler.member!.voice.channel),
               })}`
             )

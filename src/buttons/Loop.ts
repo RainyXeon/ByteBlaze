@@ -30,7 +30,7 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.SONG);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_current")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_current")}`);
 
         break;
 
@@ -39,7 +39,7 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.QUEUE);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_all")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_all")}`);
 
         break;
 
@@ -48,7 +48,7 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.NONE);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "unloop_all")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "unloop_all")}`);
 
         break;
     }

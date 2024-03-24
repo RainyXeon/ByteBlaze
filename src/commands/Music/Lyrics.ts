@@ -45,7 +45,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.music", "lyrics_notfound")}`)
+              .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
               .setColor(client.color),
           ],
         });
@@ -54,7 +54,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "lyrics_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -63,7 +63,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setColor(client.color)
       .setTitle(
-        `${client.i18n.get(handler.language, "command.music", "lyrics_title", {
+        `${client.getString(handler.language, "command.music", "lyrics_title", {
           song: query,
         })}`
       )
@@ -71,7 +71,7 @@ export default class implements Command {
       .setTimestamp();
 
     if (lyricsRes.length > 4096) {
-      embed.setDescription(`${client.i18n.get(handler.language, "command.music", "lyrics_toolong")}`);
+      embed.setDescription(`${client.getString(handler.language, "command.music", "lyrics_toolong")}`);
     }
 
     return handler.editReply({ embeds: [embed] });

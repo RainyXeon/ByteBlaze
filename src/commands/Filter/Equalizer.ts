@@ -33,7 +33,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -43,20 +43,20 @@ export default class implements Command {
     if (!value) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "command.filter", "eq_author")}`,
-          iconURL: `${client.i18n.get(handler.language, "command.filter", "eq_icon")}`,
+          name: `${client.getString(handler.language, "command.filter", "eq_author")}`,
+          iconURL: `${client.getString(handler.language, "command.filter", "eq_icon")}`,
         })
         .setColor(client.color)
-        .setDescription(`${client.i18n.get(handler.language, "command.filter", "eq_desc")}`)
+        .setDescription(`${client.getString(handler.language, "command.filter", "eq_desc")}`)
         .addFields({
-          name: `${client.i18n.get(handler.language, "command.filter", "eq_field_title")}`,
-          value: `${client.i18n.get(handler.language, "command.filter", "eq_field_value", {
+          name: `${client.getString(handler.language, "command.filter", "eq_field_title")}`,
+          value: `${client.getString(handler.language, "command.filter", "eq_field_value", {
             prefix: handler.prefix,
           })}`,
           inline: false,
         })
         .setFooter({
-          text: `${client.i18n.get(handler.language, "command.filter", "eq_footer", {
+          text: `${client.getString(handler.language, "command.filter", "eq_footer", {
             prefix: handler.prefix,
           })}`,
         });
@@ -79,7 +79,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.filter", "eq_number")}`)
+              .setDescription(`${client.getString(handler.language, "command.filter", "eq_number")}`)
               .setColor(client.color),
           ],
         });
@@ -87,7 +87,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.filter", "eq_than")}`)
+              .setDescription(`${client.getString(handler.language, "command.filter", "eq_than")}`)
               .setColor(client.color),
           ],
         });
@@ -96,7 +96,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.filter", "eq_greater")}`)
+              .setDescription(`${client.getString(handler.language, "command.filter", "eq_greater")}`)
               .setColor(client.color),
           ],
         });
@@ -120,7 +120,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.filter", "eq_on", {
+        `${client.getString(handler.language, "command.filter", "eq_on", {
           bands: bandsStr,
         })}`
       )

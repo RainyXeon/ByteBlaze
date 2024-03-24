@@ -35,7 +35,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -46,7 +46,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -61,35 +61,35 @@ export default class implements Command {
       .setTitle(info.name)
       .addFields([
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_owner")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_owner")}`,
           value: `${name.username}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_id")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_id")}`,
           value: `${info.id}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_des")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_des")}`,
           value: `${
             info.description === null || info.description === "null"
-              ? client.i18n.get(handler.language, "command.playlist", "no_des")
+              ? client.getString(handler.language, "command.playlist", "no_des")
               : info.description
           }`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_private")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_private")}`,
           value: `${
             info.private
-              ? client.i18n.get(handler.language, "command.playlist", "public")
-              : client.i18n.get(handler.language, "command.playlist", "private")
+              ? client.getString(handler.language, "command.playlist", "public")
+              : client.getString(handler.language, "command.playlist", "private")
           }`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_created")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_created")}`,
           value: `${created}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_total")}`,
+          name: `${client.getString(handler.language, "command.playlist", "info_total")}`,
           value: `${info.tracks!.length}`,
         },
       ])

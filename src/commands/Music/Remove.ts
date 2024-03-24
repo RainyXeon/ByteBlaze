@@ -38,7 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -46,7 +46,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "removetrack_already")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_already")}`)
             .setColor(client.color),
         ],
       });
@@ -54,7 +54,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "removetrack_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -65,7 +65,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "removetrack_desc", {
+        `${client.getString(handler.language, "command.music", "removetrack_desc", {
           name: this.getTitle(client, song),
           duration: new ConvertTime().parse(player.position),
           request: String(song.requester),
