@@ -141,6 +141,8 @@ Version numbers can come in different combinations, depending on the release typ
   - [@anas-ike](https://github.com/anas-ike) **Discord:** `lights.out.`
 - [x] **ko (Korean)**
   - [@EmuPIKin](https://github.com/EmuPIKin) **Discord:** `emupikin`
+- [x] **ru (Russian)**
+  - [@AutoP1ayer](https://github.com/AutoP1ayer) **Discord:** `autoplayer.uwu`
 
 ## ⁉ Become to translate team?
 
