@@ -18,7 +18,7 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    if (player.queue.size == 0)
+    if (player.queue.size == 0 && player.data.get("autoplay") !== true)
       return await new ReplyInteractionService(
         client,
         message,

@@ -43,13 +43,19 @@ export default class implements Command {
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       const res = await player!.search(search, { requester: handler.user });
 
+      const finalRes = res.tracks.filter(
+        (track) =>
+          !player!.queue.some((s) => s.encoded === track.encoded) &&
+          !player!.queue.previous.some((s) => s.encoded === track.encoded)
+      );
+
       player!.data.set("autoplay", true);
 
       player!.data.set("identifier", identifier);
 
       player!.data.set("requester", handler.user);
 
-      player!.queue.add(res.tracks[1]);
+      player!.queue.add(finalRes[1]);
 
       const on = new EmbedBuilder()
         .setDescription(

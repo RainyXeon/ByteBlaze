@@ -57,7 +57,7 @@ export class ButtonSkip {
     } else {
     }
 
-    if (this.player.queue.size == 0) {
+    if (this.player.queue.size == 0 && this.player.data.get("autoplay") !== true) {
       const embed = new EmbedBuilder()
         .setDescription(`${this.client.getString(this.language, "button.music", "skip_notfound")}`)
         .setColor(this.client.color);

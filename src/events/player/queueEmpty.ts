@@ -23,10 +23,20 @@ export default class {
       const identifier = player.data.get("identifier");
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       let res = await player.search(search, { requester: requester });
-      player.queue.add(res.tracks[2]);
-      player.queue.add(res.tracks[3]);
-      player.play();
-      return;
+      // console.log(player.queue.previous)
+      // console.log(player.queue.current)
+      const finalRes = res.tracks.filter((track) => {
+        const req1 = !player.queue.some((s) => s.encoded === track.encoded);
+        const req2 = !player.queue.previous.some((s) => s.encoded === track.encoded);
+        return req1 && req2;
+      });
+      if (finalRes.length !== 0) {
+        player.queue.add(finalRes.length <= 1 ? finalRes[0] : finalRes[1]);
+        player.play();
+        const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+        if (channel) return new ClearMessageService(client, channel, player);
+        return;
+      }
     }
 
     client.logger.info(import.meta.url, `Player Empty in @ ${guild!.name} / ${player.guildId}`);

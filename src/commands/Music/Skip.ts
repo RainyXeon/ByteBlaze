@@ -24,7 +24,7 @@ export default class implements Command {
 
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    if (player.queue.size == 0) {
+    if (player.queue.size == 0 && player.data.get("autoplay") !== true) {
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_notfound")}`)
         .setColor(client.color);
