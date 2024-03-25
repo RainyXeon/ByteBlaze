@@ -1,4 +1,12 @@
-import { Client, GatewayIntentBits, Collection, ColorResolvable } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  ColorResolvable,
+  Message,
+  ActionRowBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
 import { resolve } from "path";
@@ -14,8 +22,20 @@ import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
 import { DeployService } from "./services/DeployService.js";
-import { ByteBlaze } from "./@types/ByteBlaze.js";
 import { RainlinkInit } from "./structures/Rainlink.js";
+import { Metadata } from "./@types/Metadata.js";
+import { Config } from "./@types/Config.js";
+import { DatabaseTable } from "./database/@types.js";
+import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
+import { Rainlink } from "./rainlink/Rainlink.js";
+import { Command } from "./structures/Command.js";
+import { Premium } from "./database/schema/Premium.js";
+import { PlayerButton } from "./@types/Button.js";
+import { GlobalMsg } from "./structures/CommandHandler.js";
+import { RequestInterface } from "./webserver/RequestInterface.js";
+import { RainlinkPlayer } from "./rainlink/main.js";
+import { IconType } from "./@types/Emoji.js";
+import { WebSocket } from "ws";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -31,9 +51,40 @@ const REGEX = [
   /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
 ];
 
-export declare interface Manager extends ByteBlaze {}
-
 export class Manager extends Client {
+  metadata: Metadata;
+  config: Config;
+  logger: LoggerService;
+  db!: DatabaseTable;
+  owner: string;
+  color: ColorResolvable;
+  i18n: I18n;
+  prefix: string;
+  isDatabaseConnected: boolean;
+  shardStatus: boolean;
+  lavalinkList: LavalinkDataType[];
+  lavalinkUsing: LavalinkUsingDataType[];
+  lavalinkUsed: LavalinkUsingDataType[];
+  rainlink: Rainlink;
+  commands: Collection<string, Command>;
+  premiums: Collection<string, Premium>;
+  interval: Collection<string, NodeJS.Timer>;
+  sentQueue: Collection<string, boolean>;
+  nplayingMsg: Collection<string, Message>;
+  aliases: Collection<string, string>;
+  plButton: Collection<string, PlayerButton>;
+  leaveDelay: Collection<string, NodeJS.Timeout>;
+  nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
+  websocket?: WebSocket;
+  wsMessage?: Collection<string, RequestInterface>;
+  UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
+  UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
+  enSwitch!: ActionRowBuilder<ButtonBuilder>;
+  diSwitch!: ActionRowBuilder<ButtonBuilder>;
+  enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
+  icons: IconType;
+  cluster?: ClusterClient<Client>;
+  REGEX: RegExp[];
   constructor() {
     super({
       shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
