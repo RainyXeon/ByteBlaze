@@ -8,6 +8,7 @@ export enum Accessableby {
   Premium = "Premium",
   Manager = "Manager",
   Admin = "Admin",
+  Voter = "Voter",
 }
 
 export type CommandOptionChoiceInterface = {

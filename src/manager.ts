@@ -36,6 +36,7 @@ import { RequestInterface } from "./webserver/RequestInterface.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
 import { WebSocket } from "ws";
+import { TopggService } from "./services/TopggService.js";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -82,6 +83,7 @@ export class Manager extends Client {
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
   diSwitch!: ActionRowBuilder<ButtonBuilder>;
   enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
+  topgg?: TopggService;
   icons: IconType;
   cluster?: ClusterClient<Client>;
   REGEX: RegExp[];

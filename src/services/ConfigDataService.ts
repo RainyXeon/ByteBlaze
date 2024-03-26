@@ -104,6 +104,7 @@ export class ConfigDataService {
         AVOID_SUSPEND: false,
       },
       features: {
+        TOPGG_TOKEN: "",
         DATABASE: {
           driver: "json",
           config: { path: "./cylane.database.json" },

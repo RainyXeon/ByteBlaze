@@ -8,7 +8,7 @@ export default class {
     client.logger.info(import.meta.url, `Joined guild ${guild.name} @ ${guild.id}`);
     const owner = await guild.fetchOwner();
     const language = client.config.bot.LANGUAGE;
-
+    client.guilds.cache.set(`${guild!.id}`, guild);
     try {
       let PREFIX = client.prefix;
 

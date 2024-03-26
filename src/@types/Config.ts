@@ -20,6 +20,7 @@ export interface Bot {
 
 export interface Features {
   DATABASE: Database;
+  TOPGG_TOKEN: string;
   MESSAGE_CONTENT: MessageContent;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;

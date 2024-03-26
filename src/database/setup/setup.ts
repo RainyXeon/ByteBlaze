@@ -1,6 +1,4 @@
 import { Manager } from "../../manager.js";
-import cron from "node-cron";
-import { Premium } from "../schema/Premium.js";
 import { Setup } from "../schema/Setup.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 
