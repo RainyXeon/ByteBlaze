@@ -3,6 +3,12 @@ import { Snowflake } from "discord.js";
 import { Manager } from "../manager.js";
 import { request } from "undici";
 
+export enum TopggServiceEnum {
+  ERROR,
+  VOTED,
+  UNVOTED,
+}
+
 export class TopggService {
   isTokenAvalible: boolean = false;
   botId?: string;
@@ -23,16 +29,19 @@ export class TopggService {
     return false;
   }
 
-  public async checkVote(userId: string): Promise<boolean> {
-    if (!this.botId || !this.isTokenAvalible) throw new Error("TopGG service not setting up!");
+  public async checkVote(userId: string): Promise<TopggServiceEnum> {
+    if (!this.botId || !this.isTokenAvalible) {
+      this.client.logger.error(import.meta.url, "TopGG service not setting up! check vote will always return false");
+      return TopggServiceEnum.ERROR;
+    }
     const res = await this.fetch(`/bots/${this.botId}/check?userId=${userId}`);
     if (res.status !== 200) {
       this.client.logger.error(import.meta.url, "There was a problem when fetching data from top.gg");
-      return false;
+      return TopggServiceEnum.ERROR;
     }
     const jsonRes = (await res.json()) as { voted: number };
-    if (jsonRes.voted !== 0) return true;
-    return false;
+    if (jsonRes.voted !== 0) return TopggServiceEnum.VOTED;
+    return TopggServiceEnum.UNVOTED;
   }
 
   private async fetch(path: string) {
@@ -52,7 +61,7 @@ export class TopggService {
 
   public async updateServerCount(count: number) {
     if (!this.botId || !this.isTokenAvalible) throw new Error("TopGG service not setting up!");
-    const res = await request(this.url + `/bots/${this.botId}/stats`, {
+    await request(this.url + `/bots/${this.botId}/stats`, {
       method: "POST",
       body: JSON.stringify({
         server_count: count,

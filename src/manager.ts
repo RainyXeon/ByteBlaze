@@ -135,15 +135,15 @@ export class Manager extends Client {
     this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Collection()) : undefined;
 
     // Collections
-    this.commands = new Collection();
-    this.premiums = new Collection();
-    this.interval = new Collection();
-    this.sentQueue = new Collection();
-    this.aliases = new Collection();
-    this.nplayingMsg = new Collection();
-    this.plButton = new Collection();
-    this.leaveDelay = new Collection();
-    this.nowPlaying = new Collection();
+    this.commands = new Collection<string, Command>();
+    this.premiums = new Collection<string, Premium>();
+    this.interval = new Collection<string, NodeJS.Timer>();
+    this.sentQueue = new Collection<string, boolean>();
+    this.aliases = new Collection<string, string>();
+    this.nplayingMsg = new Collection<string, Message>();
+    this.plButton = new Collection<string, PlayerButton>();
+    this.leaveDelay = new Collection<string, NodeJS.Timeout>();
+    this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
     this.isDatabaseConnected = false;
 
     // Sharing

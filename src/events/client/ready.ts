@@ -20,12 +20,7 @@ export default class {
 
     if (client.config.features.TOPGG_TOKEN && client.config.features.TOPGG_TOKEN.length !== 0) {
       const topgg = new TopggService(client);
-      const res = await topgg.settingUp(
-        String(
-          // client.user?.id
-          "992776455790534667"
-        )
-      );
+      const res = await topgg.settingUp(String(client.user?.id));
       if (res) {
         client.topgg = topgg;
         client.topgg.startInterval();

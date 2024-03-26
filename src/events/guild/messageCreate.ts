@@ -1,4 +1,4 @@
-import { ChannelType, Message, PermissionFlagsBits } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, Message, PermissionFlagsBits } from "discord.js";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
@@ -8,6 +8,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
+import { TopggServiceEnum } from "../../services/TopggService.js";
 const commandRateLimitManager = new RateLimitManager(1000);
 
 export default class {
@@ -156,6 +157,8 @@ export default class {
     //////////////////////////////// Permission check end ////////////////////////////////
 
     //////////////////////////////// Access check start ////////////////////////////////
+    const premiumUser = client.premiums.get(message.author.id);
+    const isHavePremium = !premiumUser || !premiumUser.isPremium;
     if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
       return message.reply({
         embeds: [
@@ -177,31 +180,47 @@ export default class {
         ],
       });
 
-    try {
-      if (command.accessableby == Accessableby.Premium) {
-        const user = client.premiums.get(message.author.id);
-        if (!user || !user.isPremium) {
-          const embed = new EmbedBuilder()
-            .setAuthor({
-              name: `${client.getString(language, "error", "no_premium_author")}`,
-              iconURL: client.user!.displayAvatarURL(),
-            })
-            .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
-            .setColor(client.color)
-            .setTimestamp();
-
-          return message.reply({ content: " ", embeds: [embed] });
-        }
+    if (command.accessableby == Accessableby.Voter && isHavePremium && client.topgg) {
+      const voteChecker = await client.topgg.checkVote(message.author.id);
+      if (voteChecker == TopggServiceEnum.ERROR) {
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: client.getString(language, "error", "topgg_error_author"),
+          })
+          .setDescription(client.getString(language, "error", "topgg_error_desc"))
+          .setColor(client.color)
+          .setTimestamp();
+        return message.reply({ content: " ", embeds: [embed] });
       }
-    } catch (err) {
-      client.logger.error(import.meta.url, err);
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "unexpected_error")}`)
-            .setColor(client.color),
-        ],
-      });
+
+      if (voteChecker == TopggServiceEnum.UNVOTED) {
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: client.getString(language, "error", "topgg_vote_author"),
+          })
+          .setDescription(client.getString(language, "error", "topgg_vote_desc"))
+          .setColor(client.color)
+          .setTimestamp();
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setLabel(client.getString(language, "error", "topgg_vote_button"))
+            .setStyle(ButtonStyle.Link)
+            .setURL(`https://top.gg/bot/${client.user?.id}/vote`)
+        );
+        return message.reply({ content: " ", embeds: [embed], components: [row] });
+      }
+    }
+
+    if (command.accessableby == Accessableby.Premium && isHavePremium) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return message.reply({ content: " ", embeds: [embed] });
     }
 
     if (command.lavalink && client.lavalinkUsing.length == 0) {

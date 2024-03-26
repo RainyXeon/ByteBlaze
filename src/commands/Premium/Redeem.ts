@@ -81,18 +81,17 @@ export default class implements Command {
       .setColor(client.color)
       .setTimestamp();
 
-    const new_data = {
+    const newPreUser = await client.db.premium.set(`${handler.user?.id}`, {
       id: String(handler.user?.id),
       isPremium: true,
       redeemedBy: handler.user!,
       redeemedAt: Date.now(),
       expiresAt: premium.expiresAt,
       plan: premium.plan,
-    };
-    const newPreUser = await client.db.premium.set(`${new_data.id}`, new_data);
+    });
     await handler.editReply({ embeds: [embed] });
     await client.db.code.delete(`${input.toUpperCase()}`);
-    client.premiums.set(String(handler.user?.id), new_data);
+    client.premiums.set(String(handler.user?.id), newPreUser);
     await this.sendRedeemLog(client, newPreUser, handler.user);
     return;
   }
