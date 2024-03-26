@@ -47,8 +47,8 @@ lavalink:
       # it will fallback to lavalink v4 driver
       # Driver identify and support range:
       # lavalink@4 | lavalink v4.0.0 - v4.x.x
-      # lavalink@3 | support lavalink v3.7.0 - v3.7.x
-      # nodelink@2 | support nodelink v2.0.0 - v2.x.x
+      # lavalink@3 | lavalink v3.7.0 - v3.7.x
+      # nodelink@2 | nodelink v2.0.0 - v2.x.x
       driver: "lavalink@4"
 
     # - url: "IP:Port"
