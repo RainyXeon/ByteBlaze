@@ -35,7 +35,7 @@ export default class implements RequestInterface {
     } else if (json.query) {
       const res = await player.search(json.query, { requester: Member });
       if (res.type === "PLAYLIST" || res.type === "SEARCH") for (let track of res.tracks) player.queue.add(track);
-      if (!player.playing && !player.paused) return player.play();
+      if (!player.playing && player.paused) return player.play();
     }
   };
 }

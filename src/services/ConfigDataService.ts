@@ -6,13 +6,16 @@ config();
 
 export class ConfigDataService {
   get data() {
-    const yaml_files = new YAMLParseService("./app.yml").execute();
+    const yaml_files = load(new YAMLParseService("./app.yml").execute()) as Config;
+    const old_data = load(new YAMLParseService("./app.yml").execute()) as Config;
 
-    const raw = load(yaml_files) as Config;
-
+    const raw = yaml_files;
     this.checkConfig(raw);
-
     const res = this.mergeDefault(this.defaultConfig, raw);
+
+    if (old_data.features && old_data.features.DATABASE && old_data.features.DATABASE.config) {
+      res.features.DATABASE.config = old_data.features.DATABASE.config
+    }
 
     if (process.env.DOCKER_COMPOSE_MODE) {
       // Change lavalink data
