@@ -8,7 +8,7 @@ filter_less: "`⚠️` | 10 이하의 숫자를 입력해주세요!"
 bassboost_set: "`🎚️` | Bassboost 모드가 **%{amount}dB** 로 설정되었어요!"
 bassboost_limit: "`⚠️` | -10 에서 10 사이의 값을 입력해 주세요!"
 ### Equalizer command!
-eq_author: "Equalizer"
+eq_author: "Sinhala"
 eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
 eq_desc: "`🎚️` | -10부터 10까지 설정 가능한 밴드가 14개 있습니다. 반드시 모두 설정해야 하는 것은 아니에요! 취향에 맞게 설정해주세요!"
 eq_field_title: "예시:"

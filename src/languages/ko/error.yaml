@@ -9,6 +9,7 @@ no_in_voice: "`⚠️` | 음성채널에 입장해 있지 않아요 입장후 �
 no_same_voice: "`⚠️` | 같은 음성채널에 있어야 해요!"
 #No permission!
 no_perms: "`⚠️` | 이 명령을 실행하기 위한 **%{perm}** 권한이 없습니다."
+no_perms_channel: "`⚠️` | 이 명령을 실행하기 위한 **%{perm}** 권한이 <#%{channel}> 채널에 없어요!"
 #Getting error!
 unexpected_error: "`⚠️` | 문제가 발생했습니다 다시 시도 해주세요!"
 #Client owner!
@@ -20,3 +21,9 @@ no_premium_desc: "`⚠️` | 프리미엄 사용자가 아니에요!"
 ratelimit: "`⚠️` | **%{time} 초** 후에 다시 시도해 주세요!"
 #Missing args
 arg_error: "`⚠️` | 유효하지 않은 인수입니다. 다음을 사용해주세요! %{text}"
+#Top.gg error
+topgg_error_author: "❌ | Top.gg 오류"
+topgg_error_desc: "top.gg 에서 투표를 확인하는 동안 오류가 발생했습니다. 이는 Top.gg 이 다운되었기 때문일 수 있습니다. 5-10분 후에 다시 시도하십시오."
+topgg_vote_author: "❌ | 아직 투표를 하지 않았어요!"
+topgg_vote_desc: "이 명령을 사용하려면 이 봇에 투표해야 해요!"
+topgg_vote_button: "투표하려면 여기를 클릭하세요!"

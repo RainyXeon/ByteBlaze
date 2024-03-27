@@ -14,7 +14,7 @@ export class ConfigDataService {
     const res = this.mergeDefault(this.defaultConfig, raw);
 
     if (old_data.features && old_data.features.DATABASE && old_data.features.DATABASE.config) {
-      res.features.DATABASE.config = old_data.features.DATABASE.config
+      res.features.DATABASE.config = old_data.features.DATABASE.config;
     }
 
     if (process.env.DOCKER_COMPOSE_MODE) {
