@@ -1,3 +1,5 @@
+import { RainlinkNodeOptions } from "../rainlink/main.js";
+
 export interface Config {
   bot: Bot;
   lavalink: Lavalink;
@@ -12,19 +14,18 @@ export interface Bot {
   LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;
   SAFE_ICONS_MODE: boolean;
-  SAFE_PLAYER_MODE: boolean;
   DELETE_MSG_TIMEOUT: number;
   DEBUG_MODE: boolean;
 }
 
 export interface Features {
   DATABASE: Database;
+  TOPGG_TOKEN: string;
   MESSAGE_CONTENT: MessageContent;
   AUTOFIX_LAVALINK: AutofixLavalink;
   WEB_SERVER: WebServer;
   PREMIUM_LOG_CHANNEL: string;
   GUILD_LOG_CHANNEL: string;
-  DEBUG_TOOLS: boolean;
 }
 
 export interface AutofixLavalink {
@@ -67,16 +68,9 @@ export interface Lavalink {
   AUTOCOMPLETE_SEARCH: string[];
   NP_REALTIME: boolean;
   LEAVE_TIMEOUT: number;
-  NODES: Node[];
+  NODES: RainlinkNodeOptions[];
   DEFAULT_VOLUME: number;
   AVOID_SUSPEND: boolean;
-}
-
-export interface Node {
-  url: string;
-  name: string;
-  auth: string;
-  secure: boolean;
 }
 
 export interface Spotify {

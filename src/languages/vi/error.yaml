@@ -30,3 +30,10 @@ ratelimit: "`⚠️` | Bạn dùng lệnh quá nhanh. Hãy đợi **%{time} giâ
 
 # Missing args
 arg_error: "`⚠️` | Dữ liệu đi theo không hợp lệ. Vui lòng chỉ sử dụng %{text}"
+
+# Top.gg error
+topgg_error_author: "❌ | Lỗi Top.gg"
+topgg_error_desc: "Đã xảy ra ngoại lệ khi kiểm tra phiếu bầu của bạn trên top.gg, điều này có thể là do Top.gg không hoạt động. Vui lòng thử lại sau 5-10 phút."
+topgg_vote_author: "❌ | Bạn chưa vote bot"
+topgg_vote_desc: "Để sử dụng lệnh này, bạn cần phải vote cho con bot này trên top.gg!"
+topgg_vote_button: "Nhấn vào đây để vote!"

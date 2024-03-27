@@ -1,14 +1,14 @@
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer) {
+  async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.websocket) return;
     client.websocket.send(
       JSON.stringify({
         op: "sync_position",
         guild: player.guildId,
-        position: player.shoukaku.position,
+        position: player.position,
       })
     );
   }

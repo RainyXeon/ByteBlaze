@@ -36,7 +36,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setColor(client.color)
-            .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`),
+            .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`),
         ],
       });
 
@@ -45,7 +45,7 @@ export default class implements Command {
     if (member && member.isPremium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_already")}`);
+        .setDescription(`${client.getString(handler.language, "command.premium", "redeem_already")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
@@ -54,14 +54,14 @@ export default class implements Command {
     if (!premium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`);
+        .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
     if (premium.expiresAt !== "lifetime" && premium.expiresAt < Date.now()) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(`${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`);
+        .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`);
       return handler.editReply({ embeds: [embed] });
     }
 
@@ -69,11 +69,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.premium", "redeem_title")}`,
+        name: `${client.getString(handler.language, "command.premium", "redeem_title")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "command.premium", "redeem_desc", {
+        `${client.getString(handler.language, "command.premium", "redeem_desc", {
           expires: premium.expiresAt !== "lifetime" ? expires : "lifetime",
           plan: premium.plan,
         })}`
@@ -81,18 +81,17 @@ export default class implements Command {
       .setColor(client.color)
       .setTimestamp();
 
-    const new_data = {
+    const newPreUser = await client.db.premium.set(`${handler.user?.id}`, {
       id: String(handler.user?.id),
       isPremium: true,
       redeemedBy: handler.user!,
       redeemedAt: Date.now(),
       expiresAt: premium.expiresAt,
       plan: premium.plan,
-    };
-    const newPreUser = await client.db.premium.set(`${new_data.id}`, new_data);
+    });
     await handler.editReply({ embeds: [embed] });
     await client.db.code.delete(`${input.toUpperCase()}`);
-    client.premiums.set(String(handler.user?.id), new_data);
+    client.premiums.set(String(handler.user?.id), newPreUser);
     await this.sendRedeemLog(client, newPreUser, handler.user);
     return;
   }
@@ -103,15 +102,15 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(language, "event.premium", "title")}`,
+        name: `${client.getString(language, "event.premium", "title")}`,
       })
       .addFields([
         {
-          name: `${client.i18n.get(language, "event.premium", "display_name")}`,
+          name: `${client.getString(language, "event.premium", "display_name")}`,
           value: `${user?.displayName}`,
         },
         {
-          name: `${client.i18n.get(language, "event.premium", "username")}`,
+          name: `${client.getString(language, "event.premium", "username")}`,
           value: `${user?.username}`,
         },
         {
@@ -119,21 +118,21 @@ export default class implements Command {
           value: `${user?.id}`,
         },
         {
-          name: `${client.i18n.get(language, "event.premium", "createdAt")}`,
+          name: `${client.getString(language, "event.premium", "createdAt")}`,
           value: `${moment(user?.createdAt.getTime()).format("dddd, MMMM Do YYYY")}`,
         },
         {
-          name: `${client.i18n.get(language, "event.premium", "redeemedAt")}`,
+          name: `${client.getString(language, "event.premium", "redeemedAt")}`,
           value: `${moment(premium.redeemedAt).format("dddd, MMMM Do YYYY")}`,
         },
         {
-          name: `${client.i18n.get(language, "event.premium", "expiresAt")}`,
+          name: `${client.getString(language, "event.premium", "expiresAt")}`,
           value: `${
             premium.expiresAt == "lifetime" ? "lifetime" : moment(premium.expiresAt).format("dddd, MMMM Do YYYY")
           }`,
         },
         {
-          name: `${client.i18n.get(language, "event.premium", "plan")}`,
+          name: `${client.getString(language, "event.premium", "plan")}`,
           value: `${premium.plan}`,
         },
       ])

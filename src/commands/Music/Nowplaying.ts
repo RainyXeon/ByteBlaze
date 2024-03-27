@@ -3,7 +3,7 @@ import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -26,55 +26,55 @@ export default class implements Command {
 
     const realtime = client.config.lavalink.NP_REALTIME;
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
     const position = player.position;
     const CurrentDuration = new FormatDuration().parse(position);
-    const TotalDuration = new FormatDuration().parse(song!.length);
+    const TotalDuration = new FormatDuration().parse(song!.duration);
     const Thumbnail =
       `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
       `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg`;
-    const Part = Math.floor((position / song!.length!) * 30);
+    const Part = Math.floor((position / song!.duration!) * 30);
 
     const fieldDataGlobal = [
       {
-        name: `${client.i18n.get(handler.language, "event.player", "author_title")}`,
+        name: `${client.getString(handler.language, "event.player", "author_title")}`,
         value: `${song!.author}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "duration_title")}`,
-        value: `${new FormatDuration().parse(song!.length)}`,
+        name: `${client.getString(handler.language, "event.player", "duration_title")}`,
+        value: `${new FormatDuration().parse(song!.duration)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "volume_title")}`,
-        value: `${player.volume * 100}%`,
+        name: `${client.getString(handler.language, "event.player", "volume_title")}`,
+        value: `${player.volume}%`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "queue_title")}`,
+        name: `${client.getString(handler.language, "event.player", "queue_title")}`,
         value: `${player.queue.length}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
-        value: `${new FormatDuration().parse(player.queue.durationLength)}`,
+        name: `${client.getString(handler.language, "event.player", "total_duration_title")}`,
+        value: `${new FormatDuration().parse(player.queue.duration)}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "request_title")}`,
+        name: `${client.getString(handler.language, "event.player", "request_title")}`,
         value: `${song!.requester}`,
         inline: true,
       },
       {
-        name: `${client.i18n.get(handler.language, "event.player", "download_title")}`,
+        name: `${client.getString(handler.language, "event.player", "download_title")}`,
         value: `**[${song!.title}](https://www.000tube.com/watch?v=${song?.identifier})**`,
         inline: false,
       },
       {
-        name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+        name: `${client.getString(handler.language, "command.music", "np_current_duration", {
           current_duration: CurrentDuration,
           total_duration: TotalDuration,
         })}`,
@@ -85,8 +85,8 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
-        iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
+        name: `${client.getString(handler.language, "command.music", "np_title")}`,
+        iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
       .setDescription(`**${this.getTitle(client, song!)}**`)
@@ -114,13 +114,13 @@ export default class implements Command {
         if (!player.queue.current) return clearInterval(interval);
         if (!player.playing) return;
         const CurrentDuration = new FormatDuration().parse(player.position);
-        const Part = Math.floor((player.position / song!.length!) * 30);
+        const Part = Math.floor((player.position / song!.duration!) * 30);
 
         const editedField = fieldDataGlobal;
 
         editedField.splice(7, 1);
         editedField.push({
-          name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
+          name: `${client.getString(handler.language, "command.music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
           })}`,
@@ -130,8 +130,8 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
-            iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
+            name: `${client.getString(handler.language, "command.music", "np_title")}`,
+            iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
           .setDescription(`**${this.getTitle(client, song!)}**`)
@@ -147,7 +147,7 @@ export default class implements Command {
     }
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;

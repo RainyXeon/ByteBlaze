@@ -1,0 +1,39 @@
+# Invalid Number
+number_invalid: "`⚠️` | Пожалуйста, укажите число!"
+
+# Execute when invalid
+no_node: "`⚠️` | Сервер Lavalink не найден. Пожалуйста, повторите попытку через **5 минут**!"
+
+# No song is currently playing!
+no_player: "`⚠️` | В данный момент ни одна песня не играет!"
+
+# Need to join voice & same voice to use command!
+no_in_voice: "`⚠️` | Вы не находитесь в голосовом канале!"
+no_same_voice: "`⚠️` | Вы находитесь не на том же голосовом канале!"
+
+# No permission!
+no_perms: "`⚠️` | У меня нет **%{perm}** разрешения на выполнение этой команды!"
+no_perms_channel: "`⚠️` | У меня нет **%{perm}** прав в <#%{channel}> для выполнения этой команды!"
+
+# Getting error!
+unexpected_error: "`⚠️` | Что-то пошло не так. Пожалуйста, повторите попытку позже!"
+
+# Client owner!
+owner_only: "`⚠️` | Ты не мой **владелец**!"
+
+# No premium Event!
+no_premium_author: "Премиум"
+no_premium_desc: "`⚠️` | Вы не являетесь пользователем Premium!"
+
+# Rate limit!
+ratelimit: "`⚠️` | Вы выполняете действия слишком быстро. Пожалуйста, подождите через **%{time} секунд**!"
+
+# Missing args
+arg_error: "`⚠️` | Недопустимый аргумент. Пожалуйста, используйте %{text}"
+
+# Top.gg error
+topgg_error_author: "❌ | Top.gg ошибка"
+topgg_error_desc: "При проверке вашего голоса на сайте top.gg произошел ошибка. Это может быть связано с тем, что Top.gg не работает. Пожалуйста, повторите попытку через 5–10 минут."
+topgg_vote_author: "❌ | Вы еще не проголосовали"
+topgg_vote_desc: "Чтобы использовать эту команду, вам необходимо проголосовать за этого бота!"
+topgg_vote_button: "Нажмите здесь, чтобы проголосовать!"

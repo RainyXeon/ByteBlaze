@@ -1,9 +1,8 @@
 import { Manager } from "../../manager.js";
 import { AutoReconnect } from "../schema/AutoReconnect.js";
 import chillout from "chillout";
-import { KazagumoLoopMode } from "../../@types/Lavalink.js";
-import { KazagumoPlayer } from "../../lib/main.js";
 import { VoiceChannel } from "discord.js";
+import { RainlinkLoopMode, RainlinkPlayer } from "../../rainlink/main.js";
 
 export class AutoReconnectLavalinkService {
   client: Manager;
@@ -31,7 +30,7 @@ export class AutoReconnectLavalinkService {
     if (Object.keys(maindata).length === 0) return;
 
     let retry_interval = setInterval(async () => {
-      if (this.client.lavalinkUsing.length == 0 || this.client.manager.shoukaku.nodes.size == 0)
+      if (this.client.lavalinkUsing.length == 0 || this.client.rainlink.nodes.size == 0)
         return this.client.logger.setup(
           import.meta.url,
           lavalink_mess + `No lavalink avalible, try again after 3 seconds!`
@@ -60,6 +59,7 @@ export class AutoReconnectLavalinkService {
   async connectChannel(data: { id: string; value: AutoReconnect }) {
     const lavalink_mess = "Lavalink: ";
     const channel = await this.client.channels.fetch(data.value.text);
+    const guild = await this.client.guilds.fetch(data.value.guild);
     const voice = (await this.client.channels.fetch(data.value.voice)) as VoiceChannel;
     if (!channel || !voice) {
       this.client.logger.setup(
@@ -78,10 +78,11 @@ export class AutoReconnectLavalinkService {
       return this.client.db.autoreconnect.delete(data.value.guild);
     }
 
-    const player = await this.client.manager.createPlayer({
+    const player = await this.client.rainlink.create({
       guildId: data.value.guild,
       voiceId: data.value.voice,
       textId: data.value.text,
+      shardId: guild ? guild.shardId : 0,
       deaf: true,
       volume: this.client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
@@ -96,12 +97,12 @@ export class AutoReconnectLavalinkService {
 
       if (data.value.previous.length !== 0) await this.previousDataPush(data.value.previous, player);
 
-      if (data.value.config.loop !== "none") player.setLoop(data.value.config.loop as KazagumoLoopMode);
+      if (data.value.config.loop !== "none") player.setLoop(data.value.config.loop as RainlinkLoopMode);
       await player.play(search.tracks[0]);
     }
   }
 
-  async queueDataPush(query: string[], player: KazagumoPlayer) {
+  async queueDataPush(query: string[], player: RainlinkPlayer) {
     const SongAdd = [];
     let SongLoad = 0;
 
@@ -127,7 +128,7 @@ export class AutoReconnectLavalinkService {
     }
   }
 
-  async previousDataPush(query: string[], player: KazagumoPlayer) {
+  async previousDataPush(query: string[], player: RainlinkPlayer) {
     const SongAdd = [];
     let SongLoad = 0;
 

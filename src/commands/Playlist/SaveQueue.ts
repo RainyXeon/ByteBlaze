@@ -1,12 +1,12 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
-import { KazagumoTrack } from "../../lib/main.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
+import { RainlinkTrack } from "../../rainlink/main.js";
 
-const TrackAdd: KazagumoTrack[] = [];
+const TrackAdd: RainlinkTrack[] = [];
 const TrackExist: string[] = [];
-let Result: KazagumoTrack[] | null = null;
+let Result: RainlinkTrack[] | null = null;
 
 export default class implements Command {
   public name = ["pl-savequeue"];
@@ -38,7 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -49,7 +49,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "savequeue_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "savequeue_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -57,12 +57,12 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "savequeue_owner")}`)
+            .setDescription(`${client.getString(handler.language, "command.playlist", "savequeue_owner")}`)
             .setColor(client.color),
         ],
       });
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     const queue = player?.queue.map((track) => track);
     const current = player?.queue.current;
@@ -71,12 +71,12 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "noplayer", "savequeue_no_tracks")}`)
+            .setDescription(`${client.getString(handler.language, "noplayer", "savequeue_no_tracks")}`)
             .setColor(client.color),
         ],
       });
 
-    TrackAdd.push(current as KazagumoTrack);
+    TrackAdd.push(current as RainlinkTrack);
     TrackAdd.push(...queue!);
 
     if (!playlist) Result = TrackAdd;
@@ -92,7 +92,7 @@ export default class implements Command {
     if (Result!.length == 0) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.playlist", "savequeue_no_new_saved", {
+          `${client.getString(handler.language, "command.playlist", "savequeue_no_new_saved", {
             name: value,
           })}`
         )
@@ -102,7 +102,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.playlist", "savequeue_saved", {
+        `${client.getString(handler.language, "command.playlist", "savequeue_saved", {
           name: value,
           tracks: String(queue?.length! + 1),
         })}`
@@ -114,8 +114,8 @@ export default class implements Command {
       await client.db.playlist.push(`${value}.tracks`, {
         title: track.title,
         uri: track.uri,
-        length: track.length,
-        thumbnail: track.thumbnail,
+        length: track.duration,
+        thumbnail: track.artworkUrl,
         author: track.author,
         requester: track.requester, // Just case can push
       });

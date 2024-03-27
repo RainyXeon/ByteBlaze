@@ -1,9 +1,8 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { KazagumoLoop } from "../@types/Lavalink.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
+import { RainlinkLoopMode, RainlinkPlayer } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
   name = "loop";
@@ -11,7 +10,7 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
@@ -27,29 +26,29 @@ export default class implements PlayerButton {
 
     switch (player.loop) {
       case "none":
-        await player.setLoop(KazagumoLoop.track);
+        await player.setLoop(RainlinkLoopMode.SONG);
 
-        setLoop247(String(KazagumoLoop.none));
+        setLoop247(RainlinkLoopMode.SONG);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_current")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_current")}`);
 
         break;
 
-      case "track":
-        await player.setLoop(KazagumoLoop.queue);
+      case "song":
+        await player.setLoop(RainlinkLoopMode.QUEUE);
 
-        setLoop247(String(KazagumoLoop.none));
+        setLoop247(RainlinkLoopMode.QUEUE);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "loop_all")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_all")}`);
 
         break;
 
       case "queue":
-        await player.setLoop(KazagumoLoop.none);
+        await player.setLoop(RainlinkLoopMode.NONE);
 
-        setLoop247(String(KazagumoLoop.none));
+        setLoop247(RainlinkLoopMode.NONE);
 
-        new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "unloop_all")}`);
+        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "unloop_all")}`);
 
         break;
     }

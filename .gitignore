@@ -141,3 +141,5 @@ byteblaze.database.json
 draft/
 temp/
 pnpm-lock.yaml
+
+test.*************

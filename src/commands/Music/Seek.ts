@@ -3,7 +3,7 @@ import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 const time_regex = /(^[0-9][\d]{0,3}):(0[0-9]{1}$|[1-5]{1}[0-9])/;
 
 // Main code
@@ -38,7 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "seek_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -49,19 +49,19 @@ export default class implements Command {
       value = min + sec;
     }
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    if (value * 1000 >= player.queue.current!.length! || value < 0)
+    if (value * 1000 >= player.queue.current!.duration! || value < 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_beyond")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "seek_beyond")}`)
             .setColor(client.color),
         ],
       });
     await player.seek(value * 1000);
 
-    const song_position = player.shoukaku.position;
+    const song_position = player.position;
 
     let final_res;
 
@@ -72,7 +72,7 @@ export default class implements Command {
 
     const seeked = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "seek_msg", {
+        `${client.getString(handler.language, "command.music", "seek_msg", {
           duration: Duration,
         })}`
       )

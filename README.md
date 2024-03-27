@@ -92,7 +92,10 @@
 
 1. Clone this repository using `git clone https://github.com/RainyXeon/ByteBlaze.git`
 2. run `cd ByteBlaze` to go to the **ByteBlaze** folder.
-3. Change the name of **app.example.yml** to **app.yml** and fill it with `TOKEN` and `NODES`
+3. Config files:
+   - Note: All type of config must fill `TOKEN`, `OWNER_ID` and `NODES`
+   - If you want to use default config and have minimal config, change the name of **example.app.yml** to **app.yml**
+   - If you want to use all config, change the name of **example.full.app.yml** to **app.yml**
 4. run `npm i` to install the required packages.
 5. run `npm run build:full` to build the bot.
 6. run `npm start` to start the bot.
@@ -138,11 +141,12 @@ Version numbers can come in different combinations, depending on the release typ
   - [@anas-ike](https://github.com/anas-ike) **Discord:** `lights.out.`
 - [x] **ko (Korean)**
   - [@EmuPIKin](https://github.com/EmuPIKin) **Discord:** `emupikin`
+- [x] **ru (Russian)**
+  - [@AutoP1ayer](https://github.com/AutoP1ayer) **Discord:** `autoplayer.uwu`
 
 ## ⁉ Become to translate team?
 
 - [Crowdin](https://crowdin.com/project/byteblaze)
-
 
 ## 💫 Special Thanks
 
@@ -152,12 +156,9 @@ Version numbers can come in different combinations, depending on the release typ
 - [@brblacky](https://github.com/brblacky) [Inspiration]
 - [@mrstebo](https://github.com/mrstebo) [env Praser]
 - [@ItzZoldy](https://github.com/ItzZoldy) [Designer]
-- [@Takiyo0](https://github.com/Takiyo0) [Original Developer of [Kazagumo](https://www.npmjs.com/package/kazagumo) ([Github](https://github.com/Takiyo0/Kazagumo))]
-
-  +) I own nothing in `/src/lib` except Apple Music, Deezer and Nicovideo plugins in `/src/lib/Plugins` folder.
 
 **And Everyone who Starred and Contributed to My Project 💖**
 
-
 ## 💫 Credits:
+
 - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` As an owner and a creator of this project

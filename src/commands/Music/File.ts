@@ -29,7 +29,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    let player = client.manager.players.get(handler.guild!.id);
+    let player = client.rainlink.players.get(handler.guild!.id);
 
     const file: Attachment = handler.attactments[0];
 
@@ -37,7 +37,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "file_notfound")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "file_notfound")}`)
             .setColor(client.color),
         ],
       });
@@ -47,7 +47,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
+            .setDescription(`${client.getString(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -56,7 +56,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_invalid_file")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "play_invalid_file")}`)
             .setColor(client.color),
         ],
       });
@@ -64,16 +64,17 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_warning_file")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "play_warning_file")}`)
             .setColor(client.color),
         ],
       });
 
     if (!player)
-      player = await client.manager.createPlayer({
+      player = await client.rainlink.create({
         guildId: handler.guild!.id,
         voiceId: handler.member!.voice.channel!.id,
         textId: handler.channel!.id,
+        shardId: handler.guild?.shardId ?? 0,
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
@@ -87,7 +88,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_match")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "play_match")}`)
             .setColor(client.color),
         ],
       });
@@ -96,14 +97,14 @@ export default class implements Command {
     else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
-    const TotalDuration = player.queue.durationLength;
+    const TotalDuration = player.queue.duration;
 
     if (handler.message) await handler.message.delete();
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "play_playlist", {
+          `${client.getString(handler.language, "command.music", "play_playlist", {
             title: file.name,
             duration: new ConvertTime().parse(TotalDuration),
             songs: String(tracks.length),
@@ -116,9 +117,9 @@ export default class implements Command {
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "play_track", {
+          `${client.getString(handler.language, "command.music", "play_track", {
             title: file.name,
-            duration: new ConvertTime().parse(tracks[0].length as number),
+            duration: new ConvertTime().parse(tracks[0].duration as number),
             request: String(tracks[0].requester),
           })}`
         )
@@ -127,9 +128,9 @@ export default class implements Command {
       if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.i18n.get(handler.language, "command.music", "play_result", {
+        `${client.getString(handler.language, "command.music", "play_result", {
           title: file.name,
-          duration: new ConvertTime().parse(tracks[0].length as number),
+          duration: new ConvertTime().parse(tracks[0].duration as number),
           request: String(tracks[0].requester),
         })}`
       );
@@ -139,7 +140,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "play_match")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "play_match")}`)
             .setColor(client.color),
         ],
       });

@@ -68,7 +68,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "error", "arg_error", {
+              `${client.getString(handler.language, "error", "arg_error", {
                 text: "**daily**, **weekly**, **monthly**, **yearly**, **lifetime**!",
               })}`
             )
@@ -80,7 +80,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "error", "arg_error", {
+              `${client.getString(handler.language, "error", "arg_error", {
                 text: "**Number**!",
               })}`
             )
@@ -123,11 +123,11 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setColor(client.color)
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.premium", "gen_author")}`,
+        name: `${client.getString(handler.language, "command.premium", "gen_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "command.premium", "gen_desc", {
+        `${client.getString(handler.language, "command.premium", "gen_desc", {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
@@ -136,7 +136,7 @@ export default class implements Command {
       )
       .setTimestamp()
       .setFooter({
-        text: `${client.i18n.get(handler.language, "command.premium", "gen_footer", {
+        text: `${client.getString(handler.language, "command.premium", "gen_footer", {
           prefix: "/",
         })}`,
         iconURL: handler.user?.displayAvatarURL(),

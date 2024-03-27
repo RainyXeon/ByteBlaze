@@ -1,13 +1,12 @@
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
-import { TrackExceptionEvent } from "shoukaku";
 import { TextChannel } from "discord.js";
 import util from "node:util";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer, data: TrackExceptionEvent) {
+  async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
     client.logger.error(import.meta.url, `Player get exception ${util.inspect(data)}`);
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -23,7 +22,7 @@ export default class {
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
       return new ClearMessageService(client, channel, player);
 
-    const currentPlayer = (await client.manager.getPlayer(player.guildId)) as KazagumoPlayer;
+    const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
     if (currentPlayer.voiceId !== null) {
       await player.destroy();

@@ -25,7 +25,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.utils", "prefix_arg")}`)
+            .setDescription(`${client.getString(handler.language, "command.utils", "prefix_arg")}`)
             .setColor(client.color),
         ],
       });
@@ -34,7 +34,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.utils", "prefix_length")}`)
+            .setDescription(`${client.getString(handler.language, "command.utils", "prefix_length")}`)
             .setColor(client.color),
         ],
       });
@@ -46,7 +46,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.utils", "prefix_set", {
+          `${client.getString(handler.language, "command.utils", "prefix_set", {
             prefix: handler.args[0],
           })}`
         )
@@ -58,7 +58,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.utils", "prefix_change", {
+          `${client.getString(handler.language, "command.utils", "prefix_change", {
             prefix: handler.args[0],
           })}`
         )

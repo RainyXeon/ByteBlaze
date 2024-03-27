@@ -14,10 +14,11 @@ export default class implements RequestInterface {
     const channel =
       Guild!.channels.cache.find((channel) => channel.name === "general") || Guild!.channels.cache.first();
 
-    await client.manager.createPlayer({
+    await client.rainlink.create({
       guildId: Guild!.id,
       voiceId: Member!.voice.channel!.id,
       textId: String(channel?.id),
+      shardId: Guild.shardId,
       deaf: true,
       volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });

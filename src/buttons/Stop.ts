@@ -1,8 +1,8 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
   name = "stop";
@@ -10,7 +10,7 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
@@ -19,6 +19,6 @@ export default class implements PlayerButton {
     player.data.set("sudo-destroy", true);
     player.destroy();
 
-    await new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "stop_msg")}`);
+    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "stop_msg")}`);
   }
 }

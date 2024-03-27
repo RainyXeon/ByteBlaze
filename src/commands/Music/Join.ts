@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -26,18 +26,19 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
+            .setDescription(`${client.getString(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
 
-    let player = client.manager.players.get(handler.guild!.id);
+    let player = client.rainlink.players.get(handler.guild!.id);
 
     if (!player)
-      player = await client.manager.createPlayer({
+      player = await client.rainlink.create({
         guildId: handler.guild!.id,
         voiceId: handler.member!.voice.channel!.id,
         textId: handler.channel!.id,
+        shardId: handler.guild?.shardId ?? 0,
         deaf: true,
         volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
       });
@@ -45,17 +46,18 @@ export default class implements Command {
       return;
     }
 
-    await client.manager.createPlayer({
+    await client.rainlink.create({
       guildId: handler.guild!.id,
       voiceId: handler.member!.voice.channel!.id,
       textId: handler.channel!.id,
+      shardId: handler.guild?.shardId ?? 0,
       deaf: true,
       volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "join_msg", {
+        `${client.getString(handler.language, "command.music", "join_msg", {
           channel: String(channel),
         })}`
       )
@@ -69,7 +71,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "no_same_voice")}`)
+            .setDescription(`${client.getString(handler.language, "error", "no_same_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -79,7 +81,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "join_already", {
+              `${client.getString(handler.language, "command.music", "join_already", {
                 channel: String(handler.member!.voice.channel),
               })}`
             )

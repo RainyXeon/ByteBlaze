@@ -44,14 +44,13 @@ export class AutoFixLavalink {
   }
 
   checkLavalink() {
-    if (this.client.manager.shoukaku.nodes.size !== 0 && this.client.lavalinkUsing.length == 0) {
-      this.client.manager.shoukaku.nodes.forEach((data, index) => {
-        const res = regex.exec(data["url"]);
+    if (this.client.rainlink.nodes.size !== 0 && this.client.lavalinkUsing.length == 0) {
+      this.client.rainlink.nodes.forEach((data, index) => {
         this.client.lavalinkUsing.push({
-          host: res![2],
-          port: Number(res![3]),
-          pass: data["auth"],
-          secure: res![1] == "ws://" ? false : true,
+          host: data.options.host,
+          port: data.options.port,
+          pass: data.options.auth,
+          secure: data.options.secure,
           name: index,
         });
       });
@@ -61,11 +60,11 @@ export class AutoFixLavalink {
   async removeCurrentLavalink() {
     const lavalinkIndex = this.client.lavalinkUsing.findIndex((data) => data.name == this.lavalinkName);
     const targetLavalink = this.client.lavalinkUsing[lavalinkIndex];
-    if (this.client.manager.shoukaku.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
+    if (this.client.rainlink.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
-    } else if (this.client.manager.shoukaku.nodes.size !== 0 && this.client.lavalinkUsing.length !== 0) {
-      const isLavalinkExist = this.client.manager.shoukaku.nodes.has(targetLavalink.name);
-      if (isLavalinkExist) await this.client.manager.shoukaku.removeNode(targetLavalink.name);
+    } else if (this.client.rainlink.nodes.size !== 0 && this.client.lavalinkUsing.length !== 0) {
+      const isLavalinkExist = this.client.rainlink.nodes.has(targetLavalink.name);
+      if (isLavalinkExist) this.client.rainlink.nodes.remove(targetLavalink.name);
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     }
   }
@@ -79,14 +78,13 @@ export class AutoFixLavalink {
 
     const nodeInfo = onlineList[Math.floor(Math.random() * onlineList.length)];
 
-    const newNodeInfo = {
-      name: `${nodeInfo.host.replace(/[^A-Z0-9]+/gi, "_")}`,
-      url: `${nodeInfo.host}:${nodeInfo.port}`,
+    this.client.rainlink.nodes.add({
+      port: nodeInfo.port,
+      host: nodeInfo.host,
       auth: nodeInfo.pass,
+      name: nodeInfo.name,
       secure: nodeInfo.secure,
-    };
-
-    await this.client.manager.shoukaku.addNode(newNodeInfo);
+    });
 
     return nodeInfo;
   }

@@ -1,8 +1,8 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
   name = "replay";
@@ -10,7 +10,7 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
@@ -23,12 +23,12 @@ export default class implements PlayerButton {
       return await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "button.music", "previous_notfound")}`
+        `${client.getString(language, "button.music", "previous_notfound")}`
       );
 
     player.previous();
 
-    await new ReplyInteractionService(client, message, `${client.i18n.get(language, "button.music", "previous_msg")}`);
+    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "previous_msg")}`);
     return;
   }
 }

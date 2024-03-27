@@ -1,6 +1,14 @@
-import { Client, GatewayIntentBits, Collection, ColorResolvable, Snowflake, User } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  ColorResolvable,
+  Message,
+  ActionRowBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import { DatabaseService } from "./database/index.js";
-import { I18n } from "@hammerhq/localization";
+import { I18n, I18nArgs } from "@hammerhq/localization";
 import { resolve } from "path";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
@@ -13,9 +21,22 @@ import { NormalModeIcons } from "./assets/NormalModeIcons.js";
 import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
-import { KazagumoInit } from "./structures/Kazagumo.js";
 import { DeployService } from "./services/DeployService.js";
-import { ByteBlaze } from "./@types/ByteBlaze.js";
+import { RainlinkInit } from "./structures/Rainlink.js";
+import { Metadata } from "./@types/Metadata.js";
+import { Config } from "./@types/Config.js";
+import { DatabaseTable } from "./database/@types.js";
+import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
+import { Rainlink } from "./rainlink/Rainlink.js";
+import { Command } from "./structures/Command.js";
+import { Premium } from "./database/schema/Premium.js";
+import { PlayerButton } from "./@types/Button.js";
+import { GlobalMsg } from "./structures/CommandHandler.js";
+import { RequestInterface } from "./webserver/RequestInterface.js";
+import { RainlinkPlayer } from "./rainlink/main.js";
+import { IconType } from "./@types/Emoji.js";
+import { WebSocket } from "ws";
+import { TopggService } from "./services/TopggService.js";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -31,13 +52,45 @@ const REGEX = [
   /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
 ];
 
-export declare interface Manager extends ByteBlaze {}
-
 export class Manager extends Client {
+  metadata: Metadata;
+  config: Config;
+  logger: LoggerService;
+  db!: DatabaseTable;
+  owner: string;
+  color: ColorResolvable;
+  i18n: I18n;
+  prefix: string;
+  isDatabaseConnected: boolean;
+  shardStatus: boolean;
+  lavalinkList: LavalinkDataType[];
+  lavalinkUsing: LavalinkUsingDataType[];
+  lavalinkUsed: LavalinkUsingDataType[];
+  rainlink: Rainlink;
+  commands: Collection<string, Command>;
+  premiums: Collection<string, Premium>;
+  interval: Collection<string, NodeJS.Timer>;
+  sentQueue: Collection<string, boolean>;
+  nplayingMsg: Collection<string, Message>;
+  aliases: Collection<string, string>;
+  plButton: Collection<string, PlayerButton>;
+  leaveDelay: Collection<string, NodeJS.Timeout>;
+  nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
+  websocket?: WebSocket;
+  wsMessage?: Collection<string, RequestInterface>;
+  UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
+  UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
+  enSwitch!: ActionRowBuilder<ButtonBuilder>;
+  diSwitch!: ActionRowBuilder<ButtonBuilder>;
+  enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
+  topgg?: TopggService;
+  icons: IconType;
+  cluster?: ClusterClient<Client>;
+  REGEX: RegExp[];
   constructor() {
     super({
       shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
-      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : undefined,
+      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : 1,
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
@@ -68,12 +121,6 @@ export class Manager extends Client {
     this.shardStatus = false;
     this.REGEX = REGEX;
 
-    if (!this.configVolCheck())
-      this.logger.warn(import.meta.url, "Default config volume must between 1 and 100, use default volume (100)");
-
-    if (!this.configSearchCheck())
-      this.logger.warn(import.meta.url, "Default config search must have string element, use default");
-
     if (!this.config.lavalink.AVOID_SUSPEND)
       this.logger.warn(
         import.meta.url,
@@ -88,22 +135,19 @@ export class Manager extends Client {
     this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Collection()) : undefined;
 
     // Collections
-    this.commands = new Collection();
-    this.premiums = new Collection();
-    this.interval = new Collection();
-    this.sentQueue = new Collection();
-    this.aliases = new Collection();
-    this.nplayingMsg = new Collection();
-    this.plButton = new Collection();
-    this.leaveDelay = new Collection();
-    this.nowPlaying = new Collection();
+    this.commands = new Collection<string, Command>();
+    this.premiums = new Collection<string, Premium>();
+    this.interval = new Collection<string, NodeJS.Timer>();
+    this.sentQueue = new Collection<string, boolean>();
+    this.aliases = new Collection<string, string>();
+    this.nplayingMsg = new Collection<string, Message>();
+    this.plButton = new Collection<string, PlayerButton>();
+    this.leaveDelay = new Collection<string, NodeJS.Timeout>();
+    this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
     this.isDatabaseConnected = false;
 
     // Sharing
     this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
-
-    // Remove support for musicard, implements doc check at wiki
-    this.config.bot.SAFE_PLAYER_MODE = true;
 
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
@@ -120,7 +164,7 @@ export class Manager extends Client {
       process.exit();
     }
 
-    this.manager = new KazagumoInit(this).init;
+    this.rainlink = new RainlinkInit(this).init;
 
     if (this.config.features.WEB_SERVER.enable) {
       new WebServer(this);
@@ -157,5 +201,15 @@ export class Manager extends Client {
   stringCheck(data: unknown) {
     if (typeof data === "string" || data instanceof String) return true;
     return false;
+  }
+
+  getString(locale: string, section: string, key: string, args?: I18nArgs | undefined) {
+    const currentString = this.i18n.get(locale, section, key, args);
+    const locateErr = `Locale '${locale}' not found.`;
+    const sectionErr = `Section '${section}' not found in locale '${locale}'`;
+    const keyErr = `Key '${key}' not found in section ${section} in locale '${locale}'`;
+    if (currentString == locateErr || currentString == sectionErr || currentString == keyErr) {
+      return this.i18n.get("en", section, key, args);
+    } else return currentString;
   }
 }

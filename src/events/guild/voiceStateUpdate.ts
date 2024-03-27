@@ -10,7 +10,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const player = client.manager?.players.get(newState.guild.id);
+    const player = client.rainlink?.players.get(newState.guild.id);
     if (!player) return;
 
     if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
@@ -80,12 +80,12 @@ export default class {
 
       const currentPause = player.paused;
 
-      player.paused == false ? true : player.pause(false);
-      if (currentPause !== false && player.shoukaku.track !== null) {
+      player.paused == false ? true : player.setPause(false);
+      if (currentPause !== false && player.track !== null) {
         const msg = await leaveEmbed.send({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "event.player", "leave_resume")}`)
+              .setDescription(`${client.getString(language, "event.player", "leave_resume")}`)
               .setColor(client.color),
           ],
         });
@@ -103,13 +103,13 @@ export default class {
       ) {
         // Pause player
         const currentPause = player.paused;
-        player.paused == true ? true : player.pause(true);
+        player.paused == true ? true : player.setPause(true);
 
-        if (currentPause !== true && player.shoukaku.track !== null) {
+        if (currentPause !== true && player.track !== null) {
           const msg = await leaveEmbed.send({
             embeds: [
               new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "event.player", "leave_pause")}`)
+                .setDescription(`${client.getString(language, "event.player", "leave_pause")}`)
                 .setColor(client.color),
             ],
           });
@@ -124,12 +124,12 @@ export default class {
         let leaveDelayTimeout = setTimeout(async () => {
           const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter((m) => !m.user.bot).size;
           if (!vcMembers || vcMembers === 1) {
-            const newPlayer = client.manager?.players.get(newState.guild.id);
+            const newPlayer = client.rainlink?.players.get(newState.guild.id);
             player.data.set("sudo-destroy", true);
             if (newPlayer) player.destroy();
             const TimeoutEmbed = new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(language, "event.player", "player_end", {
+                `${client.getString(language, "event.player", "player_end", {
                   leave: vcRoom,
                 })}`
               )

@@ -1,10 +1,10 @@
-import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer, KazagumoTrack, SearchResultTypes } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -37,17 +37,17 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.music", "number_invalid")}`)
+            .setDescription(`${client.getString(handler.language, "command.music", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
     function fixedduration() {
-      const current = player!.queue.current!.length ?? 0;
-      return player!.queue.reduce((acc, cur) => acc + (cur.length || 0), current);
+      const current = player!.queue.current!.duration ?? 0;
+      return player!.queue.reduce((acc, cur) => acc + (cur.duration || 0), current);
     }
     const qduration = `${new FormatDuration().parse(fixedduration())}`;
     const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
@@ -58,7 +58,9 @@ export default class implements Command {
     const songStrings = [];
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
-      songStrings.push(`**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.length)}]\``);
+      songStrings.push(
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.duration)}]\``
+      );
     }
 
     const pages = [];
@@ -67,22 +69,22 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "command.music", "queue_author", {
+          name: `${client.getString(handler.language, "command.music", "queue_author", {
             guild: handler.guild!.name,
           })}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+          `${client.getString(handler.language, "command.music", "queue_description", {
             title: this.getTitle(client, song!),
             request: String(song!.requester),
-            duration: new FormatDuration().parse(song!.length),
+            duration: new FormatDuration().parse(song!.duration),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
+          text: `${client.getString(handler.language, "command.music", "queue_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(player.queue.length),
@@ -112,7 +114,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(handler.language, "command.music", "queue_notnumber")}`)
+              .setDescription(`${client.getString(handler.language, "command.music", "queue_notnumber")}`)
               .setColor(client.color),
           ],
         });
@@ -121,7 +123,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.i18n.get(handler.language, "command.music", "queue_page_notfound", {
+                `${client.getString(handler.language, "command.music", "queue_page_notfound", {
                   page: String(pagesNum),
                 })}`
               )
@@ -133,7 +135,7 @@ export default class implements Command {
     }
   }
 
-  getTitle(client: Manager, tracks: KazagumoTrack): string {
+  getTitle(client: Manager, tracks: RainlinkTrack): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;

@@ -1,10 +1,10 @@
-import { KazagumoPlayer } from "../lib/main.js";
 import { Manager } from "../manager.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export class AutoReconnectBuilderService {
   client: Manager;
-  player?: KazagumoPlayer;
-  constructor(client: Manager, player?: KazagumoPlayer) {
+  player?: RainlinkPlayer;
+  constructor(client: Manager, player?: RainlinkPlayer) {
     this.client = client;
     this.player = player;
   }

@@ -1,8 +1,8 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { KazagumoPlayer } from "../lib/main.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
   name = "volup";
@@ -10,7 +10,7 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: KazagumoPlayer,
+    player: RainlinkPlayer,
     nplaying: Message<boolean>,
     collector: InteractionCollector<ButtonInteraction<"cached">>
   ): Promise<any> {
@@ -18,20 +18,20 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const reply_msg = `${client.i18n.get(language, "button.music", "volup_msg", {
-      volume: `${player.volume * 100 + 10}`,
+    const reply_msg = `${client.getString(language, "button.music", "volup_msg", {
+      volume: `${player.volume + 10}`,
     })}`;
 
-    if (player.volume * 100 >= 100) {
+    if (player.volume >= 100) {
       await new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "button.music", "volume_invalid")}`
+        `${client.getString(language, "button.music", "volume_invalid")}`
       );
       return;
     }
 
-    player.setVolume(player.volume * 100 + 10);
+    player.setVolume(player.volume + 10);
     await new ReplyInteractionService(client, message, reply_msg);
     return;
   }

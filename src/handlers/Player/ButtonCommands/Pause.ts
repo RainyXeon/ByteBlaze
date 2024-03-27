@@ -1,19 +1,19 @@
 import { ButtonInteraction, EmbedBuilder, TextChannel, VoiceBasedChannel } from "discord.js";
 import { Manager } from "../../../manager.js";
-import { KazagumoPlayer } from "../../../lib/main.js";
+import { RainlinkPlayer } from "../../../rainlink/main.js";
 
 export class ButtonPause {
   client: Manager;
   interaction: ButtonInteraction;
   channel: VoiceBasedChannel | null;
   language: string;
-  player: KazagumoPlayer;
+  player: RainlinkPlayer;
   constructor(
     client: Manager,
     interaction: ButtonInteraction,
     channel: VoiceBasedChannel | null,
     language: string,
-    player: KazagumoPlayer
+    player: RainlinkPlayer
   ) {
     this.channel = channel;
     this.client = client;
@@ -32,7 +32,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -44,7 +44,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -53,7 +53,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
+            .setDescription(`${this.client.getString(this.language, "error", "no_player")}`)
             .setColor(this.client.color),
         ],
       });
@@ -64,7 +64,7 @@ export class ButtonPause {
       let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg);
       if (!playMsg) return;
 
-      const newPlayer = await this.player.pause(!this.player.paused);
+      const newPlayer = await this.player.setPause(!this.player.paused);
 
       newPlayer.paused
         ? playMsg.edit({
@@ -80,7 +80,7 @@ export class ButtonPause {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
+          `${this.client.getString(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
         )
         .setColor(this.client.color);
 

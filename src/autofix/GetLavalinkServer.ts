@@ -1,14 +1,14 @@
-import axios from "axios";
 import MarkdownIt from "markdown-it";
 var md = new MarkdownIt();
 import Token from "markdown-it/lib/token.js";
 
 export class GetLavalinkServer {
   async execute() {
-    const res = await axios.get(
+    const res = await fetch(
       "https://raw.githubusercontent.com/DarrenOfficial/lavalink-list/master/docs/NoSSL/lavalink-without-ssl.md"
     );
-    return this.getLavalinkServerInfo(res.data);
+    const resJson = await res.text();
+    return this.getLavalinkServerInfo(resJson);
   }
 
   getLavalinkServerInfo(data: string) {

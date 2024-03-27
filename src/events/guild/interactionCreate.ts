@@ -7,6 +7,9 @@ import {
   Attachment,
   GuildMember,
   ChatInputCommandInteraction,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
@@ -17,6 +20,7 @@ import { ConvertToMention } from "../../utilities/ConvertToMention.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { AutoCompleteService } from "../../services/AutoCompleteService.js";
+import { TopggServiceEnum } from "../../services/TopggService.js";
 const commandRateLimitManager = new RateLimitManager(1000);
 
 /**
@@ -98,14 +102,14 @@ export default class {
       interaction: ChatInputCommandInteraction | CommandInteraction,
       permissionResult: CheckPermissionResultInterface
     ) {
-      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
+      const selfErrorString = `${client.getString(language, "error", "no_perms", {
         perm: permissionResult.result,
       })}`;
       const embed = new EmbedBuilder()
         .setDescription(
           permissionResult.channel == "Self"
             ? selfErrorString
-            : `${client.i18n.get(language, "error", "no_perms_channel", {
+            : `${client.getString(language, "error", "no_perms_channel", {
                 perm: permissionResult.result,
                 channel: permissionResult.channel,
               })}`
@@ -132,7 +136,8 @@ export default class {
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
-
+    const premiumUser = client.premiums.get(interaction.user.id);
+    const isHavePremium = !premiumUser || !premiumUser.isPremium;
     if (
       command.accessableby == Accessableby.Manager &&
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
@@ -140,7 +145,7 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`)
+            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`)
             .setColor(client.color),
         ],
       });
@@ -148,7 +153,7 @@ export default class {
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return interaction.reply({
         embeds: [
-          new EmbedBuilder().setDescription(`${client.i18n.get(language, "error", "no_node")}`).setColor(client.color),
+          new EmbedBuilder().setDescription(`${client.getString(language, "error", "no_node")}`).setColor(client.color),
         ],
       });
     }
@@ -157,36 +162,64 @@ export default class {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
+            .setDescription(`${client.getString(language, "error", "owner_only")}`)
             .setColor(client.color),
         ],
       });
 
-    if (command.accessableby == Accessableby.Premium) {
-      const user = client.premiums.get(interaction.user.id);
-      if (!user || !user.isPremium) {
+    if (command.accessableby == Accessableby.Voter && isHavePremium && client.topgg) {
+      const voteChecker = await client.topgg.checkVote(interaction.user.id);
+      if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: `${client.i18n.get(language, "error", "no_premium_author")}`,
-            iconURL: client.user!.displayAvatarURL(),
+            name: client.getString(language, "error", "topgg_error_author"),
           })
-          .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
+          .setDescription(client.getString(language, "error", "topgg_error_desc"))
           .setColor(client.color)
           .setTimestamp();
-        return interaction.reply({
-          content: " ",
-          embeds: [embed],
-        });
+        return interaction.reply({ content: " ", embeds: [embed] });
+      }
+
+      if (voteChecker == TopggServiceEnum.UNVOTED) {
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: client.getString(language, "error", "topgg_vote_author"),
+          })
+          .setDescription(client.getString(language, "error", "topgg_vote_desc"))
+          .setColor(client.color)
+          .setTimestamp();
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setLabel(client.getString(language, "error", "topgg_vote_button"))
+            .setStyle(ButtonStyle.Link)
+            .setURL(`https://top.gg/bot/${client.user?.id}/vote`)
+        );
+        return interaction.reply({ content: " ", embeds: [embed], components: [row] });
       }
     }
 
+    if (command.accessableby == Accessableby.Premium && isHavePremium) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return interaction.reply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
+
     if (command.playerCheck) {
-      const player = client.manager.players.get(interaction.guild!.id);
+      const player = client.rainlink.players.get(interaction.guild!.id);
       if (!player)
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
+              .setDescription(`${client.getString(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -201,7 +234,7 @@ export default class {
         return (interaction as NoAutoInteraction).reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
+              .setDescription(`${client.getString(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -251,7 +284,7 @@ export default class {
     } catch (error) {
       client.logger.error(import.meta.url, error);
       interaction.reply({
-        content: `${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`,
+        content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
       });
     }
   }

@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -21,17 +21,17 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     if (player!.data.get("autoplay") === true) {
       player!.data.set("autoplay", false);
       player!.data.set("identifier", null);
       player!.data.set("requester", null);
-      await player!.queue.clear();
+      player!.queue.clear();
 
       const off = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "autoplay_off", {
+          `${client.getString(handler.language, "command.music", "autoplay_off", {
             mode: handler.modeLang.disable,
           })}`
         )
@@ -43,17 +43,23 @@ export default class implements Command {
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       const res = await player!.search(search, { requester: handler.user });
 
+      const finalRes = res.tracks.filter(
+        (track) =>
+          !player!.queue.some((s) => s.encoded === track.encoded) &&
+          !player!.queue.previous.some((s) => s.encoded === track.encoded)
+      );
+
       player!.data.set("autoplay", true);
 
       player!.data.set("identifier", identifier);
 
       player!.data.set("requester", handler.user);
 
-      await player!.queue.add(res.tracks[1]);
+      player!.queue.add(finalRes[1]);
 
       const on = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "autoplay_on", {
+          `${client.getString(handler.language, "command.music", "autoplay_on", {
             mode: handler.modeLang.enable,
           })}`
         )

@@ -15,10 +15,11 @@ export default class implements RequestInterface {
     const channel =
       Guild!.channels.cache.find((channel) => channel.name === "general") || Guild!.channels.cache.first();
 
-    const player = await client.manager.createPlayer({
+    const player = await client.rainlink.create({
       guildId: Guild!.id,
       voiceId: Member!.voice.channel!.id,
       textId: String(channel?.id),
+      shardId: Guild.shardId,
       deaf: true,
       volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
     });
@@ -34,7 +35,7 @@ export default class implements RequestInterface {
     } else if (json.query) {
       const res = await player.search(json.query, { requester: Member });
       if (res.type === "PLAYLIST" || res.type === "SEARCH") for (let track of res.tracks) player.queue.add(track);
-      if (!player.playing && !player.paused) return player.play();
+      if (!player.playing && player.paused) return player.play();
     }
   };
 }

@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["developer"];
   public description = "Shows the developer information of the Bot (Credit)";
   public category = "Info";
-  public accessableby = Accessableby.Member;
+  public accessableby = Accessableby.Voter;
   public usage = "";
   public aliases = [];
   public lavalink = false;
@@ -21,10 +21,10 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
     const xeondex = new EmbedBuilder()
-      .setTitle(`${client.i18n.get(handler.language, "command.info", "dev_title")}`)
-      .setDescription(`${client.i18n.get(handler.language, "command.info", "dev_desc")}`)
+      .setTitle(`${client.getString(handler.language, "command.info", "dev_title")}`)
+      .setDescription(`${client.getString(handler.language, "command.info", "dev_desc")}`)
       .setFooter({
-        text: `${client.i18n.get(handler.language, "command.info", "dev_foot")}`,
+        text: `${client.getString(handler.language, "command.info", "dev_foot")}`,
       })
       .setColor(client.color);
 

@@ -34,7 +34,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "error", "ratelimit", {
+              `${this.client.getString(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )
@@ -53,7 +53,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "error", "ratelimit", {
+              `${this.client.getString(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )
@@ -72,7 +72,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "error", "ratelimit", {
+              `${this.client.getString(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )

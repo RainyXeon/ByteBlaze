@@ -29,11 +29,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
+        name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
+        `${client.getString(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: PremiumPlan!.plan,
           expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,

@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message } from "discord.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { KazagumoPlayer } from "../../lib/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
@@ -22,17 +22,12 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id) as KazagumoPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    await player.send({
-      guildId: handler.guild!.id,
-      playerOptions: {
-        position: 0,
-      },
-    });
+    await player.seek(0);
 
     const embed = new EmbedBuilder()
-      .setDescription(`${client.i18n.get(handler.language, "command.music", "replay_msg")}`)
+      .setDescription(`${client.getString(handler.language, "command.music", "replay_msg")}`)
       .setColor(client.color);
 
     await handler.editReply({ content: " ", embeds: [embed] });

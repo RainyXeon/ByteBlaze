@@ -1,6 +1,4 @@
 import { Manager } from "../../manager.js";
-import cron from "node-cron";
-import { Premium } from "../schema/Premium.js";
 import { Setup } from "../schema/Setup.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 
@@ -16,7 +14,7 @@ export class SongRequesterCleanSetup {
 
     for (let data of guilds) {
       const extractData = data.value;
-      const player = this.client.manager.players.get(extractData.guild);
+      const player = this.client.rainlink.players.get(extractData.guild);
       if (!extractData.enable) return;
       if (player) return;
       await this.restore(extractData);
@@ -37,12 +35,12 @@ export class SongRequesterCleanSetup {
 
     const language = guildModel;
 
-    const queueMsg = `${this.client.i18n.get(language, "setup", "setup_queuemsg")}`;
+    const queueMsg = `${this.client.getString(language, "setup", "setup_queuemsg")}`;
 
     const playEmbed = new EmbedBuilder()
       .setColor(this.client.color)
       .setAuthor({
-        name: `${this.client.i18n.get(language, "setup", "setup_playembed_author")}`,
+        name: `${this.client.getString(language, "setup", "setup_playembed_author")}`,
       })
       .setImage(`https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`);
 

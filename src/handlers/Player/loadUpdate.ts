@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { KazagumoPlayer, KazagumoTrack } from "../../lib/main.js";
+import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 export class playerLoadUpdate {
   client: Manager;
@@ -11,7 +11,7 @@ export class playerLoadUpdate {
   }
 
   async loader(client: Manager) {
-    client.UpdateQueueMsg = async function (player: KazagumoPlayer) {
+    client.UpdateQueueMsg = async function (player: RainlinkPlayer) {
       let data = await client.db.setup.get(`${player.guildId}`);
       if (!data) return;
       if (data.enable === false) return;
@@ -32,10 +32,10 @@ export class playerLoadUpdate {
       const songStrings = [];
       const queuedSongs = player.queue.map(
         (song, i) =>
-          `${client.i18n.get(language, "event.setup", "setup_content_queue", {
+          `${client.getString(language, "event.setup", "setup_content_queue", {
             index: `${i + 1}`,
             title: song.title,
-            duration: new FormatDuration().parse(song.length),
+            duration: new FormatDuration().parse(song.duration),
             request: `${song.requester}`,
           })}`
       );
@@ -44,12 +44,12 @@ export class playerLoadUpdate {
 
       const Str = songStrings.slice(0, 10).join("\n");
 
-      const TotalDuration = player.queue.durationLength;
+      const TotalDuration = player.queue.duration;
 
       let cSong = player.queue.current;
       let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
 
-      function getTitle(tracks: KazagumoTrack): string {
+      function getTitle(tracks: RainlinkTrack): string {
         if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
         else {
           return `[${tracks.title}](${tracks.uri})`;
@@ -58,32 +58,32 @@ export class playerLoadUpdate {
 
       let embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(language, "event.setup", "setup_author")}`,
-          iconURL: `${client.i18n.get(language, "event.setup", "setup_author_icon")}`,
+          name: `${client.getString(language, "event.setup", "setup_author")}`,
+          iconURL: `${client.getString(language, "event.setup", "setup_author_icon")}`,
         })
         .setDescription(
-          `${client.i18n.get(language, "event.setup", "setup_desc", {
+          `${client.getString(language, "event.setup", "setup_desc", {
             title: getTitle(cSong!),
-            duration: new FormatDuration().parse(cSong!.length),
+            duration: new FormatDuration().parse(cSong!.duration),
             request: `${cSong!.requester}`,
           })}`
         ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
         .setColor(client.color)
         .setImage(
           `${
-            cSong!.thumbnail
-              ? cSong!.thumbnail
+            cSong!.artworkUrl
+              ? cSong!.artworkUrl
               : `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
           }`
         )
         .setFooter({
-          text: `${client.i18n.get(language, "event.setup", "setup_footer", {
-            volume: `${player.volume * 100}`,
+          text: `${client.getString(language, "event.setup", "setup_footer", {
+            volume: `${player.volume}`,
             duration: qDuration,
           })}`,
         }); //Volume • ${player.volume}% | Total Duration • ${qDuration}
 
-      const queueString = `${client.i18n.get(language, "event.setup", "setup_content")}\n${
+      const queueString = `${client.getString(language, "event.setup", "setup_content")}\n${
         Str == "" ? " " : "\n" + Str
       }`;
 
@@ -100,7 +100,7 @@ export class playerLoadUpdate {
      *
      * @param {Player} player
      */
-    client.UpdateMusic = async function (player: KazagumoPlayer) {
+    client.UpdateMusic = async function (player: RainlinkPlayer) {
       let data = await client.db.setup.get(`${player.guildId}`);
       if (!data) return;
       if (data.enable === false) return;
@@ -118,12 +118,12 @@ export class playerLoadUpdate {
 
       const language = guildModel;
 
-      const queueMsg = `${client.i18n.get(language, "event.setup", "setup_queuemsg")}`;
+      const queueMsg = `${client.getString(language, "event.setup", "setup_queuemsg")}`;
 
       const playEmbed = new EmbedBuilder()
         .setColor(client.color)
         .setAuthor({
-          name: `${client.i18n.get(language, "event.setup", "setup_playembed_author")}`,
+          name: `${client.getString(language, "event.setup", "setup_playembed_author")}`,
         })
         .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
 

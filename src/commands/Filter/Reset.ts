@@ -21,13 +21,13 @@ export default class implements Command {
   async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const player = client.manager.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id);
 
     if (!player?.data.get("filter-mode"))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.filter", "reset_already")}`)
+            .setDescription(`${client.getString(handler.language, "command.filter", "reset_already")}`)
             .setColor(client.color),
         ],
       });
@@ -45,7 +45,7 @@ export default class implements Command {
     await player?.setVolume(100);
 
     const resetted = new EmbedBuilder()
-      .setDescription(`${client.i18n.get(handler.language, "command.filter", "reset_on")}`)
+      .setDescription(`${client.getString(handler.language, "command.filter", "reset_on")}`)
       .setColor(client.color);
 
     await delay(2000);

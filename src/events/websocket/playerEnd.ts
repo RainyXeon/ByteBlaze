@@ -1,8 +1,8 @@
-import { KazagumoPlayer } from "../../lib/main.js";
 import { Manager } from "../../manager.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
-  async execute(client: Manager, player: KazagumoPlayer) {
+  async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.websocket) return;
 
     const prevoiusIndex = player.queue.previous.length - 1;
@@ -13,8 +13,8 @@ export default class {
       ? {
           title: song.title,
           uri: song.uri,
-          length: song.length,
-          thumbnail: song.thumbnail,
+          length: song.duration,
+          thumbnail: song.artworkUrl,
           author: song.author,
           requester: song.requester,
         }

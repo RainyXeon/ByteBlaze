@@ -30,3 +30,10 @@ ratelimit: "`⚠️` | You are performing actions too quickly. Please wait for *
 
 # Missing args
 arg_error: "`⚠️` | Invalid argument. Please use %{text}"
+
+# Top.gg error
+topgg_error_author: "❌ | Top.gg error"
+topgg_error_desc: "An exception occurred while checking your vote on top.gg, this may be because Top.gg is down. Please try again after 5-10 minutes."
+topgg_vote_author: "❌ | You haven't voted yet"
+topgg_vote_desc: "To use this command, you have to vote this bot!"
+topgg_vote_button: "Click here to vote!"
