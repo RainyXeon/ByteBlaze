@@ -27,8 +27,8 @@ export class RainlinkInit {
 
   get autofixConfig(): RainlinkAdditionalOptions {
     return {
-      retryCount: this.client.config.features.AUTOFIX_LAVALINK.reconnectTries,
-      retryTimeout: this.client.config.features.AUTOFIX_LAVALINK.restTimeout,
+      retryCount: this.client.config.features.AUTOFIX_LAVALINK.retryCount,
+      retryTimeout: this.client.config.features.AUTOFIX_LAVALINK.retryTimeout,
     };
   }
 
