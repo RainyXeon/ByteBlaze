@@ -16,7 +16,7 @@ export default class {
     const is247 = await client.db.autoreconnect.get(`${newState.guild.id}`);
 
     if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
-      player.voiceId !== null ? player.stop(is247 && is247.twentyfourseven ? false : true) : true;
+      player.voiceId !== null ? player.destroy() : true;
       player.data.set("sudo-destroy", true);
     }
 
@@ -40,7 +40,7 @@ export default class {
     const isInVoice = await newState.guild.members.fetch(client.user!.id);
 
     if (!isInVoice || !isInVoice.voice.channelId)
-      player.voiceId !== null ? player.stop(is247 && is247.twentyfourseven ? false : true) : true;
+      player.voiceId !== null ? player.destroy() : true;
 
     if (
       newState.channelId &&
