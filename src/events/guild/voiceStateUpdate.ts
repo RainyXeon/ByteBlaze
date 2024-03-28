@@ -39,8 +39,7 @@ export default class {
 
     const isInVoice = await newState.guild.members.fetch(client.user!.id);
 
-    if (!isInVoice || !isInVoice.voice.channelId)
-      player.voiceId !== null ? player.destroy() : true;
+    if (!isInVoice || !isInVoice.voice.channelId) player.voiceId !== null ? player.destroy() : true;
 
     if (
       newState.channelId &&
