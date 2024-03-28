@@ -145,7 +145,8 @@ export default class implements Command {
         ],
       });
       player.data.set("sudo-destroy", true);
-      player.destroy();
+      const is247 = await client.db.autoreconnect.get(`${handler.guild?.id}`);
+      player.stop(is247 && is247.twentyfourseven ? false : true);
     }
   }
 }

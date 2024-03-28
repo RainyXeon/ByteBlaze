@@ -13,9 +13,11 @@ export default class {
     const player = client.rainlink?.players.get(newState.guild.id);
     if (!player) return;
 
+    const is247 = await client.db.autoreconnect.get(`${newState.guild.id}`);
+
     if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
       player.data.set("sudo-destroy", true);
-      player.voiceId !== null ? player.destroy() : true;
+      player.voiceId !== null ? player.stop(is247 && is247.twentyfourseven ? false : true) : true;
     }
 
     if (oldState.member?.user.bot || newState.member?.user.bot) return;
@@ -37,7 +39,8 @@ export default class {
 
     const isInVoice = await newState.guild.members.fetch(client.user!.id);
 
-    if (!isInVoice || !isInVoice.voice.channelId) player.voiceId !== null ? player.destroy() : true;
+    if (!isInVoice || !isInVoice.voice.channelId)
+      player.voiceId !== null ? player.stop(is247 && is247.twentyfourseven ? false : true) : true;
 
     if (
       newState.channelId &&
@@ -126,7 +129,7 @@ export default class {
           if (!vcMembers || vcMembers === 1) {
             const newPlayer = client.rainlink?.players.get(newState.guild.id);
             player.data.set("sudo-destroy", true);
-            if (newPlayer) player.destroy();
+            if (newPlayer) player.stop(is247 && is247.twentyfourseven ? false : true);
             const TimeoutEmbed = new EmbedBuilder()
               .setDescription(
                 `${client.getString(language, "event.player", "player_end", {

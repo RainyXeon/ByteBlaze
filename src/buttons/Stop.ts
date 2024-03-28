@@ -17,8 +17,9 @@ export default class implements PlayerButton {
     collector.stop();
 
     player.data.set("sudo-destroy", true);
-    player.destroy();
+    const is247 = await client.db.autoreconnect.get(`${message.guildId}`);
+    player.stop(is247 && is247.twentyfourseven ? false : true);
 
-    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "stop_msg")}`);
+    new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "stop_msg")}`);
   }
 }

@@ -56,7 +56,8 @@ export class ButtonStop {
       return;
     } else {
       this.player.data.set("sudo-destroy", true);
-      await this.player.destroy();
+      const is247 = await this.client.db.autoreconnect.get(`${this.player.guildId}`);
+      await this.player.stop(is247 && is247.twentyfourseven ? false : true);
       await this.client.UpdateMusic(this.player);
 
       const embed = new EmbedBuilder()

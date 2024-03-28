@@ -1,12 +1,4 @@
-import {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  ColorResolvable,
-  Message,
-  ActionRowBuilder,
-  ButtonBuilder,
-} from "discord.js";
+import { Client, GatewayIntentBits, ColorResolvable, Message, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
 import { resolve } from "path";
@@ -67,17 +59,17 @@ export class Manager extends Client {
   lavalinkUsing: LavalinkUsingDataType[];
   lavalinkUsed: LavalinkUsingDataType[];
   rainlink: Rainlink;
-  commands: Collection<string, Command>;
-  premiums: Collection<string, Premium>;
-  interval: Collection<string, NodeJS.Timer>;
-  sentQueue: Collection<string, boolean>;
-  nplayingMsg: Collection<string, Message>;
-  aliases: Collection<string, string>;
-  plButton: Collection<string, PlayerButton>;
-  leaveDelay: Collection<string, NodeJS.Timeout>;
-  nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
+  commands: Map<string, Command>;
+  premiums: Map<string, Premium>;
+  interval: Map<string, NodeJS.Timer>;
+  sentQueue: Map<string, boolean>;
+  nplayingMsg: Map<string, Message>;
+  aliases: Map<string, string>;
+  plButton: Map<string, PlayerButton>;
+  leaveDelay: Map<string, NodeJS.Timeout>;
+  nowPlaying: Map<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
   websocket?: WebSocket;
-  wsMessage?: Collection<string, RequestInterface>;
+  wsMessage?: Map<string, RequestInterface>;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -132,18 +124,18 @@ export class Manager extends Client {
     this.lavalinkUsed = [];
 
     // Ws varible
-    this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Collection()) : undefined;
+    this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Map()) : undefined;
 
-    // Collections
-    this.commands = new Collection<string, Command>();
-    this.premiums = new Collection<string, Premium>();
-    this.interval = new Collection<string, NodeJS.Timer>();
-    this.sentQueue = new Collection<string, boolean>();
-    this.aliases = new Collection<string, string>();
-    this.nplayingMsg = new Collection<string, Message>();
-    this.plButton = new Collection<string, PlayerButton>();
-    this.leaveDelay = new Collection<string, NodeJS.Timeout>();
-    this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
+    // Maps
+    this.commands = new Map<string, Command>();
+    this.premiums = new Map<string, Premium>();
+    this.interval = new Map<string, NodeJS.Timer>();
+    this.sentQueue = new Map<string, boolean>();
+    this.aliases = new Map<string, string>();
+    this.nplayingMsg = new Map<string, Message>();
+    this.plButton = new Map<string, PlayerButton>();
+    this.leaveDelay = new Map<string, NodeJS.Timeout>();
+    this.nowPlaying = new Map<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
     this.isDatabaseConnected = false;
 
     // Sharing
