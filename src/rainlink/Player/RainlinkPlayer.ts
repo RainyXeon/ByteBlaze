@@ -464,7 +464,7 @@ export class RainlinkPlayer {
     this.paused = true;
     this.playing = false;
     this.track = null;
-    this.data.clear();
+    if (!this.data.get("sudo-destroy")) this.data.clear();
     this.position = 0;
     if (emitEmpty) this.manager.emit(RainlinkEvents.QueueEmpty, this);
     return;

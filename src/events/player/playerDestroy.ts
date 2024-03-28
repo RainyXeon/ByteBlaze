@@ -65,5 +65,6 @@ export default class {
     const setupdata = await client.db.setup.get(`${player.guildId}`);
     if (setupdata?.channel == player.textId) return;
     new ClearMessageService(client, channel, player);
+    player.data.clear();
   }
 }

@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -105,12 +105,14 @@ export default class implements Command {
 
     if (realtime) {
       const interval: NodeJS.Timeout = setInterval(async () => {
-        const currentNPInterval = client.nowPlaying.get(`${handler.guild?.id}`);
+        let currentNPInterval = client.nowPlaying.get(`${handler.guild?.id}`);
         if (!currentNPInterval)
-          client.nowPlaying.set(`${handler.guild?.id}`, {
-            interval: interval,
-            msg: NEmbed,
-          });
+          currentNPInterval = client.nowPlaying
+            .set(`${handler.guild?.id}`, {
+              interval: interval,
+              msg: NEmbed,
+            })
+            .get(`${handler.guild?.id}`);
         if (!player.queue.current) return clearInterval(interval);
         if (!player.playing) return;
         const CurrentDuration = new FormatDuration().parse(player.position);
@@ -139,7 +141,16 @@ export default class implements Command {
           .addFields(editedField)
           .setTimestamp();
 
-        if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
+        try {
+          const channel = (await client.channels.fetch(`${handler.channel?.id}`)) as TextChannel;
+          if (!channel) return;
+          const message = await channel.messages.fetch(`${currentNPInterval?.msg?.id}`);
+          if (!message) return;
+          if (currentNPInterval && currentNPInterval.msg)
+            currentNPInterval.msg.edit({ content: " ", embeds: [embeded] });
+        } catch (err) {
+          return;
+        }
       }, 5000);
     } else if (!realtime) {
       if (!player.playing) return;
