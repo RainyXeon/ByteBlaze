@@ -7,8 +7,8 @@
 
 <metadata>
   <bot>
-    <version>5.1.0-beta3</version>
-    <autofix>5.1.0-beta2</autofix>
+    <version>5.1.0</version>
+    <autofix>5.1.0</autofix>
     <codename>vocaloid_kaito</codename>
   </bot>
 </metadata>
