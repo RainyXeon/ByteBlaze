@@ -233,7 +233,7 @@ export default class {
 
     if (command.playerCheck) {
       const player = client.rainlink.players.get(message.guild!.id);
-      if (!player)
+      if (!player || (player.queue.length == 0 && !player.queue.current))
         return message.reply({
           embeds: [
             new EmbedBuilder()
