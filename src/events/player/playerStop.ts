@@ -13,7 +13,7 @@ export default class {
       );
 
     const guild = await client.guilds.fetch(player.guildId);
-    client.logger.info(import.meta.url, `Player Destroy in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info(import.meta.url, `Player Stop in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -22,23 +22,13 @@ export default class {
     client.emit("playerDestroy", player);
     const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
-    let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
+    const autoreconnectService = new AutoReconnectBuilderService(client, player);
+    let data = await autoreconnectService.get(player.guildId);
 
     if (!channel) return;
 
-    if (player.state == RainlinkPlayerState.DESTROYED && data !== null && data) {
-      if (data.twentyfourseven) {
-        await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
-        client.rainlink.create({
-          guildId: data.guild!,
-          voiceId: data.voice!,
-          textId: data.text!,
-          shardId: guild.shardId ?? 0,
-          deaf: true,
-          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
-        });
-      } else await client.db.autoreconnect.delete(player.guildId);
-    }
+    if (data !== null && data && data.twentyfourseven)
+      await autoreconnectService.build247(player.guildId, true, data.voice);
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {

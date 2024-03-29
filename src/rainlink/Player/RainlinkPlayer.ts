@@ -434,6 +434,8 @@ export class RainlinkPlayer {
       return this;
     }
 
+    this.clear(false);
+
     await this.node.rest.updatePlayer({
       guildId: this.guildId,
       playerOptions: {
@@ -443,7 +445,7 @@ export class RainlinkPlayer {
       },
     });
     this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current);
-    this.clear(true);
+    this.manager.emit(RainlinkEvents.PlayerStop, this);
 
     return this;
   }
@@ -462,7 +464,7 @@ export class RainlinkPlayer {
     this.paused = true;
     this.playing = false;
     this.track = null;
-    this.data.clear();
+    if (!this.data.get("sudo-destroy")) this.data.clear();
     this.position = 0;
     if (emitEmpty) this.manager.emit(RainlinkEvents.QueueEmpty, this);
     return;

@@ -30,8 +30,8 @@ export interface Features {
 
 export interface AutofixLavalink {
   enable: boolean;
-  reconnectTries: number;
-  restTimeout: number;
+  retryCount: number;
+  retryTimeout: number;
 }
 
 export interface Database {

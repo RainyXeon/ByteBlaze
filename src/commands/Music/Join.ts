@@ -46,15 +46,6 @@ export default class implements Command {
       return;
     }
 
-    await client.rainlink.create({
-      guildId: handler.guild!.id,
-      voiceId: handler.member!.voice.channel!.id,
-      textId: handler.channel!.id,
-      shardId: handler.guild?.shardId ?? 0,
-      deaf: true,
-      volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
-    });
-
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.getString(handler.language, "command.music", "join_msg", {

@@ -77,7 +77,7 @@ export class playerLoadContent {
   async message(client: Manager, message: Message): Promise<any> {
     if (!message.guild || !message.guild.available) return;
     let database = await client.db.setup.get(`${message.guild.id}`);
-    let player = client.rainlink.players.get(message.guild.id);
+    let player = client.rainlink.players.get(`${message.guild.id}`);
 
     if (!database) return;
 

@@ -97,6 +97,11 @@ export declare interface Rainlink {
    * @event Rainlink#playerWebsocketClosed
    */
   on(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  /**
+   * Emitted when a player is stopped (not destroyed).
+   * @event Rainlink#playerResume
+   */
+  on(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
 
   ////// ------------------------- Track Event ------------------------- /////
@@ -222,6 +227,7 @@ export declare interface Rainlink {
   once(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   /** @ignore */
   once(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  once(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
 
   ////// ------------------------- Track Event ------------------------- /////
@@ -305,6 +311,7 @@ export declare interface Rainlink {
   off(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   /** @ignore */
   off(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  off(event: "playerStop", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
 
   ////// ------------------------- Track Event ------------------------- /////

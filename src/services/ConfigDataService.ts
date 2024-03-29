@@ -121,8 +121,8 @@ export class ConfigDataService {
         },
         AUTOFIX_LAVALINK: {
           enable: true,
-          reconnectTries: 10,
-          restTimeout: 3000,
+          retryCount: 10,
+          retryTimeout: 3000,
         },
         WEB_SERVER: {
           enable: false,

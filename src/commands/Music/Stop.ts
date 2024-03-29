@@ -26,8 +26,9 @@ export default class implements Command {
 
     const { channel } = handler.member!.voice;
 
+    const is247 = await client.db.autoreconnect.get(`${handler.guild?.id}`);
+    player.stop(is247 && is247.twentyfourseven ? false : true);
     player.data.set("sudo-destroy", true);
-    player.destroy();
 
     const embed = new EmbedBuilder()
       .setDescription(

@@ -51,11 +51,6 @@ lavalink:
       # nodelink@2 | nodelink v2.0.0 - v2.x.x
       driver: "lavalink@4"
 
-    # - url: "IP:Port"
-    #   name: "Name"
-    #   auth: "Password"
-    #   secure: false
-
 features:
   # Enable debug tools for execute code from bot
   # use dokdo package, owner only, no prefix changes
@@ -81,8 +76,8 @@ features:
 
   AUTOFIX_LAVALINK: # Fix the Lavalink server when the current is down
     enable: false
-    reconnectTries: 5
-    restTimeout: 3000
+    retryCount: 10
+    retryTimeout: 3000
 
   WEB_SERVER:
     enable: false # Must enable this before using ws

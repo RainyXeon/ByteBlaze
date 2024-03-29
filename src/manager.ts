@@ -1,11 +1,11 @@
 import {
   Client,
   GatewayIntentBits,
-  Collection,
   ColorResolvable,
   Message,
   ActionRowBuilder,
   ButtonBuilder,
+  Collection,
 } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
