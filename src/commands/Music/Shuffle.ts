@@ -30,11 +30,7 @@ export default class implements Command {
 
     const song = newQueue.current;
 
-    function fixedduration() {
-      const current = newQueue.current!.duration ?? 0;
-      return newQueue.reduce((acc, cur) => acc + (cur.duration || 0), current);
-    }
-    const qduration = `${new FormatDuration().parse(fixedduration())}`;
+    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
     const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(newQueue.length / 10);
