@@ -17,7 +17,7 @@ export default class {
 
     client.websocket.send(
       JSON.stringify({
-        op: "player_start",
+        op: "playerStart",
         guild: player.guildId,
         current: currentData,
       })

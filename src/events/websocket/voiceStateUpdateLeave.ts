@@ -8,7 +8,7 @@ export default class {
     if (newState.channel === null && newState.id !== client.user!.id) {
       client.websocket.send(
         JSON.stringify({
-          op: "voice_state_update_leave",
+          op: "voiceStateUpdateLeave",
           guild: newState.guild.id,
         })
       );

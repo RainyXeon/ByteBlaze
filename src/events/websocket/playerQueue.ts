@@ -31,7 +31,7 @@ export default class {
     if (!client.sentQueue.get(player.guildId)) {
       client.websocket.send(
         JSON.stringify({
-          op: "player_queue",
+          op: "playerQueue",
           guild: player.guildId,
           queue: webqueue || [],
         })

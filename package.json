@@ -42,6 +42,7 @@
   "homepage": "https://github.com/RainyXeon/ByteBlaze#readme",
   "dependencies": {
     "@execaman/lyricist": "^2.0.2",
+    "@fastify/websocket": "^10.0.1",
     "@hammerhq/localization": "^2.2.0",
     "@sapphire/ratelimits": "^2.4.9",
     "axios": "^1.6.8",
@@ -53,9 +54,8 @@
     "discord-hybrid-sharding": "^2.1.4",
     "discord.js": "^14.14.1",
     "dreamvast.quick.db": "10.0.0-unsupported",
-    "express": "^4.19.1",
-    "express-ws": "^5.0.2",
     "fast-xml-parser": "^4.3.6",
+    "fastify": "^4.26.2",
     "fs-extra": "^11.2.0",
     "humanize-duration": "^3.31.0",
     "js-yaml": "^4.1.0",

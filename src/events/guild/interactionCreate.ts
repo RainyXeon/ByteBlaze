@@ -21,6 +21,7 @@ import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { AutoCompleteService } from "../../services/AutoCompleteService.js";
 import { TopggServiceEnum } from "../../services/TopggService.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 const commandRateLimitManager = new RateLimitManager(1000);
 
 /**
@@ -215,7 +216,9 @@ export default class {
 
     if (command.playerCheck) {
       const player = client.rainlink.players.get(interaction.guild!.id);
-      if (!player || (player.queue.length == 0 && !player.queue.current))
+      const twentyFourBuilder = new AutoReconnectBuilderService(client);
+      const is247 = await twentyFourBuilder.get(interaction.guild!.id);
+      if (!player || (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current))
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
