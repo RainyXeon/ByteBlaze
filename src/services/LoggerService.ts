@@ -62,7 +62,6 @@ export class LoggerService {
       level: "debug",
       message: `${fileName} - ${msg}`,
     });
-    this.sendDiscord("debug", msg, fileName);
     return;
   }
 
