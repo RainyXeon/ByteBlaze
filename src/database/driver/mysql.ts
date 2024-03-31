@@ -21,7 +21,7 @@ export class MySQLConnectDriver {
       database: "my_db",
     };
 
-    new keyChecker(this.dbConfig.config, sampleConfig, "mysql");
+    new keyChecker(this.client, this.dbConfig.config, sampleConfig, "mysql");
 
     const mysqlDriver = new MySQLDriver(this.dbConfig.config);
 

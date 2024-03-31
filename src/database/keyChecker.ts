@@ -1,3 +1,4 @@
+import { Manager } from '../manager.js';
 import { KeyCheckerEnum } from "../@types/KeyChecker.js";
 import { LoggerService } from "../services/LoggerService.js";
 import utils from "node:util";
@@ -6,7 +7,7 @@ export class keyChecker {
   obj: Record<string, any>;
   sampleConfig: Record<string, any>;
   dbName: string;
-  constructor(obj: Record<string, any>, sampleConfig: Record<string, any>, dbName: string) {
+  constructor(private client: Manager, obj: Record<string, any>, sampleConfig: Record<string, any>, dbName: string) {
     this.dbName = dbName;
     this.obj = obj;
     this.sampleConfig = sampleConfig;
@@ -14,7 +15,7 @@ export class keyChecker {
   }
 
   execute() {
-    const logger = new LoggerService();
+    const logger = new LoggerService(this.client);
     const objReqKey = Object.keys(this.sampleConfig);
     const res = this.checkEngine();
 

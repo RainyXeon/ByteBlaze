@@ -18,7 +18,7 @@ export class JSONConnectDriver {
       path: "./cylane.database.json",
     };
 
-    new keyChecker(this.dbConfig.config, sampleConfig, "json");
+    new keyChecker(this.client, this.dbConfig.config, sampleConfig, "json");
 
     const jsonDriver = new JSONDriver(this.dbConfig.config.path);
 
