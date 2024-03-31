@@ -74,7 +74,6 @@
     "pm2": "^5.3.1",
     "pretty-ms": "^9.0.0",
     "recursive-readdir": "^2.2.3",
-    "shoukaku": "^4.0.1",
     "simple-json-db": "^2.0.0",
     "stuffs": "^0.1.37",
     "undici": "^6.10.1",
