@@ -105,7 +105,7 @@ export class Manager extends Client {
 
     // Initial basic bot config
     // process.argv[1].replace(/^.*[\\\/]/, "") + " " +
-    this.logger = new LoggerService();
+    this.logger = new LoggerService(this);
     this.logger.info(import.meta.url, "Booting client...");
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
