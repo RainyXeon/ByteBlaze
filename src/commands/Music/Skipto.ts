@@ -31,12 +31,15 @@ export default class implements Command {
     await handler.deferReply();
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
-    if (!handler.args[0] || isNaN(Number(handler.args[0])) || Number(handler.args[0]) == 0)
+    const getPosition = Number(handler.args[0]);
+
+    if (!handler.args[0] ||
+      isNaN(getPosition) || 
+      getPosition == 0 ||
+      getPosition >= player.queue.length)
       return handler.editReply({
         embeds: [new EmbedBuilder().setDescription(`The number is invalid`).setColor(client.color)],
       });
-
-    const getPosition = Number(handler.args[0]) - 1;
 
     if (player.queue.size == 0 && player.data.get("autoplay") !== true) {
       const skipped = new EmbedBuilder()
@@ -46,13 +49,12 @@ export default class implements Command {
       handler.editReply({ content: " ", embeds: [skipped] });
     } else {
       const cuttedQueue = player.queue.splice(0, getPosition);
-      const nowCurrentTrack = player.queue.splice(0, 1);
+      const nowCurrentTrack = cuttedQueue.splice(0, 1)[0];
       player.queue.previous.push(...cuttedQueue);
-      await player.play(nowCurrentTrack[0]);
+      await player.play(nowCurrentTrack);
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);
-
       handler.editReply({ content: " ", embeds: [skipped] });
     }
   }
