@@ -137,6 +137,7 @@ export class ConfigDataService {
         },
         PREMIUM_LOG_CHANNEL: "",
         GUILD_LOG_CHANNEL: "",
+        LOG_CHANNEL: "",
       },
     };
   }

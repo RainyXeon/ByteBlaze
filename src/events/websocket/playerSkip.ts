@@ -7,7 +7,7 @@ export default class {
 
     client.websocket.send(
       JSON.stringify({
-        op: "skip_track",
+        op: "skipTrack",
         guild: player.guildId,
       })
     );

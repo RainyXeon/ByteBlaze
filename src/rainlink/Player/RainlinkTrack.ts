@@ -1,3 +1,4 @@
+import util from "node:util";
 import { RainlinkEvents } from "../Interface/Constants.js";
 import { RainlinkSearchResult, RainlinkSearchResultType } from "../Interface/Manager.js";
 import { RawTrack } from "../Interface/Rest.js";
@@ -188,17 +189,20 @@ export class RainlinkTrack {
     const prase1 = await manager.search(`directSearch=${this.uri}`, {
       requester: this.requester,
     });
+    manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 1 ${this.source}, tracks: ${prase1.tracks.length}`);
     if (prase1.tracks.length !== 0) return prase1;
 
     const prase2 = await manager.search(`directSearch=${engine}search:${searchQuery}`, {
       requester: this.requester,
     });
+    manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 2 ${this.source}, tracks: ${prase2.tracks.length}`);
     if (prase2.tracks.length !== 0) return prase2;
 
     if (manager.rainlinkOptions.options!.searchFallback?.enable && searchFallbackEngine) {
       const prase3 = await manager.search(`directSearch=${searchFallbackEngine}search:${searchQuery}`, {
         requester: this.requester,
       });
+      manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 2 ${this.source}, tracks: ${prase3.tracks.length}`);
       if (prase3.tracks.length !== 0) return prase3;
     }
 

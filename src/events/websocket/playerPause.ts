@@ -7,7 +7,7 @@ export default class {
 
     client.websocket.send(
       JSON.stringify({
-        op: player.paused ? "player_pause" : "player_resume",
+        op: player.paused ? "playerPause" : "playerResume",
         guild: player.guildId,
       })
     );

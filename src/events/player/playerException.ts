@@ -1,5 +1,5 @@
 import { Manager } from "../../manager.js";
-import { TextChannel } from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import util from "node:util";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
@@ -14,7 +14,13 @@ export default class {
     const fetch_channel = await client.channels.fetch(player.textId);
     const text_channel = fetch_channel! as TextChannel;
     if (text_channel) {
-      await text_channel.send("Player get exception, please contact with owner to fix this error");
+      await text_channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.color)
+            .setDescription("Player get exception, please contact with owner to fix this error"),
+        ],
+      });
     }
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);

@@ -3,6 +3,8 @@ const { timestamp, prettyPrint, printf } = format;
 import { fileURLToPath } from "url";
 import chalk from "chalk";
 import util from "node:util";
+import { Manager } from "../manager.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 
 type InfoDataType = {
   message: string;
@@ -13,8 +15,7 @@ type InfoDataType = {
 export class LoggerService {
   private preLog: Logger;
   private padding = 22;
-  private color = "#02faf0";
-  constructor() {
+  constructor(private client: Manager) {
     this.preLog = createLogger({
       levels: {
         error: 0,
@@ -47,111 +48,102 @@ export class LoggerService {
   public info(file: string, msg: string) {
     return this.preLog.log({
       level: "info",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public debug(file: string, msg: string) {
-    return this.preLog.log({
+    const fileName = fileURLToPath(file)
+      .replace(/^.*[\\\/]/, "")
+      .padEnd(this.padding);
+    this.preLog.log({
       level: "debug",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileName} - ${msg}`,
     });
+    return;
   }
 
   public warn(file: string, msg: string) {
-    return this.preLog.log({
+    const fileName = fileURLToPath(file)
+      .replace(/^.*[\\\/]/, "")
+      .padEnd(this.padding);
+    this.preLog.log({
       level: "warn",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileName} - ${msg}`,
     });
+    this.sendDiscord("warning", msg, fileName);
+    return;
   }
 
   public error(file: string, msg: unknown) {
-    return this.preLog.log({
+    const fileName = fileURLToPath(file)
+      .replace(/^.*[\\\/]/, "")
+      .padEnd(this.padding);
+    this.preLog.log({
       level: "error",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${util.inspect(msg)}`,
+      message: `${fileName} - ${util.inspect(msg)}`,
     });
+    this.sendDiscord("error", util.inspect(msg), fileName);
+    return;
   }
 
   public lavalink(file: string, msg: string) {
     return this.preLog.log({
       level: "lavalink",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public loader(file: string, msg: string) {
     return this.preLog.log({
       level: "loader",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public setup(file: string, msg: string) {
     return this.preLog.log({
       level: "setup",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public websocket(file: string, msg: string) {
     return this.preLog.log({
       level: "websocket",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public deploy(file: string, msg: string) {
     return this.preLog.log({
       level: "deploy",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${msg}`,
+      message: `${fileURLToPath(file)
+        .replace(/^.*[\\\/]/, "")
+        .padEnd(this.padding)} - ${msg}`,
     });
   }
 
   public unhandled(file: string, msg: unknown) {
-    return this.preLog.log({
+    const fileName = fileURLToPath(file)
+      .replace(/^.*[\\\/]/, "")
+      .padEnd(this.padding);
+    this.preLog.log({
       level: "unhandled",
-      message: `${chalk.hex(this.color)(
-        fileURLToPath(file)
-          .replace(/^.*[\\\/]/, "")
-          .padEnd(this.padding)
-      )} - ${util.inspect(msg)}`,
+      message: `${fileName} - ${util.inspect(msg)}`,
     });
+    this.sendDiscord("unhandled", util.inspect(msg), fileName);
+    return;
   }
 
   private filter(info: InfoDataType) {
@@ -192,5 +184,25 @@ export class LoggerService {
 
   private get fileFormat() {
     return format.combine(timestamp(), prettyPrint());
+  }
+
+  private async sendDiscord(type: string, message: string, file: string) {
+    const channelId = this.client.config.features.LOG_CHANNEL;
+    if (!channelId || channelId.length == 0) return;
+    try {
+      const channel = (await this.client.channels.fetch(channelId)) as TextChannel;
+      if (!channel || !channel.isTextBased()) return;
+      let embed = null;
+      if (message.length > 4096) {
+        embed = new EmbedBuilder()
+          .setDescription("Logs too long to display! please check your host!")
+          .setTitle(`${type} from ${file}`)
+          .setColor(this.client.color);
+      } else {
+        embed = new EmbedBuilder().setDescription(message).setTitle(`${type} from ${file}`).setColor(this.client.color);
+      }
+
+      await channel.messages.channel.send({ embeds: [embed] });
+    } catch (err) {}
   }
 }

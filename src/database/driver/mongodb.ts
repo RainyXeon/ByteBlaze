@@ -18,7 +18,7 @@ export class MongoConnectDriver {
       uri: "mongodb://127.0.0.1:27017/dreamvast",
     };
 
-    new keyChecker(this.dbConfig.config, sampleConfig, "mongodb");
+    new keyChecker(this.client, this.dbConfig.config, sampleConfig, "mongodb");
 
     const mongoDriver = new MongoDriver(this.dbConfig.config.uri);
 

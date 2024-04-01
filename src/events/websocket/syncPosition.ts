@@ -6,7 +6,7 @@ export default class {
     if (!client.websocket) return;
     client.websocket.send(
       JSON.stringify({
-        op: "sync_position",
+        op: "syncPosition",
         guild: player.guildId,
         position: player.position,
       })

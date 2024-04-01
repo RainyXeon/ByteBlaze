@@ -32,7 +32,6 @@ import { Command } from "./structures/Command.js";
 import { Premium } from "./database/schema/Premium.js";
 import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
-import { RequestInterface } from "./webserver/RequestInterface.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
 import { WebSocket } from "ws";
@@ -77,7 +76,6 @@ export class Manager extends Client {
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
   websocket?: WebSocket;
-  wsMessage?: Collection<string, RequestInterface>;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -107,7 +105,7 @@ export class Manager extends Client {
 
     // Initial basic bot config
     // process.argv[1].replace(/^.*[\\\/]/, "") + " " +
-    this.logger = new LoggerService();
+    this.logger = new LoggerService(this);
     this.logger.info(import.meta.url, "Booting client...");
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
@@ -130,9 +128,6 @@ export class Manager extends Client {
     this.lavalinkList = [];
     this.lavalinkUsing = [];
     this.lavalinkUsed = [];
-
-    // Ws varible
-    this.config.features.WEB_SERVER.websocket.enable ? (this.wsMessage = new Collection()) : undefined;
 
     // Collections
     this.commands = new Collection<string, Command>();

@@ -45,11 +45,7 @@ export default class implements Command {
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
-    function fixedduration() {
-      const current = player!.queue.current!.duration ?? 0;
-      return player!.queue.reduce((acc, cur) => acc + (cur.duration || 0), current);
-    }
-    const qduration = `${new FormatDuration().parse(fixedduration())}`;
+    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
     const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(player.queue.length / 10);

@@ -22,7 +22,7 @@ export default class {
 
     await client.websocket.send(
       JSON.stringify({
-        op: "player_end",
+        op: "playerEnd",
         guild: player.guildId,
         track: currentData,
       })

@@ -61,6 +61,8 @@ features:
   PREMIUM_LOG_CHANNEL: ""
   # Log all the guild that bot joined or leaved
   GUILD_LOG_CHANNEL: ""
+  # Log all unhandled, error, warnings on discord
+  LOG_CHANNEL: ""
 
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default

@@ -22,7 +22,7 @@ export default class implements PlayerButton {
     const newQueue = await player.queue.shuffle();
 
     const song = newQueue.current;
-    const qduration = `${new FormatDuration().parse(song!.duration)}`;
+    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
     const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(newQueue.length / 10);

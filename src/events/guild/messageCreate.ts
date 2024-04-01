@@ -9,6 +9,7 @@ import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { TopggServiceEnum } from "../../services/TopggService.js";
+import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 const commandRateLimitManager = new RateLimitManager(1000);
 
 export default class {
@@ -233,7 +234,9 @@ export default class {
 
     if (command.playerCheck) {
       const player = client.rainlink.players.get(message.guild!.id);
-      if (!player || (player.queue.length == 0 && !player.queue.current))
+      const twentyFourBuilder = new AutoReconnectBuilderService(client);
+      const is247 = await twentyFourBuilder.get(message.guild!.id);
+      if (!player || (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current))
         return message.reply({
           embeds: [
             new EmbedBuilder()

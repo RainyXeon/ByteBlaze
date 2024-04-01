@@ -21,7 +21,7 @@ export class PostgresConnectDriver {
       database: "my_db",
     };
 
-    new keyChecker(this.dbConfig.config, sampleConfig, "postgres");
+    new keyChecker(this.client, this.dbConfig.config, sampleConfig, "postgres");
 
     const mysqlDriver = new PostgresDriver(this.dbConfig.config);
 

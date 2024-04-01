@@ -1,42 +1,83 @@
-import express from "express";
-import expressWs from "express-ws";
+import { WebSocket } from "ws";
+// import express from "express";
+// import expressWs from "express-ws";
 import { Manager } from "../manager.js";
-import { WebsocketService } from "./websocket.js";
-import { loadRequest } from "./loadRequest.js";
+import Fastify from "fastify";
+import websockerPlugin from "@fastify/websocket";
 
 export class WebServer {
-  client: Manager;
-  app: expressWs.Application;
-  port: number;
-  constructor(client: Manager) {
-    this.client = client;
-    this.app = expressWs(express()).app;
-    this.port = this.client.config.features.WEB_SERVER.port;
+  app: Fastify.FastifyInstance;
+  constructor(private client: Manager) {
+    this.app = Fastify({
+      logger: false,
+    });
+
+    this.app.get("/", (request, reply) => {
+      reply.send("Alive!");
+    });
     if (this.client.config.features.WEB_SERVER.websocket.enable) {
       this.websocket();
     }
-    this.alive();
-    this.expose();
+    this.app.listen({ port: this.client.config.features.WEB_SERVER.port });
   }
 
   websocket() {
-    const client = this.client;
+    this.app.register(websockerPlugin);
+    this.app.register(async (fastify) => {
+      fastify.get("/api/websocket", { websocket: true }, (socket, req) => {
+        this.security(socket, req);
+        this.client.websocket = socket;
 
-    new loadRequest(client);
-    this.app.ws("/websocket", function (ws, req) {
-      new WebsocketService(client, ws, req);
+        socket.on("error", (error) => {
+          socket.send(JSON.stringify({ error: error }));
+        });
+        socket.on("close", () => this.client.logger.websocket(import.meta.url, "Closed connection to client"));
+      });
     });
   }
 
-  alive() {
-    this.app.use("/", (req, res) => {
-      res.send("Alive!");
-      res.end();
-    });
-  }
+  security(socket: WebSocket, req: Fastify.FastifyRequest) {
+    const verificationOrigin = req.headers.origin;
 
-  expose() {
-    this.app.listen(this.port);
-    this.client.logger.info(import.meta.url, `Running web server in port: ${this.port}`);
+    const baseURL = req.protocol + "://" + req.headers.host + "/";
+
+    const reqUrl = new URL(req.url, baseURL);
+
+    if (reqUrl.searchParams.get("secret") !== this.client.config.features.WEB_SERVER.websocket.secret) {
+      socket.close();
+      socket.send(
+        JSON.stringify({
+          error: `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`,
+        })
+      );
+      this.client.logger.websocket(
+        import.meta.url,
+        `Disconnected to client (${verificationOrigin}) beacuse wrong secret!`
+      );
+      return;
+    }
+
+    if (
+      this.client.config.features.WEB_SERVER.websocket.auth &&
+      !this.client.config.features.WEB_SERVER.websocket.trusted.includes(verificationOrigin as string)
+    ) {
+      socket.close();
+      socket.send(
+        JSON.stringify({
+          error: `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`,
+        })
+      );
+      this.client.logger.websocket(
+        import.meta.url,
+        `Disconnected to client (${verificationOrigin}) beacuse it's not in trusted list!`
+      );
+      return;
+    }
+
+    if (!this.client.config.features.WEB_SERVER.websocket.auth)
+      this.client.logger.websocket(import.meta.url, `[UNSECURE] Connected to client (${verificationOrigin})`);
+
+    if (this.client.config.features.WEB_SERVER.websocket.auth)
+      this.client.logger.websocket(import.meta.url, `Connected to client (${verificationOrigin})`);
   }
 }
