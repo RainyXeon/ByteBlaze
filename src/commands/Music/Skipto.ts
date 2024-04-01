@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -6,23 +6,37 @@ import { RainlinkPlayer } from "../../rainlink/main.js";
 
 // Main code
 export default class implements Command {
-  public name = ["skip"];
-  public description = "Skips the song currently playing.";
+  public name = ["skipto"];
+  public description = "Skip to a specific position";
   public category = "Music";
   public accessableby = Accessableby.Member;
   public usage = "";
-  public aliases = [];
+  public aliases = ["j"];
   public lavalink = true;
+  public options = [
+    {
+      name: "position",
+      description: "The position of the song",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+      autocomplete: true,
+    },
+  ];
   public playerCheck = true;
   public usingInteraction = true;
   public sameVoiceCheck = true;
   public permissions = [];
-  public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
-
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
+
+    if (!handler.args[0] || isNaN(Number(handler.args[0])) || Number(handler.args[0]) == 0)
+      return handler.editReply({
+        embeds: [new EmbedBuilder().setDescription(`The number is invalid`).setColor(client.color)],
+      });
+
+    const getPosition = Number(handler.args[0]) - 1;
 
     if (player.queue.size == 0 && player.data.get("autoplay") !== true) {
       const skipped = new EmbedBuilder()
@@ -31,8 +45,10 @@ export default class implements Command {
 
       handler.editReply({ content: " ", embeds: [skipped] });
     } else {
-      await player.skip();
-
+      const cuttedQueue = player.queue.splice(0, getPosition);
+      const nowCurrentTrack = player.queue.splice(0, 1);
+      player.queue.previous.push(...cuttedQueue);
+      await player.play(nowCurrentTrack[0]);
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);

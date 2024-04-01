@@ -29,12 +29,10 @@ export default class implements PlayerButton {
           components: [playerRowOne, playerRowTwo],
         });
 
-    await new ReplyInteractionService(
+    new ReplyInteractionService(
       client,
       message,
       `${client.getString(language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
     );
-
-    client.emit("playerPause", player);
   }
 }

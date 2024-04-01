@@ -53,15 +53,6 @@ export interface Commands {
 export interface WebServer {
   enable: boolean;
   port: number;
-  websocket: Websocket;
-}
-
-export interface Websocket {
-  enable: boolean;
-  host: string;
-  secret: string;
-  auth: boolean;
-  trusted: string[];
 }
 
 export interface Lavalink {
