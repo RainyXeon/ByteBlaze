@@ -5,7 +5,6 @@ setup_playembed_author: "ตอนนี้ยังไม่มีเพลง�
 ### Update handler!
 setup_author: "กำลังเล่นเพลง"
 setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-setup_playembed_desc: ">>> [Invite](https://discord.com/api/oauth2/authorize?client_id=1037740711619072020&permissions=8&scope=bot%20applications.commands) | [Support](https://discord.gg/XzWdCEDdeW)\n\nโฆษณา: [Maki Service Shop](https://maki-service.xyz)"
 setup_desc: "**%{title}** `[%{duration}]`"
 setup_footer: "ระดับเสียง • %{volume}% | ความยาวทั้งหมด • %{duration}"
 setup_content: "**__คิวเพลง:__**"
