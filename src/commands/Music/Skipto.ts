@@ -11,15 +11,14 @@ export default class implements Command {
   public category = "Music";
   public accessableby = Accessableby.Member;
   public usage = "";
-  public aliases = ["j"];
+  public aliases = ["sk"];
   public lavalink = true;
   public options = [
     {
       name: "position",
       description: "The position of the song",
-      type: ApplicationCommandOptionType.String,
+      type: ApplicationCommandOptionType.Number,
       required: true,
-      autocomplete: true,
     },
   ];
   public playerCheck = true;
@@ -33,15 +32,16 @@ export default class implements Command {
 
     const getPosition = Number(handler.args[0]);
 
-    if (!handler.args[0] ||
-      isNaN(getPosition) || 
-      getPosition == 0 ||
-      getPosition >= player.queue.length)
+    if (!handler.args[0] || isNaN(getPosition) || getPosition < 0)
       return handler.editReply({
-        embeds: [new EmbedBuilder().setDescription(`The number is invalid`).setColor(client.color)],
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setColor(client.color),
+        ],
       });
 
-    if (player.queue.size == 0 && player.data.get("autoplay") !== true) {
+    if (player.queue.size == 0 || getPosition >= player.queue.length) {
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_notfound")}`)
         .setColor(client.color);
@@ -49,9 +49,11 @@ export default class implements Command {
       handler.editReply({ content: " ", embeds: [skipped] });
     } else {
       const cuttedQueue = player.queue.splice(0, getPosition);
-      const nowCurrentTrack = cuttedQueue.splice(0, 1)[0];
+      const nowCurrentTrack = cuttedQueue.splice(-1)[0];
       player.queue.previous.push(...cuttedQueue);
+      player.queue.current ? player.queue.previous.unshift(player.queue.current) : true;
       await player.play(nowCurrentTrack);
+      player.queue.shift();
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);

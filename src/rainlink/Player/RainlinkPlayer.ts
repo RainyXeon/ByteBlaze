@@ -160,6 +160,7 @@ export class RainlinkPlayer {
   public async destroy(): Promise<void> {
     this.checkDestroyed();
     this.sudoDestroy = true;
+    this.clear(false);
     const voiceManager = this.manager.voiceManagers.get(this.guildId);
     if (voiceManager) {
       voiceManager.disconnect();
@@ -167,12 +168,19 @@ export class RainlinkPlayer {
     }
     const voiceReceiver = this.manager.plugins.get("rainlink-voiceReceiver") as RainlinkPlugin;
     if (voiceManager && this.node.options.driver == RainlinkDriver.Nodelink2) voiceReceiver.close(this.guildId);
+    await this.node.rest.updatePlayer({
+      guildId: this.guildId,
+      playerOptions: {
+        track: {
+          encoded: null,
+        },
+      },
+    });
     await this.node.rest.destroyPlayer(this.guildId);
     this.manager.players.delete(this.guildId);
     this.state = RainlinkPlayerState.DESTROYED;
     this.debug("Player destroyed at " + this.guildId);
     this.voiceId = "";
-    this.clear(false);
     this.manager.emit(RainlinkEvents.PlayerDestroy, this);
     this.sudoDestroy = false;
   }

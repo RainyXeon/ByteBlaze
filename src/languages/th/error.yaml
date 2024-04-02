@@ -1,0 +1,39 @@
+# Invalid Number
+number_invalid: "`⚠️` | โปรดระบุจำนวนตัวเลขด้วย!"
+
+# Execute when invalid
+no_node: "`⚠️` | หาเซิร์ฟเวอร์ lavalink ไม่เจอ โปรดรอก่อนสักประมาณ **5 นาที** นะ!"
+
+# No song is currently playing!
+no_player: "`⚠️` | ไม่มีเพลงอะไรเล่นอยู่ในขณะนี้!"
+
+# Need to join voice & same voice to use command!
+no_in_voice: "`⚠️` | ท่านไม่ได้อยู่ในห้องเสียง!"
+no_same_voice: "`⚠️` | โทษที! ท่านไม่ได้อยู่ช่องเสียงที่เดียวกันบอท!"
+
+# No permission!
+no_perms: "`⚠️` | บอทไม่มีสิทธิ์ **%{perm}** ในการรันคำสั่งอันนี้!"
+no_perms_channel: "`⚠️` | บอทไม่มีสิทธิ์ **%{perm}** ในห้องแชท <#%{channel}> ในการรันคำสั่งอันนี้!"
+
+# Getting error!
+unexpected_error: "`⚠️` | มีบางอย่างผิดพลาด ได้โปรดลองใหม่อีกครั้งภายหลัง!"
+
+# Client owner!
+owner_only: "`⚠️` | นายท่าน **ไม่ใช่เจ้าของบอท**!"
+
+# No premium Event!
+no_premium_author: "พรีเมี่ยม"
+no_premium_desc: "`⚠️` | นายท่านไม่มีพรีเมี่ยมไม่สามารถใช้ได้นะ"
+
+# Rate limit!
+ratelimit: "`⚠️` | แหม่ ร้อนแรงไปนะเนี่ย พักก่อนะ ได้โปรดรอสัก **%{time} วินาที**!"
+
+# Missing args
+arg_error: "`⚠️` | อาร์กิวเมนต์ไม่ถูกต้อง โปรดใช้  %{text}"
+
+# Top.gg error
+topgg_error_author: "❌ | เกิดข้อผิดพลาดของ Top.gg"
+topgg_error_desc: "เกิดเหตุขัดข้องระหว่างเช็คโหวตของท่านใน top.gg, อาจจะเป็นเพราะ Top.gg กำลังล่มอยู่ก็ได้นะ ค่อยมาโหวตใหม่อีกทีในอีก 5-10 นาทีนะ!."
+topgg_vote_author: "❌ | ท่านยังไม่ได้โหวตเลย!!"
+topgg_vote_desc: "เพื่อที่จะใช้คำสั่งนี้ ท่านจะต้องโหวตให้บอทก่อนนะ!"
+topgg_vote_button: "กดตรงนี้เพื่อโหวต!!"
