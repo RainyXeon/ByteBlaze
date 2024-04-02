@@ -19,7 +19,7 @@ export default class implements PlayerButton {
     }
 
     if (player.queue.size == 0 && player.data.get("autoplay") !== true)
-      return await new ReplyInteractionService(
+      return new ReplyInteractionService(
         client,
         message,
         `${client.getString(language, "button.music", "skip_notfound")}`
@@ -27,8 +27,6 @@ export default class implements PlayerButton {
 
     player.skip();
 
-    client.emit("playerSkip", player);
-
-    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "skip_msg")}`);
+    new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "skip_msg")}`);
   }
 }

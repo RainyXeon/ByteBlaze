@@ -26,9 +26,6 @@ export default class {
 
     const setup = await client.db.setup.get(newState.guild.id);
 
-    client.emit("voiceStateUpdateJoin", oldState, newState);
-    client.emit("voiceStateUpdateLeave", oldState, newState);
-
     let guildModel = await client.db.language.get(`${newState.guild.id}`);
     if (!guildModel) {
       guildModel = await client.db.language.set(`${newState.guild.id}`, client.config.bot.LANGUAGE);

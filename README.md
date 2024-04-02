@@ -143,6 +143,8 @@ Version numbers can come in different combinations, depending on the release typ
   - [@EmuPIKin](https://github.com/EmuPIKin) **Discord:** `emupikin`
 - [x] **ru (Russian)**
   - [@AutoP1ayer](https://github.com/AutoP1ayer) **Discord:** `autoplayer.uwu`
+- [x] **th (Thai)**
+  - [@SillyDark](https://github.com/SillyDark) **Discord:** `defectsocute`
 
 ## ⁉ Become to translate team?
 

@@ -15,7 +15,7 @@ import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { WebServer } from "./webserver/index.js";
+import { WebServer } from "./utilities/webserver.js";
 import { ManifestService } from "./services/ManifestService.js";
 import { NormalModeIcons } from "./assets/NormalModeIcons.js";
 import { SafeModeIcons } from "./assets/SafeModeIcons.js";
@@ -149,15 +149,6 @@ export class Manager extends Client {
 
     process.on("unhandledRejection", (error) => this.logger.unhandled(import.meta.url, error));
     process.on("uncaughtException", (error) => this.logger.unhandled(import.meta.url, error));
-
-    if (
-      this.config.features.WEB_SERVER.websocket.enable &&
-      (!this.config.features.WEB_SERVER.websocket.secret ||
-        this.config.features.WEB_SERVER.websocket.secret.length == 0)
-    ) {
-      this.logger.error(import.meta.url, "Must have secret in your ws config for secure!");
-      process.exit();
-    }
 
     this.rainlink = new RainlinkInit(this).init;
 

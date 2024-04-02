@@ -127,13 +127,6 @@ export class ConfigDataService {
         WEB_SERVER: {
           enable: false,
           port: 2880,
-          websocket: {
-            enable: false,
-            host: "localhost",
-            secret: "Star the repo 💫",
-            auth: false,
-            trusted: [],
-          },
         },
         PREMIUM_LOG_CHANNEL: "",
         GUILD_LOG_CHANNEL: "",

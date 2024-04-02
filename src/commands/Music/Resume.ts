@@ -26,8 +26,6 @@ export default class implements Command {
 
     await player.resume();
 
-    client.emit("playerPause", player);
-
     const embed = new EmbedBuilder()
       .setDescription(`${client.getString(handler.language, "command.music", "resume_msg")}`)
       .setColor(client.color);

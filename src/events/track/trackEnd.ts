@@ -18,9 +18,6 @@ export default class {
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
-
-    client.emit("playerEnd", player);
-
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (!channel) return;

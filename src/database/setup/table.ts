@@ -11,6 +11,7 @@ import { Language } from "../schema/Language.js";
 import { Status } from "../schema/Status.js";
 import { Prefix } from "../schema/Prefix.js";
 import { SongNoti } from "../schema/SongNoti.js";
+import { QuickDatabasePlus } from "../../structures/QuickDatabasePlus.js";
 
 export class TableSetup {
   client: Manager;
@@ -24,7 +25,7 @@ export class TableSetup {
   }
 
   async register() {
-    const baseDB = new QuickDB({ driver: this.driver });
+    const baseDB = new QuickDatabasePlus({ driver: this.driver });
 
     const start = Date.now();
     await baseDB.init();

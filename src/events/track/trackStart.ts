@@ -32,9 +32,6 @@ export default class {
     const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     if (!channel) return;
 
-    client.emit("playerStart", player);
-    client.emit("playerQueue", player);
-
     const autoreconnect = new AutoReconnectBuilderService(client, player);
 
     if (await autoreconnect.get(player.guildId)) {

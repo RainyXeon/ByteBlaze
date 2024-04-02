@@ -71,7 +71,6 @@ export class ButtonSkip {
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });
-      this.client.emit("playerSkip", this.player);
     }
   }
 }

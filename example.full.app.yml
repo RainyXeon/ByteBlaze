@@ -82,11 +82,5 @@ features:
     retryTimeout: 3000
 
   WEB_SERVER:
-    enable: false # Must enable this before using ws
+    enable: false
     port: 3000
-    websocket:
-      enable: false
-      host: "0.0.0.0" # Default is 0.0.0.0
-      secret: "-19023454588-0934825" # You must add your secret key to use ws. A secret key is anything you want
-      auth: false
-      trusted: ["http://localhost:3000"]

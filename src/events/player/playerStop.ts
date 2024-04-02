@@ -19,7 +19,6 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    client.emit("playerDestroy", player);
     const channel = (await client.channels.fetch(player.textId)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
     const autoreconnectService = new AutoReconnectBuilderService(client, player);
