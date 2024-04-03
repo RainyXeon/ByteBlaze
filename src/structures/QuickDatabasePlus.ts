@@ -45,49 +45,49 @@ export class QuickDatabasePlus<D = any> extends QuickDB {
 
   async add(key: string, value: number): Promise<number> {
     const res = await super.add(key, value);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async sub(key: string, value: number): Promise<number> {
     const res = await super.sub(key, value);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async push<T = D>(key: string, ...values: T[]): Promise<T[]> {
     const res = await super.push(key, ...values);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async unshift<T = D>(key: string, value: T | T[]): Promise<T[]> {
     const res = await super.unshift(key, value);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async pop<T = D>(key: string): Promise<T | undefined> {
     const res = await super.pop(key);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async shift<T = D>(key: string): Promise<T | undefined> {
     const res = await super.shift(key);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
 
   async pull<T = D>(key: string, value: T | T[] | ((data: T, index: string) => boolean), once = false): Promise<T[]> {
     const res = await super.pull(key, value, once);
-    const find = await this.get(key);
+    const find = await super.get(key);
     this.cache.set(key, find);
     return res;
   }
