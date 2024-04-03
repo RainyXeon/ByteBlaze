@@ -36,23 +36,22 @@ export default class {
 
     const isInVoice = await newState.guild.members.fetch(client.user!.id);
 
-    if (!isInVoice || !isInVoice.voice.channelId) player.voiceId !== null ? player.destroy() : true;
+    if (!isInVoice || !isInVoice.voice.channelId) {
+      player.data.set("sudo-destroy", true);
+      player.voiceId !== null ? player.destroy() : true;
+    }
 
     if (
       newState.channelId &&
       String(newState.channel!.type) == "GUILD_STAGE_VOICE" &&
-      newState.guild.members.me!.voice.suppress
-    ) {
-      if (
-        newState.guild.members.me!.permissions.has(PermissionsBitField.Flags.Connect) ||
+      newState.guild.members.me!.voice.suppress &&
+      (newState.guild.members.me!.permissions.has(PermissionsBitField.Flags.Connect) ||
         (newState.channel &&
           newState.channel
             .permissionsFor(newState.guild.members.me as GuildMember | Role)
-            .has(PermissionsBitField.Flags.Speak))
-      ) {
-        newState.guild.members.me!.voice.setSuppressed(false);
-      }
-    }
+            .has(PermissionsBitField.Flags.Speak)))
+    )
+      newState.guild.members.me!.voice.setSuppressed(false);
 
     if (oldState.id === client.user!.id) return;
     const isInOldVoice = await oldState.guild.members.fetch(client.user!.id);
@@ -95,60 +94,62 @@ export default class {
       }
     }
 
-    if (isInOldVoice && isInOldVoice.voice.channelId === oldState.channelId) {
-      if (
-        oldState.guild.members.me!.voice?.channel &&
-        oldState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size === 0
-      ) {
-        // Pause player
-        const currentPause = player.paused;
-        player.paused == true ? true : player.setPause(true);
+    if (
+      isInOldVoice &&
+      isInOldVoice.voice.channelId === oldState.channelId &&
+      oldState.guild.members.me!.voice?.channel &&
+      oldState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size === 0
+    ) {
+      // Pause player
+      const currentPause = player.paused;
+      player.paused == true ? true : player.setPause(true);
 
-        if (currentPause !== true && player.track !== null) {
-          const msg = await leaveEmbed.send({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(`${client.getString(language, "event.player", "leave_pause")}`)
-                .setColor(client.color),
-            ],
-          });
-          setTimeout(async () => {
-            const isChannelAvalible = await client.channels.fetch(msg.channelId);
-            if (!isChannelAvalible) return;
-            !setup || setup == null || setup.channel !== player.textId ? msg.delete() : true;
-          }, client.config.bot.DELETE_MSG_TIMEOUT);
-        }
-
-        // Delay leave timeout
-        let leaveDelayTimeout = setTimeout(async () => {
-          const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter((m) => !m.user.bot).size;
-          if (!vcMembers || vcMembers === 1) {
-            const newPlayer = client.rainlink?.players.get(newState.guild.id);
-            if (newPlayer) player.stop(is247 && is247.twentyfourseven ? false : true);
-            player.data.set("sudo-destroy", true);
-            const TimeoutEmbed = new EmbedBuilder()
-              .setDescription(
-                `${client.getString(language, "event.player", "player_end", {
-                  leave: vcRoom,
-                })}`
-              )
-              .setColor(client.color);
-            try {
-              if (leaveEmbed) {
-                const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
-                setTimeout(
-                  async () =>
-                    msg && (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : undefined,
-                  client.config.bot.DELETE_MSG_TIMEOUT
-                );
-              }
-            } catch (error) {
-              client.logger.error(import.meta.url, error);
-            }
-          }
-        }, client.config.lavalink.LEAVE_TIMEOUT);
-        client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
+      if (currentPause !== true && player.track !== null) {
+        const msg = await leaveEmbed.send({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(`${client.getString(language, "event.player", "leave_pause")}`)
+              .setColor(client.color),
+          ],
+        });
+        setTimeout(async () => {
+          const isChannelAvalible = await client.channels.fetch(msg.channelId);
+          if (!isChannelAvalible) return;
+          !setup || setup == null || setup.channel !== player.textId ? msg.delete() : true;
+        }, client.config.bot.DELETE_MSG_TIMEOUT);
       }
+
+      // Delay leave timeout
+      let leaveDelayTimeout = setTimeout(async () => {
+        const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter((m) => !m.user.bot).size;
+        if (!vcMembers || vcMembers === 1) {
+          const newPlayer = client.rainlink?.players.get(newState.guild.id);
+          if (newPlayer) player.stop(is247 && is247.twentyfourseven ? false : true);
+          player.data.set("sudo-destroy", true);
+          const TimeoutEmbed = new EmbedBuilder()
+            .setDescription(
+              `${client.getString(language, "event.player", "player_end", {
+                leave: vcRoom,
+              })}`
+            )
+            .setColor(client.color);
+          try {
+            if (leaveEmbed) {
+              const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
+              setTimeout(
+                async () =>
+                  msg && (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : undefined,
+                client.config.bot.DELETE_MSG_TIMEOUT
+              );
+            }
+          } catch (error) {
+            client.logger.error(import.meta.url, error);
+          }
+        }
+        clearTimeout(leaveDelayTimeout);
+        client.leaveDelay.delete(newState.guild.id);
+      }, client.config.lavalink.LEAVE_TIMEOUT);
+      client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
     }
   }
 }
