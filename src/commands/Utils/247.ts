@@ -63,6 +63,7 @@ export default class implements Command {
         ? await client.db.autoreconnect.set(`${handler.guild!.id}.twentyfourseven`, false)
         : await client.db.autoreconnect.delete(`${handler.guild!.id}`);
 
+      player ? player.data.set("sudo-destroy", true) : true;
       player && player.voiceId && handler.member!.voice.channel == null ? player.destroy() : true;
 
       const on = new EmbedBuilder()

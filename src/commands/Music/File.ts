@@ -144,9 +144,9 @@ export default class implements Command {
             .setColor(client.color),
         ],
       });
+      player.data.set("sudo-destroy", true);
       const is247 = await client.db.autoreconnect.get(`${handler.guild?.id}`);
       player.stop(is247 && is247.twentyfourseven ? false : true);
-      player.data.set("sudo-destroy", true);
     }
   }
 }
