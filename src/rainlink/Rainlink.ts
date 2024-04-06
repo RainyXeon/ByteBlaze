@@ -412,7 +412,10 @@ export class Rainlink extends EventEmitter {
       throw new Error("Please set an new lib to connect, example: \nlibrary: new Library.DiscordJS(client) ");
     this.library = options.library.set(this);
     this.rainlinkOptions = options;
-    this.rainlinkOptions.options = this.mergeDefaultOptions(this.rainlinkOptions.options ?? {});
+    this.rainlinkOptions.options = this.mergeDefault<RainlinkAdditionalOptions>(
+      this.defaultOptions,
+      this.rainlinkOptions.options ?? {}
+    );
     this.voiceManagers = new Map();
     this.nodes = new RainlinkNodeManager(this);
     this.library.listen(this.rainlinkOptions.nodes);
@@ -575,33 +578,51 @@ export class Rainlink extends EventEmitter {
   }
 
   /** @ignore */
-  protected mergeDefaultOptions(data: RainlinkAdditionalOptions): RainlinkAdditionalOptions {
+  protected get defaultOptions(): RainlinkAdditionalOptions {
     return {
-      retryTimeout: data.retryTimeout ?? 3000,
-      retryCount: data.retryCount ?? 15,
-      voiceConnectionTimeout: data.voiceConnectionTimeout ?? 15000,
-      defaultSearchEngine: data.defaultSearchEngine ?? undefined,
-      defaultVolume: data.defaultVolume ?? 100,
-      searchFallback: data.searchFallback
-        ? {
-            enable: data.searchFallback.enable == true ? true : false,
-            engine:
-              data.searchFallback.engine !== null && data.searchFallback.engine !== undefined
-                ? data.searchFallback.engine
-                : "soundcloud",
-          }
-        : {
-            enable: false,
-            engine: "soundcloud",
-          },
-      resume: data.resume ?? false,
-      userAgent: data.userAgent ?? `Discord/Bot/${metadata.name}/${metadata.version} (${metadata.github})`,
-      nodeResolver: data.nodeResolver ?? undefined,
-      structures: {
-        player: data.structures && data.structures.player ? data.structures.player : undefined,
-        rest: data.structures && data.structures.rest ? data.structures.rest : undefined,
+      retryTimeout: 3000,
+      retryCount: 15,
+      voiceConnectionTimeout: 15000,
+      defaultSearchEngine: "soundcloud",
+      defaultVolume: 100,
+      searchFallback: {
+        enable: true,
+        engine: "soundcloud",
       },
-      resumeTimeout: data.resumeTimeout ?? 300,
+      resume: false,
+      userAgent: `Discord/Bot/${metadata.name}/${metadata.version} (${metadata.github})`,
+      nodeResolver: undefined,
+      structures: undefined,
+      resumeTimeout: 300,
     };
+  }
+
+  // Modded from:
+  // https://github.com/shipgirlproject/Shoukaku/blob/2677ecdf123ffef1c254c2113c5342b250ac4396/src/Utils.ts#L9-L23
+  protected mergeDefault<T extends { [key: string]: any }>(def: T, given: T): Required<T> {
+    if (!given) return def as Required<T>;
+    const defaultKeys: (keyof T)[] = Object.keys(def);
+    for (const key in given) {
+      if (defaultKeys.includes(key)) continue;
+      if (this.isNumber(key)) continue;
+      delete given[key];
+    }
+    for (const key of defaultKeys) {
+      if (Array.isArray(given[key]) && given[key] !== null && given[key] !== undefined) {
+        if (given[key].length == 0) given[key] = def[key];
+      }
+      if (def[key] === null || (typeof def[key] === "string" && def[key].length === 0)) {
+        if (!given[key]) given[key] = def[key];
+      }
+      if (given[key] === null || given[key] === undefined) given[key] = def[key];
+      if (typeof given[key] === "object" && given[key] !== null) {
+        this.mergeDefault(def[key], given[key]);
+      }
+    }
+    return given as Required<T>;
+  }
+
+  protected isNumber(data: string): boolean {
+    return /^[+-]?\d+(\.\d+)?$/.test(data);
   }
 }

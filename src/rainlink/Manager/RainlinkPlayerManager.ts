@@ -41,7 +41,8 @@ export class RainlinkPlayerManager extends Map<string, RainlinkPlayer> {
       const getCustomNode = this.manager.nodes.get(String(options.nodeName ? options.nodeName : ""));
       const node = getCustomNode ? getCustomNode : await this.manager.nodes.getLeastUsed();
       if (!node) throw new Error("Can't find any nodes to connect on");
-      const customPlayer = this.manager.rainlinkOptions.options!.structures!.player;
+      const customPlayer =
+        this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.player;
       const player = customPlayer
         ? new customPlayer(this.manager, options, node, voiceManager)
         : new RainlinkPlayer(this.manager, options, node, voiceManager);

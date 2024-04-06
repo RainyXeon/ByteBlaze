@@ -64,7 +64,8 @@ export class RainlinkNode {
         break;
       }
     }
-    const customRest = this.manager.rainlinkOptions.options!.structures!.rest;
+    const customRest =
+      this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
     this.rest = customRest ? new customRest(manager, options, this) : new RainlinkRest(manager, options, this);
     this.wsEvent = new RainlinkWebsocket();
     this.stats = {
@@ -110,7 +111,8 @@ export class RainlinkNode {
         const isResume = this.manager.rainlinkOptions.options!.resume;
         const timeout = this.manager.rainlinkOptions.options?.resumeTimeout;
         this.driver.sessionId = data.sessionId;
-        const customRest = this.manager.rainlinkOptions.options!.structures!.rest;
+        const customRest =
+          this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
         this.rest = customRest
           ? new customRest(this.manager, this.options, this)
           : new RainlinkRest(this.manager, this.options, this);
