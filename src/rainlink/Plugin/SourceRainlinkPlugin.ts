@@ -22,6 +22,16 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
   }
 
   /**
+   * directSearchChecker function for checking if query have direct search param.
+   * @returns boolean
+   */
+  public directSearchChecker(query: string): boolean {
+    const directSearchRegex = /directSearch=(.*)/;
+    const isDirectSearch = directSearchRegex.exec(query);
+    return isDirectSearch == null;
+  }
+
+  /**
    * searchDirect function for source plugin search directly without fallback.
    * This will avoid overlaps in search function
    * @returns RainlinkSearchResult

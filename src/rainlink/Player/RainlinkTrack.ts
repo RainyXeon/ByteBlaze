@@ -202,7 +202,7 @@ export class RainlinkTrack {
       const prase3 = await manager.search(`directSearch=${searchFallbackEngine}search:${searchQuery}`, {
         requester: this.requester,
       });
-      manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 2 ${this.source}, tracks: ${prase3.tracks.length}`);
+      manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 3 ${this.source}, tracks: ${prase3.tracks.length}`);
       if (prase3.tracks.length !== 0) return prase3;
     }
 
