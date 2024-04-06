@@ -185,7 +185,6 @@ export class RainlinkTrack {
     const searchQuery = [this.author, this.title].filter((x) => !!x).join(" - ");
     const searchFallbackEngineName = manager.rainlinkOptions.options!.searchFallback!.engine;
     const searchFallbackEngine = manager.searchEngines.get(searchFallbackEngineName);
-    console.log(searchFallbackEngine);
 
     const prase1 = await manager.search(`directSearch=${this.uri}`, {
       requester: this.requester,
