@@ -155,5 +155,6 @@ export default class {
         }
       }
     });
+    collector?.removeAllListeners();
   }
 }

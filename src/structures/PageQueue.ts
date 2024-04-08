@@ -101,6 +101,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      collector.removeAllListeners();
     });
 
     return curPage;
@@ -178,6 +179,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      collector.removeAllListeners();
     });
     return curPage;
   }
@@ -257,6 +259,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      collector.removeAllListeners();
     });
     return curPage;
   }
@@ -333,6 +336,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      collector.removeAllListeners();
     });
     return curPage;
   }
@@ -415,6 +419,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      collector.removeAllListeners();
     });
 
     return curPage;

@@ -109,5 +109,7 @@ export default class implements Command {
         .setColor(client.color);
       checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }) : true;
     });
+
+    collector?.removeAllListeners();
   }
 }
