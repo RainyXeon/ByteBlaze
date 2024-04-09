@@ -5,6 +5,7 @@ import { RainlinkPlugin as Spotify } from "./Spotify/Plugin.js";
 import { RainlinkPlugin as PlayerMoved } from "./PlayerMoved/Plugin.js";
 import { RainlinkPlugin as SaveSession } from "./SaveSession/Plugin.js";
 import { RainlinkPlugin as VoiceReceiver } from "./VoiceReceiver/Plugin.js";
+import { RainlinkPlugin as YoutubeConverter } from "./YoutubeConverter/Plugin.js";
 
 /**
  * Import example:
@@ -40,9 +41,14 @@ import { RainlinkPlugin as VoiceReceiver } from "./VoiceReceiver/Plugin.js";
  *       // Be carefull when using
  *       // new Plugin.SaveSession(),
  *       new Plugin.PlayerMoved(client),
- *  *    // About voice receiver plugin:
+ *       // About voice receiver plugin:
  *       // This plugin only works with node use Nodelink2 driver.
  *       new Plugin.VoiceReceiver()
+ *       // The order of the source you want to search replaces YouTube, for example: scsearch, spsearch.
+ *       // The more sources added, the slower the performance will be.
+ *       new Plugin.YoutubeConverter({
+ *          sources: ["scsearch"]
+ *       })
  *     ],
  *   },
  * );
