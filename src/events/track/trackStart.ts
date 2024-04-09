@@ -154,6 +154,7 @@ export default class {
           client.logger.error(import.meta.url, err);
         }
       }
+      collector?.removeAllListeners();
     });
   }
 }

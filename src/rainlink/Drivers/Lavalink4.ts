@@ -54,7 +54,10 @@ export class Lavalink4 extends AbstractDriver {
     });
     ws.on("message", (data: RawData) => this.wsMessageEvent(data));
     ws.on("error", (err) => this.node.wsErrorEvent(err));
-    ws.on("close", (code: number, reason: Buffer) => this.node.wsCloseEvent(code, reason));
+    ws.on("close", (code: number, reason: Buffer) => {
+      this.node.wsCloseEvent(code, reason);
+      ws.removeAllListeners();
+    });
     this.wsClient = ws;
     return ws;
   }
