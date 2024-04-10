@@ -83,7 +83,7 @@
 
 ## 📋 Requirements
 
-- ![Node.js](https://img.shields.io/badge/Node.js-026E00?style=for-the-badge) Node.js Version 16.6.0+ [Download](https://nodejs.org/en/download)
+- ![Node.js](https://img.shields.io/badge/Node.js-026E00?style=for-the-badge) Node.js Version 18.0.0+ [Download](https://nodejs.org/en/download)
 - ![Discord](https://img.shields.io/badge/Discord-404EED?style=for-the-badge) Discord Bot Token [Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
 - ![Lavalink](https://img.shields.io/badge/Lavalink-FC3F37?style=for-the-badge) Lavalink Version 3.7.0+ or 4.0.0+ [Download](https://github.com/lavalink-devs/Lavalink/releases)
 - ![Git](https://img.shields.io/badge/Git-F05033?style=for-the-badge) Git [Download](https://git-scm.com/downloads)
