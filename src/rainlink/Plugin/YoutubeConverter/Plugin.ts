@@ -63,7 +63,7 @@ export class RainlinkPlugin extends Plugin {
 
     // Get search query
     const preRes = await this._search(query, options);
-    if (preRes.tracks.length == 0 || preRes.tracks[0].source !== "youtube") return preRes;
+    if (preRes.tracks.length == 0) return preRes;
 
     // Remove track encoded to trick rainlink
     if (preRes.type == RainlinkSearchResultType.PLAYLIST) {
