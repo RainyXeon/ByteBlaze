@@ -44,7 +44,11 @@ export class RainlinkInit {
     ];
 
     if (this.client.config.lavalink.AVOID_SUSPEND)
-      defaultPlugins.push(new Plugin.YoutubeConverter())
+      defaultPlugins.push(
+        new Plugin.YoutubeConverter({
+          sources: ["scsearch"],
+        })
+      );
 
     if (this.client.config.lavalink.SPOTIFY.enable)
       defaultPlugins.push(

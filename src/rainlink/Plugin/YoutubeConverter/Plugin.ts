@@ -67,18 +67,17 @@ export class RainlinkPlugin extends Plugin {
 
     // Remove track encoded to trick rainlink
     if (preRes.type == RainlinkSearchResultType.PLAYLIST) {
-      const searchedTracks: RainlinkTrack[] = [];
       for (const track of preRes.tracks) {
         track.encoded = "";
       }
-      return this.buildSearch(preRes.playlistName ?? undefined, searchedTracks, preRes.type);
+      return preRes;
     }
 
     const song = preRes.tracks[0];
     const searchQuery = [song.author, song.title].filter((x) => !!x).join(" - ");
     const res = await this.searchEngine(searchQuery, options);
     if (res.tracks.length !== 0) return res;
-    return this.buildSearch(undefined, [], RainlinkSearchResultType.SEARCH);
+    return preRes;
   }
 
   private async searchEngine(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
