@@ -43,6 +43,9 @@ export class RainlinkInit {
       new Plugin.Apple({ countryCode: "us" }),
     ];
 
+    if (this.client.config.lavalink.AVOID_SUSPEND)
+      defaultPlugins.push(new Plugin.YoutubeConverter())
+
     if (this.client.config.lavalink.SPOTIFY.enable)
       defaultPlugins.push(
         new Plugin.Spotify({

@@ -4,6 +4,12 @@ import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType }
 import { Rainlink } from "../../main.js";
 import { RainlinkPlugin as Plugin } from "../../main.js";
 
+const YOUTUBE_REGEX = [
+  /^https?:\/\//,
+  /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,
+  /^.*(youtu.be\/|list=)([^#\&\?]*).*/,
+];
+
 export type YoutubeConvertOptions = {
   /**
    * The order of the source you want to search replaces YouTube, for example: scsearch, spsearch.
@@ -15,9 +21,9 @@ export type YoutubeConvertOptions = {
 export class RainlinkPlugin extends Plugin {
   private options: YoutubeConvertOptions;
   private _search?: (query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>;
-  constructor(options: YoutubeConvertOptions) {
+  constructor(options?: YoutubeConvertOptions) {
     super();
-    this.options = options;
+    this.options = options ?? { sources: ["scsearch"] };
     if (!this.options.sources || this.options.sources.length == 0) this.options.sources = ["scsearch"];
   }
   /** Name function for getting plugin name */
@@ -33,39 +39,52 @@ export class RainlinkPlugin extends Plugin {
   /** Load function for make the plugin working */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public load(manager: Rainlink): void {
-    this._search = manager.search.bind(null);
-    manager.search = this.search.bind(null);
+    this._search = manager.search.bind(manager);
+    manager.search = this.search.bind(this);
   }
 
   /** unload function for make the plugin stop working */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public unload(manager: Rainlink): void {
     if (!this._search) return;
-    manager.search = this._search.bind(null);
+    manager.search = this._search.bind(manager);
     this._search = undefined;
   }
 
   private async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+    // Check if search func avaliable
     if (!this._search) return this.buildSearch(undefined, [], RainlinkSearchResultType.SEARCH);
+
+    // Check if that's a yt link
+    const match = YOUTUBE_REGEX.some((match) => {
+      return match.test(query) == true;
+    });
+    if (!match) return await this._search(query, options);
+
+    // Get search query
     const preRes = await this._search(query, options);
     if (preRes.tracks.length == 0 || preRes.tracks[0].source !== "youtube") return preRes;
+
+    // Remove track encoded to trick rainlink
     if (preRes.type == RainlinkSearchResultType.PLAYLIST) {
       const searchedTracks: RainlinkTrack[] = [];
       for (const track of preRes.tracks) {
-        const res = await this.searchEngine(track.title);
-        if (res.tracks.length !== 0) searchedTracks.push(res.tracks[0]);
+        track.encoded = "";
       }
       return this.buildSearch(preRes.playlistName ?? undefined, searchedTracks, preRes.type);
     }
-    const res = await this.searchEngine(preRes.tracks[0].title);
+
+    const song = preRes.tracks[0];
+    const searchQuery = [song.author, song.title].filter((x) => !!x).join(" - ");
+    const res = await this.searchEngine(searchQuery, options);
     if (res.tracks.length !== 0) return res;
     return this.buildSearch(undefined, [], RainlinkSearchResultType.SEARCH);
   }
 
-  private async searchEngine(query: string): Promise<RainlinkSearchResult> {
+  private async searchEngine(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
     if (!this._search) return this.buildSearch(undefined, [], RainlinkSearchResultType.SEARCH);
     for (const SearchParams of this.options.sources!) {
-      const res = await this._search(`directSearch=${SearchParams}:${query}`);
+      const res = await this._search(`directSearch=${SearchParams}:${query}`, options);
       if (res.tracks.length !== 0) return res;
     }
     return this.buildSearch(undefined, [], RainlinkSearchResultType.SEARCH);
