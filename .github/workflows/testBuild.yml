@@ -1,10 +1,10 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Build release
+name: Build test
 
 on:
-  push:
+  pull_request:
     branches: ["main"]
 
 jobs:
@@ -46,11 +46,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build bot
+      - name: Test building bot
         run: node build.mjs build:github
-
-      - name: Push ByteBlaze build zip to artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: "ByteBlaze"
-          path: out/
