@@ -1,18 +1,17 @@
-import { WebSocket } from "ws";
 import { RainlinkNodeOptions } from "../Interface/Manager.js";
 import { Rainlink } from "../Rainlink.js";
-import { RainlinkConnectState, RainlinkEvents, RainlinkDriver } from "../Interface/Constants.js";
+import { RainlinkConnectState, RainlinkEvents } from "../Interface/Constants.js";
 import { RainlinkRest } from "./RainlinkRest.js";
 import { setTimeout } from "node:timers/promises";
-import { RainlinkWebsocket } from "./RainlinkWebsocket.js";
+import { RainlinkPlayerEvents } from "./RainlinkPlayerEvents.js";
 import { LavalinkEventsEnum } from "../Interface/LavalinkEvents.js";
 import { LavalinkNodeStatsResponse, NodeStats } from "../Interface/Node.js";
-import { RainlinkPlugin as SaveSessionPlugin } from "../Plugin/SaveSession/Plugin.js";
 import { AbstractDriver } from "../Drivers/AbstractDriver.js";
 // Drivers
 import { Lavalink4 } from "../Drivers/Lavalink4.js";
 import { Lavalink3 } from "../Drivers/Lavalink3.js";
 import { Nodelink2 } from "../Drivers/Nodelink2.js";
+import { RainlinkWebsocket } from "./RainlinkWebsocket.js";
 
 export class RainlinkNode {
   /** The rainlink manager */
@@ -32,9 +31,7 @@ export class RainlinkNode {
   /** @ignore */
   private sudoDisconnect = false;
   /** @ignore */
-  private wsEvent: RainlinkWebsocket;
-  /** @ignore */
-  private sessionPlugin?: SaveSessionPlugin | null;
+  private wsEvent: RainlinkPlayerEvents;
   /** Driver for connect to current version of Nodelink/Lavalink */
   public driver: AbstractDriver;
 
@@ -46,28 +43,19 @@ export class RainlinkNode {
   constructor(manager: Rainlink, options: RainlinkNodeOptions) {
     this.manager = manager;
     this.options = options;
-    switch (options.driver) {
-      case RainlinkDriver.Nodelink2: {
-        this.driver = new Nodelink2(this.manager, options, this);
-        break;
-      }
-      case RainlinkDriver.Lavalink3: {
-        this.driver = new Lavalink3(this.manager, options, this);
-        break;
-      }
-      case RainlinkDriver.Lavalink4: {
-        this.driver = new Lavalink4(this.manager, options, this);
-        break;
-      }
-      default: {
-        this.driver = new Lavalink4(this.manager, options, this);
-        break;
-      }
+    const getDriver = this.manager.drivers.filter((driver) => driver.id === options.driver);
+    if (!getDriver || getDriver.length == 0) {
+      this.debug("No driver was found, using lavalink v4 driver instead");
+      this.driver = new Lavalink4();
+    } else {
+      this.debug(`Now using driver: ${getDriver[0].id}`);
+      this.driver = getDriver[0];
     }
+    this.driver.initial(manager, options, this);
     const customRest =
       this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
     this.rest = customRest ? new customRest(manager, options, this) : new RainlinkRest(manager, options, this);
-    this.wsEvent = new RainlinkWebsocket();
+    this.wsEvent = new RainlinkPlayerEvents();
     this.stats = {
       players: 0,
       playingPlayers: 0,
@@ -92,7 +80,7 @@ export class RainlinkNode {
   }
 
   /** Connect this lavalink server */
-  public connect(): WebSocket {
+  public connect(): RainlinkWebsocket {
     return this.driver.connect();
   }
 
@@ -118,10 +106,6 @@ export class RainlinkNode {
           : new RainlinkRest(this.manager, this.options, this);
         if (isResume && timeout) {
           this.driver.updateSession(data.sessionId, isResume, timeout);
-          if (this.sessionPlugin) {
-            this.sessionPlugin.deleteSession(this.options.host);
-            this.sessionPlugin.setSession(this.options.host, data.sessionId);
-          }
         }
         break;
       }

@@ -11,7 +11,7 @@ export * from "./Player/RainlinkTrack.js";
 // Export node class
 export * from "./Node/RainlinkNode.js";
 export * from "./Node/RainlinkRest.js";
-export * from "./Node/RainlinkWebsocket.js";
+export * from "./Node/RainlinkPlayerEvents.js";
 // Export manager class
 export * from "./Manager/RainlinkNodeManager.js";
 export * from "./Manager/RainlinkPlayerManager.js";

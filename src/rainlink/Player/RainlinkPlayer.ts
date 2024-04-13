@@ -3,13 +3,7 @@ import { Rainlink } from "../Rainlink.js";
 import { RainlinkNode } from "../Node/RainlinkNode.js";
 import { RainlinkQueue } from "./RainlinkQueue.js";
 import { RainlinkVoiceManager } from "../Manager/RainlinkVoiceManager.js";
-import {
-  RainlinkDriver,
-  RainlinkEvents,
-  RainlinkFilterData,
-  RainlinkLoopMode,
-  RainlinkPlayerState,
-} from "../Interface/Constants.js";
+import { RainlinkEvents, RainlinkFilterData, RainlinkLoopMode, RainlinkPlayerState } from "../Interface/Constants.js";
 import { RainlinkTrack } from "./RainlinkTrack.js";
 import { UpdatePlayerInfo, UpdatePlayerOptions } from "../Interface/Rest.js";
 import { Snowflake } from "discord.js";
@@ -113,7 +107,9 @@ export class RainlinkPlayer {
     this.guildId = this.voiceOptions.guildId;
     this.voiceId = this.voiceOptions.voiceId;
     this.textId = this.voiceOptions.textId;
-    this.queue = new RainlinkQueue(this.manager, this);
+    const customQueue =
+      this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.queue;
+    this.queue = customQueue ? new customQueue(this.manager, this) : new RainlinkQueue(this.manager, this);
     this.data = new Map<string, any>();
     this.paused = true;
     this.position = 0;
@@ -167,7 +163,7 @@ export class RainlinkPlayer {
       this.manager.voiceManagers.delete(this.guildId);
     }
     const voiceReceiver = this.manager.plugins.get("rainlink-voiceReceiver") as RainlinkPlugin;
-    if (voiceManager && this.node.options.driver == RainlinkDriver.Nodelink2) voiceReceiver.close(this.guildId);
+    if (voiceManager && this.node.options.driver?.includes("nodelink")) voiceReceiver.close(this.guildId);
     await this.node.rest.updatePlayer({
       guildId: this.guildId,
       playerOptions: {

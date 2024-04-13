@@ -20,6 +20,10 @@ import { SourceRainlinkPlugin } from "./Plugin/SourceRainlinkPlugin.js";
 import { RainlinkQueue } from "./Player/RainlinkQueue.js";
 import { metadata } from "./metadata.js";
 import { RainlinkPlugin } from "./Plugin/RainlinkPlugin.js";
+import { AbstractDriver } from "./Drivers/AbstractDriver.js";
+import { Lavalink3 } from "./Drivers/Lavalink3.js";
+import { Nodelink2 } from "./Drivers/Nodelink2.js";
+import { Lavalink4 } from "./Drivers/Lavalink4.js";
 
 export declare interface Rainlink {
   /* tslint:disable:unified-signatures */
@@ -399,6 +403,10 @@ export class Rainlink extends EventEmitter {
    * All plugins (include resolver plugins)
    */
   public plugins: Map<string, RainlinkPlugin>;
+  /**
+   * The rainlink manager
+   */
+  public drivers: AbstractDriver[];
 
   /**
    * The main class that handle all works in lavalink server.
@@ -411,11 +419,14 @@ export class Rainlink extends EventEmitter {
     if (!options.library)
       throw new Error("Please set an new lib to connect, example: \nlibrary: new Library.DiscordJS(client) ");
     this.library = options.library.set(this);
+    this.drivers = [new Lavalink3(), new Nodelink2(), new Lavalink4()];
     this.rainlinkOptions = options;
     this.rainlinkOptions.options = this.mergeDefault<RainlinkAdditionalOptions>(
       this.defaultOptions,
       this.rainlinkOptions.options ?? {}
     );
+    if (this.rainlinkOptions.options.additionalDriver && this.rainlinkOptions.options.additionalDriver?.length !== 0)
+      this.drivers.push(...this.rainlinkOptions.options.additionalDriver);
     this.voiceManagers = new Map();
     this.nodes = new RainlinkNodeManager(this);
     this.library.listen(this.rainlinkOptions.nodes);
@@ -594,6 +605,7 @@ export class Rainlink extends EventEmitter {
       nodeResolver: undefined,
       structures: undefined,
       resumeTimeout: 300,
+      additionalDriver: [],
     };
   }
 

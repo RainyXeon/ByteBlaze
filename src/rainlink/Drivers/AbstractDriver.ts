@@ -1,24 +1,31 @@
+import { RainlinkNodeOptions } from "../Interface/Manager.js";
 import { RainlinkRequesterOptions } from "../Interface/Rest.js";
 import { RainlinkPlayer } from "../Player/RainlinkPlayer.js";
-import { RainlinkPlugin as SaveSessionPlugin } from "../Plugin/SaveSession/Plugin.js";
-import { WebSocket } from "ws";
+import { Rainlink } from "../Rainlink.js";
+import { RainlinkNode } from "../main.js";
+import { RainlinkWebsocket } from "../Node/RainlinkWebsocket.js";
 
 export abstract class AbstractDriver {
+  /**  The id for the driver*/
+  abstract id: string;
   /** Ws url for dealing connection to lavalink/nodelink server */
   abstract wsUrl: string;
   /** Http url for dealing rest request to lavalink/nodelink server */
   abstract httpUrl: string;
-  /** The lavalink server season plugin to save all resume id */
-  abstract sessionPlugin?: SaveSessionPlugin | null;
   /** The lavalink server season id to resume */
   abstract sessionId: string | null;
   /** All function to extend support driver */
   abstract functions: Map<string, (player: RainlinkPlayer, ...args: any) => unknown>;
   /**
-   * Connect to lavalink/nodelink server
-   * @returns WebSocket
+   * Setup data and credentials for connect to lavalink/nodelink server
+   * @returns void
    */
-  abstract connect(): WebSocket;
+  abstract initial(manager: Rainlink, options: RainlinkNodeOptions, node: RainlinkNode): void;
+  /**
+   * Connect to lavalink/nodelink server
+   * @returns RainlinkWebsocket
+   */
+  abstract connect(): RainlinkWebsocket;
   /**
    * Fetch function for dealing rest request to lavalink/nodelink server
    * @returns Promise<D | undefined>
