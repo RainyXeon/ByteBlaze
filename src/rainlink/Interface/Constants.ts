@@ -19,7 +19,6 @@ export enum RainlinkEvents {
   PlayerResume = "playerResume",
   PlayerException = "playerException",
   PlayerWebsocketClosed = "playerWebsocketClosed",
-  PlayerStop = "playerStop",
   // Track
   TrackStuck = "trackStuck",
   TrackStart = "trackStart",

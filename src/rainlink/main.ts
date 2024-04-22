@@ -15,7 +15,6 @@ export * from "./Node/RainlinkPlayerEvents.js";
 // Export manager class
 export * from "./Manager/RainlinkNodeManager.js";
 export * from "./Manager/RainlinkPlayerManager.js";
-export * from "./Manager/RainlinkVoiceManager.js";
 //// Export library class
 export * from "./Library/AbstractLibrary.js";
 export { Library };
@@ -31,5 +30,14 @@ export * from "./Interface/Track.js";
 export * from "./Plugin/RainlinkPlugin.js";
 export * from "./Plugin/SourceRainlinkPlugin.js";
 export { Plugin };
-// Export version
+// Export driver
+export * from "./Drivers/AbstractDriver.js";
+export * from "./Drivers/Lavalink3.js";
+export * from "./Drivers/Lavalink4.js";
+export * from "./Drivers/Nodelink2.js";
+// Export utilities
+export * from "./Utilities/RainlinkDatabase.js";
+export * from "./Utilities/RainlinkWebsocket.js";
+// Export metadata
+export * from "./metadata.js";
 export const version = metadata.version;

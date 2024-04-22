@@ -1,7 +1,6 @@
 import { AbstractLibrary } from "../Library/AbstractLibrary.js";
 import { RainlinkPlugin } from "../Plugin/RainlinkPlugin.js";
 import { RainlinkTrack } from "../Player/RainlinkTrack.js";
-import { RainlinkVoiceManager } from "../Manager/RainlinkVoiceManager.js";
 import { RainlinkNodeManager } from "../Manager/RainlinkNodeManager.js";
 import { RainlinkNode } from "../Node/RainlinkNode.js";
 import { RainlinkRest } from "../Node/RainlinkRest.js";
@@ -77,7 +76,7 @@ export interface RainlinkAdditionalOptions {
   /** User Agent to use when making requests to Lavalink */
   userAgent?: string;
   /** Node Resolver to use if you want to customize it */
-  nodeResolver?: (nodes: RainlinkNodeManager, voiceManager?: RainlinkVoiceManager) => Promise<RainlinkNode | undefined>;
+  nodeResolver?: (nodes: RainlinkNodeManager) => Promise<RainlinkNode | undefined>;
   /** Custom structures for rainlink to use */
   structures?: Structures;
 }

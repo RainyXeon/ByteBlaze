@@ -1,12 +1,10 @@
-/**
- * Copyright (c) 2024, The PerformanC Organization
- * This is the modded version of PWSL-mini (typescript variant) for running on Rainlink
- * Source code get from PerformanC/Internals#PWSL-mini
- * Special thanks to all members of PerformanC Organization
- * Link: https://github.com/PerformanC/internals/commit/b55103f8cc6ddf5344219c48da89866a524d4e4a
- * Github repo link: https://github.com/PerformanC/internals/tree/PWSL-mini
- * PWSL-mini's LICENSE: https://github.com/PerformanC/internals/blob/PWSL-mini/LICENSE
- */
+// Copyright (c) <current_year>, The PerformanC Organization
+// This is the modded version of PWSL (typescript variant) for running on Rainlink
+// Source code get from PerformanC/Internals#PWSL
+// Special thanks to all members of PerformanC Organization
+// Link: https://github.com/PerformanC/internals/tree/fbc73f6368a6971835683f4b22bb4e3b15fa0b73
+// Github repo link: https://github.com/PerformanC/internals
+// PWSL's LICENSE: https://github.com/PerformanC/internals/blob/fbc73f6368a6971835683f4b22bb4e3b15fa0b73/LICENSE
 
 import https from "node:https";
 import http from "node:http";
@@ -58,12 +56,24 @@ type ContinueInfoType = {
   buffer: Buffer[];
 };
 
+export type RainlinkWebsocketOptions = {
+  timeout?: number;
+  headers?: Record<string, unknown>;
+};
+
 export class RainlinkWebsocket extends EventEmitter {
-  private socket: Socket | null;
-  private continueInfo: ContinueInfoType;
+  protected socket: Socket | null;
+  protected continueInfo: ContinueInfoType;
+
+  /**
+   * Modded version of PWSL class
+   * @param url The WS url have to connect
+   * @param options Some additional options of PWSL
+   * @instance
+   */
   constructor(
-    private url: string,
-    protected options: any
+    protected url: string,
+    protected options?: RainlinkWebsocketOptions
   ) {
     super();
     this.url = url;
@@ -76,7 +86,11 @@ export class RainlinkWebsocket extends EventEmitter {
     return this;
   }
 
-  connect() {
+  /**
+   * Connect to current websocket link
+   * @instance
+   */
+  public connect(): void {
     const parsedUrl = new URL(this.url);
     const isSecure = parsedUrl.protocol === "wss:";
     const agent = isSecure ? https : http;
@@ -221,7 +235,11 @@ export class RainlinkWebsocket extends EventEmitter {
     request.end();
   }
 
-  cleanup() {
+  /**
+   * Clean up all current websocket state
+   * @returns boolean
+   */
+  public cleanup(): boolean {
     if (this.socket) {
       this.socket.destroy();
       this.socket = null;
@@ -235,7 +253,14 @@ export class RainlinkWebsocket extends EventEmitter {
     return true;
   }
 
-  sendData(data: Buffer, options: { len: number; fin: boolean; opcode: number; mask?: Buffer }) {
+  /**
+   * Send raw buffer data to ws server
+   * @returns boolean
+   */
+  public sendData(
+    data: Buffer,
+    options: { len: number; fin?: boolean; opcode: number; mask?: Buffer | boolean }
+  ): boolean {
     let payloadStartIndex = 2;
     let payloadLength = options.len;
     let mask = null;
@@ -283,7 +308,20 @@ export class RainlinkWebsocket extends EventEmitter {
     return true;
   }
 
-  close(code: number, reason: string) {
+  /**
+   * Send string data to ws server
+   * @returns boolean
+   */
+  public send(data: string): boolean {
+    const payload = Buffer.from(data, "utf-8");
+    return this.sendData(payload, { len: payload.length, fin: true, opcode: 0x01, mask: true });
+  }
+
+  /**
+   * Close the connection of tthe current ws server
+   * @returns boolean
+   */
+  public close(code?: number, reason?: string): boolean {
     const data = Buffer.allocUnsafe(2 + Buffer.byteLength(reason ?? "normal close"));
     data.writeUInt16BE(code ?? 1000);
     data.write(reason ?? "normal close", 2);

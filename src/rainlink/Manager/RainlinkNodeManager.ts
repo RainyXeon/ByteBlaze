@@ -2,10 +2,11 @@ import { RainlinkConnectState } from "../Interface/Constants.js";
 import { RainlinkNodeOptions } from "../Interface/Manager.js";
 import { RainlinkNode } from "../Node/RainlinkNode.js";
 import { Rainlink } from "../Rainlink.js";
+import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
 
-export class RainlinkNodeManager extends Map<string, RainlinkNode> {
+export class RainlinkNodeManager extends RainlinkDatabase<RainlinkNode> {
   /** The rainlink manager */
-  manager: Rainlink;
+  public manager: Rainlink;
 
   /**
    * The main class for handling lavalink servers
@@ -20,7 +21,7 @@ export class RainlinkNodeManager extends Map<string, RainlinkNode> {
    * Add a new Node.
    * @returns RainlinkNode
    */
-  add(node: RainlinkNodeOptions) {
+  public add(node: RainlinkNodeOptions) {
     const newNode = new RainlinkNode(this.manager, node);
     newNode.connect();
     this.set(node.name, newNode);
@@ -36,7 +37,7 @@ export class RainlinkNodeManager extends Map<string, RainlinkNode> {
       const resolverData = await this.manager.rainlinkOptions.options!.nodeResolver(this);
       if (resolverData) return resolverData;
     }
-    const nodes: RainlinkNode[] = [...this.values()];
+    const nodes: RainlinkNode[] = this.values;
 
     const onlineNodes = nodes.filter((node) => node.state === RainlinkConnectState.Connected);
     if (!onlineNodes.length) throw new Error("No nodes are online");
@@ -55,10 +56,18 @@ export class RainlinkNodeManager extends Map<string, RainlinkNode> {
   }
 
   /**
+   * Get all current nodes
+   * @returns RainlinkNode[]
+   */
+  public all(): RainlinkNode[] {
+    return this.values;
+  }
+
+  /**
    * Remove a node.
    * @returns void
    */
-  remove(name: string): void {
+  public remove(name: string): void {
     const node = this.get(name);
     if (node) {
       node.disconnect();

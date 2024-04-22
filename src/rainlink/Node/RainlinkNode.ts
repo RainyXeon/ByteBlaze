@@ -9,9 +9,7 @@ import { LavalinkNodeStatsResponse, NodeStats } from "../Interface/Node.js";
 import { AbstractDriver } from "../Drivers/AbstractDriver.js";
 // Drivers
 import { Lavalink4 } from "../Drivers/Lavalink4.js";
-import { Lavalink3 } from "../Drivers/Lavalink3.js";
-import { Nodelink2 } from "../Drivers/Nodelink2.js";
-import { RainlinkWebsocket } from "./RainlinkWebsocket.js";
+import { RainlinkWebsocket } from "../Utilities/RainlinkWebsocket.js";
 
 export class RainlinkNode {
   /** The rainlink manager */
@@ -22,16 +20,13 @@ export class RainlinkNode {
   public rest: RainlinkRest;
   /** The lavalink server online status */
   public online: boolean = false;
-  /** @ignore */
-  private retryCounter = 0;
+  protected retryCounter = 0;
   /** The lavalink server connect state */
   public state: RainlinkConnectState = RainlinkConnectState.Closed;
   /** The lavalink server all status */
   public stats: NodeStats;
-  /** @ignore */
-  private sudoDisconnect = false;
-  /** @ignore */
-  private wsEvent: RainlinkPlayerEvents;
+  protected sudoDisconnect = false;
+  protected wsEvent: RainlinkPlayerEvents;
   /** Driver for connect to current version of Nodelink/Lavalink */
   public driver: AbstractDriver;
 
@@ -51,7 +46,7 @@ export class RainlinkNode {
       this.debug(`Now using driver: ${getDriver[0].id}`);
       this.driver = getDriver[0];
     }
-    this.driver.initial(manager, options, this);
+    this.driver.initial(manager, this);
     const customRest =
       this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
     this.rest = customRest ? new customRest(manager, options, this) : new RainlinkRest(manager, options, this);
@@ -146,14 +141,12 @@ export class RainlinkNode {
     return;
   }
 
-  /** @ignore */
   protected nodeClosed() {
     this.manager.emit(RainlinkEvents.NodeClosed, this);
     this.debug(`Node ${this.options.name} closed! URL: ${this.driver.wsUrl}`);
     this.clean();
   }
 
-  /** @ignore */
   protected updateStatusData(data: LavalinkNodeStatsResponse): NodeStats {
     return {
       players: data.players ?? this.stats.players,
@@ -185,8 +178,7 @@ export class RainlinkNode {
     this.state = RainlinkConnectState.Closed;
   }
 
-  /** @ignore */
-  private debug(logs: string) {
-    this.manager.emit(RainlinkEvents.Debug, `[Rainlink Node]: ${logs}`);
+  protected debug(logs: string) {
+    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Node] | ${logs}`);
   }
 }

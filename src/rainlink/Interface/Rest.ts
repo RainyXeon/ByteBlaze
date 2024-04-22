@@ -7,6 +7,7 @@ export interface RainlinkRequesterOptions extends RequestInit {
   useSessionId?: boolean;
   data?: Record<string, unknown>;
   path: string;
+  rawReqData?: UpdatePlayerInfo;
 }
 
 export interface LavalinkPlayer {
@@ -59,6 +60,7 @@ export interface UpdatePlayerTrack {
   encoded?: string | null;
   identifier?: string;
   userData?: Record<string, any>;
+  length?: number;
 }
 
 export interface UpdatePlayerOptions {
@@ -114,3 +116,30 @@ export interface Playlist {
 }
 
 export type LavalinkResponse = TrackResult | PlaylistResult | SearchResult | EmptyResult | ErrorResult;
+
+export interface RoutePlanner {
+  class:
+    | null
+    | "RotatingIpRoutePlanner"
+    | "NanoIpRoutePlanner"
+    | "RotatingNanoIpRoutePlanner"
+    | "BalancingIpRoutePlanner";
+  details: null | {
+    ipBlock: {
+      type: string;
+      size: string;
+    };
+    failingAddresses: Address[];
+    rotateIndex: string;
+    ipIndex: string;
+    currentAddress: string;
+    blockIndex: string;
+    currentAddressIndex: string;
+  };
+}
+
+export interface Address {
+  address: string;
+  failingTimestamp: number;
+  failingTime: string;
+}

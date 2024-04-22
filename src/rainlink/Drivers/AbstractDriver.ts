@@ -1,9 +1,9 @@
-import { RainlinkNodeOptions } from "../Interface/Manager.js";
 import { RainlinkRequesterOptions } from "../Interface/Rest.js";
+import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
+import { RainlinkNode } from "../Node/RainlinkNode.js";
+import { RainlinkWebsocket } from "../Utilities/RainlinkWebsocket.js";
 import { RainlinkPlayer } from "../Player/RainlinkPlayer.js";
 import { Rainlink } from "../Rainlink.js";
-import { RainlinkNode } from "../main.js";
-import { RainlinkWebsocket } from "../Node/RainlinkWebsocket.js";
 
 export abstract class AbstractDriver {
   /**  The id for the driver*/
@@ -14,16 +14,23 @@ export abstract class AbstractDriver {
   abstract httpUrl: string;
   /** The lavalink server season id to resume */
   abstract sessionId: string | null;
-  /** All function to extend support driver */
-  abstract functions: Map<string, (player: RainlinkPlayer, ...args: any) => unknown>;
+  /** All function to extend support driver on RainlinkPlayer class */
+  abstract playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
+  /** All function to extend support driver on Rainlink class */
+  abstract globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  /** Rainlink manager class */
+  abstract manager: Rainlink | null;
+  /** Rainlink reuqested lavalink/nodelink server */
+  abstract node: RainlinkNode | null;
+
   /**
    * Setup data and credentials for connect to lavalink/nodelink server
    * @returns void
    */
-  abstract initial(manager: Rainlink, options: RainlinkNodeOptions, node: RainlinkNode): void;
+  abstract initial(manager: Rainlink, node: RainlinkNode): void;
   /**
    * Connect to lavalink/nodelink server
-   * @returns RainlinkWebsocket
+   * @returns WebSocket
    */
   abstract connect(): RainlinkWebsocket;
   /**

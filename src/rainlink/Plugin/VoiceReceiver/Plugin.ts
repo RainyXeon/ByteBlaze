@@ -104,6 +104,8 @@ export class RainlinkPlugin extends Plugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink Voice Receiver Plugin]: ${logs}`) : true;
+    this.manager
+      ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Voice Receiver] | ${logs}`)
+      : true;
   }
 }

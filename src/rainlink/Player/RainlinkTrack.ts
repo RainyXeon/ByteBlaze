@@ -1,4 +1,3 @@
-import util from "node:util";
 import { RainlinkEvents } from "../Interface/Constants.js";
 import { RainlinkSearchResult, RainlinkSearchResultType } from "../Interface/Manager.js";
 import { RawTrack } from "../Interface/Rest.js";
@@ -118,7 +117,7 @@ export class RainlinkTrack {
 
     manager.emit(
       RainlinkEvents.Debug,
-      `[Rainlink Track]: Resolving ${this.source} track ${this.title}; Source: ${this.source}`
+      `[Rainlink] -> [Track] | Resolving ${this.source} track ${this.title}; Source: ${this.source}`
     );
 
     const result = await this.getTrack(manager);
@@ -140,7 +139,6 @@ export class RainlinkTrack {
     return this;
   }
 
-  /** @ignore */
   protected async getTrack(manager: Rainlink): Promise<RawTrack> {
     const node = await manager.nodes.getLeastUsed();
 
@@ -173,12 +171,10 @@ export class RainlinkTrack {
     return rawTracks[0];
   }
 
-  /** @ignore */
   protected escapeRegExp(string: string) {
     return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
   }
 
-  /** @ignore */
   protected async resolverEngine(manager: Rainlink): Promise<RainlinkSearchResult> {
     const defaultSearchEngine = manager.rainlinkOptions.options!.defaultSearchEngine;
     const engine = manager.searchEngines.get(this.source || defaultSearchEngine || "youtube");
@@ -189,20 +185,17 @@ export class RainlinkTrack {
     const prase1 = await manager.search(`directSearch=${this.uri}`, {
       requester: this.requester,
     });
-    manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 1 ${this.source}, tracks: ${prase1.tracks.length}`);
     if (prase1.tracks.length !== 0) return prase1;
 
     const prase2 = await manager.search(`directSearch=${engine}search:${searchQuery}`, {
       requester: this.requester,
     });
-    manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 2 ${this.source}, tracks: ${prase2.tracks.length}`);
     if (prase2.tracks.length !== 0) return prase2;
 
     if (manager.rainlinkOptions.options!.searchFallback?.enable && searchFallbackEngine) {
       const prase3 = await manager.search(`directSearch=${searchFallbackEngine}search:${searchQuery}`, {
         requester: this.requester,
       });
-      manager.emit(RainlinkEvents.Debug, `[Rainlink Track]: Prase 3 ${this.source}, tracks: ${prase3.tracks.length}`);
       if (prase3.tracks.length !== 0) return prase3;
     }
 

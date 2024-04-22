@@ -1,4 +1,3 @@
-import { RainlinkNodeOptions } from "../Interface/Manager.js";
 import { Rainlink } from "../Rainlink.js";
 import { metadata } from "../metadata.js";
 import { RainlinkEvents } from "../Interface/Constants.js";
@@ -7,41 +6,36 @@ import { RainlinkNode } from "../Node/RainlinkNode.js";
 import { AbstractDriver } from "./AbstractDriver.js";
 import util from "node:util";
 import { RainlinkPlayer } from "../Player/RainlinkPlayer.js";
-import { RainlinkWebsocket } from "../Node/RainlinkWebsocket.js";
+import { RainlinkWebsocket } from "../Utilities/RainlinkWebsocket.js";
+import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
 
 export class Lavalink4 extends AbstractDriver {
-  public id: string = "lavalink@4";
+  public id: string = "lavalink/v4/koinu";
   public wsUrl: string = "";
   public httpUrl: string = "";
   public sessionId: string | null;
-  public functions: Map<string, (player: RainlinkPlayer, ...args: any) => unknown>;
-  private wsClient?: RainlinkWebsocket;
+  public playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
+  public globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  protected wsClient?: RainlinkWebsocket;
   public manager: Rainlink | null = null;
-  public options: RainlinkNodeOptions | null = null;
   public node: RainlinkNode | null = null;
 
   constructor() {
     super();
-    this.functions = new Map<string, (player: RainlinkPlayer, ...args: any) => unknown>();
+    this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
+    this.globalFunctions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.sessionId = null;
   }
 
   public get isRegistered(): boolean {
-    return (
-      this.manager !== null &&
-      this.options !== null &&
-      this.node !== null &&
-      this.wsUrl.length !== 0 &&
-      this.httpUrl.length !== 0
-    );
+    return this.manager !== null && this.node !== null && this.wsUrl.length !== 0 && this.httpUrl.length !== 0;
   }
 
-  public initial(manager: Rainlink, options: RainlinkNodeOptions, node: RainlinkNode): void {
+  public initial(manager: Rainlink, node: RainlinkNode): void {
     this.manager = manager;
-    this.options = options;
     this.node = node;
-    this.wsUrl = `${options.secure ? "wss" : "ws"}://${options.host}:${options.port}/v4/websocket`;
-    this.httpUrl = `${options.secure ? "https://" : "http://"}${options.host}:${options.port}/v4`;
+    this.wsUrl = `${this.node.options.secure ? "wss" : "ws"}://${this.node.options.host}:${this.node.options.port}/v4/websocket`;
+    this.httpUrl = `${this.node.options.secure ? "https://" : "http://"}${this.node.options.host}:${this.node.options.port}/v4`;
   }
 
   public connect(): RainlinkWebsocket {
@@ -49,11 +43,12 @@ export class Lavalink4 extends AbstractDriver {
     const isResume = this.manager!.rainlinkOptions.options!.resume;
     const ws = new RainlinkWebsocket(this.wsUrl, {
       headers: {
-        Authorization: this.options!.auth,
+        Authorization: this.node!.options.auth,
         "User-Id": this.manager!.id,
         "Client-Name": `${metadata.name}/${metadata.version} (${metadata.github})`,
         "Session-Id": this.sessionId !== null && isResume ? this.sessionId : "",
         "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
+        "Num-Shards": this.manager!.shardCount,
       },
     });
 
@@ -82,7 +77,7 @@ export class Lavalink4 extends AbstractDriver {
     }
 
     const lavalinkHeaders = {
-      Authorization: this.options!.auth,
+      Authorization: this.node!.options.auth,
       "User-Agent": this.manager!.rainlinkOptions.options!.userAgent!,
       ...options.headers,
     };
@@ -92,13 +87,12 @@ export class Lavalink4 extends AbstractDriver {
 
     const res = await fetch(url.origin + options.path, options);
 
-    // this.debug(`Request URL: ${url.origin}${options.path}`);
-
     if (res.status == 204) {
       this.debug("Player now destroyed");
       return undefined;
     }
     if (res.status !== 200) {
+      this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
       this.debug(
         "Something went wrong with lavalink server. " +
           `Status code: ${res.status}\n Headers: ${util.inspect(options.headers)}`
@@ -108,7 +102,7 @@ export class Lavalink4 extends AbstractDriver {
 
     const finalData = await res.json();
 
-    this.debug(`${options.method} ${options.path}`);
+    this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
 
     return finalData as D;
   }
@@ -119,9 +113,9 @@ export class Lavalink4 extends AbstractDriver {
     this.node!.wsMessageEvent(wsData);
   }
 
-  private debug(logs: string) {
+  protected debug(logs: string) {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    this.manager!.emit(RainlinkEvents.Debug, `[Lavalink4 Driver]: ${logs}`);
+    this.manager!.emit(RainlinkEvents.Debug, `[Rainlink] -> [Driver] -> [Lavalink4] | ${logs}`);
   }
 
   public wsClose(): void {
