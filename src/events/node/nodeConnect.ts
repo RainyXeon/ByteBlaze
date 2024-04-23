@@ -3,7 +3,7 @@ import { RainlinkNode } from "../../rainlink/main.js";
 
 export default class {
   execute(client: Manager, node: RainlinkNode) {
-    client.rainlink.nodes.full.forEach(([index, data]) => {
+    client.rainlink.nodes.forEach((data, index) => {
       client.lavalinkUsing.push({
         host: data.options.host,
         port: Number(data.options.port) | 0,

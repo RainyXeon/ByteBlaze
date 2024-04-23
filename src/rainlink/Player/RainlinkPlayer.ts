@@ -160,8 +160,8 @@ export class RainlinkPlayer extends EventEmitter {
     this.track = null;
     this.functions = new RainlinkDatabase<(...args: any) => unknown>();
     if (this.node.driver.playerFunctions.size !== 0) {
-      this.node.driver.playerFunctions.full.forEach((data) => {
-        this.functions.set(data[0], data[1].bind(null, this));
+      this.node.driver.playerFunctions.forEach((data, index) => {
+        this.functions.set(index, data.bind(null, this));
       });
     }
     if (voiceOptions.volume && voiceOptions.volume !== this.volume) this.volume = voiceOptions.volume;
@@ -482,7 +482,7 @@ export class RainlinkPlayer extends EventEmitter {
       },
     });
     this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current);
-
+    this.manager.emit(RainlinkEvents.PlayerStop, this);
     return this;
   }
 

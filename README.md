@@ -35,6 +35,7 @@
 - Auto Pause/Resume
 - Auto Complete Search
 - Auto Fix Lavalink From [lavalink.darrennathanael.com](https://lavalink.darrennathanael.com/NoSSL/lavalink-without-ssl)
+- Support lavalink v4, v3 and nodelink v2
 
 ## 🎶 Supported Sources
 
@@ -73,6 +74,14 @@
 - [x] MongoDB
 - [x] JSON
 - [x] PostgresSQL
+
+## 🔉 Supported Lavalink/Nodelink version
+
+| Type     | Support versions | Driver Name       |
+| -------- | ---------------- | ----------------- |
+| Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
+| Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
+| Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
 
 ## 🖼️ Showcase
 

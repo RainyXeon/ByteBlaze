@@ -46,9 +46,11 @@ lavalink:
       # If you put the wrong driver identify here or not put anything here,
       # it will fallback to lavalink v4 driver
       # Driver identify and support range:
-      # lavalink@4 | lavalink v4.0.0 - v4.x.x
-      # lavalink@3 | lavalink v3.7.0 - v3.7.x
-      # nodelink@2 | nodelink v2.0.0 - v2.x.x
+      # | Type     | Support versions | Driver Name       |
+      # | -------- | ---------------- | ----------------- |
+      # | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
+      # | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
+      # | Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
       driver: "lavalink@4"
 
 features:

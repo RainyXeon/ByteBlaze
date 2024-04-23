@@ -45,7 +45,7 @@ export class AutoFixLavalink {
 
   checkLavalink() {
     if (this.client.rainlink.nodes.size !== 0 && this.client.lavalinkUsing.length == 0) {
-      this.client.rainlink.nodes.full.forEach(([index, data]) => {
+      this.client.rainlink.nodes.forEach((data, index) => {
         this.client.lavalinkUsing.push({
           host: data.options.host,
           port: data.options.port,
