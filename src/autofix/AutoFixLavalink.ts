@@ -63,7 +63,7 @@ export class AutoFixLavalink {
     if (this.client.rainlink.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     } else if (this.client.rainlink.nodes.size !== 0 && this.client.lavalinkUsing.length !== 0) {
-      const isLavalinkExist = this.client.rainlink.nodes.has(targetLavalink.name);
+      const isLavalinkExist = this.client.rainlink.nodes.get(targetLavalink.name);
       if (isLavalinkExist) this.client.rainlink.nodes.remove(targetLavalink.name);
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);
     }

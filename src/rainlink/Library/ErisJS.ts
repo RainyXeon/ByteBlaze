@@ -12,6 +12,11 @@ export class ErisJS extends AbstractLibrary {
     return this.client.user.id;
   }
 
+  // getShardCount is for dealing ws with lavalink server
+  public getShardCount(): number {
+    return this.client.shards && this.client.shards.size ? this.client.shards.size : 1;
+  }
+
   // Listen attaches the event listener to the library you are using
   public listen(nodes: RainlinkNodeOptions[]): void {
     // Only attach to ready event once, refer to your library for its ready event

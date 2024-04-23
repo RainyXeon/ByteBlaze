@@ -5,9 +5,8 @@ import {
   RainlinkSearchResult,
   RainlinkSearchResultType,
 } from "./Interface/Manager.js";
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 import { RainlinkNode } from "./Node/RainlinkNode.js";
-import { RainlinkVoiceManager } from "./Manager/RainlinkVoiceManager.js";
 import { AbstractLibrary } from "./Library/AbstractLibrary.js";
 import { VoiceChannelOptions } from "./Interface/Player.js";
 import { RainlinkPlayerManager } from "./Manager/RainlinkPlayerManager.js";
@@ -20,6 +19,11 @@ import { SourceRainlinkPlugin } from "./Plugin/SourceRainlinkPlugin.js";
 import { RainlinkQueue } from "./Player/RainlinkQueue.js";
 import { metadata } from "./metadata.js";
 import { RainlinkPlugin } from "./Plugin/RainlinkPlugin.js";
+import { AbstractDriver } from "./Drivers/AbstractDriver.js";
+import { Lavalink3 } from "./Drivers/Lavalink3.js";
+import { Nodelink2 } from "./Drivers/Nodelink2.js";
+import { Lavalink4 } from "./Drivers/Lavalink4.js";
+import { RainlinkDatabase } from "./Utilities/RainlinkDatabase.js";
 
 export declare interface Rainlink {
   /* tslint:disable:unified-signatures */
@@ -227,6 +231,7 @@ export declare interface Rainlink {
   once(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   /** @ignore */
   once(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  /** @ignore */
   once(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
 
@@ -311,7 +316,8 @@ export declare interface Rainlink {
   off(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   /** @ignore */
   off(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
-  off(event: "playerStop", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
+  /** @ignore */
+  off(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
 
   ////// ------------------------- Track Event ------------------------- /////
@@ -368,10 +374,6 @@ export class Rainlink extends EventEmitter {
    */
   public readonly library: AbstractLibrary;
   /**
-   * Voice voice managers being handled
-   */
-  public readonly voiceManagers: Map<string, RainlinkVoiceManager>;
-  /**
    * Lavalink server that has been configured
    */
   public nodes: RainlinkNodeManager;
@@ -390,15 +392,23 @@ export class Rainlink extends EventEmitter {
   /**
    * All search engine
    */
-  public searchEngines: Map<string, string>;
+  public searchEngines: RainlinkDatabase<string>;
   /**
    * All search plugins (resolver plugins)
    */
-  public searchPlugins: Map<string, SourceRainlinkPlugin>;
+  public searchPlugins: RainlinkDatabase<SourceRainlinkPlugin>;
   /**
    * All plugins (include resolver plugins)
    */
-  public plugins: Map<string, RainlinkPlugin>;
+  public plugins: RainlinkDatabase<RainlinkPlugin>;
+  /**
+   * The rainlink manager
+   */
+  public drivers: AbstractDriver[];
+  /**
+   * The current bott's shard count
+   */
+  public shardCount: number = 1;
 
   /**
    * The main class that handle all works in lavalink server.
@@ -407,22 +417,22 @@ export class Rainlink extends EventEmitter {
    */
   constructor(options: RainlinkOptions) {
     super();
-    this.debug("Start the client.");
     if (!options.library)
       throw new Error("Please set an new lib to connect, example: \nlibrary: new Library.DiscordJS(client) ");
     this.library = options.library.set(this);
+    this.drivers = [new Lavalink3(), new Nodelink2(), new Lavalink4()];
     this.rainlinkOptions = options;
     this.rainlinkOptions.options = this.mergeDefault<RainlinkAdditionalOptions>(
       this.defaultOptions,
       this.rainlinkOptions.options ?? {}
     );
-    this.voiceManagers = new Map();
+    if (this.rainlinkOptions.options.additionalDriver && this.rainlinkOptions.options.additionalDriver?.length !== 0)
+      this.drivers.push(...this.rainlinkOptions.options.additionalDriver);
     this.nodes = new RainlinkNodeManager(this);
-    this.library.listen(this.rainlinkOptions.nodes);
-    this.players = new RainlinkPlayerManager(this, this.voiceManagers);
-    this.searchEngines = new Map<string, string>();
-    this.searchPlugins = new Map<string, SourceRainlinkPlugin>();
-    this.plugins = new Map<string, RainlinkPlugin>();
+    this.players = new RainlinkPlayerManager(this);
+    this.searchEngines = new RainlinkDatabase<string>();
+    this.searchPlugins = new RainlinkDatabase<SourceRainlinkPlugin>();
+    this.plugins = new RainlinkDatabase<RainlinkPlugin>();
     this.initialSearchEngines();
     if (
       !this.rainlinkOptions.options.defaultSearchEngine ||
@@ -446,11 +456,10 @@ export class Rainlink extends EventEmitter {
           this.searchPlugins.set(sourceName, newPlugin);
         }
       }
-      this.debug(`Registered ${this.rainlinkOptions.plugins.length} plugins, including ${this.searchPlugins.size}`);
     }
+    this.library.listen(this.rainlinkOptions.nodes);
   }
 
-  /** @ignore */
   protected initialSearchEngines() {
     for (const data of SourceIDs) {
       this.searchEngines.set(data.name, data.id);
@@ -548,7 +557,10 @@ export class Rainlink extends EventEmitter {
       }
     }
 
-    this.debug(`Searched ${query}; Track results: ${normalizedData.tracks.length}`);
+    this.emit(
+      RainlinkEvents.Debug,
+      `[Rainlink] -> [Search] | Searched ${query}; Track results: ${normalizedData.tracks.length}`
+    );
 
     return this.buildSearch(
       normalizedData.playlistName ?? undefined,
@@ -559,7 +571,6 @@ export class Rainlink extends EventEmitter {
     );
   }
 
-  /** @ignore */
   protected buildSearch(
     playlistName?: string,
     tracks: RainlinkTrack[] = [],
@@ -572,14 +583,9 @@ export class Rainlink extends EventEmitter {
     };
   }
 
-  /** @ignore */
-  protected debug(logs: string) {
-    this.emit(RainlinkEvents.Debug, `[Rainlink]: ${logs}`);
-  }
-
-  /** @ignore */
   protected get defaultOptions(): RainlinkAdditionalOptions {
     return {
+      additionalDriver: [],
       retryTimeout: 3000,
       retryCount: 15,
       voiceConnectionTimeout: 15000,

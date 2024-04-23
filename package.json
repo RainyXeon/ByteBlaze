@@ -98,6 +98,7 @@
     "@types/markdown-it": "^13.0.7",
     "@types/node": "^20.11.30",
     "@types/node-cron": "^3.0.11",
+    "@types/node-fetch": "^2.6.11",
     "@types/recursive-readdir": "^2.2.4",
     "@types/voucher-code-generator": "^1.1.3",
     "@types/ws": "^8.5.10",

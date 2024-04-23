@@ -15,18 +15,12 @@ export abstract class AbstractLibrary {
 
   protected ready(nodes: RainlinkNodeOptions[]): void {
     this.manager!.id = this.getId();
-    if (!this.precheckNode(nodes))
-      throw new Error("Node name must not have the same name and just include a-z, A-Z, 0-9 and _");
+    this.manager!.shardCount = this.getShardCount();
+    this.manager!.emit(
+      "debug",
+      `[Rainlink] | Finished the initialization process | Registered ${this.manager!.plugins.size} plugins | Now connect all current nodes`
+    );
     for (const node of nodes) this.manager?.nodes.add(node);
-  }
-
-  protected precheckNode(node: RainlinkNodeOptions[]) {
-    const regex = /^[a-zA-Z0-9_.-]*$/;
-    for (const data of node) {
-      if (!regex.test(data.name)) return false;
-      if (node.filter((e) => e.name === data.name).length > 1) return false;
-    }
-    return true;
   }
 
   public set(manager: Rainlink): AbstractLibrary {
@@ -36,6 +30,8 @@ export abstract class AbstractLibrary {
 
   abstract getId(): string;
 
+  abstract getShardCount(): number;
+
   abstract sendPacket(shardId: number, payload: any, important: boolean): void;
 
   abstract listen(nodes: RainlinkNodeOptions[]): void;
@@ -43,11 +39,11 @@ export abstract class AbstractLibrary {
   protected raw(packet: any): void {
     if (!AllowedPackets.includes(packet.t)) return;
     const guildId = packet.d.guild_id;
-    const connection = this.manager!.voiceManagers.get(guildId);
-    if (!connection) return;
-    if (packet.t === "VOICE_SERVER_UPDATE") return connection.setServerUpdate(packet.d);
+    const players = this.manager!.players.get(guildId);
+    if (!players) return;
+    if (packet.t === "VOICE_SERVER_UPDATE") return players.setServerUpdate(packet.d);
     const userId = packet.d.user_id;
     if (userId !== this.manager!.id) return;
-    connection.setStateUpdate(packet.d);
+    players.setStateUpdate(packet.d);
   }
 }

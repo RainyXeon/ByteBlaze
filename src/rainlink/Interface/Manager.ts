@@ -1,12 +1,12 @@
 import { AbstractLibrary } from "../Library/AbstractLibrary.js";
 import { RainlinkPlugin } from "../Plugin/RainlinkPlugin.js";
 import { RainlinkTrack } from "../Player/RainlinkTrack.js";
-import { RainlinkVoiceManager } from "../Manager/RainlinkVoiceManager.js";
 import { RainlinkNodeManager } from "../Manager/RainlinkNodeManager.js";
 import { RainlinkNode } from "../Node/RainlinkNode.js";
 import { RainlinkRest } from "../Node/RainlinkRest.js";
 import { RainlinkPlayer } from "../Player/RainlinkPlayer.js";
-import { RainlinkDriver } from "./Constants.js";
+import { AbstractDriver } from "../Drivers/AbstractDriver.js";
+import { RainlinkQueue } from "../Player/RainlinkQueue.js";
 
 /**
  * A structure interface
@@ -22,6 +22,10 @@ export interface Structures {
    * A custom structure that extends the RainlinkPlayer class
    */
   player?: Constructor<RainlinkPlayer>;
+  /**
+   * A custom structure that extends the RainlinkQueue class
+   */
+  queue?: Constructor<RainlinkQueue>;
 }
 
 /**
@@ -39,13 +43,15 @@ export interface RainlinkNodeOptions {
   /** Whenever lavalink user ssl or not */
   secure: boolean;
   /** The driver class for handling lavalink response */
-  driver?: RainlinkDriver;
+  driver?: string;
 }
 
 /**
  * Some rainlink additional config option
  */
 export interface RainlinkAdditionalOptions {
+  /** Additional custom driver for rainlink */
+  additionalDriver?: AbstractDriver[];
   /** Timeout before trying to reconnect (ms) */
   retryTimeout?: number;
   /** Number of times to try and reconnect to Lavalink before giving up */
@@ -70,7 +76,7 @@ export interface RainlinkAdditionalOptions {
   /** User Agent to use when making requests to Lavalink */
   userAgent?: string;
   /** Node Resolver to use if you want to customize it */
-  nodeResolver?: (nodes: RainlinkNodeManager, voiceManager?: RainlinkVoiceManager) => Promise<RainlinkNode | undefined>;
+  nodeResolver?: (nodes: RainlinkNodeManager) => Promise<RainlinkNode | undefined>;
   /** Custom structures for rainlink to use */
   structures?: Structures;
 }
@@ -81,9 +87,9 @@ export interface RainlinkAdditionalOptions {
 export interface RainlinkOptions {
   /** The lavalink server credentials array*/
   nodes: RainlinkNodeOptions[];
-  /** The discord library for using voice manager, example: discordjs, erisjs. Check {@link Library.default} */
+  /** The discord library for using voice manager, example: discordjs, erisjs. Check {@link Library} */
   library: AbstractLibrary;
-  /** The rainlink plugins array. Check {@link Plugin.default} */
+  /** The rainlink plugins array. Check {@link Plugin} */
   plugins?: RainlinkPlugin[];
   /** Rainlink additional options  */
   options?: RainlinkAdditionalOptions;

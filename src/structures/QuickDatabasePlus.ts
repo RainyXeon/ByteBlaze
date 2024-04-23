@@ -1,10 +1,11 @@
 import { IQuickDBOptions, QuickDB } from "dreamvast.quick.db";
+import { Collection } from "./Collection.js";
 
 export class QuickDatabasePlus<D = any> extends QuickDB {
-  public cache: Map<string, unknown>;
+  public cache: Collection<unknown>;
   constructor(public newOptions?: IQuickDBOptions) {
     super(newOptions);
-    this.cache = new Map<string, unknown>();
+    this.cache = new Collection<string>();
   }
 
   async get<T = D>(key: string): Promise<T | null> {

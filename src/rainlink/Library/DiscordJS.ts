@@ -15,6 +15,11 @@ export class DiscordJS extends AbstractLibrary {
     return this.client.user.id;
   }
 
+  // getShardCount is for dealing ws with lavalink server
+  public getShardCount(): number {
+    return this.client.shard && this.client.shard.count ? this.client.shard.count : 1;
+  }
+
   // Listen attaches the event listener to the library you are using
   public listen(nodes: RainlinkNodeOptions[]): void {
     this.client.once("ready", () => this.ready(nodes));
