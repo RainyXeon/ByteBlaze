@@ -13,9 +13,31 @@ import EventEmitter from "node:events";
 import { URL } from "node:url";
 import { Socket } from "node:net";
 
-function parseFrameHeader(buffer: Buffer) {
-  let startIndex = 2;
+type ContinueInfoType = {
+  type: number;
+  buffer: Buffer[];
+};
 
+export type RainlinkWebsocketOptions = {
+  timeout?: number;
+  headers?: Record<string, unknown>;
+};
+
+export type RainlinkWebsocketFHInfo = {
+  opcode: number;
+  fin: boolean;
+  payloadLength: number;
+  mask: Buffer | null;
+  startIndex: number;
+};
+
+export enum RainlinkWebsocketState {
+  WAITING = "WAITING",
+  PROCESSING = "PROCESSING",
+}
+
+function parseFrameHeaderInfo(buffer: Buffer) {
+  let startIndex = 2;
   const opcode = buffer[0] & 15;
   const fin = (buffer[0] & 128) === 128;
   let payloadLength = buffer[1] & 127;
@@ -32,38 +54,40 @@ function parseFrameHeader(buffer: Buffer) {
     payloadLength = buffer.readUInt16BE(2);
   } else if (payloadLength === 127) {
     startIndex += 8;
-    payloadLength = buffer.readUIntBE(2, 6);
-  }
-
-  buffer = buffer.subarray(startIndex, startIndex + payloadLength);
-
-  if (mask) {
-    for (let i = 0; i < payloadLength; i++) {
-      buffer[i] = buffer[i] ^ mask[i & 3];
-    }
+    payloadLength = buffer.readUIntBE(4, 8);
   }
 
   return {
     opcode,
     fin,
-    buffer,
     payloadLength,
+    mask,
+    startIndex,
   };
 }
 
-type ContinueInfoType = {
-  type: number;
-  buffer: Buffer[];
-};
+function parseFrameHeader(info: RainlinkWebsocketFHInfo, buffer: Buffer) {
+  const slicedBuffer = buffer.subarray(info.startIndex, info.startIndex + info.payloadLength);
 
-export type RainlinkWebsocketOptions = {
-  timeout?: number;
-  headers?: Record<string, unknown>;
-};
+  if (info.mask) {
+    for (let i = 0; i < info.payloadLength; i++) {
+      slicedBuffer[i] = slicedBuffer[i] ^ info.mask[i & 3];
+    }
+  }
+
+  return {
+    opcode: info.opcode,
+    fin: info.fin,
+    buffer: slicedBuffer,
+    payloadLength: info.payloadLength,
+    rest: buffer.subarray(info.startIndex + info.payloadLength),
+  };
+}
 
 export class RainlinkWebsocket extends EventEmitter {
   protected socket: Socket | null;
   protected continueInfo: ContinueInfoType;
+  protected state: RainlinkWebsocketState;
 
   /**
    * Modded version of PWSL class
@@ -73,16 +97,18 @@ export class RainlinkWebsocket extends EventEmitter {
    */
   constructor(
     protected url: string,
-    protected options?: RainlinkWebsocketOptions
+    protected options: RainlinkWebsocketOptions
   ) {
     super();
-    this.url = url;
     this.socket = null;
     this.continueInfo = {
       type: -1,
       buffer: [],
     };
+    this.state = RainlinkWebsocketState.WAITING;
+
     this.connect();
+
     return this;
   }
 
@@ -90,7 +116,7 @@ export class RainlinkWebsocket extends EventEmitter {
    * Connect to current websocket link
    * @instance
    */
-  public connect(): void {
+  public connect() {
     const parsedUrl = new URL(this.url);
     const isSecure = parsedUrl.protocol === "wss:";
     const agent = isSecure ? https : http;
@@ -142,77 +168,7 @@ export class RainlinkWebsocket extends EventEmitter {
         return;
       }
 
-      socket.on("data", (data) => {
-        const headers = parseFrameHeader(data);
-
-        switch (headers.opcode) {
-          case 0x0: {
-            this.continueInfo.buffer.push(headers.buffer);
-
-            if (headers.fin) {
-              this.emit(
-                "message",
-                this.continueInfo.type === 1
-                  ? this.continueInfo.buffer.join("")
-                  : Buffer.concat(this.continueInfo.buffer)
-              );
-
-              this.continueInfo = {
-                type: -1,
-                buffer: [],
-              };
-            }
-
-            break;
-          }
-          case 0x1:
-          case 0x2: {
-            if (this.continueInfo.type !== -1 && this.continueInfo.type !== headers.opcode) {
-              this.close(1002, "Invalid continuation frame");
-              this.cleanup();
-
-              return;
-            }
-
-            if (!headers.fin) {
-              this.continueInfo.type = headers.opcode;
-              this.continueInfo.buffer.push(headers.buffer);
-            } else {
-              this.emit("message", headers.opcode === 0x1 ? headers.buffer.toString("utf8") : headers.buffer);
-            }
-
-            break;
-          }
-          case 0x8: {
-            if (headers.buffer.length === 0) {
-              this.emit("close", 1006, "");
-            } else {
-              const code = headers.buffer.readUInt16BE(0);
-              const reason = headers.buffer.subarray(2).toString("utf-8");
-
-              this.emit("close", code, reason);
-            }
-
-            this.cleanup();
-
-            break;
-          }
-          case 0x9: {
-            const pong = Buffer.allocUnsafe(2);
-            pong[0] = 0x8a;
-            pong[1] = 0x00;
-
-            this.socket!.write(pong);
-
-            break;
-          }
-          case 0xa: {
-            this.emit("pong");
-          }
-        }
-
-        if (headers.buffer.length > headers.payloadLength) this.socket!.unshift(headers.buffer);
-      });
+      socket.once("readable", () => this.checkData());
 
       socket.on("close", () => {
         this.emit("close");
@@ -235,11 +191,120 @@ export class RainlinkWebsocket extends EventEmitter {
     request.end();
   }
 
+  protected async checkData() {
+    const data = this.socket?.read();
+
+    if (data && this.state === "WAITING") {
+      this.state = RainlinkWebsocketState.PROCESSING;
+
+      await this._processData(data);
+
+      this.state = RainlinkWebsocketState.WAITING;
+    }
+
+    this.socket?.once("readable", () => this.checkData());
+  }
+
+  protected async _processData(data: Buffer) {
+    const info = parseFrameHeaderInfo(data);
+    const bodyLength = Buffer.byteLength(data) - info.startIndex;
+
+    if (info.payloadLength > bodyLength) {
+      const bytesLeft = info.payloadLength - bodyLength;
+
+      const nextData = await new Promise((resolve) => {
+        this.socket?.once("data", (data) => {
+          if (data.length > bytesLeft) {
+            this.socket?.unshift(data.subarray(bytesLeft));
+            data = data.subarray(0, bytesLeft);
+          }
+          resolve(data);
+        });
+      });
+
+      data = Buffer.concat([data, nextData as Uint8Array]);
+    }
+
+    const headers = parseFrameHeader(info, data);
+
+    switch (headers.opcode) {
+      case 0x0: {
+        this.continueInfo.buffer.push(headers.buffer);
+
+        if (headers.fin) {
+          this.emit(
+            "message",
+            this.continueInfo.type === 1 ? this.continueInfo.buffer.join("") : Buffer.concat(this.continueInfo.buffer)
+          );
+
+          this.continueInfo = {
+            type: -1,
+            buffer: [],
+          };
+        }
+
+        break;
+      }
+      case 0x1:
+      case 0x2: {
+        if (this.continueInfo.type !== -1 && this.continueInfo.type !== headers.opcode) {
+          this.close(1002, "Invalid continuation frame");
+          this.cleanup();
+
+          return;
+        }
+
+        if (!headers.fin) {
+          this.continueInfo.type = headers.opcode;
+          this.continueInfo.buffer.push(headers.buffer);
+        } else {
+          this.emit("message", headers.opcode === 0x1 ? headers.buffer.toString("utf8") : headers.buffer);
+        }
+
+        break;
+      }
+      case 0x8: {
+        if (headers.buffer.length === 0) {
+          this.emit("close", 1006, "");
+        } else {
+          const code = headers.buffer.readUInt16BE(0);
+          const reason = headers.buffer.subarray(2).toString("utf-8");
+
+          this.emit("close", code, reason);
+        }
+
+        this.cleanup();
+
+        break;
+      }
+      case 0x9: {
+        const pong = Buffer.allocUnsafe(2);
+        pong[0] = 0x8a;
+        pong[1] = 0x00;
+
+        this.socket?.write(pong);
+
+        break;
+      }
+      case 0xa: {
+        this.emit("pong");
+      }
+      default: {
+        this.close(1002, "Invalid opcode");
+        this.cleanup();
+
+        return;
+      }
+    }
+
+    if (headers.rest.length > 0) this.socket?.unshift(headers.rest);
+  }
+
   /**
    * Clean up all current websocket state
    * @returns boolean
    */
-  public cleanup(): boolean {
+  cleanup() {
     if (this.socket) {
       this.socket.destroy();
       this.socket = null;
@@ -257,10 +322,7 @@ export class RainlinkWebsocket extends EventEmitter {
    * Send raw buffer data to ws server
    * @returns boolean
    */
-  public sendData(
-    data: Buffer,
-    options: { len: number; fin?: boolean; opcode: number; mask?: Buffer | boolean }
-  ): boolean {
+  sendData(data: Buffer, options: { len: number; fin?: boolean; opcode: number; mask?: Buffer | boolean }) {
     let payloadStartIndex = 2;
     let payloadLength = options.len;
     let mask = null;
@@ -303,7 +365,7 @@ export class RainlinkWebsocket extends EventEmitter {
       }
     }
 
-    this.socket!.write(Buffer.concat([header, data]));
+    this.socket?.write(Buffer.concat([header, data]));
 
     return true;
   }
@@ -321,7 +383,7 @@ export class RainlinkWebsocket extends EventEmitter {
    * Close the connection of tthe current ws server
    * @returns boolean
    */
-  public close(code?: number, reason?: string): boolean {
+  public close(code?: number, reason?: string) {
     const data = Buffer.allocUnsafe(2 + Buffer.byteLength(reason ?? "normal close"));
     data.writeUInt16BE(code ?? 1000);
     data.write(reason ?? "normal close", 2);
