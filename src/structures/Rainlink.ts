@@ -46,7 +46,7 @@ export class RainlinkInit {
     if (this.client.config.lavalink.AVOID_SUSPEND)
       defaultPlugins.push(
         new Plugin.YoutubeConverter({
-          sources: ["scsearch"],
+          sources: ["spsearch"],
         })
       );
 
