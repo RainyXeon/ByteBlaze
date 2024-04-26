@@ -90,7 +90,7 @@ export class ConfigDataService {
         LIMIT_TRACK: 50,
         LIMIT_PLAYLIST: 20,
         SAFE_ICONS_MODE: true,
-        DELETE_MSG_TIMEOUT: 3000,
+        DELETE_MSG_TIMEOUT: 2000,
         DEBUG_MODE: false,
       },
       lavalink: {

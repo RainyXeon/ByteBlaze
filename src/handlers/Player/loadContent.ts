@@ -75,7 +75,7 @@ export class playerLoadContent {
   }
 
   async message(client: Manager, message: Message): Promise<any> {
-    if (!message.guild || !message.guild.available) return;
+    if (!message.guild || !message.guild.available || !message.channel.isTextBased()) return;
     let database = await client.db.setup.get(`${message.guild.id}`);
     let player = client.rainlink.players.get(`${message.guild.id}`);
 
@@ -95,24 +95,25 @@ export class playerLoadContent {
 
     const language = guildModel;
 
-    if (message.author.id === client.user!.id) {
+    if (message.id !== database.playmsg) {
       await delay(client.config.bot.DELETE_MSG_TIMEOUT);
       const checkFromChannel = (await client.channels.fetch(channel.id)) as TextChannel;
       const checkAbility = await checkFromChannel.messages.fetch(message.id);
-      checkAbility ? checkAbility.delete() : true;
+      checkAbility ? checkAbility.delete().catch(() => {}) : true;
+
+      const preInterval = setInterval(async () => {
+        const fetchedMessage = await message.channel.messages.fetch({ limit: 50 });
+        const final = fetchedMessage.filter((msg) => msg.id !== database?.playmsg);
+        if (final.size > 0) (message.channel as TextChannel).bulkDelete(final).catch(() => {});
+        else clearInterval(preInterval);
+        console.log(`Now only channel msg exist, res: ${final.size}. Cleared interval`);
+      }, client.config.bot.DELETE_MSG_TIMEOUT);
     }
 
     if (message.author.bot) return;
 
     const song = message.cleanContent;
     if (!song) return;
-
-    if (message.author.id !== client.user!.id) {
-      await delay(1000);
-      const checkFromChannel = (await client.channels.fetch(channel.id)) as TextChannel;
-      const checkAbility = await checkFromChannel.messages.fetch(message.id);
-      checkAbility ? checkAbility.delete() : true;
-    }
 
     const ratelimit = rateLimitManager.acquire(message.author.id);
 
