@@ -116,7 +116,7 @@ export default class implements Command {
           })}`
         )
         .setColor(client.color);
-      return handler.followUp({ embeds: [embed] });
+      return handler.editReply({ embeds: [embed] });
     } else if (value === "delete") {
       const SetupChannel = await client.db.setup.get(`${handler.guild!.id}`);
 
@@ -128,13 +128,13 @@ export default class implements Command {
       if (SetupChannel.enable == false) return handler.editReply({ embeds: [embed_none] });
 
       const fetchedTextChannel = SetupChannel.channel
-        ? await handler.guild!.channels.fetch(SetupChannel.channel)
+        ? await handler.guild!.channels.fetch(SetupChannel.channel).catch(() => {})
         : undefined;
       const fetchedVoiceChannel = SetupChannel.voice
-        ? await handler.guild!.channels.fetch(SetupChannel.voice)
+        ? await handler.guild!.channels.fetch(SetupChannel.voice).catch(() => {})
         : undefined;
       const fetchedCategory = SetupChannel.category
-        ? await handler.guild!.channels.fetch(SetupChannel.category)
+        ? await handler.guild!.channels.fetch(SetupChannel.category).catch(() => {})
         : undefined;
 
       const embed = new EmbedBuilder()
