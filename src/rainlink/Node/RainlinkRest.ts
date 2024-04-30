@@ -9,6 +9,7 @@ import {
   LavalinkPlayer,
   LavalinkResponse,
   RainlinkRequesterOptions,
+  RawTrack,
   RoutePlanner,
   UpdatePlayerInfo,
 } from "../Interface/Rest.js";
@@ -43,11 +44,23 @@ export class RainlinkRest {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players`,
       params: undefined,
-      useSessionId: true,
-      headers: { "Content-Type": "application/json" },
       method: "GET",
     };
     return (await this.nodeManager.driver.requester<LavalinkPlayer[]>(options)) ?? [];
+  }
+
+  /**
+   * Decode a single track from "encoded" properties
+   * @returns Promise that resolves to an object of raw track
+   */
+  public async decodeTrack(base64track: string): Promise<RawTrack | undefined> {
+    const options: RainlinkRequesterOptions = {
+      path: `/decodetrack?encodedTrack=${encodeURIComponent(base64track)}`,
+      params: undefined,
+      headers: { "content-type": "application/json" },
+      method: "GET",
+    };
+    return await this.nodeManager.driver.requester<RawTrack>(options);
   }
 
   /**
@@ -58,8 +71,7 @@ export class RainlinkRest {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players/${data.guildId}`,
       params: { noReplace: data.noReplace?.toString() || "false" },
-      useSessionId: true,
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "PATCH",
       data: data.playerOptions as Record<string, unknown>,
       rawReqData: data,
@@ -71,12 +83,11 @@ export class RainlinkRest {
    * Destroy a Lavalink player
    * @returns Promise that resolves to a Lavalink player
    */
-  public destroyPlayer(guildId: string) {
+  public destroyPlayer(guildId: string): void {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players/${guildId}`,
       params: undefined,
-      useSessionId: true,
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "DELETE",
     };
     this.nodeManager.driver.requester(options);
@@ -86,11 +97,11 @@ export class RainlinkRest {
    * A track resolver function to get track from lavalink
    * @returns LavalinkResponse
    */
-  public async resolver(data: string): Promise<LavalinkResponse> {
+  public async resolver(data: string): Promise<LavalinkResponse | undefined> {
     const options: RainlinkRequesterOptions = {
       path: "/loadtracks",
       params: { identifier: data },
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "GET",
     };
 
@@ -135,7 +146,7 @@ export class RainlinkRest {
   public getLavalinkInfo(): Promise<NodeInfo | undefined> {
     const options = {
       path: "/info",
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
     };
     return this.nodeManager.driver.requester(options);
   }

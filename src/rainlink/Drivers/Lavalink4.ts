@@ -15,7 +15,7 @@ export class Lavalink4 extends AbstractDriver {
   public httpUrl: string = "";
   public sessionId: string | null;
   public playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
-  public globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  public functions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
   protected wsClient?: RainlinkWebsocket;
   public manager: Rainlink | null = null;
   public node: RainlinkNode | null = null;
@@ -23,7 +23,7 @@ export class Lavalink4 extends AbstractDriver {
   constructor() {
     super();
     this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
-    this.globalFunctions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
+    this.functions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.sessionId = null;
   }
 
@@ -44,11 +44,11 @@ export class Lavalink4 extends AbstractDriver {
     const ws = new RainlinkWebsocket(this.wsUrl, {
       headers: {
         Authorization: this.node!.options.auth,
-        "User-Id": this.manager!.id,
-        "Client-Name": `${metadata.name}/${metadata.version} (${metadata.github})`,
-        "Session-Id": this.sessionId !== null && isResume ? this.sessionId : "",
+        "user-id": this.manager!.id,
+        "client-name": `${metadata.name}/${metadata.version} (${metadata.github})`,
+        "session-id": this.sessionId !== null && isResume ? this.sessionId : "",
         "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
-        "Num-Shards": this.manager!.shardCount,
+        "num-shards": this.manager!.shardCount,
       },
     });
 
@@ -67,7 +67,7 @@ export class Lavalink4 extends AbstractDriver {
 
   public async requester<D = any>(options: RainlinkRequesterOptions): Promise<D | undefined> {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    if (options.useSessionId && this.sessionId == null)
+    if (options.path.includes("/sessions") && this.sessionId == null)
       throw new Error("sessionId not initalized! Please wait for lavalink get connected!");
     const url = new URL(`${this.httpUrl}${options.path}`);
     if (options.params) url.search = new URLSearchParams(options.params).toString();
@@ -115,7 +115,10 @@ export class Lavalink4 extends AbstractDriver {
 
   protected debug(logs: string) {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    this.manager!.emit(RainlinkEvents.Debug, `[Rainlink] -> [Driver] -> [Lavalink4] | ${logs}`);
+    this.manager!.emit(
+      RainlinkEvents.Debug,
+      `[Rainlink] / [Node @ ${this.node?.options.name}] / [Driver] / [Lavalink4] | ${logs}`
+    );
   }
 
   public wsClose(): void {
@@ -125,7 +128,7 @@ export class Lavalink4 extends AbstractDriver {
   public async updateSession(sessionId: string, mode: boolean, timeout: number): Promise<void> {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${sessionId}`,
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "PATCH",
       data: {
         resuming: mode,

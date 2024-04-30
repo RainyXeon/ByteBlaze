@@ -17,7 +17,7 @@ export abstract class AbstractDriver {
   /** All function to extend support driver on RainlinkPlayer class */
   abstract playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
   /** All function to extend support driver on Rainlink class */
-  abstract globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  abstract functions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
   /** Rainlink manager class */
   abstract manager: Rainlink | null;
   /** Rainlink reuqested lavalink/nodelink server */

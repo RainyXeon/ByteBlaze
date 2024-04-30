@@ -27,7 +27,10 @@ export class RainlinkPlayerEvents {
       player.playing = true;
       player.paused = false;
       manager.emit(RainlinkEvents.TrackStart, player, player.queue.current);
-      manager.emit(RainlinkEvents.Debug, "[Rainlink] -> [Player] -> [Events] -> [Start] | " + JSON.stringify(data));
+      manager.emit(
+        RainlinkEvents.Debug,
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Start] | ` + JSON.stringify(data)
+      );
     }
     return;
   }
@@ -39,12 +42,14 @@ export class RainlinkPlayerEvents {
       if (player.state === RainlinkPlayerState.DESTROYED)
         return manager.emit(
           RainlinkEvents.Debug,
-          `[Rainlink] -> [Player] -> [Events] -> [End] | Player ${player.guildId} destroyed from end event`
+          `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [End] | Player ${player.guildId} destroyed from end event`
         );
 
       manager.emit(
         RainlinkEvents.Debug,
-        "[Rainlink] -> [Player] -> [Events] -> [End] | " + `Tracks: ${player.queue.length} ` + JSON.stringify(data)
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [End] | ` +
+          `Tracks: ${player.queue.length} ` +
+          JSON.stringify(data)
       );
 
       player.playing = false;
@@ -83,7 +88,10 @@ export class RainlinkPlayerEvents {
     const player = manager.players.get(data.guildId);
     if (player) {
       manager.emit(RainlinkEvents.PlayerException, player, data);
-      manager.emit(RainlinkEvents.Debug, "[Rainlink] -> [Player] -> [Events] -> [Exception] | " + JSON.stringify(data));
+      manager.emit(
+        RainlinkEvents.Debug,
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Exception] | ` + JSON.stringify(data)
+      );
     }
     return;
   }
@@ -92,7 +100,10 @@ export class RainlinkPlayerEvents {
     const player = manager.players.get(data.guildId);
     if (player) {
       manager.emit(RainlinkEvents.TrackStuck, player, data);
-      manager.emit(RainlinkEvents.Debug, "[Rainlink] -> [Player] -> [Events] -> [Stuck] | " + JSON.stringify(data));
+      manager.emit(
+        RainlinkEvents.Debug,
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Stuck] | ` + JSON.stringify(data)
+      );
     }
     return;
   }
@@ -103,7 +114,7 @@ export class RainlinkPlayerEvents {
       manager.emit(RainlinkEvents.PlayerWebsocketClosed, player, data);
       manager.emit(
         RainlinkEvents.Debug,
-        "[Rainlink] -> [Player] -> [Events] -> [WebsocketClosed] | " + JSON.stringify(data)
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [WebsocketClosed] | ` + JSON.stringify(data)
       );
     }
     return;
@@ -113,7 +124,10 @@ export class RainlinkPlayerEvents {
     const player = manager.players.get(data.guildId);
     if (player) {
       player.position = Number(data.state.position);
-      manager.emit(RainlinkEvents.Debug, "[Rainlink] -> [Player] -> [Events] -> [Updated] | " + JSON.stringify(data));
+      manager.emit(
+        RainlinkEvents.Debug,
+        `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Updated] | ` + JSON.stringify(data)
+      );
       manager.emit(RainlinkEvents.PlayerUpdate, player, data);
     }
     return;

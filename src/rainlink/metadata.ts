@@ -1,6 +1,6 @@
 /** @ignore */
 export const metadata = {
   name: "rainlink",
-  version: "0.7.0",
+  version: "1.0.0",
   github: "https://github.com/RainyXeon/ByteBlaze",
 };

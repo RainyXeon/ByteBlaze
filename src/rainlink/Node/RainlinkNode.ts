@@ -83,7 +83,7 @@ export class RainlinkNode {
   public wsOpenEvent() {
     this.clean(true);
     this.state = RainlinkConnectState.Connected;
-    this.debug(`Node ${this.options.name} connected! URL: ${this.driver.wsUrl}`);
+    this.debug(`Node connected! URL: ${this.driver.wsUrl}`);
     this.manager.emit(RainlinkEvents.NodeConnect, this);
   }
 
@@ -121,7 +121,7 @@ export class RainlinkNode {
 
   /** @ignore */
   public wsErrorEvent(logs: Error) {
-    this.debug(`Node ${this.options.name} errored! URL: ${this.driver.wsUrl}`);
+    this.debug(`Node errored! URL: ${this.driver.wsUrl}`);
     this.manager.emit(RainlinkEvents.NodeError, this, logs);
   }
 
@@ -129,7 +129,7 @@ export class RainlinkNode {
   public async wsCloseEvent(code: number, reason: Buffer) {
     this.online = false;
     this.state = RainlinkConnectState.Disconnected;
-    this.debug(`Node ${this.options.name} disconnected! URL: ${this.driver.wsUrl}`);
+    this.debug(`Node disconnected! URL: ${this.driver.wsUrl}`);
     this.manager.emit(RainlinkEvents.NodeDisconnect, this, code, reason);
     if (!this.sudoDisconnect && this.retryCounter !== this.manager.rainlinkOptions.options!.retryCount) {
       await setTimeout(this.manager.rainlinkOptions.options!.retryTimeout);
@@ -143,7 +143,7 @@ export class RainlinkNode {
 
   protected nodeClosed() {
     this.manager.emit(RainlinkEvents.NodeClosed, this);
-    this.debug(`Node ${this.options.name} closed! URL: ${this.driver.wsUrl}`);
+    this.debug(`Node closed! URL: ${this.driver.wsUrl}`);
     this.clean();
   }
 
@@ -179,6 +179,6 @@ export class RainlinkNode {
   }
 
   protected debug(logs: string) {
-    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Node] | ${logs}`);
+    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Node @ ${this.options.name}] | ${logs}`);
   }
 }

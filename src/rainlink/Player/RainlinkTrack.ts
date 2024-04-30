@@ -117,7 +117,7 @@ export class RainlinkTrack {
 
     manager.emit(
       RainlinkEvents.Debug,
-      `[Rainlink] -> [Track] | Resolving ${this.source} track ${this.title}; Source: ${this.source}`
+      `[Rainlink] / [Track] | Resolving ${this.source} track ${this.title}; Source: ${this.source}`
     );
 
     const result = await this.getTrack(manager);

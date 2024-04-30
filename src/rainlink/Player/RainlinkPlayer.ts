@@ -123,11 +123,9 @@ export class RainlinkPlayer extends EventEmitter {
    * @param manager The rainlink manager
    * @param voiceOptions The rainlink voice option, use VoiceChannelOptions interface
    * @param node The rainlink current use node
-   * @param voiceManager The rainlink current voice manager
    */
   constructor(manager: Rainlink, voiceOptions: VoiceChannelOptions, node: RainlinkNode) {
     super();
-    this.manager = manager;
     this.manager = manager;
     this.guildId = voiceOptions.guildId;
     this.voiceId = voiceOptions.voiceId;
@@ -500,7 +498,7 @@ export class RainlinkPlayer extends EventEmitter {
     this.paused = true;
     this.playing = false;
     this.track = null;
-    this.data.clear();
+    if (!this.data.get("sudo-destroy")) this.data.clear();
     this.position = 0;
     if (emitEmpty) this.manager.emit(RainlinkEvents.QueueEmpty, this);
     return;
@@ -631,18 +629,18 @@ export class RainlinkPlayer extends EventEmitter {
    * @param data Data to change
    * @returns RainlinkPlayer
    */
-  public async send(data: UpdatePlayerInfo): Promise<RainlinkPlayer> {
+  public send(data: UpdatePlayerInfo): RainlinkPlayer {
     this.checkDestroyed();
-    await this.node.rest.updatePlayer(data);
+    this.node.rest.updatePlayer(data);
     return this;
   }
 
   protected debug(logs: string): void {
-    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Player] | ${logs}`);
+    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Player @ ${this.guildId}] | ${logs}`);
   }
 
   protected debugDiscord(logs: string): void {
-    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Player] -> [Voice] | ${logs}`);
+    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Player @ ${this.guildId}] / [Voice] | ${logs}`);
   }
 
   protected checkDestroyed(): void {
