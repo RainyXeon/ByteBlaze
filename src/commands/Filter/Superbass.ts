@@ -1,5 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
-import delay from "delay";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -37,32 +36,22 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {
-          equalizer: [
-            { band: 0, gain: 0.2 },
-            { band: 1, gain: 0.3 },
-            { band: 2, gain: 0 },
-            { band: 3, gain: 0.8 },
-            { band: 4, gain: 0 },
-            { band: 5, gain: 0.5 },
-            { band: 6, gain: 0 },
-            { band: 7, gain: -0.5 },
-            { band: 8, gain: 0 },
-            { band: 9, gain: 0 },
-            { band: 10, gain: 0 },
-            { band: 11, gain: 0 },
-            { band: 12, gain: 0 },
-            { band: 13, gain: 0 },
-          ],
-        },
-      },
-    };
-
-    await player?.send(data);
+    player?.filter.setEqualizer([
+      { band: 0, gain: 0.2 },
+      { band: 1, gain: 0.3 },
+      { band: 2, gain: 0 },
+      { band: 3, gain: 0.8 },
+      { band: 4, gain: 0 },
+      { band: 5, gain: 0.5 },
+      { band: 6, gain: 0 },
+      { band: 7, gain: -0.5 },
+      { band: 8, gain: 0 },
+      { band: 9, gain: 0 },
+      { band: 10, gain: 0 },
+      { band: 11, gain: 0 },
+      { band: 12, gain: 0 },
+      { band: 13, gain: 0 },
+    ]);
 
     const sbed = new EmbedBuilder()
       .setDescription(
@@ -71,8 +60,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [sbed] });
   }
 }

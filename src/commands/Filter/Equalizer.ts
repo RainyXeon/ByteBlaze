@@ -1,5 +1,4 @@
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
-import delay from "delay";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -61,15 +60,7 @@ export default class implements Command {
           })}`,
         });
       return handler.editReply({ embeds: [embed] });
-    } else if (value == "off" || value == "reset") {
-      const data = {
-        guildId: handler.guild!.id,
-        playerOptions: {
-          filters: {},
-        },
-      };
-      return player?.send(data);
-    }
+    } else if (value == "off" || value == "reset") return player?.filter.clear();
 
     const bands = value.split(/[ ]+/);
     let bandsStr = "";
@@ -104,15 +95,7 @@ export default class implements Command {
 
     for (let i = 0; i < bands.length; i++) {
       if (i > 13) break;
-      const data = {
-        guildId: handler.guild!.id,
-        playerOptions: {
-          filters: {
-            equalizer: [{ band: i, gain: Number(bands[i]) / 10 }],
-          },
-        },
-      };
-      player?.send(data);
+      player?.filter.setEqualizer([{ band: i, gain: Number(bands[i]) / 10 }]);
       bandsStr += `${bands[i]} `;
     }
 
@@ -125,8 +108,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
-    await delay(2000);
     return handler.editReply({ content: " ", embeds: [embed] });
   }
 }

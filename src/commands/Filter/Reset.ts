@@ -1,5 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
-import delay from "delay";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -34,21 +33,12 @@ export default class implements Command {
 
     player?.data.delete("filter-mode");
 
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {},
-      },
-    };
-
-    await player?.send(data);
+    await player?.filter.clear();
     await player?.setVolume(100);
 
     const resetted = new EmbedBuilder()
       .setDescription(`${client.getString(handler.language, "command.filter", "reset_on")}`)
       .setColor(client.color);
-
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [resetted] });
   }
 }

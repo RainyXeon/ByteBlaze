@@ -37,24 +37,7 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        vibrato: {
-          frequency: 4.0,
-          depth: 0.75,
-        },
-        filters: {
-          vibrato: {
-            frequency: 4.0,
-            depth: 0.75,
-          },
-        },
-      },
-    };
-
-    await player?.send(data);
+    player?.filter.set("vibrato");
 
     const embed = new EmbedBuilder()
       .setDescription(

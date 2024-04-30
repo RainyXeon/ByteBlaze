@@ -1,5 +1,4 @@
 import { EmbedBuilder } from "discord.js";
-import delay from "delay";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -37,20 +36,7 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {
-          tremolo: {
-            frequency: 4.0,
-            depth: 0.75,
-          },
-        },
-      },
-    };
-
-    await player?.send(data);
+    player?.filter.set("tremolo");
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -59,8 +45,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [embed] });
   }
 }

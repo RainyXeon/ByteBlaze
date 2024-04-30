@@ -36,21 +36,7 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {
-          timescale: {
-            speed: 1.05,
-            pitch: 1.125,
-            rate: 1.05,
-          },
-        },
-      },
-    };
-
-    await player?.send(data);
+    player?.filter.set("nightcore");
 
     const nightcored = new EmbedBuilder()
       .setDescription(
@@ -59,7 +45,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
     await handler.editReply({ content: " ", embeds: [nightcored] });
   }
 }
