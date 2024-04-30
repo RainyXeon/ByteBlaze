@@ -4,12 +4,12 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["doubletime"];
-  public description = "Turning on doubletime filter";
+  public name = ["radio"];
+  public description = "Turning on radio filter";
   public category = "Filter";
   public accessableby = Accessableby.Member;
   public usage = "";
-  public aliases = ["doubletime"];
+  public aliases = ["radio"];
   public lavalink = true;
   public options = [];
   public playerCheck = true;
@@ -36,15 +36,15 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-    player?.filter.set("doubletime");
+    player?.filter.set("radio");
 
-    const embed = new EmbedBuilder()
+    const radiod = new EmbedBuilder()
       .setDescription(
         `${client.getString(handler.language, "command.filter", "filter_on", {
           name: this.name[0],
         })}`
       )
       .setColor(client.color);
-    await handler.editReply({ content: " ", embeds: [embed] });
+    await handler.editReply({ content: " ", embeds: [radiod] });
   }
 }

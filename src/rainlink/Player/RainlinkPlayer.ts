@@ -17,6 +17,7 @@ import { RainlinkPlugin } from "../Plugin/VoiceReceiver/Plugin.js";
 import { ServerUpdate, StateUpdatePartial } from "../Interface/Connection.js";
 import { EventEmitter } from "node:events";
 import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
+import { RainlinkFilter } from "./RainlinkFilter.js";
 
 export class RainlinkPlayer extends EventEmitter {
   /**
@@ -117,6 +118,7 @@ export class RainlinkPlayer extends EventEmitter {
   public voiceState: VoiceConnectState;
   /** @ignore */
   public sudoDestroy: boolean;
+  public filter: RainlinkFilter;
 
   /**
    * The rainlink player handler class
@@ -145,6 +147,7 @@ export class RainlinkPlayer extends EventEmitter {
     const customQueue =
       this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.queue;
     this.queue = customQueue ? new customQueue(this.manager, this) : new RainlinkQueue(this.manager, this);
+    this.filter = new RainlinkFilter(this);
     this.data = new RainlinkDatabase<unknown>();
     this.paused = true;
     this.position = 0;

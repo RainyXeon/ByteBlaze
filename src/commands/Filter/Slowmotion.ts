@@ -1,5 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
-import delay from "delay";
+import { EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -37,21 +36,7 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {
-          timescale: {
-            speed: 0.5,
-            pitch: 1.0,
-            rate: 0.8,
-          },
-        },
-      },
-    };
-
-    await player?.send(data);
+    player?.filter.set("slow");
 
     const embed = new EmbedBuilder()
       .setDescription(
@@ -60,8 +45,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [embed] });
   }
 }

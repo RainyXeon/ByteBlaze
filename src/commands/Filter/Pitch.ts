@@ -1,5 +1,4 @@
 import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
-import delay from "delay";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -58,16 +57,7 @@ export default class implements Command {
         ],
       });
 
-    const data = {
-      guildId: handler.guild!.id,
-      playerOptions: {
-        filters: {
-          timescale: { pitch: Number(value) },
-        },
-      },
-    };
-
-    await player?.send(data);
+    await player?.filter.setTimescale({ pitch: Number(value) });
 
     player?.data.set("filter-mode", this.name[0]);
 
@@ -78,7 +68,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [embed] });
   }
 }

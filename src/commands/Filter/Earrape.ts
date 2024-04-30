@@ -37,8 +37,7 @@ export default class implements Command {
       });
 
     player?.data.set("filter-mode", this.name[0]);
-
-    await player?.setVolume(500);
+    player?.filter.setVolume(500);
 
     const earrapped = new EmbedBuilder()
       .setDescription(
@@ -47,8 +46,6 @@ export default class implements Command {
         })}`
       )
       .setColor(client.color);
-
-    await delay(2000);
     await handler.editReply({ content: " ", embeds: [earrapped] });
   }
 }
