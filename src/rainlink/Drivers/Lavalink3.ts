@@ -23,7 +23,7 @@ export class Lavalink3 extends AbstractDriver {
   public httpUrl: string = "";
   public sessionId: string | null;
   public playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
-  public globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  public functions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
   protected wsClient?: RainlinkWebsocket;
   public manager: Rainlink | null = null;
   public node: RainlinkNode | null = null;
@@ -31,7 +31,7 @@ export class Lavalink3 extends AbstractDriver {
   constructor() {
     super();
     this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
-    this.globalFunctions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
+    this.functions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.sessionId = null;
   }
 
@@ -77,7 +77,7 @@ export class Lavalink3 extends AbstractDriver {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
     const url = new URL(`${this.httpUrl}${options.path}`);
     if (options.params) url.search = new URLSearchParams(options.params).toString();
-    if (options.rawReqData && options.useSessionId) {
+    if (options.rawReqData && options.path.includes("/sessions")) {
       this.convertToV3websocket(options.rawReqData);
       return;
     }
@@ -246,7 +246,7 @@ export class Lavalink3 extends AbstractDriver {
     }
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${sessionId}`,
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "PATCH",
       data: {
         resumingKey: sessionId,
@@ -261,7 +261,10 @@ export class Lavalink3 extends AbstractDriver {
 
   protected debug(logs: string) {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    this.manager!.emit(RainlinkEvents.Debug, `[Rainlink] -> [Driver] -> [Lavalink3] | ${logs}`);
+    this.manager!.emit(
+      RainlinkEvents.Debug,
+      `[Rainlink] / [Node @ ${this.node?.options.name}] / [Driver] / [Lavalink3] | ${logs}`
+    );
   }
 
   public wsClose(): void {

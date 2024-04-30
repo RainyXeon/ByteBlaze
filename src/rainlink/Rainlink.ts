@@ -559,7 +559,7 @@ export class Rainlink extends EventEmitter {
 
     this.emit(
       RainlinkEvents.Debug,
-      `[Rainlink] -> [Search] | Searched ${query}; Track results: ${normalizedData.tracks.length}`
+      `[Rainlink] / [Search] | Searched ${query}; Track results: ${normalizedData.tracks.length}`
     );
 
     return this.buildSearch(

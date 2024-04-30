@@ -41,7 +41,7 @@ export class Nodelink2 extends AbstractDriver {
   public httpUrl: string = "";
   public sessionId: string | null;
   public playerFunctions: RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>;
-  public globalFunctions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
+  public functions: RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>;
   protected wsClient?: RainlinkWebsocket;
   public manager: Rainlink | null = null;
   public node: RainlinkNode | null = null;
@@ -50,7 +50,7 @@ export class Nodelink2 extends AbstractDriver {
     super();
     this.sessionId = null;
     this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
-    this.globalFunctions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
+    this.functions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.playerFunctions.set("getLyric", this.getLyric);
   }
 
@@ -71,13 +71,13 @@ export class Nodelink2 extends AbstractDriver {
     const ws = new RainlinkWebsocket(this.wsUrl, {
       headers: {
         Authorization: this.node!.options.auth,
-        "User-Id": this.manager!.id,
-        "Content-Encoding": "brotli, gzip, deflate",
+        "user-id": this.manager!.id,
+        "content-encoding": "brotli, gzip, deflate",
         "accept-encoding": "brotli, gzip, deflate",
-        "Client-Name": `${metadata.name}/${metadata.version} (${metadata.github})`,
-        "Session-Id": this.sessionId !== null && isResume ? this.sessionId : "",
+        "client-name": `${metadata.name}/${metadata.version} (${metadata.github})`,
+        "session-id": this.sessionId !== null && isResume ? this.sessionId : "",
         "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
-        "Num-Shards": this.manager!.shardCount,
+        "num-shards": this.manager!.shardCount,
       },
     });
 
@@ -96,8 +96,8 @@ export class Nodelink2 extends AbstractDriver {
 
   public async requester<D = any>(options: RainlinkRequesterOptions): Promise<D | undefined> {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    if (options.useSessionId && this.sessionId == null)
-      throw new Error("sessionId not initalized! Please wait for lavalink get connected!");
+    if (options.path.includes("/sessions") && this.sessionId == null)
+      throw new Error("sessionId not initalized! Please wait for nodelink get connected!");
     const url = new URL(`${this.httpUrl}${options.path}`);
     if (options.params) url.search = new URLSearchParams(options.params).toString();
 
@@ -125,7 +125,7 @@ export class Nodelink2 extends AbstractDriver {
     if (res.status !== 200) {
       this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
       this.debug(
-        "Something went wrong with lavalink server. " +
+        "Something went wrong with nodelink server. " +
           `Status code: ${res.status}\n Headers: ${util.inspect(options.headers)}`
       );
       return undefined;
@@ -151,7 +151,10 @@ export class Nodelink2 extends AbstractDriver {
 
   protected debug(logs: string) {
     if (!this.isRegistered) throw new Error(`Driver ${this.id} not registered by using initial()`);
-    this.manager!.emit(RainlinkEvents.Debug, `[Rainlink] -> [Driver] -> [Nodelink2] | ${logs}`);
+    this.manager!.emit(
+      RainlinkEvents.Debug,
+      `[Rainlink] / [Node @ ${this.node?.options.name}] / [Driver] / [Nodelink2] | ${logs}`
+    );
   }
 
   public wsClose(): void {
@@ -209,8 +212,7 @@ export class Nodelink2 extends AbstractDriver {
         encodedTrack: String(player.queue.current?.encoded),
         language: language,
       },
-      useSessionId: false,
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       method: "GET",
     };
     const data = await player.node.driver.requester<NodelinkGetLyricsInterface>(options);
