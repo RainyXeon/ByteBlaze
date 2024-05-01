@@ -3,6 +3,7 @@ import { RainlinkSearchResult, RainlinkSearchResultType } from "../Interface/Man
 import { RawTrack } from "../Interface/Rest.js";
 import { ResolveOptions } from "../Interface/Track.js";
 import { Rainlink } from "../Rainlink.js";
+import { RainlinkNode } from "../main.js";
 
 export class RainlinkTrack {
   /** Encoded string from lavalink */
@@ -120,7 +121,7 @@ export class RainlinkTrack {
       `[Rainlink] / [Track] | Resolving ${this.source} track ${this.title}; Source: ${this.source}`
     );
 
-    const result = await this.getTrack(manager);
+    const result = await this.getTrack(manager, options ? options.nodeName : undefined);
     if (!result) throw new Error("No results found");
 
     this.encoded = result.encoded;
@@ -139,12 +140,12 @@ export class RainlinkTrack {
     return this;
   }
 
-  protected async getTrack(manager: Rainlink): Promise<RawTrack> {
-    const node = await manager.nodes.getLeastUsed();
+  protected async getTrack(manager: Rainlink, nodeName?: string): Promise<RawTrack> {
+    const node = nodeName ? manager.nodes.get(nodeName) : await manager.nodes.getLeastUsed();
 
     if (!node) throw new Error("No nodes available");
 
-    const result = await this.resolverEngine(manager);
+    const result = await this.resolverEngine(manager, node);
 
     if (!result || !result.tracks.length) throw new Error("No results found");
 
@@ -175,7 +176,7 @@ export class RainlinkTrack {
     return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
   }
 
-  protected async resolverEngine(manager: Rainlink): Promise<RainlinkSearchResult> {
+  protected async resolverEngine(manager: Rainlink, node: RainlinkNode): Promise<RainlinkSearchResult> {
     const defaultSearchEngine = manager.rainlinkOptions.options!.defaultSearchEngine;
     const engine = manager.searchEngines.get(this.source || defaultSearchEngine || "youtube");
     const searchQuery = [this.author, this.title].filter((x) => !!x).join(" - ");
@@ -184,17 +185,20 @@ export class RainlinkTrack {
 
     const prase1 = await manager.search(`directSearch=${this.uri}`, {
       requester: this.requester,
+      nodeName: node.options.name,
     });
     if (prase1.tracks.length !== 0) return prase1;
 
     const prase2 = await manager.search(`directSearch=${engine}search:${searchQuery}`, {
       requester: this.requester,
+      nodeName: node.options.name,
     });
     if (prase2.tracks.length !== 0) return prase2;
 
     if (manager.rainlinkOptions.options!.searchFallback?.enable && searchFallbackEngine) {
       const prase3 = await manager.search(`directSearch=${searchFallbackEngine}search:${searchQuery}`, {
         requester: this.requester,
+        nodeName: node.options.name,
       });
       if (prase3.tracks.length !== 0) return prase3;
     }

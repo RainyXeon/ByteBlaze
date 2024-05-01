@@ -43,7 +43,7 @@ export class Lavalink4 extends AbstractDriver {
     const isResume = this.manager!.rainlinkOptions.options!.resume;
     const ws = new RainlinkWebsocket(this.wsUrl, {
       headers: {
-        Authorization: this.node!.options.auth,
+        authorization: this.node!.options.auth,
         "user-id": this.manager!.id,
         "client-name": `${metadata.name}/${metadata.version} (${metadata.github})`,
         "session-id": this.sessionId !== null && isResume ? this.sessionId : "",
@@ -77,22 +77,23 @@ export class Lavalink4 extends AbstractDriver {
     }
 
     const lavalinkHeaders = {
-      Authorization: this.node!.options.auth,
-      "User-Agent": this.manager!.rainlinkOptions.options!.userAgent!,
+      authorization: this.node!.options.auth,
+      "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
       ...options.headers,
     };
 
     options.headers = lavalinkHeaders;
-    options.path = url.pathname + url.search;
 
-    const res = await fetch(url.origin + options.path, options);
+    const res = await fetch(url, options);
 
     if (res.status == 204) {
       this.debug("Player now destroyed");
       return undefined;
     }
     if (res.status !== 200) {
-      this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
+      this.debug(
+        `${options.method ?? "GET"} ${url.pathname + url.search} payload=${options.body ? String(options.body) : "{}"}`
+      );
       this.debug(
         "Something went wrong with lavalink server. " +
           `Status code: ${res.status}\n Headers: ${util.inspect(options.headers)}`
@@ -102,7 +103,9 @@ export class Lavalink4 extends AbstractDriver {
 
     const finalData = await res.json();
 
-    this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
+    this.debug(
+      `${options.method ?? "GET"} ${url.pathname + url.search} payload=${options.body ? String(options.body) : "{}"}`
+    );
 
     return finalData as D;
   }

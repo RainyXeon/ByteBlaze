@@ -5,4 +5,6 @@ export interface ResolveOptions {
   overwrite?: boolean;
   /** Rainlink player property */
   player?: RainlinkPlayer;
+  /** The name of node */
+  nodeName?: string;
 }
