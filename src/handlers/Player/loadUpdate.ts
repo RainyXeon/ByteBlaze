@@ -47,7 +47,7 @@ export class playerLoadUpdate {
       const TotalDuration = player.queue.duration;
 
       let cSong = player.queue.current;
-      let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
+      let qDuration = `${new FormatDuration().parse(TotalDuration + Number(player.queue.current?.duration))}`;
 
       function getTitle(tracks: RainlinkTrack): string {
         if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
