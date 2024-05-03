@@ -25,19 +25,17 @@ export default class {
 
     if (!channel) return;
 
-    if (player.state == RainlinkPlayerState.DESTROYED && data !== null && data) {
-      if (data.twentyfourseven) {
-        await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
-        client.rainlink.create({
-          guildId: data.guild!,
-          voiceId: data.voice!,
-          textId: data.text!,
-          shardId: guild.shardId ?? 0,
-          deaf: true,
-          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
-        });
-      } else await client.db.autoreconnect.delete(player.guildId);
-    }
+    if (data !== null && data && data.twentyfourseven) {
+      await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
+      client.rainlink.players.create({
+        guildId: data.guild!,
+        voiceId: data.voice!,
+        textId: data.text!,
+        shardId: guild.shardId ?? 0,
+        deaf: true,
+        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+      });
+    } else await client.db.autoreconnect.delete(player.guildId);
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {

@@ -1,6 +1,7 @@
 import { PermissionsBitField, EmbedBuilder, VoiceState, GuildMember, Role, TextChannel } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
+import { RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -17,7 +18,7 @@ export default class {
 
     if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
       player.data.set("sudo-destroy", true);
-      player.voiceId !== null ? player.destroy() : true;
+      player.state !== RainlinkPlayerState.DESTROYED ? player.destroy() : true;
     }
 
     if (oldState.member?.user.bot || newState.member?.user.bot) return;
@@ -38,7 +39,7 @@ export default class {
 
     if (!isInVoice || !isInVoice.voice.channelId) {
       player.data.set("sudo-destroy", true);
-      player.voiceId !== null ? player.destroy() : true;
+      player.state !== RainlinkPlayerState.DESTROYED ? player.destroy() : true;
     }
 
     if (
