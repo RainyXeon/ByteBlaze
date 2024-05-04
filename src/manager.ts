@@ -15,7 +15,7 @@ import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { WebServer } from "./utilities/webserver.js";
+import { WebServer } from "./web/server.js";
 import { ManifestService } from "./services/ManifestService.js";
 import { NormalModeIcons } from "./assets/NormalModeIcons.js";
 import { SafeModeIcons } from "./assets/SafeModeIcons.js";
@@ -75,6 +75,7 @@ export class Manager extends Client {
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
+  wsId: Collection<string, boolean>;
   websocket?: WebSocket;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
@@ -139,6 +140,7 @@ export class Manager extends Client {
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
+    this.wsId = new Collection<string, boolean>();
     this.isDatabaseConnected = false;
 
     // Sharing
