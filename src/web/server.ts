@@ -1,6 +1,8 @@
 import { Manager } from "../manager.js";
 import Fastify from "fastify";
 import WebsocketPlugin from "@fastify/websocket";
+import { WebsocketRoute } from "./websocket.js";
+import { PlayerRoute } from "./player.js";
 
 export class WebServer {
   app: Fastify.FastifyInstance;
@@ -9,7 +11,38 @@ export class WebServer {
       logger: false,
     });
 
-    this.websocketRegister();
+    this.app.register(
+      (fastify, _, done) => {
+        fastify.addHook("preValidation", function hook(req, reply, done) {
+          if (!req.headers["authorization"]) {
+            reply.code(401);
+            reply.send(JSON.stringify({ error: "Missing Authorization" }));
+            return done();
+          }
+          if (req.headers["authorization"] !== client.config.features.WEB_SERVER.auth) {
+            reply.code(401);
+            reply.send(JSON.stringify({ error: "Authorization failed" }));
+            return done();
+          }
+          done();
+        });
+        fastify.register(WebsocketPlugin);
+        fastify.register((fastify, _, done) => {
+          new WebsocketRoute(client).main(fastify);
+          done();
+        });
+        fastify.register(
+          (fastify, _, done) => {
+            new PlayerRoute(client).main(fastify);
+            done();
+          },
+          { prefix: "players" }
+        );
+        fastify.get("/test", (req, res) => res.send({ message: "Hallo :D" }));
+        done();
+      },
+      { prefix: "v1" }
+    );
 
     this.app.get("/neko", (request, reply) => {
       client.logger.info(
@@ -20,42 +53,5 @@ export class WebServer {
     });
 
     this.app.listen({ port: this.client.config.features.WEB_SERVER.port });
-  }
-
-  websocketRegister() {
-    this.app.register(WebsocketPlugin);
-    this.app.register((fastify) =>
-      fastify.get("/websocket", { websocket: true }, (socket, req) => {
-        this.client.logger.info(
-          import.meta.url,
-          `${req.method} ${req.routeOptions.url} payload=${req.body ? req.body : "{}"}`
-        );
-
-        socket.on("close", (code, reason) => {
-          this.client.logger.websocket(import.meta.url, `Closed with code: ${code}, reason: ${reason}`);
-          this.client.wsId.delete(String(req.headers["guild-id"]));
-        });
-
-        if (!req.headers["guild-id"]) {
-          socket.send(JSON.stringify({ error: "Missing guild-id" }));
-          socket.close(1000, JSON.stringify({ error: "Missing guild-id" }));
-          return;
-        }
-        if (!req.headers["authentication"]) {
-          socket.send(JSON.stringify({ error: "Missing authentication" }));
-          socket.close(1000, JSON.stringify({ error: "Missing authentication" }));
-          return;
-        }
-
-        if (req.headers["authentication"] !== this.client.config.features.WEB_SERVER.auth) {
-          socket.send(JSON.stringify({ error: "Authentication failed" }));
-          socket.close(1000, JSON.stringify({ error: "Authentication failed" }));
-          return;
-        }
-
-        this.client.logger.websocket(import.meta.url, `Websocket opened for ${req.headers["guild-id"]}`);
-        this.client.wsId.set(String(req.headers["guild-id"]), true);
-      })
-    );
   }
 }
