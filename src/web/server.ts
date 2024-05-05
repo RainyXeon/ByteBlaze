@@ -44,9 +44,20 @@ export class WebServer {
       { prefix: "v1" }
     );
 
-    this.app.get("/neko", (request, reply) => {
+    this.app.get("/catgirls", (request, reply) => {
+      const response = [
+        "Bro 💀", 
+        "Please stop...", 
+        "This ain't rule 34...", 
+        "💀",
+        "Can you do something better please -_-", 
+        "Don't be like yandev ._.",
+        "Why you still here >:v",
+        "I know catgirls do nothing wrong but why you still here...",
+        "Bro, I don't have any catgirls collection (or cosplay collection) so please leave..."
+      ]
       client.logger.info(import.meta.url, `${request.method} ${request.routeOptions.url}`);
-      reply.send("💀");
+      reply.send({ byteblaze: response[Math.floor(Math.random() * response.length)] });
     });
 
     this.app.listen({ port: this.client.config.features.WEB_SERVER.port });
