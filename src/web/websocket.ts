@@ -7,10 +7,7 @@ export class WebsocketRoute {
 
   main(fastify: Fastify.FastifyInstance) {
     fastify.get("/websocket", { websocket: true }, (socket, req) => {
-      this.client.logger.info(
-        import.meta.url,
-        `${req.method} ${req.routeOptions.url} payload=${req.body ? req.body : "{}"}`
-      );
+      this.client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url}`);
 
       socket.on("close", (code, reason) => {
         this.client.logger.websocket(import.meta.url, `Closed with code: ${code}, reason: ${reason}`);

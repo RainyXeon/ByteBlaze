@@ -45,10 +45,7 @@ export class WebServer {
     );
 
     this.app.get("/neko", (request, reply) => {
-      client.logger.info(
-        import.meta.url,
-        `${request.method} ${request.routeOptions.url} payload=${request.body ? request.body : "{}"}`
-      );
+      client.logger.info(import.meta.url, `${request.method} ${request.routeOptions.url}`);
       reply.send("💀");
     });
 
