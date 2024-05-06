@@ -3,8 +3,19 @@ import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 import { RainlinkLoopMode, RainlinkPlayer } from "../../rainlink/main.js";
 
+export type TrackRes = {
+  title: string;
+  uri: string;
+  length: number;
+  thumbnail: string;
+  author: string;
+  requester: null;
+};
+
 export class PatchControl {
   protected skiped: boolean = false;
+  protected isPrevious: boolean = false;
+  protected addedTrack: null | TrackRes = null;
   constructor(protected client: Manager) {}
 
   async main(req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
@@ -19,18 +30,21 @@ export class PatchControl {
     const jsonBody = req.body as Record<string, unknown>;
     const currentKeys = Object.keys(jsonBody);
     for (const key of currentKeys) {
-      const data = await (this as any)[key](req, res, player, jsonBody[key]);
+      const data = await (this as any)[key](res, player, jsonBody[key]);
       if (!data) return;
     }
     res.send({
-      loop: player.loop,
-      skip: this.skiped,
-      position: player.position,
+      loop: jsonBody.loop,
+      skiped: this.skiped,
+      previous: this.isPrevious,
+      position: jsonBody.position,
+      volume: jsonBody.volume,
+      added: this.addedTrack,
     });
     this.resetData();
   }
 
-  async loop(req: Fastify.FastifyRequest, res: Fastify.FastifyReply, player: RainlinkPlayer, mode: string) {
+  async loop(res: Fastify.FastifyReply, player: RainlinkPlayer, mode: string) {
     if (!mode || !["song", "queue", "none"].includes(mode)) {
       res.code(400);
       res.send({ error: `Invalid loop mode, '${mode}' mode does not exist!` });
@@ -40,15 +54,24 @@ export class PatchControl {
     return true;
   }
 
-  async skip(req: Fastify.FastifyRequest, res: Fastify.FastifyReply, player: RainlinkPlayer, data: string) {
-    if (data === undefined || player.queue.length == 0) return true;
-    await player.skip();
-    this.skiped = true;
+  async skipMode(res: Fastify.FastifyReply, player: RainlinkPlayer, mode: string) {
+    if (!mode || !["previous", "skip"].includes(mode)) {
+      res.code(400);
+      res.send({ error: `Invalid loop mode, '${mode}' mode does not exist!` });
+      return false;
+    }
+    if (player.queue.length == 0) return true;
+    if (mode == "skip") {
+      await player.skip();
+      this.skiped = true;
+      return true;
+    }
+    await player.previous();
+    this.isPrevious = true;
     return true;
   }
 
-  async position(req: Fastify.FastifyRequest, res: Fastify.FastifyReply, player: RainlinkPlayer, pos: string) {
-    if (!pos) return true;
+  async position(res: Fastify.FastifyReply, player: RainlinkPlayer, pos: string) {
     if (isNaN(Number(pos))) {
       res.code(400);
       res.send({ error: `Position must be a number!` });
@@ -58,8 +81,46 @@ export class PatchControl {
     return true;
   }
 
+  async volume(res: Fastify.FastifyReply, player: RainlinkPlayer, vol: string) {
+    if (!vol) return true;
+    if (isNaN(Number(vol))) {
+      res.code(400);
+      res.send({ error: `Volume must be a number!` });
+      return false;
+    }
+    await player.setVolume(Number(vol));
+    return true;
+  }
+
+  async add(res: Fastify.FastifyReply, player: RainlinkPlayer, uri: string) {
+    if (!uri) return true;
+    console.log(uri);
+    if (!this.isValidHttpUrl(uri)) {
+      res.code(400);
+      res.send({ error: `add property must have a link!` });
+      return false;
+    }
+    const result = await this.client.rainlink.search(uri);
+    if (result.tracks.length == 0) {
+      res.code(400);
+      res.send({ error: `Track not found!` });
+      return false;
+    }
+    const song = result.tracks[0];
+    player.queue.add(song);
+    this.addedTrack = {
+      title: song.title,
+      uri: song.uri || "",
+      length: song.duration,
+      thumbnail: song.artworkUrl || "",
+      author: song.author,
+      requester: null,
+    };
+    return true;
+  }
+
   async checker(req: Fastify.FastifyRequest, res: Fastify.FastifyReply): Promise<boolean> {
-    const accpetKey: string[] = ["loop", "skip", "position"];
+    const accpetKey: string[] = ["loop", "skipMode", "position", "volume", "add"];
     const guildId = (req.params as Record<string, string>)["guildId"];
     const player = this.client.rainlink.players.get(guildId);
     if (!player) {
@@ -90,5 +151,18 @@ export class PatchControl {
 
   resetData() {
     this.skiped = false;
+    this.addedTrack = null;
+  }
+
+  isValidHttpUrl(string: string) {
+    let url;
+
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
   }
 }
