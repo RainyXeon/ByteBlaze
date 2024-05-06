@@ -31,6 +31,7 @@ export async function getStatus(client: Manager, req: Fastify.FastifyRequest, re
     position: player.position,
     current: song
       ? {
+          encoded: song.encoded,
           title: song.title,
           uri: song.uri,
           length: song.duration,
@@ -49,6 +50,7 @@ export async function getStatus(client: Manager, req: Fastify.FastifyRequest, re
     queue: player.queue.map((track) => {
       const requesterQueue = track.requester as User;
       return {
+        encoded: track.encoded,
         title: track.title,
         uri: track.uri,
         length: track.duration,

@@ -14,6 +14,7 @@ export async function getQueueStatus(client: Manager, req: Fastify.FastifyReques
   return player.queue.map((track) => {
     const requesterQueue = track.requester as User;
     return {
+      encoded: track.encoded,
       title: track.title,
       uri: track.uri,
       length: track.duration,

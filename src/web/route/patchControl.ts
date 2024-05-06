@@ -152,6 +152,7 @@ export class PatchControl {
   resetData() {
     this.skiped = false;
     this.addedTrack = null;
+    this.isPrevious = false;
   }
 
   isValidHttpUrl(string: string) {

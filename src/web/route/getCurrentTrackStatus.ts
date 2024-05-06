@@ -17,6 +17,7 @@ export async function getCurrentTrackStatus(client: Manager, req: Fastify.Fastif
   res.send({
     data: song
       ? {
+          encoded: song.encoded,
           title: song.title,
           uri: song.uri,
           length: song.duration,
