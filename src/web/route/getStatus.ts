@@ -1,9 +1,10 @@
+import util from 'node:util';
 import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 
 export async function getStatus(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
-  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url}`);
+  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`);
   let isMemeberInVoice = "notGiven";
   const guildId = (req.params as Record<string, string>)["guildId"];
   const player = client.rainlink.players.get(guildId);
@@ -15,8 +16,8 @@ export async function getStatus(client: Manager, req: Fastify.FastifyRequest, re
   if (req.headers["user-id"]) {
     const userId = req.headers["user-id"] as string;
     const Guild = await client.guilds.fetch(guildId);
-    const Member = await Guild.members.fetch(userId);
-    if (!Member.voice.channel || !Member.voice) isMemeberInVoice = "false";
+    const Member = await Guild.members.fetch(userId).catch(() => undefined);
+    if (!Member || !Member.voice.channel || !Member.voice) isMemeberInVoice = "false";
     else isMemeberInVoice = "true";
   }
 
@@ -31,7 +32,6 @@ export async function getStatus(client: Manager, req: Fastify.FastifyRequest, re
     position: player.position,
     current: song
       ? {
-          encoded: song.encoded,
           title: song.title,
           uri: song.uri,
           length: song.duration,
@@ -50,7 +50,6 @@ export async function getStatus(client: Manager, req: Fastify.FastifyRequest, re
     queue: player.queue.map((track) => {
       const requesterQueue = track.requester as User;
       return {
-        encoded: track.encoded,
         title: track.title,
         uri: track.uri,
         length: track.duration,

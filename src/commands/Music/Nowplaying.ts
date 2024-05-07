@@ -142,9 +142,9 @@ export default class implements Command {
           .setTimestamp();
 
         try {
-          const channel = (await client.channels.fetch(`${handler.channel?.id}`)) as TextChannel;
+          const channel = (await client.channels.fetch(`${handler.channel?.id}`).catch(() => undefined)) as TextChannel;
           if (!channel) return;
-          const message = await channel.messages.fetch(`${currentNPInterval?.msg?.id}`);
+          const message = await channel.messages.fetch(`${currentNPInterval?.msg?.id}`).catch(() => undefined);
           if (!message) return;
           if (currentNPInterval && currentNPInterval.msg)
             currentNPInterval.msg.edit({ content: " ", embeds: [embeded] });

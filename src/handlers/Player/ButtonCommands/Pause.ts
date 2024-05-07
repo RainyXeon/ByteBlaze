@@ -59,9 +59,9 @@ export class ButtonPause {
       });
       return;
     } else {
-      const getChannel = await this.client.channels.fetch(data.channel);
+      const getChannel = await this.client.channels.fetch(data.channel).catch(() => undefined);
       if (!getChannel) return;
-      let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg);
+      let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg).catch(() => undefined);
       if (!playMsg) return;
 
       const newPlayer = await this.player.setPause(!this.player.paused);

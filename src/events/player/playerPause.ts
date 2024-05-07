@@ -15,10 +15,10 @@ export default class {
     const setup = await client.db.setup.get(`${player.guildId}`);
 
     if (setup && setup.playmsg) {
-      const channel = await client.channels.fetch(setup.channel);
+      const channel = await client.channels.fetch(setup.channel).catch(() => undefined);
       if (!channel) return;
       if (!channel.isTextBased) return;
-      const msg = await (channel as TextChannel).messages.fetch(setup.playmsg);
+      const msg = await (channel as TextChannel).messages.fetch(setup.playmsg).catch(() => undefined);
       if (!msg) return;
       msg.edit({ components: [client.enSwitch] });
     }

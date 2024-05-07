@@ -8,11 +8,11 @@ export interface CheckPermissionResultInterface {
 
 export class CheckPermissionServices {
   async interaction(interaction: GlobalInteraction, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
-    const voiceChannel = await interaction.guild?.members.fetch(interaction.user.id);
+    const voiceChannel = await interaction.guild?.members.fetch(interaction.user.id).catch(() => undefined);
 
     const isUserInVoice = voiceChannel?.voice.channel;
 
-    const isUserInText = await interaction.guild?.channels.fetch(String(interaction.channelId));
+    const isUserInText = await interaction.guild?.channels.fetch(String(interaction.channelId)).catch(() => undefined);
 
     for (const permBit of permArray) {
       if (isUserInVoice && !isUserInVoice.permissionsFor(interaction.guild?.members.me!).has(permBit)) {
@@ -41,9 +41,9 @@ export class CheckPermissionServices {
   }
 
   async message(message: Message, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
-    const voiceChannel = await message.guild?.members.fetch(message.author.id);
+    const voiceChannel = await message.guild?.members.fetch(message.author.id).catch(() => undefined);
     const isUserInVoice = voiceChannel?.voice.channel;
-    const isUserInText = await message.guild?.channels.fetch(String(message.channelId));
+    const isUserInText = await message.guild?.channels.fetch(String(message.channelId)).catch(() => undefined);
     for (const permBit of permArray) {
       if (isUserInVoice && !isUserInVoice.permissionsFor(message.guild?.members.me!).has(permBit)) {
         return {

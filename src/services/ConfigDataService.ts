@@ -128,6 +128,7 @@ export class ConfigDataService {
           enable: false,
           port: 2880,
           auth: "youshallnotpass",
+          whitelist: [],
         },
         PREMIUM_LOG_CHANNEL: "",
         GUILD_LOG_CHANNEL: "",

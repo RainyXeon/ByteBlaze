@@ -15,7 +15,7 @@ export type TrackRes = {
 export class PatchControl {
   protected skiped: boolean = false;
   protected isPrevious: boolean = false;
-  protected addedTrack: null | TrackRes = null;
+  protected addedTrack: TrackRes[] = [];
   constructor(protected client: Manager) {}
 
   async main(req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
@@ -92,30 +92,31 @@ export class PatchControl {
     return true;
   }
 
-  async add(res: Fastify.FastifyReply, player: RainlinkPlayer, uri: string) {
-    if (!uri) return true;
-    console.log(uri);
-    if (!this.isValidHttpUrl(uri)) {
-      res.code(400);
-      res.send({ error: `add property must have a link!` });
-      return false;
+  async add(res: Fastify.FastifyReply, player: RainlinkPlayer, uriArray: string) {
+    if (!uriArray) return true;
+    for (const uri of uriArray) {
+      if (!this.isValidHttpUrl(uri)) {
+        res.code(400);
+        res.send({ error: `add property must have a link!` });
+        return false;
+      }
+      const result = await this.client.rainlink.search(uri);
+      if (result.tracks.length == 0) {
+        res.code(400);
+        res.send({ error: `Track not found!` });
+        return false;
+      }
+      const song = result.tracks[0];
+      player.queue.add(song);
+      this.addedTrack.push({
+        title: song.title,
+        uri: song.uri || "",
+        length: song.duration,
+        thumbnail: song.artworkUrl || "",
+        author: song.author,
+        requester: null,
+      });
     }
-    const result = await this.client.rainlink.search(uri);
-    if (result.tracks.length == 0) {
-      res.code(400);
-      res.send({ error: `Track not found!` });
-      return false;
-    }
-    const song = result.tracks[0];
-    player.queue.add(song);
-    this.addedTrack = {
-      title: song.title,
-      uri: song.uri || "",
-      length: song.duration,
-      thumbnail: song.artworkUrl || "",
-      author: song.author,
-      requester: null,
-    };
     return true;
   }
 
@@ -151,7 +152,7 @@ export class PatchControl {
 
   resetData() {
     this.skiped = false;
-    this.addedTrack = null;
+    this.addedTrack = [];
     this.isPrevious = false;
   }
 

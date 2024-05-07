@@ -35,7 +35,7 @@ export default class {
 
     if (data && data.twentyfourseven) return;
 
-    const isInVoice = await newState.guild.members.fetch(client.user!.id);
+    const isInVoice = await newState.guild.members.fetch(client.user!.id).catch(() => undefined);
 
     if (!isInVoice || !isInVoice.voice.channelId) {
       player.data.set("sudo-destroy", true);
@@ -55,12 +55,12 @@ export default class {
       newState.guild.members.me!.voice.setSuppressed(false);
 
     if (oldState.id === client.user!.id) return;
-    const isInOldVoice = await oldState.guild.members.fetch(client.user!.id);
+    const isInOldVoice = await oldState.guild.members.fetch(client.user!.id).catch(() => undefined);
     if (!isInOldVoice || !isInOldVoice.voice.channelId) return;
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
-    const leaveEmbed = (await client.channels.fetch(player.textId)) as TextChannel;
+    const leaveEmbed = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
 
     if (
       newState.guild.members.me!.voice?.channel &&
@@ -81,15 +81,17 @@ export default class {
 
       player.paused == false ? true : player.setPause(false);
       if (currentPause !== false && player.track !== null) {
-        const msg = await leaveEmbed.send({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`${client.getString(language, "event.player", "leave_resume")}`)
-              .setColor(client.color),
-          ],
-        });
+        const msg = leaveEmbed
+          ? await leaveEmbed.send({
+              embeds: [
+                new EmbedBuilder()
+                  .setDescription(`${client.getString(language, "event.player", "leave_resume")}`)
+                  .setColor(client.color),
+              ],
+            })
+          : null;
         setTimeout(
-          async () => (!setup || setup == null || setup.channel !== player.textId ? msg.delete() : true),
+          async () => ((!setup || setup == null || setup.channel !== player.textId) && msg ? msg.delete() : true),
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }
@@ -114,7 +116,7 @@ export default class {
           ],
         });
         setTimeout(async () => {
-          const isChannelAvalible = await client.channels.fetch(msg.channelId);
+          const isChannelAvalible = await client.channels.fetch(msg.channelId).catch(() => undefined);
           if (!isChannelAvalible) return;
           !setup || setup == null || setup.channel !== player.textId ? msg.delete() : true;
         }, client.config.bot.DELETE_MSG_TIMEOUT);
@@ -136,7 +138,7 @@ export default class {
             .setColor(client.color);
           try {
             if (leaveEmbed) {
-              const msg = newPlayer ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
+              const msg = newPlayer && leaveEmbed ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
               setTimeout(
                 async () =>
                   msg && (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : undefined,

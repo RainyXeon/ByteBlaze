@@ -8,7 +8,7 @@ export default class {
     client.guilds.cache.delete(`${guild!.id}`);
     if (!client.config.features.GUILD_LOG_CHANNEL) return;
     try {
-      const eventChannel = await client.channels.fetch(client.config.features.GUILD_LOG_CHANNEL);
+      const eventChannel = await client.channels.fetch(client.config.features.GUILD_LOG_CHANNEL).catch(() => undefined);
       if (!eventChannel || !eventChannel.isTextBased()) return;
       const owner = await guild.fetchOwner();
       const embed = new EmbedBuilder()

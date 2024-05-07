@@ -1,10 +1,11 @@
+import util from 'node:util';
 import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 import { RainlinkSearchResultType } from "../../rainlink/main.js";
 
 export async function getSearch(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
-  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url}`);
+  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url} query=${req.query ? util.inspect(req.query) : "{}"}`);
   const query = (req.query as Record<string, string>)["identifier"];
   const requester = (req.query as Record<string, string>)["requester"];
   const source = (req.query as Record<string, string>)["source"];
@@ -13,7 +14,7 @@ export async function getSearch(client: Manager, req: Fastify.FastifyRequest, re
     const isSourceExist = client.rainlink.searchEngines.get(source);
     if (isSourceExist) validSource = source;
   }
-  const user = await client.users.fetch(requester).catch(() => {});
+  const user = await client.users.fetch(requester).catch(() => undefined);
   if (!query) {
     res.code(404);
     res.send({ error: "Search param not found" });
@@ -35,7 +36,6 @@ export async function getSearch(client: Manager, req: Fastify.FastifyRequest, re
     tracks: result.tracks.map((track) => {
       const requesterQueue = track.requester as User;
       return {
-        encoded: track.encoded,
         title: track.title,
         uri: track.uri,
         length: track.duration,

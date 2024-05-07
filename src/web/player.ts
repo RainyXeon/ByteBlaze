@@ -9,6 +9,7 @@ import { getCurrentPaused } from "./route/getCurrentPaused.js";
 import { getCurrentPosition } from "./route/getCurrentPosition.js";
 import { PatchControl } from "./route/patchControl.js";
 import { deletePlayer } from "./route/deletePlayer.js";
+import { PostCreatePlayer } from "./route/postCreatePlayer.js";
 
 export class PlayerRoute {
   constructor(protected client: Manager) {}
@@ -17,6 +18,7 @@ export class PlayerRoute {
     fastify.get("/:guildId", (req, res) => getStatus(this.client, req, res));
     fastify.patch("/:guildId", (req, res) => new PatchControl(this.client).main(req, res));
     fastify.delete("/:guildId", (req, res) => deletePlayer(this.client, req, res));
+    fastify.post("/", (req, res) => new PostCreatePlayer(this.client).main(req, res));
     fastify.get("/:guildId/loop", (req, res) => getCurrentLoop(this.client, req, res));
     fastify.get("/:guildId/pause", (req, res) => getCurrentPaused(this.client, req, res));
     fastify.get("/:guildId/position", (req, res) => getCurrentPosition(this.client, req, res));

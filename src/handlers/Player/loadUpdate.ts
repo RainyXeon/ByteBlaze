@@ -16,10 +16,10 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
-      let playMsg = await channel.messages.fetch(data.playmsg);
+      let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
       if (!playMsg) return;
 
       let guildModel = await client.db.language.get(`${player.guildId}`);
@@ -105,10 +105,10 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
-      let playMsg = await channel.messages.fetch(data.playmsg);
+      let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
       if (!playMsg) return;
 
       let guildModel = await client.db.language.get(`${player.guildId}`);

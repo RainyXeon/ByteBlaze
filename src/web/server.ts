@@ -25,6 +25,14 @@ export class WebServer {
             reply.send(JSON.stringify({ error: "Authorization failed" }));
             return done();
           }
+          if (
+            client.config.features.WEB_SERVER.whitelist.length !== 0 &&
+            !client.config.features.WEB_SERVER.whitelist.includes(req.hostname)
+          ) {
+            reply.code(401);
+            reply.send(JSON.stringify({ error: "You're not in whitelist" }));
+            return done();
+          }
           done();
         });
         fastify.register(WebsocketPlugin);

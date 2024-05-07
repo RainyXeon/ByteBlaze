@@ -22,10 +22,10 @@ export class SongRequesterCleanSetup {
   }
 
   async restore(setupData: Setup) {
-    let channel = (await this.client.channels.fetch(setupData.channel)) as TextChannel;
+    let channel = (await this.client.channels.fetch(setupData.channel).catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
-    let playMsg = await channel.messages.fetch(setupData.playmsg);
+    let playMsg = await channel.messages.fetch(setupData.playmsg).catch(() => undefined);
     if (!playMsg) return;
 
     let guildModel = await this.client.db.language.get(`${setupData.guild}`);

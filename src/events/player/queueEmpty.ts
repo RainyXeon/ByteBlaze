@@ -16,7 +16,7 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const guild = await client.guilds.fetch(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
     if (player.data.get("autoplay") === true) {
       const requester = player.data.get("requester");
@@ -33,7 +33,7 @@ export default class {
       if (finalRes.length !== 0) {
         player.queue.add(finalRes.length <= 1 ? finalRes[0] : finalRes[1]);
         player.play();
-        const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+        const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
         if (channel) return new ClearMessageService(client, channel, player);
         return;
       }
@@ -42,7 +42,7 @@ export default class {
     client.logger.info(import.meta.url, `Player Empty in @ ${guild!.name} / ${player.guildId}`);
 
     const data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (data !== null && data && data.twentyfourseven && channel)
       return new ClearMessageService(client, channel, player);
 
