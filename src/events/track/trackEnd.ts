@@ -18,20 +18,18 @@ export default class {
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
+
+    client.emit("playerEnd", player);
+
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
-    if (!channel) return;
+    if (channel) {
+      if (data && data.twentyfourseven) return;
 
-    if (data && data.twentyfourseven) return;
+      if (player.queue.length || player!.queue!.current) return new ClearMessageService(client, channel, player);
 
-    if (player.queue.length || player!.queue!.current) return new ClearMessageService(client, channel, player);
-
-    if (player.loop !== "none") return new ClearMessageService(client, channel, player);
-
-    const currentPlayer = client.rainlink.players.get(player.guildId);
-    if (!currentPlayer) return;
-    if (currentPlayer.voiceId !== null) {
-      await player.destroy();
+      if (player.loop !== "none") return new ClearMessageService(client, channel, player);
     }
+    await player.destroy();
   }
 }

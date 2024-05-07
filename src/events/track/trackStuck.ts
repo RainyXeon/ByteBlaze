@@ -19,7 +19,7 @@ export default class {
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
-    if (!channel) return;
+    if (!channel) return player.destroy();
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
@@ -45,12 +45,7 @@ export default class {
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
-      return new ClearMessageService(client, channel, player);
-
-    const currentPlayer = client.rainlink.players.get(player.guildId);
-    if (!currentPlayer) return;
-    if (currentPlayer.voiceId !== null) {
-      await player.destroy();
-    }
+      new ClearMessageService(client, channel, player);
+    await player.destroy();
   }
 }

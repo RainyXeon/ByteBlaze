@@ -29,5 +29,14 @@ export default class implements Command {
       .setDescription(`${client.getString(handler.language, "command.music", "clearqueue_msg")}`)
       .setColor(client.color);
     await handler.editReply({ content: " ", embeds: [cleared] });
+
+    client.websocket
+      ? client.websocket.send(
+          JSON.stringify({
+            op: "playerClearQueue",
+            guild: handler.guild!.id,
+          })
+        )
+      : true;
   }
 }

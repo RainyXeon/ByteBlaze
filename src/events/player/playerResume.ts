@@ -14,6 +14,8 @@ export default class {
 
     const setup = await client.db.setup.get(`${player.guildId}`);
 
+    client.emit("playerResume", player);
+
     if (setup && setup.playmsg) {
       const channel = await client.channels.fetch(setup.channel).catch(() => undefined);
       if (!channel) return;

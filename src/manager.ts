@@ -34,8 +34,8 @@ import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
-import { WebSocket } from "ws";
 import { TopggService } from "./services/TopggService.js";
+import { WebSocket } from "@fastify/websocket";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -75,7 +75,6 @@ export class Manager extends Client {
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
-  wsId: Collection<string, boolean>;
   websocket?: WebSocket;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
@@ -140,7 +139,6 @@ export class Manager extends Client {
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
-    this.wsId = new Collection<string, boolean>();
     this.isDatabaseConnected = false;
 
     // Sharing

@@ -100,6 +100,16 @@ export default class implements Command {
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     }
+
+    client.websocket
+      ? client.websocket.send(
+          JSON.stringify({
+            op: "playerLoop",
+            guild: handler.guild!.id,
+            mode: mode,
+          })
+        )
+      : true;
   }
 
   async setLoop247(client: Manager, player: RainlinkPlayer, loop: string) {

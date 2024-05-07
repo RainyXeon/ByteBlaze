@@ -1,11 +1,14 @@
-import util from 'node:util';
+import util from "node:util";
 import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 import { RainlinkSearchResultType } from "../../rainlink/main.js";
 
 export async function getSearch(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
-  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url} query=${req.query ? util.inspect(req.query) : "{}"}`);
+  client.logger.info(
+    import.meta.url,
+    `${req.method} ${req.routeOptions.url} query=${req.query ? util.inspect(req.query) : "{}"}`
+  );
   const query = (req.query as Record<string, string>)["identifier"];
   const requester = (req.query as Record<string, string>)["requester"];
   const source = (req.query as Record<string, string>)["source"];

@@ -26,7 +26,7 @@ export default class {
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
-      return new ClearMessageService(client, channel, player);
+      new ClearMessageService(client, channel, player);
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;

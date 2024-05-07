@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, User } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -74,6 +74,33 @@ export default class implements Command {
 
       pages.push(embed);
     }
+
+    client.websocket
+      ? client.websocket.send(
+          JSON.stringify({
+            op: "playerQueueShuffle",
+            guild: handler.guild!.id,
+            queue: player.queue.map((track) => {
+              const requesterQueue = track.requester as User;
+              return {
+                title: track.title,
+                uri: track.uri,
+                length: track.duration,
+                thumbnail: track.artworkUrl,
+                author: track.author,
+                requester: requesterQueue
+                  ? {
+                      id: requesterQueue.id,
+                      username: requesterQueue.username,
+                      globalName: requesterQueue.globalName,
+                      defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
+                    }
+                  : null,
+              };
+            }),
+          })
+        )
+      : true;
 
     if (pages.length == pagesNum && newQueue.length > 10) {
       if (handler.message) {

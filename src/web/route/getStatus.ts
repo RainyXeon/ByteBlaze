@@ -1,10 +1,13 @@
-import util from 'node:util';
+import util from "node:util";
 import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 
 export async function getStatus(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
-  client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`);
+  client.logger.info(
+    import.meta.url,
+    `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`
+  );
   let isMemeberInVoice = "notGiven";
   const guildId = (req.params as Record<string, string>)["guildId"];
   const player = client.rainlink.players.get(guildId);

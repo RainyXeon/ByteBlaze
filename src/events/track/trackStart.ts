@@ -32,6 +32,8 @@ export default class {
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
+    client.emit("trackStart", player);
+
     const autoreconnect = new AutoReconnectBuilderService(client, player);
 
     if (await autoreconnect.get(player.guildId)) {

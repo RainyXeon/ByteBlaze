@@ -5,5 +5,6 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
     client.logger.info(import.meta.url, `Player Created in @ ${guild?.name} / ${player.guildId}`);
+    client.emit("playerCreate", player);
   }
 }

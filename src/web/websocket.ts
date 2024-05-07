@@ -8,16 +8,12 @@ export class WebsocketRoute {
   main(fastify: Fastify.FastifyInstance) {
     fastify.get("/websocket", { websocket: true }, (socket, req) => {
       this.client.logger.info(import.meta.url, `${req.method} ${req.routeOptions.url}`);
-
       socket.on("close", (code, reason) => {
         this.client.logger.websocket(import.meta.url, `Closed with code: ${code}, reason: ${reason}`);
-        this.client.wsId.delete(String(req.headers["guild-id"]));
       });
-
       if (!this.checker(socket, req)) return;
-
+      this.client.websocket = socket;
       this.client.logger.websocket(import.meta.url, `Websocket opened for ${req.headers["guild-id"]}`);
-      this.client.wsId.set(String(req.headers["guild-id"]), true);
     });
   }
 

@@ -23,8 +23,6 @@ export default class {
       const identifier = player.data.get("identifier");
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       let res = await player.search(search, { requester: requester });
-      // console.log(player.queue.previous)
-      // console.log(player.queue.current)
       const finalRes = res.tracks.filter((track) => {
         const req1 = !player.queue.some((s) => s.encoded === track.encoded);
         const req2 = !player.queue.previous.some((s) => s.encoded === track.encoded);
@@ -43,13 +41,8 @@ export default class {
 
     const data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
-    if (data !== null && data && data.twentyfourseven && channel)
-      return new ClearMessageService(client, channel, player);
+    if (data !== null && data && data.twentyfourseven && channel) new ClearMessageService(client, channel, player);
 
-    const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
-    if (!currentPlayer) return;
-    if (currentPlayer.voiceId !== null) {
-      await player.destroy();
-    }
+    await player.destroy();
   }
 }
