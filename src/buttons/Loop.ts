@@ -32,14 +32,32 @@ export default class implements PlayerButton {
 
         new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_current")}`);
 
+        if (client.websocket)
+          client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: message.guild!.id,
+              mode: "song",
+            })
+          );
+
         break;
 
       case "song":
-        await player.setLoop(RainlinkLoopMode.QUEUE);
+        player.setLoop(RainlinkLoopMode.QUEUE);
 
         setLoop247(RainlinkLoopMode.QUEUE);
 
         new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_all")}`);
+
+        if (client.websocket)
+          client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: message.guild!.id,
+              mode: "queue",
+            })
+          );
 
         break;
 
@@ -49,6 +67,15 @@ export default class implements PlayerButton {
         setLoop247(RainlinkLoopMode.NONE);
 
         new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "unloop_all")}`);
+
+        if (client.websocket)
+          client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: message.guild!.id,
+              mode: "none",
+            })
+          );
 
         break;
     }

@@ -34,6 +34,15 @@ export class ButtonLoop {
           content: " ",
           embeds: [looptrack],
         });
+
+        if (this.client.websocket)
+          this.client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: this.interaction.guild!.id,
+              mode: "song",
+            })
+          );
         break;
 
       case "song":
@@ -48,6 +57,15 @@ export class ButtonLoop {
           content: " ",
           embeds: [loopall],
         });
+
+        if (this.client.websocket)
+          this.client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: this.interaction.guild!.id,
+              mode: "queue",
+            })
+          );
         break;
 
       case "queue":
@@ -62,6 +80,15 @@ export class ButtonLoop {
           content: " ",
           embeds: [unloopall],
         });
+
+        if (this.client.websocket)
+          this.client.websocket.send(
+            JSON.stringify({
+              op: "playerLoop",
+              guild: this.interaction.guild!.id,
+              mode: "none",
+            })
+          );
         break;
     }
   }

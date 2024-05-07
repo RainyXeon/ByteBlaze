@@ -60,15 +60,14 @@ export default class implements Command {
 
     await player.setVolume(Number(value));
 
-    client.websocket
-      ? client.websocket.send(
-          JSON.stringify({
-            op: "playerVolume",
-            guild: handler.guild!.id,
-            volume: player.volume,
-          })
-        )
-      : true;
+    if (client.websocket)
+      client.websocket.send(
+        JSON.stringify({
+          op: "playerVolume",
+          guild: handler.guild!.id,
+          volume: player.volume,
+        })
+      );
 
     const changevol = new EmbedBuilder()
       .setDescription(

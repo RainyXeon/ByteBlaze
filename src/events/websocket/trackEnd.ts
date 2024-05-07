@@ -25,6 +25,7 @@ export default class {
         op: "playerEnd",
         guild: player.guildId,
         data: currentData,
+        mode: player.data.get("endMode") ?? "normal"
       })
     );
   }

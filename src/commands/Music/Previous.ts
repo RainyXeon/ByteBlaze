@@ -40,6 +40,8 @@ export default class implements Command {
 
     player.previous();
 
+    player.data.set("endMode", "previous")
+
     const embed = new EmbedBuilder()
       .setDescription(`${client.getString(handler.language, "command.music", "previous_msg")}`)
       .setColor(client.color);

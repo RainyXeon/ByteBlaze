@@ -30,13 +30,12 @@ export default class implements Command {
       .setColor(client.color);
     await handler.editReply({ content: " ", embeds: [cleared] });
 
-    client.websocket
-      ? client.websocket.send(
-          JSON.stringify({
-            op: "playerClearQueue",
-            guild: handler.guild!.id,
-          })
-        )
-      : true;
+    if (client.websocket)
+      client.websocket.send(
+        JSON.stringify({
+          op: "playerClearQueue",
+          guild: handler.guild!.id,
+        })
+      );
   }
 }
