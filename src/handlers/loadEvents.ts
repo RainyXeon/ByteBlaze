@@ -13,7 +13,7 @@ export class loadMainEvents {
     this.loader();
   }
   async loader() {
-    await chillout.forEach(["client", "guild", "shard"], async (path) => {
+    await chillout.forEach(["client", "guild", "shard", "websocket"], async (path) => {
       let eventsPath = resolve(join(__dirname, "..", "events", path));
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
