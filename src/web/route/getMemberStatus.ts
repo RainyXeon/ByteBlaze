@@ -24,6 +24,6 @@ export async function getMemberStatus(client: Manager, req: Fastify.FastifyReque
   }
   const Member = await Guild.members.fetch(userId).catch(() => undefined);
   if (!(!Member || !Member.voice.channel || !Member.voice)) isMemeberInVoice = true;
-  res.send({ status: isMemeberInVoice });
+  res.send({ data: isMemeberInVoice });
   return;
 }
