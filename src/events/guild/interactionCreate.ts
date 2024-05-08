@@ -168,7 +168,25 @@ export default class {
         ],
       });
 
-    if (command.accessableby == Accessableby.Voter && isHavePremium && client.topgg) {
+    if (
+      command.accessableby == Accessableby.Admin &&
+      interaction.user.id != client.owner &&
+      !client.config.bot.ADMIN.includes(interaction.user.id)
+    )
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`)
+            .setColor(client.color),
+        ],
+      });
+
+    if (
+      command.accessableby == Accessableby.Voter &&
+      isHavePremium &&
+      client.topgg &&
+      interaction.user.id != client.owner
+    ) {
       const voteChecker = await client.topgg.checkVote(interaction.user.id);
       if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()
@@ -199,7 +217,7 @@ export default class {
       }
     }
 
-    if (command.accessableby == Accessableby.Premium && isHavePremium) {
+    if (command.accessableby == Accessableby.Premium && isHavePremium && interaction.user.id != client.owner) {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.getString(language, "error", "no_premium_author")}`,

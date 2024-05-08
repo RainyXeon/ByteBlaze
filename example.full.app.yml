@@ -8,6 +8,7 @@ bot:
   TOKEN: "Bot Token"
   EMBED_COLOR: "#2B2D31"
   OWNER_ID: "Your User ID"
+  ADMIN: ["<your_trusted_admin_discord_id_here>"]
   LANGUAGE: "en" # You can set it to en, vi...
   LIMIT_TRACK: 50 # The number of tracks you want to limit
   LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
@@ -86,3 +87,5 @@ features:
   WEB_SERVER:
     enable: false
     port: 3000
+    whitelist: [] # Example: ["lavalink.dev"]
+    auth: "youshallnotpass"

@@ -10,6 +10,7 @@ export interface Bot {
   TOKEN: string;
   EMBED_COLOR: string;
   OWNER_ID: string;
+  ADMIN: string[];
   LANGUAGE: string;
   LIMIT_TRACK: number;
   LIMIT_PLAYLIST: number;

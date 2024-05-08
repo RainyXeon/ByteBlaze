@@ -92,6 +92,7 @@ export class ConfigDataService {
         SAFE_ICONS_MODE: true,
         DELETE_MSG_TIMEOUT: 2000,
         DEBUG_MODE: false,
+        ADMIN: [],
       },
       lavalink: {
         SPOTIFY: {
