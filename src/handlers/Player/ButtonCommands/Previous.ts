@@ -57,7 +57,7 @@ export class ButtonPrevious {
     } else {
       this.player.previous();
 
-      this.player.data.set("endMode", "previous")
+      this.player.data.set("endMode", "previous");
 
       const embed = new EmbedBuilder()
         .setDescription(`${this.client.getString(this.language, "button.music", "previous_msg")}`)

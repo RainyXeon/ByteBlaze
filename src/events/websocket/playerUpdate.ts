@@ -3,13 +3,10 @@ import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
-    if (!client.websocket) return;
-    client.websocket.send(
-      JSON.stringify({
-        op: "playerUpdate",
-        guild: player.guildId,
-        position: player.position,
-      })
-    );
+    client.wsl.get(player.guildId)?.send({
+      op: "playerUpdate",
+      guild: player.guildId,
+      position: player.position,
+    });
   }
 }

@@ -12,8 +12,8 @@ export class WebsocketRoute {
         this.client.logger.websocket(import.meta.url, `Closed with code: ${code}, reason: ${reason}`);
       });
       if (!this.checker(socket, req)) return;
-      this.client.websocket = socket;
-      this.client.logger.websocket(import.meta.url, `Websocket opened for ${req.headers["guild-id"]}`);
+      this.client.wsl.set(String(req.headers["guild-id"]), { send: (data) => socket.send(JSON.stringify(data)) });
+      this.client.logger.websocket(import.meta.url, `Websocket opened for guildId: ${req.headers["guild-id"]}`);
     });
   }
 

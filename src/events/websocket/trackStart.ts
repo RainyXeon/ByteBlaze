@@ -3,7 +3,6 @@ import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
-    if (!client.websocket) return;
     const song = player.queue.current;
 
     const currentData = {
@@ -15,12 +14,10 @@ export default class {
       requester: song!.requester,
     };
 
-    client.websocket.send(
-      JSON.stringify({
-        op: "trackStart",
-        guild: player.guildId,
-        data: currentData,
-      })
-    );
+    client.wsl.get(player.guildId)?.send({
+      op: "trackStart",
+      guild: player.guildId,
+      data: currentData,
+    });
   }
 }

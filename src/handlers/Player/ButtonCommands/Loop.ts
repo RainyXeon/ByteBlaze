@@ -35,14 +35,11 @@ export class ButtonLoop {
           embeds: [looptrack],
         });
 
-        if (this.client.websocket)
-          this.client.websocket.send(
-            JSON.stringify({
-              op: "playerLoop",
-              guild: this.interaction.guild!.id,
-              mode: "song",
-            })
-          );
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "song",
+        });
         break;
 
       case "song":
@@ -58,14 +55,11 @@ export class ButtonLoop {
           embeds: [loopall],
         });
 
-        if (this.client.websocket)
-          this.client.websocket.send(
-            JSON.stringify({
-              op: "playerLoop",
-              guild: this.interaction.guild!.id,
-              mode: "queue",
-            })
-          );
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "queue",
+        });
         break;
 
       case "queue":
@@ -81,14 +75,11 @@ export class ButtonLoop {
           embeds: [unloopall],
         });
 
-        if (this.client.websocket)
-          this.client.websocket.send(
-            JSON.stringify({
-              op: "playerLoop",
-              guild: this.interaction.guild!.id,
-              mode: "none",
-            })
-          );
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "none",
+        });
         break;
     }
   }

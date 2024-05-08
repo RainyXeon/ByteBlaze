@@ -75,7 +75,7 @@ export class Manager extends Client {
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
-  websocket?: WebSocket;
+  wsl: Collection<string, { send: (data: Record<string, unknown>) => void }>;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -139,6 +139,7 @@ export class Manager extends Client {
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
+    this.wsl = new Collection<string, { send: (data: Record<string, unknown>) => void }>();
     this.isDatabaseConnected = false;
 
     // Sharing

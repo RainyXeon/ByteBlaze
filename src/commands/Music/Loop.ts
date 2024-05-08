@@ -101,14 +101,11 @@ export default class implements Command {
       handler.editReply({ content: " ", embeds: [looped] });
     }
 
-    if (client.websocket)
-      client.websocket.send(
-        JSON.stringify({
-          op: "playerLoop",
-          guild: handler.guild!.id,
-          mode: mode,
-        })
-      );
+    client.wsl.get(handler.guild!.id)?.send({
+      op: "playerLoop",
+      guild: handler.guild!.id,
+      mode: mode,
+    });
   }
 
   async setLoop247(client: Manager, player: RainlinkPlayer, loop: string) {
