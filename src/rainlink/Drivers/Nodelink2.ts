@@ -106,24 +106,24 @@ export class Nodelink2 extends AbstractDriver {
     }
 
     const lavalinkHeaders = {
-      Authorization: this.node!.options.auth,
-      "User-Agent": this.manager!.rainlinkOptions.options!.userAgent!,
-      "Content-Encoding": "brotli, gzip, deflate",
+      authorization: this.node!.options.auth,
+      "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
+      "content-encoding": "brotli, gzip, deflate",
       "accept-encoding": "brotli, gzip, deflate",
       ...options.headers,
     };
 
     options.headers = lavalinkHeaders;
-    options.path = url.pathname + url.search;
-
-    const res = await fetch(url.origin + options.path, options);
+    const res = await fetch(url, options);
 
     if (res.status == 204) {
       this.debug("Player now destroyed");
       return undefined;
     }
     if (res.status !== 200) {
-      this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
+      this.debug(
+        `${options.method ?? "GET"} ${url.pathname + url.search} payload=${options.body ? String(options.body) : "{}"}`
+      );
       this.debug(
         "Something went wrong with nodelink server. " +
           `Status code: ${res.status}\n Headers: ${util.inspect(options.headers)}`
@@ -138,7 +138,9 @@ export class Nodelink2 extends AbstractDriver {
       finalData = this.convertV4trackResponse(finalData) as D;
     }
 
-    this.debug(`${options.method ?? "GET"} ${options.path} payload=${options.body ? String(options.body) : "{}"}`);
+    this.debug(
+      `${options.method ?? "GET"} ${url.pathname + url.search} payload=${options.body ? String(options.body) : "{}"}`
+    );
 
     return finalData;
   }

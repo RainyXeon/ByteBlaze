@@ -53,6 +53,8 @@ export interface Commands {
 export interface WebServer {
   enable: boolean;
   port: number;
+  auth: string;
+  whitelist: string[];
 }
 
 export interface Lavalink {

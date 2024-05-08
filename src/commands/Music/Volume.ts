@@ -60,6 +60,12 @@ export default class implements Command {
 
     await player.setVolume(Number(value));
 
+    client.wsl.get(handler.guild!.id)?.send({
+      op: "playerVolume",
+      guild: handler.guild!.id,
+      volume: player.volume,
+    });
+
     const changevol = new EmbedBuilder()
       .setDescription(
         `${client.getString(handler.language, "command.music", "volume_msg", {

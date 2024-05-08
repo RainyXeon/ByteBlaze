@@ -15,7 +15,7 @@ import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { WebServer } from "./utilities/webserver.js";
+import { WebServer } from "./web/server.js";
 import { ManifestService } from "./services/ManifestService.js";
 import { NormalModeIcons } from "./assets/NormalModeIcons.js";
 import { SafeModeIcons } from "./assets/SafeModeIcons.js";
@@ -34,8 +34,8 @@ import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
-import { WebSocket } from "ws";
 import { TopggService } from "./services/TopggService.js";
+import { WebSocket } from "@fastify/websocket";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;
@@ -75,7 +75,7 @@ export class Manager extends Client {
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
   nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
-  websocket?: WebSocket;
+  wsl: Collection<string, { send: (data: Record<string, unknown>) => void }>;
   UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -139,6 +139,7 @@ export class Manager extends Client {
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
+    this.wsl = new Collection<string, { send: (data: Record<string, unknown>) => void }>();
     this.isDatabaseConnected = false;
 
     // Sharing

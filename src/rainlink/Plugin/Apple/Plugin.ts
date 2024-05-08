@@ -119,7 +119,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   protected async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
-    if (res.tracks.length == 0) return await this.searchDirect(query, options);
+    if (res.tracks.length == 0) return this.searchDirect(query, options);
     else return res;
   }
 
@@ -294,7 +294,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Plugin] / [Apple] | ${logs}`) : true;
+    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Apple] | ${logs}`) : true;
   }
 }
 

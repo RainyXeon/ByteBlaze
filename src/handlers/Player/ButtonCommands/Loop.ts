@@ -34,6 +34,12 @@ export class ButtonLoop {
           content: " ",
           embeds: [looptrack],
         });
+
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "song",
+        });
         break;
 
       case "song":
@@ -48,6 +54,12 @@ export class ButtonLoop {
           content: " ",
           embeds: [loopall],
         });
+
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "queue",
+        });
         break;
 
       case "queue":
@@ -61,6 +73,12 @@ export class ButtonLoop {
         await this.interaction.reply({
           content: " ",
           embeds: [unloopall],
+        });
+
+        this.client.wsl.get(this.interaction.guild!.id)?.send({
+          op: "playerLoop",
+          guild: this.interaction.guild!.id,
+          mode: "none",
         });
         break;
     }

@@ -12,7 +12,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.fetch(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
     client.logger.error(import.meta.url, message);
 
@@ -20,12 +20,11 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
-    if (!channel) return;
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
 
-    let guildModel = await client.db.language.get(`${channel.guild.id}`);
+    let guildModel = await client.db.language.get(`${player.guildId}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${channel.guild.id}`, client.config.bot.LANGUAGE);
+      guildModel = await client.db.language.set(`${player.guildId}`, client.config.bot.LANGUAGE);
     }
 
     const language = guildModel;
@@ -46,12 +45,9 @@ export default class {
     client.logger.error(import.meta.url, `Track Error in ${guild!.name} / ${player.guildId}.`);
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    if (data247 !== null && data247 && data247.twentyfourseven) return new ClearMessageService(client, channel, player);
+    if (data247 !== null && data247 && data247.twentyfourseven && channel)
+      new ClearMessageService(client, channel, player);
 
-    const currentPlayer = client.rainlink.players.get(player.guildId);
-    if (!currentPlayer) return;
-    if (currentPlayer.voiceId !== null) {
-      await player.destroy();
-    }
+    await player.destroy();
   }
 }

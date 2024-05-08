@@ -15,7 +15,7 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.fetch(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
     client.logger.info(import.meta.url, `Player Started in @ ${guild!.name} / ${player.guildId}`);
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
@@ -29,8 +29,10 @@ export default class {
 
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (!channel) return;
+
+    client.emit("trackStart", player);
 
     const autoreconnect = new AutoReconnectBuilderService(client, player);
 
@@ -113,14 +115,17 @@ export default class {
       .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
       .setTimestamp();
 
-    const playing_channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    const playing_channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
 
-    const nplaying = await playing_channel.send({
-      embeds: [embeded],
-      components: [playerRowOne, playerRowTwo],
-      // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
-    });
+    const nplaying = playing_channel
+      ? await playing_channel.send({
+          embeds: [embeded],
+          components: [playerRowOne, playerRowTwo],
+          // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
+        })
+      : undefined;
 
+    if (!nplaying) return;
     client.nplayingMsg.set(player.guildId, nplaying);
 
     const collector = nplaying.createMessageComponentCollector({

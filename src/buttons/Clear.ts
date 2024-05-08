@@ -21,6 +21,11 @@ export default class implements PlayerButton {
 
     new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "clear_msg")}`);
 
+    client.wsl.get(message.guild!.id)?.send({
+      op: "playerClearQueue",
+      guild: message.guild!.id,
+    });
+
     return;
   }
 }

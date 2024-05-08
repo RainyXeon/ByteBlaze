@@ -11,7 +11,7 @@ export default class {
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
-    const fetch_channel = await client.channels.fetch(player.textId);
+    const fetch_channel = await client.channels.fetch(player.textId).catch(() => undefined);
     const text_channel = fetch_channel! as TextChannel;
     if (text_channel) {
       await text_channel.send({
@@ -24,9 +24,9 @@ export default class {
     }
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
-      return new ClearMessageService(client, channel, player);
+      new ClearMessageService(client, channel, player);
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;

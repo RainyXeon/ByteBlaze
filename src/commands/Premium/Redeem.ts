@@ -140,7 +140,7 @@ export default class implements Command {
       .setColor(client.color);
 
     try {
-      const channel = await client.channels.fetch(client.config.features.PREMIUM_LOG_CHANNEL);
+      const channel = await client.channels.fetch(client.config.features.PREMIUM_LOG_CHANNEL).catch(() => undefined);
       if (!channel || (channel && !channel.isTextBased())) return;
       channel.messages.channel.send({ embeds: [embed] });
     } catch {}

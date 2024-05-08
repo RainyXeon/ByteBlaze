@@ -73,11 +73,12 @@ export class ClientDataService {
       const fetched_info = this.infoChannelembed;
 
       SetupChannel.forEach(async (g) => {
-        const fetch_channel = g.channel.length !== 0 ? await this.client.channels.fetch(g.channel) : undefined;
+        const fetch_channel =
+          g.channel.length !== 0 ? await this.client.channels.fetch(g.channel).catch(() => undefined) : undefined;
         if (!fetch_channel) return;
         const text_channel = fetch_channel! as TextChannel;
-        const interval_text = await text_channel.messages!.fetch(g.statmsg);
-        await interval_text.edit({ content: ``, embeds: [fetched_info] });
+        const interval_text = await text_channel.messages!.fetch(g.statmsg).catch(() => undefined);
+        interval_text ? await interval_text.edit({ content: ``, embeds: [fetched_info] }) : true;
       });
     });
   }

@@ -1,8 +1,8 @@
-import { RainlinkEvents, RainlinkPluginType } from "../../Interface/Constants.js";
-import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../Interface/Manager.js";
-import { RainlinkTrack } from "../../Player/RainlinkTrack.js";
-import { Rainlink } from "../../Rainlink.js";
-import { SourceRainlinkPlugin } from "../SourceRainlinkPlugin.js";
+import { RainlinkEvents, RainlinkPluginType } from "../../main.js";
+import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../main.js";
+import { RainlinkTrack } from "../../main.js";
+import { Rainlink } from "../../main.js";
+import { SourceRainlinkPlugin } from "../../main.js";
 import NicoResolver from "./NicoResolver.js";
 import search from "./NicoSearch.js";
 
@@ -91,7 +91,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   private async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
-    if (res.tracks.length == 0) return await this.searchDirect(query, options);
+    if (res.tracks.length == 0) return this.searchDirect(query, options);
     else return res;
   }
 
@@ -205,7 +205,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.rainlink ? this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink] / [Plugin] / [Nico] | ${logs}`) : true;
+    this.rainlink ? this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink Nico Plugin]: ${logs}`) : true;
   }
 }
 

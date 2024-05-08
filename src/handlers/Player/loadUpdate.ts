@@ -16,10 +16,10 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
-      let playMsg = await channel.messages.fetch(data.playmsg);
+      let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
       if (!playMsg) return;
 
       let guildModel = await client.db.language.get(`${player.guildId}`);
@@ -47,7 +47,7 @@ export class playerLoadUpdate {
       const TotalDuration = player.queue.duration;
 
       let cSong = player.queue.current;
-      let qDuration = `${new FormatDuration().parse(TotalDuration)}`;
+      let qDuration = `${new FormatDuration().parse(TotalDuration + Number(player.queue.current?.duration))}`;
 
       function getTitle(tracks: RainlinkTrack): string {
         if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
@@ -105,10 +105,10 @@ export class playerLoadUpdate {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel)) as TextChannel;
+      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
-      let playMsg = await channel.messages.fetch(data.playmsg);
+      let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
       if (!playMsg) return;
 
       let guildModel = await client.db.language.get(`${player.guildId}`);

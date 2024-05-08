@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -54,6 +54,28 @@ export default class implements Command {
       player.queue.current ? player.queue.previous.unshift(player.queue.current) : true;
       await player.play(nowCurrentTrack);
       player.queue.shift();
+      client.wsl.get(handler.guild!.id)?.send({
+        op: "playerQueueSkip",
+        guild: handler.guild!.id,
+        queue: player.queue.map((track) => {
+          const requesterQueue = track.requester as User;
+          return {
+            title: track.title,
+            uri: track.uri,
+            length: track.duration,
+            thumbnail: track.artworkUrl,
+            author: track.author,
+            requester: requesterQueue
+              ? {
+                  id: requesterQueue.id,
+                  username: requesterQueue.username,
+                  globalName: requesterQueue.globalName,
+                  defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
+                }
+              : null,
+          };
+        }),
+      });
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);

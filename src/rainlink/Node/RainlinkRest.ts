@@ -8,6 +8,7 @@ import { RainlinkNode } from "./RainlinkNode.js";
 import {
   LavalinkPlayer,
   LavalinkResponse,
+  LavalinkStats,
   RainlinkRequesterOptions,
   RawTrack,
   RoutePlanner,
@@ -43,10 +44,21 @@ export class RainlinkRest {
   public async getPlayers(): Promise<LavalinkPlayer[]> {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players`,
-      params: undefined,
-      method: "GET",
+      headers: { "content-type": "application/json" },
     };
     return (await this.nodeManager.driver.requester<LavalinkPlayer[]>(options)) ?? [];
+  }
+
+  /**
+   * Gets current lavalink status
+   * @returns Promise that resolves to an object of current lavalink status
+   */
+  public async getStatus(): Promise<LavalinkStats | undefined> {
+    const options: RainlinkRequesterOptions = {
+      path: "/stats",
+      headers: { "content-type": "application/json" },
+    };
+    return await this.nodeManager.driver.requester<LavalinkStats>(options);
   }
 
   /**
@@ -56,9 +68,7 @@ export class RainlinkRest {
   public async decodeTrack(base64track: string): Promise<RawTrack | undefined> {
     const options: RainlinkRequesterOptions = {
       path: `/decodetrack?encodedTrack=${encodeURIComponent(base64track)}`,
-      params: undefined,
       headers: { "content-type": "application/json" },
-      method: "GET",
     };
     return await this.nodeManager.driver.requester<RawTrack>(options);
   }
@@ -86,7 +96,6 @@ export class RainlinkRest {
   public destroyPlayer(guildId: string): void {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players/${guildId}`,
-      params: undefined,
       headers: { "content-type": "application/json" },
       method: "DELETE",
     };
@@ -122,7 +131,7 @@ export class RainlinkRest {
   public async getRoutePlannerStatus(): Promise<RoutePlanner | undefined> {
     const options = {
       path: "/routeplanner/status",
-      options: {},
+      headers: { "content-type": "application/json" },
     };
     return await this.nodeManager.driver.requester<RoutePlanner>(options);
   }
@@ -135,6 +144,7 @@ export class RainlinkRest {
     const options = {
       path: "/routeplanner/free/address",
       method: "POST",
+      headers: { "content-type": "application/json" },
       data: { address },
     };
     await this.nodeManager.driver.requester(options);
@@ -143,7 +153,7 @@ export class RainlinkRest {
   /**
    * Get Lavalink info
    */
-  public getLavalinkInfo(): Promise<NodeInfo | undefined> {
+  public getInfo(): Promise<NodeInfo | undefined> {
     const options = {
       path: "/info",
       headers: { "content-type": "application/json" },

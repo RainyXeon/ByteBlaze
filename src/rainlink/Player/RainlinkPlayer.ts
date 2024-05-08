@@ -241,7 +241,7 @@ export class RainlinkPlayer extends EventEmitter {
 
     let errorMessage: string | undefined;
 
-    const resolveResult = await current.resolver(this.manager).catch((e: any) => {
+    const resolveResult = await current.resolver(this.manager, { nodeName: this.node.options.name }).catch((e: any) => {
       errorMessage = e.message;
       return null;
     });

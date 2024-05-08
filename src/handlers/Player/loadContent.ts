@@ -36,13 +36,13 @@ export class playerLoadContent {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id);
+    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id).catch(() => undefined);
     let channel = voiceMember!.voice.channel;
 
     let player = client.rainlink.players.get(interaction.guild.id);
     if (!player) return;
 
-    const playChannel = await client.channels.fetch(player.textId);
+    const playChannel = await client.channels.fetch(player.textId).catch(() => undefined);
     if (!playChannel) return;
 
     let guildModel = await client.db.language.get(`${player.guildId}`);
@@ -82,7 +82,7 @@ export class playerLoadContent {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.fetch(database!.channel)) as TextChannel;
+    let channel = (await message.guild.channels.fetch(database!.channel).catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -96,7 +96,11 @@ export class playerLoadContent {
 
     if (message.id !== database.playmsg) {
       const preInterval = setInterval(async () => {
-        const fetchedMessage = await message.channel.messages.fetch({ limit: 50 });
+        const fetchedMessage = await message.channel.messages.fetch({ limit: 50 }).catch(() => undefined);
+        if (!fetchedMessage) {
+          clearInterval(preInterval);
+          return;
+        }
         const final = fetchedMessage.filter((msg) => msg.id !== database?.playmsg);
         if (final.size > 0) (message.channel as TextChannel).bulkDelete(final).catch(() => {});
         else clearInterval(preInterval);
@@ -124,12 +128,12 @@ export class playerLoadContent {
         ],
       });
 
-    let msg = await message.channel.messages.fetch(database!.playmsg);
+    let msg = await message.channel.messages.fetch(database!.playmsg).catch(() => undefined);
 
     const emotes = (str: string) => str.match(/<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu);
 
     if (emotes(song) !== null) {
-      msg.reply({
+      msg?.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(`${client.getString(language, "event.setup", "play_emoji")}`)
@@ -150,7 +154,7 @@ export class playerLoadContent {
       });
     else {
       if (message.member!.voice.channel !== message.guild!.members.me!.voice.channel) {
-        msg.reply({
+        msg?.reply({
           embeds: [
             new EmbedBuilder()
               .setDescription(`${client.getString(language, "error", "no_same_voice")}`)
@@ -165,7 +169,7 @@ export class playerLoadContent {
     const tracks = result.tracks;
 
     if (!result.tracks.length) {
-      msg.edit({
+      msg?.edit({
         content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
           language,
           "event.setup",
@@ -193,7 +197,7 @@ export class playerLoadContent {
           })}`
         )
         .setColor(client.color);
-      msg.reply({ content: " ", embeds: [embed] });
+      msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder()
@@ -205,7 +209,7 @@ export class playerLoadContent {
           })}`
         )
         .setColor(client.color);
-      msg.reply({ content: " ", embeds: [embed] });
+      msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
       if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
@@ -215,7 +219,7 @@ export class playerLoadContent {
           request: `${result.tracks[0].requester}`,
         })}`
       );
-      msg.reply({ content: " ", embeds: [embed] });
+      msg?.reply({ content: " ", embeds: [embed] });
     }
 
     function getTitle(tracks: RainlinkTrack[]): string {

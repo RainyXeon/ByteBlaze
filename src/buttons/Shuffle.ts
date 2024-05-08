@@ -1,4 +1,4 @@
-import { ButtonInteraction, CacheType, EmbedBuilder, InteractionCollector, Message } from "discord.js";
+import { ButtonInteraction, CacheType, EmbedBuilder, InteractionCollector, Message, User } from "discord.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { FormatDuration } from "../utilities/FormatDuration.js";
@@ -66,6 +66,29 @@ export default class implements PlayerButton {
 
       pages.push(embed);
     }
+
+    client.wsl.get(message.guild!.id)?.send({
+      op: "playerQueueShuffle",
+      guild: message.guild!.id,
+      queue: player.queue.map((track) => {
+        const requesterQueue = track.requester as User;
+        return {
+          title: track.title,
+          uri: track.uri,
+          length: track.duration,
+          thumbnail: track.artworkUrl,
+          author: track.author,
+          requester: requesterQueue
+            ? {
+                id: requesterQueue.id,
+                username: requesterQueue.username,
+                globalName: requesterQueue.globalName,
+                defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
+              }
+            : null,
+        };
+      }),
+    });
 
     if (pages.length == pagesNum && newQueue.length > 10) {
       await new PageQueue(client, pages, 60000, newQueue.length, language).buttonPage(message, qduration);

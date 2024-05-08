@@ -12,14 +12,14 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.fetch(player.guildId);
+    const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
     client.logger.info(import.meta.url, `Player Stop in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
     const autoreconnectService = new AutoReconnectBuilderService(client, player);
     let data = await autoreconnectService.get(player.guildId);

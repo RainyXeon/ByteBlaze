@@ -12,32 +12,31 @@ export default class {
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
-    const guild = await client.guilds.fetch(player.guildId);
-    client.logger.info(import.meta.url, `Player Destroy in @ ${guild!.name} / ${player.guildId}`);
+    const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
+    client.logger.info(import.meta.url, `Player Destroy in @ ${guild?.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId)) as TextChannel;
+    client.emit("playerDestroy", player);
+    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
 
     if (!channel) return;
 
-    if (player.state == RainlinkPlayerState.DESTROYED && data !== null && data) {
-      if (data.twentyfourseven) {
-        await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
-        client.rainlink.create({
-          guildId: data.guild!,
-          voiceId: data.voice!,
-          textId: data.text!,
-          shardId: guild.shardId ?? 0,
-          deaf: true,
-          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
-        });
-      } else await client.db.autoreconnect.delete(player.guildId);
-    }
+    if (data !== null && data && data.twentyfourseven) {
+      await new AutoReconnectBuilderService(client, player).build247(player.guildId, true, data.voice);
+      client.rainlink.players.create({
+        guildId: data.guild!,
+        voiceId: data.voice!,
+        textId: data.text!,
+        shardId: guild?.shardId ?? 0,
+        deaf: true,
+        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+      });
+    } else await client.db.autoreconnect.delete(player.guildId);
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {

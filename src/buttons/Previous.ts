@@ -28,6 +28,8 @@ export default class implements PlayerButton {
 
     player.previous();
 
+    player.data.set("endMode", "previous");
+
     await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "previous_msg")}`);
     return;
   }

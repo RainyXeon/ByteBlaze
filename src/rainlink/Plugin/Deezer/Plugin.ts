@@ -78,7 +78,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   protected async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
-    if (res.tracks.length == 0) return await this.searchDirect(query, options);
+    if (res.tracks.length == 0) return this.searchDirect(query, options);
     else return res;
   }
 
@@ -97,8 +97,8 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
 
     if (SHORT_REGEX.test(query)) {
       const url = new URL(query);
-      const res = await request(url.origin + url.pathname, { method: "HEAD" });
-      query = String(res.headers.location);
+      const res = await fetch(url.origin + url.pathname, { method: "HEAD" });
+      query = String(res.headers.get("location"));
     }
 
     const [, type, id] = REGEX.exec(query) || [];
@@ -223,7 +223,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Plugin] / [Deezer] | ${logs}`) : true;
+    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink Deezer Plugin]: ${logs}`) : true;
   }
 }
 

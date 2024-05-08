@@ -43,17 +43,15 @@ export class RainlinkNodeManager extends RainlinkDatabase<RainlinkNode> {
     const onlineNodes = nodes.filter((node) => node.state === RainlinkConnectState.Connected);
     if (!onlineNodes.length) throw new Error("No nodes are online");
 
-    // .filter((x) => x.manager.node.name === node.node.name)
-
     const temp = await Promise.all(
-      onlineNodes.map(async (node) => ({
-        node,
-        players: (await node.rest.getPlayers()).filter((x) => this.get(x.guildId)).map((x) => this.get(x.guildId)!)
-          .length,
-      }))
+      onlineNodes.map(async (node) => {
+        const stats = await node.rest.getStatus();
+        return !stats ? { players: 0, node: node } : { players: stats.players, node: node };
+      })
     );
+    temp.sort((a, b) => a.players - b.players);
 
-    return temp.reduce((a, b) => (a.players < b.players ? a : b)).node;
+    return temp[0].node;
   }
 
   /**

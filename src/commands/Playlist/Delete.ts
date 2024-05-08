@@ -103,7 +103,7 @@ export default class implements Command {
     });
 
     collector?.on("end", async () => {
-      const checkMsg = await handler.channel?.messages.fetch(String(msg?.id));
+      const checkMsg = await handler.channel?.messages.fetch(String(msg?.id)).catch(() => undefined);
       const embed = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);

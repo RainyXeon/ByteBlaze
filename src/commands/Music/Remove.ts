@@ -73,6 +73,27 @@ export default class implements Command {
       )
       .setColor(client.color);
 
+    client.wsl.get(handler.guild!.id)?.send({
+      op: "playerQueueRemove",
+      guild: handler.guild!.id,
+      track: {
+        title: song.title,
+        uri: song.uri,
+        length: song.duration,
+        thumbnail: song.artworkUrl,
+        author: song.author,
+        requester: song.requester
+          ? {
+              id: (song.requester as any).id,
+              username: (song.requester as any).username,
+              globalName: (song.requester as any).globalName,
+              defaultAvatarURL: (song.requester as any).defaultAvatarURL ?? null,
+            }
+          : null,
+      },
+      index: Number(tracks) - 1,
+    });
+
     return handler.editReply({ embeds: [embed] });
   }
 

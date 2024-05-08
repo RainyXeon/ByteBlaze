@@ -62,7 +62,7 @@ export default class {
 
     if (!client.config.features.GUILD_LOG_CHANNEL) return;
     try {
-      const eventChannel = await client.channels.fetch(client.config.features.GUILD_LOG_CHANNEL);
+      const eventChannel = await client.channels.fetch(client.config.features.GUILD_LOG_CHANNEL).catch(() => undefined);
       if (!eventChannel || !eventChannel.isTextBased()) return;
       const embed = new EmbedBuilder()
         .setAuthor({
