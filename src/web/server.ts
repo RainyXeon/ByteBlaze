@@ -17,7 +17,7 @@ export class WebServer {
       (fastify, _, done) => {
         fastify.addHook("preValidation", function hook(req, reply, done) {
           if (!req.headers["authorization"]) {
-            reply.code(401);
+            reply.code(400);
             reply.send(JSON.stringify({ error: "Missing Authorization" }));
             return done();
           }

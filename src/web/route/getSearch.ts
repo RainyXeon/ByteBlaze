@@ -19,7 +19,7 @@ export async function getSearch(client: Manager, req: Fastify.FastifyRequest, re
   }
   const user = await client.users.fetch(requester).catch(() => undefined);
   if (!query) {
-    res.code(404);
+    res.code(400);
     res.send({ error: "Search param not found" });
     return;
   }
