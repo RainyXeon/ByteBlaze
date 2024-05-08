@@ -75,7 +75,7 @@ export default class implements Command {
               : null,
           };
         }),
-      });  
+      });
       const skipped = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);

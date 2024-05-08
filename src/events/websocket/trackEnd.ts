@@ -1,11 +1,11 @@
+import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
-    const prevoiusIndex = player.queue.previous.length - 1;
-
-    const song = player.queue.previous[prevoiusIndex === -1 ? 0 : prevoiusIndex];
+    const song = player.queue.previous.at(-1);
+    const requesterQueue = song!.requester as User;
 
     const currentData = song
       ? {
@@ -14,7 +14,14 @@ export default class {
           length: song.duration,
           thumbnail: song.artworkUrl,
           author: song.author,
-          requester: song.requester,
+          requester: requesterQueue
+            ? {
+                id: requesterQueue.id,
+                username: requesterQueue.username,
+                globalName: requesterQueue.globalName,
+                defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
+              }
+            : null,
         }
       : null;
 
