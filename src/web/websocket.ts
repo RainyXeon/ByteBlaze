@@ -33,7 +33,11 @@ export class WebsocketRoute {
       socket.close(1000, JSON.stringify({ error: "Authorization failed" }));
       return false;
     }
-
+    if (this.client.wsl.get(String(req.headers["guild-id"]))) {
+      socket.send(JSON.stringify({ error: "Alreary hae connection on this guild" }));
+      socket.close(1000, JSON.stringify({ error: "Alreary hae connection on this guild" }));
+      return false;
+    }
     return true;
   }
 }
