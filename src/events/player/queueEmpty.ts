@@ -19,8 +19,17 @@ export default class {
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
     if (player.data.get("autoplay") === true) {
+      const author = player.data.get("author");
+      const title = player.data.get("title");
       const requester = player.data.get("requester");
-      const identifier = player.data.get("identifier");
+      let identifier = player.data.get("identifier");
+      const source = String(player.data.get("source"));
+      if (source.toLowerCase() !== "youtube") {
+        const findQuery = "directSearch=ytsearch:" + [author, title].filter((x) => !!x).join(" - ");
+        const preRes = await player.search(findQuery, { requester: requester });
+        if (preRes.tracks.length !== 0) true;
+        else identifier = preRes.tracks[0].identifier;
+      }
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       let res = await player.search(search, { requester: requester });
       const finalRes = res.tracks.filter((track) => {
@@ -29,8 +38,7 @@ export default class {
         return req1 && req2;
       });
       if (finalRes.length !== 0) {
-        player.queue.add(finalRes.length <= 1 ? finalRes[0] : finalRes[1]);
-        player.play();
+        player.play(finalRes.length <= 1 ? finalRes[0] : finalRes[1]);
         const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
         if (channel) return new ClearMessageService(client, channel, player);
         return;
