@@ -35,7 +35,6 @@ import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
 import { TopggService } from "./services/TopggService.js";
-import { WebSocket } from "@fastify/websocket";
 config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const configData = new ConfigDataService().data;

@@ -4,7 +4,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["pm-remove"];
+  public name = ["pm", "remove"];
   public description = "Remove premium from members!";
   public category = "Premium";
   public accessableby = Accessableby.Admin;

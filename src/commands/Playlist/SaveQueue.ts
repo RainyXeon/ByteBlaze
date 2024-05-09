@@ -9,7 +9,7 @@ const TrackExist: string[] = [];
 let Result: RainlinkTrack[] | null = null;
 
 export default class implements Command {
-  public name = ["pl-savequeue"];
+  public name = ["pl", "savequeue"];
   public description = "Save the current queue to a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;

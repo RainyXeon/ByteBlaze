@@ -9,7 +9,7 @@ import { RainlinkSearchResultType, RainlinkTrack } from "../../rainlink/main.js"
 const TrackAdd: RainlinkTrack[] = [];
 
 export default class implements Command {
-  public name = ["pl-add"];
+  public name = ["pl", "add"];
   public description = "Add song to a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;

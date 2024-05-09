@@ -4,7 +4,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["pl-delete"];
+  public name = ["pl", "delete"];
   public description = "Delete a playlist";
   public category = "Playlist";
   public accessableby = Accessableby.Member;

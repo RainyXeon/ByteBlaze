@@ -7,7 +7,7 @@ import { CommandHandler } from "../../structures/CommandHandler.js";
 let playlist: Playlist | null;
 
 export default class implements Command {
-  public name = ["pl-import"];
+  public name = ["pl", "import"];
   public description = "Import a playlist to queue.";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
