@@ -16,7 +16,7 @@ export enum Nodelink2loadType {
   SHOW = "show",
   EPISODE = "episode",
   STATION = "station",
-  PODCAST = "podcast"
+  PODCAST = "podcast",
 }
 
 export interface NodelinkGetLyricsInterface {

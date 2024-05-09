@@ -170,6 +170,19 @@ export default class {
       });
 
     if (
+      command.accessableby == Accessableby.Admin &&
+      message.author.id != client.owner &&
+      !client.config.bot.ADMIN.includes(message.author.id)
+    )
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`)
+            .setColor(client.color),
+        ],
+      });
+
+    if (
       command.accessableby == Accessableby.Manager &&
       !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
     )
@@ -181,7 +194,13 @@ export default class {
         ],
       });
 
-    if (command.accessableby == Accessableby.Voter && isHavePremium && client.topgg) {
+    if (
+      command.accessableby == Accessableby.Voter &&
+      isHavePremium &&
+      client.topgg &&
+      !client.config.bot.ADMIN.includes(message.author.id) &&
+      message.author.id != client.owner
+    ) {
       const voteChecker = await client.topgg.checkVote(message.author.id);
       if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()
@@ -212,7 +231,12 @@ export default class {
       }
     }
 
-    if (command.accessableby == Accessableby.Premium && isHavePremium) {
+    if (
+      command.accessableby == Accessableby.Premium &&
+      isHavePremium &&
+      !client.config.bot.ADMIN.includes(message.author.id) &&
+      message.author.id != client.owner
+    ) {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.getString(language, "error", "no_premium_author")}`,
