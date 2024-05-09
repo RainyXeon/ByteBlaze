@@ -185,7 +185,8 @@ export default class {
       command.accessableby == Accessableby.Voter &&
       isHavePremium &&
       client.topgg &&
-      interaction.user.id != client.owner
+      interaction.user.id != client.owner &&
+      !client.config.bot.ADMIN.includes(interaction.user.id)
     ) {
       const voteChecker = await client.topgg.checkVote(interaction.user.id);
       if (voteChecker == TopggServiceEnum.ERROR) {
@@ -217,7 +218,12 @@ export default class {
       }
     }
 
-    if (command.accessableby == Accessableby.Premium && isHavePremium && interaction.user.id != client.owner) {
+    if (
+      command.accessableby == Accessableby.Premium &&
+      isHavePremium &&
+      interaction.user.id != client.owner &&
+      !client.config.bot.ADMIN.includes(interaction.user.id)
+    ) {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.getString(language, "error", "no_premium_author")}`,

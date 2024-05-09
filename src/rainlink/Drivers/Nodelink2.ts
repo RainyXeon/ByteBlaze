@@ -72,8 +72,7 @@ export class Nodelink2 extends AbstractDriver {
       headers: {
         Authorization: this.node!.options.auth,
         "user-id": this.manager!.id,
-        "content-encoding": "brotli, gzip, deflate",
-        "accept-encoding": "brotli, gzip, deflate",
+        "accept-encoding": (process as any).isBun ? "gzip, deflate" : "br, gzip, deflate",
         "client-name": `${metadata.name}/${metadata.version} (${metadata.github})`,
         "session-id": this.sessionId !== null && isResume ? this.sessionId : "",
         "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
@@ -108,16 +107,18 @@ export class Nodelink2 extends AbstractDriver {
     const lavalinkHeaders = {
       authorization: this.node!.options.auth,
       "user-agent": this.manager!.rainlinkOptions.options!.userAgent!,
-      "content-encoding": "brotli, gzip, deflate",
-      "accept-encoding": "brotli, gzip, deflate",
+      "accept-encoding": (process as any).isBun ? "gzip, deflate" : "br, gzip, deflate",
       ...options.headers,
     };
 
     options.headers = lavalinkHeaders;
+
     const res = await fetch(url, options);
 
     if (res.status == 204) {
-      this.debug("Player now destroyed");
+      this.debug(
+        `${options.method ?? "GET"} ${url.pathname + url.search} payload=${options.body ? String(options.body) : "{}"}`
+      );
       return undefined;
     }
     if (res.status !== 200) {
@@ -168,35 +169,31 @@ export class Nodelink2 extends AbstractDriver {
     switch (nl2Data.loadType) {
       case Nodelink2loadType.SHORTS: {
         nl2Data.loadType = LavalinkLoadType.TRACK;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.ALBUM: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.ARTIST: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.EPISODE: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.STATION: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.PODCAST: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
+        return nl2Data;
       }
       case Nodelink2loadType.SHOW: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        break;
-      }
-      default: {
-        nl2Data.loadType = LavalinkLoadType.TRACK;
-        break;
+        return nl2Data;
       }
     }
     return nl2Data;

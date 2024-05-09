@@ -7,7 +7,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["pl-detail"];
+  public name = ["pl", "detail"];
   public description = "View all your playlists";
   public category = "Playlist";
   public accessableby = Accessableby.Member;

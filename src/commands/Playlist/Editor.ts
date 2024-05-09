@@ -17,7 +17,7 @@ let count = 0;
 let answer: string[] = [];
 
 export default class implements Command {
-  public name = ["pl-editor"];
+  public name = ["pl", "editor"];
   public description = "Edit playlist info for public";
   public category = "Playlist";
   public accessableby = Accessableby.Member;
