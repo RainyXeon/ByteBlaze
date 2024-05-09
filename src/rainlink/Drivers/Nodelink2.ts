@@ -16,8 +16,7 @@ export enum Nodelink2loadType {
   SHOW = "show",
   EPISODE = "episode",
   STATION = "station",
-  PODCAST = "podcast",
-  TRACK = "track",
+  PODCAST = "podcast"
 }
 
 export interface NodelinkGetLyricsInterface {
@@ -194,10 +193,6 @@ export class Nodelink2 extends AbstractDriver {
       }
       case Nodelink2loadType.SHOW: {
         nl2Data.loadType = LavalinkLoadType.PLAYLIST;
-        return nl2Data;
-      }
-      case Nodelink2loadType.TRACK: {
-        nl2Data.loadType = LavalinkLoadType.SEARCH;
         return nl2Data;
       }
     }
