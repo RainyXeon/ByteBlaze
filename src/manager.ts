@@ -29,7 +29,6 @@ import { DatabaseTable } from "./database/@types.js";
 import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { Rainlink } from "./rainlink/Rainlink.js";
 import { Command } from "./structures/Command.js";
-import { Premium } from "./database/schema/Premium.js";
 import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
@@ -66,7 +65,6 @@ export class Manager extends Client {
   lavalinkUsed: LavalinkUsingDataType[];
   rainlink: Rainlink;
   commands: Collection<string, Command>;
-  premiums: Collection<string, Premium>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
   nplayingMsg: Collection<string, Message>;
@@ -130,7 +128,6 @@ export class Manager extends Client {
 
     // Collections
     this.commands = new Collection<string, Command>();
-    this.premiums = new Collection<string, Premium>();
     this.interval = new Collection<string, NodeJS.Timer>();
     this.sentQueue = new Collection<string, boolean>();
     this.aliases = new Collection<string, string>();

@@ -50,7 +50,6 @@ export default class implements Command {
 
     if (db.isPremium) {
       await client.db.premium.delete(`${id}`);
-      client.premiums.delete(id);
 
       const embed = new EmbedBuilder()
         .setDescription(

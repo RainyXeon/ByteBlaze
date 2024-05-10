@@ -137,7 +137,7 @@ export default class {
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
-    const premiumUser = client.premiums.get(interaction.user.id);
+    const premiumUser = await client.db.premium.get(interaction.user.id);
     const isHavePremium = !premiumUser || !premiumUser.isPremium;
     if (
       command.accessableby == Accessableby.Manager &&

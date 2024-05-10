@@ -3,6 +3,7 @@ import moment from "moment";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
+import { Premium } from "../../database/schema/Premium.js";
 
 export default class implements Command {
   public name = ["pm", "profile"];
@@ -22,7 +23,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const PremiumPlan = client.premiums.get(`${handler.user?.id}`);
+    const PremiumPlan = (await client.db.premium.get(`${handler.user?.id}`)) as Premium;
     const expires = moment(PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0).format(
       "do/MMMM/YYYY (HH:mm:ss)"
     );

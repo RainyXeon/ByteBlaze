@@ -14,17 +14,16 @@ export class PremiumScheduleSetup {
     cron.schedule("0 */1 * * * *", () => this.setupChecker());
   }
 
-  setupChecker() {
-    const premium = Array.from(this.client.premiums.values());
-    const users = premium.filter((data) => data.isPremium == true && data.expiresAt !== "lifetime");
-    if (users && users.length !== 0) this.checkUser(users);
+  async setupChecker() {
+    const premium = Array.from(await this.client.db.premium.all());
+    const users = premium.filter((data) => data.value.isPremium == true && data.value.expiresAt !== "lifetime");
+    if (users && users.length !== 0) this.checkUser(users.map((data) => data.value));
   }
 
   async checkUser(users: Premium[]) {
     for (let data of users) {
       if (data.expiresAt !== "lifetime" && Date.now() >= data.expiresAt) {
         await this.client.db.premium.delete(data.id);
-        this.client.premiums.delete(data.id);
       }
     }
   }
