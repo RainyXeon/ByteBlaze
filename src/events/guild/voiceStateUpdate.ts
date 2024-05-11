@@ -91,7 +91,8 @@ export default class {
             })
           : null;
         setTimeout(
-          async () => ((!setup || setup == null || setup.channel !== player.textId) && msg ? msg.delete() : true),
+          async () =>
+            (!setup || setup == null || setup.channel !== player.textId) && msg ? msg.delete().catch(() => null) : true,
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }
@@ -118,7 +119,7 @@ export default class {
         setTimeout(async () => {
           const isChannelAvalible = await client.channels.fetch(msg.channelId).catch(() => undefined);
           if (!isChannelAvalible) return;
-          !setup || setup == null || setup.channel !== player.textId ? msg.delete() : true;
+          !setup || setup == null || setup.channel !== player.textId ? msg.delete().catch(() => null) : true;
         }, client.config.bot.DELETE_MSG_TIMEOUT);
       }
 
@@ -141,7 +142,9 @@ export default class {
               const msg = newPlayer && leaveEmbed ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
               setTimeout(
                 async () =>
-                  msg && (!setup || setup == null || setup.channel !== player.textId) ? msg.delete() : undefined,
+                  msg && (!setup || setup == null || setup.channel !== player.textId)
+                    ? msg.delete().catch(() => null)
+                    : undefined,
                 client.config.bot.DELETE_MSG_TIMEOUT
               );
             }

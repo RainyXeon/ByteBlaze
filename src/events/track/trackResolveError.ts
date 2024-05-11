@@ -37,7 +37,7 @@ export default class {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete() : true),
+        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete().catch(() => null) : true),
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }

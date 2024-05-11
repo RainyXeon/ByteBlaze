@@ -6,6 +6,8 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Collection,
+  InteractionCollector,
+  ButtonInteraction,
 } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
@@ -67,7 +69,7 @@ export class Manager extends Client {
   commands: Collection<string, Command>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
-  nplayingMsg: Collection<string, Message>;
+  nplayingMsg: Collection<string, { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }>;
   aliases: Collection<string, string>;
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
@@ -131,7 +133,10 @@ export class Manager extends Client {
     this.interval = new Collection<string, NodeJS.Timer>();
     this.sentQueue = new Collection<string, boolean>();
     this.aliases = new Collection<string, string>();
-    this.nplayingMsg = new Collection<string, Message>();
+    this.nplayingMsg = new Collection<
+      string,
+      { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }
+    >();
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();

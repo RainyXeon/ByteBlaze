@@ -9,7 +9,7 @@ export default class {
 
     const nowPlaying = client.nplayingMsg.get(`${player.guildId}`);
     if (nowPlaying) {
-      nowPlaying.edit({ components: [playerRowOneEdited, playerRowTwo] });
+      nowPlaying.msg.edit({ components: [playerRowOneEdited, playerRowTwo] });
     }
 
     const setup = await client.db.setup.get(`${player.guildId}`);

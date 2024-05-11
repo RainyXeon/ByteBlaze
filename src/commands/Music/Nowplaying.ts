@@ -99,7 +99,7 @@ export default class implements Command {
     const currentNP = client.nowPlaying.get(`${handler.guild?.id}`);
     if (currentNP) {
       clearInterval(currentNP.interval);
-      await currentNP.msg?.delete();
+      await currentNP.msg?.delete().catch(() => null);
       client.nowPlaying.delete(`${handler.guild?.id}`);
     }
 

@@ -23,7 +23,7 @@ export class ReplyInteractionService {
       const setup = await this.client.db.setup.get(String(this.message.guildId));
 
       setTimeout(() => {
-        !setup || setup == null || setup.channel !== this.message.channelId ? msg.delete() : true;
+        !setup || setup == null || setup.channel !== this.message.channelId ? msg.delete().catch(() => null) : true;
       }, this.client.config.bot.DELETE_MSG_TIMEOUT);
     } catch (err) {}
   }
