@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
