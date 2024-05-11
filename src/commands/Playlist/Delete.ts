@@ -91,14 +91,14 @@ export default class implements Command {
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
         collector.stop();
-        msg?.delete();
+        msg?.delete().catch(() => null);
       } else if (id == "no") {
         const embed = new EmbedBuilder()
           .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
         collector.stop();
-        msg?.delete();
+        msg?.delete().catch(() => null);
       }
     });
 

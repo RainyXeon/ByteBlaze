@@ -206,7 +206,7 @@ export class RainlinkPlayer extends EventEmitter {
         },
       },
     });
-    await this.node.rest.destroyPlayer(this.guildId);
+    this.node.rest.destroyPlayer(this.guildId);
     this.manager.players.delete(this.guildId);
     this.state = RainlinkPlayerState.DESTROYED;
     this.debug("Player destroyed at " + this.guildId);

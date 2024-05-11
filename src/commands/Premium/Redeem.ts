@@ -91,7 +91,6 @@ export default class implements Command {
     });
     await handler.editReply({ embeds: [embed] });
     await client.db.code.delete(`${input.toUpperCase()}`);
-    client.premiums.set(String(handler.user?.id), newPreUser);
     await this.sendRedeemLog(client, newPreUser, handler.user);
     return;
   }

@@ -145,9 +145,9 @@ export default class implements Command {
         )
         .setColor(client.color);
 
-      if (fetchedCategory) await fetchedCategory.delete();
-      if (fetchedVoiceChannel) await fetchedVoiceChannel.delete();
-      if (fetchedTextChannel) await fetchedTextChannel.delete();
+      if (fetchedCategory) await fetchedCategory.delete().catch(() => null);
+      if (fetchedVoiceChannel) await fetchedVoiceChannel.delete().catch(() => null);
+      if (fetchedTextChannel) await fetchedTextChannel.delete().catch(() => null);
 
       await client.db.setup.delete(`${handler.guild!.id}`);
 

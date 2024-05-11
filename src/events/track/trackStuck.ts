@@ -2,7 +2,7 @@ import { Manager } from "../../manager.js";
 import { TextChannel, EmbedBuilder } from "discord.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
-import { RainlinkPlayer } from "../../rainlink/main.js";
+import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
@@ -36,7 +36,7 @@ export default class {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete() : true),
+        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete().catch(() => null) : true),
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }
@@ -46,6 +46,8 @@ export default class {
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
       new ClearMessageService(client, channel, player);
-    await player.destroy();
+    const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
+    if (!currentPlayer) return;
+    if (currentPlayer.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
   }
 }

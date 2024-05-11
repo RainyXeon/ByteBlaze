@@ -126,7 +126,6 @@ export default class {
       : undefined;
 
     if (!nplaying) return;
-    client.nplayingMsg.set(player.guildId, nplaying);
 
     const collector = nplaying.createMessageComponentCollector({
       componentType: ComponentType.Button,
@@ -146,6 +145,8 @@ export default class {
       },
     });
 
+    client.nplayingMsg.set(player.guildId, { coll: collector, msg: nplaying });
+
     collector.on("collect", async (message: ButtonInteraction): Promise<void> => {
       const id = message.customId;
       const button = client.plButton.get(id);
@@ -159,7 +160,10 @@ export default class {
           client.logger.error(import.meta.url, err);
         }
       }
-      collector?.removeAllListeners();
+    });
+
+    collector.on("end", (): void => {
+      collector.removeAllListeners();
     });
   }
 }

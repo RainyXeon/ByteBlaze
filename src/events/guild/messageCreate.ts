@@ -158,7 +158,7 @@ export default class {
     //////////////////////////////// Permission check end ////////////////////////////////
 
     //////////////////////////////// Access check start ////////////////////////////////
-    const premiumUser = client.premiums.get(message.author.id);
+    const premiumUser = await client.db.premium.get(message.author.id);
     const isHavePremium = !premiumUser || !premiumUser.isPremium;
     if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
       return message.reply({

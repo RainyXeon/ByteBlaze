@@ -2,7 +2,7 @@ import { TextChannel } from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
-import { RainlinkPlayer } from "../../rainlink/main.js";
+import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
@@ -51,6 +51,6 @@ export default class {
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
     if (data !== null && data && data.twentyfourseven && channel) new ClearMessageService(client, channel, player);
 
-    await player.destroy();
+    if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
   }
 }

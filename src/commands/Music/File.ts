@@ -99,7 +99,7 @@ export default class implements Command {
 
     const TotalDuration = player.queue.duration;
 
-    if (handler.message) await handler.message.delete();
+    if (handler.message) await handler.message.delete().catch(() => null);
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()

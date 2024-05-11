@@ -6,6 +6,8 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   Collection,
+  InteractionCollector,
+  ButtonInteraction,
 } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
@@ -29,7 +31,6 @@ import { DatabaseTable } from "./database/@types.js";
 import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { Rainlink } from "./rainlink/Rainlink.js";
 import { Command } from "./structures/Command.js";
-import { Premium } from "./database/schema/Premium.js";
 import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkPlayer } from "./rainlink/main.js";
@@ -66,10 +67,9 @@ export class Manager extends Client {
   lavalinkUsed: LavalinkUsingDataType[];
   rainlink: Rainlink;
   commands: Collection<string, Command>;
-  premiums: Collection<string, Premium>;
   interval: Collection<string, NodeJS.Timer>;
   sentQueue: Collection<string, boolean>;
-  nplayingMsg: Collection<string, Message>;
+  nplayingMsg: Collection<string, { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }>;
   aliases: Collection<string, string>;
   plButton: Collection<string, PlayerButton>;
   leaveDelay: Collection<string, NodeJS.Timeout>;
@@ -130,11 +130,13 @@ export class Manager extends Client {
 
     // Collections
     this.commands = new Collection<string, Command>();
-    this.premiums = new Collection<string, Premium>();
     this.interval = new Collection<string, NodeJS.Timer>();
     this.sentQueue = new Collection<string, boolean>();
     this.aliases = new Collection<string, string>();
-    this.nplayingMsg = new Collection<string, Message>();
+    this.nplayingMsg = new Collection<
+      string,
+      { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }
+    >();
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
     this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
