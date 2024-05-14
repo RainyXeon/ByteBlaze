@@ -13,6 +13,8 @@ stop_msg: "`⏹️` | Stopped the **Player**!"
 volup_msg: "`🔊` | Changed Volume to **%{volume}%**"
 voldown_msg: "`🔉` | Changed Volume to **%{volume}%**"
 volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** and **100**!"
+volume_max: "`⚠️` | Player is already at max volume!"
+volume_min: "`⚠️` | Player is already at min volume!"
 # Clear
 clear_msg: "`🗑️` | Queue has been **Cleared**!"
 # Loop

@@ -20,7 +20,7 @@ export default class implements PlayerButton {
     const previousIndex = player.queue.previous.length - 1;
 
     if (player.queue.previous.length == 0 || previousIndex === -1)
-      return await new ReplyInteractionService(
+      return new ReplyInteractionService(
         client,
         message,
         `${client.getString(language, "button.music", "previous_notfound")}`
@@ -30,7 +30,7 @@ export default class implements PlayerButton {
 
     player.data.set("endMode", "previous");
 
-    await new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "previous_msg")}`);
+    new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "previous_msg")}`);
     return;
   }
 }
