@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["pm", "remove"];
   public description = "Remove premium from members!";
   public category = "Premium";
-  public accessableby = Accessableby.Admin;
+  public accessableby = [Accessableby.Admin];
   public usage = "<id>";
   public aliases = ["prm"];
   public lavalink = false;

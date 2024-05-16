@@ -13,6 +13,6 @@ export default class {
       });
     });
 
-    client.logger.info(import.meta.url, `Lavalink [${node.options.name}] connected.`);
+    client.logger.info("NodeConnect", `Lavalink [${node.options.name}] connected.`);
   }
 }

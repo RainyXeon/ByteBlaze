@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["ping"];
   public description = "Shows the ping information of the Bot";
   public category = "Info";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = false;

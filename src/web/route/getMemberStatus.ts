@@ -4,7 +4,7 @@ import Fastify from "fastify";
 
 export async function getMemberStatus(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
   client.logger.info(
-    import.meta.url,
+    "StatusRouterService",
     `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`
   );
   let isMemeberInVoice = false;

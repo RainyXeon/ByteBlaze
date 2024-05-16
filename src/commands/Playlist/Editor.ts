@@ -20,7 +20,7 @@ export default class implements Command {
   public name = ["pl", "editor"];
   public description = "Edit playlist info for public";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_id>";
   public aliases = [];
   public lavalink = true;

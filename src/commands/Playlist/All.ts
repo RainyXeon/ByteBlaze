@@ -10,7 +10,7 @@ export default class implements Command {
   public name = ["pl", "all"];
   public description = "View all your playlists";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<number>";
   public aliases = [];
   public lavalink = false;

@@ -18,7 +18,7 @@ export default class {
 
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -142,7 +142,7 @@ export default class {
     const returnData = await permissionChecker.message(message, defaultPermissions);
     if (returnData.result !== "PermissionPass") return respondError(returnData);
 
-    if (command.accessableby == Accessableby.Manager) {
+    if (command.accessableby.includes(Accessableby.Manager)) {
       const returnData = await permissionChecker.message(message, managePermissions);
       if (returnData.result !== "PermissionPass") return respondError(returnData);
     } else if (command.category == "Music") {
@@ -160,7 +160,7 @@ export default class {
     //////////////////////////////// Access check start ////////////////////////////////
     const premiumUser = await client.db.premium.get(message.author.id);
     const isHavePremium = !premiumUser || !premiumUser.isPremium;
-    if (command.accessableby == Accessableby.Owner && message.author.id != client.owner)
+    if (command.accessableby.includes(Accessableby.Owner) && message.author.id != client.owner)
       return message.reply({
         embeds: [
           new EmbedBuilder()
@@ -170,7 +170,7 @@ export default class {
       });
 
     if (
-      command.accessableby == Accessableby.Admin &&
+      command.accessableby.includes(Accessableby.Admin) &&
       message.author.id != client.owner &&
       !client.config.bot.ADMIN.includes(message.author.id)
     )
@@ -183,7 +183,7 @@ export default class {
       });
 
     if (
-      command.accessableby == Accessableby.Manager &&
+      command.accessableby.includes(Accessableby.Manager) &&
       !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
     )
       return message.reply({
@@ -195,7 +195,7 @@ export default class {
       });
 
     if (
-      command.accessableby == Accessableby.Voter &&
+      command.accessableby.includes(Accessableby.Voter) &&
       isHavePremium &&
       client.topgg &&
       !client.config.bot.ADMIN.includes(message.author.id) &&
@@ -232,7 +232,7 @@ export default class {
     }
 
     if (
-      command.accessableby == Accessableby.Premium &&
+      command.accessableby.includes(Accessableby.Premium) &&
       isHavePremium &&
       !client.config.bot.ADMIN.includes(message.author.id) &&
       message.author.id != client.owner
@@ -296,15 +296,15 @@ export default class {
       if (message.attachments.size !== 0) handler.addAttachment(message.attachments);
 
       client.logger.info(
-        import.meta.url,
-        `[COMMAND] ${command.name.join("-")} used by ${message.author.username} from ${message.guild?.name} (${
+        "CommandManager",
+        `[${command.name.join("-")}] used by ${message.author.username} from ${message.guild?.name} (${
           message.guild?.id
         })`
       );
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error(import.meta.url, error);
+      client.logger.error("CommandManager", error);
       message.reply({
         content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
       });

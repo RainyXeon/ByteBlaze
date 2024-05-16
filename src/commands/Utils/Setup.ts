@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["setup"];
   public description = "Setup channel song request";
   public category = "Utils";
-  public accessableby = Accessableby.Manager;
+  public accessableby = [Accessableby.Manager];
   public usage = "<create> or <delete>";
   public aliases = ["setup"];
   public lavalink = false;

@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["tremolo"];
   public description = "Turning on tremolo filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["tremolo"];
   public lavalink = true;

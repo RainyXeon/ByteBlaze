@@ -8,7 +8,7 @@ import { KeyCheckerEnum } from "../../@types/KeyChecker.js";
 import { PlayerButton } from "../../@types/Button.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class loadPlayerButtons {
+export class PlayerButtonsLoader {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -24,9 +24,9 @@ export class loadPlayerButtons {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(import.meta.url, `${this.client.plButton.size} player buttons Loaded!`);
+      this.client.logger.loader(PlayerButtonsLoader.name, `${this.client.plButton.size} player buttons Loaded!`);
     } else {
-      this.client.logger.warn(import.meta.url, `No player button loaded, is everything ok?`);
+      this.client.logger.warn(PlayerButtonsLoader.name, `No player button loaded, is everything ok?`);
     }
   }
 
@@ -35,13 +35,16 @@ export class loadPlayerButtons {
     const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(import.meta.url, `"${rltPath}" The player button file does not have a name. Skipping...`);
+      this.client.logger.warn(
+        PlayerButtonsLoader.name,
+        `"${rltPath}" The player button file does not have a name. Skipping...`
+      );
       return;
     }
 
     if (this.client.plButton.has(command.name)) {
       this.client.logger.warn(
-        import.meta.url,
+        PlayerButtonsLoader.name,
         `"${command.name}" player button has already been installed. Skipping...`
       );
       return;
@@ -51,7 +54,7 @@ export class loadPlayerButtons {
 
     if (checkRes !== KeyCheckerEnum.Pass) {
       this.client.logger.warn(
-        import.meta.url,
+        PlayerButtonsLoader.name,
         `"${command.name}" player button is not implements correctly [${checkRes}]. Skipping...`
       );
       return;

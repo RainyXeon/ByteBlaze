@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["vibrate"];
   public description = "Turning on vibrate filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["vibrate"];
   public lavalink = true;

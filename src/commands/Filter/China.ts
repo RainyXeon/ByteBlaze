@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["china"];
   public description = "Turning on china filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["china"];
   public lavalink = true;

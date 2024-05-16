@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["shutdown"];
   public description = "Shuts down the client!";
   public category = "Owner";
-  public accessableby = Accessableby.Owner;
+  public accessableby = [Accessableby.Owner];
   public usage = "";
   public aliases = ["shutdown"];
   public lavalink = false;

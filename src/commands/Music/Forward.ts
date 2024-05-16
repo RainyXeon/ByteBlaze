@@ -11,7 +11,7 @@ export default class implements Command {
   public name = ["forward"];
   public description = "Forward timestamp in the song! (10s)";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["avatar"];
   public description = "Show your or someone else's profile picture";
   public category = "Image";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<mention>";
   public aliases = [];
   public lavalink = false;

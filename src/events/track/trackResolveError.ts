@@ -8,13 +8,13 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer, track: RainlinkTrack, message: string) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
-    client.logger.error(import.meta.url, message);
+    client.logger.error("TrackResolveError", message);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -42,7 +42,7 @@ export default class {
       );
     }
 
-    client.logger.error(import.meta.url, `Track Error in ${guild!.name} / ${player.guildId}.`);
+    client.logger.error("TrackResolveError", `Track Error in ${guild!.name} / ${player.guildId}.`);
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     if (data247 !== null && data247 && data247.twentyfourseven && channel)

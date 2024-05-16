@@ -10,7 +10,7 @@ export class PostCreatePlayer {
 
   async main(req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
     this.client.logger.info(
-      import.meta.url,
+      PostCreatePlayer.name,
       `${req.method} ${req.routeOptions.url} payload=${req.body ? util.inspect(req.body) : "{}"}`
     );
     const data = req.body as Record<string, string>;

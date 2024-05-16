@@ -11,7 +11,7 @@ export default class implements Command {
   public name = ["insert"];
   public description = "Insert a song into a specific position in queue.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["stop"];
   public description = "Stop music and make the bot leave the voice channel.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

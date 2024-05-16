@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["chipmunk"];
   public description = "Turning on chipmunk filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["chipmunk"];
   public lavalink = true;

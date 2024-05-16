@@ -67,7 +67,7 @@ export class WebServer {
         "I know catgirls do nothing wrong but why you still here...",
         "Bro, I don't have any catgirls collection (or cosplay collection) so please leave...",
       ];
-      client.logger.info(import.meta.url, `${request.method} ${request.routeOptions.url}`);
+      client.logger.info("HealthRouterService", `${request.method} ${request.routeOptions.url}`);
       reply.send({ byteblaze: response[Math.floor(Math.random() * response.length)] });
     });
 

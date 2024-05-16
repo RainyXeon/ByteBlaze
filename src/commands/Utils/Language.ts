@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["language"];
   public description = "Change the language for the bot";
   public category = "Utils";
-  public accessableby = Accessableby.Manager;
+  public accessableby = [Accessableby.Manager];
   public usage = "<language>";
   public aliases = ["lang", "language"];
   public lavalink = false;

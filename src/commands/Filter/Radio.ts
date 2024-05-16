@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["radio"];
   public description = "Turning on radio filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["radio"];
   public lavalink = true;

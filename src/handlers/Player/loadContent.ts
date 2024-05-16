@@ -16,7 +16,7 @@ const rateLimitManager = new RateLimitManager(2000);
  * @param {Client} client
  */
 
-export class playerLoadContent {
+export class PlayerContentLoader {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -28,7 +28,7 @@ export class playerLoadContent {
       this.client.on("interactionCreate", this.interaction.bind(null, this.client));
       this.client.on("messageCreate", this.message.bind(null, this.client));
     } catch (err) {
-      this.client.logger.error(import.meta.url, err);
+      this.client.logger.error(PlayerContentLoader.name, err);
     }
   }
 

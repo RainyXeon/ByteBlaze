@@ -11,7 +11,7 @@ export default class implements Command {
   public name = ["queue"];
   public description = "Show the queue of songs.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<page_number>";
   public aliases = [];
   public lavalink = true;

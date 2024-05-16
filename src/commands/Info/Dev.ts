@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["developer"];
   public description = "Shows the developer information of the Bot (Credit)";
   public category = "Info";
-  public accessableby = Accessableby.Voter;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = false;

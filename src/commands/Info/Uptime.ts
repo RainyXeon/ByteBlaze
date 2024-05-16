@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["uptime"];
   public description = "Shows the uptime information of the Bot";
   public category = "Info";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = false;

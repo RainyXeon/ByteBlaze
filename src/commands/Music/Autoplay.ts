@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["autoplay"];
   public description = "Autoplay music (Random play songs)";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["pm", "redeem"];
   public description = "Redeem your premium!";
   public category = "Premium";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<input>";
   public aliases = [];
   public lavalink = false;

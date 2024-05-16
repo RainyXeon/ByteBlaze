@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["3d"];
   public description = "Turning on 3d filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["3d"];
   public lavalink = true;

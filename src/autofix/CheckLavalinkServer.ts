@@ -13,7 +13,7 @@ export class CheckLavalinkServer {
   async execute(isLogEnable: boolean) {
     if (isLogEnable)
       this.client.logger.lavalink(
-        import.meta.url,
+        CheckLavalinkServer.name,
         "Running check lavalink server from [https://lavalink.darrennathanael.com/] source"
       );
 

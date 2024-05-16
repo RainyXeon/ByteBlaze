@@ -12,7 +12,7 @@ export default class implements Command {
   public name = ["pl", "add"];
   public description = "Add song to a playlist";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_id> <url_or_name>";
   public aliases = [];
   public lavalink = true;

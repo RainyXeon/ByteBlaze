@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["doubletime"];
   public description = "Turning on doubletime filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["doubletime"];
   public lavalink = true;

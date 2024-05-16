@@ -12,7 +12,7 @@ export default class implements Command {
   public name = ["pl", "savequeue"];
   public description = "Save the current queue to a playlist";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_id>";
   public aliases = ["pl-sq"];
   public lavalink = true;

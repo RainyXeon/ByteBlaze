@@ -1,10 +1,10 @@
 import { Manager } from "../manager.js";
-import { loadCommands } from "./Commands/loadCommands.js";
-import { loadPlayerButtons } from "./Commands/loadPlayerButtons.js";
+import { CommandLoader } from "./Commands/loadCommands.js";
+import { PlayerButtonsLoader } from "./Commands/loadPlayerButtons.js";
 
-export class loadCommand {
+export class CommandAndButtonLoader {
   constructor(client: Manager) {
-    new loadPlayerButtons(client);
-    new loadCommands(client);
+    new PlayerButtonsLoader(client);
+    new CommandLoader(client);
   }
 }

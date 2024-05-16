@@ -2,7 +2,6 @@ import { Manager } from "../manager.js";
 import { LavalinkDataType } from "../@types/Lavalink.js";
 import { CheckLavalinkServer } from "./CheckLavalinkServer.js";
 import chalk from "chalk";
-const regex = /^(wss?|ws?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|[^\/]+):([0-9]{1,5})$/;
 
 export class AutoFixLavalink {
   client: Manager;
@@ -14,7 +13,7 @@ export class AutoFixLavalink {
   }
 
   async execute() {
-    this.client.logger.lavalink(import.meta.url, "----- Starting autofix lavalink... -----");
+    this.client.logger.lavalink(AutoFixLavalink.name, "----- Starting autofix lavalink... -----");
     if (this.client.lavalinkList.length == 0) {
       new CheckLavalinkServer(this.client);
       return this.fixLavalink();
@@ -28,19 +27,25 @@ export class AutoFixLavalink {
     this.checkLavalink();
     await this.removeCurrentLavalink();
     if (this.client.lavalinkList.filter((i) => i.online).length == 0) {
-      this.client.logger.lavalink(import.meta.url, autofixErrorMess + "No lavalink online or avalible for this bot.");
       this.client.logger.lavalink(
-        import.meta.url,
+        AutoFixLavalink.name,
+        autofixErrorMess + "No lavalink online or avalible for this bot."
+      );
+      this.client.logger.lavalink(
+        AutoFixLavalink.name,
         autofixErrorMess + "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
       );
-      this.client.logger.lavalink(import.meta.url, "----- Terminated autofix lavalink. -----");
+      this.client.logger.lavalink(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
       return;
     }
 
     await this.applyNewLavalink();
 
-    this.client.logger.lavalink(import.meta.url, "Now used new lavalink, please wait 1 second to make it connect.");
-    this.client.logger.lavalink(import.meta.url, "----- Terminated autofix lavalink. -----");
+    this.client.logger.lavalink(
+      AutoFixLavalink.name,
+      "Now used new lavalink, please wait 1 second to make it connect."
+    );
+    this.client.logger.lavalink(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
   }
 
   checkLavalink() {

@@ -105,7 +105,7 @@ export class Manager extends Client {
     // Initial basic bot config
     // process.argv[1].replace(/^.*[\\\/]/, "") + " " +
     this.logger = new LoggerService(this);
-    this.logger.info(import.meta.url, "Booting client...");
+    this.logger.info("ClientManager", "Booting client...");
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
@@ -120,7 +120,7 @@ export class Manager extends Client {
 
     if (!this.config.lavalink.AVOID_SUSPEND)
       this.logger.warn(
-        import.meta.url,
+        "ClientManager",
         "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
       );
     // Initial autofix lavalink varibles
@@ -149,8 +149,8 @@ export class Manager extends Client {
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
-    process.on("unhandledRejection", (error) => this.logger.unhandled(import.meta.url, error));
-    process.on("uncaughtException", (error) => this.logger.unhandled(import.meta.url, error));
+    process.on("unhandledRejection", (error) => this.logger.unhandled("AntiCrash", error));
+    process.on("uncaughtException", (error) => this.logger.unhandled("AntiCrash", error));
 
     this.rainlink = new RainlinkInit(this).init;
 

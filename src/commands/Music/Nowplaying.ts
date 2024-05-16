@@ -10,7 +10,7 @@ export default class implements Command {
   public name = ["nowplaying"];
   public description = "Display the song currently playing.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["np"];
   public lavalink = true;

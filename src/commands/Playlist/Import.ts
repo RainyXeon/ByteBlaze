@@ -10,7 +10,7 @@ export default class implements Command {
   public name = ["pl", "import"];
   public description = "Import a playlist to queue.";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_id>";
   public aliases = [];
   public lavalink = true;

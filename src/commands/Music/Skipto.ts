@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["skipto"];
   public description = "Skip to a specific position";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["sk"];
   public lavalink = true;

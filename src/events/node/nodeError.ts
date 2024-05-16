@@ -3,6 +3,6 @@ import { RainlinkNode } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, node: RainlinkNode, error: Error) {
-    client.logger.debug(import.meta.url, `Lavalink "${node.options.name}" error ${error}`);
+    client.logger.debug("NodeError", `Lavalink "${node.options.name}" error ${error}`);
   }
 }

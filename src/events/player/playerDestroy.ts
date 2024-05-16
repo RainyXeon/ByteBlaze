@@ -8,12 +8,12 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
-    client.logger.info(import.meta.url, `Player Destroy in @ ${guild?.name} / ${player.guildId}`);
+    client.logger.info("PlayerDestroy", `Player Destroy in @ ${guild?.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);

@@ -10,7 +10,7 @@ export default class implements Command {
   public name = ["play"];
   public description = "Play a song from any types";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<name_or_url>";
   public aliases = ["p", "pl", "pp"];
   public lavalink = true;

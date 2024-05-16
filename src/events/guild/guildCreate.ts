@@ -5,7 +5,7 @@ import fs from "fs";
 
 export default class {
   async execute(client: Manager, guild: Guild) {
-    client.logger.info(import.meta.url, `Joined guild ${guild.name} @ ${guild.id}`);
+    client.logger.info("GuildCreate", `Joined guild ${guild.name} @ ${guild.id}`);
     const owner = await guild.fetchOwner();
     const language = client.config.bot.LANGUAGE;
     client.guilds.cache.set(`${guild!.id}`, guild);

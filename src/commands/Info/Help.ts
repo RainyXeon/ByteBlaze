@@ -12,7 +12,7 @@ export default class implements Command {
   public name = ["help"];
   public description = "Displays all commands that the bot has.";
   public category = "Info";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<commamnd_name>";
   public aliases = ["h"];
   public lavalink = false;

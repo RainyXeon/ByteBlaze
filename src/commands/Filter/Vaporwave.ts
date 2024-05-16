@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["vaporwave"];
   public description = "Turning on vaporwave filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["vaporwave"];
   public lavalink = true;

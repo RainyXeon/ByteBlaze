@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["announcement"];
   public description = "Send announcement mesage to all server";
   public category = "Owner";
-  public accessableby = Accessableby.Admin;
+  public accessableby = [Accessableby.Admin];
   public usage = "<your_message>";
   public aliases = ["an"];
   public lavalink = false;
