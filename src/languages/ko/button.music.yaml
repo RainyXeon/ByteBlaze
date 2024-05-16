@@ -12,7 +12,8 @@ stop_msg: "`⏹️` | 노래를 정지했어요!"
 #Volume
 volup_msg: "`🔊` | 볼륨을 설정했어요! **%{volume}%**"
 voldown_msg: "`🔉` | 볼륨을 설정했어요! **%{volume}%**"
-volume_invalid: "`⚠️` | 볼륨은 **1** 부터 **100** 까지만 설정할수 있어요!"
+volume_max: "`⚠️` | 플레이어 볼륨이 이미 최대 볼륨이에요!"
+volume_min: "`⚠️` | 플레이어 볼륨이 이미 최하 볼륨이에요!"
 #Clear
 clear_msg: "`🗑️` | 대기열을 정리했어요!"
 #Loop
