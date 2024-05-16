@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["superbass"];
   public description = "Turning on superbass filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["superbass"];
   public lavalink = true;

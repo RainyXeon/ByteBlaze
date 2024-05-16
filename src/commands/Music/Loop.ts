@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["loop"];
   public description = "Loop song in queue type all/current!";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<mode>";
   public aliases = [];
   public lavalink = true;

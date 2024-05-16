@@ -4,7 +4,7 @@ import { TopggService } from "../../services/TopggService.js";
 
 export default class {
   async execute(client: Manager) {
-    client.logger.info(import.meta.url, `Logged in ${client.user!.tag}`);
+    client.logger.info("ClientReady", `Logged in ${client.user!.tag}`);
 
     cron.schedule("0 */1 * * * *", () => {
       client.user!.setPresence({

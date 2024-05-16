@@ -7,7 +7,7 @@ export default class {
       if (player.node.options.name == node.options.name) player.destroy();
     });
     client.logger.debug(
-      import.meta.url,
+      "NodeDisconnect",
       `Lavalink ${node.options.name}: Disconnected, Code: ${code}, Reason: ${reason}`
     );
   }

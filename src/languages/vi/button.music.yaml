@@ -12,7 +12,8 @@ stop_msg: "`⏹️` | Đã dừng **bài hát**!"
 # Volume
 volup_msg: "`🔊` | Đã tăng âm lượng lên **%{volume}%**"
 voldown_msg: "`🔉` | Đã giảm âm lượng xuống **%{volume}%**"
-volume_invalid: "`⚠️` | Số âm lượng không hợp lệ. Vui lòng chỉ nhập từ **1** đến **100**!"
+volume_max: "`⚠️` | Bot đã ở mức âm lượng cao nhất!"
+volume_min: "`⚠️` | Bot đã ở mức âm lượng thấp nhất!"
 # Clear
 clear_msg: "`🗑️` | Đã xóa toàn bộ **danh sách phát**!"
 # Loop

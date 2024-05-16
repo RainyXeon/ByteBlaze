@@ -33,7 +33,7 @@ export class DatabaseService {
           break;
       }
     } catch (error) {
-      return this.client.logger.error(import.meta.url, String(error));
+      return this.client.logger.error("DatabaseService", String(error));
     }
   }
 }

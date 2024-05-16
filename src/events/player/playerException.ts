@@ -7,7 +7,7 @@ import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
-    client.logger.error(import.meta.url, `Player get exception ${util.inspect(data)}`);
+    client.logger.error("PlayerException", `Player get exception ${util.inspect(data)}`);
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
@@ -30,6 +30,6 @@ export default class {
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (currentPlayer.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
+    if (!currentPlayer.sudoDestroy) await player.destroy();
   }
 }

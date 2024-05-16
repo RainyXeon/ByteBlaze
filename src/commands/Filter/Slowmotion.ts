@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["slowmotion"];
   public description = "Turning on slowmotion filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["slowmotion"];
   public lavalink = true;

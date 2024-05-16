@@ -3,7 +3,7 @@ import { EmbedBuilder, Guild } from "discord.js";
 
 export default class {
   async execute(client: Manager, guild: Guild) {
-    client.logger.info(import.meta.url, `Left guild ${guild.name} @ ${guild.id}`);
+    client.logger.info("GuildDelete", `Left guild ${guild.name} @ ${guild.id}`);
     const language = client.config.bot.LANGUAGE;
     client.guilds.cache.delete(`${guild!.id}`);
     if (!client.config.features.GUILD_LOG_CHANNEL) return;

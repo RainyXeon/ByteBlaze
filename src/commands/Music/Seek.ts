@@ -11,7 +11,7 @@ export default class implements Command {
   public name = ["seek"];
   public description = "Seek timestamp in the song!";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<time_format. Ex: 999:59>";
   public aliases = [];
   public lavalink = true;

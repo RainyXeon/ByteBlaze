@@ -8,7 +8,7 @@ import { KeyCheckerEnum } from "../../@types/KeyChecker.js";
 import { Command } from "../../structures/Command.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class loadCommands {
+export class CommandLoader {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -24,9 +24,9 @@ export class loadCommands {
     });
 
     if (this.client.commands.size) {
-      this.client.logger.loader(import.meta.url, `${this.client.commands.size} Command Loaded!`);
+      this.client.logger.loader(CommandLoader.name, `${this.client.commands.size} Command Loaded!`);
     } else {
-      this.client.logger.warn(import.meta.url, `No command loaded, is everything ok?`);
+      this.client.logger.warn(CommandLoader.name, `No command loaded, is everything ok?`);
     }
   }
 
@@ -35,12 +35,12 @@ export class loadCommands {
     const command = new (await import(pathToFileURL(commandFile).toString())).default();
 
     if (!command.name?.length) {
-      this.client.logger.warn(import.meta.url, `"${rltPath}" The command file does not have a name. Skipping...`);
+      this.client.logger.warn(CommandLoader.name, `"${rltPath}" The command file does not have a name. Skipping...`);
       return;
     }
 
     if (this.client.commands.has(command.name)) {
-      this.client.logger.warn(import.meta.url, `"${command.name}" command has already been installed. Skipping...`);
+      this.client.logger.warn(CommandLoader.name, `"${command.name}" command has already been installed. Skipping...`);
       return;
     }
 
@@ -48,7 +48,7 @@ export class loadCommands {
 
     if (checkRes !== KeyCheckerEnum.Pass) {
       this.client.logger.warn(
-        import.meta.url,
+        CommandLoader.name,
         `"${command.name}" command is not implements correctly [${checkRes}]. Skipping...`
       );
       return;

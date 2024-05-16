@@ -44,32 +44,32 @@ export class DeployService {
   async execute() {
     let command = [];
 
-    this.client.logger.deploy(import.meta.url, "Reading interaction files...");
+    this.client.logger.deploy(DeployService.name, "Reading interaction files...");
 
     const store = await this.combineDir();
 
     command = this.parseEngine(store);
 
-    this.client.logger.deploy(import.meta.url, "Reading interaction files completed, setting up REST...");
+    this.client.logger.deploy(DeployService.name, "Reading interaction files completed, setting up REST...");
 
-    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN);
+    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN[this.client.clientIndex]);
     const client = await rest.get(Routes.user());
 
     this.client.logger.deploy(
-      import.meta.url,
+      DeployService.name,
       `Setting up REST completed! Account information received! ${(client as BotInfoType).username}#${
         (client as BotInfoType).discriminator
       } (${(client as BotInfoType).id})`
     );
 
     if (command.length === 0)
-      return this.client.logger.deploy(import.meta.url, "No interactions loaded. Exiting auto deploy...");
+      return this.client.logger.deploy(DeployService.name, "No interactions loaded. Exiting auto deploy...");
 
     await rest.put(Routes.applicationCommands((client as BotInfoType).id), {
       body: command,
     });
 
-    this.client.logger.deploy(import.meta.url, `Interactions deployed! Exiting auto deploy...`);
+    this.client.logger.deploy(DeployService.name, `Interactions deployed! Exiting auto deploy...`);
   }
 
   protected parseEngine(store: CommandInterface[]) {

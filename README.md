@@ -22,6 +22,7 @@
 - TypeScript Language To Avoid Errors In Production
 - Advanced Music System With Buttons
 - Song Request Channel
+- Multi bot account support
 - 24/7 Mode
 - Multi Language
 - Slash Commands
@@ -81,7 +82,7 @@
 | -------- | ---------------- | ----------------- |
 | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
 | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
-| Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
+| Nodelink | v2.0.0 - v2.x.x  | nodelink/v2/nari  |
 
 ## 🖼️ Showcase
 

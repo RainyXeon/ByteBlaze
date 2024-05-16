@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["electronic"];
   public description = "Turning on electronic filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["electronic"];
   public lavalink = true;

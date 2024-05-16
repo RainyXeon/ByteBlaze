@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["pl", "create"];
   public description = "Create a new playlist";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_name> <playlist_description>";
   public aliases = [];
   public lavalink = true;

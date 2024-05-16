@@ -6,7 +6,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../../manager.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class playerLoadEvent {
+export class PlayerEventLoader {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -19,7 +19,7 @@ export class playerLoadEvent {
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
     });
-    this.client.logger.loader(import.meta.url, `Player Events Loaded!`);
+    this.client.logger.loader(PlayerEventLoader.name, `Player Events Loaded!`);
   }
 
   async registerPath(eventsPath: string[]) {

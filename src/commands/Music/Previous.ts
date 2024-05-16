@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["previous"];
   public description = "Play the previous song in the queue.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["pre"];
   public lavalink = true;

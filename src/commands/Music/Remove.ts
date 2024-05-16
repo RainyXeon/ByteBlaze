@@ -11,7 +11,7 @@ export default class implements Command {
   public name = ["remove"];
   public description = "Remove song from queue.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<position>";
   public aliases = ["rm"];
   public lavalink = true;

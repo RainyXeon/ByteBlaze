@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["pop"];
   public description = "Turning on pop filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["pop"];
   public lavalink = true;

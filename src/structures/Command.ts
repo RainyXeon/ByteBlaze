@@ -29,7 +29,7 @@ export class Command {
   name: string[] = [];
   description: string = "";
   category: string = "";
-  accessableby: Accessableby = Accessableby.Member;
+  accessableby: Accessableby[] = [];
   usage: string = "";
   aliases: string[] = [];
   lavalink: boolean = false;

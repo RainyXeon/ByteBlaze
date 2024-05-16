@@ -7,7 +7,7 @@ export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -149,7 +149,7 @@ export default class {
               );
             }
           } catch (error) {
-            client.logger.error(import.meta.url, error);
+            client.logger.error("VoiceStateUpdateError", error);
           }
         }
         clearTimeout(leaveDelayTimeout);

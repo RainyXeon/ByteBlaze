@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["volume"];
   public description = "Adjusts the volume of the bot.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<number>";
   public aliases = ["vol"];
   public lavalink = true;

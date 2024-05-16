@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["replay"];
   public description = "Replay the current song!";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

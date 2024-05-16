@@ -11,12 +11,12 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer, track: RainlinkTrack) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
-    client.logger.info(import.meta.url, `Player Started in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info("TrackStart", `Track Started in @ ${guild!.name} / ${player.guildId}`);
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
     if (!SongNoti) SongNoti = await client.db.songNoti.set(`${player.guildId}`, SongNotiEnum.Enable);
@@ -157,7 +157,7 @@ export default class {
         try {
           button.run(client, message, String(language), player, nplaying, collector);
         } catch (err) {
-          client.logger.error(import.meta.url, err);
+          client.logger.error("ButtonError", err);
         }
       }
     });

@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["pm", "profile"];
   public description = "View your premium profile!";
   public category = "Premium";
-  public accessableby = Accessableby.Premium;
+  public accessableby = [Accessableby.Premium];
   public usage = "";
   public aliases = [];
   public lavalink = false;

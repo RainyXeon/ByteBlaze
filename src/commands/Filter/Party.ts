@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["party"];
   public description = "Turning on party filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["party"];
   public lavalink = true;

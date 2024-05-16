@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["daycore"];
   public description = "Turning on daycore filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["daycore"];
   public lavalink = true;

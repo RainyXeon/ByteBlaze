@@ -6,7 +6,7 @@ import { RainlinkSearchResultType } from "../../rainlink/main.js";
 
 export async function getSearch(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
   client.logger.info(
-    import.meta.url,
+    "SearchRouterService",
     `${req.method} ${req.routeOptions.url} query=${req.query ? util.inspect(req.query) : "{}"}`
   );
   const query = (req.query as Record<string, string>)["identifier"];

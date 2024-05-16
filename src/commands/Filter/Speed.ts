@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["speed"];
   public description = "Sets the speed of the song.";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<number>";
   public aliases = ["speed"];
   public lavalink = true;

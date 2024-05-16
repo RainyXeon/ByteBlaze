@@ -20,7 +20,7 @@ export class PatchControl {
 
   async main(req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
     this.client.logger.info(
-      import.meta.url,
+      PatchControl.name,
       `${req.method} ${req.routeOptions.url} payload=${req.body ? util.inspect(req.body) : "{}"}`
     );
     const isValid = await this.checker(req, res);

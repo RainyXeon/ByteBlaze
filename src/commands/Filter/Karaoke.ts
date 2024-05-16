@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["karaoke"];
   public description = "Turning on karaoke filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["karaoke"];
   public lavalink = true;

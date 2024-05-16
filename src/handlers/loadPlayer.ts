@@ -1,15 +1,15 @@
 import { Manager } from "../manager.js";
-import { playerLoadContent } from "./Player/loadContent.js";
-import { playerLoadEvent } from "./Player/loadEvent.js";
-import { playerLoadSetup } from "./Player/loadSetup.js";
-import { playerLoadUpdate } from "./Player/loadUpdate.js";
+import { PlayerContentLoader } from "./Player/loadContent.js";
+import { PlayerEventLoader } from "./Player/loadEvent.js";
+import { PlayerSetupLoader } from "./Player/loadSetup.js";
+import { PlayerUpdateLoader } from "./Player/loadUpdate.js";
 
-export class loadPlayer {
+export class PlayerLoader {
   constructor(client: Manager) {
-    new playerLoadEvent(client);
-    new playerLoadUpdate(client);
-    new playerLoadContent(client);
-    new playerLoadSetup(client);
-    client.logger.loader(import.meta.url, "Rainlink Events Loaded!");
+    new PlayerEventLoader(client);
+    new PlayerContentLoader(client);
+    new PlayerUpdateLoader(client);
+    new PlayerSetupLoader(client);
+    client.logger.loader(PlayerLoader.name, "Rainlink Events Loaded!");
   }
 }

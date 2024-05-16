@@ -3,7 +3,7 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
-export class playerLoadUpdate {
+export class PlayerUpdateLoader {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;

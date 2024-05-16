@@ -8,10 +8,10 @@
   "scripts": {
     "build": "tsc --build --verbose",
     "build:full": "npm run build:prettier && npm run build && npm run build:manifest && npm run build:languages",
-    "build:languages": "node ./scripts/copyLanguagePackage.mjs",
-    "build:manifest": "node ./scripts/copyManifest.mjs",
-    "start": "node ./dist/index.js",
-    "start:shard": "node ./dist/shard.js",
+    "build:languages": "node --no-deprecation ./scripts/copyLanguagePackage.mjs",
+    "build:manifest": "node --no-deprecation ./scripts/copyManifest.mjs",
+    "start": "node --no-deprecation ./dist/index.js",
+    "start:shard": "node --no-deprecation ./dist/shard/index.js",
     "dev": "npx nodemon ./src/index.ts",
     "build:prettier": "npx prettier -w ./src",
     "start:pm2": "npx pm2-runtime start ecosystem.config.cjs --env production"

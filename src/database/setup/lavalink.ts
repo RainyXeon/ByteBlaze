@@ -12,35 +12,34 @@ export class AutoReconnectLavalinkService {
   }
 
   async execute() {
-    const lavalink_mess = "Lavalink: ";
-    this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink...`);
-    this.client.logger.setup(import.meta.url, lavalink_mess + `Auto ReConnect Collecting player 24/7 data`);
+    this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink...`);
+    this.client.logger.setup(AutoReconnectLavalinkService.name, `Auto ReConnect Collecting player 24/7 data`);
     const maindata = await this.client.db.autoreconnect.all();
 
     if (!maindata || maindata.length == 0) {
-      this.client.logger.setup(import.meta.url, lavalink_mess + `Auto ReConnect found in 0 servers!`);
-      this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink complete!`);
+      this.client.logger.setup(AutoReconnectLavalinkService.name, `Auto ReConnect found in 0 servers!`);
+      this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink complete!`);
       return;
     }
 
     this.client.logger.setup(
-      import.meta.url,
-      lavalink_mess + `Auto ReConnect found in ${Object.keys(maindata).length} servers!`
+      AutoReconnectLavalinkService.name,
+      `Auto ReConnect found in ${Object.keys(maindata).length} servers!`
     );
     if (Object.keys(maindata).length === 0) return;
 
     let retry_interval = setInterval(async () => {
       if (this.client.lavalinkUsing.length == 0 || this.client.rainlink.nodes.size == 0)
         return this.client.logger.setup(
-          import.meta.url,
-          lavalink_mess + `No lavalink avalible, try again after 3 seconds!`
+          AutoReconnectLavalinkService.name,
+          `No lavalink avalible, try again after 3 seconds!`
         );
 
       clearInterval(retry_interval);
 
       this.client.logger.setup(
-        import.meta.url,
-        lavalink_mess + `Lavalink avalible, remove interval and continue setup!`
+        AutoReconnectLavalinkService.name,
+        `Lavalink avalible, remove interval and continue setup!`
       );
 
       chillout.forEach(maindata, async (data: { id: string; value: AutoReconnect }) => {
@@ -48,32 +47,31 @@ export class AutoReconnectLavalinkService {
       });
 
       this.client.logger.setup(
-        import.meta.url,
-        lavalink_mess + `Reconnected to all ${Object.keys(maindata).length} servers!`
+        AutoReconnectLavalinkService.name,
+        `Reconnected to all ${Object.keys(maindata).length} servers!`
       );
 
-      this.client.logger.setup(import.meta.url, lavalink_mess + `Setting up data for lavalink complete!`);
+      this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink complete!`);
     }, 3000);
   }
 
   async connectChannel(data: { id: string; value: AutoReconnect }) {
-    const lavalink_mess = "Lavalink: ";
     const channel = await this.client.channels.fetch(data.value.text).catch(() => undefined);
     const guild = await this.client.guilds.fetch(data.value.guild).catch(() => undefined);
     const voice = (await this.client.channels.fetch(data.value.voice).catch(() => undefined)) as VoiceChannel;
     if (!channel || !voice) {
       this.client.logger.setup(
-        import.meta.url,
-        lavalink_mess +
-          `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
+        AutoReconnectLavalinkService.name,
+
+        `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
       );
       return this.client.db.autoreconnect.delete(data.value.guild);
     }
 
     if (!data.value.twentyfourseven && voice.members.filter((m) => !m.user.bot).size == 0) {
       this.client.logger.setup(
-        import.meta.url,
-        lavalink_mess + `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
+        AutoReconnectLavalinkService.name,
+        `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
       );
       return this.client.db.autoreconnect.delete(data.value.guild);
     }

@@ -8,7 +8,7 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -45,7 +45,7 @@ export default class {
       }
     }
 
-    client.logger.info(import.meta.url, `Player Empty in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info("QueueEmpty", `Queue Empty in @ ${guild!.name} / ${player.guildId}`);
 
     const data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
     const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;

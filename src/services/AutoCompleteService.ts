@@ -42,7 +42,7 @@ export class AutoCompleteService {
     try {
       (command as any).autocomplete ? (command as any).autocomplete(this.client, this.interaction, language) : true;
     } catch (error) {
-      this.client.logger.error(import.meta.url, error);
+      this.client.logger.error(AutoCompleteService.name, error);
     }
     return;
   }

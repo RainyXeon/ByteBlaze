@@ -1,6 +1,5 @@
 import { createLogger, transports, format, Logger } from "winston";
 const { timestamp, prettyPrint, printf } = format;
-import { fileURLToPath } from "url";
 import chalk from "chalk";
 import util from "node:util";
 import { Manager } from "../manager.js";
@@ -14,8 +13,11 @@ type InfoDataType = {
 
 export class LoggerService {
   private preLog: Logger;
-  private padding = 22;
-  constructor(private client: Manager) {
+  private padding = 28;
+  constructor(
+    private client: Manager,
+    private tag: number
+  ) {
     this.preLog = createLogger({
       levels: {
         error: 0,
@@ -45,104 +47,80 @@ export class LoggerService {
     });
   }
 
-  public info(file: string, msg: string) {
+  public info(className: string, msg: string) {
     return this.preLog.log({
       level: "info",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public debug(file: string, msg: string) {
-    const fileName = fileURLToPath(file)
-      .replace(/^.*[\\\/]/, "")
-      .padEnd(this.padding);
+  public debug(className: string, msg: string) {
     this.preLog.log({
       level: "debug",
-      message: `${fileName} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
     return;
   }
 
-  public warn(file: string, msg: string) {
-    const fileName = fileURLToPath(file)
-      .replace(/^.*[\\\/]/, "")
-      .padEnd(this.padding);
+  public warn(className: string, msg: string) {
     this.preLog.log({
       level: "warn",
-      message: `${fileName} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
-    this.sendDiscord("warning", msg, fileName);
+    this.sendDiscord("warning", msg, className);
     return;
   }
 
-  public error(file: string, msg: unknown) {
-    const fileName = fileURLToPath(file)
-      .replace(/^.*[\\\/]/, "")
-      .padEnd(this.padding);
+  public error(className: string, msg: unknown) {
     this.preLog.log({
       level: "error",
-      message: `${fileName} - ${util.inspect(msg)}`,
+      message: `${className.padEnd(this.padding)} | ${util.inspect(msg)}`,
     });
-    this.sendDiscord("error", util.inspect(msg), fileName);
+    this.sendDiscord("error", util.inspect(msg), className);
     return;
   }
 
-  public lavalink(file: string, msg: string) {
+  public lavalink(className: string, msg: string) {
     return this.preLog.log({
       level: "lavalink",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public loader(file: string, msg: string) {
+  public loader(className: string, msg: string) {
     return this.preLog.log({
       level: "loader",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public setup(file: string, msg: string) {
+  public setup(className: string, msg: string) {
     return this.preLog.log({
       level: "setup",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public websocket(file: string, msg: string) {
+  public websocket(className: string, msg: string) {
     return this.preLog.log({
       level: "websocket",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public deploy(file: string, msg: string) {
+  public deploy(className: string, msg: string) {
     return this.preLog.log({
       level: "deploy",
-      message: `${fileURLToPath(file)
-        .replace(/^.*[\\\/]/, "")
-        .padEnd(this.padding)} - ${msg}`,
+      message: `${className.padEnd(this.padding)} | ${msg}`,
     });
   }
 
-  public unhandled(file: string, msg: unknown) {
-    const fileName = fileURLToPath(file)
-      .replace(/^.*[\\\/]/, "")
-      .padEnd(this.padding);
+  public unhandled(className: string, msg: unknown) {
     this.preLog.log({
       level: "unhandled",
-      message: `${fileName} - ${util.inspect(msg)}`,
+      message: `${className.padEnd(this.padding)} | ${util.inspect(msg)}`,
     });
-    this.sendDiscord("unhandled", util.inspect(msg), fileName);
+    this.sendDiscord("unhandled", util.inspect(msg), className);
     return;
   }
 
@@ -174,10 +152,14 @@ export class LoggerService {
   }
 
   private get consoleFormat() {
+    const colored = chalk.hex("#86cecb")("|");
+    const timeStamp = (info: InfoDataType) => chalk.hex("#00ddc0")(info.timestamp);
+    const botTag = chalk.hex("#2aabf3")(`bot_${this.tag}`);
+    const msg = (info: InfoDataType) => chalk.hex("#86cecb")(info.message);
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${chalk.hex("#00ddc0")(info.timestamp)} - ${this.filter(info)} - ${chalk.hex("#86cecb")(info.message)}`;
+        return `${timeStamp(info)} ${colored} ${botTag} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
       })
     );
   }
@@ -186,7 +168,7 @@ export class LoggerService {
     return format.combine(timestamp(), prettyPrint());
   }
 
-  private async sendDiscord(type: string, message: string, file: string) {
+  private async sendDiscord(type: string, message: string, className: string) {
     const channelId = this.client.config.features.LOG_CHANNEL;
     if (!channelId || channelId.length == 0) return;
     try {
@@ -196,10 +178,13 @@ export class LoggerService {
       if (message.length > 4096) {
         embed = new EmbedBuilder()
           .setDescription("Logs too long to display! please check your host!")
-          .setTitle(`${type} from ${file}`)
+          .setTitle(`${type} from ${className}`)
           .setColor(this.client.color);
       } else {
-        embed = new EmbedBuilder().setDescription(message).setTitle(`${type} from ${file}`).setColor(this.client.color);
+        embed = new EmbedBuilder()
+          .setDescription(message)
+          .setTitle(`${type} from ${className}`)
+          .setColor(this.client.color);
       }
 
       await channel.messages.channel.send({ embeds: [embed] });

@@ -8,7 +8,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
  * @param {Client} client
  */
 
-export class playerLoadSetup {
+export class PlayerSetupLoader {
   client: Manager;
   icons: typeof SafeModeIcons | typeof NormalModeIcons;
   constructor(client: Manager) {

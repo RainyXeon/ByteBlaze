@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["pl", "remove"];
   public description = "Remove a song from a playlist";
   public category = "Playlist";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<playlist_id> <song_postion>";
   public aliases = [];
   public lavalink = true;

@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["equalizer"];
   public description = "Custom Equalizer!";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "<number>";
   public aliases = ["equalizer"];
   public lavalink = true;

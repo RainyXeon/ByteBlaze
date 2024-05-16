@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["pause"];
   public description = "Pause the music!";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;

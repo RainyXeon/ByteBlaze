@@ -31,7 +31,7 @@ export class TableSetup {
     await baseDB.init();
     const end = Date.now();
 
-    this.client.logger.info(import.meta.url, `Connected to the database! [${this.driverName}] [${end - start}ms]`);
+    this.client.logger.info("DatabaseService", `Connected to the database! [${this.driverName}] [${end - start}ms]`);
 
     this.client.db = {
       autoreconnect: await baseDB.table<AutoReconnect>("autoreconnect"),
@@ -43,6 +43,7 @@ export class TableSetup {
       status: await baseDB.table<Status>("status"),
       prefix: await baseDB.table<Prefix>("prefix"),
       songNoti: await baseDB.table<SongNoti>("songNoti"),
+      preGuild: await baseDB.table<Premium>("preGuild")
     };
 
     this.client.isDatabaseConnected = true;

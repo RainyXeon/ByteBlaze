@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["songnoti"];
   public description = "Enable or disable the player control notifications";
   public category = "Utils";
-  public accessableby = Accessableby.Manager;
+  public accessableby = [Accessableby.Manager];
   public usage = "<enable> or <disable>";
   public aliases = ["song-noti", "snt", "sn"];
   public lavalink = false;

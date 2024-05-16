@@ -8,12 +8,12 @@ export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
-    client.logger.info(import.meta.url, `Player End in @ ${guild!.name} / ${player.guildId}`);
+    client.logger.info("TrackEnd", `Track ended in @ ${guild!.name} / ${player.guildId}`);
 
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
@@ -33,6 +33,6 @@ export default class {
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (currentPlayer.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
+    if (!currentPlayer.sudoDestroy) await player.destroy();
   }
 }

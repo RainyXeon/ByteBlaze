@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["247"];
   public description = "24/7 in voice channel";
   public category = "Utils";
-  public accessableby = Accessableby.Manager;
+  public accessableby = [Accessableby.Manager];
   public usage = "<enable> or <disable>";
   public aliases = [];
   public lavalink = true;

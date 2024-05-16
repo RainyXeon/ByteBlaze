@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["reset"];
   public description = "Reset filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["reset"];
   public lavalink = true;

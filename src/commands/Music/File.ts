@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["file"];
   public description = "Play the music file for the bot";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["file", "f"];
   public lavalink = true;

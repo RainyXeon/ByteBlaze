@@ -67,10 +67,23 @@ export class WebServer {
         "I know catgirls do nothing wrong but why you still here...",
         "Bro, I don't have any catgirls collection (or cosplay collection) so please leave...",
       ];
-      client.logger.info(import.meta.url, `${request.method} ${request.routeOptions.url}`);
+      client.logger.info("HealthRouterService", `${request.method} ${request.routeOptions.url}`);
       reply.send({ byteblaze: response[Math.floor(Math.random() * response.length)] });
     });
 
-    this.app.listen({ port: this.client.config.features.WEB_SERVER.port });
+    const port = this.client.config.features.WEB_SERVER.port;
+
+    this.app
+      .listen({ port })
+      .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
+      .catch((err) => {
+        if (this.client.config.bot.TOKEN.length > 1) {
+          this.client.config.features.WEB_SERVER.port = this.client.config.features.WEB_SERVER.port + 1;
+          const port = this.client.config.features.WEB_SERVER.port;
+          return this.app
+            .listen({ port: port + 1 })
+            .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`));
+        } else this.client.logger.error(WebServer.name, err);
+      });
   }
 }

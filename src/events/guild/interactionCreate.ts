@@ -36,7 +36,7 @@ export default class {
 
     if (!client.isDatabaseConnected)
       return client.logger.warn(
-        import.meta.url,
+        "DatabaseService",
         "The database is not yet connected so this event will temporarily not execute. Please try again later!"
       );
 
@@ -129,7 +129,7 @@ export default class {
       const returnData = await permissionChecker.interaction(interaction, musicPermissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
-    if (command.accessableby == Accessableby.Manager) {
+    if (command.accessableby.includes(Accessableby.Manager)) {
       const returnData = await permissionChecker.interaction(interaction, managePermissions);
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     } else if (command.permissions.length !== 0) {
@@ -140,7 +140,7 @@ export default class {
     const premiumUser = await client.db.premium.get(interaction.user.id);
     const isHavePremium = !premiumUser || !premiumUser.isPremium;
     if (
-      command.accessableby == Accessableby.Manager &&
+      command.accessableby.includes(Accessableby.Manager) &&
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
     )
       return interaction.reply({
@@ -159,7 +159,7 @@ export default class {
       });
     }
 
-    if (command.accessableby == Accessableby.Owner && interaction.user.id != client.owner)
+    if (command.accessableby.includes(Accessableby.Owner) && interaction.user.id != client.owner)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -169,7 +169,7 @@ export default class {
       });
 
     if (
-      command.accessableby == Accessableby.Admin &&
+      command.accessableby.includes(Accessableby.Admin) &&
       interaction.user.id != client.owner &&
       !client.config.bot.ADMIN.includes(interaction.user.id)
     )
@@ -182,7 +182,7 @@ export default class {
       });
 
     if (
-      command.accessableby == Accessableby.Voter &&
+      command.accessableby.includes(Accessableby.Voter) &&
       isHavePremium &&
       client.topgg &&
       interaction.user.id != client.owner &&
@@ -219,7 +219,7 @@ export default class {
     }
 
     if (
-      command.accessableby == Accessableby.Premium &&
+      command.accessableby.includes(Accessableby.Premium) &&
       isHavePremium &&
       interaction.user.id != client.owner &&
       !client.config.bot.ADMIN.includes(interaction.user.id)
@@ -301,15 +301,15 @@ export default class {
       if (attachments) handler.attactments.push(attachments);
 
       client.logger.info(
-        import.meta.url,
-        `[COMMAND] ${commandNameArray.join("-")} used by ${interaction.user.username} from ${interaction.guild.name} (${
+        "CommandManager",
+        `[${commandNameArray.join("-")}] used by ${interaction.user.username} from ${interaction.guild.name} (${
           interaction.guild.id
         })`
       );
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error(import.meta.url, error);
+      client.logger.error("CommandManager", error);
       interaction.reply({
         content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
       });

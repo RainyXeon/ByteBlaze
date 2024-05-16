@@ -7,7 +7,7 @@ export default class implements Command {
   public name = ["earrape"];
   public description = "Turning on earrape filter";
   public category = "Filter";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["earrape"];
   public lavalink = true;

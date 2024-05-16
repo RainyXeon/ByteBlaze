@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["pm", "generate"];
   public description = "Generate a premium code!";
   public category = "Premium";
-  public accessableby = Accessableby.Admin;
+  public accessableby = [Accessableby.Admin];
   public usage = "<type> <number>";
   public aliases = [];
   public lavalink = false;

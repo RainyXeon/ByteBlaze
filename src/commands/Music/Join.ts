@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["join"];
   public description = "Make the bot join the voice channel.";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = ["j"];
   public lavalink = true;

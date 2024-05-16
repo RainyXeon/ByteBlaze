@@ -9,7 +9,7 @@ export default class implements Command {
   public name = ["resume"];
   public description = "Resume the music!";
   public category = "Music";
-  public accessableby = Accessableby.Member;
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = true;
