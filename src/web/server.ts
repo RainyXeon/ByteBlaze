@@ -71,6 +71,19 @@ export class WebServer {
       reply.send({ byteblaze: response[Math.floor(Math.random() * response.length)] });
     });
 
-    this.app.listen({ port: this.client.config.features.WEB_SERVER.port });
+    const port = this.client.config.features.WEB_SERVER.port;
+
+    this.app
+      .listen({ port })
+      .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
+      .catch((err) => {
+        if (this.client.config.bot.TOKEN.length > 1) {
+          this.client.config.features.WEB_SERVER.port = this.client.config.features.WEB_SERVER.port + 1;
+          const port = this.client.config.features.WEB_SERVER.port;
+          return this.app
+            .listen({ port: port + 1 })
+            .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`));
+        } else this.client.logger.error(WebServer.name, err);
+      });
   }
 }

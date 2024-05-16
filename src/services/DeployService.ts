@@ -52,7 +52,7 @@ export class DeployService {
 
     this.client.logger.deploy(DeployService.name, "Reading interaction files completed, setting up REST...");
 
-    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN);
+    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN[this.client.clientIndex]);
     const client = await rest.get(Routes.user());
 
     this.client.logger.deploy(

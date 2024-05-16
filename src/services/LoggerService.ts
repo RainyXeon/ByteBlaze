@@ -1,6 +1,5 @@
 import { createLogger, transports, format, Logger } from "winston";
 const { timestamp, prettyPrint, printf } = format;
-import { fileURLToPath } from "url";
 import chalk from "chalk";
 import util from "node:util";
 import { Manager } from "../manager.js";
@@ -15,7 +14,10 @@ type InfoDataType = {
 export class LoggerService {
   private preLog: Logger;
   private padding = 28;
-  constructor(private client: Manager) {
+  constructor(
+    private client: Manager,
+    private tag: number
+  ) {
     this.preLog = createLogger({
       levels: {
         error: 0,
@@ -151,10 +153,13 @@ export class LoggerService {
 
   private get consoleFormat() {
     const colored = chalk.hex("#86cecb")("|");
+    const timeStamp = (info: InfoDataType) => chalk.hex("#00ddc0")(info.timestamp);
+    const botTag = chalk.hex("#2aabf3")(`bot_${this.tag}`);
+    const msg = (info: InfoDataType) => chalk.hex("#86cecb")(info.message);
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${chalk.hex("#00ddc0")(info.timestamp)} ${colored} ${this.filter(info)} ${colored} ${chalk.hex("#86cecb")(info.message)}`;
+        return `${timeStamp(info)} ${colored} ${botTag} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
       })
     );
   }

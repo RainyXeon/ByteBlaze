@@ -48,6 +48,6 @@ export default class {
       new ClearMessageService(client, channel, player);
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (currentPlayer.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
+    if (!currentPlayer.sudoDestroy) await player.destroy();
   }
 }
