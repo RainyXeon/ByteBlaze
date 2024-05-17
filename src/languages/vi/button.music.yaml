@@ -27,3 +27,9 @@ previous_msg: "`⏮️` | Đã quay trở lại bài hát trước đó!"
 previous_notfound: "`⚠️` | Không tìm thấy bài hát trước đó!"
 # Shuffle
 shuffle_msg: "🔀 Đã xáo trộn danh sách phát"
+# Reset command!
+reset_on: "`❌` | Filter đã được **đặt lại**!"
+reset_already: "`⚠️` | Filter đã được **đặt lại** trước đó!"
+# All filter command!
+filter_on: "`✅` | Filter %{name} đã được **bật**!"
+filter_already: "`⚠️` | Filter %{name} đã ở được bật trước đó!"
