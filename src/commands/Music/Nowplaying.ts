@@ -32,9 +32,7 @@ export default class implements Command {
     const position = player.position;
     const CurrentDuration = new FormatDuration().parse(position);
     const TotalDuration = new FormatDuration().parse(song!.duration);
-    const Thumbnail =
-      `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg` ||
-      `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg`;
+    const Thumbnail = song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg`;
     const Part = Math.floor((position / song!.duration!) * 30);
 
     const fieldDataGlobal = [

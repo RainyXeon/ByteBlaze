@@ -19,7 +19,7 @@ export default class implements PlayerButton {
     }
     const song = player.queue.current;
     const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
-    const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
+    const thumbnail = song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(player.queue.length / 10);
     if (pagesNum === 0) pagesNum = 1;

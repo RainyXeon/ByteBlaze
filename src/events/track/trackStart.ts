@@ -118,7 +118,7 @@ export default class {
         },
       ])
       .setColor(client.color)
-      .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
+      .setThumbnail(track.artworkUrl ?? `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
       .setTimestamp();
 
     const playing_channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
