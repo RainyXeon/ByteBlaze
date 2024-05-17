@@ -8,6 +8,8 @@ import {
   Collection,
   InteractionCollector,
   ButtonInteraction,
+  StringSelectMenuOptionBuilder,
+  StringSelectMenuInteraction,
 } from "discord.js";
 import { DatabaseService } from "./database/index.js";
 import { I18n, I18nArgs } from "@hammerhq/localization";
@@ -32,7 +34,7 @@ import { Rainlink } from "./rainlink/Rainlink.js";
 import { Command } from "./structures/Command.js";
 import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
-import { RainlinkPlayer } from "./rainlink/main.js";
+import { RainlinkFilterData, RainlinkPlayer } from "./rainlink/main.js";
 import { IconType } from "./@types/Emoji.js";
 import { TopggService } from "./services/TopggService.js";
 config();
@@ -54,7 +56,14 @@ export class Manager extends Client {
   public commands: Collection<string, Command>;
   public interval: Collection<string, NodeJS.Timer>;
   public sentQueue: Collection<string, boolean>;
-  public nplayingMsg: Collection<string, { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }>;
+  public nplayingMsg: Collection<
+    string,
+    {
+      filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
+      coll: InteractionCollector<ButtonInteraction<"cached">>;
+      msg: Message;
+    }
+  >;
   public aliases: Collection<string, string>;
   public plButton: Collection<string, PlayerButton>;
   public leaveDelay: Collection<string, NodeJS.Timeout>;
@@ -69,6 +78,7 @@ export class Manager extends Client {
   public icons: IconType;
   public cluster?: ClusterClient<Client>;
   public REGEX: RegExp[];
+  public selectMenuOptions: StringSelectMenuOptionBuilder[] = [];
 
   constructor(
     public config: Config,
@@ -134,7 +144,11 @@ export class Manager extends Client {
     this.aliases = new Collection<string, string>();
     this.nplayingMsg = new Collection<
       string,
-      { coll: InteractionCollector<ButtonInteraction<"cached">>; msg: Message }
+      {
+        filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
+        coll: InteractionCollector<ButtonInteraction<"cached">>;
+        msg: Message;
+      }
     >();
     this.plButton = new Collection<string, PlayerButton>();
     this.leaveDelay = new Collection<string, NodeJS.Timeout>();
@@ -148,11 +162,25 @@ export class Manager extends Client {
     // Icons setup
     this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
 
+    // Anti crash handling
     process.on("unhandledRejection", (error) => this.logger.unhandled("AntiCrash", error));
     process.on("uncaughtException", (error) => this.logger.unhandled("AntiCrash", error));
 
+    // Init rainlink
     this.rainlink = new RainlinkInit(this).init;
+    for (const key of Object.keys(RainlinkFilterData)) {
+      const firstUpperCase = key.charAt(0).toUpperCase() + key.slice(1);
+      this.selectMenuOptions.push(
+        new StringSelectMenuOptionBuilder()
+          .setLabel(firstUpperCase)
+          .setDescription(
+            key == "clear" ? "Reset all current filter" : `${firstUpperCase} filter for better audio experience!`
+          )
+          .setValue(key)
+      );
+    }
 
+    // Starting services
     if (this.config.features.WEB_SERVER.enable) {
       new WebServer(this);
     }

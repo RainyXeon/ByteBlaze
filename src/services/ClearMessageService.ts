@@ -18,6 +18,7 @@ export class ClearMessageService {
       const nplayingMsg = this.client.nplayingMsg.get(this.player.guildId);
       if (!nplayingMsg) return;
       nplayingMsg.coll.stop();
+      nplayingMsg.filterColl.stop();
       nplayingMsg.msg.delete().catch(() => null);
       this.client.nplayingMsg.delete(this.player.guildId);
     } catch (err) {}

@@ -43,7 +43,7 @@ export class TableSetup {
       status: await baseDB.table<Status>("status"),
       prefix: await baseDB.table<Prefix>("prefix"),
       songNoti: await baseDB.table<SongNoti>("songNoti"),
-      preGuild: await baseDB.table<Premium>("preGuild")
+      preGuild: await baseDB.table<Premium>("preGuild"),
     };
 
     this.client.isDatabaseConnected = true;

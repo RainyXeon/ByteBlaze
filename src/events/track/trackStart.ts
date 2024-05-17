@@ -1,11 +1,17 @@
 import { Manager } from "../../manager.js";
-import { ButtonInteraction, ComponentType, TextChannel } from "discord.js";
+import {
+  ButtonInteraction,
+  ComponentType,
+  TextChannel,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
+} from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { playerRowOne, playerRowTwo } from "../../assets/PlayerControlButton.js";
+import { filterSelect, playerRowOne, playerRowTwo } from "../../assets/PlayerControlButton.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, track: RainlinkTrack) {
@@ -120,7 +126,7 @@ export default class {
     const nplaying = playing_channel
       ? await playing_channel.send({
           embeds: [embeded],
-          components: [playerRowOne, playerRowTwo],
+          components: [filterSelect(client), playerRowOne, playerRowTwo],
           // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
         })
       : undefined;
@@ -145,9 +151,75 @@ export default class {
       },
     });
 
-    client.nplayingMsg.set(player.guildId, { coll: collector, msg: nplaying });
+    const collectorFilter = nplaying.createMessageComponentCollector({
+      componentType: ComponentType.StringSelect,
+      filter: (message) => {
+        if (
+          message.guild!.members.me!.voice.channel &&
+          message.guild!.members.me!.voice.channelId === message.member!.voice.channelId
+        )
+          return true;
+        else {
+          message.reply({
+            content: `${client.getString(language, "event.player", "join_voice")}`,
+            ephemeral: true,
+          });
+          return false;
+        }
+      },
+    });
 
-    collector.on("collect", async (message: ButtonInteraction): Promise<void> => {
+    client.nplayingMsg.set(player.guildId, { coll: collector, msg: nplaying, filterColl: collectorFilter });
+
+    collectorFilter.on("collect", async (message): Promise<void> => {
+      const filterMode = message.values[0] as RainlinkFilterMode;
+
+      if (player.data.get("filter-mode") == filterMode) {
+        const embed = new EmbedBuilder()
+          .setDescription(`${client.getString(language, "button.music", "filter_already", { name: filterMode })}`)
+          .setColor(client.color);
+        const msg = await message
+          .reply({
+            embeds: [embed],
+          })
+          .catch(() => {});
+        if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+        return;
+      }
+
+      if (filterMode == "clear" && !player.data.get("filter-mode")) {
+        const embed = new EmbedBuilder()
+          .setDescription(`${client.getString(language, "button.music", "reset_already")}`)
+          .setColor(client.color);
+        const msg = await message
+          .reply({
+            embeds: [embed],
+          })
+          .catch(() => {});
+        if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+        return;
+      }
+
+      filterMode == "clear" ? player.data.delete("filter-mode") : player.data.set("filter-mode", filterMode);
+      filterMode == "clear" ? await player.filter.clear() : await player.filter.set(filterMode);
+
+      const embed = new EmbedBuilder()
+        .setDescription(
+          filterMode == "clear"
+            ? `${client.getString(language, "button.music", "reset_on")}`
+            : `${client.getString(language, "button.music", "filter_on", { name: filterMode })}`
+        )
+        .setColor(client.color);
+
+      const msg = await message
+        .reply({
+          embeds: [embed],
+        })
+        .catch(() => {});
+      if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+    });
+
+    collector.on("collect", async (message): Promise<void> => {
       const id = message.customId;
       const button = client.plButton.get(id);
 
@@ -164,6 +236,10 @@ export default class {
 
     collector.on("end", (): void => {
       collector.removeAllListeners();
+    });
+
+    collectorFilter.on("end", (): void => {
+      collectorFilter.removeAllListeners();
     });
   }
 }

@@ -1,7 +1,7 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { playerRowOne, playerRowOneEdited, playerRowTwo } from "../assets/PlayerControlButton.js";
+import { filterSelect, playerRowOne, playerRowOneEdited, playerRowTwo } from "../assets/PlayerControlButton.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 import { RainlinkPlayer } from "../rainlink/main.js";
 
@@ -23,10 +23,10 @@ export default class implements PlayerButton {
 
     newPlayer.paused
       ? nplaying.edit({
-          components: [playerRowOneEdited, playerRowTwo],
+          components: [playerRowOneEdited, playerRowTwo, filterSelect(client)],
         })
       : nplaying.edit({
-          components: [playerRowOne, playerRowTwo],
+          components: [playerRowOne, playerRowTwo, filterSelect(client)],
         });
 
     new ReplyInteractionService(

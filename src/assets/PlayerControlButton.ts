@@ -1,8 +1,15 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
+} from "discord.js";
 import { NormalModeIcons } from "./NormalModeIcons.js";
 import { SafeModeIcons } from "./SafeModeIcons.js";
 import { ConfigDataService } from "../services/ConfigDataService.js";
 import { Config } from "../@types/Config.js";
+import { Manager } from "../manager.js";
 
 const data: Config = new ConfigDataService().data;
 
@@ -44,4 +51,12 @@ const playerRowOneEdited = new ActionRowBuilder<ButtonBuilder>().addComponents([
   new ButtonBuilder().setCustomId("loop").setEmoji(icons.loop).setStyle(ButtonStyle.Secondary),
 ]);
 
-export { playerRowOne, playerRowOneEdited, playerRowTwo };
+const filterSelect = (client: Manager) =>
+  new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId("filter")
+      .setPlaceholder("Choose a filter for better audio experience")
+      .addOptions(client.selectMenuOptions)
+  );
+
+export { playerRowOne, playerRowOneEdited, playerRowTwo, filterSelect };
