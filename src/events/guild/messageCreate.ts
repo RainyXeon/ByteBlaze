@@ -159,7 +159,7 @@ export default class {
 
     //////////////////////////////// Access check start ////////////////////////////////
     const premiumUser = await client.db.premium.get(message.author.id);
-    const isHavePremium = !premiumUser || !premiumUser.isPremium;
+    const isDontHavePremium = !premiumUser || !premiumUser.isPremium;
     if (command.accessableby.includes(Accessableby.Owner) && message.author.id != client.owner)
       return message.reply({
         embeds: [
@@ -196,7 +196,7 @@ export default class {
 
     if (
       command.accessableby.includes(Accessableby.Voter) &&
-      isHavePremium &&
+      isDontHavePremium &&
       client.topgg &&
       !client.config.bot.ADMIN.includes(message.author.id) &&
       message.author.id != client.owner
@@ -233,7 +233,7 @@ export default class {
 
     if (
       command.accessableby.includes(Accessableby.Premium) &&
-      isHavePremium &&
+      isDontHavePremium &&
       !client.config.bot.ADMIN.includes(message.author.id) &&
       message.author.id != client.owner
     ) {

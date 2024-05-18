@@ -1,9 +1,14 @@
-import { User } from "discord.js";
-
 export interface Premium {
   id: string;
   isPremium: boolean;
-  redeemedBy: User;
+  redeemedBy: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarURL: string | null;
+    createdAt: number;
+    mention: string;
+  };
   redeemedAt: number;
   expiresAt: number | "lifetime";
   plan: string;

@@ -17,7 +17,6 @@ export default class implements Command {
   public usingInteraction = true;
   public sameVoiceCheck = false;
   public permissions = [];
-
   public options = [
     {
       name: "plan",
@@ -49,7 +48,7 @@ export default class implements Command {
     },
     {
       name: "amount",
-      description: "The song link or name",
+      description: "The amount of code you want to generate",
       type: ApplicationCommandOptionType.Number,
       required: true,
     },
@@ -57,9 +56,7 @@ export default class implements Command {
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
-
-    const plans = ["daily", "weekly", "monthly", "yearly", "lifetime"];
-
+    const plans = this.options[0].choices!.map((data) => data.value);
     const name = handler.args[0];
     const camount = Number(handler.args[1]);
 
@@ -93,11 +90,23 @@ export default class implements Command {
     const plan = name;
 
     let time;
-    if (plan === "daily") time = Date.now() + 86400000;
-    if (plan === "weekly") time = Date.now() + 86400000 * 7;
-    if (plan === "monthly") time = Date.now() + 86400000 * 30;
-    if (plan === "yearly") time = Date.now() + 86400000 * 365;
-    if (plan === "lifetime") time = "lifetime";
+    switch (plan) {
+      case "daily":
+        time = Date.now() + 86400000;
+        break;
+      case "weekly":
+        time = Date.now() + 86400000 * 7;
+        break;
+      case "monthly":
+        time = Date.now() + 86400000 * 30;
+        break;
+      case "yearly":
+        time = Date.now() + 86400000 * 365;
+        break;
+      case "lifetime":
+        time = "lifetime";
+        break;
+    }
 
     let amount = camount;
     if (!amount) amount = 1;
@@ -131,7 +140,7 @@ export default class implements Command {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
-          expires: time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY"),
+          expires: time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY (HH:mm:ss)"),
         })}`
       )
       .setTimestamp()

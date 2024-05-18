@@ -24,6 +24,7 @@ owner_only: "`⚠️` | You are not my **Owner**!"
 # No premium Event!
 no_premium_author: "Premium"
 no_premium_desc: "`⚠️` | You are not a Premium user!"
+no_guild_premium_desc: "`⚠️` | You are not in a premium guild!"
 
 # Rate limit!
 ratelimit: "`⚠️` | You are performing actions too quickly. Please wait for **%{time} Seconds**!"

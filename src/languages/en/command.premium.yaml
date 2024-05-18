@@ -7,11 +7,17 @@ gen_footer: "Redeem Premium • %{prefix}redeem <code>"
 profile_author: "Premium Profile"
 profile_desc: "`👤` | **User:** `%{user}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
 
+### Guild profile command!
+guild_profile_author: "Guild Premium Profile"
+guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
+
 ### Redeem command!
 redeem_title: "Redeem Premium"
 redeem_desc: "`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
 redeem_already: "`⚠️` | You are already a **Premium User**!"
 redeem_invalid: "`⚠️` | Invalid Premium code. Please use a valid code!"
+redeem_invalid_mode: "`⚠️` | Invalid Premium redeem type. Use `guild` or `user` only"
+redeem_already_guild: "`⚠️` | This guild already in **Premium**!"
 
 ### Remove command!
 remove_desc: "`✅` | Successfully removed %{user}'s Premium!"

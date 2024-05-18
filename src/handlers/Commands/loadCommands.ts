@@ -24,7 +24,21 @@ export class CommandLoader {
     });
 
     if (this.client.commands.size) {
-      this.client.logger.loader(CommandLoader.name, `${this.client.commands.size} Command Loaded!`);
+      const commandColl = this.client.commands;
+      const array1 = commandColl.filter((command) => command.name.length === 1).size;
+      const array2 = commandColl.filter((command) => command.name.length === 2).size;
+      const array3 = commandColl.filter((command) => command.name.length === 3).size;
+      const haveInteraction = commandColl.filter((command) => command.usingInteraction).size;
+      this.client.logger.loader(CommandLoader.name, `@ | Command Load Results:`);
+      this.client.logger.loader(CommandLoader.name, `@ | ${array1} Command Without Prefix`);
+      this.client.logger.loader(CommandLoader.name, `@ | ${array2} Command With 1 Prefix`);
+      this.client.logger.loader(CommandLoader.name, `@ | ${array3} Command With 2 Prefix`);
+      this.client.logger.loader(CommandLoader.name, `@ | ${haveInteraction} Command Support Interaction/Prefix`);
+      this.client.logger.loader(
+        CommandLoader.name,
+        `@ | ${commandColl.size - haveInteraction} Command Support Prefix Only`
+      );
+      this.client.logger.loader(CommandLoader.name, `@ | Total ${commandColl.size} Command Loaded!`);
     } else {
       this.client.logger.warn(CommandLoader.name, `No command loaded, is everything ok?`);
     }

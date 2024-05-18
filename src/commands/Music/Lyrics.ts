@@ -22,7 +22,7 @@ export default class implements Command {
       name: "search",
       description: "The song name",
       type: ApplicationCommandOptionType.String,
-      required: true,
+      required: false,
     },
   ];
 
@@ -36,7 +36,11 @@ export default class implements Command {
     // Keep it short, around 30
     // characters in length
     let lyricsRes = null;
-    const query = handler.args.join(" ");
+    let query = handler.args.join(" ");
+    if (query.length == 0) {
+      const player = client.rainlink.players.get(String(handler.guild?.id));
+      if (player) query = player.queue.current ? player.queue.current.title : handler.args.join(" ");
+    }
 
     try {
       const result = await lyrics.fetch(query, 3);

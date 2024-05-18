@@ -1,9 +1,12 @@
-import { Guild } from "discord.js";
-
 export interface GuildPremium {
   id: string;
   isPremium: boolean;
-  redeemedBy: Guild;
+  redeemedBy: {
+    id: string;
+    name: string;
+    createdAt: number;
+    ownerId: string;
+  };
   redeemedAt: number;
   expiresAt: number | "lifetime";
   plan: string;

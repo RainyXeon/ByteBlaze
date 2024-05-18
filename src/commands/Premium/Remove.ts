@@ -15,7 +15,6 @@ export default class implements Command {
   public usingInteraction = true;
   public sameVoiceCheck = false;
   public permissions = [];
-
   public options = [
     {
       name: "id",

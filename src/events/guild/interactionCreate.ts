@@ -138,7 +138,9 @@ export default class {
     }
     //////////////////////////////// Permission check end ////////////////////////////////
     const premiumUser = await client.db.premium.get(interaction.user.id);
-    const isHavePremium = !premiumUser || !premiumUser.isPremium;
+    const premiumGuild = await client.db.preGuild.get(interaction.guild.id);
+
+    const isDontHavePremium = !premiumUser || !premiumUser.isPremium || !premiumGuild || !premiumGuild.isPremium;
     if (
       command.accessableby.includes(Accessableby.Manager) &&
       !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
@@ -183,7 +185,7 @@ export default class {
 
     if (
       command.accessableby.includes(Accessableby.Voter) &&
-      isHavePremium &&
+      isDontHavePremium &&
       client.topgg &&
       interaction.user.id != client.owner &&
       !client.config.bot.ADMIN.includes(interaction.user.id)
@@ -220,7 +222,7 @@ export default class {
 
     if (
       command.accessableby.includes(Accessableby.Premium) &&
-      isHavePremium &&
+      isDontHavePremium &&
       interaction.user.id != client.owner &&
       !client.config.bot.ADMIN.includes(interaction.user.id)
     ) {

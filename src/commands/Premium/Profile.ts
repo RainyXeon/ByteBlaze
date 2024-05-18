@@ -17,7 +17,6 @@ export default class implements Command {
   public playerCheck = false;
   public sameVoiceCheck = false;
   public permissions = [];
-
   public options = [];
 
   public async execute(client: Manager, handler: CommandHandler) {
@@ -28,7 +27,7 @@ export default class implements Command {
 
     const PremiumPlan = (await client.db.premium.get(`${handler.user?.id}`)) as Premium;
     const expires = moment(PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0).format(
-      "do/MMMM/YYYY (HH:mm:ss)"
+      "dddd, MMMM Do YYYY (HH:mm:ss)"
     );
 
     const embed = new EmbedBuilder()
