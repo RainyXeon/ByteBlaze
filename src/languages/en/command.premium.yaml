@@ -5,6 +5,7 @@ gen_footer: "Redeem Premium • %{prefix}redeem <code>"
 
 ### Profile command!
 profile_author: "Premium Profile"
+profile_error_desc: "`⚠️` | **%{user}** not a Premium user!"
 profile_desc: "`👤` | **User:** `%{user}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expire:** `%{expires}`"
 
 ### Guild profile command!

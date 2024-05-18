@@ -28,6 +28,7 @@ export default class implements Command {
     await handler.deferReply();
     const data = handler.args[0];
     const getData = await handler.parseMentions(data);
+    console.log(data, getData);
 
     if (data && getData && getData.type !== ParseMentionEnum.USER)
       return handler.editReply({

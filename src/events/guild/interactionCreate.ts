@@ -10,6 +10,8 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  CommandInteractionOption,
+  CacheType,
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
@@ -312,27 +314,36 @@ export default class {
     //////////////////////////////// Check accessibility end ////////////////////////////////
 
     try {
-      const args = [];
+      const args: string[] = [];
       let attachments: Attachment | undefined;
 
-      for (const data of interaction.options.data) {
-        const check = new ConvertToMention().execute({
-          type: data.type,
-          value: String(data.value),
-        });
-        if (check !== "error") {
-          args.push(check);
-        } else if (data.type == ApplicationCommandOptionType.Attachment) {
-          attachments = data.attachment;
-        } else {
-          if (data.value) args.push(String(data.value));
-          if (data.options) {
-            for (const optionData of data.options) {
-              if (optionData.value) args.push(String(optionData.value));
+      function argConvert(dataArray: readonly CommandInteractionOption<CacheType>[]) {
+        for (const data of dataArray) {
+          if (data.type == ApplicationCommandOptionType.Subcommand) {
+            argConvert(data.options!);
+          }
+          if (data.type == ApplicationCommandOptionType.SubcommandGroup) {
+            argConvert(data.options!.find(subCommandGroupName!)?.options!);
+          }
+          const check = new ConvertToMention().execute({
+            type: data.type,
+            value: String(data.value),
+          });
+          if (check !== "error") {
+            args.push(check);
+          } else if (data.type == ApplicationCommandOptionType.Attachment) {
+            attachments = data.attachment;
+          } else {
+            if (data.value) args.push(String(data.value));
+            if (data.options) {
+              for (const optionData of data.options) {
+                if (optionData.value) args.push(String(optionData.value));
+              }
             }
           }
         }
       }
+      argConvert(interaction.options.data);
 
       const handler = new CommandHandler({
         interaction: interaction as CommandInteraction,

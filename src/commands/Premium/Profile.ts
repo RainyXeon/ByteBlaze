@@ -1,15 +1,15 @@
-import { EmbedBuilder } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
 import moment from "moment";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
+import { CommandHandler, ParseMentionEnum } from "../../structures/CommandHandler.js";
 import { Premium } from "../../database/schema/Premium.js";
 
 export default class implements Command {
   public name = ["pm", "profile"];
   public description = "View your premium profile!";
   public category = "Premium";
-  public accessableby = [Accessableby.Premium];
+  public accessableby = [Accessableby.Member];
   public usage = "";
   public aliases = [];
   public lavalink = false;
@@ -17,16 +17,45 @@ export default class implements Command {
   public playerCheck = false;
   public sameVoiceCheck = false;
   public permissions = [];
-  public options = [];
+  public options = [
+    {
+      name: "user",
+      description: "Type your user here",
+      type: ApplicationCommandOptionType.User,
+      required: false,
+    },
+  ];
 
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    if (handler.user?.id == client.owner) return this.owner(client, handler);
-    if (client.config.bot.ADMIN.includes(handler.user?.id ?? "null"))
-      return this.admin(client, handler);
+    let user = handler.user;
+    const data = handler.args[0];
+    const getData = await handler.parseMentions(data);
+    if (data && getData && getData.type == ParseMentionEnum.USER) user = getData.data as User;
+
+    if (user?.id == client.owner) return this.owner(client, handler);
+    if (client.config.bot.ADMIN.includes(user?.id ?? "null")) return this.admin(client, handler);
 
     const PremiumPlan = (await client.db.premium.get(`${handler.user?.id}`)) as Premium;
+
+    if (!PremiumPlan) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(
+          `${client.getString(handler.language, "command.premium", "profile_error_desc", { user: String(user?.username) })}`
+        )
+        .setColor(client.color)
+        .setTimestamp();
+      return handler.editReply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
+
     const expires = moment(
       PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0
     ).format("dddd, MMMM Do YYYY (HH:mm:ss)");
