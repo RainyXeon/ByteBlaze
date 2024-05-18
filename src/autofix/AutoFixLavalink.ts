@@ -33,7 +33,8 @@ export class AutoFixLavalink {
       );
       this.client.logger.lavalink(
         AutoFixLavalink.name,
-        autofixErrorMess + "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
+        autofixErrorMess +
+          "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
       );
       this.client.logger.lavalink(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
       return;
@@ -63,7 +64,9 @@ export class AutoFixLavalink {
   }
 
   async removeCurrentLavalink() {
-    const lavalinkIndex = this.client.lavalinkUsing.findIndex((data) => data.name == this.lavalinkName);
+    const lavalinkIndex = this.client.lavalinkUsing.findIndex(
+      (data) => data.name == this.lavalinkName
+    );
     const targetLavalink = this.client.lavalinkUsing[lavalinkIndex];
     if (this.client.rainlink.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);

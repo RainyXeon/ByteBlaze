@@ -30,7 +30,9 @@ export class RainlinkPlugin extends Plugin {
   public open(node: RainlinkNode, voiceOptions: VoiceChannelOptions): void {
     if (!this.enabled) throw new Error("This plugin is unloaded!");
     if (!node.options.driver?.includes("nodelink"))
-      throw new Error("This node not support voice receiver, please use Nodelink2 to use this feature!");
+      throw new Error(
+        "This node not support voice receiver, please use Nodelink2 to use this feature!"
+      );
     const wsUrl = `${node.options.secure ? "wss" : "ws"}://${node.options.host}:${node.options.port}`;
     const ws = new WebSocket(wsUrl + "/connection/data", {
       headers: {
@@ -52,7 +54,9 @@ export class RainlinkPlugin extends Plugin {
       this.manager?.emit(RainlinkEvents.VoiceError, node, err);
     });
     ws.on("close", (code: number, reason: Buffer) => {
-      this.debug(`Disconnected to nodelink's voice receive server! Code: ${code} Reason: ${reason}`);
+      this.debug(
+        `Disconnected to nodelink's voice receive server! Code: ${code} Reason: ${reason}`
+      );
       this.manager?.emit(RainlinkEvents.VoiceDisconnect, node, code, reason);
       ws.removeAllListeners();
     });
@@ -74,7 +78,12 @@ export class RainlinkPlugin extends Plugin {
     this.debug(String(data));
     switch (wsData.type) {
       case "startSpeakingEvent": {
-        this.manager?.emit(RainlinkEvents.VoiceStartSpeaking, node, wsData.data.userId, wsData.data.guildId);
+        this.manager?.emit(
+          RainlinkEvents.VoiceStartSpeaking,
+          node,
+          wsData.data.userId,
+          wsData.data.guildId
+        );
         break;
       }
       case "endSpeakingEvent": {
@@ -104,6 +113,11 @@ export class RainlinkPlugin extends Plugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Plugin] / [Voice Receiver] | ${logs}`) : true;
+    this.manager
+      ? this.manager.emit(
+          RainlinkEvents.Debug,
+          `[Rainlink] / [Plugin] / [Voice Receiver] | ${logs}`
+        )
+      : true;
   }
 }

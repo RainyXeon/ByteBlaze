@@ -16,7 +16,9 @@ export class PlayerUpdateLoader {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
+      let channel = (await client.channels
+        .fetch(data.channel)
+        .catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
@@ -105,7 +107,9 @@ export class PlayerUpdateLoader {
       if (!data) return;
       if (data.enable === false) return;
 
-      let channel = (await client.channels.fetch(data.channel).catch(() => undefined)) as TextChannel;
+      let channel = (await client.channels
+        .fetch(data.channel)
+        .catch(() => undefined)) as TextChannel;
       if (!channel) return;
 
       let playMsg = await channel.messages.fetch(data.playmsg).catch(() => undefined);
@@ -125,7 +129,9 @@ export class PlayerUpdateLoader {
         .setAuthor({
           name: `${client.getString(language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
+        .setImage(
+          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
+        );
 
       return await playMsg
         .edit({

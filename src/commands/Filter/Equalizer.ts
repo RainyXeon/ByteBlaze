@@ -70,7 +70,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.filter", "eq_number")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.filter", "eq_number")}`
+              )
               .setColor(client.color),
           ],
         });
@@ -87,7 +89,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.filter", "eq_greater")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.filter", "eq_greater")}`
+              )
               .setColor(client.color),
           ],
         });

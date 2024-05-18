@@ -27,6 +27,10 @@ export default class implements PlayerButton {
 
     player.skip();
 
-    new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "skip_msg")}`);
+    new ReplyInteractionService(
+      client,
+      message,
+      `${client.getString(language, "button.music", "skip_msg")}`
+    );
   }
 }

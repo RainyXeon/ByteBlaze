@@ -36,7 +36,9 @@ export class PlayerContentLoader {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id).catch(() => undefined);
+    let voiceMember = await interaction.guild.members
+      .fetch((member as GuildMember)!.id)
+      .catch(() => undefined);
     let channel = voiceMember!.voice.channel;
 
     let player = client.rainlink.players.get(interaction.guild.id);
@@ -82,7 +84,9 @@ export class PlayerContentLoader {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.fetch(database!.channel).catch(() => undefined)) as TextChannel;
+    let channel = (await message.guild.channels
+      .fetch(database!.channel)
+      .catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -96,7 +100,9 @@ export class PlayerContentLoader {
 
     if (message.id !== database.playmsg) {
       const preInterval = setInterval(async () => {
-        const fetchedMessage = await message.channel.messages.fetch({ limit: 50 }).catch(() => undefined);
+        const fetchedMessage = await message.channel.messages
+          .fetch({ limit: 50 })
+          .catch(() => undefined);
         if (!fetchedMessage) {
           clearInterval(preInterval);
           return;
@@ -180,7 +186,8 @@ export class PlayerContentLoader {
     }
     if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type !== "SEARCH")
+      for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = player.queue.duration;

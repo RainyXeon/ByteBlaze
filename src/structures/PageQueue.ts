@@ -16,7 +16,13 @@ export class PageQueue {
   queueLength: number;
   language: string;
 
-  constructor(client: Manager, pages: EmbedBuilder[], timeout: number, queueLength: number, language: string) {
+  constructor(
+    client: Manager,
+    pages: EmbedBuilder[],
+    timeout: number,
+    queueLength: number,
+    language: string
+  ) {
     this.client = client;
     this.pages = pages;
     this.timeout = timeout;
@@ -25,7 +31,8 @@ export class PageQueue {
   }
 
   async slashPage(interaction: CommandInteraction, queueDuration: string) {
-    if (!interaction && !(interaction as CommandInteraction).channel) throw new Error("Channel is inaccessible.");
+    if (!interaction && !(interaction as CommandInteraction).channel)
+      throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
     const row1 = new ButtonBuilder()
@@ -108,7 +115,8 @@ export class PageQueue {
   }
 
   async slashPlaylistPage(interaction: CommandInteraction) {
-    if (!interaction && !(interaction as CommandInteraction).channel) throw new Error("Channel is inaccessible.");
+    if (!interaction && !(interaction as CommandInteraction).channel)
+      throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
     const row1 = new ButtonBuilder()
@@ -216,7 +224,8 @@ export class PageQueue {
     if (this.pages.length == 0) return;
 
     const collector = await curPage.createMessageComponentCollector({
-      filter: (interaction) => (interaction.user.id === message.author.id ? true : false && interaction.deferUpdate()),
+      filter: (interaction) =>
+        interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
     });
 
@@ -295,7 +304,8 @@ export class PageQueue {
     if (this.pages.length == 0) return;
 
     const collector = await curPage.createMessageComponentCollector({
-      filter: (interaction) => (interaction.user.id === message.author.id ? true : false && interaction.deferUpdate()),
+      filter: (interaction) =>
+        interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
     });
 
@@ -342,7 +352,8 @@ export class PageQueue {
   }
 
   async buttonPage(interaction: ButtonInteraction, queueDuration: string) {
-    if (!interaction && !(interaction as CommandInteraction).channel) throw new Error("Channel is inaccessible.");
+    if (!interaction && !(interaction as CommandInteraction).channel)
+      throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
     const row1 = new ButtonBuilder()

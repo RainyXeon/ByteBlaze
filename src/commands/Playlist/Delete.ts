@@ -1,4 +1,10 @@
-import { EmbedBuilder, ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -44,7 +50,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "delete_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "delete_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -52,7 +60,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "delete_owner")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "delete_owner")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -103,7 +113,9 @@ export default class implements Command {
     });
 
     collector?.on("end", async () => {
-      const checkMsg = await handler.channel?.messages.fetch(String(msg?.id)).catch(() => undefined);
+      const checkMsg = await handler.channel?.messages
+        .fetch(String(msg?.id))
+        .catch(() => undefined);
       const embed = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);

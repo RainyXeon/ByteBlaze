@@ -11,7 +11,12 @@ import { AbstractLibrary } from "./Library/AbstractLibrary.js";
 import { VoiceChannelOptions } from "./Interface/Player.js";
 import { RainlinkPlayerManager } from "./Manager/RainlinkPlayerManager.js";
 import { RainlinkNodeManager } from "./Manager/RainlinkNodeManager.js";
-import { LavalinkLoadType, RainlinkEvents, RainlinkPluginType, SourceIDs } from "./Interface/Constants.js";
+import {
+  LavalinkLoadType,
+  RainlinkEvents,
+  RainlinkPluginType,
+  SourceIDs,
+} from "./Interface/Constants.js";
 import { RainlinkTrack } from "./Player/RainlinkTrack.js";
 import { RawTrack } from "./Interface/Rest.js";
 import { RainlinkPlayer } from "./Player/RainlinkPlayer.js";
@@ -44,7 +49,10 @@ export declare interface Rainlink {
    * Emitted when a lavalink server is disconnected.
    * @event Rainlink#nodeDisconnect
    */
-  on(event: "nodeDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  on(
+    event: "nodeDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /**
    * Emitted when a lavalink server is closed.
    * @event Rainlink#nodeClosed
@@ -72,12 +80,18 @@ export declare interface Rainlink {
    * Emitted when a player have an exception.
    * @event Rainlink#playerException
    */
-  on(event: "playerException", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  on(
+    event: "playerException",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /**
    * Emitted when a player updated info.
    * @event Rainlink#playerUpdate
    */
-  on(event: "playerUpdate", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  on(
+    event: "playerUpdate",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /**
    * Emitted when a playuer is moved into another channel. [Require plugin]
    * @event Rainlink#playerMoved
@@ -100,7 +114,10 @@ export declare interface Rainlink {
    * Emitted when a player's websocket closed.
    * @event Rainlink#playerWebsocketClosed
    */
-  on(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  on(
+    event: "playerWebsocketClosed",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /**
    * Emitted when a player is stopped (not destroyed).
    * @event Rainlink#playerResume
@@ -123,7 +140,10 @@ export declare interface Rainlink {
    * Emitted when a track stucked.
    * @event Rainlink#trackStuck
    */
-  on(event: "trackStuck", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  on(
+    event: "trackStuck",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /**
    * Emitted when a track is failed to resolve using fallback search engine.
    * @event Rainlink#trackResolveError
@@ -139,7 +159,10 @@ export declare interface Rainlink {
    * Emitted when a track added into queue.
    * @event Rainlink#queueAdd
    */
-  on(event: "queueAdd", listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void): this;
+  on(
+    event: "queueAdd",
+    listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void
+  ): this;
   /**
    * Emitted when a track removed from queue.
    * @event Rainlink#queueRemove
@@ -175,7 +198,10 @@ export declare interface Rainlink {
    * Emitted when disconnected to voice receive server [ONLY Nodelink DRIVER!!!!!!].
    * @event Rainlink#voiceDisconnect
    */
-  on(event: "voiceDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  on(
+    event: "voiceDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /**
    * Emitted when voice receive server errored [ONLY Nodelink DRIVER!!!!!!].
    * @event Rainlink#VoiceError
@@ -185,7 +211,10 @@ export declare interface Rainlink {
    * Emitted when user started speaking [ONLY Nodelink DRIVER!!!!!!].
    * @event Rainlink#voiceStartSpeaking
    */
-  on(event: "voiceStartSpeaking", listener: (node: RainlinkNode, userId: string, guildId: string) => void): this;
+  on(
+    event: "voiceStartSpeaking",
+    listener: (node: RainlinkNode, userId: string, guildId: string) => void
+  ): this;
   /**
    * Emitted when user finished speaking [ONLY Nodelink DRIVER!!!!!!].
    * @event Rainlink#voiceEndSpeaking
@@ -204,7 +233,10 @@ export declare interface Rainlink {
   /** @ignore */
   once(event: "nodeConnect", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
-  once(event: "nodeDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  once(
+    event: "nodeDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /** @ignore */
   once(event: "nodeClosed", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
@@ -217,20 +249,35 @@ export declare interface Rainlink {
   /** @ignore */
   once(event: "playerDestroy", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
-  once(event: "playerException", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  once(
+    event: "playerException",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
-  once(event: "playerUpdate", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  once(
+    event: "playerUpdate",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   once(
     event: "playerMoved",
     listener: (player: RainlinkPlayer, oldChannelId: string, newChannelId: string) => void
   ): this;
   /** @ignore */
-  once(event: "playerPause", listener: (player: RainlinkPlayer, track: RainlinkTrack) => void): this;
+  once(
+    event: "playerPause",
+    listener: (player: RainlinkPlayer, track: RainlinkTrack) => void
+  ): this;
   /** @ignore */
-  once(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
+  once(
+    event: "playerResume",
+    listener: (player: RainlinkPlayer, data: RainlinkTrack) => void
+  ): this;
   /** @ignore */
-  once(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  once(
+    event: "playerWebsocketClosed",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   once(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
@@ -241,7 +288,10 @@ export declare interface Rainlink {
   /** @ignore */
   once(event: "trackEnd", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
-  once(event: "trackStuck", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  once(
+    event: "trackStuck",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   once(
     event: "trackResolveError",
@@ -251,14 +301,20 @@ export declare interface Rainlink {
 
   ////// ------------------------- Queue Event ------------------------- /////
   /** @ignore */
-  once(event: "queueAdd", listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void): this;
+  once(
+    event: "queueAdd",
+    listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void
+  ): this;
   /** @ignore */
   once(
     event: "queueRemove",
     listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void
   ): this;
   /** @ignore */
-  once(event: "queueShuffle", listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void): this;
+  once(
+    event: "queueShuffle",
+    listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void
+  ): this;
   /** @ignore */
   once(event: "queueClear", listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void): this;
   /** @ignore */
@@ -269,11 +325,17 @@ export declare interface Rainlink {
   /** @ignore */
   once(event: "voiceConnect", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
-  once(event: "voiceDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  once(
+    event: "voiceDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /** @ignore */
   once(event: "VoiceError", listener: (node: RainlinkNode, error: Error) => void): this;
   /** @ignore */
-  once(event: "voiceStartSpeaking", listener: (node: RainlinkNode, userId: string, guildId: string) => void): this;
+  once(
+    event: "voiceStartSpeaking",
+    listener: (node: RainlinkNode, userId: string, guildId: string) => void
+  ): this;
   /** @ignore */
   once(
     event: "voiceEndSpeaking",
@@ -289,7 +351,10 @@ export declare interface Rainlink {
   /** @ignore */
   off(event: "nodeConnect", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
-  off(event: "nodeDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  off(
+    event: "nodeDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /** @ignore */
   off(event: "nodeClosed", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
@@ -302,9 +367,15 @@ export declare interface Rainlink {
   /** @ignore */
   off(event: "playerDestroy", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
-  off(event: "playerException", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  off(
+    event: "playerException",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
-  off(event: "playerUpdate", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  off(
+    event: "playerUpdate",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   off(
     event: "playerMoved",
@@ -315,7 +386,10 @@ export declare interface Rainlink {
   /** @ignore */
   off(event: "playerResume", listener: (player: RainlinkPlayer, data: RainlinkTrack) => void): this;
   /** @ignore */
-  off(event: "playerWebsocketClosed", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  off(
+    event: "playerWebsocketClosed",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   off(event: "playerStop", listener: (player: RainlinkPlayer) => void): this;
   ////// ------------------------- Player Event ------------------------- /////
@@ -326,7 +400,10 @@ export declare interface Rainlink {
   /** @ignore */
   off(event: "trackEnd", listener: (player: RainlinkPlayer) => void): this;
   /** @ignore */
-  off(event: "trackStuck", listener: (player: RainlinkPlayer, data: Record<string, any>) => void): this;
+  off(
+    event: "trackStuck",
+    listener: (player: RainlinkPlayer, data: Record<string, any>) => void
+  ): this;
   /** @ignore */
   off(
     event: "trackResolveError",
@@ -336,14 +413,20 @@ export declare interface Rainlink {
 
   ////// ------------------------- Queue Event ------------------------- /////
   /** @ignore */
-  off(event: "queueAdd", listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void): this;
+  off(
+    event: "queueAdd",
+    listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void
+  ): this;
   /** @ignore */
   off(
     event: "queueRemove",
     listener: (player: RainlinkPlayer, queue: RainlinkQueue, track: RainlinkTrack) => void
   ): this;
   /** @ignore */
-  off(event: "queueShuffle", listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void): this;
+  off(
+    event: "queueShuffle",
+    listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void
+  ): this;
   /** @ignore */
   off(event: "queueClear", listener: (player: RainlinkPlayer, queue: RainlinkQueue) => void): this;
   /** @ignore */
@@ -354,11 +437,17 @@ export declare interface Rainlink {
   /** @ignore */
   off(event: "voiceConnect", listener: (node: RainlinkNode) => void): this;
   /** @ignore */
-  off(event: "voiceDisconnect", listener: (node: RainlinkNode, code: number, reason: Buffer) => void): this;
+  off(
+    event: "voiceDisconnect",
+    listener: (node: RainlinkNode, code: number, reason: Buffer) => void
+  ): this;
   /** @ignore */
   off(event: "VoiceError", listener: (node: RainlinkNode, error: Error) => void): this;
   /** @ignore */
-  off(event: "voiceStartSpeaking", listener: (node: RainlinkNode, userId: string, guildId: string) => void): this;
+  off(
+    event: "voiceStartSpeaking",
+    listener: (node: RainlinkNode, userId: string, guildId: string) => void
+  ): this;
   /** @ignore */
   off(
     event: "voiceEndSpeaking",
@@ -418,7 +507,9 @@ export class Rainlink extends EventEmitter {
   constructor(options: RainlinkOptions) {
     super();
     if (!options.library)
-      throw new Error("Please set an new lib to connect, example: \nlibrary: new Library.DiscordJS(client) ");
+      throw new Error(
+        "Please set an new lib to connect, example: \nlibrary: new Library.DiscordJS(client) "
+      );
     this.library = options.library.set(this);
     this.drivers = [new Lavalink3(), new Nodelink2(), new Lavalink4()];
     this.rainlinkOptions = options;
@@ -426,7 +517,10 @@ export class Rainlink extends EventEmitter {
       this.defaultOptions,
       this.rainlinkOptions.options ?? {}
     );
-    if (this.rainlinkOptions.options.additionalDriver && this.rainlinkOptions.options.additionalDriver?.length !== 0)
+    if (
+      this.rainlinkOptions.options.additionalDriver &&
+      this.rainlinkOptions.options.additionalDriver?.length !== 0
+    )
       this.drivers.push(...this.rainlinkOptions.options.additionalDriver);
     this.nodes = new RainlinkNodeManager(this);
     this.players = new RainlinkPlayerManager(this);
@@ -502,7 +596,13 @@ export class Rainlink extends EventEmitter {
 
     const pluginSearch = this.searchPlugins.get(String(options?.engine));
 
-    if (options && options!.engine && options!.engine !== null && pluginSearch && isDirectSearch == null) {
+    if (
+      options &&
+      options!.engine &&
+      options!.engine !== null &&
+      pluginSearch &&
+      isDirectSearch == null
+    ) {
       pluginData = await pluginSearch.searchDirect(query, options);
       if (pluginData.tracks.length !== 0) return pluginData;
     }
@@ -516,7 +616,8 @@ export class Rainlink extends EventEmitter {
               : "youtube"
           );
 
-    const finalQuery = isDirectSearch !== null ? isDirectSearch[1] : !isUrl ? `${source}search:${query}` : query;
+    const finalQuery =
+      isDirectSearch !== null ? isDirectSearch[1] : !isUrl ? `${source}search:${query}` : query;
 
     const result = await node.rest.resolver(finalQuery).catch(() => null);
     if (!result || result.loadType === LavalinkLoadType.EMPTY) {
@@ -565,7 +666,8 @@ export class Rainlink extends EventEmitter {
     return this.buildSearch(
       normalizedData.playlistName ?? undefined,
       normalizedData.tracks.map(
-        (track) => new RainlinkTrack(track, options && options.requester ? options.requester : undefined)
+        (track) =>
+          new RainlinkTrack(track, options && options.requester ? options.requester : undefined)
       ),
       loadType
     );

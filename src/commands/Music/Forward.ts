@@ -51,7 +51,9 @@ export default class implements Command {
       return await handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "forward_beyond")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "forward_beyond")}`
+            )
             .setColor(client.color),
         ],
       });

@@ -13,7 +13,10 @@ export class AutoCompleteService {
     let guildModel = await this.client.db.language.get(`${this.interaction.guild?.id}`);
 
     if (!guildModel) {
-      guildModel = await this.client.db.language.set(`${this.interaction.guild?.id}`, this.client.config.bot.LANGUAGE);
+      guildModel = await this.client.db.language.set(
+        `${this.interaction.guild?.id}`,
+        this.client.config.bot.LANGUAGE
+      );
     }
 
     const language = guildModel;
@@ -40,7 +43,9 @@ export class AutoCompleteService {
     if (!command) return commandNameArray.length == 0;
 
     try {
-      (command as any).autocomplete ? (command as any).autocomplete(this.client, this.interaction, language) : true;
+      (command as any).autocomplete
+        ? (command as any).autocomplete(this.client, this.interaction, language)
+        : true;
     } catch (error) {
       this.client.logger.error(AutoCompleteService.name, error);
     }

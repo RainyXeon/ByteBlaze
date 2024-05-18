@@ -49,7 +49,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "savequeue_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "savequeue_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -57,7 +59,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "savequeue_owner")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "savequeue_owner")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -71,7 +75,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "noplayer", "savequeue_no_tracks")}`)
+            .setDescription(
+              `${client.getString(handler.language, "noplayer", "savequeue_no_tracks")}`
+            )
             .setColor(client.color),
         ],
       });

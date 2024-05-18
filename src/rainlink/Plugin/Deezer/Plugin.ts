@@ -1,4 +1,8 @@
-import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../Interface/Manager.js";
+import {
+  RainlinkSearchOptions,
+  RainlinkSearchResult,
+  RainlinkSearchResultType,
+} from "../../Interface/Manager.js";
 import { Rainlink } from "../../Rainlink.js";
 import { RainlinkTrack } from "../../Player/RainlinkTrack.js";
 import { SourceRainlinkPlugin } from "../SourceRainlinkPlugin.js";
@@ -11,7 +15,10 @@ const SHORT_REGEX = /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/;
 
 export class RainlinkPlugin extends SourceRainlinkPlugin {
   private manager: Rainlink | null;
-  private _search?: (query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>;
+  private _search?: (
+    query: string,
+    options?: RainlinkSearchOptions
+  ) => Promise<RainlinkSearchResult>;
   private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
   /**
    * Source identify of the plugin
@@ -75,7 +82,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
     return "rainlink-deezer";
   }
 
-  protected async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  protected async search(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
     if (res.tracks.length == 0) return this.searchDirect(query, options);
@@ -88,7 +98,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    * @param options search option like RainlinkSearchOptions
    * @returns RainlinkSearchResult
    */
-  public async searchDirect(query: string, options?: RainlinkSearchOptions | undefined): Promise<RainlinkSearchResult> {
+  public async searchDirect(
+    query: string,
+    options?: RainlinkSearchOptions | undefined
+  ): Promise<RainlinkSearchResult> {
     if (!this.manager || !this._search) throw new Error("rainlink-deezer is not loaded yet.");
 
     if (!query) throw new Error("Query is required");
@@ -109,7 +122,8 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
         const _function = this.methods[type];
         const result: Result = await _function(id, options?.requester);
 
-        const loadType = type === "track" ? RainlinkSearchResultType.TRACK : RainlinkSearchResultType.PLAYLIST;
+        const loadType =
+          type === "track" ? RainlinkSearchResultType.TRACK : RainlinkSearchResultType.PLAYLIST;
         const playlistName = result.name ?? undefined;
 
         const tracks = result.tracks.filter(this.filterNullOrUndefined);
@@ -223,7 +237,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink Deezer Plugin]: ${logs}`) : true;
+    this.manager
+      ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink Deezer Plugin]: ${logs}`)
+      : true;
   }
 }
 

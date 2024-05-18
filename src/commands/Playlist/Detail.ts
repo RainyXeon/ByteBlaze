@@ -53,7 +53,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "detail_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "detail_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -64,7 +66,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "detail_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "detail_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -72,7 +76,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "detail_private")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "detail_private")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -124,15 +130,21 @@ export default class implements Command {
     if (!number) {
       if (pages.length == pagesNum && playlist.tracks!.length > 10) {
         if (handler.message) {
-          await new PageQueue(client, pages, 30000, playlist.tracks!.length, handler.language).prefixPage(
-            handler.message,
-            totalDuration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            30000,
+            playlist.tracks!.length,
+            handler.language
+          ).prefixPage(handler.message, totalDuration);
         } else if (handler.interaction) {
-          await new PageQueue(client, pages, 30000, playlist.tracks!.length, handler.language).slashPage(
-            handler.interaction,
-            totalDuration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            30000,
+            playlist.tracks!.length,
+            handler.language
+          ).slashPage(handler.interaction, totalDuration);
         }
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
@@ -140,7 +152,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.playlist", "detail_notnumber")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.playlist", "detail_notnumber")}`
+              )
               .setColor(client.color),
           ],
         });

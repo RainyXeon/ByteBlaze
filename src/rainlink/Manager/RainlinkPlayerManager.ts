@@ -29,7 +29,8 @@ export class RainlinkPlayerManager extends RainlinkDatabase<RainlinkPlayer> {
     const node = getCustomNode ? getCustomNode : await this.manager.nodes.getLeastUsed();
     if (!node) throw new Error("Can't find any nodes to connect on");
     const customPlayer =
-      this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.player;
+      this.manager.rainlinkOptions.options!.structures &&
+      this.manager.rainlinkOptions.options!.structures.player;
     let player = customPlayer
       ? new customPlayer(this.manager, options, node)
       : new RainlinkPlayer(this.manager, options, node);

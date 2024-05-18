@@ -1,4 +1,9 @@
-import { EmbedBuilder, ApplicationCommandOptionType, CommandInteraction, AutocompleteInteraction } from "discord.js";
+import {
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  CommandInteraction,
+  AutocompleteInteraction,
+} from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -58,7 +63,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "add_match")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "add_match")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -72,7 +79,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "add_match")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "add_match")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -80,7 +89,10 @@ export default class implements Command {
     else TrackAdd.push(tracks[0]);
 
     const Duration = new ConvertTime().parse(tracks[0].duration as number);
-    const TotalDuration = tracks.reduce((acc, cur) => acc + (cur.duration || 0), tracks[0].duration ?? 0);
+    const TotalDuration = tracks.reduce(
+      (acc, cur) => acc + (cur.duration || 0),
+      tracks[0].duration ?? 0
+    );
 
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
@@ -121,7 +133,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "add_match")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "add_match")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -142,7 +156,9 @@ export default class implements Command {
       handler.followUp({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "add_owner")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "add_owner")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -191,7 +207,12 @@ export default class implements Command {
     TrackAdd.length = 0;
   }
 
-  getTitle(client: Manager, type: RainlinkSearchResultType, tracks: RainlinkTrack[], value?: string): string {
+  getTitle(
+    client: Manager,
+    type: RainlinkSearchResultType,
+    tracks: RainlinkTrack[],
+    value?: string
+  ): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {

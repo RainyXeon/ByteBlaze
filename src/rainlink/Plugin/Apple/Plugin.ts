@@ -1,4 +1,8 @@
-import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../Interface/Manager.js";
+import {
+  RainlinkSearchOptions,
+  RainlinkSearchResult,
+  RainlinkSearchResultType,
+} from "../../Interface/Manager.js";
 import { Rainlink } from "../../Rainlink.js";
 import { RainlinkTrack } from "../../Player/RainlinkTrack.js";
 import { SourceRainlinkPlugin } from "../SourceRainlinkPlugin.js";
@@ -33,7 +37,10 @@ const credentials = {
 export class RainlinkPlugin extends SourceRainlinkPlugin {
   public options: AppleOptions;
   private manager: Rainlink | null;
-  private _search?: (query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>;
+  private _search?: (
+    query: string,
+    options?: RainlinkSearchOptions
+  ) => Promise<RainlinkSearchResult>;
   private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
   private credentials: HeaderType;
   private fetchURL: string;
@@ -116,7 +123,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
     this.manager.search = rainlink.search.bind(rainlink);
   }
 
-  protected async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  protected async search(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
     if (res.tracks.length == 0) return this.searchDirect(query, options);
@@ -129,7 +139,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    * @param options search option like RainlinkSearchOptions
    * @returns RainlinkSearchResult
    */
-  public async searchDirect(query: string, options?: RainlinkSearchOptions | undefined): Promise<RainlinkSearchResult> {
+  public async searchDirect(
+    query: string,
+    options?: RainlinkSearchOptions | undefined
+  ): Promise<RainlinkSearchResult> {
     let type: string;
     let id: string;
     let isTrack: boolean = false;
@@ -158,7 +171,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
         if (isTrack) _function = this.methods.track;
         const result: Result = await _function(id, options?.requester);
 
-        const loadType = isTrack ? RainlinkSearchResultType.TRACK : RainlinkSearchResultType.PLAYLIST;
+        const loadType = isTrack
+          ? RainlinkSearchResultType.TRACK
+          : RainlinkSearchResultType.PLAYLIST;
         const playlistName = result.name ?? undefined;
 
         const tracks = result.tracks.filter(this.filterNullOrUndefined);
@@ -183,13 +198,15 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
 
   private async searchTrack(query: string, requester: unknown): Promise<Result> {
     try {
-      const res = await this.getData(`/search?types=songs&term=${query.replace(/ /g, "+").toLocaleLowerCase()}`).catch(
-        (e) => {
-          throw new Error(e);
-        }
-      );
+      const res = await this.getData(
+        `/search?types=songs&term=${query.replace(/ /g, "+").toLocaleLowerCase()}`
+      ).catch((e) => {
+        throw new Error(e);
+      });
       return {
-        tracks: res.results.songs.data.map((track: Track) => this.buildRainlinkTrack(track, requester)),
+        tracks: res.results.songs.data.map((track: Track) =>
+          this.buildRainlinkTrack(track, requester)
+        ),
       };
     } catch (e: any) {
       throw new Error(e);
@@ -294,7 +311,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.manager ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Apple] | ${logs}`) : true;
+    this.manager
+      ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Apple] | ${logs}`)
+      : true;
   }
 }
 

@@ -46,7 +46,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_already")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "removetrack_already")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -54,7 +56,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "removetrack_notfound")}`
+            )
             .setColor(client.color),
         ],
       });

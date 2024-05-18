@@ -13,12 +13,21 @@ export class AutoReconnectLavalinkService {
 
   async execute() {
     this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink...`);
-    this.client.logger.setup(AutoReconnectLavalinkService.name, `Auto ReConnect Collecting player 24/7 data`);
+    this.client.logger.setup(
+      AutoReconnectLavalinkService.name,
+      `Auto ReConnect Collecting player 24/7 data`
+    );
     const maindata = await this.client.db.autoreconnect.all();
 
     if (!maindata || maindata.length == 0) {
-      this.client.logger.setup(AutoReconnectLavalinkService.name, `Auto ReConnect found in 0 servers!`);
-      this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink complete!`);
+      this.client.logger.setup(
+        AutoReconnectLavalinkService.name,
+        `Auto ReConnect found in 0 servers!`
+      );
+      this.client.logger.setup(
+        AutoReconnectLavalinkService.name,
+        `Setting up data for lavalink complete!`
+      );
       return;
     }
 
@@ -51,14 +60,19 @@ export class AutoReconnectLavalinkService {
         `Reconnected to all ${Object.keys(maindata).length} servers!`
       );
 
-      this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink complete!`);
+      this.client.logger.setup(
+        AutoReconnectLavalinkService.name,
+        `Setting up data for lavalink complete!`
+      );
     }, 3000);
   }
 
   async connectChannel(data: { id: string; value: AutoReconnect }) {
     const channel = await this.client.channels.fetch(data.value.text).catch(() => undefined);
     const guild = await this.client.guilds.fetch(data.value.guild).catch(() => undefined);
-    const voice = (await this.client.channels.fetch(data.value.voice).catch(() => undefined)) as VoiceChannel;
+    const voice = (await this.client.channels
+      .fetch(data.value.voice)
+      .catch(() => undefined)) as VoiceChannel;
     if (!channel || !voice) {
       this.client.logger.setup(
         AutoReconnectLavalinkService.name,
@@ -93,9 +107,11 @@ export class AutoReconnectLavalinkService {
 
       if (data.value.queue.length !== 0) await this.queueDataPush(data.value.queue, player);
 
-      if (data.value.previous.length !== 0) await this.previousDataPush(data.value.previous, player);
+      if (data.value.previous.length !== 0)
+        await this.previousDataPush(data.value.previous, player);
 
-      if (data.value.config.loop !== "none") player.setLoop(data.value.config.loop as RainlinkLoopMode);
+      if (data.value.config.loop !== "none")
+        player.setLoop(data.value.config.loop as RainlinkLoopMode);
       await player.play(search.tracks[0]);
     }
   }

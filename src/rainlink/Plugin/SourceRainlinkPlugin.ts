@@ -37,7 +37,10 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
    * @returns RainlinkSearchResult
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async searchDirect(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  public async searchDirect(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     throw new Error("Source plugin must implement sourceIdentify() and return as string");
   }
 }

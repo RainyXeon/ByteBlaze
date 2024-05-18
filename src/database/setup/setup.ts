@@ -22,7 +22,9 @@ export class SongRequesterCleanSetup {
   }
 
   async restore(setupData: Setup) {
-    let channel = (await this.client.channels.fetch(setupData.channel).catch(() => undefined)) as TextChannel;
+    let channel = (await this.client.channels
+      .fetch(setupData.channel)
+      .catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
     let playMsg = await channel.messages.fetch(setupData.playmsg).catch(() => undefined);
@@ -30,7 +32,10 @@ export class SongRequesterCleanSetup {
 
     let guildModel = await this.client.db.language.get(`${setupData.guild}`);
     if (!guildModel) {
-      guildModel = await this.client.db.language.set(`${setupData.guild}`, this.client.config.bot.LANGUAGE);
+      guildModel = await this.client.db.language.set(
+        `${setupData.guild}`,
+        this.client.config.bot.LANGUAGE
+      );
     }
 
     const language = guildModel;
@@ -42,7 +47,9 @@ export class SongRequesterCleanSetup {
       .setAuthor({
         name: `${this.client.getString(language, "setup", "setup_playembed_author")}`,
       })
-      .setImage(`https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`);
+      .setImage(
+        `https://cdn.discordapp.com/avatars/${this.client.user!.id}/${this.client.user!.avatar}.jpeg?size=300`
+      );
 
     return await playMsg
       .edit({

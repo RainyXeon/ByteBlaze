@@ -46,7 +46,8 @@ export default class implements Command {
 
     const song = player.queue.current;
     const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
-    const thumbnail = song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
+    const thumbnail =
+      song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(player.queue.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -94,15 +95,21 @@ export default class implements Command {
     if (!value) {
       if (pages.length == pagesNum && player.queue.length > 10) {
         if (handler.message) {
-          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).prefixPage(
-            handler.message,
-            qduration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            60000,
+            player.queue.length,
+            handler.language
+          ).prefixPage(handler.message, qduration);
         } else if (handler.interaction) {
-          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).slashPage(
-            handler.interaction,
-            qduration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            60000,
+            player.queue.length,
+            handler.language
+          ).slashPage(handler.interaction, qduration);
         } else return;
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
@@ -110,7 +117,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.music", "queue_notnumber")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.music", "queue_notnumber")}`
+              )
               .setColor(client.color),
           ],
         });

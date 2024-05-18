@@ -21,8 +21,13 @@ export class YAMLParseService {
 
       if (re.exec(element) !== null || re.exec(element)) {
         const extract = re.exec(element) as string[] | null;
-        if (process.env![extract![1]] && boolean.includes(process.env[extract![1]]!.trim().toLowerCase())) {
-          const boolean_prase_res: boolean | "null" | undefined = this.parseBoolean(process.env[extract![1]]!);
+        if (
+          process.env![extract![1]] &&
+          boolean.includes(process.env[extract![1]]!.trim().toLowerCase())
+        ) {
+          const boolean_prase_res: boolean | "null" | undefined = this.parseBoolean(
+            process.env[extract![1]]!
+          );
           res_array.push(_.replace(element, extract![0], String(boolean_prase_res)));
         } else {
           res_array.push(_.replace(element, extract![0], process.env[extract![1]]!));

@@ -123,7 +123,10 @@ export class RainlinkWebsocket extends EventEmitter {
     const key = crypto.randomBytes(16).toString("base64");
 
     const request = agent.request(
-      (isSecure ? "https://" : "http://") + parsedUrl.hostname + parsedUrl.pathname + parsedUrl.search,
+      (isSecure ? "https://" : "http://") +
+        parsedUrl.hostname +
+        parsedUrl.pathname +
+        parsedUrl.search,
       {
         port: parsedUrl.port || (isSecure ? 443 : 80),
         timeout: this.options?.timeout ?? 0,
@@ -234,7 +237,9 @@ export class RainlinkWebsocket extends EventEmitter {
         if (headers.fin) {
           this.emit(
             "message",
-            this.continueInfo.type === 1 ? this.continueInfo.buffer.join("") : Buffer.concat(this.continueInfo.buffer)
+            this.continueInfo.type === 1
+              ? this.continueInfo.buffer.join("")
+              : Buffer.concat(this.continueInfo.buffer)
           );
 
           this.continueInfo = {
@@ -258,7 +263,10 @@ export class RainlinkWebsocket extends EventEmitter {
           this.continueInfo.type = headers.opcode;
           this.continueInfo.buffer.push(headers.buffer);
         } else {
-          this.emit("message", headers.opcode === 0x1 ? headers.buffer.toString("utf8") : headers.buffer);
+          this.emit(
+            "message",
+            headers.opcode === 0x1 ? headers.buffer.toString("utf8") : headers.buffer
+          );
         }
 
         break;
@@ -323,7 +331,10 @@ export class RainlinkWebsocket extends EventEmitter {
    * Send raw buffer data to ws server
    * @returns boolean
    */
-  sendData(data: Buffer, options: { len: number; fin?: boolean; opcode: number; mask?: Buffer | boolean }) {
+  sendData(
+    data: Buffer,
+    options: { len: number; fin?: boolean; opcode: number; mask?: Buffer | boolean }
+  ) {
     let payloadStartIndex = 2;
     let payloadLength = options.len;
     let mask = null;

@@ -13,7 +13,10 @@ import {
 } from "discord.js";
 import { Manager } from "../../manager.js";
 import { GlobalInteraction, NoAutoInteraction } from "../../@types/Interaction.js";
-import { CheckPermissionResultInterface, CheckPermissionServices } from "../../services/CheckPermissionService.js";
+import {
+  CheckPermissionResultInterface,
+  CheckPermissionServices,
+} from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { ConvertToMention } from "../../utilities/ConvertToMention.js";
@@ -42,7 +45,10 @@ export default class {
 
     let guildModel = await client.db.language.get(`${interaction.guild.id}`);
     if (!guildModel) {
-      guildModel = await client.db.language.set(`${interaction.guild.id}`, client.config.bot.LANGUAGE);
+      guildModel = await client.db.language.set(
+        `${interaction.guild.id}`,
+        client.config.bot.LANGUAGE
+      );
     }
 
     const language = guildModel;
@@ -70,7 +76,9 @@ export default class {
     if (!command) return commandNameArray.length == 0;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = commandRateLimitManager.acquire(`${interaction.user.id}@${command.name.join("-")}`);
+    const ratelimit = commandRateLimitManager.acquire(
+      `${interaction.user.id}@${command.name.join("-")}`
+    );
 
     if (ratelimit.limited) {
       new RatelimitReplyService({
@@ -137,31 +145,77 @@ export default class {
       if (returnData.result !== "PermissionPass") return respondError(interaction, returnData);
     }
     //////////////////////////////// Permission check end ////////////////////////////////
-    const premiumUser = await client.db.premium.get(interaction.user.id);
-    const premiumGuild = await client.db.preGuild.get(interaction.guild.id);
 
-    const isDontHavePremium = !premiumUser || !premiumUser.isPremium || !premiumGuild || !premiumGuild.isPremium;
-    if (
-      command.accessableby.includes(Accessableby.Manager) &&
-      !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(PermissionsBitField.Flags.ManageGuild)
-    )
+    //////////////////////////////// Check avalibility start ////////////////////////////////
+    const isNotManager = !(interaction.member!.permissions as Readonly<PermissionsBitField>).has(
+      PermissionsBitField.Flags.ManageGuild
+    );
+
+    if (command.accessableby.includes(Accessableby.Manager) && isNotManager)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`)
+            .setDescription(
+              `${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`
+            )
             .setColor(client.color),
         ],
       });
 
+    if (command.playerCheck) {
+      const player = client.rainlink.players.get(interaction.guild!.id);
+      const twentyFourBuilder = new AutoReconnectBuilderService(client);
+      const is247 = await twentyFourBuilder.get(interaction.guild!.id);
+      if (
+        !player ||
+        (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current)
+      )
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(`${client.getString(language, "error", "no_player")}`)
+              .setColor(client.color),
+          ],
+        });
+    }
+
+    if (command.sameVoiceCheck) {
+      const { channel } = (interaction.member as GuildMember)!.voice;
+      if (
+        !channel ||
+        (interaction.member as GuildMember)!.voice.channel !==
+          interaction.guild!.members.me!.voice.channel
+      )
+        return (interaction as NoAutoInteraction).reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(`${client.getString(language, "error", "no_voice")}`)
+              .setColor(client.color),
+          ],
+        });
+    }
+
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return interaction.reply({
         embeds: [
-          new EmbedBuilder().setDescription(`${client.getString(language, "error", "no_node")}`).setColor(client.color),
+          new EmbedBuilder()
+            .setDescription(`${client.getString(language, "error", "no_node")}`)
+            .setColor(client.color),
         ],
       });
     }
+    //////////////////////////////// Check avalibility end ////////////////////////////////
 
-    if (command.accessableby.includes(Accessableby.Owner) && interaction.user.id != client.owner)
+    //////////////////////////////// Check accessibility start ////////////////////////////////
+    const premiumUser = await client.db.premium.get(interaction.user.id);
+    const premiumGuild = await client.db.preGuild.get(interaction.guild.id);
+    const isNotPremium = !premiumUser || !premiumUser.isPremium;
+    const isNotPremiumGuild = !premiumGuild || !premiumGuild.isPremium;
+    const isNotOwner = interaction.user.id != client.owner;
+    const isNotAdmin = !client.config.bot.ADMIN.includes(interaction.user.id);
+    let accessPassBit = 0;
+
+    if (command.accessableby.includes(Accessableby.Owner) && isNotOwner)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -170,26 +224,62 @@ export default class {
         ],
       });
 
-    if (
-      command.accessableby.includes(Accessableby.Admin) &&
-      interaction.user.id != client.owner &&
-      !client.config.bot.ADMIN.includes(interaction.user.id)
-    )
+    accessPassBit = accessPassBit + 1;
+
+    if (command.accessableby.includes(Accessableby.Admin) && (isNotAdmin || accessPassBit !== 1))
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`)
+            .setDescription(
+              `${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`
+            )
             .setColor(client.color),
         ],
       });
 
+    accessPassBit = accessPassBit + 1;
+
     if (
-      command.accessableby.includes(Accessableby.Voter) &&
-      isDontHavePremium &&
-      client.topgg &&
-      interaction.user.id != client.owner &&
-      !client.config.bot.ADMIN.includes(interaction.user.id)
+      command.accessableby.includes(Accessableby.Premium) &&
+      (isNotPremium || accessPassBit !== 2)
     ) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return interaction.reply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
+
+    accessPassBit = accessPassBit + 1;
+
+    if (
+      command.accessableby.includes(Accessableby.GuildPremium) &&
+      (isNotPremiumGuild || accessPassBit !== 3)
+    ) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.getString(language, "error", "no_guild_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return interaction.reply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
+
+    accessPassBit = accessPassBit + 1;
+
+    if (command.accessableby.includes(Accessableby.Voter) && client.topgg && accessPassBit == 4) {
       const voteChecker = await client.topgg.checkVote(interaction.user.id);
       if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()
@@ -219,55 +309,7 @@ export default class {
         return interaction.reply({ content: " ", embeds: [embed], components: [row] });
       }
     }
-
-    if (
-      command.accessableby.includes(Accessableby.Premium) &&
-      isDontHavePremium &&
-      interaction.user.id != client.owner &&
-      !client.config.bot.ADMIN.includes(interaction.user.id)
-    ) {
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${client.getString(language, "error", "no_premium_author")}`,
-          iconURL: client.user!.displayAvatarURL(),
-        })
-        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
-        .setColor(client.color)
-        .setTimestamp();
-      return interaction.reply({
-        content: " ",
-        embeds: [embed],
-      });
-    }
-
-    if (command.playerCheck) {
-      const player = client.rainlink.players.get(interaction.guild!.id);
-      const twentyFourBuilder = new AutoReconnectBuilderService(client);
-      const is247 = await twentyFourBuilder.get(interaction.guild!.id);
-      if (!player || (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current))
-        return interaction.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_player")}`)
-              .setColor(client.color),
-          ],
-        });
-    }
-
-    if (command.sameVoiceCheck) {
-      const { channel } = (interaction.member as GuildMember)!.voice;
-      if (
-        !channel ||
-        (interaction.member as GuildMember)!.voice.channel !== interaction.guild!.members.me!.voice.channel
-      )
-        return (interaction as NoAutoInteraction).reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_voice")}`)
-              .setColor(client.color),
-          ],
-        });
-    }
+    //////////////////////////////// Check accessibility end ////////////////////////////////
 
     try {
       const args = [];

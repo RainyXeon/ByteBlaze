@@ -54,7 +54,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setColor(client.color)
-            .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid_mode")}`),
+            .setDescription(
+              `${client.getString(handler.language, "command.premium", "redeem_invalid_mode")}`
+            ),
         ],
       });
 
@@ -63,7 +65,9 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setColor(client.color)
-            .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`),
+            .setDescription(
+              `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+            ),
         ],
       });
 
@@ -84,14 +88,18 @@ export default class implements Command {
     if (!premium) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`);
+        .setDescription(
+          `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+        );
       return handler.editReply({ embeds: [embed] });
     }
 
     if (premium.expiresAt !== "lifetime" && premium.expiresAt < Date.now()) {
       const embed = new EmbedBuilder()
         .setColor(client.color)
-        .setDescription(`${client.getString(handler.language, "command.premium", "redeem_invalid")}`);
+        .setDescription(
+          `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+        );
       return handler.editReply({ embeds: [embed] });
     }
 
@@ -208,7 +216,9 @@ export default class implements Command {
       .setColor(client.color);
 
     try {
-      const channel = await client.channels.fetch(client.config.features.PREMIUM_LOG_CHANNEL).catch(() => undefined);
+      const channel = await client.channels
+        .fetch(client.config.features.PREMIUM_LOG_CHANNEL)
+        .catch(() => undefined);
       if (!channel || (channel && !channel.isTextBased())) return;
       channel.messages.channel.send({ embeds: [embed] });
     } catch {}

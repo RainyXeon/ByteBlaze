@@ -48,8 +48,11 @@ export class RainlinkNode {
     }
     this.driver.initial(manager, this);
     const customRest =
-      this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
-    this.rest = customRest ? new customRest(manager, options, this) : new RainlinkRest(manager, options, this);
+      this.manager.rainlinkOptions.options!.structures &&
+      this.manager.rainlinkOptions.options!.structures.rest;
+    this.rest = customRest
+      ? new customRest(manager, options, this)
+      : new RainlinkRest(manager, options, this);
     this.wsEvent = new RainlinkPlayerEvents();
     this.stats = {
       players: 0,
@@ -95,7 +98,8 @@ export class RainlinkNode {
         const timeout = this.manager.rainlinkOptions.options?.resumeTimeout;
         this.driver.sessionId = data.sessionId;
         const customRest =
-          this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.rest;
+          this.manager.rainlinkOptions.options!.structures &&
+          this.manager.rainlinkOptions.options!.structures.rest;
         this.rest = customRest
           ? new customRest(this.manager, this.options, this)
           : new RainlinkRest(this.manager, this.options, this);
@@ -131,7 +135,10 @@ export class RainlinkNode {
     this.state = RainlinkConnectState.Disconnected;
     this.debug(`Node disconnected! URL: ${this.driver.wsUrl}`);
     this.manager.emit(RainlinkEvents.NodeDisconnect, this, code, reason);
-    if (!this.sudoDisconnect && this.retryCounter !== this.manager.rainlinkOptions.options!.retryCount) {
+    if (
+      !this.sudoDisconnect &&
+      this.retryCounter !== this.manager.rainlinkOptions.options!.retryCount
+    ) {
       await setTimeout(this.manager.rainlinkOptions.options!.retryTimeout);
       this.retryCounter = this.retryCounter + 1;
       this.reconnect(true);

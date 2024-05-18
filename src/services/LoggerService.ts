@@ -172,7 +172,9 @@ export class LoggerService {
     const channelId = this.client.config.features.LOG_CHANNEL;
     if (!channelId || channelId.length == 0) return;
     try {
-      const channel = (await this.client.channels.fetch(channelId).catch(() => undefined)) as TextChannel;
+      const channel = (await this.client.channels
+        .fetch(channelId)
+        .catch(() => undefined)) as TextChannel;
       if (!channel || !channel.isTextBased()) return;
       let embed = null;
       if (message.length > 4096) {

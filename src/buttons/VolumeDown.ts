@@ -23,7 +23,11 @@ export default class implements PlayerButton {
     })}`;
 
     if (player.volume <= 0.1) {
-      new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "volume_min")}`);
+      new ReplyInteractionService(
+        client,
+        message,
+        `${client.getString(language, "button.music", "volume_min")}`
+      );
       return;
     }
 

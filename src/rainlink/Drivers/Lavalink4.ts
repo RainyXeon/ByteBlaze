@@ -22,13 +22,20 @@ export class Lavalink4 extends AbstractDriver {
 
   constructor() {
     super();
-    this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
+    this.playerFunctions = new RainlinkDatabase<
+      (player: RainlinkPlayer, ...args: any) => unknown
+    >();
     this.functions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.sessionId = null;
   }
 
   public get isRegistered(): boolean {
-    return this.manager !== null && this.node !== null && this.wsUrl.length !== 0 && this.httpUrl.length !== 0;
+    return (
+      this.manager !== null &&
+      this.node !== null &&
+      this.wsUrl.length !== 0 &&
+      this.httpUrl.length !== 0
+    );
   }
 
   public initial(manager: Rainlink, node: RainlinkNode): void {

@@ -7,15 +7,25 @@ export interface CheckPermissionResultInterface {
 }
 
 export class CheckPermissionServices {
-  async interaction(interaction: GlobalInteraction, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
-    const voiceChannel = await interaction.guild?.members.fetch(interaction.user.id).catch(() => undefined);
+  async interaction(
+    interaction: GlobalInteraction,
+    permArray: bigint[]
+  ): Promise<CheckPermissionResultInterface> {
+    const voiceChannel = await interaction.guild?.members
+      .fetch(interaction.user.id)
+      .catch(() => undefined);
 
     const isUserInVoice = voiceChannel?.voice.channel;
 
-    const isUserInText = await interaction.guild?.channels.fetch(String(interaction.channelId)).catch(() => undefined);
+    const isUserInText = await interaction.guild?.channels
+      .fetch(String(interaction.channelId))
+      .catch(() => undefined);
 
     for (const permBit of permArray) {
-      if (isUserInVoice && !isUserInVoice.permissionsFor(interaction.guild?.members.me!).has(permBit)) {
+      if (
+        isUserInVoice &&
+        !isUserInVoice.permissionsFor(interaction.guild?.members.me!).has(permBit)
+      ) {
         return {
           result: String(this.getPermissionName(permBit)),
           channel: isUserInVoice.id,
@@ -41,9 +51,13 @@ export class CheckPermissionServices {
   }
 
   async message(message: Message, permArray: bigint[]): Promise<CheckPermissionResultInterface> {
-    const voiceChannel = await message.guild?.members.fetch(message.author.id).catch(() => undefined);
+    const voiceChannel = await message.guild?.members
+      .fetch(message.author.id)
+      .catch(() => undefined);
     const isUserInVoice = voiceChannel?.voice.channel;
-    const isUserInText = await message.guild?.channels.fetch(String(message.channelId)).catch(() => undefined);
+    const isUserInText = await message.guild?.channels
+      .fetch(String(message.channelId))
+      .catch(() => undefined);
     for (const permBit of permArray) {
       if (isUserInVoice && !isUserInVoice.permissionsFor(message.guild?.members.me!).has(permBit)) {
         return {

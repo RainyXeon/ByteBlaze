@@ -99,7 +99,11 @@ export class Manager extends Client {
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
           ]
-        : [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages],
+        : [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildVoiceStates,
+            GatewayIntentBits.GuildMessages,
+          ],
     });
 
     // Initial basic bot config
@@ -174,7 +178,9 @@ export class Manager extends Client {
         new StringSelectMenuOptionBuilder()
           .setLabel(firstUpperCase)
           .setDescription(
-            key == "clear" ? "Reset all current filter" : `${firstUpperCase} filter for better audio experience!`
+            key == "clear"
+              ? "Reset all current filter"
+              : `${firstUpperCase} filter for better audio experience!`
           )
           .setValue(key)
       );

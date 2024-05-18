@@ -39,7 +39,8 @@ export default class implements Command {
     let query = handler.args.join(" ");
     if (query.length == 0) {
       const player = client.rainlink.players.get(String(handler.guild?.id));
-      if (player) query = player.queue.current ? player.queue.current.title : handler.args.join(" ");
+      if (player)
+        query = player.queue.current ? player.queue.current.title : handler.args.join(" ");
     }
 
     try {
@@ -49,7 +50,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.music", "lyrics_notfound")}`
+              )
               .setColor(client.color),
           ],
         });
@@ -58,7 +61,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "lyrics_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -75,7 +80,9 @@ export default class implements Command {
       .setTimestamp();
 
     if (lyricsRes.length > 4096) {
-      embed.setDescription(`${client.getString(handler.language, "command.music", "lyrics_toolong")}`);
+      embed.setDescription(
+        `${client.getString(handler.language, "command.music", "lyrics_toolong")}`
+      );
     }
 
     return handler.editReply({ embeds: [embed] });

@@ -22,11 +22,14 @@ export default class {
     client.emit("playerEnd", player);
 
     let data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
     if (channel) {
       if (data && data.twentyfourseven) return;
 
-      if (player.queue.length || player!.queue!.current) return new ClearMessageService(client, channel, player);
+      if (player.queue.length || player!.queue!.current)
+        return new ClearMessageService(client, channel, player);
 
       if (player.loop !== "none") return new ClearMessageService(client, channel, player);
     }

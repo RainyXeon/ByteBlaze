@@ -34,7 +34,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.utils", "prefix_length")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.utils", "prefix_length")}`
+            )
             .setColor(client.color),
         ],
       });

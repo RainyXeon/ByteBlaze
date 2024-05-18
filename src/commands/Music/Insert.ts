@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType, AutocompleteInteraction, CommandInteraction, EmbedBuilder } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  AutocompleteInteraction,
+  CommandInteraction,
+  EmbedBuilder,
+} from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -55,7 +60,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "insert_already")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "insert_already")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -63,7 +70,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "insert_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "insert_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -75,7 +84,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "insert_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "insert_notfound")}`
+            )
             .setColor(client.color),
         ],
       });

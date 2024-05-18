@@ -39,13 +39,22 @@ export class ConfigDataService {
   }
 
   checkConfig(res?: Config) {
-    if (!res) throw new Error("Config file not contains any config, please check app.example.yml for example");
+    if (!res)
+      throw new Error(
+        "Config file not contains any config, please check app.example.yml for example"
+      );
     if (!res.bot)
-      throw new Error("Config file not contains bot config field, please check app.example.yml for example");
+      throw new Error(
+        "Config file not contains bot config field, please check app.example.yml for example"
+      );
     if (!res.lavalink)
-      throw new Error("Config file not contains lavalink config field, please check app.example.yml for example");
+      throw new Error(
+        "Config file not contains lavalink config field, please check app.example.yml for example"
+      );
     if (!res.bot.OWNER_ID)
-      throw new Error("Config file not contains OWNER_ID, please check app.example.yml for example");
+      throw new Error(
+        "Config file not contains OWNER_ID, please check app.example.yml for example"
+      );
     if (!res.bot.TOKEN || res.bot.TOKEN.length == 0)
       throw new Error("Config file not contains TOKEN, please check app.example.yml for example");
     if (!Array.isArray(res.bot.TOKEN))

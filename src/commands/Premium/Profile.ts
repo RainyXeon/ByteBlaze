@@ -23,12 +23,13 @@ export default class implements Command {
     await handler.deferReply();
 
     if (handler.user?.id == client.owner) return this.owner(client, handler);
-    if (client.config.bot.ADMIN.includes(handler.user?.id ?? "null")) return this.admin(client, handler);
+    if (client.config.bot.ADMIN.includes(handler.user?.id ?? "null"))
+      return this.admin(client, handler);
 
     const PremiumPlan = (await client.db.premium.get(`${handler.user?.id}`)) as Premium;
-    const expires = moment(PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0).format(
-      "dddd, MMMM Do YYYY (HH:mm:ss)"
-    );
+    const expires = moment(
+      PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0
+    ).format("dddd, MMMM Do YYYY (HH:mm:ss)");
 
     const embed = new EmbedBuilder()
       .setAuthor({

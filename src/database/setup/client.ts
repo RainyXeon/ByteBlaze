@@ -66,7 +66,9 @@ export class ClientDataService {
 
       SetupChannel.forEach(async (g) => {
         const fetch_channel =
-          g.channel.length !== 0 ? await this.client.channels.fetch(g.channel).catch(() => undefined) : undefined;
+          g.channel.length !== 0
+            ? await this.client.channels.fetch(g.channel).catch(() => undefined)
+            : undefined;
         if (!fetch_channel) return;
         const text_channel = fetch_channel! as TextChannel;
         const interval_text = await text_channel.messages!.fetch(g.statmsg).catch(() => undefined);

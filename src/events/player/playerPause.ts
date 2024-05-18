@@ -20,7 +20,9 @@ export default class {
       const channel = await client.channels.fetch(setup.channel).catch(() => undefined);
       if (!channel) return;
       if (!channel.isTextBased) return;
-      const msg = await (channel as TextChannel).messages.fetch(setup.playmsg).catch(() => undefined);
+      const msg = await (channel as TextChannel).messages
+        .fetch(setup.playmsg)
+        .catch(() => undefined);
       if (!msg) return;
       msg.edit({ components: [client.enSwitch] });
     }

@@ -75,7 +75,8 @@ export class RainlinkQueue extends Array<RainlinkTrack> {
    * @returns RainlinkQueue
    */
   public remove(position: number): RainlinkQueue {
-    if (position < 0 || position >= this.length) throw new Error("Position must be between 0 and " + (this.length - 1));
+    if (position < 0 || position >= this.length)
+      throw new Error("Position must be between 0 and " + (this.length - 1));
     const track = this[position];
     this.splice(position, 1);
     this.manager.emit(RainlinkEvents.QueueRemove, this.player, this, track);

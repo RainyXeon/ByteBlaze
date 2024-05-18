@@ -3,7 +3,11 @@ import { User } from "discord.js";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 
-export async function getStatus(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
+export async function getStatus(
+  client: Manager,
+  req: Fastify.FastifyRequest,
+  res: Fastify.FastifyReply
+) {
   client.logger.info(
     "StatusRouterService",
     `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`

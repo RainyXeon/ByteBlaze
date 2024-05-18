@@ -61,7 +61,9 @@ export class ButtonPause {
     } else {
       const getChannel = await this.client.channels.fetch(data.channel).catch(() => undefined);
       if (!getChannel) return;
-      let playMsg = await (getChannel as TextChannel)!.messages.fetch(data.playmsg).catch(() => undefined);
+      let playMsg = await (getChannel as TextChannel)!.messages
+        .fetch(data.playmsg)
+        .catch(() => undefined);
       if (!playMsg) return;
 
       const newPlayer = await this.player.setPause(!this.player.paused);

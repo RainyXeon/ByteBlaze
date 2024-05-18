@@ -30,12 +30,18 @@ export default class implements Command {
     let sentSuccesfully = 0;
 
     for (const guild of allGuild) {
-      const channelFilterTextBased = guild.channels.cache.filter((channel) => channel.isTextBased());
+      const channelFilterTextBased = guild.channels.cache.filter((channel) =>
+        channel.isTextBased()
+      );
       const channelFilterPermission = channelFilterTextBased.filter((channel) =>
         channel.guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages)
       );
-      const channelFilterGeneral = channelFilterPermission.filter((channel) => channel.name.includes("general"));
-      const channelFilterNonGeneral = channelFilterPermission.filter((channel) => !channel.name.includes("general"));
+      const channelFilterGeneral = channelFilterPermission.filter((channel) =>
+        channel.name.includes("general")
+      );
+      const channelFilterNonGeneral = channelFilterPermission.filter(
+        (channel) => !channel.name.includes("general")
+      );
       if (channelFilterGeneral.size !== 0) {
         avalibleChannel.push(channelFilterGeneral.first()!);
       } else {

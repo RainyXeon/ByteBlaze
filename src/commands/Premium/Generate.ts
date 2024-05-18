@@ -140,7 +140,8 @@ export default class implements Command {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
-          expires: time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY (HH:mm:ss)"),
+          expires:
+            time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY (HH:mm:ss)"),
         })}`
       )
       .setTimestamp()

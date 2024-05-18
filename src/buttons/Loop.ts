@@ -30,7 +30,11 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.SONG);
 
-        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_current")}`);
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.getString(language, "button.music", "loop_current")}`
+        );
 
         client.wsl.get(message.guild!.id)?.send({
           op: "playerLoop",
@@ -45,7 +49,11 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.QUEUE);
 
-        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "loop_all")}`);
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.getString(language, "button.music", "loop_all")}`
+        );
 
         client.wsl.get(message.guild!.id)?.send({
           op: "playerLoop",
@@ -60,7 +68,11 @@ export default class implements PlayerButton {
 
         setLoop247(RainlinkLoopMode.NONE);
 
-        new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "unloop_all")}`);
+        new ReplyInteractionService(
+          client,
+          message,
+          `${client.getString(language, "button.music", "unloop_all")}`
+        );
 
         client.wsl.get(message.guild!.id)?.send({
           op: "playerLoop",

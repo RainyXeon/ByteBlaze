@@ -49,7 +49,9 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "button.music", "previous_notfound")}`)
+            .setDescription(
+              `${this.client.getString(this.language, "button.music", "previous_notfound")}`
+            )
             .setColor(this.client.color),
         ],
       });

@@ -18,7 +18,9 @@ export default class {
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
     if (!channel) return player.destroy();
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
@@ -36,7 +38,10 @@ export default class {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete().catch(() => null) : true),
+        async () =>
+          !setup || setup == null || setup.channel !== channel.id
+            ? msg.delete().catch(() => null)
+            : true,
         client.config.bot.DELETE_MSG_TIMEOUT
       );
     }

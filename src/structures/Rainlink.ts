@@ -1,5 +1,11 @@
 import { Manager } from "../manager.js";
-import { Library, Plugin, Rainlink, RainlinkAdditionalOptions, RainlinkPlugin } from "../rainlink/main.js";
+import {
+  Library,
+  Plugin,
+  Rainlink,
+  RainlinkAdditionalOptions,
+  RainlinkPlugin,
+} from "../rainlink/main.js";
 
 export class RainlinkInit {
   client: Manager;
@@ -12,7 +18,9 @@ export class RainlinkInit {
       library: new Library.DiscordJS(this.client),
       nodes: this.client.config.lavalink.NODES,
       plugins: this.plugins,
-      options: this.client.config.features.AUTOFIX_LAVALINK.enable ? this.autofixConfig : this.defaultConfig,
+      options: this.client.config.features.AUTOFIX_LAVALINK.enable
+        ? this.autofixConfig
+        : this.defaultConfig,
     });
   }
 

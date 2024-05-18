@@ -50,7 +50,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "create_toolong")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "create_toolong")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -58,7 +60,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "des_toolong")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "des_toolong")}`
+            )
             .setColor(client.color),
         ],
       });

@@ -31,7 +31,10 @@ export class TableSetup {
     await baseDB.init();
     const end = Date.now();
 
-    this.client.logger.info("DatabaseService", `Connected to the database! [${this.driverName}] [${end - start}ms]`);
+    this.client.logger.info(
+      "DatabaseService",
+      `Connected to the database! [${this.driverName}] [${end - start}ms]`
+    );
 
     this.client.db = {
       autoreconnect: await baseDB.table<AutoReconnect>("autoreconnect"),

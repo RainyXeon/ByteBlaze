@@ -32,7 +32,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_number")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.filter", "filter_number")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -57,7 +59,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "bassboost_limit")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.filter", "bassboost_limit")}`
+            )
             .setColor(client.color),
         ],
       });

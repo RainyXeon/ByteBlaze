@@ -37,7 +37,10 @@ export interface SearchParams {
 }
 
 export type Target = "title" | "description" | "tags" | "tagsExact";
-export type FilterField = Exclude<keyof Fields, "contentId" | "title" | "description" | "thumbnailUrl" | "lastResBody">;
+export type FilterField = Exclude<
+  keyof Fields,
+  "contentId" | "title" | "description" | "thumbnailUrl" | "lastResBody"
+>;
 export type ResponseField = Exclude<keyof Fields, "tagsExact">;
 export type JsonFilter = EqualFilter | RangeFilter | AndFilter | OrFilter | NotFilter;
 export type Sort = `${"+" | "-"}${

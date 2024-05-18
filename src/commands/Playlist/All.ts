@@ -89,13 +89,21 @@ export default class implements Command {
     if (!number) {
       if (pages.length == pagesNum && playlists.length > 10) {
         if (handler.message) {
-          await new PageQueue(client, pages, 30000, playlists.length, handler.language).prefixPlaylistPage(
-            handler.message
-          );
+          await new PageQueue(
+            client,
+            pages,
+            30000,
+            playlists.length,
+            handler.language
+          ).prefixPlaylistPage(handler.message);
         } else if (handler.interaction) {
-          await new PageQueue(client, pages, 30000, playlists.length, handler.language).slashPlaylistPage(
-            handler.interaction
-          );
+          await new PageQueue(
+            client,
+            pages,
+            30000,
+            playlists.length,
+            handler.language
+          ).slashPlaylistPage(handler.interaction);
         }
         return (playlists.length = 0);
       } else {
@@ -107,7 +115,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.playlist", "view_notnumber")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.playlist", "view_notnumber")}`
+              )
               .setColor(client.color),
           ],
         });

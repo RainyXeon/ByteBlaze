@@ -1,4 +1,11 @@
-import { PermissionsBitField, EmbedBuilder, VoiceState, GuildMember, Role, TextChannel } from "discord.js";
+import {
+  PermissionsBitField,
+  EmbedBuilder,
+  VoiceState,
+  GuildMember,
+  Role,
+  TextChannel,
+} from "discord.js";
 import { Manager } from "../../manager.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { RainlinkPlayerState } from "../../rainlink/main.js";
@@ -60,7 +67,9 @@ export default class {
 
     const vcRoom = oldState.guild.members.me!.voice.channel!.id;
 
-    const leaveEmbed = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const leaveEmbed = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
 
     if (
       newState.guild.members.me!.voice?.channel &&
@@ -68,7 +77,8 @@ export default class {
     ) {
       if (oldState.channelId) return;
       if (oldState.channelId === newState.channelId) return;
-      if (newState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size > 2) return;
+      if (newState.guild.members.me!.voice.channel.members.filter((m) => !m.user.bot).size > 2)
+        return;
       // Resume player
 
       const leaveTimeout = client.leaveDelay.get(newState.guild.id);
@@ -92,7 +102,9 @@ export default class {
           : null;
         setTimeout(
           async () =>
-            (!setup || setup == null || setup.channel !== player.textId) && msg ? msg.delete().catch(() => null) : true,
+            (!setup || setup == null || setup.channel !== player.textId) && msg
+              ? msg.delete().catch(() => null)
+              : true,
           client.config.bot.DELETE_MSG_TIMEOUT
         );
       }
@@ -117,15 +129,21 @@ export default class {
           ],
         });
         setTimeout(async () => {
-          const isChannelAvalible = await client.channels.fetch(msg.channelId).catch(() => undefined);
+          const isChannelAvalible = await client.channels
+            .fetch(msg.channelId)
+            .catch(() => undefined);
           if (!isChannelAvalible) return;
-          !setup || setup == null || setup.channel !== player.textId ? msg.delete().catch(() => null) : true;
+          !setup || setup == null || setup.channel !== player.textId
+            ? msg.delete().catch(() => null)
+            : true;
         }, client.config.bot.DELETE_MSG_TIMEOUT);
       }
 
       // Delay leave timeout
       let leaveDelayTimeout = setTimeout(async () => {
-        const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter((m) => !m.user.bot).size;
+        const vcMembers = oldState.guild.members.me!.voice.channel?.members.filter(
+          (m) => !m.user.bot
+        ).size;
         if (!vcMembers || vcMembers === 1) {
           const newPlayer = client.rainlink?.players.get(newState.guild.id);
           player.data.set("sudo-destroy", true);
@@ -139,7 +157,10 @@ export default class {
             .setColor(client.color);
           try {
             if (leaveEmbed) {
-              const msg = newPlayer && leaveEmbed ? await leaveEmbed.send({ embeds: [TimeoutEmbed] }) : undefined;
+              const msg =
+                newPlayer && leaveEmbed
+                  ? await leaveEmbed.send({ embeds: [TimeoutEmbed] })
+                  : undefined;
               setTimeout(
                 async () =>
                   msg && (!setup || setup == null || setup.channel !== player.textId)

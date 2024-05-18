@@ -8,7 +8,7 @@ export default class implements Command {
   public name = ["pm", "guild-profile"];
   public description = "View your guild premium profile!";
   public category = "Premium";
-  public accessableby = [Accessableby.Member];
+  public accessableby = [Accessableby.GuildPremium];
   public usage = "";
   public aliases = [];
   public lavalink = false;
@@ -23,18 +23,9 @@ export default class implements Command {
 
     const PremiumPlan = await client.db.preGuild.get(`${handler.guild?.id}`);
 
-    if (!PremiumPlan)
-      return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "guild_profile_desc")}`)
-            .setColor(client.color),
-        ],
-      });
-
-    const expires = moment(PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0).format(
-      "dddd, MMMM Do YYYY (HH:mm:ss)"
-    );
+    const expires = moment(
+      PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0
+    ).format("dddd, MMMM Do YYYY (HH:mm:ss)");
 
     const embed = new EmbedBuilder()
       .setAuthor({
@@ -44,8 +35,8 @@ export default class implements Command {
       .setDescription(
         `${client.getString(handler.language, "command.premium", "guild_profile_desc", {
           guild: String(handler.guild?.name),
-          plan: PremiumPlan.plan,
-          expires: PremiumPlan.expiresAt == "lifetime" ? "lifetime" : expires,
+          plan: PremiumPlan!.plan,
+          expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,
         })}`
       )
       .setColor(client.color)

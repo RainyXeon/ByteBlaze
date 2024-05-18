@@ -17,7 +17,9 @@ export class SpotifyRequest {
     await this.renew();
 
     const request = await fetch(
-      disableBaseUri ? endpoint : `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
+      disableBaseUri
+        ? endpoint
+        : `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
       {
         headers: { Authorization: this.token },
       }

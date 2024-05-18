@@ -24,9 +24,15 @@ export class PlayerButtonsLoader {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(PlayerButtonsLoader.name, `${this.client.plButton.size} player buttons Loaded!`);
+      this.client.logger.loader(
+        PlayerButtonsLoader.name,
+        `${this.client.plButton.size} player buttons Loaded!`
+      );
     } else {
-      this.client.logger.warn(PlayerButtonsLoader.name, `No player button loaded, is everything ok?`);
+      this.client.logger.warn(
+        PlayerButtonsLoader.name,
+        `No player button loaded, is everything ok?`
+      );
     }
   }
 

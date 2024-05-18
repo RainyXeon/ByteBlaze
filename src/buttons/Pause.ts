@@ -1,7 +1,12 @@
 import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { filterSelect, playerRowOne, playerRowOneEdited, playerRowTwo } from "../assets/PlayerControlButton.js";
+import {
+  filterSelect,
+  playerRowOne,
+  playerRowOneEdited,
+  playerRowTwo,
+} from "../assets/PlayerControlButton.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 import { RainlinkPlayer } from "../rainlink/main.js";
 

@@ -44,7 +44,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_greater")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.filter", "filter_greater")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -52,7 +54,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_less")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.filter", "filter_less")}`
+            )
             .setColor(client.color),
         ],
       });

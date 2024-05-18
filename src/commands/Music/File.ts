@@ -37,7 +37,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "file_notfound")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "file_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -56,7 +58,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "play_invalid_file")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "play_invalid_file")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -64,7 +68,9 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "play_warning_file")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "play_warning_file")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -94,7 +100,8 @@ export default class implements Command {
       });
     if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type !== "SEARCH")
+      for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = player.queue.duration;

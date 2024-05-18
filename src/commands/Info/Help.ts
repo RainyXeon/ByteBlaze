@@ -43,11 +43,15 @@ export default class implements Command {
       if (!command)
         return handler.editReply({
           embeds: [
-            embed.setTitle(`${client.getString(handler.language, "command.info", "ce_finder_invalid")}`).setDescription(
-              `${client.getString(handler.language, "command.info", "ce_finder_example", {
-                command: `${handler.prefix}${this.name[0]}`,
-              })}`
-            ),
+            embed
+              .setTitle(
+                `${client.getString(handler.language, "command.info", "ce_finder_invalid")}`
+              )
+              .setDescription(
+                `${client.getString(handler.language, "command.info", "ce_finder_example", {
+                  command: `${handler.prefix}${this.name[0]}`,
+                })}`
+              ),
           ],
         });
 

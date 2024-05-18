@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType, AutocompleteInteraction, CommandInteraction, EmbedBuilder } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  AutocompleteInteraction,
+  CommandInteraction,
+  EmbedBuilder,
+} from "discord.js";
 import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -91,7 +96,8 @@ export default class implements Command {
       });
     if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type !== "SEARCH")
+      for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = player.queue.duration;
@@ -154,7 +160,12 @@ export default class implements Command {
     return true;
   }
 
-  getTitle(client: Manager, type: RainlinkSearchResultType, tracks: RainlinkTrack[], value?: string): string {
+  getTitle(
+    client: Manager,
+    type: RainlinkSearchResultType,
+    tracks: RainlinkTrack[],
+    value?: string
+  ): string {
     if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {

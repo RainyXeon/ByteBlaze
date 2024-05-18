@@ -1,5 +1,10 @@
 import util from "node:util";
-import { RainlinkEvents, RainlinkFilterData, RainlinkFilterMode, RainlinkPlayerState } from "../Interface/Constants.js";
+import {
+  RainlinkEvents,
+  RainlinkFilterData,
+  RainlinkFilterMode,
+  RainlinkPlayerState,
+} from "../Interface/Constants.js";
 import {
   Band,
   ChannelMix,

@@ -59,7 +59,9 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_private")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "import_private")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -71,20 +73,26 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_voice")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "import_voice")}`
+            )
             .setColor(client.color),
         ],
       });
     const SongAdd = [];
     let SongLoad = 0;
 
-    const totalDuration = new ConvertTime().parse(playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0));
+    const totalDuration = new ConvertTime().parse(
+      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
+    );
 
     if (playlist.tracks?.length == 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_empty")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.playlist", "import_empty")}`
+            )
             .setColor(client.color),
         ],
       });

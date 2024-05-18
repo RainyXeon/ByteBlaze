@@ -24,7 +24,11 @@ export class RequestManager {
     }
   }
 
-  public async makeRequest<T>(endpoint: string, disableBaseUri: boolean = false, tries: number = 3): Promise<T> {
+  public async makeRequest<T>(
+    endpoint: string,
+    disableBaseUri: boolean = false,
+    tries: number = 3
+  ): Promise<T> {
     if (this.mode === "single") return this.requests[0].makeRequest<T>(endpoint, disableBaseUri);
 
     const targetRequest = this.getLeastUsedRequest();

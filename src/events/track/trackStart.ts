@@ -25,7 +25,8 @@ export default class {
     client.logger.info("TrackStart", `Track Started in @ ${guild!.name} / ${player.guildId}`);
 
     let SongNoti = await client.db.songNoti.get(`${player.guildId}`);
-    if (!SongNoti) SongNoti = await client.db.songNoti.set(`${player.guildId}`, SongNotiEnum.Enable);
+    if (!SongNoti)
+      SongNoti = await client.db.songNoti.set(`${player.guildId}`, SongNotiEnum.Enable);
 
     if (!player) return;
 
@@ -35,7 +36,9 @@ export default class {
 
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
     client.emit("trackStart", player);
@@ -118,10 +121,14 @@ export default class {
         },
       ])
       .setColor(client.color)
-      .setThumbnail(track.artworkUrl ?? `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
+      .setThumbnail(
+        track.artworkUrl ?? `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
+      )
       .setTimestamp();
 
-    const playing_channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const playing_channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
 
     const nplaying = playing_channel
       ? await playing_channel.send({
@@ -169,21 +176,28 @@ export default class {
       },
     });
 
-    client.nplayingMsg.set(player.guildId, { coll: collector, msg: nplaying, filterColl: collectorFilter });
+    client.nplayingMsg.set(player.guildId, {
+      coll: collector,
+      msg: nplaying,
+      filterColl: collectorFilter,
+    });
 
     collectorFilter.on("collect", async (message): Promise<void> => {
       const filterMode = message.values[0] as RainlinkFilterMode;
 
       if (player.data.get("filter-mode") == filterMode) {
         const embed = new EmbedBuilder()
-          .setDescription(`${client.getString(language, "button.music", "filter_already", { name: filterMode })}`)
+          .setDescription(
+            `${client.getString(language, "button.music", "filter_already", { name: filterMode })}`
+          )
           .setColor(client.color);
         const msg = await message
           .reply({
             embeds: [embed],
           })
           .catch(() => {});
-        if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+        if (msg)
+          setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
         return;
       }
 
@@ -196,11 +210,14 @@ export default class {
             embeds: [embed],
           })
           .catch(() => {});
-        if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+        if (msg)
+          setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
         return;
       }
 
-      filterMode == "clear" ? player.data.delete("filter-mode") : player.data.set("filter-mode", filterMode);
+      filterMode == "clear"
+        ? player.data.delete("filter-mode")
+        : player.data.set("filter-mode", filterMode);
       filterMode == "clear" ? await player.filter.clear() : await player.filter.set(filterMode);
 
       const embed = new EmbedBuilder()

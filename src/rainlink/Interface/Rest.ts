@@ -48,7 +48,8 @@ export interface LavalinkPlayerVoice {
   ping?: number;
 }
 
-export interface LavalinkPlayerVoiceOptions extends Omit<LavalinkPlayerVoice, "connected" | "ping"> {}
+export interface LavalinkPlayerVoiceOptions
+  extends Omit<LavalinkPlayerVoice, "connected" | "ping"> {}
 
 export interface LavalinkPlayer {
   guildId: string;
@@ -118,7 +119,12 @@ export interface Playlist {
   tracks: RawTrack[];
 }
 
-export type LavalinkResponse = TrackResult | PlaylistResult | SearchResult | EmptyResult | ErrorResult;
+export type LavalinkResponse =
+  | TrackResult
+  | PlaylistResult
+  | SearchResult
+  | EmptyResult
+  | ErrorResult;
 
 export interface RoutePlanner {
   class:

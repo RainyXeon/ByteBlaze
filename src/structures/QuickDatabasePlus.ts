@@ -86,7 +86,11 @@ export class QuickDatabasePlus<D = any> extends QuickDB {
     return res;
   }
 
-  async pull<T = D>(key: string, value: T | T[] | ((data: T, index: string) => boolean), once = false): Promise<T[]> {
+  async pull<T = D>(
+    key: string,
+    value: T | T[] | ((data: T, index: string) => boolean),
+    once = false
+  ): Promise<T[]> {
     const res = await super.pull(key, value, once);
     const find = await super.get(key);
     this.cache.set(key, find);

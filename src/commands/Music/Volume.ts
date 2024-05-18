@@ -53,7 +53,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "volume_invalid")}`)
+            .setDescription(
+              `${client.getString(handler.language, "command.music", "volume_invalid")}`
+            )
             .setColor(client.color),
         ],
       });

@@ -24,3 +24,9 @@ remove_desc: "`✅` | Successfully removed %{user}'s Premium!"
 remove_already: "`⚠️` | %{user} already removed!"
 remove_no_params: "`⚠️` | Please mention a **User** or provide a **User ID**!"
 remove_404: "`⚠️` | %{userid} is not a **Premium User**!"
+
+### Guild remove command!
+guild_remove_desc: "`✅` | Successfully removed %{user}'s Guild Premium!"
+guild_remove_already: "`⚠️` | Guild %{user} already removed!"
+guild_remove_no_params: "`⚠️` | Please provide a **Guild ID**!"
+guild_remove_404: "`⚠️` | %{userid} is not a **Premium Guild**!"

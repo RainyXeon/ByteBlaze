@@ -61,7 +61,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.utils", "setup_enable")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.utils", "setup_enable")}`
+              )
               .setColor(client.color),
           ],
         });
@@ -83,7 +85,9 @@ export default class implements Command {
         .setAuthor({
           name: `${client.getString(handler.language, "event.setup", "setup_playembed_author")}`,
         })
-        .setImage(`https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`);
+        .setImage(
+          `https://cdn.discordapp.com/avatars/${client.user!.id}/${client.user!.avatar}.jpeg?size=300`
+        );
 
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
@@ -155,7 +159,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.utils", "setup_null")}`)
+              .setDescription(
+                `${client.getString(handler.language, "command.utils", "setup_null")}`
+              )
               .setColor(client.color),
           ],
         });
