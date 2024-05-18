@@ -1,19 +1,11 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  StringSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
-} from "discord.js";
-import { NormalModeIcons } from "./NormalModeIcons.js";
-import { SafeModeIcons } from "./SafeModeIcons.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } from "discord.js";
 import { ConfigDataService } from "../services/ConfigDataService.js";
 import { Config } from "../@types/Config.js";
 import { Manager } from "../manager.js";
 
 const data: Config = new ConfigDataService().data;
 
-let icons = data.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
+let icons = data.emojis.PLAYER;
 
 const playerRowOne = new ActionRowBuilder<ButtonBuilder>().addComponents([
   new ButtonBuilder().setCustomId("stop").setEmoji(icons.stop).setStyle(ButtonStyle.Secondary),

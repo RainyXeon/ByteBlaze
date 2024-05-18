@@ -6,7 +6,7 @@ import {
   playerRowOne,
   playerRowOneEdited,
   playerRowTwo,
-} from "../assets/PlayerControlButton.js";
+} from "../utilities/PlayerControlButton.js";
 import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
 import { RainlinkPlayer } from "../rainlink/main.js";
 

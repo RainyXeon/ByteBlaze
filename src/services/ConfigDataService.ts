@@ -74,9 +74,7 @@ export class ConfigDataService {
       delete given[key];
     }
     for (const key of defaultKeys) {
-      if (Array.isArray(given[key]) && given[key] !== null && given[key] !== undefined) {
-        if (given[key].length == 0) given[key] = def[key];
-      }
+      if (Array.isArray(given[key]) && given[key].length == 0) given[key] = def[key];
       if (def[key] === null || (typeof def[key] === "string" && def[key].length === 0)) {
         if (!given[key]) given[key] = def[key];
       }
@@ -84,6 +82,7 @@ export class ConfigDataService {
       if (typeof given[key] === "object" && given[key] !== null) {
         this.mergeDefault(def[key], given[key]);
       }
+      if (typeof given[key] !== typeof def[key]) if (!given[key]) given[key] = def[key];
     }
     return given as Required<T>;
   }
@@ -146,6 +145,25 @@ export class ConfigDataService {
         PREMIUM_LOG_CHANNEL: "",
         GUILD_LOG_CHANNEL: "",
         LOG_CHANNEL: "",
+      },
+      emojis: {
+        PLAYER: {
+          play: "▶️",
+          pause: "⏸️",
+          loop: "🔁",
+          shuffle: "🔀",
+          stop: "⏹️",
+          skip: "⏩",
+          previous: "⏪",
+          voldown: "🔉",
+          volup: "🔊",
+          queue: "📋",
+          delete: "🗑",
+        },
+        GLOBAL: {
+          arrow_next: "➡",
+          arrow_previous: "⬅",
+        },
       },
     };
   }

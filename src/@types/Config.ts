@@ -4,6 +4,7 @@ export interface Config {
   bot: Bot;
   lavalink: Lavalink;
   features: Features;
+  emojis: Emojis;
 }
 
 export interface Bot {
@@ -72,4 +73,28 @@ export interface Spotify {
   enable: boolean;
   id: string;
   secret: string;
+}
+
+export interface Emojis {
+  PLAYER: PlayerEmojis;
+  GLOBAL: GlobalEmojis;
+}
+
+export interface PlayerEmojis {
+  play: string;
+  pause: string;
+  loop: string;
+  shuffle: string;
+  stop: string;
+  skip: string;
+  previous: string;
+  voldown: string;
+  volup: string;
+  queue: string;
+  delete: string;
+}
+
+export interface GlobalEmojis {
+  arrow_next: string;
+  arrow_previous: string;
 }

@@ -1,5 +1,4 @@
-import { NormalModeIcons } from "../../assets/NormalModeIcons.js";
-import { SafeModeIcons } from "../../assets/SafeModeIcons.js";
+import { PlayerEmojis } from "./../../@types/Config.js";
 import { Manager } from "../../manager.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
@@ -10,10 +9,10 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
 export class PlayerSetupLoader {
   client: Manager;
-  icons: typeof SafeModeIcons | typeof NormalModeIcons;
+  icons: PlayerEmojis;
   constructor(client: Manager) {
     this.client = client;
-    this.icons = this.client.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
+    this.icons = this.client.config.emojis.PLAYER;
     this.registerDisableSwitch();
     this.registerEnableSwitch();
     this.registerEnableSwitchMod();

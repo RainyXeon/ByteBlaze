@@ -1,4 +1,4 @@
-import { playerRowOne, playerRowTwo } from "../../assets/PlayerControlButton.js";
+import { playerRowOne, playerRowTwo } from "../../utilities/PlayerControlButton.js";
 import { Manager } from "../../manager.js";
 import { TextChannel } from "discord.js";
 import { RainlinkPlayer } from "../../rainlink/main.js";

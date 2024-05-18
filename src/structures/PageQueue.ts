@@ -37,11 +37,11 @@ export class PageQueue {
 
     const row1 = new ButtonBuilder()
       .setCustomId("back")
-      .setEmoji(this.client.icons.arrow_previous)
+      .setEmoji(this.client.icons.GLOBAL.arrow_previous)
       .setStyle(ButtonStyle.Secondary);
     const row2 = new ButtonBuilder()
       .setCustomId("next")
-      .setEmoji(this.client.icons.arrow_next)
+      .setEmoji(this.client.icons.GLOBAL.arrow_next)
       .setStyle(ButtonStyle.Secondary);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
@@ -121,11 +121,11 @@ export class PageQueue {
 
     const row1 = new ButtonBuilder()
       .setCustomId("back")
-      .setEmoji(this.client.icons.arrow_previous)
+      .setEmoji(this.client.icons.GLOBAL.arrow_previous)
       .setStyle(ButtonStyle.Secondary);
     const row2 = new ButtonBuilder()
       .setCustomId("next")
-      .setEmoji(this.client.icons.arrow_next)
+      .setEmoji(this.client.icons.GLOBAL.arrow_next)
       .setStyle(ButtonStyle.Secondary);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
@@ -198,11 +198,11 @@ export class PageQueue {
 
     const row1 = new ButtonBuilder()
       .setCustomId("back")
-      .setEmoji(this.client.icons.arrow_previous)
+      .setEmoji(this.client.icons.GLOBAL.arrow_previous)
       .setStyle(ButtonStyle.Secondary);
     const row2 = new ButtonBuilder()
       .setCustomId("next")
-      .setEmoji(this.client.icons.arrow_next)
+      .setEmoji(this.client.icons.GLOBAL.arrow_next)
       .setStyle(ButtonStyle.Secondary);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
@@ -279,11 +279,11 @@ export class PageQueue {
 
     const row1 = new ButtonBuilder()
       .setCustomId("back")
-      .setEmoji(this.client.icons.arrow_previous)
+      .setEmoji(this.client.icons.GLOBAL.arrow_previous)
       .setStyle(ButtonStyle.Secondary);
     const row2 = new ButtonBuilder()
       .setCustomId("next")
-      .setEmoji(this.client.icons.arrow_next)
+      .setEmoji(this.client.icons.GLOBAL.arrow_next)
       .setStyle(ButtonStyle.Secondary);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 
@@ -358,11 +358,11 @@ export class PageQueue {
 
     const row1 = new ButtonBuilder()
       .setCustomId("back")
-      .setEmoji(this.client.icons.arrow_previous)
+      .setEmoji(this.client.icons.GLOBAL.arrow_previous)
       .setStyle(ButtonStyle.Secondary);
     const row2 = new ButtonBuilder()
       .setCustomId("next")
-      .setEmoji(this.client.icons.arrow_next)
+      .setEmoji(this.client.icons.GLOBAL.arrow_next)
       .setStyle(ButtonStyle.Secondary);
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
 

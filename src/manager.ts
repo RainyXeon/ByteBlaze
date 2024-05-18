@@ -20,14 +20,12 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { WebServer } from "./web/server.js";
 import { ManifestService } from "./services/ManifestService.js";
-import { NormalModeIcons } from "./assets/NormalModeIcons.js";
-import { SafeModeIcons } from "./assets/SafeModeIcons.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
 import { DeployService } from "./services/DeployService.js";
 import { RainlinkInit } from "./structures/Rainlink.js";
 import { Metadata } from "./@types/Metadata.js";
-import { Config } from "./@types/Config.js";
+import { Config, Emojis } from "./@types/Config.js";
 import { DatabaseTable } from "./database/@types.js";
 import { LavalinkDataType, LavalinkUsingDataType } from "./@types/Lavalink.js";
 import { Rainlink } from "./rainlink/Rainlink.js";
@@ -35,7 +33,6 @@ import { Command } from "./structures/Command.js";
 import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkFilterData, RainlinkPlayer } from "./rainlink/main.js";
-import { IconType } from "./@types/Emoji.js";
 import { TopggService } from "./services/TopggService.js";
 config();
 
@@ -75,7 +72,7 @@ export class Manager extends Client {
   public diSwitch!: ActionRowBuilder<ButtonBuilder>;
   public enSwitchMod!: ActionRowBuilder<ButtonBuilder>;
   public topgg?: TopggService;
-  public icons: IconType;
+  public icons: Emojis;
   public cluster?: ClusterClient<Client>;
   public REGEX: RegExp[];
   public selectMenuOptions: StringSelectMenuOptionBuilder[] = [];
@@ -164,7 +161,7 @@ export class Manager extends Client {
     this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
 
     // Icons setup
-    this.icons = this.config.bot.SAFE_ICONS_MODE ? SafeModeIcons : NormalModeIcons;
+    this.icons = this.config.emojis;
 
     // Anti crash handling
     process.on("unhandledRejection", (error) => this.logger.unhandled("AntiCrash", error));

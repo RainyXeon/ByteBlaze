@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
-import { filterSelect, playerRowOne, playerRowTwo } from "../../assets/PlayerControlButton.js";
+import { filterSelect, playerRowOne, playerRowTwo } from "../../utilities/PlayerControlButton.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
