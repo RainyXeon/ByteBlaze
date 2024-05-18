@@ -57,7 +57,6 @@ export default class implements Command {
           ],
         });
     } catch (err) {
-      console.log(err);
       return handler.editReply({
         embeds: [
           new EmbedBuilder()

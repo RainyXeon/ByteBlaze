@@ -56,6 +56,6 @@ export default class {
     if (data !== null && data && data.twentyfourseven && channel)
       new ClearMessageService(client, channel, player);
 
-    if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
+    if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy().catch(() => {});
   }
 }

@@ -21,7 +21,7 @@ export default class {
     const channel = (await client.channels
       .fetch(player.textId)
       .catch(() => undefined)) as TextChannel;
-    if (!channel) return player.destroy();
+    if (!channel) return player.destroy().catch(() => {});
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
@@ -53,6 +53,6 @@ export default class {
       new ClearMessageService(client, channel, player);
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (!currentPlayer.sudoDestroy) await player.destroy();
+    if (!currentPlayer.sudoDestroy) await player.destroy().catch(() => {});
   }
 }
