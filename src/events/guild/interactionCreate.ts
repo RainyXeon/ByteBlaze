@@ -211,13 +211,18 @@ export default class {
     //////////////////////////////// Check accessibility start ////////////////////////////////
     const premiumUser = await client.db.premium.get(interaction.user.id);
     const premiumGuild = await client.db.preGuild.get(interaction.guild.id);
-    const isNotPremium = !premiumUser || !premiumUser.isPremium;
-    const isNotPremiumGuild = !premiumGuild || !premiumGuild.isPremium;
-    const isNotOwner = interaction.user.id != client.owner;
-    const isNotAdmin = !client.config.bot.ADMIN.includes(interaction.user.id);
-    let accessPassBit = 0;
+    const isPremium = premiumUser && premiumUser.isPremium;
+    const isPremiumGuild = premiumGuild && premiumGuild.isPremium;
+    const isOwner = interaction.user.id == client.owner;
+    const isAdmin = client.config.bot.ADMIN.includes(interaction.user.id);
+    const userPerm = {
+      owner: isOwner,
+      admin: isOwner || isAdmin,
+      premium: isOwner || isAdmin || isPremium,
+      guildPre: isOwner || isAdmin || isPremium || isPremiumGuild,
+    };
 
-    if (command.accessableby.includes(Accessableby.Owner) && isNotOwner)
+    if (command.accessableby.includes(Accessableby.Owner) && !userPerm.owner)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -226,9 +231,7 @@ export default class {
         ],
       });
 
-    accessPassBit = accessPassBit + 1;
-
-    if (command.accessableby.includes(Accessableby.Admin) && (isNotAdmin || accessPassBit !== 1))
+    if (command.accessableby.includes(Accessableby.Admin) && !userPerm.admin)
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -239,12 +242,7 @@ export default class {
         ],
       });
 
-    accessPassBit = accessPassBit + 1;
-
-    if (
-      command.accessableby.includes(Accessableby.Premium) &&
-      (isNotPremium || accessPassBit !== 2)
-    ) {
+    if (command.accessableby.includes(Accessableby.Premium) && !userPerm.premium) {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.getString(language, "error", "no_premium_author")}`,
@@ -259,12 +257,7 @@ export default class {
       });
     }
 
-    accessPassBit = accessPassBit + 1;
-
-    if (
-      command.accessableby.includes(Accessableby.GuildPremium) &&
-      (isNotPremiumGuild || accessPassBit !== 3)
-    ) {
+    if (command.accessableby.includes(Accessableby.GuildPremium) && !userPerm.guildPre) {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.getString(language, "error", "no_premium_author")}`,
@@ -279,9 +272,9 @@ export default class {
       });
     }
 
-    accessPassBit = accessPassBit + 1;
+    const isNotPassAll = Object.values(userPerm).some((data) => data === false);
 
-    if (command.accessableby.includes(Accessableby.Voter) && client.topgg && accessPassBit == 4) {
+    if (command.accessableby.includes(Accessableby.Voter) && client.topgg && isNotPassAll) {
       const voteChecker = await client.topgg.checkVote(interaction.user.id);
       if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()

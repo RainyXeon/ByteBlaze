@@ -5,7 +5,7 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
 export default class implements Command {
-  public name = ["pm", "guild-profile"];
+  public name = ["pm", "guild", "profile"];
   public description = "View your guild premium profile!";
   public category = "Premium";
   public accessableby = [Accessableby.GuildPremium];
