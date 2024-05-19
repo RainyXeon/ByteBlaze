@@ -28,7 +28,7 @@
 - Slash Commands
 - Custom Filters
 - Playlist System
-- Premium System
+- Premium System (Guild / User)
 - Play Song Using File
 - Cooldown System
 - Shard System
