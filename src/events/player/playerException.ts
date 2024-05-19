@@ -7,7 +7,7 @@ import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
-    client.logger.error("PlayerException", `Player get exception ${util.inspect(data)}`);
+    client.logger.error("PlayerException", `Player get exception ${util.inspect(data).slice(1).slice(0, -1)}`);
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
