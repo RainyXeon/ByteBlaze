@@ -11,7 +11,7 @@ export default class implements Command {
   public category = "Premium";
   public accessableby = [Accessableby.Admin];
   public usage = "<type> <number>";
-  public aliases = [];
+  public aliases = ["pmg"];
   public lavalink = false;
   public playerCheck = false;
   public usingInteraction = true;

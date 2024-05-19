@@ -9,7 +9,7 @@ export default class implements Command {
   public category = "Premium";
   public accessableby = [Accessableby.Admin];
   public usage = "<id>";
-  public aliases = ["prmg"];
+  public aliases = ["pmgr"];
   public lavalink = false;
   public playerCheck = false;
   public usingInteraction = true;

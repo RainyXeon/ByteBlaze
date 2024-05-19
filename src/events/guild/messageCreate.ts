@@ -234,8 +234,8 @@ export default class {
     //////////////////////////////// Check accessibility start ////////////////////////////////
     const premiumUser = await client.db.premium.get(message.author.id);
     const premiumGuild = await client.db.preGuild.get(String(message.guild?.id));
-    const isPremium = premiumUser && premiumUser.isPremium;
-    const isPremiumGuild = premiumGuild && premiumGuild.isPremium;
+    const isPremium = (premiumUser && premiumUser.isPremium) ?? false;
+    const isPremiumGuild = (premiumGuild && premiumGuild.isPremium) ?? false;
     const isOwner = message.author.id == client.owner;
     const isAdmin = client.config.bot.ADMIN.includes(message.author.id);
     const userPerm = {
@@ -338,7 +338,7 @@ export default class {
       if (message.attachments.size !== 0) handler.addAttachment(message.attachments);
 
       client.logger.info(
-        "CommandManager",
+        "CommandManager | Message",
         `[${command.name.join("-")}] used by ${message.author.username} from ${message.guild?.name} (${
           message.guild?.id
         })`
@@ -346,9 +346,13 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error("CommandManager", error);
+      client.logger.error("CommandManager | Message", error);
       message.reply({
-        content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.getString(language, "error", "unexpected_error")}\n ${error}`)
+            .setColor(client.color),
+        ],
       });
     }
   }

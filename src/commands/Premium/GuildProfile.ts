@@ -10,7 +10,7 @@ export default class implements Command {
   public category = "Premium";
   public accessableby = [Accessableby.GuildPremium];
   public usage = "";
-  public aliases = [];
+  public aliases = ["pmgp"];
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
@@ -22,6 +22,21 @@ export default class implements Command {
     await handler.deferReply();
 
     const PremiumPlan = await client.db.preGuild.get(`${handler.guild?.id}`);
+
+    if (!PremiumPlan) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.getString(handler.language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.getString(handler.language, "error", "no_guild_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return handler.editReply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
 
     const expires = moment(
       PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0

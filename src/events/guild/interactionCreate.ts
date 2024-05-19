@@ -316,7 +316,9 @@ export default class {
             argConvert(data.options!);
           }
           if (data.type == ApplicationCommandOptionType.SubcommandGroup) {
-            argConvert(data.options!.find(subCommandGroupName!)?.options!);
+            argConvert(
+              data.options!.filter((data) => data.name == subCommandName!).at(0)?.options!
+            );
           }
           const check = new ConvertToMention().execute({
             type: data.type,
@@ -349,7 +351,7 @@ export default class {
       if (attachments) handler.attactments.push(attachments);
 
       client.logger.info(
-        "CommandManager",
+        "CommandManager | Interaction",
         `[${commandNameArray.join("-")}] used by ${interaction.user.username} from ${interaction.guild.name} (${
           interaction.guild.id
         })`
@@ -357,9 +359,13 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error("CommandManager", error);
+      client.logger.error("CommandManager | Interaction", error);
       interaction.reply({
-        content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.getString(language, "error", "unexpected_error")}\n ${error}`)
+            .setColor(client.color),
+        ],
       });
     }
   }

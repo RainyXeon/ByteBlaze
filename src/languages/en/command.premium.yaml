@@ -31,3 +31,13 @@ guild_remove_desc: "`✅` | Successfully removed %{user}'s Guild Premium!"
 guild_remove_already: "`⚠️` | Guild %{user} already removed!"
 guild_remove_no_params: "`⚠️` | Please provide a **Guild ID**!"
 guild_remove_404: "`⚠️` | %{userid} is not a **Premium Guild**!"
+
+### Guild list command
+guild_list_title: "💫 Premium Guild List"
+guild_list_notnumber: "`⚠️` | Please provide a valid page number!"
+guild_list_page_notfound: "`⚠️` | There are only **%{page} Pages**!"
+
+### User list command
+list_title: "💫 Premium User List"
+list_notnumber: "`⚠️` | Please provide a valid page number!"
+list_page_notfound: "`⚠️` | There are only **%{page} Pages**!"

@@ -2,16 +2,16 @@ import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { GuildPremium } from "../../database/schema/GuildPremium.js";
 import { Page } from "../../structures/Page.js";
+import { Premium } from "../../database/schema/Premium.js";
 
 export default class implements Command {
-  public name = ["pm", "guild", "list"];
-  public description = "View all existing premium guild!";
+  public name = ["pm", "list"];
+  public description = "View all existing premium user!";
   public category = "Premium";
   public accessableby = [Accessableby.Admin];
   public usage = "";
-  public aliases = ["pmgl"];
+  public aliases = ["pml"];
   public lavalink = false;
   public usingInteraction = true;
   public playerCheck = false;
@@ -40,25 +40,23 @@ export default class implements Command {
         ],
       });
 
-    const guilds = Array.from(await client.db.preGuild.all<GuildPremium>()).map(
-      (data) => data.value
-    );
-    let pagesNum = Math.ceil(guilds.length / 10);
+    const users = Array.from(await client.db.premium.all<Premium>()).map((data) => data.value);
+    let pagesNum = Math.ceil(users.length / 10);
     if (pagesNum === 0) pagesNum = 1;
 
-    const guildStrings = [];
-    for (let i = 0; i < guilds.length; i++) {
-      const guild = guilds[i];
-      guildStrings.push(`\`${i + 1}. ${guild.redeemedBy.name}/${guild.id} - ${guild.plan}\``);
+    const userStrings = [];
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      userStrings.push(`\`${i + 1}. ${user.redeemedBy.username}/${user.id} - ${user.plan}\``);
     }
 
     const pages = [];
     for (let i = 0; i < pagesNum; i++) {
-      const str = guildStrings.slice(i * 10, i * 10 + 10).join("\n");
+      const str = userStrings.slice(i * 10, i * 10 + 10).join("\n");
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "command.premium", "guild_list_title")}`,
+          name: `${client.getString(handler.language, "command.premium", "list_title")}`,
         })
         .setColor(client.color)
         .setDescription(str == "" ? "  Nothing" : "\n" + str)
@@ -70,7 +68,7 @@ export default class implements Command {
     }
 
     if (!value) {
-      if (pages.length == pagesNum && guilds.length > 10) {
+      if (pages.length == pagesNum && users.length > 10) {
         if (handler.message) {
           await new Page(client, pages, 60000, handler.language).prefixPage(handler.message);
         } else if (handler.interaction) {
@@ -83,7 +81,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.premium", "guild_list_notnumber")}`
+                `${client.getString(handler.language, "command.premium", "list_notnumber")}`
               )
               .setColor(client.color),
           ],
@@ -93,14 +91,9 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(
-                  handler.language,
-                  "command.premium",
-                  "guild_list_page_notfound",
-                  {
-                    page: String(pagesNum),
-                  }
-                )}`
+                `${client.getString(handler.language, "command.premium", "list_page_notfound", {
+                  page: String(pagesNum),
+                })}`
               )
               .setColor(client.color),
           ],
