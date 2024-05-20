@@ -6,15 +6,38 @@ gen_footer: "Để hoàn thành • %{prefix}redeem <code>"
 ### Profile command!
 profile_author: "Thông tin người dùng gói dịch vụ trả phí"
 profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
+profile_error_desc: "`⚠️` | **%{user}** không phải là người dùng trả phí!"
+
+### Guild Profile Command
+guild_profile_author: "Thông tin dịch vụ trả phí của máy chủ"
+guild_profile_desc: "`👤` | **Máy chủ:** `%{guild}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
 
 ### Redeem command!
 redeem_title: "Đăng kí người dùng gói dịch vụ trả phí"
 redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
 redeem_already: "`⚠️` | Bạn đã là người dùng gới trả phí!"
 redeem_invalid: "`⚠️` | Key nhập không hợp lệ. Vui lòng nhập key khác!"
+redeem_invalid_mode: "`⚠️` | Loại dịch vụ trả phí không hợp lệ. Vui lòng chỉ chọn `guild` hoặc `user`"
+redeem_already_guild: "`⚠️` | Máy chủ này đã có **dịc vụ trả phí**!"
 
 ### Remove command!
 remove_desc: "`✅` | Đã thành công gỡ gói dịch vụ trả phí của %{user}!"
 remove_already: "`⚠️` | Người dùng %{user} đã bị gỡ!"
 remove_no_params: "`⚠️` | Vui lòng đề cập đến 1 người dùng hoặc cung cấp ID người dùng!"
 remove_404: "`⚠️` | %{userid} không phải là người dùng gói dịch vụ trả phí!"
+
+### Guild remove command!
+guild_remove_desc: "`✅` | Đã thành công gỡ gói dịch vụ trả phí của máy chủ: %{user}!"
+guild_remove_already: "`⚠️` | Máy chủ %{user} đã được gỡ trước đó!"
+guild_remove_no_params: "`⚠️` | Vui lòng nhập **ID** máy chủ!"
+guild_remove_404: "`⚠️` | %{userid} không phải là một máy chủ sử dụng **dịch vụ trả phí**!"
+
+### Guild list command
+guild_list_title: "💫 Danh sách các máy chủ có sử dụng dịch vụ trả phí"
+guild_list_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
+guild_list_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
+
+### User list command
+list_title: "💫 Danh sách các người dùng sử dụng dịch vụ trả phí"
+list_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
+list_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
