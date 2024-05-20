@@ -17,8 +17,8 @@ export default class {
       else if (!GuildPrefix)
         PREFIX = String(await client.db.prefix.set(`${guild!.id}`, client.prefix));
 
-      const userDm = await owner.createDM(true);
-      userDm.send({
+      const userDm = await owner.createDM(true).catch(() => null);
+      if (userDm) userDm.send({
         embeds: [
           new EmbedBuilder()
             .setTitle(
@@ -46,7 +46,7 @@ export default class {
                 botver: client.metadata.version,
               })}
               ${client.getString(language, "event.message", "djs", {
-                djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies[
+                djsver: JSON.parse(fs.readFileSync("package.json", "utf-8")).dependencies[
                   "discord.js"
                 ],
               })}
@@ -60,7 +60,7 @@ export default class {
             )
             .setColor(client.color),
         ],
-      });
+      }).catch(() => {});
     } catch (err) {}
 
     if (!client.config.features.GUILD_LOG_CHANNEL) return;

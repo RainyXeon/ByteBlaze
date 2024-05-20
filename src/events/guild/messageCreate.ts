@@ -155,6 +155,8 @@ export default class {
           : message.author.dmChannel;
       dmChannel.send({
         embeds: [embed],
+      }).catch(async () => {
+        await message.reply({ embeds: [embed] }).catch(() => null)
       });
     }
 
