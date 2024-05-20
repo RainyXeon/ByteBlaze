@@ -26,7 +26,7 @@ export class ReplyInteractionService {
         !setup || setup == null || setup.channel !== this.message.channelId
           ? msg.delete().catch(() => null)
           : true;
-      }, this.client.config.bot.DELETE_MSG_TIMEOUT);
+      }, this.client.config.utilities.DELETE_MSG_TIMEOUT);
     } catch (err) {}
   }
 }

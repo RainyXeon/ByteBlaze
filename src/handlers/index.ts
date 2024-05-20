@@ -6,7 +6,7 @@ import { PlayerLoader } from "./loadPlayer.js";
 
 export class initHandler {
   constructor(client: Manager) {
-    if (client.config.features.AUTOFIX_LAVALINK.enable) new Checker(client);
+    if (client.config.utilities.AUTOFIX_LAVALINK.enable) new Checker(client);
     new ClientEventsLoader(client);
     new PlayerLoader(client);
     new CommandAndButtonLoader(client);

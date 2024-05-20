@@ -167,13 +167,13 @@ export default class implements Command {
     }
     const LimitTrack = playlist.tracks!.length + TrackAdd.length;
 
-    if (LimitTrack > client.config.bot.LIMIT_TRACK) {
+    if (LimitTrack > client.config.player.LIMIT_TRACK) {
       handler.followUp({
         embeds: [
           new EmbedBuilder()
             .setDescription(
               `${client.getString(handler.language, "command.playlist", "add_limit_track", {
-                limit: String(client.config.bot.LIMIT_TRACK),
+                limit: String(client.config.player.LIMIT_TRACK),
               })}`
             )
             .setColor(client.color),
@@ -213,7 +213,7 @@ export default class implements Command {
     tracks: RainlinkTrack[],
     value?: string
   ): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+    if (client.config.player.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
         return `[${tracks[0].title}](${value})`;
@@ -229,8 +229,8 @@ export default class implements Command {
     const url = String((interaction as CommandInteraction).options.get("search")!.value);
 
     const Random =
-      client.config.lavalink.AUTOCOMPLETE_SEARCH[
-        Math.floor(Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length)
+      client.config.player.AUTOCOMPLETE_SEARCH[
+        Math.floor(Math.random() * client.config.player.AUTOCOMPLETE_SEARCH.length)
       ];
 
     const match = client.REGEX.some((match) => {

@@ -40,7 +40,7 @@ export default class {
         textId: data.text!,
         shardId: guild?.shardId ?? 0,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     } else await client.db.autoreconnect.delete(player.guildId);
 
@@ -65,7 +65,7 @@ export default class {
           !setup || setup == null || setup.channel !== channel.id
             ? msg.delete().catch(() => null)
             : true,
-        client.config.bot.DELETE_MSG_TIMEOUT
+        client.config.utilities.DELETE_MSG_TIMEOUT
       );
     }
 

@@ -13,7 +13,7 @@ bot:
   TOKEN: ["Bot Token 1"]
   OWNER_ID: "Your User ID"
 
-lavalink:
+player:
   NODES:
     - host: "IP"
       port: 2333 # Your host port here

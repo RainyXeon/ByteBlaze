@@ -48,7 +48,7 @@ export class PlayerButtonsLoader {
       return;
     }
 
-    if (this.client.plButton.has(command.name)) {
+    if (this.client.plButton.get(command.name)) {
       this.client.logger.warn(
         PlayerButtonsLoader.name,
         `"${command.name}" player button has already been installed. Skipping...`

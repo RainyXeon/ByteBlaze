@@ -86,7 +86,7 @@ export default class {
     if (SongNoti == SongNotiEnum.Disable) return;
 
     function getTitle(tracks: RainlinkTrack): string {
-      if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+      if (client.config.player.AVOID_SUSPEND) return tracks.title;
       else {
         return `[${tracks.title}](${tracks.uri})`;
       }
@@ -197,7 +197,10 @@ export default class {
           })
           .catch(() => {});
         if (msg)
-          setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+          setTimeout(
+            () => msg.delete().catch(() => {}),
+            client.config.utilities.DELETE_MSG_TIMEOUT
+          );
         return;
       }
 
@@ -211,7 +214,10 @@ export default class {
           })
           .catch(() => {});
         if (msg)
-          setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+          setTimeout(
+            () => msg.delete().catch(() => {}),
+            client.config.utilities.DELETE_MSG_TIMEOUT
+          );
         return;
       }
 
@@ -233,7 +239,8 @@ export default class {
           embeds: [embed],
         })
         .catch(() => {});
-      if (msg) setTimeout(() => msg.delete().catch(() => {}), client.config.bot.DELETE_MSG_TIMEOUT);
+      if (msg)
+        setTimeout(() => msg.delete().catch(() => {}), client.config.utilities.DELETE_MSG_TIMEOUT);
     });
 
     collector.on("collect", async (message): Promise<void> => {

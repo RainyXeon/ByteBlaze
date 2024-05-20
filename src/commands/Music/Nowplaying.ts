@@ -24,7 +24,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply();
 
-    const realtime = client.config.lavalink.NP_REALTIME;
+    const realtime = client.config.player.NP_REALTIME;
 
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
@@ -162,7 +162,7 @@ export default class implements Command {
   }
 
   getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    if (client.config.player.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;
     }

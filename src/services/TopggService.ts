@@ -53,7 +53,7 @@ export class TopggService {
   private async fetch(path: string) {
     return await fetch(this.url + path, {
       headers: {
-        Authorization: this.client.config.features.TOPGG_TOKEN,
+        Authorization: this.client.config.utilities.TOPGG_TOKEN,
       },
     });
   }
@@ -76,7 +76,7 @@ export class TopggService {
         server_count: count,
       }),
       headers: {
-        Authorization: this.client.config.features.TOPGG_TOKEN,
+        Authorization: this.client.config.utilities.TOPGG_TOKEN,
         "Content-Type": "application/json",
       },
     });

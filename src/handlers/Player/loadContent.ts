@@ -110,7 +110,7 @@ export class PlayerContentLoader {
         const final = fetchedMessage.filter((msg) => msg.id !== database?.playmsg);
         if (final.size > 0) (message.channel as TextChannel).bulkDelete(final).catch(() => {});
         else clearInterval(preInterval);
-      }, client.config.bot.DELETE_MSG_TIMEOUT);
+      }, client.config.utilities.DELETE_MSG_TIMEOUT);
     }
 
     if (message.author.bot) return;
@@ -156,7 +156,7 @@ export class PlayerContentLoader {
         textId: message.channel.id,
         shardId: message.guild.shardId,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     else {
       if (message.member!.voice.channel !== message.guild!.members.me!.voice.channel) {
@@ -230,7 +230,7 @@ export class PlayerContentLoader {
     }
 
     function getTitle(tracks: RainlinkTrack[]): string {
-      if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+      if (client.config.player.AVOID_SUSPEND) return tracks[0].title;
       else {
         return `[${tracks[0].title}](${tracks[0].uri})`;
       }

@@ -36,7 +36,7 @@ export class WebsocketRoute {
       socket.close(1000, JSON.stringify({ error: "Missing Authorization" }));
       return false;
     }
-    if (req.headers["authorization"] !== this.client.config.features.WEB_SERVER.auth) {
+    if (req.headers["authorization"] !== this.client.config.utilities.WEB_SERVER.auth) {
       socket.send(JSON.stringify({ error: "Authorization failed" }));
       socket.close(1000, JSON.stringify({ error: "Authorization failed" }));
       return false;

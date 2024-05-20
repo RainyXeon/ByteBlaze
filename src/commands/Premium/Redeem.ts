@@ -167,7 +167,7 @@ export default class implements Command {
     premium: Premium | null,
     guildPremium: GuildPremium | null
   ): Promise<void> {
-    if (!client.config.features.PREMIUM_LOG_CHANNEL) return;
+    if (!client.config.utilities.PREMIUM_LOG_CHANNEL) return;
     const language = client.config.bot.LANGUAGE;
 
     const redeemedAt = premium ? premium.redeemedAt : guildPremium ? guildPremium.redeemedAt : 0;
@@ -217,7 +217,7 @@ export default class implements Command {
 
     try {
       const channel = await client.channels
-        .fetch(client.config.features.PREMIUM_LOG_CHANNEL)
+        .fetch(client.config.utilities.PREMIUM_LOG_CHANNEL)
         .catch(() => undefined);
       if (!channel || (channel && !channel.isTextBased())) return;
       channel.messages.channel.send({ embeds: [embed] });

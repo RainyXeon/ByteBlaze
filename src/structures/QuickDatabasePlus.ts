@@ -1,9 +1,13 @@
 import { IQuickDBOptions, QuickDB } from "dreamvast.quick.db";
 import { Collection } from "./Collection.js";
+import cron from "node-cron";
 
 export class QuickDatabasePlus<D = any> extends QuickDB {
   public cache: Collection<unknown>;
-  constructor(public newOptions?: IQuickDBOptions) {
+  constructor(
+    protected scheduleConfig: string,
+    public newOptions?: IQuickDBOptions
+  ) {
     super(newOptions);
     this.cache = new Collection<string>();
   }
@@ -104,8 +108,12 @@ export class QuickDatabasePlus<D = any> extends QuickDB {
     const options = { ...this.newOptions };
     options.table = table;
     options.driver = this.driver;
-    const instance = new QuickDatabasePlus(options);
+    const instance = new QuickDatabasePlus(this.scheduleConfig, options);
     await instance.driver.prepare(options.table);
     return instance;
+  }
+
+  cleanDaemon() {
+    cron.schedule(this.scheduleConfig, () => this.cache.clear());
   }
 }

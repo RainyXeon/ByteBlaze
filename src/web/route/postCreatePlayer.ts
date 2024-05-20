@@ -22,7 +22,7 @@ export class PostCreatePlayer {
       textId: "",
       shardId: this.guild?.shardId ?? 0,
       deaf: true,
-      volume: this.client.config.lavalink.DEFAULT_VOLUME ?? 100,
+      volume: this.client.config.player.DEFAULT_VOLUME,
     };
     this.client.rainlink.create(playerData);
     res.send(playerData);

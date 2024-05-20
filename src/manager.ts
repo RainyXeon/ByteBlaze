@@ -5,7 +5,7 @@ import {
   Message,
   ActionRowBuilder,
   ButtonBuilder,
-  Collection,
+  Collection as DJSCollection,
   InteractionCollector,
   ButtonInteraction,
   StringSelectMenuOptionBuilder,
@@ -34,6 +34,7 @@ import { PlayerButton } from "./@types/Button.js";
 import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkFilterData, RainlinkPlayer } from "./rainlink/main.js";
 import { TopggService } from "./services/TopggService.js";
+import { Collection } from "./structures/Collection.js";
 config();
 
 export class Manager extends Client {
@@ -50,22 +51,19 @@ export class Manager extends Client {
   public lavalinkUsing: LavalinkUsingDataType[];
   public lavalinkUsed: LavalinkUsingDataType[];
   public rainlink: Rainlink;
-  public commands: Collection<string, Command>;
-  public interval: Collection<string, NodeJS.Timer>;
-  public sentQueue: Collection<string, boolean>;
-  public nplayingMsg: Collection<
-    string,
-    {
-      filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
-      coll: InteractionCollector<ButtonInteraction<"cached">>;
-      msg: Message;
-    }
-  >;
-  public aliases: Collection<string, string>;
-  public plButton: Collection<string, PlayerButton>;
-  public leaveDelay: Collection<string, NodeJS.Timeout>;
-  public nowPlaying: Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>;
-  public wsl: Collection<string, { send: (data: Record<string, unknown>) => void }>;
+  public commands: DJSCollection<string, Command>;
+  public interval: Collection<NodeJS.Timer>;
+  public sentQueue: Collection<boolean>;
+  public nplayingMsg: Collection<{
+    filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
+    coll: InteractionCollector<ButtonInteraction<"cached">>;
+    msg: Message;
+  }>;
+  public aliases: Collection<string>;
+  public plButton: Collection<PlayerButton>;
+  public leaveDelay: Collection<NodeJS.Timeout>;
+  public nowPlaying: Collection<{ interval: NodeJS.Timeout; msg: GlobalMsg }>;
+  public wsl: Collection<{ send: (data: Record<string, unknown>) => void }>;
   public UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   public UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>;
   public enSwitch!: ActionRowBuilder<ButtonBuilder>;
@@ -114,7 +112,7 @@ export class Manager extends Client {
       defaultLocale: this.config.bot.LANGUAGE || "en",
       directory: resolve(join(__dirname, "languages")),
     });
-    this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
+    this.prefix = this.config.utilities.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shardStatus = false;
     this.REGEX = [
       /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,
@@ -128,7 +126,7 @@ export class Manager extends Client {
       /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
     ];
 
-    if (!this.config.lavalink.AVOID_SUSPEND)
+    if (!this.config.player.AVOID_SUSPEND)
       this.logger.warn(
         "ClientManager",
         "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
@@ -139,22 +137,19 @@ export class Manager extends Client {
     this.lavalinkUsed = [];
 
     // Collections
-    this.commands = new Collection<string, Command>();
-    this.interval = new Collection<string, NodeJS.Timer>();
-    this.sentQueue = new Collection<string, boolean>();
-    this.aliases = new Collection<string, string>();
-    this.nplayingMsg = new Collection<
-      string,
-      {
-        filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
-        coll: InteractionCollector<ButtonInteraction<"cached">>;
-        msg: Message;
-      }
-    >();
-    this.plButton = new Collection<string, PlayerButton>();
-    this.leaveDelay = new Collection<string, NodeJS.Timeout>();
-    this.nowPlaying = new Collection<string, { interval: NodeJS.Timeout; msg: GlobalMsg }>();
-    this.wsl = new Collection<string, { send: (data: Record<string, unknown>) => void }>();
+    this.commands = new DJSCollection<string, Command>();
+    this.interval = new Collection<NodeJS.Timer>();
+    this.sentQueue = new Collection<boolean>();
+    this.aliases = new Collection<string>();
+    this.nplayingMsg = new Collection<{
+      filterColl: InteractionCollector<StringSelectMenuInteraction<"cached">>;
+      coll: InteractionCollector<ButtonInteraction<"cached">>;
+      msg: Message;
+    }>();
+    this.plButton = new Collection<PlayerButton>();
+    this.leaveDelay = new Collection<NodeJS.Timeout>();
+    this.nowPlaying = new Collection<{ interval: NodeJS.Timeout; msg: GlobalMsg }>();
+    this.wsl = new Collection<{ send: (data: Record<string, unknown>) => void }>();
     this.isDatabaseConnected = false;
 
     // Sharing
@@ -184,7 +179,7 @@ export class Manager extends Client {
     }
 
     // Starting services
-    if (this.config.features.WEB_SERVER.enable) {
+    if (this.config.utilities.WEB_SERVER.enable) {
       new WebServer(this);
     }
     new DeployService(this);
@@ -192,23 +187,23 @@ export class Manager extends Client {
     new DatabaseService(this);
   }
 
-  protected configVolCheck(vol: number = this.config.lavalink.DEFAULT_VOLUME) {
+  protected configVolCheck(vol: number = this.config.player.DEFAULT_VOLUME) {
     if (!vol || isNaN(vol) || vol > 100 || vol < 1) {
-      this.config.lavalink.DEFAULT_VOLUME = 100;
+      this.config.player.DEFAULT_VOLUME = 100;
       return false;
     }
     return true;
   }
 
-  protected configSearchCheck(data: string[] = this.config.lavalink.AUTOCOMPLETE_SEARCH) {
+  protected configSearchCheck(data: string[] = this.config.player.AUTOCOMPLETE_SEARCH) {
     const defaultSearch = ["yorushika", "yoasobi", "tuyu", "hinkik"];
     if (!data || data.length == 0) {
-      this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+      this.config.player.AUTOCOMPLETE_SEARCH = defaultSearch;
       return false;
     }
     for (const element of data) {
       if (!this.stringCheck(element)) {
-        this.config.lavalink.AUTOCOMPLETE_SEARCH = defaultSearch;
+        this.config.player.AUTOCOMPLETE_SEARCH = defaultSearch;
         return false;
       }
     }

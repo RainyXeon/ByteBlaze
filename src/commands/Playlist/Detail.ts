@@ -176,7 +176,7 @@ export default class implements Command {
   }
 
   getTitle(client: Manager, tracks: PlaylistTrack): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return String(tracks.title);
+    if (client.config.player.AVOID_SUSPEND) return String(tracks.title);
     else {
       return `[${tracks.title}](${tracks.uri})`;
     }

@@ -128,7 +128,7 @@ export default class implements Command {
   }
 
   getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
+    if (client.config.player.AVOID_SUSPEND) return tracks.title;
     else {
       return `[${tracks.title}](${tracks.uri})`;
     }
@@ -140,8 +140,8 @@ export default class implements Command {
     const url = String((interaction as CommandInteraction).options.get("search")!.value);
 
     const Random =
-      client.config.lavalink.AUTOCOMPLETE_SEARCH[
-        Math.floor(Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length)
+      client.config.player.AUTOCOMPLETE_SEARCH[
+        Math.floor(Math.random() * client.config.player.AUTOCOMPLETE_SEARCH.length)
       ];
 
     const match = client.REGEX.some((match) => {

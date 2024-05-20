@@ -18,7 +18,7 @@ export default class {
       });
     });
 
-    if (client.config.features.TOPGG_TOKEN && client.config.features.TOPGG_TOKEN.length !== 0) {
+    if (client.config.utilities.TOPGG_TOKEN && client.config.utilities.TOPGG_TOKEN.length !== 0) {
       const topgg = new TopggService(client);
       const res = await topgg.settingUp(String(client.user?.id));
       if (res) {

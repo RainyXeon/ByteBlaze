@@ -105,7 +105,7 @@ export default class {
             (!setup || setup == null || setup.channel !== player.textId) && msg
               ? msg.delete().catch(() => null)
               : true,
-          client.config.bot.DELETE_MSG_TIMEOUT
+          client.config.utilities.DELETE_MSG_TIMEOUT
         );
       }
     }
@@ -136,7 +136,7 @@ export default class {
           !setup || setup == null || setup.channel !== player.textId
             ? msg.delete().catch(() => null)
             : true;
-        }, client.config.bot.DELETE_MSG_TIMEOUT);
+        }, client.config.utilities.DELETE_MSG_TIMEOUT);
       }
 
       // Delay leave timeout
@@ -166,7 +166,7 @@ export default class {
                   msg && (!setup || setup == null || setup.channel !== player.textId)
                     ? msg.delete().catch(() => null)
                     : undefined,
-                client.config.bot.DELETE_MSG_TIMEOUT
+                client.config.utilities.DELETE_MSG_TIMEOUT
               );
             }
           } catch (error) {
@@ -175,7 +175,7 @@ export default class {
         }
         clearTimeout(leaveDelayTimeout);
         client.leaveDelay.delete(newState.guild.id);
-      }, client.config.lavalink.LEAVE_TIMEOUT);
+      }, client.config.player.LEAVE_TIMEOUT);
       client.leaveDelay.set(newState.guild.id, leaveDelayTimeout);
     }
   }

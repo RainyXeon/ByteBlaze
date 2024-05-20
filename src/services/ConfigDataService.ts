@@ -13,13 +13,13 @@ export class ConfigDataService {
     this.checkConfig(raw);
     const res = this.mergeDefault(this.defaultConfig, raw);
 
-    if (old_data.features && old_data.features.DATABASE && old_data.features.DATABASE.config) {
-      res.features.DATABASE.config = old_data.features.DATABASE.config;
+    if (old_data.utilities && old_data.utilities.DATABASE && old_data.utilities.DATABASE.config) {
+      res.utilities.DATABASE.config = old_data.utilities.DATABASE.config;
     }
 
     if (process.env.DOCKER_COMPOSE_MODE) {
       // Change lavalink data
-      const lavalink_changedata = res.lavalink.NODES[0];
+      const lavalink_changedata = res.player.NODES[0];
       lavalink_changedata.host = String(process.env.NODE_HOST);
       lavalink_changedata.port = Number(process.env.NODE_PORT);
       lavalink_changedata.name = "node_1";
@@ -28,7 +28,7 @@ export class ConfigDataService {
 
       if (process.env.DOCKER_COMPOSE_DATABASE) {
         // Change db data
-        const db_chnagedata = res.features.DATABASE;
+        const db_chnagedata = res.utilities.DATABASE;
         if (db_chnagedata.driver == "mongodb") {
           db_chnagedata.config.uri = String(process.env.MONGO_URI);
         }
@@ -47,7 +47,7 @@ export class ConfigDataService {
       throw new Error(
         "Config file not contains bot config field, please check app.example.yml for example"
       );
-    if (!res.lavalink)
+    if (!res.player)
       throw new Error(
         "Config file not contains lavalink config field, please check app.example.yml for example"
       );
@@ -59,7 +59,7 @@ export class ConfigDataService {
       throw new Error("Config file not contains TOKEN, please check app.example.yml for example");
     if (!Array.isArray(res.bot.TOKEN))
       throw new Error("TOKEN field not in array, please check app.example.yml for example");
-    if (!res.lavalink.NODES || res.lavalink.NODES.length == 0)
+    if (!res.player.NODES || res.player.NODES.length == 0)
       throw new Error("Config file not contains NODES, please check app.example.yml for example");
   }
 
@@ -98,14 +98,10 @@ export class ConfigDataService {
         OWNER_ID: "",
         EMBED_COLOR: "#2B2D31",
         LANGUAGE: "en",
-        LIMIT_TRACK: 50,
-        LIMIT_PLAYLIST: 20,
-        SAFE_ICONS_MODE: true,
-        DELETE_MSG_TIMEOUT: 2000,
         DEBUG_MODE: false,
         ADMIN: [],
       },
-      lavalink: {
+      player: {
         SPOTIFY: {
           enable: false,
           id: "",
@@ -117,12 +113,16 @@ export class ConfigDataService {
         NODES: [],
         DEFAULT_VOLUME: 100,
         AVOID_SUSPEND: false,
+        LIMIT_TRACK: 50,
+        LIMIT_PLAYLIST: 20,
       },
-      features: {
+      utilities: {
         TOPGG_TOKEN: "",
+        DELETE_MSG_TIMEOUT: 2000,
         DATABASE: {
           driver: "json",
           config: { path: "./cylane.database.json" },
+          cacheCleanSchedule: "0 */30 * * * *",
         },
         MESSAGE_CONTENT: {
           enable: true,

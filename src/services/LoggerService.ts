@@ -169,7 +169,7 @@ export class LoggerService {
   }
 
   private async sendDiscord(type: string, message: string, className: string) {
-    const channelId = this.client.config.features.LOG_CHANNEL;
+    const channelId = this.client.config.utilities.LOG_CHANNEL;
     if (!channelId || channelId.length == 0) return;
     try {
       const channel = (await this.client.channels

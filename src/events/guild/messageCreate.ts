@@ -153,11 +153,13 @@ export default class {
         message.author.dmChannel == null
           ? await message.author.createDM()
           : message.author.dmChannel;
-      dmChannel.send({
-        embeds: [embed],
-      }).catch(async () => {
-        await message.reply({ embeds: [embed] }).catch(() => null)
-      });
+      dmChannel
+        .send({
+          embeds: [embed],
+        })
+        .catch(async () => {
+          await message.reply({ embeds: [embed] }).catch(() => null);
+        });
     }
 
     const returnData = await permissionChecker.message(message, defaultPermissions);

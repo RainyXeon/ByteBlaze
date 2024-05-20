@@ -6,10 +6,10 @@ export default class {
     client.logger.info("GuildDelete", `Left guild ${guild.name} @ ${guild.id}`);
     const language = client.config.bot.LANGUAGE;
     client.guilds.cache.delete(`${guild!.id}`);
-    if (!client.config.features.GUILD_LOG_CHANNEL) return;
+    if (!client.config.utilities.GUILD_LOG_CHANNEL) return;
     try {
       const eventChannel = await client.channels
-        .fetch(client.config.features.GUILD_LOG_CHANNEL)
+        .fetch(client.config.utilities.GUILD_LOG_CHANNEL)
         .catch(() => undefined);
       if (!eventChannel || !eventChannel.isTextBased()) return;
       const owner = await guild.fetchOwner();

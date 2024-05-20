@@ -18,16 +18,18 @@ export default class {
         PREFIX = String(await client.db.prefix.set(`${guild!.id}`, client.prefix));
 
       const userDm = await owner.createDM(true).catch(() => null);
-      if (userDm) userDm.send({
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(
-              `${client.getString(language, "event.guild", "join_dm_title", {
-                username: String(client.user?.username),
-              })}`
-            )
-            .setDescription(
-              stripIndents`
+      if (userDm)
+        userDm
+          .send({
+            embeds: [
+              new EmbedBuilder()
+                .setTitle(
+                  `${client.getString(language, "event.guild", "join_dm_title", {
+                    username: String(client.user?.username),
+                  })}`
+                )
+                .setDescription(
+                  stripIndents`
               ${client.getString(language, "event.message", "intro1", {
                 bot: String(client.user?.displayName),
               })}
@@ -57,16 +59,17 @@ export default class {
                 codename: client.metadata.codename,
               })}
             `
-            )
-            .setColor(client.color),
-        ],
-      }).catch(() => {});
+                )
+                .setColor(client.color),
+            ],
+          })
+          .catch(() => {});
     } catch (err) {}
 
-    if (!client.config.features.GUILD_LOG_CHANNEL) return;
+    if (!client.config.utilities.GUILD_LOG_CHANNEL) return;
     try {
       const eventChannel = await client.channels
-        .fetch(client.config.features.GUILD_LOG_CHANNEL)
+        .fetch(client.config.utilities.GUILD_LOG_CHANNEL)
         .catch(() => undefined);
       if (!eventChannel || !eventChannel.isTextBased()) return;
       const embed = new EmbedBuilder()

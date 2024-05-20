@@ -40,7 +40,7 @@ export default class implements Command {
         textId: handler.channel!.id,
         shardId: handler.guild?.shardId ?? 0,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     else if (player && !this.checkSameVoice(client, handler, handler.language)) {
       return;

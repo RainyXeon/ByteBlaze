@@ -13,7 +13,7 @@ export class DatabaseService {
 
   async execute() {
     try {
-      const databaseConfig = this.client.config.features.DATABASE;
+      const databaseConfig = this.client.config.utilities.DATABASE;
 
       switch (databaseConfig.driver) {
         case "json":

@@ -25,7 +25,9 @@ export class TableSetup {
   }
 
   async register() {
-    const baseDB = new QuickDatabasePlus({ driver: this.driver });
+    const baseDB = new QuickDatabasePlus(this.client.config.utilities.DATABASE.cacheCleanSchedule, {
+      driver: this.driver,
+    });
 
     const start = Date.now();
     await baseDB.init();

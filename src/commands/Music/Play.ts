@@ -77,7 +77,7 @@ export default class implements Command {
         textId: handler.channel!.id,
         shardId: handler.guild?.shardId ?? 0,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     else if (player && !this.checkSameVoice(client, handler, handler.language)) {
       return;
@@ -166,7 +166,7 @@ export default class implements Command {
     tracks: RainlinkTrack[],
     value?: string
   ): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
+    if (client.config.player.AVOID_SUSPEND) return tracks[0].title;
     else {
       if (type === "PLAYLIST") {
         return `[${tracks[0].title}](${value})`;
@@ -182,8 +182,8 @@ export default class implements Command {
     const url = String((interaction as CommandInteraction).options.get("search")!.value);
 
     const Random =
-      client.config.lavalink.AUTOCOMPLETE_SEARCH[
-        Math.floor(Math.random() * client.config.lavalink.AUTOCOMPLETE_SEARCH.length)
+      client.config.player.AUTOCOMPLETE_SEARCH[
+        Math.floor(Math.random() * client.config.player.AUTOCOMPLETE_SEARCH.length)
       ];
 
     const match = client.REGEX.some((match) => {

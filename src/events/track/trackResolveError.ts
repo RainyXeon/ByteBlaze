@@ -43,7 +43,7 @@ export default class {
           !setup || setup == null || setup.channel !== channel.id
             ? msg.delete().catch(() => null)
             : true,
-        client.config.bot.DELETE_MSG_TIMEOUT
+        client.config.utilities.DELETE_MSG_TIMEOUT
       );
     }
 

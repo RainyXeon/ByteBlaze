@@ -96,7 +96,7 @@ export class AutoReconnectLavalinkService {
       textId: data.value.text,
       shardId: guild ? guild.shardId : 0,
       deaf: true,
-      volume: this.client.config.lavalink.DEFAULT_VOLUME ?? 100,
+      volume: this.client.config.player.DEFAULT_VOLUME,
     });
 
     if (data.value.current && data.value.current.length !== 0) {
