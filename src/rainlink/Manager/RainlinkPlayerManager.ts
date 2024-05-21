@@ -24,8 +24,8 @@ export class RainlinkPlayerManager extends RainlinkDatabase<RainlinkPlayer> {
    * @internal
    */
   async create(options: VoiceChannelOptions): Promise<RainlinkPlayer> {
-		const createdPlayer = this.get(options.guildId);
-		if (createdPlayer) return createdPlayer;
+    const createdPlayer = this.get(options.guildId);
+    if (createdPlayer) return createdPlayer;
     const getCustomNode = this.manager.nodes.get(String(options.nodeName ? options.nodeName : ""));
     const node = getCustomNode ? getCustomNode : await this.manager.nodes.getLeastUsed();
     if (!node) throw new Error("Can't find any nodes to connect on");

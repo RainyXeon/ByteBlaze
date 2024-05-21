@@ -158,10 +158,6 @@ export class Manager extends Client {
     // Icons setup
     this.icons = this.config.emojis;
 
-    // Anti crash handling
-    process.on("unhandledRejection", (error) => this.logger.unhandled("AntiCrash", error));
-    process.on("uncaughtException", (error) => this.logger.unhandled("AntiCrash", error));
-
     // Init rainlink
     this.rainlink = new RainlinkInit(this).init;
     for (const key of Object.keys(RainlinkFilterData)) {
