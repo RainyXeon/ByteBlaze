@@ -46,7 +46,6 @@ class NiconicoDL {
     const fixedString = matchResult[0].rawAttributes["data-api-data"].replace(
       /&(lt|gt|amp|quot|#x27|#x60);/g,
       function (match: string): string {
-        // @ts-expect-error: Should expect array
         return patterns[match];
       }
     );

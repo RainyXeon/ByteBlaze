@@ -388,7 +388,7 @@ export class PageQueue {
   }
 
   async buttonPage(interaction: ButtonInteraction, queueDuration: string) {
-    if (!interaction && !(interaction as CommandInteraction).channel)
+    if (!interaction && !(interaction as unknown as CommandInteraction).channel)
       throw new Error("Channel is inaccessible.");
     if (!this.pages) throw new Error("Pages are not given.");
 
