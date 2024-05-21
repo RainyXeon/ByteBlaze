@@ -75,19 +75,21 @@ export class PageQueue {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            })}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              })}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
 
     collector.on("end", () => {
@@ -95,19 +97,21 @@ export class PageQueue {
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            })}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              })}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
 
@@ -157,36 +161,50 @@ export class PageQueue {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            })}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(
+                this.language,
+                "command.playlist",
+                "view_embed_footer",
+                {
+                  page: String(page + 1),
+                  pages: String(this.pages.length),
+                  songs: String(this.queueLength),
+                }
+              )}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
     collector.on("end", () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            })}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(
+                this.language,
+                "command.playlist",
+                "view_embed_footer",
+                {
+                  page: String(page + 1),
+                  pages: String(this.pages.length),
+                  songs: String(this.queueLength),
+                }
+              )}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
     return curPage;
@@ -236,38 +254,42 @@ export class PageQueue {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            })}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              })}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
     collector.on("end", () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              queue_lang: String(this.queueLength),
-              duration: String(queueDuration),
-            })}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+                page: String(page + 1),
+                pages: String(this.pages.length),
+                queue_lang: String(this.queueLength),
+                duration: String(queueDuration),
+              })}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
     return curPage;
@@ -316,36 +338,50 @@ export class PageQueue {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            })}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(
+                this.language,
+                "command.playlist",
+                "view_embed_footer",
+                {
+                  page: String(page + 1),
+                  pages: String(this.pages.length),
+                  songs: String(this.queueLength),
+                }
+              )}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
     collector.on("end", () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
-              page: String(page + 1),
-              pages: String(this.pages.length),
-              songs: String(this.queueLength),
-            })}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${this.client.getString(
+                this.language,
+                "command.playlist",
+                "view_embed_footer",
+                {
+                  page: String(page + 1),
+                  pages: String(this.pages.length),
+                  songs: String(this.queueLength),
+                }
+              )}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
     return curPage;

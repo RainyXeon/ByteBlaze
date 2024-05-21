@@ -175,13 +175,15 @@ export class PlayerContentLoader {
     const tracks = result.tracks;
 
     if (!result.tracks.length) {
-      msg?.edit({
-        content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
-          language,
-          "event.setup",
-          "setup_content_empty"
-        )}`}`,
-      });
+      msg
+        ?.edit({
+          content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
+            language,
+            "event.setup",
+            "setup_content_empty"
+          )}`}`,
+        })
+        .catch(() => null);
       return;
     }
     if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
@@ -192,8 +194,9 @@ export class PlayerContentLoader {
 
     const TotalDuration = player.queue.duration;
 
+    if (!player.playing) player.play();
+
     if (result.type === "PLAYLIST") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.getString(language, "event.setup", "play_playlist", {
@@ -206,7 +209,6 @@ export class PlayerContentLoader {
         .setColor(client.color);
       msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
           `${client.getString(language, "event.setup", "play_track", {
@@ -218,7 +220,6 @@ export class PlayerContentLoader {
         .setColor(client.color);
       msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.getString(language, "event.setup", "play_result", {
           title: getTitle(result.tracks),

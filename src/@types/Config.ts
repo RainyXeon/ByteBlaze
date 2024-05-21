@@ -17,6 +17,7 @@ export interface Bot {
 }
 
 export interface Utilities {
+  AUTO_RESUME: boolean;
   DELETE_MSG_TIMEOUT: number;
   DATABASE: Database;
   TOPGG_TOKEN: string;

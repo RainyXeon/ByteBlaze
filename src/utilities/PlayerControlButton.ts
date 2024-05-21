@@ -1,59 +1,89 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } from "discord.js";
-import { ConfigDataService } from "../services/ConfigDataService.js";
-import { Config } from "../@types/Config.js";
 import { Manager } from "../manager.js";
 
-const data: Config = new ConfigDataService().data;
+const playerRowOne = (client: Manager) =>
+  new ActionRowBuilder<ButtonBuilder>().addComponents([
+    new ButtonBuilder()
+      .setCustomId("stop")
+      .setEmoji(client.config.emojis.PLAYER.stop)
+      .setStyle(ButtonStyle.Secondary),
 
-let icons = data.emojis.PLAYER;
+    new ButtonBuilder()
+      .setCustomId("replay")
+      .setEmoji(client.config.emojis.PLAYER.previous)
+      .setStyle(ButtonStyle.Secondary),
 
-const playerRowOne = new ActionRowBuilder<ButtonBuilder>().addComponents([
-  new ButtonBuilder().setCustomId("stop").setEmoji(icons.stop).setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("pause")
+      .setEmoji(client.config.emojis.PLAYER.pause)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder()
-    .setCustomId("replay")
-    .setEmoji(icons.previous)
-    .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("skip")
+      .setEmoji(client.config.emojis.PLAYER.skip)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder().setCustomId("pause").setEmoji(icons.pause).setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("loop")
+      .setEmoji(client.config.emojis.PLAYER.loop)
+      .setStyle(ButtonStyle.Secondary),
+  ]);
 
-  new ButtonBuilder().setCustomId("skip").setEmoji(icons.skip).setStyle(ButtonStyle.Secondary),
+const playerRowTwo = (client: Manager) =>
+  new ActionRowBuilder<ButtonBuilder>().addComponents([
+    new ButtonBuilder()
+      .setCustomId("shuffle")
+      .setEmoji(client.config.emojis.PLAYER.shuffle)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder().setCustomId("loop").setEmoji(icons.loop).setStyle(ButtonStyle.Secondary),
-]);
+    new ButtonBuilder()
+      .setCustomId("voldown")
+      .setEmoji(client.config.emojis.PLAYER.voldown)
+      .setStyle(ButtonStyle.Secondary),
 
-const playerRowTwo = new ActionRowBuilder<ButtonBuilder>().addComponents([
-  new ButtonBuilder()
-    .setCustomId("shuffle")
-    .setEmoji(icons.shuffle)
-    .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("clear")
+      .setEmoji(client.config.emojis.PLAYER.delete)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder()
-    .setCustomId("voldown")
-    .setEmoji(icons.voldown)
-    .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("volup")
+      .setEmoji(client.config.emojis.PLAYER.volup)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder().setCustomId("clear").setEmoji(icons.delete).setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("queue")
+      .setEmoji(client.config.emojis.PLAYER.queue)
+      .setStyle(ButtonStyle.Secondary),
+  ]);
 
-  new ButtonBuilder().setCustomId("volup").setEmoji(icons.volup).setStyle(ButtonStyle.Secondary),
+const playerRowOneEdited = (client: Manager) =>
+  new ActionRowBuilder<ButtonBuilder>().addComponents([
+    new ButtonBuilder()
+      .setCustomId("stop")
+      .setEmoji(client.config.emojis.PLAYER.stop)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder().setCustomId("queue").setEmoji(icons.queue).setStyle(ButtonStyle.Secondary),
-]);
+    new ButtonBuilder()
+      .setCustomId("replay")
+      .setEmoji(client.config.emojis.PLAYER.previous)
+      .setStyle(ButtonStyle.Secondary),
 
-const playerRowOneEdited = new ActionRowBuilder<ButtonBuilder>().addComponents([
-  new ButtonBuilder().setCustomId("stop").setEmoji(icons.stop).setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("pause")
+      .setEmoji(client.config.emojis.PLAYER.play)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder()
-    .setCustomId("replay")
-    .setEmoji(icons.previous)
-    .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("skip")
+      .setEmoji(client.config.emojis.PLAYER.skip)
+      .setStyle(ButtonStyle.Secondary),
 
-  new ButtonBuilder().setCustomId("pause").setEmoji(icons.play).setStyle(ButtonStyle.Secondary),
-
-  new ButtonBuilder().setCustomId("skip").setEmoji(icons.skip).setStyle(ButtonStyle.Secondary),
-
-  new ButtonBuilder().setCustomId("loop").setEmoji(icons.loop).setStyle(ButtonStyle.Secondary),
-]);
+    new ButtonBuilder()
+      .setCustomId("loop")
+      .setEmoji(client.config.emojis.PLAYER.loop)
+      .setStyle(ButtonStyle.Secondary),
+  ]);
 
 const filterSelect = (client: Manager) =>
   new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(

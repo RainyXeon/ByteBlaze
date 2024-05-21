@@ -119,7 +119,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);
-      checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }) : true;
+      checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }).catch(() => null) : true;
       collector?.removeAllListeners();
     });
   }

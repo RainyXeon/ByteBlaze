@@ -27,12 +27,16 @@ export default class implements PlayerButton {
     const newPlayer = await player.setPause(!player.paused);
 
     newPlayer.paused
-      ? nplaying.edit({
-          components: [playerRowOneEdited, playerRowTwo, filterSelect(client)],
-        })
-      : nplaying.edit({
-          components: [playerRowOne, playerRowTwo, filterSelect(client)],
-        });
+      ? nplaying
+          .edit({
+            components: [playerRowOneEdited(client), playerRowTwo(client), filterSelect(client)],
+          })
+          .catch(() => null)
+      : nplaying
+          .edit({
+            components: [playerRowOne(client), playerRowTwo(client), filterSelect(client)],
+          })
+          .catch(() => null);
 
     new ReplyInteractionService(
       client,

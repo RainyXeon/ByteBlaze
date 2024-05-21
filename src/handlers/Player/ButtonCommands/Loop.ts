@@ -28,9 +28,10 @@ export class ButtonLoop {
 
     switch (this.player.loop) {
       case "none":
-        await this.player.setLoop(RainlinkLoopMode.SONG);
+        this.player.setLoop(RainlinkLoopMode.SONG);
 
-        this.setLoop247(String(RainlinkLoopMode.SONG));
+        if (this.client.config.utilities.AUTO_RESUME)
+          this.setLoop247(String(RainlinkLoopMode.SONG));
 
         const looptrack = new EmbedBuilder()
           .setDescription(`${this.client.getString(this.language, "button.music", "loop_current")}`)
@@ -48,9 +49,10 @@ export class ButtonLoop {
         break;
 
       case "song":
-        await this.player.setLoop(RainlinkLoopMode.QUEUE);
+        this.player.setLoop(RainlinkLoopMode.QUEUE);
 
-        this.setLoop247(String(RainlinkLoopMode.QUEUE));
+        if (this.client.config.utilities.AUTO_RESUME)
+          this.setLoop247(String(RainlinkLoopMode.QUEUE));
 
         const loopall = new EmbedBuilder()
           .setDescription(`${this.client.getString(this.language, "button.music", "loop_all")}`)
@@ -68,9 +70,10 @@ export class ButtonLoop {
         break;
 
       case "queue":
-        await this.player.setLoop(RainlinkLoopMode.NONE);
+        this.player.setLoop(RainlinkLoopMode.NONE);
 
-        this.setLoop247(String(RainlinkLoopMode.NONE));
+        if (this.client.config.utilities.AUTO_RESUME)
+          this.setLoop247(String(RainlinkLoopMode.NONE));
 
         const unloopall = new EmbedBuilder()
           .setDescription(`${this.client.getString(this.language, "button.music", "unloop_all")}`)

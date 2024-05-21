@@ -1,11 +1,5 @@
 import { Manager } from "../../manager.js";
-import {
-  ButtonInteraction,
-  ComponentType,
-  TextChannel,
-  StringSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
-} from "discord.js";
+import { ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { FormatDuration } from "../../utilities/FormatDuration.js";
 import { filterSelect, playerRowOne, playerRowTwo } from "../../utilities/PlayerControlButton.js";
@@ -43,32 +37,33 @@ export default class {
 
     client.emit("trackStart", player);
 
-    const autoreconnect = new AutoReconnectBuilderService(client, player);
+    if (client.config.utilities.AUTO_RESUME) {
+      const autoreconnect = new AutoReconnectBuilderService(client, player);
+      const getData = await autoreconnect.get(player.guildId);
+      if (!getData) await autoreconnect.playerBuild(player.guildId);
+      else {
+        await client.db.autoreconnect.set(`${player.guildId}.current`, player.queue.current?.uri);
+        await client.db.autoreconnect.set(`${player.guildId}.config.loop`, player.loop);
 
-    if (await autoreconnect.get(player.guildId)) {
-      await client.db.autoreconnect.set(`${player.guildId}.current`, player.queue.current?.uri);
-      await client.db.autoreconnect.set(`${player.guildId}.config.loop`, player.loop);
-
-      function queueUri() {
-        const res = [];
-        for (let data of player.queue) {
-          res.push(data.uri);
+        function queueUri() {
+          const res = [];
+          for (let data of player.queue) {
+            res.push(data.uri);
+          }
+          return res.length !== 0 ? res : [];
         }
-        return res.length !== 0 ? res : [];
-      }
 
-      function previousUri() {
-        const res = [];
-        for (let data of player.queue.previous) {
-          res.push(data.uri);
+        function previousUri() {
+          const res = [];
+          for (let data of player.queue.previous) {
+            res.push(data.uri);
+          }
+          return res.length !== 0 ? res : [];
         }
-        return res.length !== 0 ? res : [];
-      }
 
-      await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
-      await client.db.autoreconnect.set(`${player.guildId}.previous`, previousUri());
-    } else {
-      await autoreconnect.playerBuild(player.guildId);
+        await client.db.autoreconnect.set(`${player.guildId}.queue`, queueUri());
+        await client.db.autoreconnect.set(`${player.guildId}.previous`, previousUri());
+      }
     }
 
     let data = await client.db.setup.get(`${channel.guild.id}`);
@@ -133,7 +128,7 @@ export default class {
     const nplaying = playing_channel
       ? await playing_channel.send({
           embeds: [embeded],
-          components: [filterSelect(client), playerRowOne, playerRowTwo],
+          components: [filterSelect(client), playerRowOne(client), playerRowTwo(client)],
           // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
         })
       : undefined;

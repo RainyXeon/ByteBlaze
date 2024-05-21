@@ -108,6 +108,8 @@ export default class implements Command {
 
     if (handler.message) await handler.message.delete().catch(() => null);
 
+    if (!player.playing) player.play();
+
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -120,7 +122,6 @@ export default class implements Command {
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
-      if (!player.playing) player.play();
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
@@ -132,7 +133,6 @@ export default class implements Command {
         )
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [embed] });
-      if (!player.playing) player.play();
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.getString(handler.language, "command.music", "play_result", {
@@ -142,7 +142,6 @@ export default class implements Command {
         })}`
       );
       handler.editReply({ content: " ", embeds: [embed] });
-      if (!player.playing) player.play();
     } else {
       handler.editReply({
         embeds: [

@@ -61,14 +61,16 @@ export class Page {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${String(page + 1)}/${String(this.pages.length)}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${String(page + 1)}/${String(this.pages.length)}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
 
     collector.on("end", () => {
@@ -76,14 +78,16 @@ export class Page {
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${String(page + 1)}/${String(this.pages.length)}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${String(page + 1)}/${String(this.pages.length)}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
 
@@ -129,28 +133,32 @@ export class Page {
       } else if (interaction.customId === "next") {
         page = page + 1 < this.pages.length ? ++page : 0;
       }
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${String(page + 1)}/${String(this.pages.length)}`,
-          }),
-        ],
-        components: [row],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${String(page + 1)}/${String(this.pages.length)}`,
+            }),
+          ],
+          components: [row],
+        })
+        .catch(() => null);
     });
     collector.on("end", () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
       );
-      curPage.edit({
-        embeds: [
-          this.pages[page].setFooter({
-            text: `${String(page + 1)}/${String(this.pages.length)}`,
-          }),
-        ],
-        components: [disabled],
-      });
+      curPage
+        .edit({
+          embeds: [
+            this.pages[page].setFooter({
+              text: `${String(page + 1)}/${String(this.pages.length)}`,
+            }),
+          ],
+          components: [disabled],
+        })
+        .catch(() => null);
       collector.removeAllListeners();
     });
     return curPage;

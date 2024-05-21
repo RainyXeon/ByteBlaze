@@ -72,7 +72,9 @@ export class ClientDataService {
         if (!fetch_channel) return;
         const text_channel = fetch_channel! as TextChannel;
         const interval_text = await text_channel.messages!.fetch(g.statmsg).catch(() => undefined);
-        interval_text ? await interval_text.edit({ content: ``, embeds: [fetched_info] }) : true;
+        interval_text
+          ? await interval_text.edit({ content: ``, embeds: [fetched_info] }).catch(() => null)
+          : true;
       });
     });
   }

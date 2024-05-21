@@ -77,6 +77,8 @@ utilities:
   LOG_CHANNEL: ""
   # The timeout for deleting msg
   DELETE_MSG_TIMEOUT: 3000
+  # Auto resume when bot restarted suddenly
+  AUTO_RESUME: false
 
   # Database services config
   DATABASE:

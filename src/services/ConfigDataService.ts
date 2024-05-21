@@ -117,6 +117,7 @@ export class ConfigDataService {
         LIMIT_PLAYLIST: 20,
       },
       utilities: {
+        AUTO_RESUME: false,
         TOPGG_TOKEN: "",
         DELETE_MSG_TIMEOUT: 2000,
         DATABASE: {

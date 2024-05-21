@@ -150,14 +150,14 @@ export default class implements Command {
             .catch(() => undefined);
           if (!message) return;
           if (currentNPInterval && currentNPInterval.msg)
-            currentNPInterval.msg.edit({ content: " ", embeds: [embeded] });
+            currentNPInterval.msg.edit({ content: " ", embeds: [embeded] }).catch(() => null);
         } catch (err) {
           return;
         }
       }, 5000);
     } else if (!realtime) {
       if (!player.playing) return;
-      if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] });
+      if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] }).catch(() => null);
     }
   }
 

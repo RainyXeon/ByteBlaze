@@ -69,16 +69,20 @@ export class ButtonPause {
       const newPlayer = await this.player.setPause(!this.player.paused);
 
       newPlayer.paused
-        ? playMsg.edit({
-            // content: playMsg.content,
-            // embeds: new EmbedBuilder(playMsg.embeds),
-            components: [this.client.enSwitch],
-          })
-        : playMsg.edit({
-            // content: playMsg.content,
-            // embeds: playMsg.embeds,
-            components: [this.client.enSwitchMod],
-          });
+        ? playMsg
+            .edit({
+              // content: playMsg.content,
+              // embeds: new EmbedBuilder(playMsg.embeds),
+              components: [this.client.enSwitch],
+            })
+            .catch(() => null)
+        : playMsg
+            .edit({
+              // content: playMsg.content,
+              // embeds: playMsg.embeds,
+              components: [this.client.enSwitchMod],
+            })
+            .catch(() => null);
 
       const embed = new EmbedBuilder()
         .setDescription(

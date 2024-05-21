@@ -28,7 +28,7 @@ export default class implements PlayerButton {
       case "none":
         player.setLoop(RainlinkLoopMode.SONG);
 
-        setLoop247(RainlinkLoopMode.SONG);
+        if (client.config.utilities.AUTO_RESUME) setLoop247(RainlinkLoopMode.SONG);
 
         new ReplyInteractionService(
           client,
@@ -47,7 +47,7 @@ export default class implements PlayerButton {
       case "song":
         player.setLoop(RainlinkLoopMode.QUEUE);
 
-        setLoop247(RainlinkLoopMode.QUEUE);
+        if (client.config.utilities.AUTO_RESUME) setLoop247(RainlinkLoopMode.QUEUE);
 
         new ReplyInteractionService(
           client,
@@ -66,7 +66,7 @@ export default class implements PlayerButton {
       case "queue":
         player.setLoop(RainlinkLoopMode.NONE);
 
-        setLoop247(RainlinkLoopMode.NONE);
+        if (client.config.utilities.AUTO_RESUME) setLoop247(RainlinkLoopMode.NONE);
 
         new ReplyInteractionService(
           client,

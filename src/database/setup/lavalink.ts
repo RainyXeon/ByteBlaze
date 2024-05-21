@@ -76,7 +76,6 @@ export class AutoReconnectLavalinkService {
     if (!channel || !voice) {
       this.client.logger.setup(
         AutoReconnectLavalinkService.name,
-
         `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
       );
       return this.client.db.autoreconnect.delete(data.value.guild);
@@ -98,6 +97,12 @@ export class AutoReconnectLavalinkService {
       deaf: true,
       volume: this.client.config.player.DEFAULT_VOLUME,
     });
+
+    if (!this.client.config.utilities.AUTO_RESUME)
+      return this.client.logger.setup(
+        AutoReconnectLavalinkService.name,
+        `Auto resume disabled, now skipping all.`
+      );
 
     if (data.value.current && data.value.current.length !== 0) {
       const search = await player.search(data.value.current, {

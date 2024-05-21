@@ -9,7 +9,9 @@ export default class {
 
     const nowPlaying = client.nplayingMsg.get(`${player.guildId}`);
     if (nowPlaying) {
-      nowPlaying.msg.edit({ components: [playerRowOneEdited, playerRowTwo] });
+      nowPlaying.msg
+        .edit({ components: [playerRowOneEdited(client), playerRowTwo(client)] })
+        .catch(() => null);
     }
 
     const setup = await client.db.setup.get(`${player.guildId}`);
@@ -24,7 +26,7 @@ export default class {
         .fetch(setup.playmsg)
         .catch(() => undefined);
       if (!msg) return;
-      msg.edit({ components: [client.enSwitch] });
+      msg.edit({ components: [client.enSwitch] }).catch(() => null);
     }
   }
 }
