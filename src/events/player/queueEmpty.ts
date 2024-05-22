@@ -28,7 +28,7 @@ export default class {
         const findQuery = "directSearch=ytsearch:" + [author, title].filter((x) => !!x).join(" - ");
         const preRes = await player.search(findQuery, { requester: requester });
         if (preRes.tracks.length !== 0) true;
-        else identifier = preRes.tracks[0].identifier;
+        preRes.tracks[0].identifier ? identifier = preRes.tracks[0].identifier : true;
       }
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       let res = await player.search(search, { requester: requester });
