@@ -1,0 +1,20 @@
+### Generate command!
+gen_author: "Gerar Premium"
+gen_desc: "`🔑` | **Gerado** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Plano:** `%{plan}`\n`📅` | **Expira:** `%{expires}`"
+gen_footer: "Resgatar Premium • %{prefix}redeem <código>"
+
+### Profile command!
+profile_author: "Perfil Premium"
+profile_desc: "`👤` | **Usuário:** `%{user}`\n`💰` | **Plano:** `%{plan}`\n`📅` | **Expira:** `%{expires}`"
+
+### Redeem command!
+redeem_title: "Resgatar Premium"
+redeem_desc: "`💰` | **Plano:** `%{plan}`\n`📅` | **Expira:** `%{expires}`"
+redeem_already: "`⚠️` | Você já é um **Usuário Premium**!"
+redeem_invalid: "`⚠️` | Código Premium inválido. Por favor, use um código válido!"
+
+### Remove command!
+remove_desc: "`✅` | Premium de %{user} removido com sucesso!"
+remove_already: "`⚠️` | O Premium de %{user} já foi removido!"
+remove_no_params: "`⚠️` | Por favor, mencione um **Usuário** ou forneça um **ID de Usuário**!"
+remove_404: "`⚠️` | %{userid} não é um **Usuário Premium**!"

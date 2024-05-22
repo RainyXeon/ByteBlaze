@@ -155,6 +155,8 @@ Version numbers can come in different combinations, depending on the release typ
   - [@AutoP1ayer](https://github.com/AutoP1ayer) **Discord:** `autoplayer.uwu`
 - [x] **th (Thai)**
   - [@SillyDark](https://github.com/SillyDark) **Discord:** `defectsocute`
+- [x] **pt (Português Brasil)**
+  - [@psycodeliccircus](https://github.com/psycodeliccircus) **Discord:** `renildomrc`
 
 ## ⁉ Become to translate team?
 

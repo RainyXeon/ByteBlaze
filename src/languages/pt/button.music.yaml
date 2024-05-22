@@ -1,0 +1,30 @@
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | Tocando Atualmente:\n**%{track}** `[%{duration}]` • %{requester}\n\n`💤` | Restante da Fila:**%{list_song}**"
+queue_footer: "Página • %{page}/%{pages} | Músicas • %{queue_lang} | Duração Total • %{total_duration}"
+# Pause
+pause_msg: "`⏸️` | Pausou o **Player**!"
+resume_msg: "`▶️` | Retomou o **Player**!"
+# Skip
+skip_msg: "`⏭️` | Pulou a **Música**!"
+skip_notfound: "`⚠️` | Nenhuma música foi encontrada para pular!"
+# Stop
+stop_msg: "`⏹️` | Parou o **Player**!"
+# Volume
+volup_msg: "`🔊` | Alterou o volume para **%{volume}%**"
+voldown_msg: "`🔉` | Alterou o volume para **%{volume}%**"
+volume_invalid: "`⚠️` | Volume inválido. Por favor, use um número entre **1** e **100**!"
+volume_max: "`⚠️` | O player já está no volume máximo!"
+volume_min: "`⚠️` | O player já está no volume mínimo!"
+# Clear
+clear_msg: "`🗑️` | A fila foi **limpa**!"
+# Loop
+loop_current: "`🔁` | Repetindo a **música atual**!"
+loop_all: "`🔁` | Repetindo a **fila**!"
+unloop_all: "`❌` | Repetição está agora **desativada**!"
+loop_invalid: "`⚠️` | Modo de repetição inválido. Por favor, use %{mode}!"
+loop_already: "`⚠️` | O modo de repetição já está **%{mode}**!"
+# Previous
+previous_msg: "`⏮️` | Voltou para a **música anterior**!"
+previous_notfound: "`⚠️` | Nenhuma música anterior foi encontrada!"
+# Shuffle
+shuffle_msg: "🔀 Embaralhou a fila"
