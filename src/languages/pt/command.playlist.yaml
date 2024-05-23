@@ -1,0 +1,95 @@
+### Comando de Criar!
+create_created: "`💿` | Criada **%{playlist}** • `%{id}`"
+create_toolong: "`⚠️` | O nome da Playlist não pode ter mais de **16 Caracteres**!"
+des_toolong: "`⚠️` | A descrição da Playlist não pode ter mais de **1000 Caracteres**!"
+create_limit_playlist: "`⚠️` | Você não pode criar mais de **%{limit} Playlists**!"
+
+### Comando de Adicionar!
+add_track: "`🔍` | Pesquisada **%{title}** `%{duration}` • %{user}"
+add_playlist: "`🔍` | Pesquisada **%{title}** `%{duration}` • (**%{track} Músicas**) • %{user}"
+add_search: "`🔍` | Pesquisada **%{title}** `%{duration}` • %{user}"
+add_added: "`➕` | Adicionadas **%{count} Músicas** a `%{playlist}`"
+add_match: "`⚠️` | Por favor, forneça um nome de música ou URL válido!"
+add_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+add_limit_track: "`⚠️` | Você não pode adicionar mais de **%{limit} Músicas**!"
+
+### Comando de Deletar!
+delete_confirm: "`❓` | Você quer deletar `%{playlist_id}`"
+delete_deleted: "`❌` | Deletada `%{name}`"
+delete_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+delete_no: "`⚠️` | Exclusão **Cancelada**!"
+delete_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+
+### Comando de Detalhes!
+detail_private: "`🔒` | A Playlist é **Privada**!"
+detail_embed_title: "%{name}"
+detail_embed_footer: "Página • %{page}/%{pages} | Músicas • %{songs} | Duração Total • %{duration}"
+detail_track: "%{num}. **%{title}** `[%{duration}]` • Autor: **%{author}**"
+detail_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+detail_notnumber: "`⚠️` | Por favor, forneça um número de página válido!"
+detail_page_notfound: "`⚠️` | Existem apenas **%{page} Páginas**!"
+
+### Comando de Importar!
+import_private: "`🔒` | A Playlist é **Privada**!"
+import_imported: "`💿` | Importada **%{name}** • `[%{duration}]` • (**%{tracks} Músicas**) • %{user}"
+import_voice: "`⚠️` | Você precisa estar em um canal de voz para usar este comando!"
+import_empty: "`⚠️` | A Playlist está **Vazia**!"
+
+### Comando de Visualizar Todos!
+view_embed_title: "%{user}"
+view_embed_footer: "Página • %{page}/%{pages} | Playlists • %{songs}"
+view_embed_playlist: "%{num}. `%{name}` • (**%{tracks} Músicas**) • Criada: `[%{create} ago]`"
+view_notnumber: "`⚠️` | Por favor, forneça um número de página válido!"
+view_page_notfound: "`⚠️` | Existem apenas **%{page} Páginas**!"
+
+### Comando de Remover!
+remove_removed: "`➖` | Removida a música número **%{position}** de `%{name}`"
+remove_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+remove_song_notfound: "`⚠️` | Música não encontrada!"
+remove_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+
+### Comando de Salvar Fila!
+savequeue_saved: "`✅` | Salvas **%{tracks} Músicas** em `%{name}`"
+savequeue_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+savequeue_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+savequeue_no_new_saved: "`⚠️` | Música já existente em `%{name}`"
+savequeue_no_tracks: "`⚠️` | Nenhuma música está tocando atualmente!"
+
+### Comando de Informações!
+info_id: "`🆔` | ID:"
+info_total: "`🎵` | Total de Músicas:"
+info_created: "`📅` | Criada em:"
+info_private: "`👀` | Visibilidade:"
+info_owner: "`👑` | Dono:"
+info_des: "`💬` | Descrição:"
+no_des: "Nenhuma descrição fornecida!"
+public: "Pública"
+private: "Privada"
+invalid: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+
+### Comando de Editor!
+edit_playlist_id_label: "Insira o seu **Novo ID da Playlist**! `[a-z, A-Z, 0-9]`"
+edit_playlist_name_label: "Insira o seu **Novo Nome da Playlist**!"
+edit_playlist_des_label: "Insira a sua **Nova Descrição da Playlist**!"
+edit_playlist_private_label: "Insira a sua **Nova Visibilidade da Playlist**! `[pública/privada]`"
+edit_success: "`✅` | `%{playlistId}` editada com sucesso!"
+edit_arg: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+edit_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+edit_playlist_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+edit_invalid_id: "`⚠️` | Por favor, insira um ID de Playlist válido e que não exista!"
+edit_invalid_mode: "`⚠️` | Modo de Visibilidade inválido. Por favor, use **pública** ou **privada**!"
+
+### Interação de Editor!
+ineraction_edit_playlist_id_label: "Novo ID da Playlist"
+ineraction_edit_playlist_name_label: "Novo Nome da Playlist"
+ineraction_edit_playlist_des_label: "Nova Descrição da Playlist"
+ineraction_edit_playlist_private_label: "Nova Visibilidade da Playlist"
+ineraction_edit_playlist_id_placeholder: "Insira o seu Novo ID da Playlist! [a-z, A-Z, 0-9]"
+ineraction_edit_playlist_name_placeholder: "Insira o seu Novo Nome da Playlist!"
+ineraction_edit_playlist_des_placeholder: "Insira a sua Nova Descrição da Playlist!"
+ineraction_edit_playlist_private_placeholder: "Insira a sua Nova Visibilidade da Playlist! [pública/privada]"
+ineraction_edit_success: "`✅` | `%{playlistId}` editada com sucesso!"
+ineraction_edit_playlist_error: "`⚠️` | Algo deu errado. Por favor, tente novamente!"
+ineraction_edit_notfound: "`⚠️` | Por favor, forneça um ID de Playlist válido!"
+ineraction_edit_playlist_owner: "`⚠️` | Você não é o **Dono da Playlist**!"
+ineraction_edit_invalid_id: "`⚠️` | Por favor, insira um ID de Playlist válido e que não exista!"
