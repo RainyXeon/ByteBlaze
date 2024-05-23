@@ -104,7 +104,6 @@ export class Manager extends Client {
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url));
     this.logger = new LoggerService(this, clientIndex);
-    this.logger.info("ClientManager", "Booting client...");
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
@@ -126,11 +125,6 @@ export class Manager extends Client {
       /^https:\/\/deezer\.page\.link\/[a-zA-Z0-9]{12}$/,
     ];
 
-    if (!this.config.player.AVOID_SUSPEND)
-      this.logger.warn(
-        "ClientManager",
-        "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
-      );
     // Initial autofix lavalink varibles
     this.lavalinkList = [];
     this.lavalinkUsing = [];
@@ -152,13 +146,11 @@ export class Manager extends Client {
     this.wsl = new Collection<{ send: (data: Record<string, unknown>) => void }>();
     this.isDatabaseConnected = false;
 
-    // Sharing
-    this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
-
     // Icons setup
     this.icons = this.config.emojis;
 
-    // Init rainlink
+    this.cluster = process.env.IS_SHARING == "true" ? new ClusterClient(this) : undefined;
+
     this.rainlink = new RainlinkInit(this).init;
     for (const key of Object.keys(RainlinkFilterData)) {
       const firstUpperCase = key.charAt(0).toUpperCase() + key.slice(1);
@@ -173,11 +165,19 @@ export class Manager extends Client {
           .setValue(key)
       );
     }
+  }
 
-    // Starting services
-    if (this.config.utilities.WEB_SERVER.enable) {
-      new WebServer(this);
-    }
+  public start() {
+    this.logger.info("ClientManager", `Booting byteblaze...`);
+    this.logger.info("ClientManager", `├── Version: ${this.metadata.version}`);
+    this.logger.info("ClientManager", `├── Codename: ${this.metadata.codename}`);
+    this.logger.info("ClientManager", `└── Autofix Version: ${this.metadata.autofix}`);
+    if (!this.config.player.AVOID_SUSPEND)
+      this.logger.warn(
+        "ClientManager",
+        "You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!"
+      );
+    if (this.config.utilities.WEB_SERVER.enable) new WebServer(this);
     new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);

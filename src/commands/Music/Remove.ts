@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Message } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -71,7 +71,7 @@ export default class implements Command {
       .setDescription(
         `${client.getString(handler.language, "command.music", "removetrack_desc", {
           name: this.getTitle(client, song),
-          duration: new ConvertTime().parse(player.position),
+          duration: convertTime(player.position),
           request: String(song.requester),
         })}`
       )

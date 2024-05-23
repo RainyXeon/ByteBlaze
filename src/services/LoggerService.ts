@@ -24,12 +24,7 @@ export class LoggerService {
         warn: 1,
         info: 2,
         websocket: 3,
-        lavalink: 4,
-        loader: 5,
-        setup: 6,
-        deploy: 7,
-        debug: 8,
-        unhandled: 9,
+        unhandled: 4,
       },
 
       transports: [
@@ -80,41 +75,6 @@ export class LoggerService {
     return;
   }
 
-  public lavalink(className: string, msg: string) {
-    return this.preLog.log({
-      level: "lavalink",
-      message: `${className.padEnd(this.padding)} | ${msg}`,
-    });
-  }
-
-  public loader(className: string, msg: string) {
-    return this.preLog.log({
-      level: "loader",
-      message: `${className.padEnd(this.padding)} | ${msg}`,
-    });
-  }
-
-  public setup(className: string, msg: string) {
-    return this.preLog.log({
-      level: "setup",
-      message: `${className.padEnd(this.padding)} | ${msg}`,
-    });
-  }
-
-  public websocket(className: string, msg: string) {
-    return this.preLog.log({
-      level: "websocket",
-      message: `${className.padEnd(this.padding)} | ${msg}`,
-    });
-  }
-
-  public deploy(className: string, msg: string) {
-    return this.preLog.log({
-      level: "deploy",
-      message: `${className.padEnd(this.padding)} | ${msg}`,
-    });
-  }
-
   public unhandled(className: string, msg: unknown) {
     this.preLog.log({
       level: "unhandled",
@@ -136,16 +96,6 @@ export class LoggerService {
         return chalk.hex("#FBEC5D")(info.level.toUpperCase().padEnd(pad));
       case "error":
         return chalk.hex("#e12885")(info.level.toUpperCase().padEnd(pad));
-      case "lavalink":
-        return chalk.hex("#ffc61c")(info.level.toUpperCase().padEnd(pad));
-      case "loader":
-        return chalk.hex("#4402f7")(info.level.toUpperCase().padEnd(pad));
-      case "setup":
-        return chalk.hex("#f7f702")(info.level.toUpperCase().padEnd(pad));
-      case "websocket":
-        return chalk.hex("#00D100")(info.level.toUpperCase().padEnd(pad));
-      case "deploy":
-        return chalk.hex("#7289da")(info.level.toUpperCase().padEnd(pad));
       case "unhandled":
         return chalk.hex("#ff0000")(info.level.toUpperCase().padEnd(pad));
     }

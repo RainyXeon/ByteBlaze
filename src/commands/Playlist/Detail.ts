@@ -1,5 +1,5 @@
 import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
 import { PlaylistTrack } from "../../database/schema/Playlist.js";
@@ -94,13 +94,13 @@ export default class implements Command {
           num: String(i + 1),
           title: this.getTitle(client, playlists),
           author: String(playlists.author),
-          duration: new FormatDuration().parse(playlists.length),
+          duration: formatDuration(playlists.length),
         })}
                 `
       );
     }
 
-    const totalDuration = new FormatDuration().parse(
+    const totalDuration = formatDuration(
       playlist.tracks!.reduce((acc: number, cur: PlaylistTrack) => acc + cur.length!, 0)
     );
 

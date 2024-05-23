@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
-import { FormatDuration } from "../utilities/FormatDuration.js";
+import { formatDuration } from "../utilities/FormatDuration.js";
 import { RainlinkPlayer, RainlinkTrack } from "../rainlink/main.js";
 
 export default class implements PlayerButton {
@@ -24,7 +24,7 @@ export default class implements PlayerButton {
       collector.stop();
     }
     const song = player.queue.current;
-    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
+    const qduration = `${formatDuration(song!.duration + player.queue.duration)}`;
     const thumbnail =
       song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
@@ -35,7 +35,7 @@ export default class implements PlayerButton {
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
       songStrings.push(
-        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.duration)}]\`
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${formatDuration(song.duration)}]\`
         `
       );
     }
@@ -55,7 +55,7 @@ export default class implements PlayerButton {
         .setDescription(
           `${client.getString(language, "button.music", "queue_description", {
             track: this.getTitle(client, song!),
-            duration: new FormatDuration().parse(song?.duration),
+            duration: formatDuration(song?.duration),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
           })}`

@@ -4,7 +4,7 @@ import {
   CommandInteraction,
   AutocompleteInteraction,
 } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -88,7 +88,7 @@ export default class implements Command {
     if (result.type === "PLAYLIST") for (let track of tracks) TrackAdd.push(track);
     else TrackAdd.push(tracks[0]);
 
-    const Duration = new ConvertTime().parse(tracks[0].duration as number);
+    const Duration = convertTime(tracks[0].duration as number);
     const TotalDuration = tracks.reduce(
       (acc, cur) => acc + (cur.duration || 0),
       tracks[0].duration ?? 0
@@ -99,7 +99,7 @@ export default class implements Command {
         .setDescription(
           `${client.getString(handler.language, "command.playlist", "add_playlist", {
             title: this.getTitle(client, result.type, tracks, Inputed),
-            duration: new ConvertTime().parse(TotalDuration),
+            duration: convertTime(TotalDuration),
             track: String(tracks.length),
             user: String(handler.user),
           })}`

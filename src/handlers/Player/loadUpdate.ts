@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
 export class PlayerUpdateLoader {
@@ -37,19 +37,19 @@ export class PlayerUpdateLoader {
           `${client.getString(language, "event.setup", "setup_content_queue", {
             index: `${i + 1}`,
             title: song.title,
-            duration: new FormatDuration().parse(song.duration),
+            duration: formatDuration(song.duration),
             request: `${song.requester}`,
           })}`
       );
 
-      await songStrings.push(...queuedSongs);
+      songStrings.push(...queuedSongs);
 
       const Str = songStrings.slice(0, 10).join("\n");
 
       const TotalDuration = player.queue.duration;
 
       let cSong = player.queue.current;
-      let qDuration = `${new FormatDuration().parse(TotalDuration + Number(player.queue.current?.duration))}`;
+      let qDuration = `${formatDuration(TotalDuration + Number(player.queue.current?.duration))}`;
 
       function getTitle(tracks: RainlinkTrack): string {
         if (client.config.player.AVOID_SUSPEND) return tracks.title;
@@ -66,7 +66,7 @@ export class PlayerUpdateLoader {
         .setDescription(
           `${client.getString(language, "event.setup", "setup_desc", {
             title: getTitle(cSong!),
-            duration: new FormatDuration().parse(cSong!.duration),
+            duration: formatDuration(cSong!.duration),
             request: `${cSong!.requester}`,
           })}`
         ) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
@@ -95,7 +95,7 @@ export class PlayerUpdateLoader {
           embeds: [embed],
           components: [client.enSwitchMod],
         })
-        .catch((e) => {});
+        .catch(() => {});
     };
 
     /**
@@ -139,7 +139,7 @@ export class PlayerUpdateLoader {
           embeds: [playEmbed],
           components: [client.diSwitch],
         })
-        .catch((e) => {});
+        .catch(() => {});
     };
   }
 }

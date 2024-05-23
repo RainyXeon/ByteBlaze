@@ -1,5 +1,5 @@
 import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Playlist } from "../../database/schema/Playlist.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -82,9 +82,7 @@ export default class implements Command {
     const SongAdd = [];
     let SongLoad = 0;
 
-    const totalDuration = new ConvertTime().parse(
-      playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0)
-    );
+    const totalDuration = convertTime(playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0));
 
     if (playlist.tracks?.length == 0)
       return handler.editReply({

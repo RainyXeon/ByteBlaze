@@ -2,7 +2,7 @@ import { EmbedBuilder, User } from "discord.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
@@ -30,7 +30,7 @@ export default class implements Command {
 
     const song = newQueue.current;
 
-    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
+    const qduration = `${formatDuration(song!.duration + player.queue.duration)}`;
     const thumbnail =
       song!.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
@@ -41,7 +41,7 @@ export default class implements Command {
     for (let i = 0; i < newQueue.length; i++) {
       const song = newQueue[i];
       songStrings.push(
-        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.duration)}]\`
+        `**${i + 1}.** ${this.getTitle(client, song)} \`[${formatDuration(song.duration)}]\`
                     `
       );
     }
@@ -60,7 +60,7 @@ export default class implements Command {
           `${client.getString(handler.language, "command.music", "queue_description", {
             title: this.getTitle(client, song!),
             request: String(song!.requester),
-            duration: new FormatDuration().parse(song!.duration),
+            duration: formatDuration(song!.duration),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )

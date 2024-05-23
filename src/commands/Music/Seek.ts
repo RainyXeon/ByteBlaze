@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -70,7 +70,7 @@ export default class implements Command {
     if (song_position < value * 1000) final_res = song_position + value * 1000;
     else final_res = value * 1000;
 
-    const Duration = new FormatDuration().parse(final_res);
+    const Duration = formatDuration(final_res);
 
     const seeked = new EmbedBuilder()
       .setDescription(

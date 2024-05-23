@@ -41,6 +41,7 @@ export class RainlinkInit {
     return {
       retryCount: this.client.config.utilities.AUTOFIX_LAVALINK.retryCount,
       retryTimeout: this.client.config.utilities.AUTOFIX_LAVALINK.retryTimeout,
+      defaultSearchEngine: "youtube",
     };
   }
 

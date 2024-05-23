@@ -1,12 +1,11 @@
 import ms from "pretty-ms";
 import { EmbedBuilder, TextChannel, version } from "discord.js";
 import { Manager } from "../../manager.js";
-import chalk from "chalk";
 import cron from "node-cron";
 import os from "os";
 import { stripIndents } from "common-tags";
 
-export class ClientDataService {
+export class ClientDataSetup {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
@@ -80,10 +79,9 @@ export class ClientDataService {
   }
 
   async execute() {
-    const Client = chalk.hex("#02f75c");
-    this.client.logger.setup(ClientDataService.name, "Setting up data for client...");
+    this.client.logger.info(ClientDataSetup.name, "Setting up data for client...");
     this.setupInfoChennel();
 
-    this.client.logger.setup(ClientDataService.name, "Setting up data for client complete!");
+    this.client.logger.info(ClientDataSetup.name, "Setting up data for client complete!");
   }
 }

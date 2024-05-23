@@ -9,7 +9,7 @@ export class WebsocketRoute {
     fastify.get("/websocket", { websocket: true }, (socket, req) => {
       this.client.logger.info(WebsocketRoute.name, `${req.method} ${req.routeOptions.url}`);
       socket.on("close", (code, reason) => {
-        this.client.logger.websocket(
+        this.client.logger.info(
           WebsocketRoute.name,
           `Closed with code: ${code}, reason: ${reason}`
         );
@@ -18,7 +18,7 @@ export class WebsocketRoute {
       this.client.wsl.set(String(req.headers["guild-id"]), {
         send: (data) => socket.send(JSON.stringify(data)),
       });
-      this.client.logger.websocket(
+      this.client.logger.info(
         WebsocketRoute.name,
         `Websocket opened for guildId: ${req.headers["guild-id"]}`
       );

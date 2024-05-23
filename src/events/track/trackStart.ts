@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { ComponentType, TextChannel } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { filterSelect, playerRowOne, playerRowTwo } from "../../utilities/PlayerControlButton.js";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
@@ -101,7 +101,7 @@ export default class {
         },
         {
           name: `${client.getString(language, "event.player", "duration_title")}`,
-          value: `${new FormatDuration().parse(song!.duration)}`,
+          value: `${formatDuration(song!.duration)}`,
           inline: true,
         },
         {

@@ -10,6 +10,5 @@ export class PlayerLoader {
     new PlayerContentLoader(client);
     new PlayerUpdateLoader(client);
     new PlayerSetupLoader(client);
-    client.logger.loader(PlayerLoader.name, "Rainlink Events Loaded!");
   }
 }

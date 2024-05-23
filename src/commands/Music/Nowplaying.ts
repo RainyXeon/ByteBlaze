@@ -1,6 +1,6 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, TextChannel } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
@@ -30,8 +30,8 @@ export default class implements Command {
 
     const song = player.queue.current;
     const position = player.position;
-    const CurrentDuration = new FormatDuration().parse(position);
-    const TotalDuration = new FormatDuration().parse(song!.duration);
+    const CurrentDuration = formatDuration(position);
+    const TotalDuration = formatDuration(song!.duration);
     const Thumbnail =
       song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/maxresdefault.jpg`;
     const Part = Math.floor((position / song!.duration!) * 30);
@@ -44,7 +44,7 @@ export default class implements Command {
       },
       {
         name: `${client.getString(handler.language, "event.player", "duration_title")}`,
-        value: `${new FormatDuration().parse(song!.duration)}`,
+        value: `${formatDuration(song!.duration)}`,
         inline: true,
       },
       {
@@ -59,7 +59,7 @@ export default class implements Command {
       },
       {
         name: `${client.getString(handler.language, "event.player", "total_duration_title")}`,
-        value: `${new FormatDuration().parse(player.queue.duration)}`,
+        value: `${formatDuration(player.queue.duration)}`,
         inline: true,
       },
       {
@@ -114,7 +114,7 @@ export default class implements Command {
             .get(`${handler.guild?.id}`);
         if (!player.queue.current) return clearInterval(interval);
         if (!player.playing) return;
-        const CurrentDuration = new FormatDuration().parse(player.position);
+        const CurrentDuration = formatDuration(player.position);
         const Part = Math.floor((player.position / song!.duration!) * 30);
 
         const editedField = fieldDataGlobal;

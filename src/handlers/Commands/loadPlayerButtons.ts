@@ -24,7 +24,7 @@ export class PlayerButtonsLoader {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(
+      this.client.logger.info(
         PlayerButtonsLoader.name,
         `${this.client.plButton.size} player buttons Loaded!`
       );

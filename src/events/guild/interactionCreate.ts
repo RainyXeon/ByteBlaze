@@ -21,7 +21,7 @@ import {
 } from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
-import { ConvertToMention } from "../../utilities/ConvertToMention.js";
+import { convertOption } from "../../utilities/ConvertOption.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { AutoCompleteService } from "../../services/AutoCompleteService.js";
@@ -320,7 +320,7 @@ export default class {
               data.options!.filter((data) => data.name == subCommandName!).at(0)?.options!
             );
           }
-          const check = new ConvertToMention().execute({
+          const check = convertOption({
             type: data.type,
             value: String(data.value),
           });

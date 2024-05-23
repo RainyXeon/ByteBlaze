@@ -1,6 +1,5 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember, TextChannel } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
@@ -10,6 +9,7 @@ import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { RainlinkTrack } from "../../rainlink/main.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 const rateLimitManager = new RateLimitManager(2000);
 
 /**
@@ -201,7 +201,7 @@ export class PlayerContentLoader {
         .setDescription(
           `${client.getString(language, "event.setup", "play_playlist", {
             title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(TotalDuration),
+            duration: convertTime(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
           })}`
@@ -213,7 +213,7 @@ export class PlayerContentLoader {
         .setDescription(
           `${client.getString(language, "event.setup", "play_track", {
             title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(result.tracks[0].duration as number),
+            duration: convertTime(result.tracks[0].duration as number),
             request: `${result.tracks[0].requester}`,
           })}`
         )
@@ -223,7 +223,7 @@ export class PlayerContentLoader {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.getString(language, "event.setup", "play_result", {
           title: getTitle(result.tracks),
-          duration: new ConvertTime().parse(result.tracks[0].duration as number),
+          duration: convertTime(result.tracks[0].duration as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );

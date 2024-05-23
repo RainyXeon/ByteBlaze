@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Attachment, EmbedBuilder } from "discord.js";
 import { Manager } from "../../manager.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 
@@ -115,7 +115,7 @@ export default class implements Command {
         .setDescription(
           `${client.getString(handler.language, "command.music", "play_playlist", {
             title: file.name,
-            duration: new ConvertTime().parse(TotalDuration),
+            duration: convertTime(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
           })}`
@@ -127,7 +127,7 @@ export default class implements Command {
         .setDescription(
           `${client.getString(handler.language, "command.music", "play_track", {
             title: file.name,
-            duration: new ConvertTime().parse(tracks[0].duration as number),
+            duration: convertTime(tracks[0].duration as number),
             request: String(tracks[0].requester),
           })}`
         )
@@ -137,7 +137,7 @@ export default class implements Command {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.getString(handler.language, "command.music", "play_result", {
           title: file.name,
-          duration: new ConvertTime().parse(tracks[0].duration as number),
+          duration: convertTime(tracks[0].duration as number),
           request: String(tracks[0].requester),
         })}`
       );

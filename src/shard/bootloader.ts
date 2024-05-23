@@ -11,17 +11,12 @@ process
   .on("uncaughtException", (error) => byteblaze.logger.unhandled("AntiCrash", error))
   .on("uncaughtExceptionMonitor", (error) => byteblaze.logger.unhandled("AntiCrash", error))
   .on("exit", () =>
-    byteblaze.logger.info(
-      "ClientManager",
-      `Successfully Powered Off ByteBlaze v${byteblaze.metadata.version}, Good Bye!`
-    )
+    byteblaze.logger.info("ClientManager", `Successfully Powered Off ByteBlaze, Good Bye!`)
   )
   .on("SIGINT", () => {
-    byteblaze.logger.info(
-      "ClientManager",
-      `Powering Down ByteBlaze v${byteblaze.metadata.version}...`
-    );
+    byteblaze.logger.info("ClientManager", `Powering Down ByteBlaze...`);
     process.exit(0);
   });
 
+byteblaze.start();
 byteblaze.login(token);

@@ -7,7 +7,7 @@ import {
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
 
@@ -97,7 +97,7 @@ export default class implements Command {
       .setDescription(
         `${client.getString(handler.language, "command.music", "insert_desc", {
           name: this.getTitle(client, track),
-          duration: new ConvertTime().parse(player.position),
+          duration: convertTime(player.position),
           request: String(track.requester),
         })}`
       )

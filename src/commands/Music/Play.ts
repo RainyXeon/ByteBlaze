@@ -4,7 +4,7 @@ import {
   CommandInteraction,
   EmbedBuilder,
 } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
@@ -111,7 +111,7 @@ export default class implements Command {
         .setDescription(
           `${client.getString(handler.language, "command.music", "play_track", {
             title: this.getTitle(client, result.type, tracks),
-            duration: new ConvertTime().parse(tracks[0].duration as number),
+            duration: convertTime(tracks[0].duration as number),
             request: String(tracks[0].requester),
           })}`
         )
@@ -123,7 +123,7 @@ export default class implements Command {
         .setDescription(
           `${client.getString(handler.language, "command.music", "play_playlist", {
             title: this.getTitle(client, result.type, tracks, value),
-            duration: new ConvertTime().parse(TotalDuration),
+            duration: convertTime(TotalDuration),
             songs: String(tracks.length),
             request: String(tracks[0].requester),
           })}`
@@ -135,7 +135,7 @@ export default class implements Command {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
         `${client.getString(handler.language, "command.music", "play_result", {
           title: this.getTitle(client, result.type, tracks),
-          duration: new ConvertTime().parse(tracks[0].duration as number),
+          duration: convertTime(tracks[0].duration as number),
           request: String(tracks[0].requester),
         })}`
       );

@@ -12,26 +12,26 @@ export class AutoReconnectLavalinkService {
   }
 
   async execute() {
-    this.client.logger.setup(AutoReconnectLavalinkService.name, `Setting up data for lavalink...`);
-    this.client.logger.setup(
+    this.client.logger.info(AutoReconnectLavalinkService.name, `Setting up data for lavalink...`);
+    this.client.logger.info(
       AutoReconnectLavalinkService.name,
       `Auto ReConnect Collecting player 24/7 data`
     );
     const maindata = await this.client.db.autoreconnect.all();
 
     if (!maindata || maindata.length == 0) {
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Auto ReConnect found in 0 servers!`
       );
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Setting up data for lavalink complete!`
       );
       return;
     }
 
-    this.client.logger.setup(
+    this.client.logger.info(
       AutoReconnectLavalinkService.name,
       `Auto ReConnect found in ${Object.keys(maindata).length} servers!`
     );
@@ -39,14 +39,14 @@ export class AutoReconnectLavalinkService {
 
     let retry_interval = setInterval(async () => {
       if (this.client.lavalinkUsing.length == 0 || this.client.rainlink.nodes.size == 0)
-        return this.client.logger.setup(
+        return this.client.logger.info(
           AutoReconnectLavalinkService.name,
           `No lavalink avalible, try again after 3 seconds!`
         );
 
       clearInterval(retry_interval);
 
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Lavalink avalible, remove interval and continue setup!`
       );
@@ -55,12 +55,12 @@ export class AutoReconnectLavalinkService {
         setTimeout(async () => this.connectChannel(data));
       });
 
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Reconnected to all ${Object.keys(maindata).length} servers!`
       );
 
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Setting up data for lavalink complete!`
       );
@@ -74,7 +74,7 @@ export class AutoReconnectLavalinkService {
       .fetch(data.value.voice)
       .catch(() => undefined)) as VoiceChannel;
     if (!channel || !voice) {
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `The last voice/text channel that bot joined in guild [${data.value.guild}] is not found, skipping...`
       );
@@ -82,7 +82,7 @@ export class AutoReconnectLavalinkService {
     }
 
     if (!data.value.twentyfourseven && voice.members.filter((m) => !m.user.bot).size == 0) {
-      this.client.logger.setup(
+      this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Guild [${data.value.guild}] have 0 members in last voice that bot joined, skipping...`
       );
@@ -99,7 +99,7 @@ export class AutoReconnectLavalinkService {
     });
 
     if (!this.client.config.utilities.AUTO_RESUME)
-      return this.client.logger.setup(
+      return this.client.logger.info(
         AutoReconnectLavalinkService.name,
         `Auto resume disabled, now skipping all.`
       );

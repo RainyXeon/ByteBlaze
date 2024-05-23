@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class ClientEventsLoader {
   client: Manager;
+  counter: number = 0;
   constructor(client: Manager) {
     this.client = client;
     this.loader();
@@ -18,7 +19,7 @@ export class ClientEventsLoader {
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
     });
-    this.client.logger.loader(ClientEventsLoader.name, `Client Events Loaded!`);
+    this.client.logger.info(ClientEventsLoader.name, `${this.counter} Events Loaded!`);
   }
 
   async registerPath(eventsPath: string[]) {
@@ -36,6 +37,14 @@ export class ClientEventsLoader {
 
     const eName = splitPath(path);
 
-    this.client.on(eName!, events.execute.bind(null, this.client));
+    if (!events.execute)
+      return this.client.logger.warn(
+        ClientEventsLoader.name,
+        `Event [${eName}] doesn't have exeture function on the class, Skipping...`
+      );
+
+    this.client.on(eName!, (...args: unknown[]) => events.execute(this.client, ...args));
+
+    this.counter = this.counter + 1;
   }
 }
