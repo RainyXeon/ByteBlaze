@@ -1,0 +1,99 @@
+### Comando de Reprodução Automática!
+autoplay_on: "`✅` | A Reprodução Automática está agora **Ativada**!"
+autoplay_off: "`❌` | A Reprodução Automática está agora **Desativada**!"
+autoplay_already: "`⚠️` | A Reprodução Automática já está **%{mode}**!"
+
+### Comando de Limpar Fila!
+clearqueue_msg: "`🗑️` | A Fila foi **Limpada**!"
+
+### Comando de Avançar!
+forward_msg: "`⏩` | Avançado para `%{duration}`"
+forward_beyond: "`⚠️` | A música está prestes a terminar. Não é possível avançar além disso!"
+
+### Comando de Entrar!
+join_msg: "`🔊` | Entrei em %{channel}"
+join_voice: "`⚠️` | Você precisa estar em um canal de voz para usar este comando!"
+join_already: "`⚠️` | Já estou em %{channel}"
+
+### Comando de Parar!
+stop_msg: "`⏹️` | O **Player** foi Parado!"
+
+### Comando de Repetição!
+loop_current: "`🔁` | Repetindo a **Música Atual**!"
+loop_all: "`🔁` | Repetindo a **Fila**!"
+unloop_all: "`❌` | A Repetição está agora **Desativada**!"
+loop_invalid: "`⚠️` | Modo de Repetição inválido. Por favor, use %{mode}!"
+loop_already: "`⚠️` | O modo de Repetição já está **%{mode}**!"
+
+### Comando de Letras!
+lyrics_title: "📜 %{song}"
+lyrics_notfound: "`⚠️` | Letras não encontradas!"
+lyrics_toolong: "`⚠️` | As letras são muito longas para serem exibidas!"
+
+### Comando de Tocando Agora!
+np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+np_title: "Tocando Agora"
+np_current_duration: "`⏰` | Duração Atual: `[%{current_duration} / %{total_duration}]`"
+
+### Comando de Pausa!
+pause_msg: "`⏸️` | O **Player** foi Pausado!"
+
+### Comando de Tocar!
+play_track: "`💾` | Adicionada **%{title}** `%{duration}` • %{request}"
+play_playlist: "`💾` | Adicionada **%{title}** `%{duration}` • (**%{songs} Músicas**) • %{request}"
+play_result: "`💾` | Adicionada **%{title}** `%{duration}` • %{request}"
+play_arg: "`⚠️` | Por favor, forneça um nome de música ou URL válido!"
+play_match: "`⚠️` | Música não encontrada!"
+play_emoji: "`⚠️` | Não é possível tocar músicas usando emoji!"
+
+### Comando de Arquivo!
+file_notfound: "`⚠️` | Por favor, forneça um Arquivo válido!"
+play_invalid_file: "`⚠️` | Tipo de Arquivo inválido. Por favor, use **mp3** ou **ogg**!"
+play_warning_file: "`⚠️` | Não consegui detectar o tipo de Arquivo. Por favor, use **mp3** ou **ogg**!"
+
+### Comando de Anterior!
+previous_msg: "`⏮️` | Pulado para a Música **Anterior**!"
+previous_notfound: "`⚠️` | Nenhuma música anterior foi encontrada!"
+
+### Comando de Fila!
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | Tocando Atualmente:\n**%{title}** `[%{duration}]` • %{request}\n\n`💤` | Resto da Fila:**%{rest}**"
+queue_footer: "Página • %{page}/%{pages} | Músicas • %{queue_lang} | Duração Total • %{duration}"
+queue_notnumber: "`⚠️` | Por favor, forneça um número de página válido!"
+queue_page_notfound: "`⚠️` | Existem apenas **%{page} Páginas**!"
+
+### Comando de Repetir Música!
+replay_msg: "`🔄` | A música foi Reproduzida novamente!"
+
+### Comando de Retomar!
+resume_msg: "`▶️` | O **Player** foi Retomado!"
+
+### Comando de Retroceder!
+rewind_msg: "`⏪` | Retrocedido para `%{duration}`"
+rewind_beyond: "`⚠️` | A música acabou de começar. Não é possível retroceder além disso!"
+
+### Comando de Remover Música!
+removetrack_desc: "`🗑️` | Removida **%{name}** `%{duration}` • %{request}"
+removetrack_already: "`⚠️` | Não posso remover uma música que já está tocando!"
+removetrack_notfound: "`⚠️` | Música não encontrada!"
+
+### Comando de Procurar!
+seek_msg: "`➿` | Procurado para `%{duration}`"
+seek_beyond: "`⚠️` | Não é possível procurar além da duração da música!"
+seek_invalid: "`⚠️` | Duração de procura inválida. Por favor, use um timestamp válido. Exemplo: **1:30**!"
+
+### Comando de Embaralhar!
+shuffle_msg: "🔀 A Fila foi Embaralhada"
+
+### Comando de Pular!
+skip_msg: "`⏭️` | Música **Pulada**!"
+skip_notfound: "`⚠️` | Nenhuma música foi encontrada para pular!"
+
+### Comando de Volume!
+volume_msg: "`🔊` | O Volume foi definido para **%{volume}%**"
+volume_invalid: "`⚠️` | Volume inválido. Por favor, use um número entre **1** e **100**!"
+
+### Comando de Inserir Música!
+insert_desc: "`➕` | Inserida **%{name}** `%{duration}` • %{request}"
+insert_already: "`⚠️` | Não posso inserir uma música que já está tocando!"
+insert_notfound: "`⚠️` | Música não encontrada!"

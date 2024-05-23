@@ -1,0 +1,26 @@
+### Manipulador de Configuração!
+setup_queuemsg: "Junte-se a um canal de voz e reproduza músicas usando nome ou URL aqui!"
+setup_playembed_author: "Nenhuma música está sendo reproduzida no momento"
+
+### Manipulador de Atualização!
+setup_author: "Reproduzindo"
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "**%{title}** `[%{duration}]` • %{request}"
+setup_footer: "Volume • %{volume}% | Duração Total • %{duration}"
+setup_content: "**__Fila:__**"
+setup_content_queue: "`%{index}.` **%{title}** `[%{duration}]` • %{request}"
+setup_content_empty: "Junte-se a um canal de voz e reproduza músicas usando nome ou URL aqui!"
+
+### Comando de Status!
+status_create: "**`📊` | Canal de Status Criado!**"
+status_delete: "**`📊` | Canal de Status Excluído!**"
+status_enable: "`⚠️` | Canal de Status já existe!"
+status_null: "`⚠️` | Canal de Status não encontrado!"
+
+# Play!
+play_track: "`💾` | Adicionada na fila **%{title}** `%{duration}` • %{request}"
+play_playlist: "`💾` | Adicionada na fila **%{title}** `%{duration}` • (**%{songs} Músicas**) • %{request}"
+play_result: "`💾` | Adicionada na fila **%{title}** `%{duration}` • %{request}"
+play_arg: "`⚠️` | Por favor, forneça um nome de música ou URL válidos!"
+play_match: "`⚠️` | Música não encontrada!"
+play_emoji: "`⚠️` | Você não pode reproduzir músicas usando emojis!"

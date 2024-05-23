@@ -1,0 +1,34 @@
+### Comando de Desenvolvedor!
+dev_title: "RainyXeon"
+dev_desc: "Sou apenas um desenvolvedor incógnito. E o criador oficial do Dreamvast e RainyProduction!"
+dev_foot: "Considere entrar no meu servidor ou convidar meus bots :) Isso me ajudaria muito!"
+
+### Comando de Convite!
+inv_title: "✉️ %{username}"
+inv_desc: "Obrigado por me convidar antecipadamente!"
+
+### Comando de Ping!
+ping_title: "🏓 "
+ping_desc: "**Ping:** `%{ping}ms`\n**Tempo de Resposta:** `%{response}ms`"
+
+### Comando de Uptime!
+uptime_title: "🕒 "
+uptime_desc: "**Tempo de Atividade:** `%{uptime}`"
+
+### Comando de Ajuda!
+ce_finder_name: "**Comando:**"
+ce_finder_des: "**Descrição:**"
+ce_finder_usage: "**Uso:**"
+ce_finder_access: "**Acessível por:**"
+ce_finder_aliases: "**Aliases:**"
+ce_finder_slash: "**Slash:**"
+ce_finder_des_no: "Sem Descrição"
+ce_finder_usage_no: "Sem Uso"
+ce_finder_aliases_prefix: " [Apenas com Prefixo]"
+ce_finder_aliases_no: "Sem Aliases"
+ce_finder_slash_enable: "Habilitado"
+ce_finder_slash_disable: "Desabilitado"
+ce_finder_invalid: "Comando Inválido"
+ce_finder_example: "`⚠️` | Por favor, forneça um **Nome de Comando** válido!"
+ce_name: "Comando de Ajuda"
+ce_total: "Total de Comandos: "
