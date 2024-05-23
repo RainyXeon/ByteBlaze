@@ -10,6 +10,7 @@ export class QuickDatabasePlus<D = any> extends QuickDB {
   ) {
     super(newOptions);
     this.cache = new Collection<string>();
+    if (this.scheduleConfig !== "DISABLE") this.cleanDaemon()
   }
 
   async get<T = D>(key: string): Promise<T | null> {

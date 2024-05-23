@@ -89,6 +89,7 @@ utilities:
     # Cache cleaning for reduce memory
     # This feature have the same API with this link below
     # https://github.com/node-cron/node-cron?tab=readme-ov-file#allowed-fields
+    # You can disable caching by using DISABLE string
     cacheCleanSchedule: "0 */30 * * * *"
 
   # Msg content for bot using prefix command and setup
