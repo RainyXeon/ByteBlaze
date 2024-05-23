@@ -156,7 +156,7 @@ Os números de versão podem vir em diferentes combinações, dependendo do tipo
 - [x] **th (Tailandês)**
   - [@SillyDark](https://github.com/SillyDark) **Discord:** `defectsocute`
 - [x] **pt (Brazilian Portuguese)**
-  - [@SillyDark](https://github.com/psycodeliccircus) **Discord:** `renildomrc`
+  - [@psycodeliccircus](https://github.com/psycodeliccircus) **Discord:** `renildomrc`
 
 ## ⁉ Quer fazer parte da equipe de tradução?
 
