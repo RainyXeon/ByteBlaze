@@ -23,7 +23,7 @@ export class LoggerService {
         error: 0,
         warn: 1,
         info: 2,
-        websocket: 3,
+        debug: 3,
         unhandled: 4,
       },
 
