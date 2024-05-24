@@ -32,7 +32,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -44,7 +44,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -53,7 +53,7 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_player")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
             .setColor(this.client.color),
         ],
       });
@@ -86,7 +86,7 @@ export class ButtonPause {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.getString(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
+          `${this.client.i18n.get(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
         )
         .setColor(this.client.color);
 

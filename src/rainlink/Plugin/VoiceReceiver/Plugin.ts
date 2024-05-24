@@ -1,16 +1,17 @@
 import { RainlinkPlugin as Plugin } from "../RainlinkPlugin.js";
 import { Rainlink } from "../../Rainlink.js";
 import { RainlinkEvents, RainlinkPluginType } from "../../Interface/Constants.js";
-import { RawData, WebSocket } from "ws";
 import { RainlinkNode } from "../../Node/RainlinkNode.js";
 import { metadata } from "../../metadata.js";
 import { VoiceChannelOptions } from "../../Interface/Player.js";
+import { RainlinkDatabase, RainlinkWebsocket } from "../../main.js";
 
 export class RainlinkPlugin extends Plugin {
   protected manager?: Rainlink;
   /** Whenever the plugin is enabled or not */
   public enabled: boolean = false;
-  protected runningWs: Map<string, WebSocket> = new Map<string, WebSocket>();
+  protected runningWs: RainlinkDatabase<RainlinkWebsocket> =
+    new RainlinkDatabase<RainlinkWebsocket>();
 
   constructor() {
     super();
@@ -34,7 +35,7 @@ export class RainlinkPlugin extends Plugin {
         "This node not support voice receiver, please use Nodelink2 to use this feature!"
       );
     const wsUrl = `${node.options.secure ? "wss" : "ws"}://${node.options.host}:${node.options.port}`;
-    const ws = new WebSocket(wsUrl + "/connection/data", {
+    const ws = new RainlinkWebsocket(wsUrl + "/connection/data", {
       headers: {
         Authorization: node.options.auth,
         "User-Id": this.manager!.id,
@@ -48,7 +49,7 @@ export class RainlinkPlugin extends Plugin {
       this.debug("Connected to nodelink's voice receive server!");
       this.manager?.emit(RainlinkEvents.VoiceConnect, node);
     });
-    ws.on("message", (data: RawData) => this.wsMessageEvent(node, data));
+    ws.on("message", (data) => this.wsMessageEvent(node, data));
     ws.on("error", (err) => {
       this.debug("Errored at nodelink's voice receive server!");
       this.manager?.emit(RainlinkEvents.VoiceError, node, err);
@@ -73,7 +74,7 @@ export class RainlinkPlugin extends Plugin {
     return;
   }
 
-  protected wsMessageEvent(node: RainlinkNode, data: RawData) {
+  protected wsMessageEvent(node: RainlinkNode, data: Record<string, unknown>) {
     const wsData = JSON.parse(data.toString());
     this.debug(String(data));
     switch (wsData.type) {

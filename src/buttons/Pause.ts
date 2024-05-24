@@ -41,7 +41,7 @@ export default class implements PlayerButton {
     new ReplyInteractionService(
       client,
       message,
-      `${client.getString(language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
+      `${client.i18n.get(language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
     );
   }
 }

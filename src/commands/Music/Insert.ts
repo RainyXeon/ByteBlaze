@@ -9,7 +9,8 @@ import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { convertTime } from "../../utilities/ConvertTime.js";
 import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 // Main code
 export default class implements Command {
@@ -52,7 +53,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -61,7 +62,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "insert_already")}`
+              `${client.i18n.get(handler.language, "command.music", "insert_already")}`
             )
             .setColor(client.color),
         ],
@@ -71,7 +72,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "insert_notfound")}`
+              `${client.i18n.get(handler.language, "command.music", "insert_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -85,7 +86,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "insert_notfound")}`
+              `${client.i18n.get(handler.language, "command.music", "insert_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -95,8 +96,8 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "insert_desc", {
-          name: this.getTitle(client, track),
+        `${client.i18n.get(handler.language, "command.music", "insert_desc", {
+          name: getTitle(client, track),
           duration: convertTime(player.position),
           request: String(track.requester),
         })}`
@@ -127,13 +128,6 @@ export default class implements Command {
     return handler.editReply({ embeds: [embed] });
   }
 
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.player.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
-    }
-  }
-
   // Autocomplete function
   async autocomplete(client: Manager, interaction: GlobalInteraction, language: string) {
     let choice: AutocompleteInteractionChoices[] = [];
@@ -156,8 +150,8 @@ export default class implements Command {
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.getString(language, "command.music", "no_node")}`,
-        value: `${client.getString(language, "command.music", "no_node")}`,
+        name: `${client.i18n.get(language, "command.music", "no_node")}`,
+        value: `${client.i18n.get(language, "command.music", "no_node")}`,
       });
       return;
     }

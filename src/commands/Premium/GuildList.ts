@@ -35,7 +35,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -58,7 +58,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "command.premium", "guild_list_title")}`,
+          name: `${client.i18n.get(handler.language, "command.premium", "guild_list_title")}`,
         })
         .setColor(client.color)
         .setDescription(str == "" ? "  Nothing" : "\n" + str)
@@ -83,7 +83,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.premium", "guild_list_notnumber")}`
+                `${client.i18n.get(handler.language, "command.premium", "guild_list_notnumber")}`
               )
               .setColor(client.color),
           ],
@@ -93,7 +93,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(
+                `${client.i18n.get(
                   handler.language,
                   "command.premium",
                   "guild_list_page_notfound",

@@ -37,7 +37,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,7 +50,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -60,7 +60,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "import_private")}`
+              `${client.i18n.get(handler.language, "command.playlist", "import_private")}`
             )
             .setColor(client.color),
         ],
@@ -74,7 +74,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "import_voice")}`
+              `${client.i18n.get(handler.language, "command.playlist", "import_voice")}`
             )
             .setColor(client.color),
         ],
@@ -89,7 +89,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "import_empty")}`
+              `${client.i18n.get(handler.language, "command.playlist", "import_empty")}`
             )
             .setColor(client.color),
         ],
@@ -124,7 +124,7 @@ export default class implements Command {
         player.queue.add(SongAdd);
         const embed = new EmbedBuilder() // **Imported • \`${Plist}\`** (${playlist.tracks.length} tracks) • ${message.author}
           .setDescription(
-            `${client.getString(handler.language, "command.playlist", "import_imported", {
+            `${client.i18n.get(handler.language, "command.playlist", "import_imported", {
               name: playlist.name,
               tracks: String(playlist.tracks!.length),
               duration: totalDuration,

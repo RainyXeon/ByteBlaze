@@ -32,7 +32,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "stop_msg", {
+        `${client.i18n.get(handler.language, "command.music", "stop_msg", {
           channel: channel!.name,
         })}`
       )

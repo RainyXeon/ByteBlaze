@@ -39,7 +39,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -51,7 +51,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "delete_notfound")}`
+              `${client.i18n.get(handler.language, "command.playlist", "delete_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -61,7 +61,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "delete_owner")}`
+              `${client.i18n.get(handler.language, "command.playlist", "delete_owner")}`
             )
             .setColor(client.color),
         ],
@@ -75,7 +75,7 @@ export default class implements Command {
     const msg = await handler.editReply({
       embeds: [
         new EmbedBuilder().setDescription(
-          `${client.getString(handler.language, "command.playlist", "delete_confirm", {
+          `${client.i18n.get(handler.language, "command.playlist", "delete_confirm", {
             playlist_id: value,
           })}`
         ),
@@ -94,7 +94,7 @@ export default class implements Command {
         await client.db.playlist.delete(value);
         const embed = new EmbedBuilder()
           .setDescription(
-            `${client.getString(handler.language, "command.playlist", "delete_deleted", {
+            `${client.i18n.get(handler.language, "command.playlist", "delete_deleted", {
               name: value,
             })}`
           )
@@ -104,7 +104,7 @@ export default class implements Command {
         msg?.delete().catch(() => null);
       } else if (id == "no") {
         const embed = new EmbedBuilder()
-          .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
+          .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_no")}`)
           .setColor(client.color);
         interaction.reply({ embeds: [embed] });
         collector.stop();
@@ -117,7 +117,7 @@ export default class implements Command {
         .fetch(String(msg?.id))
         .catch(() => undefined);
       const embed = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.playlist", "delete_no")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);
       checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }).catch(() => null) : true;
       collector?.removeAllListeners();

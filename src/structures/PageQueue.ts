@@ -49,7 +49,7 @@ export class PageQueue {
     const curPage = await interaction.editReply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
             page: String(page + 1),
             pages: String(this.pages.length),
             queue_lang: String(this.queueLength),
@@ -79,7 +79,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+              text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
                 page: String(page + 1),
                 pages: String(this.pages.length),
                 queue_lang: String(this.queueLength),
@@ -101,7 +101,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+              text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
                 page: String(page + 1),
                 pages: String(this.pages.length),
                 queue_lang: String(this.queueLength),
@@ -137,7 +137,7 @@ export class PageQueue {
     const curPage = await interaction.editReply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
+          text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
             page: String(page + 1),
             pages: String(this.pages.length),
             songs: String(this.queueLength),
@@ -165,7 +165,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(
+              text: `${this.client.i18n.get(
                 this.language,
                 "command.playlist",
                 "view_embed_footer",
@@ -190,7 +190,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(
+              text: `${this.client.i18n.get(
                 this.language,
                 "command.playlist",
                 "view_embed_footer",
@@ -228,7 +228,7 @@ export class PageQueue {
     const curPage = await message.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
             page: String(page + 1),
             pages: String(this.pages.length),
             queue_lang: String(this.queueLength),
@@ -258,7 +258,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+              text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
                 page: String(page + 1),
                 pages: String(this.pages.length),
                 queue_lang: String(this.queueLength),
@@ -279,7 +279,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+              text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
                 page: String(page + 1),
                 pages: String(this.pages.length),
                 queue_lang: String(this.queueLength),
@@ -313,7 +313,7 @@ export class PageQueue {
     const curPage = await message.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.getString(this.language, "command.playlist", "view_embed_footer", {
+          text: `${this.client.i18n.get(this.language, "command.playlist", "view_embed_footer", {
             page: String(page + 1),
             pages: String(this.pages.length),
             songs: String(this.queueLength),
@@ -342,7 +342,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(
+              text: `${this.client.i18n.get(
                 this.language,
                 "command.playlist",
                 "view_embed_footer",
@@ -367,7 +367,7 @@ export class PageQueue {
         .edit({
           embeds: [
             this.pages[page].setFooter({
-              text: `${this.client.getString(
+              text: `${this.client.i18n.get(
                 this.language,
                 "command.playlist",
                 "view_embed_footer",
@@ -406,7 +406,7 @@ export class PageQueue {
     const curPage = await interaction.reply({
       embeds: [
         this.pages[page].setFooter({
-          text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+          text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
             page: String(page + 1),
             pages: String(this.pages.length),
             queue_lang: String(this.queueLength),
@@ -436,7 +436,7 @@ export class PageQueue {
       interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
               page: String(page + 1),
               pages: String(this.pages.length),
               queue_lang: String(this.queueLength),
@@ -456,7 +456,7 @@ export class PageQueue {
       interaction.editReply({
         embeds: [
           this.pages[page].setFooter({
-            text: `${this.client.getString(this.language, "command.music", "queue_footer", {
+            text: `${this.client.i18n.get(this.language, "command.music", "queue_footer", {
               page: String(page + 1),
               pages: String(this.pages.length),
               queue_lang: String(this.queueLength),

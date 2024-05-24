@@ -34,7 +34,7 @@ export class ButtonLoop {
           this.setLoop247(String(RainlinkLoopMode.SONG));
 
         const looptrack = new EmbedBuilder()
-          .setDescription(`${this.client.getString(this.language, "button.music", "loop_current")}`)
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_current")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",
@@ -55,7 +55,7 @@ export class ButtonLoop {
           this.setLoop247(String(RainlinkLoopMode.QUEUE));
 
         const loopall = new EmbedBuilder()
-          .setDescription(`${this.client.getString(this.language, "button.music", "loop_all")}`)
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "loop_all")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",
@@ -76,7 +76,7 @@ export class ButtonLoop {
           this.setLoop247(String(RainlinkLoopMode.NONE));
 
         const unloopall = new EmbedBuilder()
-          .setDescription(`${this.client.getString(this.language, "button.music", "unloop_all")}`)
+          .setDescription(`${this.client.i18n.get(this.language, "button.music", "unloop_all")}`)
           .setColor(this.client.color);
         await this.interaction.reply({
           content: " ",

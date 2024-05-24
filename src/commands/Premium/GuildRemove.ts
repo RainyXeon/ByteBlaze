@@ -34,7 +34,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.premium", "guild_remove_no_params")}`
+              `${client.i18n.get(handler.language, "command.premium", "guild_remove_no_params")}`
             )
             .setColor(client.color),
         ],
@@ -44,7 +44,7 @@ export default class implements Command {
 
     if (!db)
       return handler.editReply({
-        content: `${client.getString(handler.language, "command.premium", "guild_remove_404", {
+        content: `${client.i18n.get(handler.language, "command.premium", "guild_remove_404", {
           userid: id as string,
         })}`,
       });
@@ -54,7 +54,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.premium", "guild_remove_desc", {
+          `${client.i18n.get(handler.language, "command.premium", "guild_remove_desc", {
             user: db.redeemedBy.name as string,
           })}`
         )
@@ -63,7 +63,7 @@ export default class implements Command {
     }
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "guild_remove_already", {
+        `${client.i18n.get(handler.language, "command.premium", "guild_remove_already", {
           user: db.redeemedBy.name as string,
         })}`
       )

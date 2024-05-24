@@ -10,7 +10,8 @@ import { PlayerButton } from "../@types/Button.js";
 import { Manager } from "../manager.js";
 import { formatDuration } from "../utilities/FormatDuration.js";
 import { PageQueue } from "../structures/PageQueue.js";
-import { RainlinkPlayer, RainlinkTrack } from "../rainlink/main.js";
+import { RainlinkPlayer } from "../rainlink/main.js";
+import { getTitle } from "../utilities/GetTitle.js";
 
 export default class implements PlayerButton {
   name = "shuffle";
@@ -40,7 +41,7 @@ export default class implements PlayerButton {
     for (let i = 0; i < newQueue.length; i++) {
       const song = newQueue[i];
       songStrings.push(
-        `**${i + 1}.** ${this.getTitle(client, song)} \`[${formatDuration(song.duration)}]\`
+        `**${i + 1}.** ${getTitle(client, song)} \`[${formatDuration(song.duration)}]\`
         `
       );
     }
@@ -53,18 +54,18 @@ export default class implements PlayerButton {
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setAuthor({
-          name: `${client.getString(language, "button.music", "shuffle_msg")}`,
+          name: `${client.i18n.get(language, "button.music", "shuffle_msg")}`,
         })
         .setDescription(
-          `${client.getString(language, "button.music", "queue_description", {
-            track: this.getTitle(client, song!),
+          `${client.i18n.get(language, "button.music", "queue_description", {
+            track: getTitle(client, song!),
             duration: formatDuration(song?.duration),
             requester: `${song!.requester}`,
             list_song: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
         .setFooter({
-          text: `${client.getString(language, "button.music", "queue_footer", {
+          text: `${client.i18n.get(language, "button.music", "queue_footer", {
             page: `${i + 1}`,
             pages: `${pagesNum}`,
             queue_lang: `${newQueue.length}`,
@@ -104,12 +105,5 @@ export default class implements PlayerButton {
         qduration
       );
     } else message.reply({ embeds: [pages[0]], ephemeral: true });
-  }
-
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.player.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
-    }
   }
 }

@@ -8,8 +8,8 @@ import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { RainlinkTrack } from "../../rainlink/main.js";
 import { convertTime } from "../../utilities/ConvertTime.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 const rateLimitManager = new RateLimitManager(2000);
 
 /**
@@ -129,7 +129,7 @@ export class PlayerContentLoader {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_in_voice")}`)
+            .setDescription(`${client.i18n.get(language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -142,7 +142,7 @@ export class PlayerContentLoader {
       msg?.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "event.setup", "play_emoji")}`)
+            .setDescription(`${client.i18n.get(language, "event.setup", "play_emoji")}`)
             .setColor(client.color),
         ],
       });
@@ -163,7 +163,7 @@ export class PlayerContentLoader {
         msg?.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_same_voice")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_same_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -177,7 +177,7 @@ export class PlayerContentLoader {
     if (!result.tracks.length) {
       msg
         ?.edit({
-          content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
+          content: `${client.i18n.get(language, "event.setup", "setup_content")}\n${`${client.i18n.get(
             language,
             "event.setup",
             "setup_content_empty"
@@ -199,8 +199,8 @@ export class PlayerContentLoader {
     if (result.type === "PLAYLIST") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(language, "event.setup", "play_playlist", {
-            title: getTitle(result.tracks),
+          `${client.i18n.get(language, "event.setup", "play_playlist", {
+            title: getTitle(client, result.tracks[0]),
             duration: convertTime(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
@@ -211,8 +211,8 @@ export class PlayerContentLoader {
     } else if (result.type === "TRACK") {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(language, "event.setup", "play_track", {
-            title: getTitle(result.tracks),
+          `${client.i18n.get(language, "event.setup", "play_track", {
+            title: getTitle(client, result.tracks[0]),
             duration: convertTime(result.tracks[0].duration as number),
             request: `${result.tracks[0].requester}`,
           })}`
@@ -221,20 +221,13 @@ export class PlayerContentLoader {
       msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.getString(language, "event.setup", "play_result", {
-          title: getTitle(result.tracks),
+        `${client.i18n.get(language, "event.setup", "play_result", {
+          title: getTitle(client, result.tracks[0]),
           duration: convertTime(result.tracks[0].duration as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );
       msg?.reply({ content: " ", embeds: [embed] });
-    }
-
-    function getTitle(tracks: RainlinkTrack[]): string {
-      if (client.config.player.AVOID_SUSPEND) return tracks[0].title;
-      else {
-        return `[${tracks[0].title}](${tracks[0].uri})`;
-      }
     }
 
     await client.UpdateQueueMsg(player);

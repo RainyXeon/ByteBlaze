@@ -42,11 +42,11 @@ export default class implements Command {
     if (!PremiumPlan) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
+          name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
         .setDescription(
-          `${client.getString(handler.language, "command.premium", "profile_error_desc", { user: String(user?.username) })}`
+          `${client.i18n.get(handler.language, "command.premium", "profile_error_desc", { user: String(user?.username) })}`
         )
         .setColor(client.color)
         .setTimestamp();
@@ -62,11 +62,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "profile_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: PremiumPlan!.plan,
           expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,
@@ -81,11 +81,11 @@ export default class implements Command {
   owner(client: Manager, handler: CommandHandler) {
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "profile_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: "dreamvast@owner",
           expires: "lifetime",
@@ -100,11 +100,11 @@ export default class implements Command {
   admin(client: Manager, handler: CommandHandler) {
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.premium", "profile_author")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "profile_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: "dreamvast@admin",
           expires: "lifetime",

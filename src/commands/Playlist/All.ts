@@ -54,7 +54,7 @@ export default class implements Command {
         largest: 1,
       });
       playlistStrings.push(
-        `${client.getString(handler.language, "command.playlist", "view_embed_playlist", {
+        `${client.i18n.get(handler.language, "command.playlist", "view_embed_playlist", {
           num: String(i + 1),
           name: playlist.id,
           tracks: String(playlist.tracks!.length),
@@ -69,7 +69,7 @@ export default class implements Command {
       const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`);
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "command.playlist", "view_embed_title", {
+          name: `${client.i18n.get(handler.language, "command.playlist", "view_embed_title", {
             user: handler.user!.username,
           })}`,
           iconURL: handler.user?.displayAvatarURL(),
@@ -77,7 +77,7 @@ export default class implements Command {
         .setDescription(`${str == "" ? "  Nothing" : "\n" + str}`)
         .setColor(client.color)
         .setFooter({
-          text: `${client.getString(handler.language, "command.playlist", "view_embed_footer", {
+          text: `${client.i18n.get(handler.language, "command.playlist", "view_embed_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             songs: String(playlists.length),
@@ -116,14 +116,14 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.playlist", "view_notnumber")}`
+                `${client.i18n.get(handler.language, "command.playlist", "view_notnumber")}`
               )
               .setColor(client.color),
           ],
         });
       if (Number(number) > pagesNum)
         return handler.editReply({
-          content: `${client.getString(handler.language, "command.playlist", "view_page_notfound", {
+          content: `${client.i18n.get(handler.language, "command.playlist", "view_page_notfound", {
             page: String(pagesNum),
           })}`,
         });

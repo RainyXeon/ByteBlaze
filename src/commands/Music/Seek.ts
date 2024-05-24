@@ -38,9 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
-              `${client.getString(handler.language, "command.music", "seek_invalid")}`
-            )
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -57,7 +55,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "seek_beyond")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.music", "seek_beyond")}`)
             .setColor(client.color),
         ],
       });
@@ -74,7 +72,7 @@ export default class implements Command {
 
     const seeked = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "seek_msg", {
+        `${client.i18n.get(handler.language, "command.music", "seek_msg", {
           duration: Duration,
         })}`
       )

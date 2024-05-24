@@ -26,10 +26,10 @@ export default class implements Command {
     if (!PremiumPlan) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "error", "no_premium_author")}`,
+          name: `${client.i18n.get(handler.language, "error", "no_premium_author")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
-        .setDescription(`${client.getString(handler.language, "error", "no_guild_premium_desc")}`)
+        .setDescription(`${client.i18n.get(handler.language, "error", "no_guild_premium_desc")}`)
         .setColor(client.color)
         .setTimestamp();
       return handler.editReply({
@@ -44,11 +44,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.premium", "guild_profile_author")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "guild_profile_author")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "guild_profile_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "guild_profile_desc", {
           guild: String(handler.guild?.name),
           plan: PremiumPlan!.plan,
           expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,

@@ -38,7 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,7 +50,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "savequeue_notfound")}`
+              `${client.i18n.get(handler.language, "command.playlist", "savequeue_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -60,7 +60,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "savequeue_owner")}`
+              `${client.i18n.get(handler.language, "command.playlist", "savequeue_owner")}`
             )
             .setColor(client.color),
         ],
@@ -76,7 +76,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "noplayer", "savequeue_no_tracks")}`
+              `${client.i18n.get(handler.language, "noplayer", "savequeue_no_tracks")}`
             )
             .setColor(client.color),
         ],
@@ -98,7 +98,7 @@ export default class implements Command {
     if (Result!.length == 0) {
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.playlist", "savequeue_no_new_saved", {
+          `${client.i18n.get(handler.language, "command.playlist", "savequeue_no_new_saved", {
             name: value,
           })}`
         )
@@ -108,7 +108,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.playlist", "savequeue_saved", {
+        `${client.i18n.get(handler.language, "command.playlist", "savequeue_saved", {
           name: value,
           tracks: String(queue?.length! + 1),
         })}`

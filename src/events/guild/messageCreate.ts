@@ -51,37 +51,37 @@ export default class {
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(language, "event.message", "wel", {
+          name: `${client.i18n.get(language, "event.message", "wel", {
             bot: message.guild!.members.me!.displayName,
           })}`,
         })
         .setColor(client.color).setDescription(stripIndents`
-          ${client.getString(language, "event.message", "intro1", {
+          ${client.i18n.get(language, "event.message", "intro1", {
             bot: message.guild!.members.me!.displayName,
           })}
-          ${client.getString(language, "event.message", "intro2")}
-          ${client.getString(language, "event.message", "intro3")}
-          ${client.getString(language, "event.message", "prefix", {
+          ${client.i18n.get(language, "event.message", "intro2")}
+          ${client.i18n.get(language, "event.message", "intro3")}
+          ${client.i18n.get(language, "event.message", "prefix", {
             prefix: `\`${PREFIX}\` or \`/\``,
           })}
-          ${client.getString(language, "event.message", "help1", {
+          ${client.i18n.get(language, "event.message", "help1", {
             help: `\`${PREFIX}help\` or \`/help\``,
           })}
-          ${client.getString(language, "event.message", "help2", {
+          ${client.i18n.get(language, "event.message", "help2", {
             botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
-          ${client.getString(language, "event.message", "ver", {
+          ${client.i18n.get(language, "event.message", "ver", {
             botver: client.metadata.version,
           })}
-          ${client.getString(language, "event.message", "djs", {
+          ${client.i18n.get(language, "event.message", "djs", {
             djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies[
               "discord.js"
             ],
           })}
-          ${client.getString(language, "event.message", "lavalink", {
+          ${client.i18n.get(language, "event.message", "lavalink", {
             aver: client.metadata.autofix,
           })}
-          ${client.getString(language, "event.message", "codename", {
+          ${client.i18n.get(language, "event.message", "codename", {
             codename: client.metadata.codename,
           })}
           `);
@@ -136,14 +136,14 @@ export default class {
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(permissionResult: CheckPermissionResultInterface) {
-      const selfErrorString = `${client.getString(language, "error", "no_perms", {
+      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
         perm: permissionResult.result,
       })}`;
       const embed = new EmbedBuilder()
         .setDescription(
           permissionResult.channel == "Self"
             ? selfErrorString
-            : `${client.getString(language, "error", "no_perms_channel", {
+            : `${client.i18n.get(language, "error", "no_perms_channel", {
                 perm: permissionResult.result,
                 channel: permissionResult.channel,
               })}`
@@ -185,7 +185,7 @@ export default class {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_node")}`)
+            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
             .setColor(client.color),
         ],
       });
@@ -202,7 +202,7 @@ export default class {
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_player")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -214,7 +214,7 @@ export default class {
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_voice")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -228,7 +228,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`
+              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
             )
             .setColor(client.color),
         ],
@@ -253,7 +253,7 @@ export default class {
       return message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "owner_only")}`)
+            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
             .setColor(client.color),
         ],
       });
@@ -263,7 +263,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`
+              `${client.i18n.get(language, "error", "no_perms", { perm: "dreamvast@admin" })}`
             )
             .setColor(client.color),
         ],
@@ -272,10 +272,10 @@ export default class {
     if (command.accessableby.includes(Accessableby.Premium) && !userPerm.premium) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(language, "error", "no_premium_author")}`,
+          name: `${client.i18n.get(language, "error", "no_premium_author")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
-        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
+        .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
         .setColor(client.color)
         .setTimestamp();
       return message.reply({ content: " ", embeds: [embed] });
@@ -284,10 +284,10 @@ export default class {
     if (command.accessableby.includes(Accessableby.GuildPremium) && !userPerm.guildPre) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(language, "error", "no_premium_author")}`,
+          name: `${client.i18n.get(language, "error", "no_premium_author")}`,
           iconURL: client.user!.displayAvatarURL(),
         })
-        .setDescription(`${client.getString(language, "error", "no_guild_premium_desc")}`)
+        .setDescription(`${client.i18n.get(language, "error", "no_guild_premium_desc")}`)
         .setColor(client.color)
         .setTimestamp();
       return message.reply({
@@ -303,9 +303,9 @@ export default class {
       if (voteChecker == TopggServiceEnum.ERROR) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: client.getString(language, "error", "topgg_error_author"),
+            name: client.i18n.get(language, "error", "topgg_error_author"),
           })
-          .setDescription(client.getString(language, "error", "topgg_error_desc"))
+          .setDescription(client.i18n.get(language, "error", "topgg_error_desc"))
           .setColor(client.color)
           .setTimestamp();
         return message.reply({ content: " ", embeds: [embed] });
@@ -314,14 +314,14 @@ export default class {
       if (voteChecker == TopggServiceEnum.UNVOTED) {
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: client.getString(language, "error", "topgg_vote_author"),
+            name: client.i18n.get(language, "error", "topgg_vote_author"),
           })
-          .setDescription(client.getString(language, "error", "topgg_vote_desc"))
+          .setDescription(client.i18n.get(language, "error", "topgg_vote_desc"))
           .setColor(client.color)
           .setTimestamp();
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
-            .setLabel(client.getString(language, "error", "topgg_vote_button"))
+            .setLabel(client.i18n.get(language, "error", "topgg_vote_button"))
             .setStyle(ButtonStyle.Link)
             .setURL(`https://top.gg/bot/${client.user?.id}/vote`)
         );
@@ -354,7 +354,7 @@ export default class {
       message.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "unexpected_error")}\n ${error}`)
+            .setDescription(`${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`)
             .setColor(client.color),
         ],
       });

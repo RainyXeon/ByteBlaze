@@ -22,7 +22,7 @@ export default class implements PlayerButton {
       return new ReplyInteractionService(
         client,
         message,
-        `${client.getString(language, "button.music", "skip_notfound")}`
+        `${client.i18n.get(language, "button.music", "skip_notfound")}`
       );
 
     player.skip();
@@ -30,7 +30,7 @@ export default class implements PlayerButton {
     new ReplyInteractionService(
       client,
       message,
-      `${client.getString(language, "button.music", "skip_msg")}`
+      `${client.i18n.get(language, "button.music", "skip_msg")}`
     );
   }
 }

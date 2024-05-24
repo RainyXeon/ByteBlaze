@@ -33,7 +33,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.getString(language, "button.music", "loop_current")}`
+          `${client.i18n.get(language, "button.music", "loop_current")}`
         );
 
         client.wsl.get(message.guild!.id)?.send({
@@ -52,7 +52,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.getString(language, "button.music", "loop_all")}`
+          `${client.i18n.get(language, "button.music", "loop_all")}`
         );
 
         client.wsl.get(message.guild!.id)?.send({
@@ -71,7 +71,7 @@ export default class implements PlayerButton {
         new ReplyInteractionService(
           client,
           message,
-          `${client.getString(language, "button.music", "unloop_all")}`
+          `${client.i18n.get(language, "button.music", "unloop_all")}`
         );
 
         client.wsl.get(message.guild!.id)?.send({

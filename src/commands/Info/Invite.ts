@@ -21,12 +21,12 @@ export default class implements Command {
     await handler.deferReply();
     const invite = new EmbedBuilder()
       .setTitle(
-        `${client.getString(handler.language, "command.info", "inv_title", {
+        `${client.i18n.get(handler.language, "command.info", "inv_title", {
           username: client.user!.username,
         })}`
       )
       .setDescription(
-        `${client.getString(handler.language, "command.info", "inv_desc", {
+        `${client.i18n.get(handler.language, "command.info", "inv_desc", {
           username: client.user!.username,
         })}`
       )

@@ -48,7 +48,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.utils", "songnoti_already", {
+                `${client.i18n.get(handler.language, "command.utils", "songnoti_already", {
                   mode: handler.modeLang.enable,
                 })}`
               )
@@ -60,7 +60,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.utils", "songnoti_set", {
+          `${client.i18n.get(handler.language, "command.utils", "songnoti_set", {
             toggle: handler.modeLang.enable,
           })}`
         )
@@ -73,7 +73,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.utils", "songnoti_already", {
+                `${client.i18n.get(handler.language, "command.utils", "songnoti_already", {
                   mode: handler.modeLang.disable,
                 })}`
               )
@@ -84,7 +84,7 @@ export default class implements Command {
       await client.db.songNoti.set(`${handler.guild!.id}`, SongNotiEnum.Disable);
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.utils", "songnoti_set", {
+          `${client.i18n.get(handler.language, "command.utils", "songnoti_set", {
             toggle: handler.modeLang.disable,
           })}`
         )
@@ -94,7 +94,7 @@ export default class implements Command {
     } else {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "error", "arg_error", {
+          `${client.i18n.get(handler.language, "error", "arg_error", {
             text: "**enable** or **disable**!",
           })}`
         )

@@ -62,7 +62,9 @@ export default class implements Command {
           text: `${handler.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
-      await (channel as TextChannel).send({ embeds: [announcement] }).catch(() => sentSuccesfully = sentSuccesfully - 1);
+      await (channel as TextChannel)
+        .send({ embeds: [announcement] })
+        .catch(() => (sentSuccesfully = sentSuccesfully - 1));
     }
 
     const result = new EmbedBuilder()

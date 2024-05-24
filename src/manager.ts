@@ -12,7 +12,6 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import { DatabaseService } from "./database/index.js";
-import { I18n, I18nArgs } from "@hammerhq/localization";
 import { resolve } from "path";
 import { LoggerService } from "./services/LoggerService.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
@@ -35,6 +34,7 @@ import { GlobalMsg } from "./structures/CommandHandler.js";
 import { RainlinkFilterData, RainlinkPlayer } from "./rainlink/main.js";
 import { TopggService } from "./services/TopggService.js";
 import { Collection } from "./structures/Collection.js";
+import { Localization } from "./structures/Localization.js";
 config();
 
 export class Manager extends Client {
@@ -43,10 +43,9 @@ export class Manager extends Client {
   public db!: DatabaseTable;
   public owner: string;
   public color: ColorResolvable;
-  public i18n: I18n;
+  public i18n: Localization;
   public prefix: string;
   public isDatabaseConnected: boolean;
-  public shardStatus: boolean;
   public lavalinkList: LavalinkDataType[];
   public lavalinkUsing: LavalinkUsingDataType[];
   public lavalinkUsed: LavalinkUsingDataType[];
@@ -107,12 +106,11 @@ export class Manager extends Client {
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
-    this.i18n = new I18n({
+    this.i18n = new Localization({
       defaultLocale: this.config.bot.LANGUAGE || "en",
       directory: resolve(join(__dirname, "languages")),
     });
     this.prefix = this.config.utilities.MESSAGE_CONTENT.commands.prefix || "d!";
-    this.shardStatus = false;
     this.REGEX = [
       /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})/,
       /^.*(youtu.be\/|list=)([^#\&\?]*).*/,
@@ -181,43 +179,5 @@ export class Manager extends Client {
     new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);
-  }
-
-  protected configVolCheck(vol: number = this.config.player.DEFAULT_VOLUME) {
-    if (!vol || isNaN(vol) || vol > 100 || vol < 1) {
-      this.config.player.DEFAULT_VOLUME = 100;
-      return false;
-    }
-    return true;
-  }
-
-  protected configSearchCheck(data: string[] = this.config.player.AUTOCOMPLETE_SEARCH) {
-    const defaultSearch = ["yorushika", "yoasobi", "tuyu", "hinkik"];
-    if (!data || data.length == 0) {
-      this.config.player.AUTOCOMPLETE_SEARCH = defaultSearch;
-      return false;
-    }
-    for (const element of data) {
-      if (!this.stringCheck(element)) {
-        this.config.player.AUTOCOMPLETE_SEARCH = defaultSearch;
-        return false;
-      }
-    }
-    return true;
-  }
-
-  protected stringCheck(data: unknown) {
-    if (typeof data === "string" || data instanceof String) return true;
-    return false;
-  }
-
-  public getString(locale: string, section: string, key: string, args?: I18nArgs | undefined) {
-    const currentString = this.i18n.get(locale, section, key, args);
-    const locateErr = `Locale '${locale}' not found.`;
-    const sectionErr = `Section '${section}' not found in locale '${locale}'`;
-    const keyErr = `Key '${key}' not found in section ${section} in locale '${locale}'`;
-    if (currentString == locateErr || currentString == sectionErr || currentString == keyErr) {
-      return this.i18n.get("en", section, key, args);
-    } else return currentString;
   }
 }

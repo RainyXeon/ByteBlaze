@@ -19,11 +19,9 @@ export class DeployService {
   }
 
   protected async combineDir() {
-    let store: CommandInterface[] = [];
+    const store: CommandInterface[] = [];
 
-    let interactionsFolder = path.resolve(join(__dirname, "..", "commands"));
-
-    await makeSureFolderExists(interactionsFolder);
+    const interactionsFolder = path.resolve(join(__dirname, "..", "commands"));
 
     let interactionFilePaths = await readdirRecursive(interactionsFolder);
 
@@ -42,13 +40,13 @@ export class DeployService {
   }
 
   async execute() {
-    let command = [];
+    const command = [];
 
     this.client.logger.info(DeployService.name, "Reading interaction files...");
 
     const store = await this.combineDir();
 
-    command = this.parseEngine(store);
+    command.push(...this.parseEngine(store));
 
     this.client.logger.info(
       DeployService.name,

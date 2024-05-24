@@ -44,7 +44,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -54,7 +54,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "detail_notfound")}`
+              `${client.i18n.get(handler.language, "command.playlist", "detail_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -67,7 +67,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "detail_notfound")}`
+              `${client.i18n.get(handler.language, "command.playlist", "detail_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -77,7 +77,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "detail_private")}`
+              `${client.i18n.get(handler.language, "command.playlist", "detail_private")}`
             )
             .setColor(client.color),
         ],
@@ -90,7 +90,7 @@ export default class implements Command {
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const playlists = playlist.tracks![i];
       playlistStrings.push(
-        `${client.getString(handler.language, "command.playlist", "detail_track", {
+        `${client.i18n.get(handler.language, "command.playlist", "detail_track", {
           num: String(i + 1),
           title: this.getTitle(client, playlists),
           author: String(playlists.author),
@@ -109,7 +109,7 @@ export default class implements Command {
       const str = playlistStrings.slice(i * 10, i * 10 + 10).join(`\n`);
       const embed = new EmbedBuilder() //${playlist.name}'s Playlists
         .setAuthor({
-          name: `${client.getString(handler.language, "command.playlist", "detail_embed_title", {
+          name: `${client.i18n.get(handler.language, "command.playlist", "detail_embed_title", {
             name: playlist.name,
           })}`,
           iconURL: handler.user?.displayAvatarURL(),
@@ -117,7 +117,7 @@ export default class implements Command {
         .setDescription(`${str == "" ? "  Nothing" : "\n" + str}`)
         .setColor(client.color) //Page • ${i + 1}/${pagesNum} | ${playlist.tracks.length} • Songs | ${totalDuration} • Total duration
         .setFooter({
-          text: `${client.getString(handler.language, "command.playlist", "detail_embed_footer", {
+          text: `${client.i18n.get(handler.language, "command.playlist", "detail_embed_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             songs: String(playlist.tracks!.length),
@@ -153,7 +153,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.playlist", "detail_notnumber")}`
+                `${client.i18n.get(handler.language, "command.playlist", "detail_notnumber")}`
               )
               .setColor(client.color),
           ],
@@ -163,7 +163,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.playlist", "detail_page_notfound", {
+                `${client.i18n.get(handler.language, "command.playlist", "detail_page_notfound", {
                   page: String(pagesNum),
                 })}`
               )

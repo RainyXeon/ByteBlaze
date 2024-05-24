@@ -14,31 +14,31 @@ export default class {
     const owner = await guild.fetchOwner();
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(language, "event.guild", "leave_title")}`,
+        name: `${client.i18n.get(language, "event.guild", "leave_title")}`,
       })
       .addFields([
         {
-          name: `${client.getString(language, "event.guild", "guild_name")}`,
+          name: `${client.i18n.get(language, "event.guild", "guild_name")}`,
           value: String(guild.name),
         },
         {
-          name: `${client.getString(language, "event.guild", "guild_id")}`,
+          name: `${client.i18n.get(language, "event.guild", "guild_id")}`,
           value: String(guild.id),
         },
         {
-          name: `${client.getString(language, "event.guild", "guild_owner")}`,
+          name: `${client.i18n.get(language, "event.guild", "guild_owner")}`,
           value: `${owner.displayName} [ ${guild.ownerId} ]`,
         },
         {
-          name: `${client.getString(language, "event.guild", "guild_member_count")}`,
+          name: `${client.i18n.get(language, "event.guild", "guild_member_count")}`,
           value: `${guild.memberCount}`,
         },
         {
-          name: `${client.getString(language, "event.guild", "guild_creation_date")}`,
+          name: `${client.i18n.get(language, "event.guild", "guild_creation_date")}`,
           value: `${guild.createdAt}`,
         },
         {
-          name: `${client.getString(language, "event.guild", "current_server_count")}`,
+          name: `${client.i18n.get(language, "event.guild", "current_server_count")}`,
           value: `${client.guilds.cache.size}`,
         },
       ])

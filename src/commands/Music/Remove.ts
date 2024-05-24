@@ -4,7 +4,8 @@ import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 // Main code
 export default class implements Command {
@@ -38,7 +39,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -47,7 +48,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "removetrack_already")}`
+              `${client.i18n.get(handler.language, "command.music", "removetrack_already")}`
             )
             .setColor(client.color),
         ],
@@ -57,7 +58,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "removetrack_notfound")}`
+              `${client.i18n.get(handler.language, "command.music", "removetrack_notfound")}`
             )
             .setColor(client.color),
         ],
@@ -69,8 +70,8 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "removetrack_desc", {
-          name: this.getTitle(client, song),
+        `${client.i18n.get(handler.language, "command.music", "removetrack_desc", {
+          name: getTitle(client, song),
           duration: convertTime(player.position),
           request: String(song.requester),
         })}`
@@ -99,12 +100,5 @@ export default class implements Command {
     });
 
     return handler.editReply({ embeds: [embed] });
-  }
-
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.player.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
-    }
   }
 }

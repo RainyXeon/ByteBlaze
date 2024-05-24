@@ -6,6 +6,7 @@ import { filterSelect, playerRowOne, playerRowTwo } from "../../utilities/Player
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { SongNotiEnum } from "../../database/schema/SongNoti.js";
 import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, track: RainlinkTrack) {
@@ -80,37 +81,30 @@ export default class {
 
     if (SongNoti == SongNotiEnum.Disable) return;
 
-    function getTitle(tracks: RainlinkTrack): string {
-      if (client.config.player.AVOID_SUSPEND) return tracks.title;
-      else {
-        return `[${tracks.title}](${tracks.uri})`;
-      }
-    }
-
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(language, "event.player", "track_title")}`,
-        iconURL: `${client.getString(language, "event.player", "track_icon")}`,
+        name: `${client.i18n.get(language, "event.player", "track_title")}`,
+        iconURL: `${client.i18n.get(language, "event.player", "track_icon")}`,
       })
-      .setDescription(`**${getTitle(track)}**`)
+      .setDescription(`**${getTitle(client, track)}**`)
       .addFields([
         {
-          name: `${client.getString(language, "event.player", "author_title")}`,
+          name: `${client.i18n.get(language, "event.player", "author_title")}`,
           value: `${song!.author}`,
           inline: true,
         },
         {
-          name: `${client.getString(language, "event.player", "duration_title")}`,
+          name: `${client.i18n.get(language, "event.player", "duration_title")}`,
           value: `${formatDuration(song!.duration)}`,
           inline: true,
         },
         {
-          name: `${client.getString(language, "event.player", "request_title")}`,
+          name: `${client.i18n.get(language, "event.player", "request_title")}`,
           value: `${song!.requester}`,
           inline: true,
         },
         {
-          name: `${client.getString(language, "event.player", "download_title")}`,
+          name: `${client.i18n.get(language, "event.player", "download_title")}`,
           value: `**[${song!.title} - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
           inline: false,
         },
@@ -145,7 +139,7 @@ export default class {
           return true;
         else {
           message.reply({
-            content: `${client.getString(language, "event.player", "join_voice")}`,
+            content: `${client.i18n.get(language, "event.player", "join_voice")}`,
             ephemeral: true,
           });
           return false;
@@ -163,7 +157,7 @@ export default class {
           return true;
         else {
           message.reply({
-            content: `${client.getString(language, "event.player", "join_voice")}`,
+            content: `${client.i18n.get(language, "event.player", "join_voice")}`,
             ephemeral: true,
           });
           return false;
@@ -183,7 +177,7 @@ export default class {
       if (player.data.get("filter-mode") == filterMode) {
         const embed = new EmbedBuilder()
           .setDescription(
-            `${client.getString(language, "button.music", "filter_already", { name: filterMode })}`
+            `${client.i18n.get(language, "button.music", "filter_already", { name: filterMode })}`
           )
           .setColor(client.color);
         const msg = await message
@@ -201,7 +195,7 @@ export default class {
 
       if (filterMode == "clear" && !player.data.get("filter-mode")) {
         const embed = new EmbedBuilder()
-          .setDescription(`${client.getString(language, "button.music", "reset_already")}`)
+          .setDescription(`${client.i18n.get(language, "button.music", "reset_already")}`)
           .setColor(client.color);
         const msg = await message
           .reply({
@@ -224,8 +218,8 @@ export default class {
       const embed = new EmbedBuilder()
         .setDescription(
           filterMode == "clear"
-            ? `${client.getString(language, "button.music", "reset_on")}`
-            : `${client.getString(language, "button.music", "filter_on", { name: filterMode })}`
+            ? `${client.i18n.get(language, "button.music", "reset_on")}`
+            : `${client.i18n.get(language, "button.music", "filter_on", { name: filterMode })}`
         )
         .setColor(client.color);
 

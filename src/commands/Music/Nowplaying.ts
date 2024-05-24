@@ -3,7 +3,8 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import { formatDuration } from "../../utilities/FormatDuration.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 // Main code
 export default class implements Command {
@@ -38,42 +39,42 @@ export default class implements Command {
 
     const fieldDataGlobal = [
       {
-        name: `${client.getString(handler.language, "event.player", "author_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "author_title")}`,
         value: `${song!.author}`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "duration_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "duration_title")}`,
         value: `${formatDuration(song!.duration)}`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "volume_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "volume_title")}`,
         value: `${player.volume}%`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "queue_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "queue_title")}`,
         value: `${player.queue.length}`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "total_duration_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "total_duration_title")}`,
         value: `${formatDuration(player.queue.duration)}`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "request_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "request_title")}`,
         value: `${song!.requester}`,
         inline: true,
       },
       {
-        name: `${client.getString(handler.language, "event.player", "download_title")}`,
+        name: `${client.i18n.get(handler.language, "event.player", "download_title")}`,
         value: `**[${song!.title}](https://www.000tube.com/watch?v=${song?.identifier})**`,
         inline: false,
       },
       {
-        name: `${client.getString(handler.language, "command.music", "np_current_duration", {
+        name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
           current_duration: CurrentDuration,
           total_duration: TotalDuration,
         })}`,
@@ -84,11 +85,11 @@ export default class implements Command {
 
     const embeded = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.music", "np_title")}`,
-        iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
+        name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+        iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
       })
       .setColor(client.color)
-      .setDescription(`**${this.getTitle(client, song!)}**`)
+      .setDescription(`**${getTitle(client, song!)}**`)
       .setThumbnail(Thumbnail)
       .addFields(fieldDataGlobal)
       .setTimestamp();
@@ -121,7 +122,7 @@ export default class implements Command {
 
         editedField.splice(7, 1);
         editedField.push({
-          name: `${client.getString(handler.language, "command.music", "np_current_duration", {
+          name: `${client.i18n.get(handler.language, "command.music", "np_current_duration", {
             current_duration: CurrentDuration,
             total_duration: TotalDuration,
           })}`,
@@ -131,11 +132,11 @@ export default class implements Command {
 
         const embeded = new EmbedBuilder()
           .setAuthor({
-            name: `${client.getString(handler.language, "command.music", "np_title")}`,
-            iconURL: `${client.getString(handler.language, "command.music", "np_icon")}`,
+            name: `${client.i18n.get(handler.language, "command.music", "np_title")}`,
+            iconURL: `${client.i18n.get(handler.language, "command.music", "np_icon")}`,
           })
           .setColor(client.color)
-          .setDescription(`**${this.getTitle(client, song!)}**`)
+          .setDescription(`**${getTitle(client, song!)}**`)
           .setThumbnail(Thumbnail)
           .addFields(editedField)
           .setTimestamp();
@@ -158,13 +159,6 @@ export default class implements Command {
     } else if (!realtime) {
       if (!player.playing) return;
       if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded] }).catch(() => null);
-    }
-  }
-
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.player.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
     }
   }
 }

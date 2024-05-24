@@ -23,7 +23,7 @@ export default class implements PlayerButton {
     new ReplyInteractionService(
       client,
       message,
-      `${client.getString(language, "button.music", "stop_msg")}`
+      `${client.i18n.get(language, "button.music", "stop_msg")}`
     );
   }
 }

@@ -55,7 +55,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setColor(client.color)
             .setDescription(
-              `${client.getString(handler.language, "command.premium", "redeem_invalid_mode")}`
+              `${client.i18n.get(handler.language, "command.premium", "redeem_invalid_mode")}`
             ),
         ],
       });
@@ -66,7 +66,7 @@ export default class implements Command {
           new EmbedBuilder()
             .setColor(client.color)
             .setDescription(
-              `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+              `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
             ),
         ],
       });
@@ -78,7 +78,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.getString(handler.language, "command.premium", type == "guild" ? "redeem_already_guild" : "redeem_already")}`
+          `${client.i18n.get(handler.language, "command.premium", type == "guild" ? "redeem_already_guild" : "redeem_already")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -89,7 +89,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -98,7 +98,7 @@ export default class implements Command {
       const embed = new EmbedBuilder()
         .setColor(client.color)
         .setDescription(
-          `${client.getString(handler.language, "command.premium", "redeem_invalid")}`
+          `${client.i18n.get(handler.language, "command.premium", "redeem_invalid")}`
         );
       return handler.editReply({ embeds: [embed] });
     }
@@ -109,11 +109,11 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.premium", "redeem_title")}`,
+        name: `${client.i18n.get(handler.language, "command.premium", "redeem_title")}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.getString(handler.language, "command.premium", "redeem_desc", {
+        `${client.i18n.get(handler.language, "command.premium", "redeem_desc", {
           expires: premium.expiresAt !== "lifetime" ? expires : "lifetime",
           plan: premium.plan,
         })}`
@@ -176,7 +176,7 @@ export default class implements Command {
 
     const embedField: APIEmbedField[] = [
       {
-        name: `${client.getString(language, "event.premium", "display_name")}`,
+        name: `${client.i18n.get(language, "event.premium", "display_name")}`,
         value: `${premium ? handler.user?.displayName : handler.guild?.name}`,
       },
       {
@@ -184,32 +184,32 @@ export default class implements Command {
         value: `${premium ? handler.user?.id : handler.guild?.id}`,
       },
       {
-        name: `${client.getString(language, "event.premium", "createdAt")}`,
+        name: `${client.i18n.get(language, "event.premium", "createdAt")}`,
         value: `${moment(premium ? handler.user?.createdAt.getTime() : handler.guild?.createdAt.getTime()).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
       },
       {
-        name: `${client.getString(language, "event.premium", "redeemedAt")}`,
+        name: `${client.i18n.get(language, "event.premium", "redeemedAt")}`,
         value: `${moment(redeemedAt).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
       },
       {
-        name: `${client.getString(language, "event.premium", "expiresAt")}`,
+        name: `${client.i18n.get(language, "event.premium", "expiresAt")}`,
         value: `${expiresAt == "lifetime" ? "lifetime" : moment(expiresAt).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
       },
       {
-        name: `${client.getString(language, "event.premium", "plan")}`,
+        name: `${client.i18n.get(language, "event.premium", "plan")}`,
         value: `${plan}`,
       },
     ];
 
     if (premium)
       embedField.unshift({
-        name: `${client.getString(language, "event.premium", "username")}`,
+        name: `${client.i18n.get(language, "event.premium", "username")}`,
         value: `${handler.user?.username}`,
       });
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(language, "event.premium", premium ? "title" : "guild_title")}`,
+        name: `${client.i18n.get(language, "event.premium", premium ? "title" : "guild_title")}`,
       })
       .addFields(embedField)
       .setTimestamp()

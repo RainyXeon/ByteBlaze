@@ -36,14 +36,14 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
 
     if (player.queue.size == 0 || getPosition >= player.queue.length) {
       const skipped = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.music", "skip_notfound")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "skip_notfound")}`)
         .setColor(client.color);
 
       handler.editReply({ content: " ", embeds: [skipped] });
@@ -77,7 +77,7 @@ export default class implements Command {
         }),
       });
       const skipped = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.music", "skip_msg")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "skip_msg")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [skipped] });
     }

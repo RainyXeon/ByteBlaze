@@ -23,7 +23,7 @@ export default class implements PlayerButton {
       return new ReplyInteractionService(
         client,
         message,
-        `${client.getString(language, "button.music", "previous_notfound")}`
+        `${client.i18n.get(language, "button.music", "previous_notfound")}`
       );
 
     player.previous();
@@ -33,7 +33,7 @@ export default class implements PlayerButton {
     new ReplyInteractionService(
       client,
       message,
-      `${client.getString(language, "button.music", "previous_msg")}`
+      `${client.i18n.get(language, "button.music", "previous_msg")}`
     );
     return;
   }

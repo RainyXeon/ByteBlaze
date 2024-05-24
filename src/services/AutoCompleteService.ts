@@ -25,7 +25,7 @@ export class AutoCompleteService {
     try {
       subCommandName = this.interaction.options.getSubcommand();
     } catch {}
-    let subCommandGroupName;
+    let subCommandGroupName = "";
     try {
       subCommandGroupName = this.interaction.options.getSubcommandGroup();
     } catch {}
