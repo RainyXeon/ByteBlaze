@@ -3,7 +3,7 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import util from "node:util";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
-import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
@@ -35,6 +35,7 @@ export default class {
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
+    if (currentPlayer.queue.length > 0) await player.skip().catch(() => {})
     if (!currentPlayer.sudoDestroy) await player.destroy().catch(() => {});
   }
 }
