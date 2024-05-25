@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots and logs (logs file if avalible)**
 If applicable, add screenshots to help explain your problem.
 
-**Host info: (use `/info status` command and paste here, below is example)**
+**Host info: (use `/host` command and paste here, below is example)**
 
 - OS: Linux 6.2.0-1016-aws (x64)
 - CPU: AMD EPYC 7R13 Processor
@@ -32,9 +32,9 @@ If applicable, add screenshots to help explain your problem.
 - Memory Usage: 109.82/31398.14 (MB)
 - Node.js: v21.1.0
 
-**Bot info (use `/info status` command and paste here, below is example):**
+**Bot info (use `/host` command and paste here, below is example):**
 
-- Codename: hatsuharu (AzurLane)
+- Codename: hatsuharu
 - Bot version: 3.0.4
 - Autofix version: 4.1.0
 - Discord.js: 14.13.0
