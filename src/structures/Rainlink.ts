@@ -30,6 +30,7 @@ export class RainlinkInit {
       resumeTimeout: 600,
       retryCount: Infinity,
       retryTimeout: 3000,
+      defaultSearchEngine: "youtube",
       searchFallback: {
         enable: true,
         engine: "youtube",
