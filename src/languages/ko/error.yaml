@@ -17,6 +17,7 @@ owner_only: "`⚠️` | 괸리자가 아니여서 처리할수 없어요!"
 #No premium Event!
 no_premium_author: "프리미엄"
 no_premium_desc: "`⚠️` | 프리미엄 사용자가 아니에요!"
+no_guild_premium_desc: "`⚠️` | 프리미엄 길드에 속해 있지 않습니다!"
 #Rate limit!
 ratelimit: "`⚠️` | **%{time} 초** 후에 다시 시도해 주세요!"
 #Missing args
