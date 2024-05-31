@@ -34,7 +34,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -45,7 +45,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -53,7 +53,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "volume_invalid")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.music", "volume_invalid")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -68,7 +70,7 @@ export default class implements Command {
 
     const changevol = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "volume_msg", {
+        `${client.i18n.get(handler.language, "command.music", "volume_msg", {
           volume: value,
         })}`
       )

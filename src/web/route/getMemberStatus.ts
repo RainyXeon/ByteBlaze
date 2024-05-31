@@ -2,7 +2,11 @@ import util from "node:util";
 import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 
-export async function getMemberStatus(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
+export async function getMemberStatus(
+  client: Manager,
+  req: Fastify.FastifyRequest,
+  res: Fastify.FastifyReply
+) {
   client.logger.info(
     "StatusRouterService",
     `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`
@@ -23,7 +27,7 @@ export async function getMemberStatus(client: Manager, req: Fastify.FastifyReque
     return;
   }
   const Member = await Guild.members.fetch(userId).catch(() => undefined);
-  if (!(!Member || !Member.voice.channel || !Member.voice)) isMemeberInVoice = true;
+  if (Member && Member.voice.channel && Member.voice) isMemeberInVoice = true;
   res.send({ data: isMemeberInVoice });
   return;
 }

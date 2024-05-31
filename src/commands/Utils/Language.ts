@@ -35,7 +35,7 @@ export default class implements Command {
     if (!languages.includes(input as string)) {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.utils", "provide_lang", {
+          `${client.i18n.get(handler.language, "command.utils", "provide_lang", {
             languages: languages.join(", "),
           })}`
         )
@@ -49,7 +49,7 @@ export default class implements Command {
       await client.db.language.set(`${handler.guild!.id}`, input);
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.utils", "lang_set", {
+          `${client.i18n.get(handler.language, "command.utils", "lang_set", {
             language: String(input),
           })}`
         )
@@ -61,7 +61,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.utils", "lang_change", {
+          `${client.i18n.get(handler.language, "command.utils", "lang_change", {
             language: String(input),
           })}`
         )

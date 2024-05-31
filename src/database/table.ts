@@ -1,17 +1,16 @@
 import { IDriver, QuickDB } from "dreamvast.quick.db";
-import { Manager } from "../../manager.js";
-import { Handler } from "../handler.js";
+import { Manager } from "../manager.js";
+import { Handler } from "./handler.js";
 // Schema
-import { AutoReconnect } from "../schema/AutoReconnect.js";
-import { Playlist } from "../schema/Playlist.js";
-import { Code } from "../schema/Code.js";
-import { Premium } from "../schema/Premium.js";
-import { Setup } from "../schema/Setup.js";
-import { Language } from "../schema/Language.js";
-import { Status } from "../schema/Status.js";
-import { Prefix } from "../schema/Prefix.js";
-import { SongNoti } from "../schema/SongNoti.js";
-import { QuickDatabasePlus } from "../../structures/QuickDatabasePlus.js";
+import { AutoReconnect } from "./schema/AutoReconnect.js";
+import { Playlist } from "./schema/Playlist.js";
+import { Code } from "./schema/Code.js";
+import { Premium } from "./schema/Premium.js";
+import { Setup } from "./schema/Setup.js";
+import { Language } from "./schema/Language.js";
+import { Prefix } from "./schema/Prefix.js";
+import { SongNoti } from "./schema/SongNoti.js";
+import { QuickDatabasePlus } from "../structures/QuickDatabasePlus.js";
 
 export class TableSetup {
   client: Manager;
@@ -25,13 +24,18 @@ export class TableSetup {
   }
 
   async register() {
-    const baseDB = new QuickDatabasePlus({ driver: this.driver });
+    const baseDB = new QuickDatabasePlus(this.client.config.utilities.DATABASE.cacheCleanSchedule, {
+      driver: this.driver,
+    });
 
     const start = Date.now();
     await baseDB.init();
     const end = Date.now();
 
-    this.client.logger.info("DatabaseService", `Connected to the database! [${this.driverName}] [${end - start}ms]`);
+    this.client.logger.info(
+      "DatabaseService",
+      `Connected to the database! [${this.driverName}] [${end - start}ms]`
+    );
 
     this.client.db = {
       autoreconnect: await baseDB.table<AutoReconnect>("autoreconnect"),
@@ -40,10 +44,9 @@ export class TableSetup {
       premium: await baseDB.table<Premium>("premium"),
       setup: await baseDB.table<Setup>("setup"),
       language: await baseDB.table<Language>("language"),
-      status: await baseDB.table<Status>("status"),
       prefix: await baseDB.table<Prefix>("prefix"),
       songNoti: await baseDB.table<SongNoti>("songNoti"),
-      preGuild: await baseDB.table<Premium>("preGuild")
+      preGuild: await baseDB.table<Premium>("preGuild"),
     };
 
     this.client.isDatabaseConnected = true;

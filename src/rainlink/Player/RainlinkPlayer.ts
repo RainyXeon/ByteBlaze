@@ -145,8 +145,11 @@ export class RainlinkPlayer extends EventEmitter {
     this.voiceId = voiceOptions.voiceId;
     this.textId = voiceOptions.textId;
     const customQueue =
-      this.manager.rainlinkOptions.options!.structures && this.manager.rainlinkOptions.options!.structures.queue;
-    this.queue = customQueue ? new customQueue(this.manager, this) : new RainlinkQueue(this.manager, this);
+      this.manager.rainlinkOptions.options!.structures &&
+      this.manager.rainlinkOptions.options!.structures.queue;
+    this.queue = customQueue
+      ? new customQueue(this.manager, this)
+      : new RainlinkQueue(this.manager, this);
     this.filter = new RainlinkFilter(this);
     this.data = new RainlinkDatabase<unknown>();
     this.paused = true;
@@ -165,7 +168,8 @@ export class RainlinkPlayer extends EventEmitter {
         this.functions.set(index, data.bind(null, this));
       });
     }
-    if (voiceOptions.volume && voiceOptions.volume !== this.volume) this.volume = voiceOptions.volume;
+    if (voiceOptions.volume && voiceOptions.volume !== this.volume)
+      this.volume = voiceOptions.volume;
   }
 
   /**
@@ -196,7 +200,8 @@ export class RainlinkPlayer extends EventEmitter {
     this.clear(false);
     this.disconnect();
     const voiceReceiver = this.manager.plugins.get("rainlink-voiceReceiver") as RainlinkPlugin;
-    if (voiceReceiver && this.node.driver.id.includes("nodelink")) voiceReceiver.close(this.guildId);
+    if (voiceReceiver && this.node.driver.id.includes("nodelink"))
+      voiceReceiver.close(this.guildId);
     this.node.rest.updatePlayer({
       guildId: this.guildId,
       playerOptions: {
@@ -224,11 +229,13 @@ export class RainlinkPlayer extends EventEmitter {
   public async play(track?: RainlinkTrack, options?: PlayOptions): Promise<RainlinkPlayer> {
     this.checkDestroyed();
 
-    if (track && !(track instanceof RainlinkTrack)) throw new Error("track must be a RainlinkTrack");
+    if (track && !(track instanceof RainlinkTrack))
+      throw new Error("track must be a RainlinkTrack");
 
     if (!track && !this.queue.totalSize) throw new Error("No track is available to play");
 
-    if (!options || typeof options.replaceCurrent !== "boolean") options = { ...options, replaceCurrent: false };
+    if (!options || typeof options.replaceCurrent !== "boolean")
+      options = { ...options, replaceCurrent: false };
 
     if (track) {
       if (!options.replaceCurrent && this.queue.current) this.queue.unshift(this.queue.current);
@@ -241,10 +248,12 @@ export class RainlinkPlayer extends EventEmitter {
 
     let errorMessage: string | undefined;
 
-    const resolveResult = await current.resolver(this.manager, { nodeName: this.node.options.name }).catch((e: any) => {
-      errorMessage = e.message;
-      return null;
-    });
+    const resolveResult = await current
+      .resolver(this.manager, { nodeName: this.node.options.name })
+      .catch((e: any) => {
+        errorMessage = e.message;
+        return null;
+      });
 
     if (!resolveResult || (resolveResult && !resolveResult.isPlayable)) {
       this.manager.emit(RainlinkEvents.TrackResolveError, this, current, errorMessage);
@@ -298,7 +307,10 @@ export class RainlinkPlayer extends EventEmitter {
    * @param options The track search options
    * @returns RainlinkSearchResult
    */
-  public async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  public async search(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     this.checkDestroyed();
     return await this.manager.search(query, options);
   }
@@ -357,7 +369,11 @@ export class RainlinkPlayer extends EventEmitter {
     });
     this.paused = mode;
     this.playing = !mode;
-    this.manager.emit(mode ? RainlinkEvents.PlayerPause : RainlinkEvents.PlayerResume, this, this.queue.current);
+    this.manager.emit(
+      mode ? RainlinkEvents.PlayerPause : RainlinkEvents.PlayerResume,
+      this,
+      this.queue.current
+    );
     return this;
   }
 
@@ -545,13 +561,19 @@ export class RainlinkPlayer extends EventEmitter {
    */
   public async connect(): Promise<RainlinkPlayer> {
     if (this.state === RainlinkPlayerState.CONNECTED || !this.voiceId) return this;
-    if (this.voiceState === VoiceConnectState.CONNECTING || this.voiceState === VoiceConnectState.CONNECTED)
+    if (
+      this.voiceState === VoiceConnectState.CONNECTING ||
+      this.voiceState === VoiceConnectState.CONNECTED
+    )
       return this;
     this.voiceState = VoiceConnectState.CONNECTING;
     this.sendVoiceUpdate();
     this.debugDiscord(`Requesting Connection | Guild: ${this.guildId}`);
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), this.manager.rainlinkOptions.options!.voiceConnectionTimeout);
+    const timeout = setTimeout(
+      () => controller.abort(),
+      this.manager.rainlinkOptions.options!.voiceConnectionTimeout
+    );
     try {
       const [status] = await RainlinkPlayer.once(this, "connectionUpdate", {
         signal: controller.signal,
@@ -561,7 +583,9 @@ export class RainlinkPlayer extends EventEmitter {
           case VoiceState.SESSION_ID_MISSING:
             throw new Error("The voice connection is not established due to missing session id");
           case VoiceState.SESSION_ENDPOINT_MISSING:
-            throw new Error("The voice connection is not established due to missing connection endpoint");
+            throw new Error(
+              "The voice connection is not established due to missing connection endpoint"
+            );
         }
       }
       this.voiceState = VoiceConnectState.CONNECTED;
@@ -643,7 +667,10 @@ export class RainlinkPlayer extends EventEmitter {
   }
 
   protected debugDiscord(logs: string): void {
-    this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Player @ ${this.guildId}] / [Voice] | ${logs}`);
+    this.manager.emit(
+      RainlinkEvents.Debug,
+      `[Rainlink] / [Player @ ${this.guildId}] / [Voice] | ${logs}`
+    );
   }
 
   protected checkDestroyed(): void {
@@ -704,7 +731,12 @@ export class RainlinkPlayer extends EventEmitter {
    * Update Session ID, Channel ID, Deafen status and Mute status of this instance
    * @internal
    */
-  public setStateUpdate({ session_id, channel_id, self_deaf, self_mute }: StateUpdatePartial): void {
+  public setStateUpdate({
+    session_id,
+    channel_id,
+    self_deaf,
+    self_mute,
+  }: StateUpdatePartial): void {
     this.lastvoiceId = this.voiceId?.repeat(1) || null;
     this.voiceId = channel_id || null;
 

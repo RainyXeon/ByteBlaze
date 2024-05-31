@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
 import { MongoDriver } from "dreamvast.quick.db/MongoDriver";
-import { TableSetup } from "../setup/table.js";
+import { TableSetup } from "../table.js";
 import { keyChecker } from "../keyChecker.js";
 
 export class MongoConnectDriver {

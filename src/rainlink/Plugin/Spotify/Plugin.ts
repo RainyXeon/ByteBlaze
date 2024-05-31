@@ -1,12 +1,17 @@
 import { request } from "undici";
 import { RainlinkPluginType } from "../../Interface/Constants.js";
-import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../Interface/Manager.js";
+import {
+  RainlinkSearchOptions,
+  RainlinkSearchResult,
+  RainlinkSearchResultType,
+} from "../../Interface/Manager.js";
 import { RainlinkTrack } from "../../Player/RainlinkTrack.js";
 import { Rainlink } from "../../Rainlink.js";
 import { SourceRainlinkPlugin } from "../SourceRainlinkPlugin.js";
 import { RequestManager } from "./RequestManager.js";
 
-const REGEX = /(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|album|artist)[\/:]([A-Za-z0-9]+)/;
+const REGEX =
+  /(?:https:\/\/open\.spotify\.com\/|spotify:)(?:.+)?(track|playlist|album|artist)[\/:]([A-Za-z0-9]+)/;
 const SHORT_REGEX = /(?:https:\/\/spotify\.link)\/([A-Za-z0-9]+)/;
 
 /** The rainlink spotify plugin options */
@@ -33,7 +38,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    */
   public options: SpotifyOptions;
 
-  private _search: ((query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>) | null;
+  private _search:
+    | ((query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>)
+    | null;
   private rainlink: Rainlink | null;
 
   private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
@@ -106,7 +113,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
     return "rainlink-spotify";
   }
 
-  protected async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  protected async search(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
     if (res.tracks.length == 0) return this.searchDirect(query, options);
@@ -119,7 +129,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    * @param options search option like RainlinkSearchOptions
    * @returns RainlinkSearchResult
    */
-  public async searchDirect(query: string, options?: RainlinkSearchOptions | undefined): Promise<RainlinkSearchResult> {
+  public async searchDirect(
+    query: string,
+    options?: RainlinkSearchOptions | undefined
+  ): Promise<RainlinkSearchResult> {
     if (!this.rainlink || !this._search) throw new Error("rainlink-spotify is not loaded yet.");
 
     if (!query) throw new Error("Query is required");
@@ -138,7 +151,8 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
         const _function = this.methods[type];
         const result: Result = await _function(id, options?.requester);
 
-        const loadType = type === "track" ? RainlinkSearchResultType.TRACK : RainlinkSearchResultType.PLAYLIST;
+        const loadType =
+          type === "track" ? RainlinkSearchResultType.TRACK : RainlinkSearchResultType.PLAYLIST;
         const playlistName = result.name ?? undefined;
 
         const tracks = result.tracks.filter(this.filterNullOrUndefined);
@@ -195,7 +209,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
       let next = album.tracks.next;
       let page = 1;
 
-      while (next && (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)) {
+      while (
+        next &&
+        (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)
+      ) {
         const nextTracks = await this.requestManager.makeRequest<PlaylistTracks>(next ?? "", true);
         page++;
         if (nextTracks.items.length) {
@@ -204,7 +221,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
             ...nextTracks.items
               .filter(this.filterNullOrUndefined)
               .filter((a) => a.track)
-              .map((track) => this.buildrainlinkTrack(track.track!, requester, album.images[0]?.url))
+              .map((track) =>
+                this.buildrainlinkTrack(track.track!, requester, album.images[0]?.url)
+              )
           );
         }
       }
@@ -238,7 +257,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
     if (playlist && tracks.length) {
       let next = playlist.tracks.next;
       let page = 1;
-      while (next && (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)) {
+      while (
+        next &&
+        (!this.options.playlistPageLimit ? true : page < this.options.playlistPageLimit ?? 1)
+      ) {
         const nextTracks = await this.requestManager.makeRequest<PlaylistTracks>(next ?? "", true);
         page++;
         if (nextTracks.items.length) {
@@ -247,7 +269,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
             ...nextTracks.items
               .filter(this.filterNullOrUndefined)
               .filter((a) => a.track)
-              .map((track) => this.buildrainlinkTrack(track.track!, requester, playlist.images[0]?.url))
+              .map((track) =>
+                this.buildrainlinkTrack(track.track!, requester, playlist.images[0]?.url)
+              )
           );
         }
       }

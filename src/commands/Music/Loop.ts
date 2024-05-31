@@ -54,7 +54,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "loop_invalid", {
+              `${client.i18n.get(handler.language, "command.music", "loop_invalid", {
                 mode: this.changeBold(mode_array).join(", "),
               })}`
             )
@@ -67,7 +67,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "loop_already", {
+              `${client.i18n.get(handler.language, "command.music", "loop_already", {
                 mode: mode,
               })}`
             )
@@ -77,26 +77,29 @@ export default class implements Command {
 
     if (mode == "song") {
       player.setLoop(RainlinkLoopMode.SONG);
-      this.setLoop247(client, player, RainlinkLoopMode.SONG);
+      if (client.config.utilities.AUTO_RESUME)
+        this.setLoop247(client, player, RainlinkLoopMode.SONG);
 
       const looped = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.music", "loop_current")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_current")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     } else if (mode == "queue") {
       player.setLoop(RainlinkLoopMode.QUEUE);
-      this.setLoop247(client, player, RainlinkLoopMode.QUEUE);
+      if (client.config.utilities.AUTO_RESUME)
+        this.setLoop247(client, player, RainlinkLoopMode.QUEUE);
 
       const looped_queue = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.music", "loop_all")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "loop_all")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped_queue] });
     } else if (mode === "none") {
-      await player.setLoop(RainlinkLoopMode.NONE);
-      this.setLoop247(client, player, RainlinkLoopMode.NONE);
+      player.setLoop(RainlinkLoopMode.NONE);
+      if (client.config.utilities.AUTO_RESUME)
+        this.setLoop247(client, player, RainlinkLoopMode.NONE);
 
       const looped = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.music", "unloop_all")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.music", "unloop_all")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [looped] });
     }

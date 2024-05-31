@@ -26,7 +26,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "reset_already")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.filter", "reset_already")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -37,7 +39,7 @@ export default class implements Command {
     await player?.setVolume(100);
 
     const resetted = new EmbedBuilder()
-      .setDescription(`${client.getString(handler.language, "command.filter", "reset_on")}`)
+      .setDescription(`${client.i18n.get(handler.language, "command.filter", "reset_on")}`)
       .setColor(client.color);
     await handler.editReply({ content: " ", embeds: [resetted] });
   }

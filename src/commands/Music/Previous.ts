@@ -33,7 +33,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "previous_notfound")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.music", "previous_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -43,7 +45,7 @@ export default class implements Command {
     player.data.set("endMode", "previous");
 
     const embed = new EmbedBuilder()
-      .setDescription(`${client.getString(handler.language, "command.music", "previous_msg")}`)
+      .setDescription(`${client.i18n.get(handler.language, "command.music", "previous_msg")}`)
       .setColor(client.color);
 
     handler.editReply({ content: " ", embeds: [embed] });

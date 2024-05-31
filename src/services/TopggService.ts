@@ -31,12 +31,18 @@ export class TopggService {
 
   public async checkVote(userId: string): Promise<TopggServiceEnum> {
     if (!this.botId || !this.isTokenAvalible) {
-      this.client.logger.error(TopggService.name, "TopGG service not setting up! check vote will always return false");
+      this.client.logger.error(
+        TopggService.name,
+        "TopGG service not setting up! check vote will always return false"
+      );
       return TopggServiceEnum.ERROR;
     }
     const res = await this.fetch(`/bots/${this.botId}/check?userId=${userId}`);
     if (res.status !== 200) {
-      this.client.logger.error(TopggService.name, "There was a problem when fetching data from top.gg");
+      this.client.logger.error(
+        TopggService.name,
+        "There was a problem when fetching data from top.gg"
+      );
       return TopggServiceEnum.ERROR;
     }
     const jsonRes = (await res.json()) as { voted: number };
@@ -47,7 +53,7 @@ export class TopggService {
   private async fetch(path: string) {
     return await fetch(this.url + path, {
       headers: {
-        Authorization: this.client.config.features.TOPGG_TOKEN,
+        Authorization: this.client.config.utilities.TOPGG_TOKEN,
       },
     });
   }
@@ -56,7 +62,10 @@ export class TopggService {
     if (!this.botId || !this.isTokenAvalible) throw new Error("TopGG service not setting up!");
     this.updateServerCount(this.client.guilds.cache.size);
     cron.schedule("0 */1 * * * *", () => this.updateServerCount(this.client.guilds.cache.size));
-    this.client.logger.info(TopggService.name, "Topgg server count update service has been successfully set up!");
+    this.client.logger.info(
+      TopggService.name,
+      "Topgg server count update service has been successfully set up!"
+    );
   }
 
   public async updateServerCount(count: number) {
@@ -67,7 +76,7 @@ export class TopggService {
         server_count: count,
       }),
       headers: {
-        Authorization: this.client.config.features.TOPGG_TOKEN,
+        Authorization: this.client.config.utilities.TOPGG_TOKEN,
         "Content-Type": "application/json",
       },
     });

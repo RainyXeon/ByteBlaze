@@ -1,7 +1,7 @@
 import { Manager } from "../../manager.js";
 import { Database } from "../../@types/Config.js";
 import { PostgresDriver } from "dreamvast.quick.db/PostgresDriver";
-import { TableSetup } from "../setup/table.js";
+import { TableSetup } from "../table.js";
 import { keyChecker } from "../keyChecker.js";
 
 export class PostgresConnectDriver {

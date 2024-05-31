@@ -20,6 +20,10 @@ export default class implements PlayerButton {
     const is247 = await client.db.autoreconnect.get(`${message.guildId}`);
     player.stop(is247 && is247.twentyfourseven ? false : true);
 
-    new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "stop_msg")}`);
+    new ReplyInteractionService(
+      client,
+      message,
+      `${client.i18n.get(language, "button.music", "stop_msg")}`
+    );
   }
 }

@@ -4,7 +4,11 @@ import { Manager } from "../../manager.js";
 import Fastify from "fastify";
 import { RainlinkSearchResultType } from "../../rainlink/main.js";
 
-export async function getSearch(client: Manager, req: Fastify.FastifyRequest, res: Fastify.FastifyReply) {
+export async function getSearch(
+  client: Manager,
+  req: Fastify.FastifyRequest,
+  res: Fastify.FastifyReply
+) {
   client.logger.info(
     "SearchRouterService",
     `${req.method} ${req.routeOptions.url} query=${req.query ? util.inspect(req.query) : "{}"}`
@@ -23,11 +27,13 @@ export async function getSearch(client: Manager, req: Fastify.FastifyRequest, re
     res.send({ error: "Search param not found" });
     return;
   }
-  const result = await client.rainlink.search(query, { requester: user, engine: source }).catch(() => ({
-    playlistName: "dreamvast@error@noNode",
-    tracks: [],
-    type: RainlinkSearchResultType.SEARCH,
-  }));
+  const result = await client.rainlink
+    .search(query, { requester: user, engine: source })
+    .catch(() => ({
+      playlistName: "dreamvast@error@noNode",
+      tracks: [],
+      type: RainlinkSearchResultType.SEARCH,
+    }));
   if (result.tracks.length == 0 && result.playlistName == "dreamvast@error@noNode") {
     res.code(404);
     res.send({ error: "No node avaliable!" });

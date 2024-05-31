@@ -1,0 +1,35 @@
+### Todos os comandos de filtro!
+filter_on: "`✅` | O filtro %{name} está agora **ativado**!"
+filter_already: "`⚠️` | O filtro %{name} já está **ativado**!"
+filter_number: "`⚠️` | Por favor, forneça um número válido!"
+filter_greater: "`⚠️` | O número deve ser maior que **0**!"
+filter_less: "`⚠️` | O número deve ser menor que **10**!"
+
+### Comando de Bassboost!
+bassboost_set: "`🎚️` | O Bassboost foi definido para **%{amount}dB**!"
+bassboost_limit: "`⚠️` | Por favor, use um número entre **-10** e **10**!"
+
+### Comando de Equalizer!
+eq_author: "Equalizador"
+eq_icon: "https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif"
+eq_desc: "`🎚️` | Existem **14 Bandas** que podem ser ajustadas de **-10** a **10**. Não é obrigatório definir todas elas!"
+eq_field_title: "Exemplo:"
+eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
+eq_footer: "Resetar Equalizador • %{prefix}eq reset"
+eq_on: "`🎚️` | O equalizador foi definido para **%{bands}**!"
+eq_number: "`⚠️` | Por favor, forneça um número válido!"
+eq_greater: "`⚠️` | O número deve ser maior que **-10**!"
+eq_than: "`⚠️` | O número deve ser menor que **10**!"
+
+### Comando de Pitch!
+pitch_on: "`🎚️` | O Pitch foi definido para **%{amount}**!"
+
+### Comando de Rate!
+rate_on: "`🎚️` | A Taxa foi definida para **%{amount}x**!"
+
+### Comando de Speed!
+speed_on: "`🎚️` | A Velocidade foi definida para **%{amount}x**!"
+
+### Comando de Reset!
+reset_on: "`❌` | O filtro foi **Resetado**!"
+reset_already: "`⚠️` | O filtro já foi **Resetado**!"

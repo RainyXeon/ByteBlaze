@@ -34,7 +34,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.getString(this.language, "error", "ratelimit", {
+              `${this.client.i18n.get(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )
@@ -42,7 +42,10 @@ export class RatelimitReplyService {
         ],
       });
       if (!setup || setup == null || setup.channel !== this.interaction.channelId)
-        setTimeout(() => msg.delete().catch(() => null), this.client.config.bot.DELETE_MSG_TIMEOUT);
+        setTimeout(
+          () => msg.delete().catch(() => null),
+          this.client.config.utilities.DELETE_MSG_TIMEOUT
+        );
 
       return;
     }
@@ -53,7 +56,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.getString(this.language, "error", "ratelimit", {
+              `${this.client.i18n.get(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )
@@ -61,7 +64,10 @@ export class RatelimitReplyService {
         ],
       });
       if (!setup || setup == null || setup.channel !== this.button.channelId)
-        setTimeout(() => msg.delete().catch(() => null), this.client.config.bot.DELETE_MSG_TIMEOUT);
+        setTimeout(
+          () => msg.delete().catch(() => null),
+          this.client.config.utilities.DELETE_MSG_TIMEOUT
+        );
 
       return;
     }
@@ -72,7 +78,7 @@ export class RatelimitReplyService {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.getString(this.language, "error", "ratelimit", {
+              `${this.client.i18n.get(this.language, "error", "ratelimit", {
                 time: String(this.time),
               })}`
             )
@@ -80,7 +86,10 @@ export class RatelimitReplyService {
         ],
       });
       if (!setup || setup == null || setup.channel !== this.message.channelId)
-        setTimeout(() => msg.delete().catch(() => null), this.client.config.bot.DELETE_MSG_TIMEOUT);
+        setTimeout(
+          () => msg.delete().catch(() => null),
+          this.client.config.utilities.DELETE_MSG_TIMEOUT
+        );
 
       return;
     }

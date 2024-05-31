@@ -2,8 +2,9 @@ import { RainlinkNodeOptions } from "../rainlink/main.js";
 
 export interface Config {
   bot: Bot;
-  lavalink: Lavalink;
-  features: Features;
+  player: Player;
+  utilities: Utilities;
+  emojis: Emojis;
 }
 
 export interface Bot {
@@ -12,14 +13,12 @@ export interface Bot {
   OWNER_ID: string;
   ADMIN: string[];
   LANGUAGE: string;
-  LIMIT_TRACK: number;
-  LIMIT_PLAYLIST: number;
-  SAFE_ICONS_MODE: boolean;
-  DELETE_MSG_TIMEOUT: number;
   DEBUG_MODE: boolean;
 }
 
-export interface Features {
+export interface Utilities {
+  AUTO_RESUME: boolean;
+  DELETE_MSG_TIMEOUT: number;
   DATABASE: Database;
   TOPGG_TOKEN: string;
   MESSAGE_CONTENT: MessageContent;
@@ -39,6 +38,7 @@ export interface AutofixLavalink {
 export interface Database {
   driver: string;
   config: any;
+  cacheCleanSchedule: string;
 }
 
 export interface MessageContent {
@@ -58,7 +58,7 @@ export interface WebServer {
   whitelist: string[];
 }
 
-export interface Lavalink {
+export interface Player {
   SPOTIFY: Spotify;
   AUTOCOMPLETE_SEARCH: string[];
   NP_REALTIME: boolean;
@@ -66,10 +66,36 @@ export interface Lavalink {
   NODES: RainlinkNodeOptions[];
   DEFAULT_VOLUME: number;
   AVOID_SUSPEND: boolean;
+  LIMIT_TRACK: number;
+  LIMIT_PLAYLIST: number;
 }
 
 export interface Spotify {
   enable: boolean;
   id: string;
   secret: string;
+}
+
+export interface Emojis {
+  PLAYER: PlayerEmojis;
+  GLOBAL: GlobalEmojis;
+}
+
+export interface PlayerEmojis {
+  play: string;
+  pause: string;
+  loop: string;
+  shuffle: string;
+  stop: string;
+  skip: string;
+  previous: string;
+  voldown: string;
+  volup: string;
+  queue: string;
+  delete: string;
+}
+
+export interface GlobalEmojis {
+  arrow_next: string;
+  arrow_previous: string;
 }

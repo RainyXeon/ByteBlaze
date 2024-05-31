@@ -1,10 +1,11 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
-import { FormatDuration } from "../../utilities/FormatDuration.js";
+import { formatDuration } from "../../utilities/FormatDuration.js";
 import { PageQueue } from "../../structures/PageQueue.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 // Main code
 export default class implements Command {
@@ -37,7 +38,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -45,8 +46,9 @@ export default class implements Command {
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
 
     const song = player.queue.current;
-    const qduration = `${new FormatDuration().parse(song!.duration + player.queue.duration)}`;
-    const thumbnail = `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
+    const qduration = `${formatDuration(song!.duration + player.queue.duration)}`;
+    const thumbnail =
+      song?.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
 
     let pagesNum = Math.ceil(player.queue.length / 10);
     if (pagesNum === 0) pagesNum = 1;
@@ -55,7 +57,7 @@ export default class implements Command {
     for (let i = 0; i < player.queue.length; i++) {
       const song = player.queue[i];
       songStrings.push(
-        `**${i + 1}.** ${this.getTitle(client, song)} \`[${new FormatDuration().parse(song.duration)}]\``
+        `**${i + 1}.** ${getTitle(client, song)} \`[${formatDuration(song.duration)}]\``
       );
     }
 
@@ -65,22 +67,22 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(handler.language, "command.music", "queue_author", {
+          name: `${client.i18n.get(handler.language, "command.music", "queue_author", {
             guild: handler.guild!.name,
           })}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.getString(handler.language, "command.music", "queue_description", {
-            title: this.getTitle(client, song!),
+          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+            title: getTitle(client, song!),
             request: String(song!.requester),
-            duration: new FormatDuration().parse(song!.duration),
+            duration: formatDuration(song!.duration),
             rest: str == "" ? "  Nothing" : "\n" + str,
           })}`
         )
         .setFooter({
-          text: `${client.getString(handler.language, "command.music", "queue_footer", {
+          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(player.queue.length),
@@ -94,15 +96,21 @@ export default class implements Command {
     if (!value) {
       if (pages.length == pagesNum && player.queue.length > 10) {
         if (handler.message) {
-          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).prefixPage(
-            handler.message,
-            qduration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            60000,
+            player.queue.length,
+            handler.language
+          ).prefixPage(handler.message, qduration);
         } else if (handler.interaction) {
-          await new PageQueue(client, pages, 60000, player.queue.length, handler.language).slashPage(
-            handler.interaction,
-            qduration
-          );
+          await new PageQueue(
+            client,
+            pages,
+            60000,
+            player.queue.length,
+            handler.language
+          ).slashPage(handler.interaction, qduration);
         } else return;
       } else return handler.editReply({ embeds: [pages[0]] });
     } else {
@@ -110,7 +118,9 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.music", "queue_notnumber")}`)
+              .setDescription(
+                `${client.i18n.get(handler.language, "command.music", "queue_notnumber")}`
+              )
               .setColor(client.color),
           ],
         });
@@ -119,7 +129,7 @@ export default class implements Command {
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${client.getString(handler.language, "command.music", "queue_page_notfound", {
+                `${client.i18n.get(handler.language, "command.music", "queue_page_notfound", {
                   page: String(pagesNum),
                 })}`
               )
@@ -128,13 +138,6 @@ export default class implements Command {
         });
       const pageNum = Number(value) == 0 ? 1 : Number(value) - 1;
       return handler.editReply({ embeds: [pages[pageNum]] });
-    }
-  }
-
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
     }
   }
 }

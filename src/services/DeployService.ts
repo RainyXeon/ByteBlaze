@@ -19,11 +19,9 @@ export class DeployService {
   }
 
   protected async combineDir() {
-    let store: CommandInterface[] = [];
+    const store: CommandInterface[] = [];
 
-    let interactionsFolder = path.resolve(join(__dirname, "..", "commands"));
-
-    await makeSureFolderExists(interactionsFolder);
+    const interactionsFolder = path.resolve(join(__dirname, "..", "commands"));
 
     let interactionFilePaths = await readdirRecursive(interactionsFolder);
 
@@ -42,20 +40,25 @@ export class DeployService {
   }
 
   async execute() {
-    let command = [];
+    const command = [];
 
-    this.client.logger.deploy(DeployService.name, "Reading interaction files...");
+    this.client.logger.info(DeployService.name, "Reading interaction files...");
 
     const store = await this.combineDir();
 
-    command = this.parseEngine(store);
+    command.push(...this.parseEngine(store));
 
-    this.client.logger.deploy(DeployService.name, "Reading interaction files completed, setting up REST...");
+    this.client.logger.info(
+      DeployService.name,
+      "Reading interaction files completed, setting up REST..."
+    );
 
-    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN[this.client.clientIndex]);
+    const rest = new REST({ version: "10" }).setToken(
+      this.client.config.bot.TOKEN[this.client.clientIndex]
+    );
     const client = await rest.get(Routes.user());
 
-    this.client.logger.deploy(
+    this.client.logger.info(
       DeployService.name,
       `Setting up REST completed! Account information received! ${(client as BotInfoType).username}#${
         (client as BotInfoType).discriminator
@@ -63,18 +66,22 @@ export class DeployService {
     );
 
     if (command.length === 0)
-      return this.client.logger.deploy(DeployService.name, "No interactions loaded. Exiting auto deploy...");
+      return this.client.logger.info(
+        DeployService.name,
+        "No interactions loaded. Exiting auto deploy..."
+      );
 
     await rest.put(Routes.applicationCommands((client as BotInfoType).id), {
       body: command,
     });
 
-    this.client.logger.deploy(DeployService.name, `Interactions deployed! Exiting auto deploy...`);
+    this.client.logger.info(DeployService.name, `Interactions deployed! Exiting auto deploy...`);
   }
 
   protected parseEngine(store: CommandInterface[]) {
     return store.reduce(
-      (all: UploadCommandInterface[], current: CommandInterface) => this.commandReducer(all, current),
+      (all: UploadCommandInterface[], current: CommandInterface) =>
+        this.commandReducer(all, current),
       []
     );
   }
@@ -97,7 +104,9 @@ export class DeployService {
       });
       let GroupItem = SubItem
         ? SubItem.options!.find((i: UploadCommandInterface) => {
-            return i.name == current.name[1] && i.type == ApplicationCommandOptionType.SubcommandGroup;
+            return (
+              i.name == current.name[1] && i.type == ApplicationCommandOptionType.SubcommandGroup
+            );
           })
         : undefined;
 

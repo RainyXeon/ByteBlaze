@@ -27,7 +27,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.filter", "filter_already", {
+              `${client.i18n.get(handler.language, "command.filter", "filter_already", {
                 name: this.name[0],
               })}`
             )
@@ -55,7 +55,7 @@ export default class implements Command {
 
     const sbed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.filter", "filter_on", {
+        `${client.i18n.get(handler.language, "command.filter", "filter_on", {
           name: this.name[0],
         })}`
       )

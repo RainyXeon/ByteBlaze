@@ -4,14 +4,33 @@ gen_desc: "`🔑` | **생성됨!** `[%{codes_length}]`\n```%{codes}```\n`💰` |
 gen_footer: "프리미엄 코드 사용법 • %{prefix}redeem <code>"
 ### Profile command!
 profile_author: "프리미엄 프로필"
+profile_error_desc: "`⚠️` | **%{user}**는 프리미엄 사용자가 아니에요!"
 profile_desc: "`👤` | **사용자:** `%{user}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
+### Guild profile command!
+guild_profile_author: "Guild Premium Profile"
+guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
 ### Redeem command!
 redeem_title: "프리미엄 키 사용"
 redeem_desc: "`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
-redeem_already: "`⚠️` | 이미 프리미엄 사용자 입니다!"
+redeem_already: "`⚠️` | 이미 프리미엄 사용자입니다!"
 redeem_invalid: "`⚠️` | 유효하지 않은 프리미엄 코드입니다. 유효한 코드를 사용해주세요!"
+redeem_invalid_mode: "`⚠️` | 유효하지 않은 프리미엄 사용 유형입니다. `guild` 또는 `user` 만 사용하세요."
+redeem_already_guild: "`⚠️` | 이 길드는 이미 **프리미엄**입니다!"
 ### Remove command!
 remove_desc: "`✅` | 성공적으로 다음 유저의 프리미엄을 제거했어요! %{user}"
 remove_already: "`⚠️` | 이미 %{user} 의 프리미엄이 제거되었어요!"
 remove_no_params: "`⚠️` | 사용자를 언급하거나 사용자 ID를 제공해주세요!"
 remove_404: "`⚠️` | %{userid} 님은 프리미엄 사용자가 아니에요!"
+### Guild remove command!
+guild_remove_desc: "`✅` | 성공적으로 %{user} 길드의 프리미엄을 제거했어요!"
+guild_remove_already: "`⚠️` | Guild %{user} 의 프리미엄이 이미 제거되었어요!"
+guild_remove_no_params: "`⚠️` | **Guild ID**를 제공해주세요!"
+guild_remove_404: "`⚠️` | %{userid} 는 **프리미엄 길드**가 아니에요!"
+### Guild list command
+guild_list_title: "💫 프리미엄 길드 목록"
+guild_list_notnumber: "`⚠️` | 유효한 페이지 번호를 제공해주세요!"
+guild_list_page_notfound: "`⚠️` | 총 **%{page} 페이지**만 있어요!"
+### User list command
+list_title: "💫 프리미엄 사용자 목록"
+list_notnumber: "`⚠️` | 유효한 페이지 번호를 제공해주세요!"
+list_page_notfound: "`⚠️` | 총 **%{page} 페이지**만 있어요!"

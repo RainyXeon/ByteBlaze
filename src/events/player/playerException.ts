@@ -3,11 +3,14 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import util from "node:util";
 import { AutoReconnectBuilderService } from "../../services/AutoReconnectBuilderService.js";
 import { ClearMessageService } from "../../services/ClearMessageService.js";
-import { RainlinkPlayer, RainlinkPlayerState } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {
-    client.logger.error("PlayerException", `Player get exception ${util.inspect(data)}`);
+    client.logger.error(
+      "PlayerException",
+      `Player get exception ${util.inspect(data).slice(1).slice(0, -1)}`
+    );
     /////////// Update Music Setup //////////
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
@@ -24,12 +27,15 @@ export default class {
     }
 
     const data247 = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
     if (data247 !== null && data247 && data247.twentyfourseven && channel)
       new ClearMessageService(client, channel, player);
 
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (!currentPlayer.sudoDestroy) await player.destroy();
+    if (currentPlayer.queue.length > 0) return await player.skip().catch(() => {})
+    if (!currentPlayer.sudoDestroy) await player.destroy().catch(() => {});
   }
 }

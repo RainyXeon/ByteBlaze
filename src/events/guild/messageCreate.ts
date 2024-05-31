@@ -1,9 +1,19 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, Message, PermissionFlagsBits } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChannelType,
+  Message,
+  PermissionFlagsBits,
+} from "discord.js";
 import { Manager } from "../../manager.js";
 import { EmbedBuilder } from "discord.js";
 import { stripIndents } from "common-tags";
 import fs from "fs";
-import { CheckPermissionResultInterface, CheckPermissionServices } from "../../services/CheckPermissionService.js";
+import {
+  CheckPermissionResultInterface,
+  CheckPermissionServices,
+} from "../../services/CheckPermissionService.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
 import { Accessableby } from "../../structures/Command.js";
 import { RatelimitReplyService } from "../../services/RatelimitReplyService.js";
@@ -35,40 +45,43 @@ export default class {
 
     const GuildPrefix = await client.db.prefix.get(`${message.guild!.id}`);
     if (GuildPrefix) PREFIX = GuildPrefix;
-    else if (!GuildPrefix) PREFIX = String(await client.db.prefix.set(`${message.guild!.id}`, client.prefix));
+    else if (!GuildPrefix)
+      PREFIX = String(await client.db.prefix.set(`${message.guild!.id}`, client.prefix));
 
     if (message.content.match(mention)) {
       const mention_embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.getString(language, "event.message", "wel", {
+          name: `${client.i18n.get(language, "event.message", "wel", {
             bot: message.guild!.members.me!.displayName,
           })}`,
         })
         .setColor(client.color).setDescription(stripIndents`
-          ${client.getString(language, "event.message", "intro1", {
+          ${client.i18n.get(language, "event.message", "intro1", {
             bot: message.guild!.members.me!.displayName,
           })}
-          ${client.getString(language, "event.message", "intro2")}
-          ${client.getString(language, "event.message", "intro3")}
-          ${client.getString(language, "event.message", "prefix", {
+          ${client.i18n.get(language, "event.message", "intro2")}
+          ${client.i18n.get(language, "event.message", "intro3")}
+          ${client.i18n.get(language, "event.message", "prefix", {
             prefix: `\`${PREFIX}\` or \`/\``,
           })}
-          ${client.getString(language, "event.message", "help1", {
+          ${client.i18n.get(language, "event.message", "help1", {
             help: `\`${PREFIX}help\` or \`/help\``,
           })}
-          ${client.getString(language, "event.message", "help2", {
+          ${client.i18n.get(language, "event.message", "help2", {
             botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
-          ${client.getString(language, "event.message", "ver", {
+          ${client.i18n.get(language, "event.message", "ver", {
             botver: client.metadata.version,
           })}
-          ${client.getString(language, "event.message", "djs", {
-            djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies["discord.js"],
+          ${client.i18n.get(language, "event.message", "djs", {
+            djsver: JSON.parse(await fs.readFileSync("package.json", "utf-8")).dependencies[
+              "discord.js"
+            ],
           })}
-          ${client.getString(language, "event.message", "lavalink", {
+          ${client.i18n.get(language, "event.message", "lavalink", {
             aver: client.metadata.autofix,
           })}
-          ${client.getString(language, "event.message", "codename", {
+          ${client.i18n.get(language, "event.message", "codename", {
             codename: client.metadata.codename,
           })}
           `);
@@ -82,7 +95,8 @@ export default class {
     const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
     const cmd = args.shift()!.toLowerCase();
 
-    const command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd) as string);
+    const command =
+      client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd) as string);
     if (!command) return;
 
     const setup = await client.db.setup.get(String(message.guildId));
@@ -90,7 +104,9 @@ export default class {
     if (setup && setup.channel == message.channelId) return;
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
-    const ratelimit = commandRateLimitManager.acquire(`${message.author.id}@${command.name.join("-")}`);
+    const ratelimit = commandRateLimitManager.acquire(
+      `${message.author.id}@${command.name.join("-")}`
+    );
 
     if (ratelimit.limited) {
       new RatelimitReplyService({
@@ -120,23 +136,30 @@ export default class {
     const managePermissions = [PermissionFlagsBits.ManageChannels];
 
     async function respondError(permissionResult: CheckPermissionResultInterface) {
-      const selfErrorString = `${client.getString(language, "error", "no_perms", {
+      const selfErrorString = `${client.i18n.get(language, "error", "no_perms", {
         perm: permissionResult.result,
       })}`;
       const embed = new EmbedBuilder()
         .setDescription(
           permissionResult.channel == "Self"
             ? selfErrorString
-            : `${client.getString(language, "error", "no_perms_channel", {
+            : `${client.i18n.get(language, "error", "no_perms_channel", {
                 perm: permissionResult.result,
                 channel: permissionResult.channel,
               })}`
         )
         .setColor(client.color);
-      const dmChannel = message.author.dmChannel == null ? await message.author.createDM() : message.author.dmChannel;
-      dmChannel.send({
-        embeds: [embed],
-      });
+      const dmChannel =
+        message.author.dmChannel == null
+          ? await message.author.createDM()
+          : message.author.dmChannel;
+      dmChannel
+        .send({
+          embeds: [embed],
+        })
+        .catch(async () => {
+          await message.reply({ embeds: [embed] }).catch(() => null);
+        });
     }
 
     const returnData = await permissionChecker.message(message, defaultPermissions);
@@ -157,101 +180,13 @@ export default class {
     }
     //////////////////////////////// Permission check end ////////////////////////////////
 
-    //////////////////////////////// Access check start ////////////////////////////////
-    const premiumUser = await client.db.premium.get(message.author.id);
-    const isHavePremium = !premiumUser || !premiumUser.isPremium;
-    if (command.accessableby.includes(Accessableby.Owner) && message.author.id != client.owner)
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "owner_only")}`)
-            .setColor(client.color),
-        ],
-      });
-
-    if (
-      command.accessableby.includes(Accessableby.Admin) &&
-      message.author.id != client.owner &&
-      !client.config.bot.ADMIN.includes(message.author.id)
-    )
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "dreamvast@admin" })}`)
-            .setColor(client.color),
-        ],
-      });
-
-    if (
-      command.accessableby.includes(Accessableby.Manager) &&
-      !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
-    )
-      return message.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_perms", { perm: "ManageGuild" })}`)
-            .setColor(client.color),
-        ],
-      });
-
-    if (
-      command.accessableby.includes(Accessableby.Voter) &&
-      isHavePremium &&
-      client.topgg &&
-      !client.config.bot.ADMIN.includes(message.author.id) &&
-      message.author.id != client.owner
-    ) {
-      const voteChecker = await client.topgg.checkVote(message.author.id);
-      if (voteChecker == TopggServiceEnum.ERROR) {
-        const embed = new EmbedBuilder()
-          .setAuthor({
-            name: client.getString(language, "error", "topgg_error_author"),
-          })
-          .setDescription(client.getString(language, "error", "topgg_error_desc"))
-          .setColor(client.color)
-          .setTimestamp();
-        return message.reply({ content: " ", embeds: [embed] });
-      }
-
-      if (voteChecker == TopggServiceEnum.UNVOTED) {
-        const embed = new EmbedBuilder()
-          .setAuthor({
-            name: client.getString(language, "error", "topgg_vote_author"),
-          })
-          .setDescription(client.getString(language, "error", "topgg_vote_desc"))
-          .setColor(client.color)
-          .setTimestamp();
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-          new ButtonBuilder()
-            .setLabel(client.getString(language, "error", "topgg_vote_button"))
-            .setStyle(ButtonStyle.Link)
-            .setURL(`https://top.gg/bot/${client.user?.id}/vote`)
-        );
-        return message.reply({ content: " ", embeds: [embed], components: [row] });
-      }
-    }
-
-    if (
-      command.accessableby.includes(Accessableby.Premium) &&
-      isHavePremium &&
-      !client.config.bot.ADMIN.includes(message.author.id) &&
-      message.author.id != client.owner
-    ) {
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${client.getString(language, "error", "no_premium_author")}`,
-          iconURL: client.user!.displayAvatarURL(),
-        })
-        .setDescription(`${client.getString(language, "error", "no_premium_desc")}`)
-        .setColor(client.color)
-        .setTimestamp();
-      return message.reply({ content: " ", embeds: [embed] });
-    }
-
+    //////////////////////////////// Check avalibility start ////////////////////////////////
     if (command.lavalink && client.lavalinkUsing.length == 0) {
       return message.reply({
         embeds: [
-          new EmbedBuilder().setDescription(`${client.getString(language, "error", "no_node")}`).setColor(client.color),
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "error", "no_node")}`)
+            .setColor(client.color),
         ],
       });
     }
@@ -260,11 +195,14 @@ export default class {
       const player = client.rainlink.players.get(message.guild!.id);
       const twentyFourBuilder = new AutoReconnectBuilderService(client);
       const is247 = await twentyFourBuilder.get(message.guild!.id);
-      if (!player || (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current))
+      if (
+        !player ||
+        (is247 && is247.twentyfourseven && player.queue.length == 0 && !player.queue.current)
+      )
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_player")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_player")}`)
               .setColor(client.color),
           ],
         });
@@ -276,13 +214,121 @@ export default class {
         return message.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_voice")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_voice")}`)
               .setColor(client.color),
           ],
         });
     }
 
-    //////////////////////////////// Access check end ////////////////////////////////
+    if (
+      command.accessableby.includes(Accessableby.Manager) &&
+      !message.member!.permissions.has(PermissionFlagsBits.ManageGuild)
+    )
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
+            )
+            .setColor(client.color),
+        ],
+      });
+    //////////////////////////////// Check avalibility end ////////////////////////////////
+
+    //////////////////////////////// Check accessibility start ////////////////////////////////
+    const premiumUser = await client.db.premium.get(message.author.id);
+    const premiumGuild = await client.db.preGuild.get(String(message.guild?.id));
+    const isPremium = (premiumUser && premiumUser.isPremium) ?? false;
+    const isPremiumGuild = (premiumGuild && premiumGuild.isPremium) ?? false;
+    const isOwner = message.author.id == client.owner;
+    const isAdmin = client.config.bot.ADMIN.includes(message.author.id);
+    const userPerm = {
+      owner: isOwner,
+      admin: isOwner || isAdmin,
+      premium: isOwner || isAdmin || isPremium,
+      guildPre: isOwner || isAdmin || isPremium || isPremiumGuild,
+    };
+
+    if (command.accessableby.includes(Accessableby.Owner) && !userPerm.owner)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "error", "owner_only")}`)
+            .setColor(client.color),
+        ],
+      });
+
+    if (command.accessableby.includes(Accessableby.Admin) && !userPerm.admin)
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(
+              `${client.i18n.get(language, "error", "no_perms", { perm: "dreamvast@admin" })}`
+            )
+            .setColor(client.color),
+        ],
+      });
+
+    if (command.accessableby.includes(Accessableby.Premium) && !userPerm.premium) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.i18n.get(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.i18n.get(language, "error", "no_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return message.reply({ content: " ", embeds: [embed] });
+    }
+
+    if (command.accessableby.includes(Accessableby.GuildPremium) && !userPerm.guildPre) {
+      const embed = new EmbedBuilder()
+        .setAuthor({
+          name: `${client.i18n.get(language, "error", "no_premium_author")}`,
+          iconURL: client.user!.displayAvatarURL(),
+        })
+        .setDescription(`${client.i18n.get(language, "error", "no_guild_premium_desc")}`)
+        .setColor(client.color)
+        .setTimestamp();
+      return message.reply({
+        content: " ",
+        embeds: [embed],
+      });
+    }
+
+    const isNotPassAll = Object.values(userPerm).some((data) => data === false);
+
+    if (command.accessableby.includes(Accessableby.Voter) && client.topgg && isNotPassAll) {
+      const voteChecker = await client.topgg.checkVote(message.author.id);
+      if (voteChecker == TopggServiceEnum.ERROR) {
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: client.i18n.get(language, "error", "topgg_error_author"),
+          })
+          .setDescription(client.i18n.get(language, "error", "topgg_error_desc"))
+          .setColor(client.color)
+          .setTimestamp();
+        return message.reply({ content: " ", embeds: [embed] });
+      }
+
+      if (voteChecker == TopggServiceEnum.UNVOTED) {
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: client.i18n.get(language, "error", "topgg_vote_author"),
+          })
+          .setDescription(client.i18n.get(language, "error", "topgg_vote_desc"))
+          .setColor(client.color)
+          .setTimestamp();
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setLabel(client.i18n.get(language, "error", "topgg_vote_button"))
+            .setStyle(ButtonStyle.Link)
+            .setURL(`https://top.gg/bot/${client.user?.id}/vote`)
+        );
+        return message.reply({ content: " ", embeds: [embed], components: [row] });
+      }
+    }
+    //////////////////////////////// Check accessibility end ////////////////////////////////
 
     try {
       const handler = new CommandHandler({
@@ -296,7 +342,7 @@ export default class {
       if (message.attachments.size !== 0) handler.addAttachment(message.attachments);
 
       client.logger.info(
-        "CommandManager",
+        "CommandManager | Message",
         `[${command.name.join("-")}] used by ${message.author.username} from ${message.guild?.name} (${
           message.guild?.id
         })`
@@ -304,9 +350,13 @@ export default class {
 
       command.execute(client, handler);
     } catch (error) {
-      client.logger.error("CommandManager", error);
+      client.logger.error("CommandManager | Message", error);
       message.reply({
-        content: `${client.getString(language, "error", "unexpected_error")}\n ${error}`,
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "error", "unexpected_error")}\n ${error}`)
+            .setColor(client.color),
+        ],
       });
     }
   }

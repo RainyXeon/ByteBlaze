@@ -41,7 +41,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,7 +50,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "create_toolong")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "create_toolong")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -58,7 +60,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "des_toolong")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "des_toolong")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -69,13 +73,13 @@ export default class implements Command {
       return data.value.owner == handler.user?.id;
     });
 
-    if (Limit.length >= client.config.bot.LIMIT_PLAYLIST) {
+    if (Limit.length >= client.config.player.LIMIT_PLAYLIST) {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.playlist", "create_limit_playlist", {
-                limit: String(client.config.bot.LIMIT_PLAYLIST),
+              `${client.i18n.get(handler.language, "command.playlist", "create_limit_playlist", {
+                limit: String(client.config.player.LIMIT_PLAYLIST),
               })}`
             )
             .setColor(client.color),
@@ -98,7 +102,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.playlist", "create_created", {
+        `${client.i18n.get(handler.language, "command.playlist", "create_created", {
           playlist: String(value),
           id: idgen[0],
         })}`

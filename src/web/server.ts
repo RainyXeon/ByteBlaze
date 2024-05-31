@@ -21,14 +21,14 @@ export class WebServer {
             reply.send(JSON.stringify({ error: "Missing Authorization" }));
             return done();
           }
-          if (req.headers["authorization"] !== client.config.features.WEB_SERVER.auth) {
+          if (req.headers["authorization"] !== client.config.utilities.WEB_SERVER.auth) {
             reply.code(401);
             reply.send(JSON.stringify({ error: "Authorization failed" }));
             return done();
           }
           if (
-            client.config.features.WEB_SERVER.whitelist.length !== 0 &&
-            !client.config.features.WEB_SERVER.whitelist.includes(req.hostname)
+            client.config.utilities.WEB_SERVER.whitelist.length !== 0 &&
+            !client.config.utilities.WEB_SERVER.whitelist.includes(req.hostname)
           ) {
             reply.code(401);
             reply.send(JSON.stringify({ error: "You're not in whitelist" }));
@@ -71,15 +71,16 @@ export class WebServer {
       reply.send({ byteblaze: response[Math.floor(Math.random() * response.length)] });
     });
 
-    const port = this.client.config.features.WEB_SERVER.port;
+    const port = this.client.config.utilities.WEB_SERVER.port;
 
     this.app
       .listen({ port })
       .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
       .catch((err) => {
         if (this.client.config.bot.TOKEN.length > 1) {
-          this.client.config.features.WEB_SERVER.port = this.client.config.features.WEB_SERVER.port + 1;
-          const port = this.client.config.features.WEB_SERVER.port;
+          this.client.config.utilities.WEB_SERVER.port =
+            this.client.config.utilities.WEB_SERVER.port + 1;
+          const port = this.client.config.utilities.WEB_SERVER.port;
           return this.app
             .listen({ port: port + 1 })
             .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`));

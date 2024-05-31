@@ -41,7 +41,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,7 +50,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -60,7 +60,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "remove_notfound")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "remove_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -68,7 +70,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "remove_owner")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "remove_owner")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -79,14 +83,16 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "remove_song_notfound")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "remove_song_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
     await client.db.playlist.pull(`${value}.tracks`, playlist.tracks![Number(position) - 1]);
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.playlist", "remove_removed", {
+        `${client.i18n.get(handler.language, "command.playlist", "remove_removed", {
           name: value,
           position: pos,
         })}`

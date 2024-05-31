@@ -28,7 +28,7 @@ export default class {
         const findQuery = "directSearch=ytsearch:" + [author, title].filter((x) => !!x).join(" - ");
         const preRes = await player.search(findQuery, { requester: requester });
         if (preRes.tracks.length !== 0) true;
-        else identifier = preRes.tracks[0].identifier;
+        preRes.tracks[0].identifier ? (identifier = preRes.tracks[0].identifier) : true;
       }
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       let res = await player.search(search, { requester: requester });
@@ -39,7 +39,9 @@ export default class {
       });
       if (finalRes.length !== 0) {
         player.play(finalRes.length <= 1 ? finalRes[0] : finalRes[1]);
-        const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+        const channel = (await client.channels
+          .fetch(player.textId)
+          .catch(() => undefined)) as TextChannel;
         if (channel) return new ClearMessageService(client, channel, player);
         return;
       }
@@ -48,9 +50,12 @@ export default class {
     client.logger.info("QueueEmpty", `Queue Empty in @ ${guild!.name} / ${player.guildId}`);
 
     const data = await new AutoReconnectBuilderService(client, player).get(player.guildId);
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
-    if (data !== null && data && data.twentyfourseven && channel) new ClearMessageService(client, channel, player);
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
+    if (data !== null && data && data.twentyfourseven && channel)
+      new ClearMessageService(client, channel, player);
 
-    if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy();
+    if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy().catch(() => {});
   }
 }

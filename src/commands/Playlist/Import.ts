@@ -1,5 +1,5 @@
 import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Playlist } from "../../database/schema/Playlist.js";
 import { Accessableby, Command } from "../../structures/Command.js";
@@ -37,7 +37,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -50,7 +50,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -59,7 +59,9 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_private")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "import_private")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -71,20 +73,24 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_voice")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "import_voice")}`
+            )
             .setColor(client.color),
         ],
       });
     const SongAdd = [];
     let SongLoad = 0;
 
-    const totalDuration = new ConvertTime().parse(playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0));
+    const totalDuration = convertTime(playlist.tracks!.reduce((acc, cur) => acc + cur.length!, 0));
 
     if (playlist.tracks?.length == 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.playlist", "import_empty")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.playlist", "import_empty")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -95,7 +101,7 @@ export default class implements Command {
       textId: handler.channel!.id,
       shardId: handler.guild?.shardId ?? 0,
       deaf: true,
-      volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+      volume: client.config.player.DEFAULT_VOLUME,
     });
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
@@ -118,7 +124,7 @@ export default class implements Command {
         player.queue.add(SongAdd);
         const embed = new EmbedBuilder() // **Imported • \`${Plist}\`** (${playlist.tracks.length} tracks) • ${message.author}
           .setDescription(
-            `${client.getString(handler.language, "command.playlist", "import_imported", {
+            `${client.i18n.get(handler.language, "command.playlist", "import_imported", {
               name: playlist.name,
               tracks: String(playlist.tracks!.length),
               duration: totalDuration,

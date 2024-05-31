@@ -1,0 +1,43 @@
+### Comando de gerar!
+gen_author: "Gerar código premium"
+gen_desc: "`🔑` | **Código gerado com sucesso** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Plano:** `%{plan}`\n`📅` | **Expira em:** `%{expires}`"
+gen_footer: "Use • %{prefix}redeem <code> para ativar o premium"
+
+### Comando de perfil!
+profile_author: "Perfil premium"
+profile_error_desc: "`⚠️` | O usuário **%{user}** não é um membro premium!"
+profile_desc: "`👤` | **Usuário:** `%{user}`\n`💰` | **Plano:** `%{plan}`\n`📅` | **Expira em:** `%{expires}`"
+
+### Comando de perfil de servidor!
+guild_profile_author: "Perfil do servidor premium"
+guild_profile_desc: "`👤` | **Servidor:** `%{guild}`\n`💰` | **Plano:** `%{plan}`\n`📅` | **Expira em:** `%{expires}`"
+
+### Comando de resgatar!
+redeem_title: "Resgatar premium"
+redeem_desc: "`💰` | **Plano:** `%{plan}`\n`📅` | **Expira em:** `%{expires}`"
+redeem_already: "`⚠️` | Você já é um usuário **premium**!"
+redeem_invalid: "`⚠️` | Código inválido. Tente novamente ou use um código válido!"
+redeem_invalid_mode: "`⚠️` | Tipo de ativação do premium inválido! Use `guild` ou `user`."
+redeem_already_guild: "`⚠️` | Este servidor já é **premium**!"
+
+### Comando de remover!
+remove_desc: "`✅` | Premium removido de %{user} com sucesso!"
+remove_already: "`⚠️` | %{user} já teve o premium removido!"
+remove_no_params: "`⚠️` | Por favor, forneça o **nome de usuário** ou **ID de usuário** para remover o premium!"
+remove_404: "`⚠️` | O usuário %{userid} não é um **membro premium**!"
+
+### Comando de remover do servidor!
+guild_remove_desc: "`✅` | Premium removido do servidor %{user} com sucesso!"
+guild_remove_already: "`⚠️` | O servidor %{user} já teve o premium removido!"
+guild_remove_no_params: "`⚠️` | Por favor, forneça o **ID do servidor** para remover o premium!"
+guild_remove_404: "`⚠️` | O servidor %{userid} não é um **servidor premium**!"
+
+### Comando de lista de servidores!
+guild_list_title: "💫 Lista de servidores premium!"
+guild_list_notnumber: "`⚠️` | A página deve ser um número!"
+guild_list_page_notfound: "`⚠️` | Apenas **%{page} páginas disponíveis**!"
+
+### Comando de lista de usuários!
+list_title: "💫 Lista de usuários premium"
+list_notnumber: "`⚠️` | A página deve ser um número!"
+list_page_notfound: "`⚠️` | Apenas **%{page} páginas disponíveis**!"

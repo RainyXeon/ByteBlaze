@@ -43,11 +43,13 @@ export default class implements Command {
       if (!command)
         return handler.editReply({
           embeds: [
-            embed.setTitle(`${client.getString(handler.language, "command.info", "ce_finder_invalid")}`).setDescription(
-              `${client.getString(handler.language, "command.info", "ce_finder_example", {
-                command: `${handler.prefix}${this.name[0]}`,
-              })}`
-            ),
+            embed
+              .setTitle(`${client.i18n.get(handler.language, "command.info", "ce_finder_invalid")}`)
+              .setDescription(
+                `${client.i18n.get(handler.language, "command.info", "ce_finder_example", {
+                  command: `${handler.prefix}${this.name[0]}`,
+                })}`
+              ),
           ],
         });
 
@@ -81,11 +83,11 @@ export default class implements Command {
       .setThumbnail(client.user!.displayAvatarURL({ size: 2048 }))
       .setColor(client.color)
       .setAuthor({
-        name: `${client.getString(handler.language, "command.info", "ce_name")}`,
+        name: `${client.i18n.get(handler.language, "command.info", "ce_name")}`,
       })
       .addFields(embedFieldArray)
       .setFooter({
-        text: `${client.getString(handler.language, "command.info", "ce_total")} ${client.commands.size}`,
+        text: `${client.i18n.get(handler.language, "command.info", "ce_total")} ${client.commands.size}`,
         iconURL: client.user!.displayAvatarURL(),
       });
     await handler.editReply({ embeds: [embed] });
@@ -119,18 +121,18 @@ export default class implements Command {
 
   private transalatedFinder(client: Manager, handler: CommandHandler) {
     return {
-      name: `${client.getString(handler.language, "command.info", "ce_finder_name")}`,
-      des: `${client.getString(handler.language, "command.info", "ce_finder_des")}`,
-      usage: `${client.getString(handler.language, "command.info", "ce_finder_usage")}`,
-      access: `${client.getString(handler.language, "command.info", "ce_finder_access")}`,
-      aliases: `${client.getString(handler.language, "command.info", "ce_finder_aliases")}`,
-      slash: `${client.getString(handler.language, "command.info", "ce_finder_slash")}`,
-      desNone: `${client.getString(handler.language, "command.info", "ce_finder_des_no")}`,
-      usageNone: `${client.getString(handler.language, "command.info", "ce_finder_usage_no")}`,
-      aliasesPrefix: `${client.getString(handler.language, "command.info", "ce_finder_aliases_prefix")}`,
-      aliasesNone: `${client.getString(handler.language, "command.info", "ce_finder_aliases_no")}`,
-      slashEnable: `${client.getString(handler.language, "command.info", "ce_finder_slash_enable")}`,
-      slashDisable: `${client.getString(handler.language, "command.info", "ce_finder_slash_disable")}`,
+      name: `${client.i18n.get(handler.language, "command.info", "ce_finder_name")}`,
+      des: `${client.i18n.get(handler.language, "command.info", "ce_finder_des")}`,
+      usage: `${client.i18n.get(handler.language, "command.info", "ce_finder_usage")}`,
+      access: `${client.i18n.get(handler.language, "command.info", "ce_finder_access")}`,
+      aliases: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases")}`,
+      slash: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash")}`,
+      desNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_des_no")}`,
+      usageNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_usage_no")}`,
+      aliasesPrefix: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases_prefix")}`,
+      aliasesNone: `${client.i18n.get(handler.language, "command.info", "ce_finder_aliases_no")}`,
+      slashEnable: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash_enable")}`,
+      slashDisable: `${client.i18n.get(handler.language, "command.info", "ce_finder_slash_disable")}`,
     };
   }
 }

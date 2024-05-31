@@ -33,7 +33,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -44,7 +44,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_greater")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.filter", "filter_greater")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -52,7 +54,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_less")}`)
+            .setDescription(`${client.i18n.get(handler.language, "command.filter", "filter_less")}`)
             .setColor(client.color),
         ],
       });
@@ -63,7 +65,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.filter", "pitch_on", {
+        `${client.i18n.get(handler.language, "command.filter", "pitch_on", {
           amount: value,
         })}`
       )

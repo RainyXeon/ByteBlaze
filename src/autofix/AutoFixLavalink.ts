@@ -13,7 +13,7 @@ export class AutoFixLavalink {
   }
 
   async execute() {
-    this.client.logger.lavalink(AutoFixLavalink.name, "----- Starting autofix lavalink... -----");
+    this.client.logger.info(AutoFixLavalink.name, "----- Starting autofix lavalink... -----");
     if (this.client.lavalinkList.length == 0) {
       new CheckLavalinkServer(this.client);
       return this.fixLavalink();
@@ -27,25 +27,26 @@ export class AutoFixLavalink {
     this.checkLavalink();
     await this.removeCurrentLavalink();
     if (this.client.lavalinkList.filter((i) => i.online).length == 0) {
-      this.client.logger.lavalink(
+      this.client.logger.info(
         AutoFixLavalink.name,
         autofixErrorMess + "No lavalink online or avalible for this bot."
       );
-      this.client.logger.lavalink(
+      this.client.logger.info(
         AutoFixLavalink.name,
-        autofixErrorMess + "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
+        autofixErrorMess +
+          "Please shutdown the bot, enter the valid lavalink server (v4) and reboot the bot"
       );
-      this.client.logger.lavalink(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
+      this.client.logger.info(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
       return;
     }
 
     await this.applyNewLavalink();
 
-    this.client.logger.lavalink(
+    this.client.logger.info(
       AutoFixLavalink.name,
       "Now used new lavalink, please wait 1 second to make it connect."
     );
-    this.client.logger.lavalink(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
+    this.client.logger.info(AutoFixLavalink.name, "----- Terminated autofix lavalink. -----");
   }
 
   checkLavalink() {
@@ -63,7 +64,9 @@ export class AutoFixLavalink {
   }
 
   async removeCurrentLavalink() {
-    const lavalinkIndex = this.client.lavalinkUsing.findIndex((data) => data.name == this.lavalinkName);
+    const lavalinkIndex = this.client.lavalinkUsing.findIndex(
+      (data) => data.name == this.lavalinkName
+    );
     const targetLavalink = this.client.lavalinkUsing[lavalinkIndex];
     if (this.client.rainlink.nodes.size == 0 && this.client.lavalinkUsing.length != 0) {
       this.client.lavalinkUsing.splice(lavalinkIndex, 1);

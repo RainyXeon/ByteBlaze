@@ -12,14 +12,11 @@ bot:
   EMBED_COLOR: "#2B2D31"
   OWNER_ID: "Your User ID"
   ADMIN: ["<your_trusted_admin_discord_id_here>"]
-  LANGUAGE: "en" # You can set it to en, vi...
-  LIMIT_TRACK: 50 # The number of tracks you want to limit
-  LIMIT_PLAYLIST: 20 # The number of playlist you want to limit
-  SAFE_ICONS_MODE: false # If the new icon doesn't appear, try changing this to true
-  DELETE_MSG_TIMEOUT: 3000
+  # You can set it to en, vi...
+  LANGUAGE: "en"
   DEBUG_MODE: false
 
-lavalink:
+player:
   SPOTIFY:
     # Your Spotify ID and Secret, you can get it from here: https://developer.spotify.com
     # If you don't have or don't want, you can disable it
@@ -30,14 +27,23 @@ lavalink:
   # Default search suggestion for auto complete, leave it empty will use default
   AUTOCOMPLETE_SEARCH: ["yorushika", "yoasobi", "tuyu", "hinkik"]
 
-  NP_REALTIME: false # Enable this if you want to use realtime duation in nowplaying command
+  # Enable this if you want to use realtime duation in nowplaying command
+  NP_REALTIME: false
 
-  LEAVE_TIMEOUT: 60000 # The number of leave time you want
+  # The number of leave time you want
+  LEAVE_TIMEOUT: 60000
 
-  DEFAULT_VOLUME: 100 # Must not over 1000 or bot crash
+  # Must not over 1000 or bot crash
+  DEFAULT_VOLUME: 100
 
   # Enable this to avoid your bot get suspended (Recommended to be enable)
   AVOID_SUSPEND: true
+
+  # The number of tracks you want to limit
+  LIMIT_TRACK: 50
+
+  # The number of playlist you want to limit
+  LIMIT_PLAYLIST: 20
 
   # You can add more Lavalink servers!
   NODES:
@@ -57,7 +63,7 @@ lavalink:
       # | Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
       driver: "lavalink@4"
 
-features:
+utilities:
   # Enable debug tools for execute code from bot
   # use dokdo package, owner only, no prefix changes
   # You have to enable message_content to use
@@ -69,26 +75,58 @@ features:
   GUILD_LOG_CHANNEL: ""
   # Log all unhandled, error, warnings on discord
   LOG_CHANNEL: ""
+  # The timeout for deleting msg
+  DELETE_MSG_TIMEOUT: 3000
+  # Auto resume when bot restarted suddenly
+  AUTO_RESUME: false
 
+  # Database services config
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default
     driver: "json" # mongodb, mysql, json, postgres
     # Config depends on driver, you can see sample config at src/database/driver
     config: { path: "./cylane.database.json" }
+    # Cache cleaning for reduce memory
+    # This feature have the same API with this link below
+    # https://github.com/node-cron/node-cron?tab=readme-ov-file#allowed-fields
+    # You can disable caching by using DISABLE string
+    cacheCleanSchedule: "0 */30 * * * *"
 
+  # Msg content for bot using prefix command and setup
   MESSAGE_CONTENT:
     enable: true
+    # Whenever you want to use prefix command or not
     commands:
       enable: true
       prefix: "d!" # The prefix you want
 
-  AUTOFIX_LAVALINK: # Fix the Lavalink server when the current is down
+  # Fix the Lavalink server when the current is down
+  AUTOFIX_LAVALINK:
     enable: false
     retryCount: 10
     retryTimeout: 3000
 
+  # WS/REST server for using web player
   WEB_SERVER:
     enable: false
     port: 3000
     whitelist: [] # Example: ["lavalink.dev"]
     auth: "youshallnotpass"
+
+# You can custom your emoji here!
+emojis:
+  PLAYER:
+    play: "<:pjad_play:1161595194630754334>"
+    pause: "<:pjad_pause:1161595191573094453>"
+    loop: "<:pjad_loop:1161595185357135892>"
+    shuffle: "<:pjad_shuffle:1161596851020115968>"
+    stop: "<:pjad_stop:1161595204302798909>"
+    skip: "<:pjad_skip:1161595199617781822>"
+    previous: "<:pjad_previous:1161595200985104467>"
+    voldown: "<:pjad_voldown:1161595205993107487>"
+    volup: "<:pjad_volup:1161595209289830450>"
+    queue: "<:pjad_queue:1161595196425912331>"
+    delete: "<:pjad_delete:1161595181418692658>"
+  GLOBAL:
+    arrow_next: "<:pjad_arrow_next:1161595178210041919>"
+    arrow_previous: "<:pjad_arrow_back:1161595176737832970>"

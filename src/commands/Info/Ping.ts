@@ -21,10 +21,12 @@ export default class implements Command {
     await handler.deferReply();
     const ping = new EmbedBuilder()
       .setAuthor({
-        name: `${client.getString(handler.language, "command.info", "ping_title")}` + client.user!.username,
+        name:
+          `${client.i18n.get(handler.language, "command.info", "ping_title")}` +
+          client.user!.username,
       })
       .setDescription(
-        `${client.getString(handler.language, "command.info", "ping_desc", {
+        `${client.i18n.get(handler.language, "command.info", "ping_desc", {
           ping: String(client.ws.ping),
           response: String(Date.now() - handler.createdAt),
         })}`

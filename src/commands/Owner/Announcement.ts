@@ -30,12 +30,18 @@ export default class implements Command {
     let sentSuccesfully = 0;
 
     for (const guild of allGuild) {
-      const channelFilterTextBased = guild.channels.cache.filter((channel) => channel.isTextBased());
+      const channelFilterTextBased = guild.channels.cache.filter((channel) =>
+        channel.isTextBased()
+      );
       const channelFilterPermission = channelFilterTextBased.filter((channel) =>
         channel.guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages)
       );
-      const channelFilterGeneral = channelFilterPermission.filter((channel) => channel.name.includes("general"));
-      const channelFilterNonGeneral = channelFilterPermission.filter((channel) => !channel.name.includes("general"));
+      const channelFilterGeneral = channelFilterPermission.filter((channel) =>
+        channel.name.includes("general")
+      );
+      const channelFilterNonGeneral = channelFilterPermission.filter(
+        (channel) => !channel.name.includes("general")
+      );
       if (channelFilterGeneral.size !== 0) {
         avalibleChannel.push(channelFilterGeneral.first()!);
       } else {
@@ -56,12 +62,9 @@ export default class implements Command {
           text: `${handler.guild!.members.me!.displayName}`,
           iconURL: client.user!.displayAvatarURL(),
         });
-
-      try {
-        (channel as TextChannel).send({ embeds: [announcement] });
-      } catch (err) {
-        sentSuccesfully = sentSuccesfully - 1;
-      }
+      await (channel as TextChannel)
+        .send({ embeds: [announcement] })
+        .catch(() => (sentSuccesfully = sentSuccesfully - 1));
     }
 
     const result = new EmbedBuilder()

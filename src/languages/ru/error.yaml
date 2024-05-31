@@ -24,6 +24,7 @@ owner_only: "`⚠️` | Ты не мой **владелец**!"
 # No premium Event!
 no_premium_author: "Премиум"
 no_premium_desc: "`⚠️` | Вы не являетесь пользователем Premium!"
+no_guild_premium_desc: "`⚠️` | Вы не состоите в премиум ДС сервере!"
 
 # Rate limit!
 ratelimit: "`⚠️` | Вы выполняете действия слишком быстро. Пожалуйста, подождите через **%{time} секунд**!"

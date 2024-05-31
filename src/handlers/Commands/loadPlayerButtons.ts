@@ -24,9 +24,15 @@ export class PlayerButtonsLoader {
     });
 
     if (this.client.plButton.size) {
-      this.client.logger.loader(PlayerButtonsLoader.name, `${this.client.plButton.size} player buttons Loaded!`);
+      this.client.logger.info(
+        PlayerButtonsLoader.name,
+        `${this.client.plButton.size} player buttons Loaded!`
+      );
     } else {
-      this.client.logger.warn(PlayerButtonsLoader.name, `No player button loaded, is everything ok?`);
+      this.client.logger.warn(
+        PlayerButtonsLoader.name,
+        `No player button loaded, is everything ok?`
+      );
     }
   }
 
@@ -42,7 +48,7 @@ export class PlayerButtonsLoader {
       return;
     }
 
-    if (this.client.plButton.has(command.name)) {
+    if (this.client.plButton.get(command.name)) {
       this.client.logger.warn(
         PlayerButtonsLoader.name,
         `"${command.name}" player button has already been installed. Skipping...`

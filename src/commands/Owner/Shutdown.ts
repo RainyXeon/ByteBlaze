@@ -22,7 +22,7 @@ export default class implements Command {
     await handler.deferReply();
 
     const restart = new EmbedBuilder()
-      .setDescription(`${client.getString(handler.language, "command.utils", "restart_msg")}`)
+      .setDescription(`${client.i18n.get(handler.language, "command.utils", "restart_msg")}`)
       .setColor(client.color)
       .setFooter({
         text: `${handler.guild!.members.me!.displayName}`,

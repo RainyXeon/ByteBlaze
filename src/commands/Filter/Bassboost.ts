@@ -32,7 +32,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "filter_number")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.filter", "filter_number")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -44,7 +46,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.filter", "filter_on", {
+          `${client.i18n.get(handler.language, "command.filter", "filter_on", {
             name: "Bassboost",
           })}`
         )
@@ -57,7 +59,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.filter", "bassboost_limit")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.filter", "bassboost_limit")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -82,7 +86,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.filter", "bassboost_set", {
+        `${client.i18n.get(handler.language, "command.filter", "bassboost_set", {
           amount: value,
         })}`
       )

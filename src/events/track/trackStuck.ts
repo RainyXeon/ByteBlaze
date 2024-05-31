@@ -18,8 +18,10 @@ export default class {
 
     const guild = await client.guilds.fetch(player.guildId).catch(() => undefined);
 
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
-    if (!channel) return player.destroy();
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
+    if (!channel) return player.destroy().catch(() => {});
 
     let guildModel = await client.db.language.get(`${channel.guild.id}`);
     if (!guildModel) {
@@ -30,14 +32,17 @@ export default class {
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
-      .setDescription(`${client.getString(language, "event.player", "error_desc")}`);
+      .setDescription(`${client.i18n.get(language, "event.player", "error_desc")}`);
 
     if (channel) {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete().catch(() => null) : true),
-        client.config.bot.DELETE_MSG_TIMEOUT
+        async () =>
+          !setup || setup == null || setup.channel !== channel.id
+            ? msg.delete().catch(() => null)
+            : true,
+        client.config.utilities.DELETE_MSG_TIMEOUT
       );
     }
 
@@ -48,6 +53,7 @@ export default class {
       new ClearMessageService(client, channel, player);
     const currentPlayer = client.rainlink.players.get(player.guildId) as RainlinkPlayer;
     if (!currentPlayer) return;
-    if (!currentPlayer.sudoDestroy) await player.destroy();
+    if (currentPlayer.queue.length > 0) return await player.skip().catch(() => {})
+    if (!currentPlayer.sudoDestroy) await player.destroy().catch(() => {});
   }
 }

@@ -30,13 +30,20 @@ export class Lavalink3 extends AbstractDriver {
 
   constructor() {
     super();
-    this.playerFunctions = new RainlinkDatabase<(player: RainlinkPlayer, ...args: any) => unknown>();
+    this.playerFunctions = new RainlinkDatabase<
+      (player: RainlinkPlayer, ...args: any) => unknown
+    >();
     this.functions = new RainlinkDatabase<(manager: Rainlink, ...args: any) => unknown>();
     this.sessionId = null;
   }
 
   public get isRegistered(): boolean {
-    return this.manager !== null && this.node !== null && this.wsUrl.length !== 0 && this.httpUrl.length !== 0;
+    return (
+      this.manager !== null &&
+      this.node !== null &&
+      this.wsUrl.length !== 0 &&
+      this.httpUrl.length !== 0
+    );
   }
 
   public initial(manager: Rainlink, node: RainlinkNode): void {
@@ -86,7 +93,10 @@ export class Lavalink3 extends AbstractDriver {
       options.body = JSON.stringify(options.data);
     }
     if (options.path.includes("/sessions//")) return undefined;
-    if (/\/sessions\/(.*)\/players\/(.*)/.test(options.path) || (options.method && options.method == "DELETE"))
+    if (
+      /\/sessions\/(.*)\/players\/(.*)/.test(options.path) ||
+      (options.method && options.method == "DELETE")
+    )
       return undefined;
 
     const lavalinkHeaders = {
@@ -144,7 +154,11 @@ export class Lavalink3 extends AbstractDriver {
       });
 
     // Play track
-    if (data.playerOptions.track && data.playerOptions.track.encoded && data.playerOptions.track.length !== 0) {
+    if (
+      data.playerOptions.track &&
+      data.playerOptions.track.encoded &&
+      data.playerOptions.track.length !== 0
+    ) {
       isPlaySent = true;
       this.wsSendData({
         op: "play",
@@ -159,7 +173,11 @@ export class Lavalink3 extends AbstractDriver {
     }
 
     // Destroy player
-    if (data.playerOptions.track && data.playerOptions.track.encoded == null && data.playerOptions.track.length === 0)
+    if (
+      data.playerOptions.track &&
+      data.playerOptions.track.encoded == null &&
+      data.playerOptions.track.length === 0
+    )
       this.wsSendData({
         op: "destroy",
         guildId: data.guildId,

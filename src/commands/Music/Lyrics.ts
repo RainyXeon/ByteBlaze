@@ -22,7 +22,7 @@ export default class implements Command {
       name: "search",
       description: "The song name",
       type: ApplicationCommandOptionType.String,
-      required: true,
+      required: false,
     },
   ];
 
@@ -36,7 +36,12 @@ export default class implements Command {
     // Keep it short, around 30
     // characters in length
     let lyricsRes = null;
-    const query = handler.args.join(" ");
+    let query = handler.args.join(" ");
+    if (query.length == 0) {
+      const player = client.rainlink.players.get(String(handler.guild?.id));
+      if (player)
+        query = player.queue.current ? player.queue.current.title : handler.args.join(" ");
+    }
 
     try {
       const result = await lyrics.fetch(query, 3);
@@ -45,16 +50,19 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
+              .setDescription(
+                `${client.i18n.get(handler.language, "command.music", "lyrics_notfound")}`
+              )
               .setColor(client.color),
           ],
         });
     } catch (err) {
-      console.log(err);
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "lyrics_notfound")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.music", "lyrics_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -63,7 +71,7 @@ export default class implements Command {
     const embed = new EmbedBuilder()
       .setColor(client.color)
       .setTitle(
-        `${client.getString(handler.language, "command.music", "lyrics_title", {
+        `${client.i18n.get(handler.language, "command.music", "lyrics_title", {
           song: query,
         })}`
       )
@@ -71,7 +79,9 @@ export default class implements Command {
       .setTimestamp();
 
     if (lyricsRes.length > 4096) {
-      embed.setDescription(`${client.getString(handler.language, "command.music", "lyrics_toolong")}`);
+      embed.setDescription(
+        `${client.i18n.get(handler.language, "command.music", "lyrics_toolong")}`
+      );
     }
 
     return handler.editReply({ embeds: [embed] });

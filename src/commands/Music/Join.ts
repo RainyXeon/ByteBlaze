@@ -26,7 +26,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "no_in_voice")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -40,7 +40,7 @@ export default class implements Command {
         textId: handler.channel!.id,
         shardId: handler.guild?.shardId ?? 0,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     else if (player && !this.checkSameVoice(client, handler, handler.language)) {
       return;
@@ -48,7 +48,7 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "join_msg", {
+        `${client.i18n.get(handler.language, "command.music", "join_msg", {
           channel: String(channel),
         })}`
       )
@@ -62,7 +62,7 @@ export default class implements Command {
       handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "no_same_voice")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "no_same_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -72,7 +72,7 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.getString(handler.language, "command.music", "join_already", {
+              `${client.i18n.get(handler.language, "command.music", "join_already", {
                 channel: String(handler.member!.voice.channel),
               })}`
             )

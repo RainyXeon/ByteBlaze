@@ -19,7 +19,9 @@ export default class {
     await client.UpdateMusic(player);
     /////////// Update Music Setup ///////////
 
-    const channel = (await client.channels.fetch(player.textId).catch(() => undefined)) as TextChannel;
+    const channel = (await client.channels
+      .fetch(player.textId)
+      .catch(() => undefined)) as TextChannel;
     client.sentQueue.set(player.guildId, false);
     const autoreconnectService = new AutoReconnectBuilderService(client, player);
     let data = await autoreconnectService.get(player.guildId);
@@ -40,14 +42,17 @@ export default class {
 
     const embed = new EmbedBuilder()
       .setColor(client.color)
-      .setDescription(`${client.getString(language, "event.player", "queue_end_desc")}`);
+      .setDescription(`${client.i18n.get(language, "event.player", "queue_end_desc")}`);
 
     if (!isSudoDestroy) {
       const setup = await client.db.setup.get(player.guildId);
       const msg = await channel.send({ embeds: [embed] });
       setTimeout(
-        async () => (!setup || setup == null || setup.channel !== channel.id ? msg.delete().catch(() => null) : true),
-        client.config.bot.DELETE_MSG_TIMEOUT
+        async () =>
+          !setup || setup == null || setup.channel !== channel.id
+            ? msg.delete().catch(() => null)
+            : true,
+        client.config.utilities.DELETE_MSG_TIMEOUT
       );
     }
 

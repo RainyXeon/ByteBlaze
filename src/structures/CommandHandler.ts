@@ -83,8 +83,8 @@ export class CommandHandler {
 
   get modeLangData() {
     return {
-      enable: `${this.client.getString(this.language, "global", "enable")}`,
-      disable: `${this.client.getString(this.language, "global", "disable")}`,
+      enable: `${this.client.i18n.get(this.language, "global", "enable")}`,
+      disable: `${this.client.i18n.get(this.language, "global", "disable")}`,
     };
   }
 

@@ -1,0 +1,24 @@
+### Evento de Reprodução!
+track_title: "Iniciando a Reprodução"
+track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+author_title: "`✒️` | Autor:"
+request_title: "`👤` | Solicitante:"
+volume_title: "`🔊` | Volume:"
+queue_title: "`💾` | Comprimento da Fila:"
+duration_title: "`🕒` | Duração da Música:"
+total_duration_title: "`🕰️` | Duração Total da Fila:"
+download_title: "`⬇️` | Download:"
+
+### Mesmo canal de voz!
+join_voice: "`⚠️` | Você não está no mesmo canal de voz que eu!"
+
+### Evento de Fim da Fila!
+queue_end_desc: "`🔚` | A música foi **Finalizada**!"
+
+### Erro na música!
+error_desc: "`⚠️` | A música apresentou um erro. Pulando a **Música**!"
+
+### Função Automática!
+player_end: "`🛑` | Saí de <#%{leave}> porque não há ninguém no canal de voz!"
+leave_pause: "`⏸️` | A música foi Pausada porque fiquei sozinho!"
+leave_resume: "`▶️` | A música foi Retomada porque alguém entrou!"

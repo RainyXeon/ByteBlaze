@@ -1,5 +1,9 @@
 import { RainlinkEvents, RainlinkPluginType } from "../../main.js";
-import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from "../../main.js";
+import {
+  RainlinkSearchOptions,
+  RainlinkSearchResult,
+  RainlinkSearchResultType,
+} from "../../main.js";
 import { RainlinkTrack } from "../../main.js";
 import { Rainlink } from "../../main.js";
 import { SourceRainlinkPlugin } from "../../main.js";
@@ -22,7 +26,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    * The options of the plugin.
    */
   public options: NicoOptions;
-  private _search: ((query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>) | undefined;
+  private _search:
+    | ((query: string, options?: RainlinkSearchOptions) => Promise<RainlinkSearchResult>)
+    | undefined;
   private rainlink: Rainlink | null;
 
   private readonly methods: Record<string, (id: string, requester: unknown) => Promise<Result>>;
@@ -88,7 +94,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
     return "rainlink-nico";
   }
 
-  private async search(query: string, options?: RainlinkSearchOptions): Promise<RainlinkSearchResult> {
+  private async search(
+    query: string,
+    options?: RainlinkSearchOptions
+  ): Promise<RainlinkSearchResult> {
     const res = await this._search!(query, options);
     if (!this.directSearchChecker(query)) return res;
     if (res.tracks.length == 0) return this.searchDirect(query, options);
@@ -101,7 +110,10 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
    * @param options search option like RainlinkSearchOptions
    * @returns RainlinkSearchResult
    */
-  public async searchDirect(query: string, options?: RainlinkSearchOptions | undefined): Promise<RainlinkSearchResult> {
+  public async searchDirect(
+    query: string,
+    options?: RainlinkSearchOptions | undefined
+  ): Promise<RainlinkSearchResult> {
     if (!this.rainlink || !this._search) throw new Error("rainlink-nico is not loaded yet.");
 
     if (!query) throw new Error("Query is required");
@@ -205,7 +217,9 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
   }
 
   private debug(logs: string) {
-    this.rainlink ? this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink Nico Plugin]: ${logs}`) : true;
+    this.rainlink
+      ? this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink Nico Plugin]: ${logs}`)
+      : true;
   }
 }
 

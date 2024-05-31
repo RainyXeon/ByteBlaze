@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class PlayerEventLoader {
   client: Manager;
+  counter: number = 0;
   constructor(client: Manager) {
     this.client = client;
     this.loader();
@@ -19,7 +20,7 @@ export class PlayerEventLoader {
       let eventsFile = await readdirRecursive(eventsPath);
       await this.registerPath(eventsFile);
     });
-    this.client.logger.loader(PlayerEventLoader.name, `Player Events Loaded!`);
+    this.client.logger.info(PlayerEventLoader.name, `${this.counter} Events Loaded!`);
   }
 
   async registerPath(eventsPath: string[]) {
@@ -36,6 +37,17 @@ export class PlayerEventLoader {
     };
 
     const eName = splitPath(path);
-    this.client.rainlink.on(eName as "voiceEndSpeaking", events.execute.bind(null, this.client));
+
+    if (!events.execute)
+      return this.client.logger.warn(
+        PlayerEventLoader.name,
+        `Event [${eName}] doesn't have exeture function on the class, Skipping...`
+      );
+
+    this.client.rainlink.on(eName as "voiceEndSpeaking", (...args: unknown[]) =>
+      events.execute(this.client, ...args)
+    );
+
+    this.counter = this.counter + 1;
   }
 }

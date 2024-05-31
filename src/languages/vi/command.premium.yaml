@@ -1,20 +1,43 @@
-### Generate command!
-gen_author: "Tạo key gói dịch vụ trả phí"
-gen_desc: "`🔑` | **Đã tạo thành công** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
-gen_footer: "Để hoàn thành • %{prefix}redeem <code>"
+### Lệnh Tạo!
+gen_author: "Tạo Mã Premium"
+gen_desc: "`🔑` | **Tạo mã thành công** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+gen_footer: "Sử dụng • %{prefix}redeem <code> để kích hoạt Premium"
 
-### Profile command!
-profile_author: "Thông tin người dùng gói dịch vụ trả phí"
-profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
+### Lệnh Hồ sơ!
+profile_author: "Hồ sơ Premium"
+profile_error_desc: "`⚠️` | **%{user}** không phải là thành viên Premium!"
+profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
 
-### Redeem command!
-redeem_title: "Đăng kí người dùng gói dịch vụ trả phí"
-redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn lúc:** `%{expires}`"
-redeem_already: "`⚠️` | Bạn đã là người dùng gới trả phí!"
-redeem_invalid: "`⚠️` | Key nhập không hợp lệ. Vui lòng nhập key khác!"
+### Lệnh Hồ sơ Guild!
+guild_profile_author: "Hồ sơ Guild Premium"
+guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
 
-### Remove command!
-remove_desc: "`✅` | Đã thành công gỡ gói dịch vụ trả phí của %{user}!"
-remove_already: "`⚠️` | Người dùng %{user} đã bị gỡ!"
-remove_no_params: "`⚠️` | Vui lòng đề cập đến 1 người dùng hoặc cung cấp ID người dùng!"
-remove_404: "`⚠️` | %{userid} không phải là người dùng gói dịch vụ trả phí!"
+### Lệnh Redeem!
+redeem_title: "Kích hoạt Premium"
+redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+redeem_already: "`⚠️` | Bạn đã có tài khoản **Premium** rồi!"
+redeem_invalid: "`⚠️` | Mã không hợp lệ. Vui lòng thử lại hoặc sử dụng mã đúng!"
+redeem_invalid_mode: "`⚠️` | Chế độ kích hoạt Premium không hợp lệ! Vui lòng chỉ định là `guild` hoặc `user`!"
+redeem_already_guild: "`⚠️` | Guild đã có **Premium** rồi!"
+
+### Lệnh Xóa!
+remove_desc: "`✅` | Xóa Premium thành công cho %{user}!"
+remove_already: "`⚠️` | %{user} đã không có Premium!"
+remove_no_params: "`⚠️` | Vui lòng chỉ định **tên người dùng** hoặc **ID của người dùng** để xóa Premium!"
+remove_404: "`⚠️` | %{userid} không phải là **thành viên Premium**!"
+
+### Lệnh Xóa Guild!
+guild_remove_desc: "`✅` | Xóa Premium thành công cho Guild %{user}!"
+guild_remove_already: "`⚠️` | Guild %{user} đã không có Premium!"
+guild_remove_no_params: "`⚠️` | Vui lòng chỉ định **ID của Guild** để xóa Premium!"
+guild_remove_404: "`⚠️` | Guild %{userid} không phải là **Guild Premium**!"
+
+### Lệnh Danh sách Guild
+guild_list_title: "💫 Danh sách Guild có Premium!"
+guild_list_notnumber: "`⚠️` | Trang chỉ có thể là số!"
+guild_list_page_notfound: "`⚠️` | Chỉ có **%{page} trang** có sẵn!"
+
+### Lệnh Danh sách Người dùng
+list_title: "💫 Danh sách người dùng có Premium"
+list_notnumber: "`⚠️` | Trang chỉ có thể là số!"
+list_page_notfound: "`⚠️` | Chỉ có **%{page} trang** có sẵn!"

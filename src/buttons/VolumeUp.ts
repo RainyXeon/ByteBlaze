@@ -18,12 +18,16 @@ export default class implements PlayerButton {
       collector.stop();
     }
 
-    const reply_msg = `${client.getString(language, "button.music", "volup_msg", {
+    const reply_msg = `${client.i18n.get(language, "button.music", "volup_msg", {
       volume: `${player.volume + 10}`,
     })}`;
 
     if (player.volume >= 100) {
-      new ReplyInteractionService(client, message, `${client.getString(language, "button.music", "volume_max")}`);
+      new ReplyInteractionService(
+        client,
+        message,
+        `${client.i18n.get(language, "button.music", "volume_max")}`
+      );
       return;
     }
 

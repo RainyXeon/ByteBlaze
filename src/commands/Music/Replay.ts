@@ -27,7 +27,7 @@ export default class implements Command {
     await player.seek(0);
 
     const embed = new EmbedBuilder()
-      .setDescription(`${client.getString(handler.language, "command.music", "replay_msg")}`)
+      .setDescription(`${client.i18n.get(handler.language, "command.music", "replay_msg")}`)
       .setColor(client.color);
 
     await handler.editReply({ content: " ", embeds: [embed] });

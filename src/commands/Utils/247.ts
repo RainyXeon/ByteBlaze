@@ -51,7 +51,7 @@ export default class implements Command {
       if (!data.twentyfourseven) {
         const offAl = new EmbedBuilder()
           .setDescription(
-            `${client.getString(handler.language, "command.utils", "247_already", {
+            `${client.i18n.get(handler.language, "command.utils", "247_already", {
               mode: handler.modeLang.disable,
             })}`
           )
@@ -67,7 +67,7 @@ export default class implements Command {
       player && player.voiceId && handler.member!.voice.channel == null ? player.destroy() : true;
 
       const on = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.utils", "247_off")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.utils", "247_off")}`)
         .setColor(client.color);
       handler.editReply({ content: " ", embeds: [on] });
     } else if (value == "enable") {
@@ -76,7 +76,7 @@ export default class implements Command {
         return handler.editReply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(handler.language, "error", "no_in_voice")}`)
+              .setDescription(`${client.i18n.get(handler.language, "error", "no_in_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -84,7 +84,7 @@ export default class implements Command {
       if (data.twentyfourseven) {
         const onAl = new EmbedBuilder()
           .setDescription(
-            `${client.getString(handler.language, "command.utils", "247_already", {
+            `${client.i18n.get(handler.language, "command.utils", "247_already", {
               mode: handler.modeLang.enable,
             })}`
           )
@@ -99,7 +99,7 @@ export default class implements Command {
           textId: String(handler.channel?.id),
           shardId: handler.guild?.shardId ?? 0,
           deaf: true,
-          volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+          volume: client.config.player.DEFAULT_VOLUME,
         });
 
       data.voice
@@ -107,13 +107,13 @@ export default class implements Command {
         : new AutoReconnectBuilderService(client, player).playerBuild(player?.guildId, true);
 
       const on = new EmbedBuilder()
-        .setDescription(`${client.getString(handler.language, "command.utils", "247_on")}`)
+        .setDescription(`${client.i18n.get(handler.language, "command.utils", "247_on")}`)
         .setColor(client.color);
       return handler.editReply({ content: " ", embeds: [on] });
     } else {
       const onsome = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "error", "arg_error", {
+          `${client.i18n.get(handler.language, "error", "arg_error", {
             text: "**enable** or **disable**!",
           })}`
         )

@@ -4,7 +4,6 @@ import { Code } from "./schema/Code.js";
 import { Premium } from "./schema/Premium.js";
 import { Setup } from "./schema/Setup.js";
 import { Language } from "./schema/Language.js";
-import { Status } from "./schema/Status.js";
 import { Prefix } from "./schema/Prefix.js";
 import { SongNoti } from "./schema/SongNoti.js";
 import { QuickDatabasePlus } from "../structures/QuickDatabasePlus.js";
@@ -18,7 +17,6 @@ export interface DatabaseTable {
   preGuild: QuickDatabasePlus<GuildPremium>;
   setup: QuickDatabasePlus<Setup>;
   language: QuickDatabasePlus<Language>;
-  status: QuickDatabasePlus<Status>;
   prefix: QuickDatabasePlus<Prefix>;
   songNoti: QuickDatabasePlus<SongNoti>;
 }

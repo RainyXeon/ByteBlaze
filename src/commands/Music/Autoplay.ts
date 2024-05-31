@@ -32,7 +32,7 @@ export default class implements Command {
 
       const off = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.music", "autoplay_off", {
+          `${client.i18n.get(handler.language, "command.music", "autoplay_off", {
             mode: handler.modeLang.disable,
           })}`
         )
@@ -51,7 +51,7 @@ export default class implements Command {
 
       const on = new EmbedBuilder()
         .setDescription(
-          `${client.getString(handler.language, "command.music", "autoplay_on", {
+          `${client.i18n.get(handler.language, "command.music", "autoplay_on", {
             mode: handler.modeLang.enable,
           })}`
         )

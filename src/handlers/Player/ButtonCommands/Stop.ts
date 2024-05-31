@@ -28,7 +28,7 @@ export class ButtonStop {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -40,7 +40,7 @@ export class ButtonStop {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
             .setColor(this.client.color),
         ],
       });
@@ -49,7 +49,7 @@ export class ButtonStop {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.getString(this.language, "error", "no_player")}`)
+            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
             .setColor(this.client.color),
         ],
       });
@@ -61,7 +61,7 @@ export class ButtonStop {
       await this.client.UpdateMusic(this.player);
 
       const embed = new EmbedBuilder()
-        .setDescription(`${this.client.getString(this.language, "button.music", "stop_msg")}`)
+        .setDescription(`${this.client.i18n.get(this.language, "button.music", "stop_msg")}`)
         .setColor(this.client.color);
 
       this.interaction.reply({ embeds: [embed] });

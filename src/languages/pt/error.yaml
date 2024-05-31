@@ -1,0 +1,40 @@
+# Número inválido
+number_invalid: "`⚠️` | Por favor, forneça um número válido!"
+
+# Executar quando inválido
+no_node: "`⚠️` | Nenhum servidor Lavalink foi encontrado. Por favor, tente novamente em **5 minutos**!"
+
+# Nenhuma música está tocando atualmente!
+no_player: "`⚠️` | Nenhuma música está tocando no momento!"
+
+# Precisa entrar no canal de voz & mesmo canal de voz para usar o comando!
+no_in_voice: "`⚠️` | Você não está em um canal de voz!"
+no_same_voice: "`⚠️` | Você não está no mesmo canal de voz que eu!"
+
+# Sem permissão!
+no_perms: "`⚠️` | Eu não tenho permissão **%{perm}** para executar este comando!"
+no_perms_channel: "`⚠️` | Eu não tenho permissão **%{perm}** no canal <#%{channel}> para executar este comando!"
+
+# Obtendo erro!
+unexpected_error: "`⚠️` | Algo deu errado. Por favor, tente novamente mais tarde!"
+
+# Proprietário do cliente!
+owner_only: "`⚠️` | Você não é meu **Proprietário**!"
+
+# Sem evento premium!
+no_premium_author: "Premium"
+no_premium_desc: "`⚠️` | Você não é um usuário Premium!"
+no_guild_premium_desc: "`⚠️` | Você não está em um servidor premium!"
+
+# Limite de taxa!
+ratelimit: "`⚠️` | Você está realizando ações muito rapidamente. Por favor, espere **%{time} segundos**!"
+
+# Argumentos ausentes
+arg_error: "`⚠️` | Argumento inválido. Por favor, use %{text}"
+
+# Erro do Top.gg
+topgg_error_author: "❌ | Erro no Top.gg"
+topgg_error_desc: "Ocorreu uma exceção ao verificar seu voto no Top.gg, isso pode ser porque o Top.gg está fora do ar. Por favor, tente novamente em 5-10 minutos."
+topgg_vote_author: "❌ | Você ainda não votou"
+topgg_vote_desc: "Para usar este comando, você precisa votar neste bot!"
+topgg_vote_button: "Clique aqui para votar!"

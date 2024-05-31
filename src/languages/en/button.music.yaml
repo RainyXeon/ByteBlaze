@@ -28,3 +28,11 @@ previous_msg: "`⏮️` | Skipped to Previous **Song**!"
 previous_notfound: "`⚠️` | No Previous song was found!"
 # Shuffle
 shuffle_msg: "🔀 Shuffled the Queue"
+
+### All filter command!
+filter_on: "`✅` | %{name} filter is now **enable**!"
+filter_already: "`⚠️` | %{name} filter is already **enabled**!"
+
+### Reset command!
+reset_on: "`❌` | Filter has been **Reset**!"
+reset_already: "`⚠️` | Filter has already been **Reset**!"

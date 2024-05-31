@@ -1,10 +1,11 @@
 import { ApplicationCommandOptionType, Message } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
+import { RainlinkPlayer } from "../../rainlink/main.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 
 // Main code
 export default class implements Command {
@@ -38,7 +39,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
             .setColor(client.color),
         ],
       });
@@ -46,7 +47,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_already")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.music", "removetrack_already")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -54,7 +57,9 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(handler.language, "command.music", "removetrack_notfound")}`)
+            .setDescription(
+              `${client.i18n.get(handler.language, "command.music", "removetrack_notfound")}`
+            )
             .setColor(client.color),
         ],
       });
@@ -65,9 +70,9 @@ export default class implements Command {
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.getString(handler.language, "command.music", "removetrack_desc", {
-          name: this.getTitle(client, song),
-          duration: new ConvertTime().parse(player.position),
+        `${client.i18n.get(handler.language, "command.music", "removetrack_desc", {
+          name: getTitle(client, song),
+          duration: convertTime(player.position),
           request: String(song.requester),
         })}`
       )
@@ -95,12 +100,5 @@ export default class implements Command {
     });
 
     return handler.editReply({ embeds: [embed] });
-  }
-
-  getTitle(client: Manager, tracks: RainlinkTrack): string {
-    if (client.config.lavalink.AVOID_SUSPEND) return tracks.title;
-    else {
-      return `[${tracks.title}](${tracks.uri})`;
-    }
   }
 }

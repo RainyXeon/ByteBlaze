@@ -1,6 +1,5 @@
 import { Manager } from "../../manager.js";
 import { EmbedBuilder, Message, GuildMember, TextChannel } from "discord.js";
-import { ConvertTime } from "../../utilities/ConvertTime.js";
 import { GlobalInteraction } from "../../@types/Interaction.js";
 // Button Commands
 import { ButtonPrevious } from "./ButtonCommands/Previous.js";
@@ -9,7 +8,8 @@ import { ButtonStop } from "./ButtonCommands/Stop.js";
 import { ButtonLoop } from "./ButtonCommands/Loop.js";
 import { ButtonPause } from "./ButtonCommands/Pause.js";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { RainlinkTrack } from "../../rainlink/main.js";
+import { convertTime } from "../../utilities/ConvertTime.js";
+import { getTitle } from "../../utilities/GetTitle.js";
 const rateLimitManager = new RateLimitManager(2000);
 
 /**
@@ -36,7 +36,9 @@ export class PlayerContentLoader {
     if (!interaction.guild || interaction.user.bot) return;
     if (!interaction.isButton()) return;
     const { customId, member } = interaction;
-    let voiceMember = await interaction.guild.members.fetch((member as GuildMember)!.id).catch(() => undefined);
+    let voiceMember = await interaction.guild.members
+      .fetch((member as GuildMember)!.id)
+      .catch(() => undefined);
     let channel = voiceMember!.voice.channel;
 
     let player = client.rainlink.players.get(interaction.guild.id);
@@ -82,7 +84,9 @@ export class PlayerContentLoader {
 
     if (!database!.enable) return;
 
-    let channel = (await message.guild.channels.fetch(database!.channel).catch(() => undefined)) as TextChannel;
+    let channel = (await message.guild.channels
+      .fetch(database!.channel)
+      .catch(() => undefined)) as TextChannel;
     if (!channel) return;
 
     if (database!.channel != message.channel.id) return;
@@ -96,7 +100,9 @@ export class PlayerContentLoader {
 
     if (message.id !== database.playmsg) {
       const preInterval = setInterval(async () => {
-        const fetchedMessage = await message.channel.messages.fetch({ limit: 50 }).catch(() => undefined);
+        const fetchedMessage = await message.channel.messages
+          .fetch({ limit: 50 })
+          .catch(() => undefined);
         if (!fetchedMessage) {
           clearInterval(preInterval);
           return;
@@ -104,7 +110,7 @@ export class PlayerContentLoader {
         const final = fetchedMessage.filter((msg) => msg.id !== database?.playmsg);
         if (final.size > 0) (message.channel as TextChannel).bulkDelete(final).catch(() => {});
         else clearInterval(preInterval);
-      }, client.config.bot.DELETE_MSG_TIMEOUT);
+      }, client.config.utilities.DELETE_MSG_TIMEOUT);
     }
 
     if (message.author.bot) return;
@@ -123,7 +129,7 @@ export class PlayerContentLoader {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "error", "no_in_voice")}`)
+            .setDescription(`${client.i18n.get(language, "error", "no_in_voice")}`)
             .setColor(client.color),
         ],
       });
@@ -136,7 +142,7 @@ export class PlayerContentLoader {
       msg?.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.getString(language, "event.setup", "play_emoji")}`)
+            .setDescription(`${client.i18n.get(language, "event.setup", "play_emoji")}`)
             .setColor(client.color),
         ],
       });
@@ -150,14 +156,14 @@ export class PlayerContentLoader {
         textId: message.channel.id,
         shardId: message.guild.shardId,
         deaf: true,
-        volume: client.config.lavalink.DEFAULT_VOLUME ?? 100,
+        volume: client.config.player.DEFAULT_VOLUME,
       });
     else {
       if (message.member!.voice.channel !== message.guild!.members.me!.voice.channel) {
         msg?.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(`${client.getString(language, "error", "no_same_voice")}`)
+              .setDescription(`${client.i18n.get(language, "error", "no_same_voice")}`)
               .setColor(client.color),
           ],
         });
@@ -169,29 +175,33 @@ export class PlayerContentLoader {
     const tracks = result.tracks;
 
     if (!result.tracks.length) {
-      msg?.edit({
-        content: `${client.getString(language, "event.setup", "setup_content")}\n${`${client.getString(
-          language,
-          "event.setup",
-          "setup_content_empty"
-        )}`}`,
-      });
+      msg
+        ?.edit({
+          content: `${client.i18n.get(language, "event.setup", "setup_content")}\n${`${client.i18n.get(
+            language,
+            "event.setup",
+            "setup_content_empty"
+          )}`}`,
+        })
+        .catch(() => null);
       return;
     }
     if (result.type === "PLAYLIST") for (let track of tracks) player.queue.add(track);
     else if (player.playing && result.type === "SEARCH") player.queue.add(tracks[0]);
-    else if (player.playing && result.type !== "SEARCH") for (let track of tracks) player.queue.add(track);
+    else if (player.playing && result.type !== "SEARCH")
+      for (let track of tracks) player.queue.add(track);
     else player.queue.add(tracks[0]);
 
     const TotalDuration = player.queue.duration;
 
+    if (!player.playing) player.play();
+
     if (result.type === "PLAYLIST") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(language, "event.setup", "play_playlist", {
-            title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(TotalDuration),
+          `${client.i18n.get(language, "event.setup", "play_playlist", {
+            title: getTitle(client, result.tracks[0]),
+            duration: convertTime(TotalDuration),
             songs: `${result.tracks.length}`,
             request: `${result.tracks[0].requester}`,
           })}`
@@ -199,34 +209,25 @@ export class PlayerContentLoader {
         .setColor(client.color);
       msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "TRACK") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.getString(language, "event.setup", "play_track", {
-            title: getTitle(result.tracks),
-            duration: new ConvertTime().parse(result.tracks[0].duration as number),
+          `${client.i18n.get(language, "event.setup", "play_track", {
+            title: getTitle(client, result.tracks[0]),
+            duration: convertTime(result.tracks[0].duration as number),
             request: `${result.tracks[0].requester}`,
           })}`
         )
         .setColor(client.color);
       msg?.reply({ content: " ", embeds: [embed] });
     } else if (result.type === "SEARCH") {
-      if (!player.playing) player.play();
       const embed = new EmbedBuilder().setColor(client.color).setDescription(
-        `${client.getString(language, "event.setup", "play_result", {
-          title: getTitle(result.tracks),
-          duration: new ConvertTime().parse(result.tracks[0].duration as number),
+        `${client.i18n.get(language, "event.setup", "play_result", {
+          title: getTitle(client, result.tracks[0]),
+          duration: convertTime(result.tracks[0].duration as number),
           request: `${result.tracks[0].requester}`,
         })}`
       );
       msg?.reply({ content: " ", embeds: [embed] });
-    }
-
-    function getTitle(tracks: RainlinkTrack[]): string {
-      if (client.config.lavalink.AVOID_SUSPEND) return tracks[0].title;
-      else {
-        return `[${tracks[0].title}](${tracks[0].uri})`;
-      }
     }
 
     await client.UpdateQueueMsg(player);
