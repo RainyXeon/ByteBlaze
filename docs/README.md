@@ -1,3 +1,5 @@
+**[English](README.md)** | [Português (Brasil)](README_pt-BR.md)
+
 <br />
 <p align="center">
   <a href="https://github.com/RainyXeon/ByteBlaze">
