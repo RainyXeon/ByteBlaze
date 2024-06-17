@@ -1,5 +1,4 @@
 import { APIEmbedField, ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
-import moment from "moment";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { Manager } from "../../manager.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -103,10 +102,6 @@ export default class implements Command {
       return handler.editReply({ embeds: [embed] });
     }
 
-    const expires = moment(premium.expiresAt !== "lifetime" ? premium.expiresAt : 0).format(
-      "dddd, MMMM Do YYYY (HH:mm:ss)"
-    );
-
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${client.i18n.get(handler.language, "command.premium", "redeem_title")}`,
@@ -114,7 +109,10 @@ export default class implements Command {
       })
       .setDescription(
         `${client.i18n.get(handler.language, "command.premium", "redeem_desc", {
-          expires: premium.expiresAt !== "lifetime" ? expires : "lifetime",
+          expires:
+            premium.expiresAt !== "lifetime"
+              ? `<t:${(premium.expiresAt / 1000 ?? 0).toFixed()}:F>`
+              : "lifetime",
           plan: premium.plan,
         })}`
       )
@@ -170,7 +168,12 @@ export default class implements Command {
     if (!client.config.utilities.PREMIUM_LOG_CHANNEL) return;
     const language = client.config.bot.LANGUAGE;
 
-    const redeemedAt = premium ? premium.redeemedAt : guildPremium ? guildPremium.redeemedAt : 0;
+    const createdAt = (
+      (premium ? handler.user?.createdAt.getTime() : handler.guild?.createdAt.getTime()) / 1000
+    ).toFixed();
+    const redeemedAt = (
+      (premium ? premium.redeemedAt : guildPremium ? guildPremium.redeemedAt : 0) / 1000
+    ).toFixed();
     const expiresAt = premium ? premium.expiresAt : guildPremium ? guildPremium.expiresAt : 0;
     const plan = premium ? premium.plan : guildPremium ? guildPremium.plan : "dreamvast@error";
 
@@ -185,15 +188,15 @@ export default class implements Command {
       },
       {
         name: `${client.i18n.get(language, "event.premium", "createdAt")}`,
-        value: `${moment(premium ? handler.user?.createdAt.getTime() : handler.guild?.createdAt.getTime()).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
+        value: ` <t:${createdAt}:F>`,
       },
       {
         name: `${client.i18n.get(language, "event.premium", "redeemedAt")}`,
-        value: `${moment(redeemedAt).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
+        value: `<t:${redeemedAt}:F>`,
       },
       {
         name: `${client.i18n.get(language, "event.premium", "expiresAt")}`,
-        value: `${expiresAt == "lifetime" ? "lifetime" : moment(expiresAt).format("dddd, MMMM Do YYYY (HH:mm:ss)")}`,
+        value: `${expiresAt == "lifetime" ? "lifetime" : `<t:${(expiresAt / 1000).toFixed()}:F>`}`,
       },
       {
         name: `${client.i18n.get(language, "event.premium", "plan")}`,

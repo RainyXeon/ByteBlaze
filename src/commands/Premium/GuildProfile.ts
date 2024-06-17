@@ -1,5 +1,4 @@
 import { EmbedBuilder } from "discord.js";
-import moment from "moment";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -38,10 +37,6 @@ export default class implements Command {
       });
     }
 
-    const expires = moment(
-      PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0
-    ).format("dddd, MMMM Do YYYY (HH:mm:ss)");
-
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${client.i18n.get(handler.language, "command.premium", "guild_profile_author")}`,
@@ -51,7 +46,10 @@ export default class implements Command {
         `${client.i18n.get(handler.language, "command.premium", "guild_profile_desc", {
           guild: String(handler.guild?.name),
           plan: PremiumPlan!.plan,
-          expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,
+          expires:
+            PremiumPlan!.expiresAt == "lifetime"
+              ? "lifetime"
+              : `<t:${(PremiumPlan.expiresAt / 1000 ?? 0).toFixed()}:F>`,
         })}`
       )
       .setColor(client.color)

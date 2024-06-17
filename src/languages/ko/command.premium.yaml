@@ -1,17 +1,17 @@
 ### Generate command!
 gen_author: "프리미엄 키 생성!"
-gen_desc: "`🔑` | **생성됨!** `[%{codes_length}]`\n```%{codes}```\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
+gen_desc: "`🔑` | **생성됨!** `[%{codes_length}]`\n```%{codes}```\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** %{expires}"
 gen_footer: "프리미엄 코드 사용법 • %{prefix}redeem <code>"
 ### Profile command!
 profile_author: "프리미엄 프로필"
 profile_error_desc: "`⚠️` | **%{user}**는 프리미엄 사용자가 아니에요!"
-profile_desc: "`👤` | **사용자:** `%{user}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
+profile_desc: "`👤` | **사용자:** `%{user}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** %{expires}"
 ### Guild profile command!
 guild_profile_author: "Guild Premium Profile"
-guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
+guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** %{expires}"
 ### Redeem command!
 redeem_title: "프리미엄 키 사용"
-redeem_desc: "`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** `%{expires}`"
+redeem_desc: "`💰` | **플랜:** `%{plan}`\n`📅` | **사용기한:** %{expires}"
 redeem_already: "`⚠️` | 이미 프리미엄 사용자입니다!"
 redeem_invalid: "`⚠️` | 유효하지 않은 프리미엄 코드입니다. 유효한 코드를 사용해주세요!"
 redeem_invalid_mode: "`⚠️` | 유효하지 않은 프리미엄 사용 유형입니다. `guild` 또는 `user` 만 사용하세요."

@@ -1,5 +1,4 @@
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
-import moment from "moment";
 import voucher_codes from "voucher-code-generator";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
@@ -140,8 +139,7 @@ export default class implements Command {
           codes_length: String(codes.length),
           codes: codes.join("\n"),
           plan: String(plan),
-          expires:
-            time == "lifetime" ? "lifetime" : moment(time).format("dddd, MMMM Do YYYY (HH:mm:ss)"),
+          expires: time == "lifetime" ? "lifetime" : `<t:${(time / 1000 ?? 0).toFixed()}:F>`,
         })}`
       )
       .setTimestamp()

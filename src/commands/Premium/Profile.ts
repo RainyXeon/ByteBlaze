@@ -1,5 +1,4 @@
 import { ApplicationCommandOptionType, EmbedBuilder, User } from "discord.js";
-import moment from "moment";
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler, ParseMentionEnum } from "../../structures/CommandHandler.js";
@@ -56,10 +55,6 @@ export default class implements Command {
       });
     }
 
-    const expires = moment(
-      PremiumPlan && PremiumPlan.expiresAt !== "lifetime" ? PremiumPlan.expiresAt : 0
-    ).format("dddd, MMMM Do YYYY (HH:mm:ss)");
-
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${client.i18n.get(handler.language, "command.premium", "profile_author")}`,
@@ -69,7 +64,10 @@ export default class implements Command {
         `${client.i18n.get(handler.language, "command.premium", "profile_desc", {
           user: String(handler.user?.tag),
           plan: PremiumPlan!.plan,
-          expires: PremiumPlan!.expiresAt == "lifetime" ? "lifetime" : expires,
+          expires:
+            PremiumPlan!.expiresAt == "lifetime"
+              ? "lifetime"
+              : `<t:${(PremiumPlan.expiresAt / 1000 ?? 0).toFixed()}:F>`,
         })}`
       )
       .setColor(client.color)

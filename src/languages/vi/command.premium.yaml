@@ -1,20 +1,20 @@
 ### Lệnh Tạo!
 gen_author: "Tạo Mã Premium"
-gen_desc: "`🔑` | **Tạo mã thành công** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+gen_desc: "`🔑` | **Tạo mã thành công** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** %{expires}"
 gen_footer: "Sử dụng • %{prefix}redeem <code> để kích hoạt Premium"
 
 ### Lệnh Hồ sơ!
 profile_author: "Hồ sơ Premium"
 profile_error_desc: "`⚠️` | **%{user}** không phải là thành viên Premium!"
-profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+profile_desc: "`👤` | **Người dùng:** `%{user}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** %{expires}"
 
 ### Lệnh Hồ sơ Guild!
 guild_profile_author: "Hồ sơ Guild Premium"
-guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+guild_profile_desc: "`👤` | **Guild:** `%{guild}`\n`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** %{expires}"
 
 ### Lệnh Redeem!
 redeem_title: "Kích hoạt Premium"
-redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** `%{expires}`"
+redeem_desc: "`💰` | **Gói:** `%{plan}`\n`📅` | **Hết hạn vào ngày:** %{expires}"
 redeem_already: "`⚠️` | Bạn đã có tài khoản **Premium** rồi!"
 redeem_invalid: "`⚠️` | Mã không hợp lệ. Vui lòng thử lại hoặc sử dụng mã đúng!"
 redeem_invalid_mode: "`⚠️` | Chế độ kích hoạt Premium không hợp lệ! Vui lòng chỉ định là `guild` hoặc `user`!"
