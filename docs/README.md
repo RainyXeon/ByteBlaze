@@ -1,4 +1,4 @@
-**English** | [Português (Brasil)](README_pt-BR.md) | [Tiếng Việt](README_VI.md)
+**English** | [Português (Brasil)](README_pt-BR.md) | [Tiếng Việt](README_VI.md) | [ภาษาไทย**](README_TH.md)
 
 <br />
 <p align="center">
