@@ -77,6 +77,7 @@ export class RainlinkNodeManager extends RainlinkDatabase<RainlinkNode> {
   }
 
   protected debug(logs: string) {
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [NodeManager] | ${logs}`);
   }
 }

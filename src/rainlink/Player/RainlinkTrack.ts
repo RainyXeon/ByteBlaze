@@ -116,6 +116,7 @@ export class RainlinkTrack {
       return this;
     }
 
+    // @ts-ignore
     manager.emit(
       RainlinkEvents.Debug,
       `[Rainlink] / [Track] | Resolving ${this.source} track ${this.title}; Source: ${this.source}`

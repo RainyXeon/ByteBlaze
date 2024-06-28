@@ -16,6 +16,7 @@ export abstract class AbstractLibrary {
   protected ready(nodes: RainlinkNodeOptions[]): void {
     this.manager!.id = this.getId();
     this.manager!.shardCount = this.getShardCount();
+    // @ts-ignore
     this.manager!.emit(
       "debug",
       `[Rainlink] | Finished the initialization process | Registered ${this.manager!.plugins.size} plugins | Now connect all current nodes`

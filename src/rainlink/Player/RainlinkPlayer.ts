@@ -216,6 +216,7 @@ export class RainlinkPlayer extends EventEmitter {
     this.state = RainlinkPlayerState.DESTROYED;
     this.debug("Player destroyed at " + this.guildId);
     this.voiceId = "";
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.PlayerDestroy, this);
     this.sudoDestroy = false;
   }
@@ -256,9 +257,11 @@ export class RainlinkPlayer extends EventEmitter {
       });
 
     if (!resolveResult || (resolveResult && !resolveResult.isPlayable)) {
+      // @ts-ignore
       this.manager.emit(RainlinkEvents.TrackResolveError, this, current, errorMessage);
       this.debug(`Player ${this.guildId} resolve error: ${errorMessage}`);
       this.queue.current = null;
+      // @ts-ignore
       this.queue.size ? await this.play() : this.manager.emit(RainlinkEvents.QueueEmpty, this);
       return this;
     }
@@ -330,6 +333,7 @@ export class RainlinkPlayer extends EventEmitter {
     });
     this.paused = true;
     this.playing = false;
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.PlayerPause, this, this.queue.current);
     return this;
   }
@@ -349,6 +353,7 @@ export class RainlinkPlayer extends EventEmitter {
     });
     this.paused = false;
     this.playing = true;
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.PlayerResume, this, this.queue.current);
     return this;
   }
@@ -369,6 +374,7 @@ export class RainlinkPlayer extends EventEmitter {
     });
     this.paused = mode;
     this.playing = !mode;
+    // @ts-ignore
     this.manager.emit(
       mode ? RainlinkEvents.PlayerPause : RainlinkEvents.PlayerResume,
       this,
@@ -498,7 +504,9 @@ export class RainlinkPlayer extends EventEmitter {
         },
       },
     });
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current);
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.PlayerStop, this);
     return this;
   }
@@ -519,6 +527,7 @@ export class RainlinkPlayer extends EventEmitter {
     this.track = null;
     if (!this.data.get("sudo-destroy")) this.data.clear();
     this.position = 0;
+    // @ts-ignore
     if (emitEmpty) this.manager.emit(RainlinkEvents.QueueEmpty, this);
     return;
   }
@@ -546,6 +555,7 @@ export class RainlinkPlayer extends EventEmitter {
     this.voiceId = null;
     this.deaf = false;
     this.mute = false;
+    // @ts-ignore
     this.removeAllListeners();
     this.sendVoiceUpdate();
     this.voiceState = VoiceConnectState.DISCONNECTED;
@@ -575,6 +585,7 @@ export class RainlinkPlayer extends EventEmitter {
       this.manager.rainlinkOptions.options!.voiceConnectionTimeout
     );
     try {
+      // @ts-ignore
       const [status] = await RainlinkPlayer.once(this, "connectionUpdate", {
         signal: controller.signal,
       });
@@ -663,10 +674,12 @@ export class RainlinkPlayer extends EventEmitter {
   }
 
   protected debug(logs: string): void {
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Player @ ${this.guildId}] | ${logs}`);
   }
 
   protected debugDiscord(logs: string): void {
+    // @ts-ignore
     this.manager.emit(
       RainlinkEvents.Debug,
       `[Rainlink] / [Player @ ${this.guildId}] / [Voice] | ${logs}`
@@ -705,10 +718,12 @@ export class RainlinkPlayer extends EventEmitter {
    */
   public setServerUpdate(data: ServerUpdate): void {
     if (!data.endpoint) {
+      // @ts-ignore
       this.emit("connectionUpdate", VoiceState.SESSION_ENDPOINT_MISSING);
       return;
     }
     if (!this.sessionId) {
+      // @ts-ignore
       this.emit("connectionUpdate", VoiceState.SESSION_ID_MISSING);
       return;
     }
@@ -723,6 +738,7 @@ export class RainlinkPlayer extends EventEmitter {
     }
 
     this.serverUpdate = data;
+    // @ts-ignore
     this.emit("connectionUpdate", VoiceState.SESSION_READY);
     this.debugDiscord(`Server Update Received | Server: ${this.region} Guild: ${this.guildId}`);
   }

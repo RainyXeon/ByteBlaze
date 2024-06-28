@@ -87,6 +87,7 @@ export class RainlinkNode {
     this.clean(true);
     this.state = RainlinkConnectState.Connected;
     this.debug(`Node connected! URL: ${this.driver.wsUrl}`);
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.NodeConnect, this);
   }
 
@@ -126,6 +127,7 @@ export class RainlinkNode {
   /** @ignore */
   public wsErrorEvent(logs: Error) {
     this.debug(`Node errored! URL: ${this.driver.wsUrl}`);
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.NodeError, this, logs);
   }
 
@@ -134,6 +136,7 @@ export class RainlinkNode {
     this.online = false;
     this.state = RainlinkConnectState.Disconnected;
     this.debug(`Node disconnected! URL: ${this.driver.wsUrl}`);
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.NodeDisconnect, this, code, reason);
     if (
       !this.sudoDisconnect &&
@@ -149,6 +152,7 @@ export class RainlinkNode {
   }
 
   protected nodeClosed() {
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.NodeClosed, this);
     this.debug(`Node closed! URL: ${this.driver.wsUrl}`);
     this.clean();
@@ -186,6 +190,7 @@ export class RainlinkNode {
   }
 
   protected debug(logs: string) {
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [Node @ ${this.options.name}] | ${logs}`);
   }
 }

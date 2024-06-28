@@ -47,17 +47,20 @@ export class RainlinkPlugin extends Plugin {
     this.runningWs.set(voiceOptions.guildId, ws);
     ws.on("open", () => {
       this.debug("Connected to nodelink's voice receive server!");
+      // @ts-ignore
       this.manager?.emit(RainlinkEvents.VoiceConnect, node);
     });
     ws.on("message", (data) => this.wsMessageEvent(node, data));
     ws.on("error", (err) => {
       this.debug("Errored at nodelink's voice receive server!");
+      // @ts-ignore
       this.manager?.emit(RainlinkEvents.VoiceError, node, err);
     });
     ws.on("close", (code: number, reason: Buffer) => {
       this.debug(
         `Disconnected to nodelink's voice receive server! Code: ${code} Reason: ${reason}`
       );
+      // @ts-ignore
       this.manager?.emit(RainlinkEvents.VoiceDisconnect, node, code, reason);
       ws.removeAllListeners();
     });
@@ -79,6 +82,7 @@ export class RainlinkPlugin extends Plugin {
     this.debug(String(data));
     switch (wsData.type) {
       case "startSpeakingEvent": {
+        // @ts-ignore
         this.manager?.emit(
           RainlinkEvents.VoiceStartSpeaking,
           node,
@@ -88,6 +92,7 @@ export class RainlinkPlugin extends Plugin {
         break;
       }
       case "endSpeakingEvent": {
+        // @ts-ignore
         this.manager?.emit(
           RainlinkEvents.VoiceEndSpeaking,
           node,
@@ -115,7 +120,8 @@ export class RainlinkPlugin extends Plugin {
 
   private debug(logs: string) {
     this.manager
-      ? this.manager.emit(
+      ? // @ts-ignore
+        this.manager.emit(
           RainlinkEvents.Debug,
           `[Rainlink] / [Plugin] / [Voice Receiver] | ${logs}`
         )

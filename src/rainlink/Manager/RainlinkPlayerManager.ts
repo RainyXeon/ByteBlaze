@@ -47,9 +47,11 @@ export class RainlinkPlayerManager extends RainlinkDatabase<RainlinkPlayer> {
       player.sendServerUpdate();
     };
     await player.sendServerUpdate();
+    // @ts-ignore
     player.on("connectionUpdate", onUpdate);
     player.state = RainlinkPlayerState.CONNECTED;
     this.debug("Player created at " + options.guildId);
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.PlayerCreate, player);
     const voiceReceiver = this.manager.plugins.get("rainlink-voiceReceiver") as RainlinkPlugin;
     if (voiceReceiver && node.driver.id.includes("nodelink")) voiceReceiver.open(node, options);
@@ -67,6 +69,7 @@ export class RainlinkPlayerManager extends RainlinkDatabase<RainlinkPlayer> {
   }
 
   protected debug(logs: string) {
+    // @ts-ignore
     this.manager.emit(RainlinkEvents.Debug, `[Rainlink] / [PlayerManager] | ${logs}`);
   }
 }

@@ -112,6 +112,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
 
@@ -205,6 +206,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -290,6 +292,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -382,6 +385,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -466,6 +470,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      // @ts-ignore
       collector.removeAllListeners();
     });
 

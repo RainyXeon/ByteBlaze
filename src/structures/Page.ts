@@ -88,6 +88,7 @@ export class Page {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
 
@@ -159,6 +160,7 @@ export class Page {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;

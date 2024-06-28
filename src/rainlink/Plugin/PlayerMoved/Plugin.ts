@@ -62,7 +62,7 @@ export class RainlinkPlugin extends Plugin {
     else if (oldChannelId && newChannelId && oldChannelId !== newChannelId) state = "MOVED";
 
     if (state === "UNKNOWN") return;
-
+    // @ts-ignore
     this.rainlink.emit(RainlinkEvents.PlayerMoved, player, state, {
       oldChannelId,
       newChannelId,

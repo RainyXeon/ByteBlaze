@@ -658,6 +658,7 @@ export class Rainlink extends EventEmitter {
       }
     }
 
+    // @ts-ignore
     this.emit(
       RainlinkEvents.Debug,
       `[Rainlink] / [Search] | Searched ${query}; Track results: ${normalizedData.tracks.length}`
