@@ -12,6 +12,7 @@ no_in_voice: "`⚠️` | You are not in a voice channel!"
 no_same_voice: "`⚠️` | You are not in the same voice channel as me!"
 
 # No permission!
+user_no_perms: "`⚠️` | You do not have **%{perm}** permission to execute this command!"
 no_perms: "`⚠️` | I do not have **%{perm}** permission to execute this command!"
 no_perms_channel: "`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!"
 
