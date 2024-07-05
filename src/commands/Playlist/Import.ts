@@ -33,6 +33,8 @@ export default class implements Command {
 
     const value = handler.args[0] ? handler.args[0] : null;
 
+    let player = client.rainlink.players.get(handler.guild!.id);
+
     if (value == null)
       return handler.editReply({
         embeds: [
@@ -95,7 +97,7 @@ export default class implements Command {
         ],
       });
 
-    const player = await client.rainlink.create({
+    if (!player) player = await client.rainlink.create({
       guildId: handler.guild!.id,
       voiceId: handler.member!.voice.channel!.id,
       textId: handler.channel!.id,
@@ -103,6 +105,8 @@ export default class implements Command {
       deaf: true,
       volume: client.config.player.DEFAULT_VOLUME,
     });
+
+    player.textId = handler.channel!.id
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const res = await player.search(playlist.tracks![i].uri, {

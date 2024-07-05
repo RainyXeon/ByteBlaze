@@ -32,7 +32,7 @@ const ignored = [
 ];
 
 function logger(data, type) {
-  const text = String(data).replace(/(\r\n|\n|\r)/gm, " || ");
+  const text = String(data).replace(/(\r\n|\n)/gm, "");
   switch (type) {
     case "build":
       console.log(`BUILD - ${text}`);
