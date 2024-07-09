@@ -29,9 +29,7 @@ export class RainlinkPlayerEvents {
     if (player) {
       player.playing = true;
       player.paused = false;
-      // @ts-ignore
       manager.emit(RainlinkEvents.TrackStart, player, player.queue.current);
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Start] | ` + JSON.stringify(data)
@@ -45,13 +43,11 @@ export class RainlinkPlayerEvents {
     if (player) {
       // This event emits STOPPED reason when destroying, so return to prevent double emit
       if (player.state === RainlinkPlayerState.DESTROYED)
-        // @ts-ignore
         return manager.emit(
           RainlinkEvents.Debug,
           `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [End] | Player ${player.guildId} destroyed from end event`
         );
 
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [End] | ` +
@@ -63,15 +59,12 @@ export class RainlinkPlayerEvents {
       player.paused = true;
 
       if (data.reason === "replaced") {
-        // @ts-ignore
         return manager.emit(RainlinkEvents.TrackEnd, player, player.queue.current);
       }
       if (["loadFailed", "cleanup"].includes(data.reason)) {
         if (player.queue.current) player.queue.previous.push(player.queue.current);
         if (!player.queue.length && !player.sudoDestroy)
-          // @ts-ignore
           return manager.emit(RainlinkEvents.QueueEmpty, player);
-        // @ts-ignore
         manager.emit(RainlinkEvents.QueueEmpty, player, player.queue.current);
         player.queue.current = null;
         return player.play();
@@ -87,10 +80,8 @@ export class RainlinkPlayerEvents {
       player.queue.current = null;
 
       if (player.queue.length) {
-        // @ts-ignore
         manager.emit(RainlinkEvents.TrackEnd, player, currentSong);
       } else if (!player.queue.length && !player.sudoDestroy) {
-        // @ts-ignore
         return manager.emit(RainlinkEvents.QueueEmpty, player);
       } else return;
 
@@ -102,9 +93,7 @@ export class RainlinkPlayerEvents {
   protected TrackExceptionEvent(manager: Rainlink, data: Record<string, any>) {
     const player = manager.players.get(data.guildId);
     if (player) {
-      // @ts-ignore
       manager.emit(RainlinkEvents.PlayerException, player, data);
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Exception] | ` + JSON.stringify(data)
@@ -116,9 +105,7 @@ export class RainlinkPlayerEvents {
   protected TrackStuckEvent(manager: Rainlink, data: Record<string, any>) {
     const player = manager.players.get(data.guildId);
     if (player) {
-      // @ts-ignore
       manager.emit(RainlinkEvents.TrackStuck, player, data);
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Stuck] | ` + JSON.stringify(data)
@@ -130,9 +117,7 @@ export class RainlinkPlayerEvents {
   protected WebSocketClosedEvent(manager: Rainlink, data: Record<string, any>) {
     const player = manager.players.get(data.guildId);
     if (player) {
-      // @ts-ignore
       manager.emit(RainlinkEvents.PlayerWebsocketClosed, player, data);
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [WebsocketClosed] | ` +
@@ -146,12 +131,10 @@ export class RainlinkPlayerEvents {
     const player = manager.players.get(data.guildId);
     if (player) {
       player.position = Number(data.state.position);
-      // @ts-ignore
       manager.emit(
         RainlinkEvents.Debug,
         `[Rainlink] / [Player @ ${data.guildId}] / [Events] / [Updated] | ` + JSON.stringify(data)
       );
-      // @ts-ignore
       manager.emit(RainlinkEvents.PlayerUpdate, player, data);
     }
     return;
