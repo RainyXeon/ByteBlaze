@@ -24,7 +24,6 @@
 - TypeScript Language To Avoid Errors In Production
 - Advanced Music System With Buttons
 - Song Request Channel
-- Multi bot account support
 - 24/7 Mode
 - Multi Language
 - Slash Commands

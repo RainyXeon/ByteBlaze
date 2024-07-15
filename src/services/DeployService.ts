@@ -53,9 +53,7 @@ export class DeployService {
       "Reading interaction files completed, setting up REST..."
     );
 
-    const rest = new REST({ version: "10" }).setToken(
-      this.client.config.bot.TOKEN[this.client.clientIndex]
-    );
+    const rest = new REST({ version: "10" }).setToken(this.client.config.bot.TOKEN);
     const client = await rest.get(Routes.user());
 
     this.client.logger.info(

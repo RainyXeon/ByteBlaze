@@ -46,7 +46,7 @@ export default class implements Command {
       return;
     }
 
-    player.textId = handler.channel!.id
+    player.textId = handler.channel!.id;
 
     const embed = new EmbedBuilder()
       .setDescription(

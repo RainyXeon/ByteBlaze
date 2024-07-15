@@ -57,8 +57,8 @@ export class ConfigDataService {
       );
     if (!res.bot.TOKEN || res.bot.TOKEN.length == 0)
       throw new Error("Config file not contains TOKEN, please check app.example.yml for example");
-    if (!Array.isArray(res.bot.TOKEN))
-      throw new Error("TOKEN field not in array, please check app.example.yml for example");
+    if (typeof res.bot.TOKEN !== "string")
+      throw new Error("TOKEN field not in string, please check app.example.yml for example");
     if (!res.player.NODES || res.player.NODES.length == 0)
       throw new Error("Config file not contains NODES, please check app.example.yml for example");
   }
@@ -94,7 +94,7 @@ export class ConfigDataService {
   get defaultConfig(): Config {
     return {
       bot: {
-        TOKEN: [],
+        TOKEN: "",
         OWNER_ID: "",
         EMBED_COLOR: "#2B2D31",
         LANGUAGE: "en",

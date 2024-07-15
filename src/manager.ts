@@ -76,7 +76,6 @@ export class Manager extends Client {
 
   constructor(
     public config: Config,
-    public clientIndex: number,
     isMsgEnable: boolean
   ) {
     super({
@@ -102,7 +101,7 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    this.logger = new LoggerService(this, clientIndex);
+    this.logger = new LoggerService(this);
     this.metadata = new ManifestService().data.metadata.bot;
     this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
@@ -179,5 +178,6 @@ export class Manager extends Client {
     new DeployService(this);
     new initHandler(this);
     new DatabaseService(this);
+    super.login(this.config.bot.TOKEN);
   }
 }

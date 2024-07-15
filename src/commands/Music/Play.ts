@@ -83,7 +83,7 @@ export default class implements Command {
       return;
     }
 
-    player.textId = handler.channel!.id
+    player.textId = handler.channel!.id;
 
     const result = await player.search(value, { requester: handler.user });
     const tracks = result.tracks;

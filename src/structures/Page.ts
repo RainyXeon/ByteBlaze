@@ -52,7 +52,7 @@ export class Page {
     const collector = curPage.createMessageComponentCollector({
       filter: (m) => m.user.id === interaction.user.id,
       time: this.timeout,
-      componentType: ComponentType.Button
+      componentType: ComponentType.Button,
     });
 
     collector.on("collect", async (interaction) => {
@@ -127,7 +127,7 @@ export class Page {
       filter: (interaction) =>
         interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
-      componentType: ComponentType.Button
+      componentType: ComponentType.Button,
     });
 
     collector.on("collect", async (interaction) => {

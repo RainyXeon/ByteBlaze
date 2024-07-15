@@ -5,10 +5,10 @@
 # something: ${DATA}
 
 bot:
-  # You can add more than 1 token to clone the bot 
+  # You can add more than 1 token to clone the bot
   # Note that performance will be dreaded and you can't set each config for each cloned bot
   # Config data of each bot will be the same
-  TOKEN: ["Bot Token 1"]
+  TOKEN: "Bot Token 1"
   EMBED_COLOR: "#2B2D31"
   OWNER_ID: "Your User ID"
   ADMIN: ["<your_trusted_admin_discord_id_here>"]

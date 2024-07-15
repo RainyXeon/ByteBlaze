@@ -20,9 +20,9 @@ import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
 import { RainlinkFilter } from "./RainlinkFilter.js";
 
 export declare interface RainlinkPlayer {
-  on(event: "connectionUpdate", listener: (state: VoiceState) => void): this
-  emit(event: "connectionUpdate", args: VoiceState)
-  removeAllListeners(): void
+  on(event: "connectionUpdate", listener: (state: VoiceState) => void): this;
+  emit(event: "connectionUpdate", args: VoiceState);
+  removeAllListeners(): void;
 }
 
 export class RainlinkPlayer extends EventEmitter {

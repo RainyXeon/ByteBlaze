@@ -1,4 +1,4 @@
-[English](README.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md) 
+[English](README.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md)
 
 <br />
 <p align="center">
@@ -24,7 +24,6 @@
 - Linguagem TypeScript para Evitar Erros em Produção
 - Sistema de Música Avançado com Botões
 - Canal de Solicitação de Músicas
-- Suporte a Contas de Múltiplos Bots
 - Modo 24/7
 - Multi Linguagem
 - Comandos Slash
@@ -42,28 +41,28 @@
 
 ## 🎶 Fontes Suportadas
 
-|           Fonte de Música           | Sem Plugin Lavalink | Com Plugin Lavalink |
-| :---------------------------------: | :-----------------: | :-----------------: |
-|             YouTube                 |          ✅          |          ✅          |
-|            SoundCloud               |          ✅          |          ✅          |
-|           (LS) Spotify              |          ⚠️          |          ✅          |
-|               HTTP                  |          ✅          |          ✅          |
-|           (LS) Deezer               |          ⚠️          |          ✅          |
-|               Twitch                |          ✅          |          ✅          |
-|             Bandcamp                |          ✅          |          ✅          |
-|            Nicovideo                |          ⚠️          |          ⚠️          |
-|         (LS) Apple Music            |          ⚠️          |          ✅          |
-|        (LS) Yandex Music            |          ❌          |          ✅          |
-|         (LS) Flowery TTS            |          ❌          |          ✅          |
-|          (DB) Mixcloud              |          ❌          |          ✅          |
-|          (DB) OC ReMix              |          ❌          |          ✅          |
-|           (DB) Clyp.it              |          ❌          |          ✅          |
-|           (DB) Reddit               |          ❌          |          ✅          |
-|           (DB) GetYarn              |          ❌          |          ✅          |
-|       (DB) Text to Speech           |          ❌          |          ✅          |
-|        (DB) TikTok (BETA)           |          ❌          |          ✅          |
-| (DB) P\*\*nhub (Não recomendado)    |          ❌          |          ✅          |
-|          (DB) Soundgasm             |          ❌          |          ✅          |
+|         Fonte de Música          | Sem Plugin Lavalink | Com Plugin Lavalink |
+| :------------------------------: | :-----------------: | :-----------------: |
+|             YouTube              |         ✅          |         ✅          |
+|            SoundCloud            |         ✅          |         ✅          |
+|           (LS) Spotify           |         ⚠️          |         ✅          |
+|               HTTP               |         ✅          |         ✅          |
+|           (LS) Deezer            |         ⚠️          |         ✅          |
+|              Twitch              |         ✅          |         ✅          |
+|             Bandcamp             |         ✅          |         ✅          |
+|            Nicovideo             |         ⚠️          |         ⚠️          |
+|         (LS) Apple Music         |         ⚠️          |         ✅          |
+|        (LS) Yandex Music         |         ❌          |         ✅          |
+|         (LS) Flowery TTS         |         ❌          |         ✅          |
+|          (DB) Mixcloud           |         ❌          |         ✅          |
+|          (DB) OC ReMix           |         ❌          |         ✅          |
+|           (DB) Clyp.it           |         ❌          |         ✅          |
+|           (DB) Reddit            |         ❌          |         ✅          |
+|           (DB) GetYarn           |         ❌          |         ✅          |
+|       (DB) Text to Speech        |         ❌          |         ✅          |
+|        (DB) TikTok (BETA)        |         ❌          |         ✅          |
+| (DB) P\*\*nhub (Não recomendado) |         ❌          |         ✅          |
+|          (DB) Soundgasm          |         ❌          |         ✅          |
 
 - ✅ **Suporte completo com a configuração padrão do Lavalink**
 - ⚠️ **Suporta mas resolve do YouTube ou SoundCloud apenas**
