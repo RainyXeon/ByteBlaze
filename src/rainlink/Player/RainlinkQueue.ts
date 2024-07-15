@@ -65,7 +65,6 @@ export class RainlinkQueue extends Array<RainlinkTrack> {
 
     if (Array.isArray(track)) for (const t of track) this.push(t);
     else this.push(track);
-    // @ts-ignore
     this.manager.emit(RainlinkEvents.QueueAdd, this.player, this, track);
     return this;
   }
@@ -80,7 +79,6 @@ export class RainlinkQueue extends Array<RainlinkTrack> {
       throw new Error("Position must be between 0 and " + (this.length - 1));
     const track = this[position];
     this.splice(position, 1);
-    // @ts-ignore
     this.manager.emit(RainlinkEvents.QueueRemove, this.player, this, track);
     return this;
   }
@@ -91,7 +89,6 @@ export class RainlinkQueue extends Array<RainlinkTrack> {
       const j = Math.floor(Math.random() * (i + 1));
       [this[i], this[j]] = [this[j], this[i]];
     }
-    // @ts-ignore
     this.manager.emit(RainlinkEvents.QueueShuffle, this.player, this);
     return this;
   }
@@ -99,7 +96,6 @@ export class RainlinkQueue extends Array<RainlinkTrack> {
   /** Clear the queue */
   public clear(): RainlinkQueue {
     this.splice(0, this.length);
-    // @ts-ignore
     this.manager.emit(RainlinkEvents.QueueClear, this.player, this);
     return this;
   }

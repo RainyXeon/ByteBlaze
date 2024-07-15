@@ -312,8 +312,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
 
   private debug(logs: string) {
     this.manager
-      ? // @ts-ignore
-        this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Apple] | ${logs}`)
+      ?this.manager.emit(RainlinkEvents.Debug, `[Rainlink] -> [Plugin] -> [Apple] | ${logs}`)
       : true;
   }
 }
