@@ -35,7 +35,7 @@ export default class {
         },
         {
           name: `${client.i18n.get(language, "event.guild", "guild_creation_date")}`,
-          value: `${guild.createdAt}`,
+          value: `<t:${(guild.createdAt.getDate() / 1000).toFixed()}:F>`,
         },
         {
           name: `${client.i18n.get(language, "event.guild", "current_server_count")}`,

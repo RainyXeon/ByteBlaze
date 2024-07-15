@@ -228,7 +228,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "error", "no_perms", { perm: "ManageGuild" })}`
+              `${client.i18n.get(language, "error", "user_no_perms", { perm: "ManageGuild" })}`
             )
             .setColor(client.color),
         ],
@@ -263,7 +263,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(language, "error", "no_perms", { perm: "dreamvast@admin" })}`
+              `${client.i18n.get(language, "error", "user_no_perms", { perm: "dreamvast@admin" })}`
             )
             .setColor(client.color),
         ],

@@ -83,6 +83,7 @@ export default class implements Command {
   }
 
   protected parse(content: string): string[] | null {
+    // @ts-ignore
     const result = content.match(/^```(.*?)\n(.*?)```$/ms);
     return result ? result.slice(0, 3).map((el) => el.trim()) : null;
   }

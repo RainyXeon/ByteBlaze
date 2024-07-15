@@ -2,6 +2,7 @@
 // Special thanks to shipgirlproject team!
 
 import { RainlinkNodeOptions } from "../Interface/Manager.js";
+import { RainlinkEvents } from "../main.js";
 import { Rainlink } from "../Rainlink.js";
 export const AllowedPackets = ["VOICE_STATE_UPDATE", "VOICE_SERVER_UPDATE"];
 
@@ -17,7 +18,7 @@ export abstract class AbstractLibrary {
     this.manager!.id = this.getId();
     this.manager!.shardCount = this.getShardCount();
     this.manager!.emit(
-      "debug",
+      RainlinkEvents.Debug,
       `[Rainlink] | Finished the initialization process | Registered ${this.manager!.plugins.size} plugins | Now connect all current nodes`
     );
     for (const node of nodes) this.manager?.nodes.add(node);

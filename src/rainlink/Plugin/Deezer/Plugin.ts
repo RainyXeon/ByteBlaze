@@ -238,7 +238,8 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
 
   private debug(logs: string) {
     this.manager
-      ? this.manager.emit(RainlinkEvents.Debug, `[Rainlink Deezer Plugin]: ${logs}`)
+      ?
+        this.manager.emit(RainlinkEvents.Debug, `[Rainlink Deezer Plugin]: ${logs}`)
       : true;
   }
 }

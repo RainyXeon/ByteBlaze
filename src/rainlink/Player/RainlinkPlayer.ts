@@ -19,6 +19,12 @@ import { EventEmitter } from "node:events";
 import { RainlinkDatabase } from "../Utilities/RainlinkDatabase.js";
 import { RainlinkFilter } from "./RainlinkFilter.js";
 
+export declare interface RainlinkPlayer {
+  on(event: "connectionUpdate", listener: (state: VoiceState) => void): this
+  emit(event: "connectionUpdate", args: VoiceState)
+  removeAllListeners(): void
+}
+
 export class RainlinkPlayer extends EventEmitter {
   /**
    * Main manager class
@@ -259,6 +265,7 @@ export class RainlinkPlayer extends EventEmitter {
       this.manager.emit(RainlinkEvents.TrackResolveError, this, current, errorMessage);
       this.debug(`Player ${this.guildId} resolve error: ${errorMessage}`);
       this.queue.current = null;
+
       this.queue.size ? await this.play() : this.manager.emit(RainlinkEvents.QueueEmpty, this);
       return this;
     }
@@ -575,6 +582,7 @@ export class RainlinkPlayer extends EventEmitter {
       this.manager.rainlinkOptions.options!.voiceConnectionTimeout
     );
     try {
+      // @ts-ignore
       const [status] = await RainlinkPlayer.once(this, "connectionUpdate", {
         signal: controller.signal,
       });

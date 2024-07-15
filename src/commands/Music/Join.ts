@@ -46,6 +46,8 @@ export default class implements Command {
       return;
     }
 
+    player.textId = handler.channel!.id
+
     const embed = new EmbedBuilder()
       .setDescription(
         `${client.i18n.get(handler.language, "command.music", "join_msg", {

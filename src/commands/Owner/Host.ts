@@ -25,8 +25,8 @@ export default class implements Command {
 
     const total = os.totalmem() / 1024 / 1024;
     const used = process.memoryUsage().rss / 1024 / 1024;
-    const heapUsed = process.memoryUsage().heapUsed / 1024 / 1024
-    const heapTotal = process.memoryUsage().heapUsed / 1024 / 1024
+    const heapUsed = process.memoryUsage().heapUsed / 1024 / 1024;
+    const heapTotal = process.memoryUsage().heapUsed / 1024 / 1024;
 
     const hostInfo = stripIndents`\`\`\`
     - OS: ${os.type()} ${os.release()} (${os.arch()})
@@ -37,7 +37,7 @@ export default class implements Command {
     - ├── RSS: ${used.toFixed(2)} MB
     - ├── Used Heap: ${heapUsed.toFixed(2)} MB
     - ├── Total Heap: ${heapTotal.toFixed(2)} MB
-    - ├── Heap Usage: ${((heapUsed/heapTotal) * 100).toFixed(2)}%
+    - ├── Heap Usage: ${((heapUsed / heapTotal) * 100).toFixed(2)}%
     - └── External: ${(process.memoryUsage().external / 1024 / 1024).toFixed(2)} MB
     - Node.js: ${process.version}
     \`\`\``;

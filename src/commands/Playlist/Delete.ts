@@ -8,6 +8,7 @@ import {
 import { Manager } from "../../manager.js";
 import { Accessableby, Command } from "../../structures/Command.js";
 import { CommandHandler } from "../../structures/CommandHandler.js";
+import EventEmitter from "node:events";
 
 export default class implements Command {
   public name = ["pl", "delete"];
@@ -120,6 +121,7 @@ export default class implements Command {
         .setDescription(`${client.i18n.get(handler.language, "command.playlist", "delete_no")}`)
         .setColor(client.color);
       checkMsg ? checkMsg.edit({ embeds: [embed], components: [] }).catch(() => null) : true;
+      // @ts-ignore
       collector?.removeAllListeners();
     });
   }

@@ -248,10 +248,12 @@ export default class {
     });
 
     collector.on("end", (): void => {
+      // @ts-ignore
       collector.removeAllListeners();
     });
 
     collectorFilter.on("end", (): void => {
+      // @ts-ignore
       collectorFilter.removeAllListeners();
     });
   }

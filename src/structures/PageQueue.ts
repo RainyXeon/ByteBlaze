@@ -4,6 +4,7 @@ import {
   ButtonInteraction,
   ButtonStyle,
   CommandInteraction,
+  ComponentType,
   EmbedBuilder,
   Message,
 } from "discord.js";
@@ -62,9 +63,10 @@ export class PageQueue {
     });
     if (this.pages.length == 0) return;
 
-    const collector = await curPage.createMessageComponentCollector({
+    const collector = curPage.createMessageComponentCollector({
       filter: (m) => m.user.id === interaction.user.id,
       time: this.timeout,
+      componentType: ComponentType.Button
     });
 
     collector.on("collect", async (interaction) => {
@@ -112,6 +114,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
 
@@ -149,9 +152,10 @@ export class PageQueue {
     });
     if (this.pages.length == 0) return;
 
-    const collector = await curPage.createMessageComponentCollector({
+    const collector = curPage.createMessageComponentCollector({
       filter: (m) => m.user.id === interaction.user.id,
       time: this.timeout,
+      componentType: ComponentType.Button
     });
 
     collector.on("collect", async (interaction) => {
@@ -205,6 +209,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -241,10 +246,11 @@ export class PageQueue {
     });
     if (this.pages.length == 0) return;
 
-    const collector = await curPage.createMessageComponentCollector({
+    const collector = curPage.createMessageComponentCollector({
       filter: (interaction) =>
         interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
+      componentType: ComponentType.Button
     });
 
     collector.on("collect", async (interaction) => {
@@ -290,6 +296,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -325,10 +332,11 @@ export class PageQueue {
     });
     if (this.pages.length == 0) return;
 
-    const collector = await curPage.createMessageComponentCollector({
+    const collector = curPage.createMessageComponentCollector({
       filter: (interaction) =>
         interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
+      componentType: ComponentType.Button
     });
 
     collector.on("collect", async (interaction) => {
@@ -382,6 +390,7 @@ export class PageQueue {
           components: [disabled],
         })
         .catch(() => null);
+      // @ts-ignore
       collector.removeAllListeners();
     });
     return curPage;
@@ -420,9 +429,10 @@ export class PageQueue {
     });
     if (this.pages.length == 0) return;
 
-    const collector = await curPage.createMessageComponentCollector({
+    const collector = curPage.createMessageComponentCollector({
       filter: (m) => m.user.id === interaction.user.id,
       time: this.timeout,
+      componentType: ComponentType.Button
     });
 
     collector.on("collect", async (interaction) => {
@@ -466,6 +476,7 @@ export class PageQueue {
         ],
         components: [disabled],
       });
+      // @ts-ignore
       collector.removeAllListeners();
     });
 
