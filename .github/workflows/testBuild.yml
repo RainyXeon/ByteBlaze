@@ -47,4 +47,4 @@ jobs:
         run: pnpm install
 
       - name: Test building bot
-        run: node build.mjs build:github
+        run: node scripts/build.mjs build:github
