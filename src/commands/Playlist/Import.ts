@@ -97,16 +97,17 @@ export default class implements Command {
         ],
       });
 
-    if (!player) player = await client.rainlink.create({
-      guildId: handler.guild!.id,
-      voiceId: handler.member!.voice.channel!.id,
-      textId: handler.channel!.id,
-      shardId: handler.guild?.shardId ?? 0,
-      deaf: true,
-      volume: client.config.player.DEFAULT_VOLUME,
-    });
+    if (!player)
+      player = await client.rainlink.create({
+        guildId: handler.guild!.id,
+        voiceId: handler.member!.voice.channel!.id,
+        textId: handler.channel!.id,
+        shardId: handler.guild?.shardId ?? 0,
+        deaf: true,
+        volume: client.config.player.DEFAULT_VOLUME,
+      });
 
-    player.textId = handler.channel!.id
+    player.textId = handler.channel!.id;
 
     for (let i = 0; i < playlist.tracks!.length; i++) {
       const res = await player.search(playlist.tracks![i].uri, {

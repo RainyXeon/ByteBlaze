@@ -24,7 +24,6 @@
 - Sử dụng TypeScript để tránh lỗi vặt nhiều nhất có thể
 - Hệ thống điều khiển nhạc mở rộng với nút bấm
 - Kênh thêm nhạc tự động
-- Hỗ trợ chạy nhiều bot cùng một lúc
 - Hỗ trợ Chế độ 24/7
 - Hỗ trợ nhiều ngôn ngữ
 - Hỗ trợ lệnh gạch chéo (Slash Commands)

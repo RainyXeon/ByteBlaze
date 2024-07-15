@@ -456,7 +456,7 @@ export declare interface Rainlink {
   ////// ------------------------- Voice Event ------------------------- /////
   // ------------------------- OFF EVENT ------------------------- //
   /** @ignore */
-  emit(event: (typeof RainlinkEvents)[keyof typeof RainlinkEvents], ...args: unknown[]): this
+  emit(event: (typeof RainlinkEvents)[keyof typeof RainlinkEvents], ...args: unknown[]): this;
 }
 
 export class Rainlink extends EventEmitter {

@@ -218,8 +218,7 @@ export class RainlinkPlugin extends SourceRainlinkPlugin {
 
   private debug(logs: string) {
     this.rainlink
-      ?
-        this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink Nico Plugin]: ${logs}`)
+      ? this.rainlink.emit(RainlinkEvents.Debug, `[Rainlink Nico Plugin]: ${logs}`)
       : true;
   }
 }

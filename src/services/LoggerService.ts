@@ -14,10 +14,7 @@ type InfoDataType = {
 export class LoggerService {
   private preLog: Logger;
   private padding = 28;
-  constructor(
-    private client: Manager,
-    private tag: number
-  ) {
+  constructor(private client: Manager) {
     this.preLog = createLogger({
       levels: {
         error: 0,
@@ -104,12 +101,11 @@ export class LoggerService {
   private get consoleFormat() {
     const colored = chalk.hex("#86cecb")("|");
     const timeStamp = (info: InfoDataType) => chalk.hex("#00ddc0")(info.timestamp);
-    const botTag = chalk.hex("#2aabf3")(`bot_${this.tag}`);
     const msg = (info: InfoDataType) => chalk.hex("#86cecb")(info.message);
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${timeStamp(info)} ${colored} ${botTag} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
+        return `${timeStamp(info)} ${colored} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
       })
     );
   }

@@ -84,7 +84,7 @@ export default class implements Command {
         deaf: true,
         volume: client.config.player.DEFAULT_VOLUME,
       });
-    player.textId = handler.channel!.id
+    player.textId = handler.channel!.id;
     const result = await player.search(file.url, {
       requester: handler.user,
     });

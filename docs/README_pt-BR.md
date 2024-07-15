@@ -24,7 +24,6 @@
 - Linguagem TypeScript para Evitar Erros em Produção
 - Sistema de Música Avançado com Botões
 - Canal de Solicitação de Músicas
-- Suporte a Contas de Múltiplos Bots
 - Modo 24/7
 - Multi Linguagem
 - Comandos Slash
