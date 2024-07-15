@@ -41,28 +41,28 @@
 
 ## 🎶 Các dịch vụ phát nhạc trực tuyến được hỗ trợ
 
-| Dịch vụ                          | Không sử dụng plugin của lavalink  | Sử dụng plugin của lavalink |
-| :------------------------------: | :--------------------------------: | :-------------------------: |
-|             YouTube              | ✅                                 | ✅                         |
-|            SoundCloud            | ✅                                 | ✅                         |
-|           (LS) Spotify           | ⚠️                                 | ✅                         |
-|               HTTP               | ✅                                 | ✅                         |
-|           (LS) Deezer            | ⚠️                                 | ✅                         |
-|              Twitch              | ✅                                 | ✅                         |
-|             Bandcamp             | ✅                                 | ✅                         |
-|            Nicovideo             | ⚠️                                 | ⚠️                         |
-|         (LS) Apple Music         | ⚠️                                 | ✅                         |
-|        (LS) Yandex Music         | ❌                                 | ✅                         |
-|         (LS) Flowery TTS         | ❌                                 | ✅                         |
-|          (DB) Mixcloud           | ❌                                 | ✅                         |
-|          (DB) OC ReMix           | ❌                                 | ✅                         |
-|           (DB) Clyp.it           | ❌                                 | ✅                         |
-|           (DB) Reddit            | ❌                                 | ✅                         |
-|           (DB) GetYarn           | ❌                                 | ✅                         |
-|       (DB) Text to Speech        | ❌                                 | ✅                         |
-|        (DB) TikTok (BETA)        | ❌                                 | ✅                         |
-| (DB) P\*\*nhub (Not recommended) | ❌                                 | ✅                         |
-|          (DB) Soundgasm          | ❌                                 | ✅                         |
+|             Dịch vụ              | Không sử dụng plugin của lavalink | Sử dụng plugin của lavalink |
+| :------------------------------: | :-------------------------------: | :-------------------------: |
+|             YouTube              |                ✅                 |             ✅              |
+|            SoundCloud            |                ✅                 |             ✅              |
+|           (LS) Spotify           |                ⚠️                 |             ✅              |
+|               HTTP               |                ✅                 |             ✅              |
+|           (LS) Deezer            |                ⚠️                 |             ✅              |
+|              Twitch              |                ✅                 |             ✅              |
+|             Bandcamp             |                ✅                 |             ✅              |
+|            Nicovideo             |                ⚠️                 |             ⚠️              |
+|         (LS) Apple Music         |                ⚠️                 |             ✅              |
+|        (LS) Yandex Music         |                ❌                 |             ✅              |
+|         (LS) Flowery TTS         |                ❌                 |             ✅              |
+|          (DB) Mixcloud           |                ❌                 |             ✅              |
+|          (DB) OC ReMix           |                ❌                 |             ✅              |
+|           (DB) Clyp.it           |                ❌                 |             ✅              |
+|           (DB) Reddit            |                ❌                 |             ✅              |
+|           (DB) GetYarn           |                ❌                 |             ✅              |
+|       (DB) Text to Speech        |                ❌                 |             ✅              |
+|        (DB) TikTok (BETA)        |                ❌                 |             ✅              |
+| (DB) P\*\*nhub (Not recommended) |                ❌                 |             ✅              |
+|          (DB) Soundgasm          |                ❌                 |             ✅              |
 
 - ✅ **Hỗ trợ hoàn toàn với tùy chỉnh mặc định của lavalink**
 - ⚠️ **Hộ trợ nhưng phải lấy nguồn từ YouTube hoặc SoundCloud**

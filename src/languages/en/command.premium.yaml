@@ -2,6 +2,8 @@
 gen_author: "Generate Premium Code"
 gen_desc: "`🔑` | **Code Created Successfully** `[%{codes_length}]`\n```%{codes}```\n`💰` | **Plan:** ***%{plan}***\n`📅` | **Expires At:** %{expires}"
 gen_footer: "Use • %{prefix}redeem <code> to activate premium"
+gen_success: "`🔑` | Successfully generate redeem code, please check your DM"
+gen_failed: "`❌` | Generate redeem code failed, please check if your DM opened"
 
 ### Comando Profile!
 profile_author: "Premium Profile"

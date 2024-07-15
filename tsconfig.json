@@ -2,7 +2,7 @@
   "include": ["src/**/*"],
   "ts-node": {
     "esm": true,
-    "experimentalSpecifierResolution": "node",
+    "experimentalSpecifierResolution": "node"
   },
   "compilerOptions": {
     "target": "es6",
@@ -16,6 +16,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "declaration": false,
-    "declarationMap": false,
-  },
+    "declarationMap": false
+  }
 }
