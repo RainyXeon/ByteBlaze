@@ -105,7 +105,7 @@ export class LoggerService {
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${timeStamp(info)} ${colored} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
+        return `${timeStamp(info)} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`;
       })
     );
   }
