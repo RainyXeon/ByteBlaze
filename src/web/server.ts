@@ -11,6 +11,7 @@ export class WebServer {
   constructor(private client: Manager) {
     this.app = Fastify({
       logger: false,
+      host: "0.0.0.0"
     });
 
     this.app.register(
