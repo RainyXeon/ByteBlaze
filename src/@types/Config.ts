@@ -52,6 +52,7 @@ export interface Commands {
 }
 
 export interface WebServer {
+  host: string,
   enable: boolean;
   port: number;
   auth: string;

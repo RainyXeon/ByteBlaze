@@ -10,8 +10,7 @@ export class WebServer {
   app: Fastify.FastifyInstance;
   constructor(private client: Manager) {
     this.app = Fastify({
-      logger: false,
-      host: "0.0.0.0"
+      logger: false
     });
 
     this.app.register(
@@ -75,7 +74,7 @@ export class WebServer {
     const port = this.client.config.utilities.WEB_SERVER.port;
 
     this.app
-      .listen(port, "0.0.0.0")
+      .listen({ port, host: this.client.config.utilities.WEB_SERVER.host })
       .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
       .catch((err) => {
         if (this.client.config.bot.TOKEN.length > 1) {

@@ -138,6 +138,7 @@ export class ConfigDataService {
           retryTimeout: 3000,
         },
         WEB_SERVER: {
+          host: "0.0.0.0",
           enable: false,
           port: 2880,
           auth: "youshallnotpass",
