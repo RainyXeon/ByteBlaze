@@ -158,6 +158,8 @@ Version numbers can come in different combinations, depending on the release typ
   - [@SillyDark](https://github.com/SillyDark) **Discord:** `defectsocute`
 - [x] **pt (Brazilian Portuguese)**
   - [@psycodeliccircus](https://github.com/psycodeliccircus) **Discord:** `renildomrc`
+- [x] **es (Spanish)**
+  - [@CodeFlow](https://crowdin.com/profile/codeflow) **Discord:** `codef1ow`
 
 ## ⁉ Become to translate team?
 
