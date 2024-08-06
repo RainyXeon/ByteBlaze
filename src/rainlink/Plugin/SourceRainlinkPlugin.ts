@@ -1,5 +1,5 @@
-import { RainlinkSearchOptions, RainlinkSearchResult } from "../Interface/Manager.js";
-import { RainlinkPlugin } from "./RainlinkPlugin.js";
+import { RainlinkSearchOptions, RainlinkSearchResult } from '../Interface/Manager.js'
+import { RainlinkPlugin } from './RainlinkPlugin.js'
 
 /** The interface class for track resolver plugin, extend it to use */
 export class SourceRainlinkPlugin extends RainlinkPlugin {
@@ -9,7 +9,7 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
    * @returns string
    */
   public sourceName(): string {
-    throw new Error("Source plugin must implement sourceName() and return as string");
+    throw new Error('Source plugin must implement sourceName() and return as string')
   }
 
   /**
@@ -18,7 +18,7 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
    * @returns string
    */
   public sourceIdentify(): string {
-    throw new Error("Source plugin must implement sourceIdentify() and return as string");
+    throw new Error('Source plugin must implement sourceIdentify() and return as string')
   }
 
   /**
@@ -26,9 +26,9 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
    * @returns boolean
    */
   public directSearchChecker(query: string): boolean {
-    const directSearchRegex = /directSearch=(.*)/;
-    const isDirectSearch = directSearchRegex.exec(query);
-    return isDirectSearch == null;
+    const directSearchRegex = /directSearch=(.*)/
+    const isDirectSearch = directSearchRegex.exec(query)
+    return isDirectSearch == null
   }
 
   /**
@@ -41,6 +41,6 @@ export class SourceRainlinkPlugin extends RainlinkPlugin {
     query: string,
     options?: RainlinkSearchOptions
   ): Promise<RainlinkSearchResult> {
-    throw new Error("Source plugin must implement sourceIdentify() and return as string");
+    throw new Error('Source plugin must implement sourceIdentify() and return as string')
   }
 }

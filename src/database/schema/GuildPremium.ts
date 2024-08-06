@@ -1,13 +1,13 @@
 export interface GuildPremium {
-  id: string;
-  isPremium: boolean;
+  id: string
+  isPremium: boolean
   redeemedBy: {
-    id: string;
-    name: string;
-    createdAt: number;
-    ownerId: string;
-  };
-  redeemedAt: number;
-  expiresAt: number | "lifetime";
-  plan: string;
+    id: string
+    name: string
+    createdAt: number
+    ownerId: string
+  }
+  redeemedAt: number
+  expiresAt: number | 'lifetime'
+  plan: string
 }

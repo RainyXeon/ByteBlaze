@@ -1,99 +1,99 @@
-import { ApplicationCommandOptionType, EmbedBuilder, Message } from "discord.js";
-import humanizeDuration from "humanize-duration";
-import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
+import { ApplicationCommandOptionType, EmbedBuilder, Message } from 'discord.js'
+import humanizeDuration from 'humanize-duration'
+import { Manager } from '../../manager.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
-  public name = ["pl", "info"];
-  public description = "Check the playlist infomation";
-  public category = "Playlist";
-  public accessableby = [Accessableby.Member];
-  public usage = "<playlist_id>";
-  public aliases = [];
-  public lavalink = true;
-  public playerCheck = false;
-  public usingInteraction = true;
-  public sameVoiceCheck = false;
-  public permissions = [];
+  public name = ['pl', 'info']
+  public description = 'Check the playlist infomation'
+  public category = 'Playlist'
+  public accessableby = [Accessableby.Member]
+  public usage = '<playlist_id>'
+  public aliases = []
+  public lavalink = true
+  public playerCheck = false
+  public usingInteraction = true
+  public sameVoiceCheck = false
+  public permissions = []
 
   public options = [
     {
-      name: "id",
-      description: "The id of the playlist",
+      name: 'id',
+      description: 'The id of the playlist',
       type: ApplicationCommandOptionType.String,
       required: true,
     },
-  ];
+  ]
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const value = handler.args[0] ? handler.args[0] : null;
+    const value = handler.args[0] ? handler.args[0] : null
 
     if (value == null)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, 'command.playlist', 'invalid')}`)
             .setColor(client.color),
         ],
-      });
+      })
 
-    const info = await client.db.playlist.get(value);
+    const info = await client.db.playlist.get(value)
 
     if (!info)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "command.playlist", "invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, 'command.playlist', 'invalid')}`)
             .setColor(client.color),
         ],
-      });
+      })
 
     const created = humanizeDuration(Date.now() - Number(info.created), {
       largest: 1,
-    });
+    })
 
-    const name = await client.users.fetch(info.owner);
+    const name = await client.users.fetch(info.owner)
 
     const embed = new EmbedBuilder()
       .setTitle(info.name)
       .addFields([
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_owner")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_owner')}`,
           value: `${name.username}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_id")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_id')}`,
           value: `${info.id}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_des")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_des')}`,
           value: `${
-            info.description === null || info.description === "null"
-              ? client.i18n.get(handler.language, "command.playlist", "no_des")
+            info.description === null || info.description === 'null'
+              ? client.i18n.get(handler.language, 'command.playlist', 'no_des')
               : info.description
           }`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_private")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_private')}`,
           value: `${
             info.private
-              ? client.i18n.get(handler.language, "command.playlist", "public")
-              : client.i18n.get(handler.language, "command.playlist", "private")
+              ? client.i18n.get(handler.language, 'command.playlist', 'public')
+              : client.i18n.get(handler.language, 'command.playlist', 'private')
           }`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_created")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_created')}`,
           value: `${created}`,
         },
         {
-          name: `${client.i18n.get(handler.language, "command.playlist", "info_total")}`,
+          name: `${client.i18n.get(handler.language, 'command.playlist', 'info_total')}`,
           value: `${info.tracks!.length}`,
         },
       ])
-      .setColor(client.color);
-    handler.editReply({ embeds: [embed] });
+      .setColor(client.color)
+    handler.editReply({ embeds: [embed] })
   }
 }

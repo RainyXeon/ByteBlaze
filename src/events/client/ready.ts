@@ -1,9 +1,9 @@
-import { Manager } from "../../manager.js";
-import { TopggService } from "../../services/TopggService.js";
+import { Manager } from '../../manager.js'
+import { TopggService } from '../../services/TopggService.js'
 
 export default class {
   async execute(client: Manager) {
-    client.logger.info("ClientReady", `Logged in ${client.user!.tag}`);
+    client.logger.info('ClientReady', `Logged in ${client.user!.tag}`)
 
     client.user!.setPresence({
       activities: [
@@ -12,15 +12,15 @@ export default class {
           type: 2,
         },
       ],
-      status: "online",
-    });
+      status: 'online',
+    })
 
     if (client.config.utilities.TOPGG_TOKEN && client.config.utilities.TOPGG_TOKEN.length !== 0) {
-      const topgg = new TopggService(client);
-      const res = await topgg.settingUp(String(client.user?.id));
+      const topgg = new TopggService(client)
+      const res = await topgg.settingUp(String(client.user?.id))
       if (res) {
-        client.topgg = topgg;
-        client.topgg.startInterval();
+        client.topgg = topgg
+        client.topgg.startInterval()
       }
     }
   }

@@ -1,40 +1,40 @@
-import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { PlayerButton } from "../@types/Button.js";
-import { Manager } from "../manager.js";
-import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
-import { RainlinkPlayer } from "../rainlink/main.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from 'discord.js'
+import { PlayerButton } from '../@types/Button.js'
+import { Manager } from '../manager.js'
+import { ReplyInteractionService } from '../services/ReplyInteractionService.js'
+import { RainlinkPlayer } from '../rainlink/main.js'
 
 export default class implements PlayerButton {
-  name = "replay";
+  name = 'replay'
   async run(
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
     player: RainlinkPlayer,
     nplaying: Message<boolean>,
-    collector: InteractionCollector<ButtonInteraction<"cached">>
+    collector: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
     if (!player) {
-      collector.stop();
+      collector.stop()
     }
-    const previousIndex = player.queue.previous.length - 1;
+    const previousIndex = player.queue.previous.length - 1
 
     if (player.queue.previous.length == 0 || previousIndex === -1)
       return new ReplyInteractionService(
         client,
         message,
-        `${client.i18n.get(language, "button.music", "previous_notfound")}`
-      );
+        `${client.i18n.get(language, 'button.music', 'previous_notfound')}`
+      )
 
-    player.previous();
+    player.previous()
 
-    player.data.set("endMode", "previous");
+    player.data.set('endMode', 'previous')
 
     new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "button.music", "previous_msg")}`
-    );
-    return;
+      `${client.i18n.get(language, 'button.music', 'previous_msg')}`
+    )
+    return
   }
 }

@@ -1,11 +1,11 @@
-import { User } from "discord.js";
-import { Manager } from "../../manager.js";
-import { RainlinkPlayer } from "../../rainlink/main.js";
+import { User } from 'discord.js'
+import { Manager } from '../../manager.js'
+import { RainlinkPlayer } from '../../rainlink/main.js'
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
-    const song = player.queue.current;
-    const requesterQueue = song!.requester as User;
+    const song = player.queue.current
+    const requesterQueue = song!.requester as User
 
     const currentData = {
       title: song!.title,
@@ -21,12 +21,12 @@ export default class {
             defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
           }
         : null,
-    };
+    }
 
     client.wsl.get(player.guildId)?.send({
-      op: "trackStart",
+      op: 'trackStart',
       guild: player.guildId,
       data: currentData,
-    });
+    })
   }
 }

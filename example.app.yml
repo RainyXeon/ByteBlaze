@@ -10,15 +10,15 @@ bot:
   # You can add more than 1 token to clone the bot
   # Note that performance will be dreaded and you can't set each config for each cloned bot
   # Config data of each bot will be the same
-  TOKEN: "Bot Token 1"
-  OWNER_ID: "Your User ID"
+  TOKEN: 'Bot Token 1'
+  OWNER_ID: 'Your User ID'
 
 player:
   NODES:
-    - host: "IP"
+    - host: 'IP'
       port: 2333 # Your host port here
-      name: "Name" #only a-z A-Z 0-9 and _
-      auth: "Password"
+      name: 'Name' #only a-z A-Z 0-9 and _
+      auth: 'Password'
       secure: false
       # In rainlink, it support lavalink v3, lavalink v4 and nodelink v2 as driver
       # If you put the wrong driver identify here or not put anything here,
@@ -29,4 +29,4 @@ player:
       # | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
       # | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
       # | Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
-      driver: "lavalink@4"
+      driver: 'lavalink@4'
