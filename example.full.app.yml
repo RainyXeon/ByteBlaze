@@ -108,6 +108,7 @@ utilities:
 
   # WS/REST server for using web player
   WEB_SERVER:
+    host: "0.0.0.0"
     enable: false
     port: 3000
     whitelist: [] # Example: ["lavalink.dev"]

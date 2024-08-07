@@ -1,0 +1,30 @@
+queue_author: "💾 %{guild}"
+queue_description: "`📀` | Actualmente reproduciendo:\n**%{track}** `[%{duration}]` • %{requester}\n\n`💤` | Resto de la fila:**%{list_song}**"
+queue_footer: "Página • %{page}/%{pages} | Canción • %{queue_lang} | Duración total • %{total_duration}"
+#Pause
+pause_msg: "`⏸️` | ¡Pausó al **Jugador**!"
+resume_msg: "`▶️` | ¡Reanudó al **Jugador**!"
+#Skip
+skip_msg: "`⏭️` | ¡Se saltó la **canción**!"
+skip_notfound: "`⚠️` | ¡No se encontró ninguna canción para Saltar!"
+#Stop
+stop_msg: "`⏹️` | ¡Detenido el **Jugador**!"
+#Volume
+volup_msg: "`🔊` | Volúmen cambiado a **%{volume}%**"
+voldown_msg: "`🔉` | Volúmen cambiado a **%{volume}%**"
+volume_invalid: "`⚠️` | Volumen inválido. Por favor usa un número entre **1** y **100**!"
+volume_max: "`⚠️` | ¡El jugador ya está al volumen máximo!"
+volume_min: "`⚠️` | ¡El jugador ya tiene el volumen mínimo!"
+#Clear
+clear_msg: "`🗑️` | ¡La cola ha sido **limpiada**!"
+#Loop
+loop_current: "`🔁` | Bucle actual **Canción**!"
+loop_all: "`🔁` | Bucle **Cola**!"
+unloop_all: "`❌` | Bucle ahora está **Desactivado**!"
+loop_invalid: "`⚠️` | Modo bucle inválido. Por favor usa %{mode}!"
+loop_already: "`⚠️` | ¡El modo bucle ya es **%{mode}**!"
+#Previous
+previous_msg: "`⏮️` | ¡Saltó a la **Canción Anterior**!"
+previous_notfound: "`⚠️` | ¡No se encontró ninguna canción anterior!"
+#Shuffle
+shuffle_msg: "🔀 Mezclada la Cola"

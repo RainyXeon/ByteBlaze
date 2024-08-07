@@ -1,0 +1,36 @@
+### Generate command!
+gen_author: "Generar Premium"
+gen_desc: "🔑 | **Generado** `[%{codes_length}]`\n```%{codes}```\n💰 | **Plan:** `%{plan}`\n📅 | **Caduca:** `%{expires}`"
+gen_footer: "Canjear Premium • %{prefix}canjear <code>\n"
+### Profile command!
+profile_author: "Perfil Premium"
+profile_error_desc: "`⚠️` | **%{user}** ¡No es un usuario Premium!"
+profile_desc: "`👤` | **Usuario:** `%{user}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expira:** `%{expires}`"
+### Guild profile command!
+guild_profile_author: "Perfil Premium del Servidor"
+guild_profile_desc: "`👤` | **Servidor:** `%{guild}`\n`💰` | **Plan:** `%{plan}`\n`📅` | **Expira:** `%{expires}`"
+### Redeem command!
+redeem_title: "Canjear Premium"
+redeem_desc: "`💰` | **Plan:** `%{plan}`\n`📅` | **Expira:** `%{expires}"
+redeem_already: "`⚠️` | ¡Ya eres un **Usuario Premium**!"
+redeem_invalid: "`⚠️` | Código Premium no válido. ¡Por favor usa un código válido!"
+redeem_invalid_mode: "`⚠️` | Tipo de canje de Premium inválido. Usa solamente `guild` o `user`."
+redeem_already_guild: "`⚠️` | ¡Este servidor ya está en **Premium**!"
+### Remove command!
+remove_desc: "`✅` | ¡Eliminado con éxito el Servidor Premium dé %{user}!"
+remove_already: "`⚠️` | ¡ %{user} Ya fue eliminado!"
+remove_no_params: "`⚠️` | ¡Por favor mencione un **Usuario** o proporcione un **ID de usuario**!"
+remove_404: "`⚠️` | %{userid}** ¡no es un usuario Premium**!"
+### Guild remove command!
+guild_remove_desc: "`✅` | ¡Eliminado con éxito el Servidor Premium dé %{user}!"
+guild_remove_already: "`⚠️` | ¡El servidor de %{user} ya ha sido eliminado!"
+guild_remove_no_params: "`⚠️` | ¡Por favor proporcione un **ID del Servidor**!"
+guild_remove_404: "`⚠️` | %{userid}** ¡no es un usuario Premium**!"
+### Guild list command
+guild_list_title: "💫 Lista de Servidores Premium"
+guild_list_notnumber: "`⚠️` | ¡Por favor proporcione un número de página válido!"
+guild_list_page_notfound: "`⚠️` | ¡Solo hay **%{page} páginas** disponibles!"
+### User list command
+list_title: "💫 Lista de Usuarios Premium"
+list_notnumber: "`⚠️` | ¡Por favor proporcione un número de página válido!"
+list_page_notfound: "`⚠️` | ¡Solo hay **%{page} Páginas**!"
