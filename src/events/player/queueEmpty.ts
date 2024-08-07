@@ -54,7 +54,7 @@ export default class {
       .fetch(player.textId)
       .catch(() => undefined)) as TextChannel
     if (data !== null && data && data.twentyfourseven && channel)
-      new ClearMessageService(client, channel, player)
+      return new ClearMessageService(client, channel, player)
 
     if (player.state !== RainlinkPlayerState.DESTROYED) await player.destroy().catch(() => {})
   }
