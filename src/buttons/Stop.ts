@@ -1,29 +1,29 @@
-import { ButtonInteraction, CacheType, InteractionCollector, Message } from "discord.js";
-import { PlayerButton } from "../@types/Button.js";
-import { Manager } from "../manager.js";
-import { ReplyInteractionService } from "../services/ReplyInteractionService.js";
-import { RainlinkPlayer } from "../rainlink/main.js";
+import { ButtonInteraction, CacheType, InteractionCollector, Message } from 'discord.js'
+import { PlayerButton } from '../@types/Button.js'
+import { Manager } from '../manager.js'
+import { ReplyInteractionService } from '../services/ReplyInteractionService.js'
+import { RainlinkPlayer } from '../rainlink/main.js'
 
 export default class implements PlayerButton {
-  name = "stop";
+  name = 'stop'
   async run(
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
     player: RainlinkPlayer,
     nplaying: Message<boolean>,
-    collector: InteractionCollector<ButtonInteraction<"cached">>
+    collector: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
-    collector.stop();
+    collector.stop()
 
-    player.data.set("sudo-destroy", true);
-    const is247 = await client.db.autoreconnect.get(`${message.guildId}`);
-    player.stop(is247 && is247.twentyfourseven ? false : true);
+    player.data.set('sudo-destroy', true)
+    const is247 = await client.db.autoreconnect.get(`${message.guildId}`)
+    player.stop(is247 && is247.twentyfourseven ? false : true)
 
     new ReplyInteractionService(
       client,
       message,
-      `${client.i18n.get(language, "button.music", "stop_msg")}`
-    );
+      `${client.i18n.get(language, 'button.music', 'stop_msg')}`
+    )
   }
 }

@@ -1,29 +1,29 @@
-import { Manager } from "../../manager.js";
-import { EmbedBuilder, Message } from "discord.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
-import { RainlinkPlayer } from "../../rainlink/main.js";
+import { Manager } from '../../manager.js'
+import { EmbedBuilder, Message } from 'discord.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
+import { RainlinkPlayer } from '../../rainlink/main.js'
 
 // Main code
 export default class implements Command {
-  public name = ["previous"];
-  public description = "Play the previous song in the queue.";
-  public category = "Music";
-  public accessableby = [Accessableby.Member];
-  public usage = "";
-  public aliases = ["pre"];
-  public lavalink = true;
-  public playerCheck = true;
-  public usingInteraction = true;
-  public sameVoiceCheck = true;
-  public options = [];
-  public permissions = [];
+  public name = ['previous']
+  public description = 'Play the previous song in the queue.'
+  public category = 'Music'
+  public accessableby = [Accessableby.Member]
+  public usage = ''
+  public aliases = ['pre']
+  public lavalink = true
+  public playerCheck = true
+  public usingInteraction = true
+  public sameVoiceCheck = true
+  public options = []
+  public permissions = []
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
-    const previousIndex = player.queue.previous.length - 1;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
+    const previousIndex = player.queue.previous.length - 1
 
     if (
       player.queue.previous.length == 0 ||
@@ -34,20 +34,20 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "previous_notfound")}`
+              `${client.i18n.get(handler.language, 'command.music', 'previous_notfound')}`
             )
             .setColor(client.color),
         ],
-      });
+      })
 
-    player.previous();
+    player.previous()
 
-    player.data.set("endMode", "previous");
+    player.data.set('endMode', 'previous')
 
     const embed = new EmbedBuilder()
-      .setDescription(`${client.i18n.get(handler.language, "command.music", "previous_msg")}`)
-      .setColor(client.color);
+      .setDescription(`${client.i18n.get(handler.language, 'command.music', 'previous_msg')}`)
+      .setColor(client.color)
 
-    handler.editReply({ content: " ", embeds: [embed] });
+    handler.editReply({ content: ' ', embeds: [embed] })
   }
 }

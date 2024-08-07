@@ -1,13 +1,13 @@
-import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from "discord.js";
-import { Manager } from "../../../manager.js";
-import { RainlinkPlayer } from "../../../rainlink/main.js";
+import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from 'discord.js'
+import { Manager } from '../../../manager.js'
+import { RainlinkPlayer } from '../../../rainlink/main.js'
 
 export class ButtonPrevious {
-  client: Manager;
-  interaction: ButtonInteraction;
-  channel: VoiceBasedChannel | null;
-  language: string;
-  player: RainlinkPlayer;
+  client: Manager
+  interaction: ButtonInteraction
+  channel: VoiceBasedChannel | null
+  language: string
+  player: RainlinkPlayer
   constructor(
     client: Manager,
     interaction: ButtonInteraction,
@@ -15,12 +15,12 @@ export class ButtonPrevious {
     language: string,
     player: RainlinkPlayer
   ) {
-    this.channel = channel;
-    this.client = client;
-    this.language = language;
-    this.player = player;
-    this.interaction = interaction;
-    this.execute();
+    this.channel = channel
+    this.client = client
+    this.language = language
+    this.player = player
+    this.interaction = interaction
+    this.execute()
   }
 
   async execute() {
@@ -28,11 +28,11 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, 'error', 'no_in_voice')}`)
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else if (
       this.interaction.guild!.members.me!.voice.channel &&
       !this.interaction.guild!.members.me!.voice.channel.equals(this.channel)
@@ -40,32 +40,32 @@ export class ButtonPrevious {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, 'error', 'no_same_voice')}`)
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else if (!this.player || this.player.queue.previous.length == 0) {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${this.client.i18n.get(this.language, "button.music", "previous_notfound")}`
+              `${this.client.i18n.get(this.language, 'button.music', 'previous_notfound')}`
             )
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else {
-      this.player.previous();
+      this.player.previous()
 
-      this.player.data.set("endMode", "previous");
+      this.player.data.set('endMode', 'previous')
 
       const embed = new EmbedBuilder()
-        .setDescription(`${this.client.i18n.get(this.language, "button.music", "previous_msg")}`)
-        .setColor(this.client.color);
+        .setDescription(`${this.client.i18n.get(this.language, 'button.music', 'previous_msg')}`)
+        .setColor(this.client.color)
 
-      this.interaction.reply({ embeds: [embed] });
+      this.interaction.reply({ embeds: [embed] })
     }
   }
 }

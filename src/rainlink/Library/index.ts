@@ -1,6 +1,6 @@
-import { DiscordJS } from "./DiscordJS.js";
-import { ErisJS } from "./ErisJS.js";
-import { OceanicJS } from "./OceanicJS.js";
+import { DiscordJS } from './DiscordJS.js'
+import { ErisJS } from './ErisJS.js'
+import { OceanicJS } from './OceanicJS.js'
 
 /**
  * Import example:
@@ -15,4 +15,4 @@ export default {
   DiscordJS,
   ErisJS,
   OceanicJS,
-};
+}

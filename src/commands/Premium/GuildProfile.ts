@@ -1,60 +1,60 @@
-import { EmbedBuilder } from "discord.js";
-import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
+import { EmbedBuilder } from 'discord.js'
+import { Manager } from '../../manager.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
-  public name = ["pm", "guild", "profile"];
-  public description = "View your guild premium profile!";
-  public category = "Premium";
-  public accessableby = [Accessableby.GuildPremium];
-  public usage = "";
-  public aliases = ["pmgp"];
-  public lavalink = false;
-  public usingInteraction = true;
-  public playerCheck = false;
-  public sameVoiceCheck = false;
-  public permissions = [];
-  public options = [];
+  public name = ['pm', 'guild', 'profile']
+  public description = 'View your guild premium profile!'
+  public category = 'Premium'
+  public accessableby = [Accessableby.GuildPremium]
+  public usage = ''
+  public aliases = ['pmgp']
+  public lavalink = false
+  public usingInteraction = true
+  public playerCheck = false
+  public sameVoiceCheck = false
+  public permissions = []
+  public options = []
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const PremiumPlan = await client.db.preGuild.get(`${handler.guild?.id}`);
+    const PremiumPlan = await client.db.preGuild.get(`${handler.guild?.id}`)
 
     if (!PremiumPlan) {
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "error", "no_premium_author")}`,
+          name: `${client.i18n.get(handler.language, 'error', 'no_premium_author')}`,
           iconURL: client.user!.displayAvatarURL(),
         })
-        .setDescription(`${client.i18n.get(handler.language, "error", "no_guild_premium_desc")}`)
+        .setDescription(`${client.i18n.get(handler.language, 'error', 'no_guild_premium_desc')}`)
         .setColor(client.color)
-        .setTimestamp();
+        .setTimestamp()
       return handler.editReply({
-        content: " ",
+        content: ' ',
         embeds: [embed],
-      });
+      })
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `${client.i18n.get(handler.language, "command.premium", "guild_profile_author")}`,
+        name: `${client.i18n.get(handler.language, 'command.premium', 'guild_profile_author')}`,
         iconURL: client.user!.displayAvatarURL(),
       })
       .setDescription(
-        `${client.i18n.get(handler.language, "command.premium", "guild_profile_desc", {
+        `${client.i18n.get(handler.language, 'command.premium', 'guild_profile_desc', {
           guild: String(handler.guild?.name),
           plan: PremiumPlan!.plan,
           expires:
-            PremiumPlan!.expiresAt == "lifetime"
-              ? "lifetime"
+            PremiumPlan!.expiresAt == 'lifetime'
+              ? 'lifetime'
               : `<t:${(PremiumPlan.expiresAt / 1000 ?? 0).toFixed()}:F>`,
         })}`
       )
       .setColor(client.color)
-      .setTimestamp();
+      .setTimestamp()
 
-    return handler.editReply({ embeds: [embed] });
+    return handler.editReply({ embeds: [embed] })
   }
 }

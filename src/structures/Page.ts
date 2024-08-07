@@ -6,38 +6,38 @@ import {
   ComponentType,
   EmbedBuilder,
   Message,
-} from "discord.js";
-import { Manager } from "../manager.js";
+} from 'discord.js'
+import { Manager } from '../manager.js'
 
 export class Page {
-  client: Manager;
-  pages: EmbedBuilder[];
-  timeout: number;
-  language: string;
+  client: Manager
+  pages: EmbedBuilder[]
+  timeout: number
+  language: string
 
   constructor(client: Manager, pages: EmbedBuilder[], timeout: number, language: string) {
-    this.client = client;
-    this.pages = pages;
-    this.timeout = timeout;
-    this.language = language;
+    this.client = client
+    this.pages = pages
+    this.timeout = timeout
+    this.language = language
   }
 
   async slashPage(interaction: CommandInteraction) {
     if (!interaction && !(interaction as CommandInteraction).channel)
-      throw new Error("Channel is inaccessible.");
-    if (!this.pages) throw new Error("Pages are not given.");
+      throw new Error('Channel is inaccessible.')
+    if (!this.pages) throw new Error('Pages are not given.')
 
     const row1 = new ButtonBuilder()
-      .setCustomId("back")
+      .setCustomId('back')
       .setEmoji(this.client.icons.GLOBAL.arrow_previous)
-      .setStyle(ButtonStyle.Secondary);
+      .setStyle(ButtonStyle.Secondary)
     const row2 = new ButtonBuilder()
-      .setCustomId("next")
+      .setCustomId('next')
       .setEmoji(this.client.icons.GLOBAL.arrow_next)
-      .setStyle(ButtonStyle.Secondary);
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+      .setStyle(ButtonStyle.Secondary)
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-    let page = 0;
+    let page = 0
     const curPage = await interaction.editReply({
       embeds: [
         this.pages[page].setFooter({
@@ -46,22 +46,22 @@ export class Page {
       ],
       components: [row],
       allowedMentions: { repliedUser: false },
-    });
-    if (this.pages.length == 0) return;
+    })
+    if (this.pages.length == 0) return
 
     const collector = curPage.createMessageComponentCollector({
       filter: (m) => m.user.id === interaction.user.id,
       time: this.timeout,
       componentType: ComponentType.Button,
-    });
+    })
 
-    collector.on("collect", async (interaction) => {
-      if (!interaction.deferred) await interaction.deferUpdate();
+    collector.on('collect', async (interaction) => {
+      if (!interaction.deferred) await interaction.deferUpdate()
 
-      if (interaction.customId === "back") {
-        page = page > 0 ? --page : this.pages.length - 1;
-      } else if (interaction.customId === "next") {
-        page = page + 1 < this.pages.length ? ++page : 0;
+      if (interaction.customId === 'back') {
+        page = page > 0 ? --page : this.pages.length - 1
+      } else if (interaction.customId === 'next') {
+        page = page + 1 < this.pages.length ? ++page : 0
       }
       curPage
         .edit({
@@ -72,14 +72,14 @@ export class Page {
           ],
           components: [row],
         })
-        .catch(() => null);
-    });
+        .catch(() => null)
+    })
 
-    collector.on("end", () => {
+    collector.on('end', () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
-      );
+      )
       curPage
         .edit({
           embeds: [
@@ -89,29 +89,29 @@ export class Page {
           ],
           components: [disabled],
         })
-        .catch(() => null);
+        .catch(() => null)
       // @ts-ignore
-      collector.removeAllListeners();
-    });
+      collector.removeAllListeners()
+    })
 
-    return curPage;
+    return curPage
   }
 
   async prefixPage(message: Message) {
-    if (!message && !(message as Message).channel) throw new Error("Channel is inaccessible.");
-    if (!this.pages) throw new Error("Pages are not given.");
+    if (!message && !(message as Message).channel) throw new Error('Channel is inaccessible.')
+    if (!this.pages) throw new Error('Pages are not given.')
 
     const row1 = new ButtonBuilder()
-      .setCustomId("back")
+      .setCustomId('back')
       .setEmoji(this.client.icons.GLOBAL.arrow_previous)
-      .setStyle(ButtonStyle.Secondary);
+      .setStyle(ButtonStyle.Secondary)
     const row2 = new ButtonBuilder()
-      .setCustomId("next")
+      .setCustomId('next')
       .setEmoji(this.client.icons.GLOBAL.arrow_next)
-      .setStyle(ButtonStyle.Secondary);
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2);
+      .setStyle(ButtonStyle.Secondary)
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(row1, row2)
 
-    let page = 0;
+    let page = 0
     const curPage = await message.reply({
       embeds: [
         this.pages[page].setFooter({
@@ -120,22 +120,22 @@ export class Page {
       ],
       components: [row],
       allowedMentions: { repliedUser: false },
-    });
-    if (this.pages.length == 0) return;
+    })
+    if (this.pages.length == 0) return
 
     const collector = curPage.createMessageComponentCollector({
       filter: (interaction) =>
         interaction.user.id === message.author.id ? true : false && interaction.deferUpdate(),
       time: this.timeout,
       componentType: ComponentType.Button,
-    });
+    })
 
-    collector.on("collect", async (interaction) => {
-      if (!interaction.deferred) await interaction.deferUpdate();
-      if (interaction.customId === "back") {
-        page = page > 0 ? --page : this.pages.length - 1;
-      } else if (interaction.customId === "next") {
-        page = page + 1 < this.pages.length ? ++page : 0;
+    collector.on('collect', async (interaction) => {
+      if (!interaction.deferred) await interaction.deferUpdate()
+      if (interaction.customId === 'back') {
+        page = page > 0 ? --page : this.pages.length - 1
+      } else if (interaction.customId === 'next') {
+        page = page + 1 < this.pages.length ? ++page : 0
       }
       curPage
         .edit({
@@ -146,13 +146,13 @@ export class Page {
           ],
           components: [row],
         })
-        .catch(() => null);
-    });
-    collector.on("end", () => {
+        .catch(() => null)
+    })
+    collector.on('end', () => {
       const disabled = new ActionRowBuilder<ButtonBuilder>().addComponents(
         row1.setDisabled(true),
         row2.setDisabled(true)
-      );
+      )
       curPage
         .edit({
           embeds: [
@@ -162,10 +162,10 @@ export class Page {
           ],
           components: [disabled],
         })
-        .catch(() => null);
+        .catch(() => null)
       // @ts-ignore
-      collector.removeAllListeners();
-    });
-    return curPage;
+      collector.removeAllListeners()
+    })
+    return curPage
   }
 }

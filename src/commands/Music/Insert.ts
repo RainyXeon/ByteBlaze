@@ -3,109 +3,109 @@ import {
   AutocompleteInteraction,
   CommandInteraction,
   EmbedBuilder,
-} from "discord.js";
-import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
-import { convertTime } from "../../utilities/ConvertTime.js";
-import { AutocompleteInteractionChoices, GlobalInteraction } from "../../@types/Interaction.js";
-import { RainlinkPlayer } from "../../rainlink/main.js";
-import { getTitle } from "../../utilities/GetTitle.js";
+} from 'discord.js'
+import { Manager } from '../../manager.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
+import { convertTime } from '../../utilities/ConvertTime.js'
+import { AutocompleteInteractionChoices, GlobalInteraction } from '../../@types/Interaction.js'
+import { RainlinkPlayer } from '../../rainlink/main.js'
+import { getTitle } from '../../utilities/GetTitle.js'
 
 // Main code
 export default class implements Command {
-  public name = ["insert"];
-  public description = "Insert a song into a specific position in queue.";
-  public category = "Music";
-  public accessableby = [Accessableby.Member];
-  public usage = "";
-  public aliases = [];
-  public lavalink = true;
-  public playerCheck = true;
-  public usingInteraction = true;
-  public sameVoiceCheck = true;
-  public permissions = [];
+  public name = ['insert']
+  public description = 'Insert a song into a specific position in queue.'
+  public category = 'Music'
+  public accessableby = [Accessableby.Member]
+  public usage = ''
+  public aliases = []
+  public lavalink = true
+  public playerCheck = true
+  public usingInteraction = true
+  public sameVoiceCheck = true
+  public permissions = []
   public options = [
     {
-      name: "position",
-      description: "The position in queue want to remove.",
+      name: 'position',
+      description: 'The position in queue want to remove.',
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
     {
-      name: "search",
-      description: "The song link or name",
+      name: 'search',
+      description: 'The song link or name',
       type: ApplicationCommandOptionType.String,
       required: true,
       autocomplete: true,
     },
-  ];
+  ]
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
 
-    const position = Number(handler.args[0]);
-    handler.args.splice(0, 1);
-    const song = handler.args.join(" ");
+    const position = Number(handler.args[0])
+    handler.args.splice(0, 1)
+    const song = handler.args.join(' ')
     if (position && isNaN(+position))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${client.i18n.get(handler.language, "error", "number_invalid")}`)
+            .setDescription(`${client.i18n.get(handler.language, 'error', 'number_invalid')}`)
             .setColor(client.color),
         ],
-      });
+      })
     if (Number(position) == 0)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "insert_already")}`
+              `${client.i18n.get(handler.language, 'command.music', 'insert_already')}`
             )
             .setColor(client.color),
         ],
-      });
+      })
     if (Number(position) > player.queue.length)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "insert_notfound")}`
+              `${client.i18n.get(handler.language, 'command.music', 'insert_notfound')}`
             )
             .setColor(client.color),
         ],
-      });
+      })
 
-    const result = await player.search(song, { requester: handler.user });
-    const track = result.tracks[0];
+    const result = await player.search(song, { requester: handler.user })
+    const track = result.tracks[0]
 
     if (!result.tracks.length)
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.music", "insert_notfound")}`
+              `${client.i18n.get(handler.language, 'command.music', 'insert_notfound')}`
             )
             .setColor(client.color),
         ],
-      });
+      })
 
-    player.queue.splice(position - 1, 0, track);
+    player.queue.splice(position - 1, 0, track)
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.music", "insert_desc", {
+        `${client.i18n.get(handler.language, 'command.music', 'insert_desc', {
           name: getTitle(client, track),
           duration: convertTime(player.position),
           request: String(track.requester),
         })}`
       )
-      .setColor(client.color);
+      .setColor(client.color)
 
     client.wsl.get(handler.guild!.id)?.send({
-      op: "playerQueueInsert",
+      op: 'playerQueueInsert',
       guild: handler.guild!.id,
       track: {
         title: track.title,
@@ -123,52 +123,52 @@ export default class implements Command {
           : null,
       },
       index: position - 1,
-    });
+    })
 
-    return handler.editReply({ embeds: [embed] });
+    return handler.editReply({ embeds: [embed] })
   }
 
   // Autocomplete function
   async autocomplete(client: Manager, interaction: GlobalInteraction, language: string) {
-    let choice: AutocompleteInteractionChoices[] = [];
-    const url = String((interaction as CommandInteraction).options.get("search")!.value);
+    let choice: AutocompleteInteractionChoices[] = []
+    const url = String((interaction as CommandInteraction).options.get('search')!.value)
 
     const Random =
       client.config.player.AUTOCOMPLETE_SEARCH[
         Math.floor(Math.random() * client.config.player.AUTOCOMPLETE_SEARCH.length)
-      ];
+      ]
 
     const match = client.REGEX.some((match) => {
-      return match.test(url) == true;
-    });
+      return match.test(url) == true
+    })
 
     if (match == true) {
-      choice.push({ name: url, value: url });
-      await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
-      return;
+      choice.push({ name: url, value: url })
+      await (interaction as AutocompleteInteraction).respond(choice).catch(() => {})
+      return
     }
 
     if (client.lavalinkUsing.length == 0) {
       choice.push({
-        name: `${client.i18n.get(language, "command.music", "no_node")}`,
-        value: `${client.i18n.get(language, "command.music", "no_node")}`,
-      });
-      return;
+        name: `${client.i18n.get(language, 'command.music', 'no_node')}`,
+        value: `${client.i18n.get(language, 'command.music', 'no_node')}`,
+      })
+      return
     }
-    const searchRes = await client.rainlink.search(url || Random);
+    const searchRes = await client.rainlink.search(url || Random)
 
     if (searchRes.tracks.length == 0 || !searchRes.tracks) {
-      return choice.push({ name: "Error song not matches", value: url });
+      return choice.push({ name: 'Error song not matches', value: url })
     }
 
     for (let i = 0; i < 10; i++) {
-      const x = searchRes.tracks[i];
+      const x = searchRes.tracks[i]
       choice.push({
-        name: x && x.title ? x.title : "Unknown track name",
+        name: x && x.title ? x.title : 'Unknown track name',
         value: x && x.uri ? x.uri : url,
-      });
+      })
     }
 
-    await (interaction as AutocompleteInteraction).respond(choice).catch(() => {});
+    await (interaction as AutocompleteInteraction).respond(choice).catch(() => {})
   }
 }

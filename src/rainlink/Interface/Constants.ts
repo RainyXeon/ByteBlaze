@@ -2,41 +2,41 @@
  * All rainlink manager events
  */
 export enum RainlinkEvents {
-  Debug = "debug",
+  Debug = 'debug',
   // Node
-  NodeConnect = "nodeConnect",
-  NodeDisconnect = "nodeDisconnect",
-  NodeClosed = "nodeClosed",
-  NodeError = "nodeError",
+  NodeConnect = 'nodeConnect',
+  NodeDisconnect = 'nodeDisconnect',
+  NodeClosed = 'nodeClosed',
+  NodeError = 'nodeError',
   // Player
-  PlayerCreate = "playerCreate",
-  PlayerDestroy = "playerDestroy",
-  PlayerConnect = "playerConnect",
-  PlayerDisconnect = "playerDisconnect",
-  PlayerUpdate = "playerUpdate",
-  PlayerMoved = "playerMoved",
-  PlayerPause = "playerPause",
-  PlayerResume = "playerResume",
-  PlayerException = "playerException",
-  PlayerWebsocketClosed = "playerWebsocketClosed",
-  PlayerStop = "playerStop",
+  PlayerCreate = 'playerCreate',
+  PlayerDestroy = 'playerDestroy',
+  PlayerConnect = 'playerConnect',
+  PlayerDisconnect = 'playerDisconnect',
+  PlayerUpdate = 'playerUpdate',
+  PlayerMoved = 'playerMoved',
+  PlayerPause = 'playerPause',
+  PlayerResume = 'playerResume',
+  PlayerException = 'playerException',
+  PlayerWebsocketClosed = 'playerWebsocketClosed',
+  PlayerStop = 'playerStop',
   // Track
-  TrackStuck = "trackStuck",
-  TrackStart = "trackStart",
-  TrackEnd = "trackEnd",
-  TrackResolveError = "trackResolveError",
+  TrackStuck = 'trackStuck',
+  TrackStart = 'trackStart',
+  TrackEnd = 'trackEnd',
+  TrackResolveError = 'trackResolveError',
   // Queue
-  QueueAdd = "queueAdd",
-  QueueRemove = "queueRemove",
-  QueueShuffle = "queueShuffle",
-  QueueClear = "queueClear",
-  QueueEmpty = "queueEmpty",
+  QueueAdd = 'queueAdd',
+  QueueRemove = 'queueRemove',
+  QueueShuffle = 'queueShuffle',
+  QueueClear = 'queueClear',
+  QueueEmpty = 'queueEmpty',
   // Voice receiver
-  VoiceConnect = "voiceConnect",
-  VoiceDisconnect = "voiceDisconnect",
-  VoiceError = "voiceError",
-  VoiceStartSpeaking = "voiceStartSpeaking",
-  VoiceEndSpeaking = "voiceEndSpeaking",
+  VoiceConnect = 'voiceConnect',
+  VoiceDisconnect = 'voiceDisconnect',
+  VoiceError = 'voiceError',
+  VoiceStartSpeaking = 'voiceStartSpeaking',
+  VoiceEndSpeaking = 'voiceEndSpeaking',
 }
 
 /**
@@ -74,28 +74,28 @@ export enum VoiceConnectState {
  * Lavalink load type enum
  */
 export enum LavalinkLoadType {
-  TRACK = "track",
-  PLAYLIST = "playlist",
-  SEARCH = "search",
-  EMPTY = "empty",
-  ERROR = "error",
+  TRACK = 'track',
+  PLAYLIST = 'playlist',
+  SEARCH = 'search',
+  EMPTY = 'empty',
+  ERROR = 'error',
 }
 
 /**
  * Lavalink default source
  */
 export const SourceIDs = [
-  { name: "youtube", id: "yt" },
-  { name: "youtubeMusic", id: "ytm" },
-  { name: "soundcloud", id: "sc" },
-];
+  { name: 'youtube', id: 'yt' },
+  { name: 'youtubeMusic', id: 'ytm' },
+  { name: 'soundcloud', id: 'sc' },
+]
 
 /**
  * Rainlink plugin type
  */
 export enum RainlinkPluginType {
-  Default = "default",
-  SourceResolver = "sourceResolver",
+  Default = 'default',
+  SourceResolver = 'sourceResolver',
 }
 
 /**
@@ -111,9 +111,9 @@ export enum RainlinkPlayerState {
  * Rainlink loop enum
  */
 export enum RainlinkLoopMode {
-  SONG = "song",
-  QUEUE = "queue",
-  NONE = "none",
+  SONG = 'song',
+  QUEUE = 'queue',
+  NONE = 'none',
 }
 
 /** @ignore */
@@ -374,6 +374,6 @@ export const RainlinkFilterData = {
       rate: 0.8,
     },
   },
-};
+}
 
-export type RainlinkFilterMode = keyof typeof RainlinkFilterData;
+export type RainlinkFilterMode = keyof typeof RainlinkFilterData

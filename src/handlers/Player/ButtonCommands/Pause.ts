@@ -1,13 +1,13 @@
-import { ButtonInteraction, EmbedBuilder, TextChannel, VoiceBasedChannel } from "discord.js";
-import { Manager } from "../../../manager.js";
-import { RainlinkPlayer } from "../../../rainlink/main.js";
+import { ButtonInteraction, EmbedBuilder, TextChannel, VoiceBasedChannel } from 'discord.js'
+import { Manager } from '../../../manager.js'
+import { RainlinkPlayer } from '../../../rainlink/main.js'
 
 export class ButtonPause {
-  client: Manager;
-  interaction: ButtonInteraction;
-  channel: VoiceBasedChannel | null;
-  language: string;
-  player: RainlinkPlayer;
+  client: Manager
+  interaction: ButtonInteraction
+  channel: VoiceBasedChannel | null
+  language: string
+  player: RainlinkPlayer
   constructor(
     client: Manager,
     interaction: ButtonInteraction,
@@ -15,28 +15,28 @@ export class ButtonPause {
     language: string,
     player: RainlinkPlayer
   ) {
-    this.channel = channel;
-    this.client = client;
-    this.language = language;
-    this.player = player;
-    this.interaction = interaction;
-    this.execute();
+    this.channel = channel
+    this.client = client
+    this.language = language
+    this.player = player
+    this.interaction = interaction
+    this.execute()
   }
 
   async execute() {
-    let data = await this.client.db.setup.get(`${this.player.guildId}`);
-    if (!data) return;
-    if (data.enable === false) return;
+    let data = await this.client.db.setup.get(`${this.player.guildId}`)
+    if (!data) return
+    if (data.enable === false) return
 
     if (!this.channel) {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_in_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, 'error', 'no_in_voice')}`)
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else if (
       this.interaction.guild!.members.me!.voice.channel &&
       !this.interaction.guild!.members.me!.voice.channel.equals(this.channel)
@@ -44,29 +44,29 @@ export class ButtonPause {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_same_voice")}`)
+            .setDescription(`${this.client.i18n.get(this.language, 'error', 'no_same_voice')}`)
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else if (!this.player) {
       this.interaction.reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`${this.client.i18n.get(this.language, "error", "no_player")}`)
+            .setDescription(`${this.client.i18n.get(this.language, 'error', 'no_player')}`)
             .setColor(this.client.color),
         ],
-      });
-      return;
+      })
+      return
     } else {
-      const getChannel = await this.client.channels.fetch(data.channel).catch(() => undefined);
-      if (!getChannel) return;
+      const getChannel = await this.client.channels.fetch(data.channel).catch(() => undefined)
+      if (!getChannel) return
       let playMsg = await (getChannel as TextChannel)!.messages
         .fetch(data.playmsg)
-        .catch(() => undefined);
-      if (!playMsg) return;
+        .catch(() => undefined)
+      if (!playMsg) return
 
-      const newPlayer = await this.player.setPause(!this.player.paused);
+      const newPlayer = await this.player.setPause(!this.player.paused)
 
       newPlayer.paused
         ? playMsg
@@ -82,15 +82,15 @@ export class ButtonPause {
               // embeds: playMsg.embeds,
               components: [this.client.enSwitchMod],
             })
-            .catch(() => null);
+            .catch(() => null)
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${this.client.i18n.get(this.language, "button.music", newPlayer.paused ? "pause_msg" : "resume_msg")}`
+          `${this.client.i18n.get(this.language, 'button.music', newPlayer.paused ? 'pause_msg' : 'resume_msg')}`
         )
-        .setColor(this.client.color);
+        .setColor(this.client.color)
 
-      this.interaction.reply({ embeds: [embed] });
+      this.interaction.reply({ embeds: [embed] })
     }
   }
 }

@@ -1,10 +1,10 @@
 // Modded from: https://github.com/shipgirlproject/Shoukaku/blob/396aa531096eda327ade0f473f9807576e9ae9df/src/connectors/Connector.ts
 // Special thanks to shipgirlproject team!
 
-import { RainlinkNodeOptions } from "../Interface/Manager.js";
-import { Rainlink } from "../Rainlink.js";
-import { LavalinkLoadType } from "../Interface/Constants.js";
-import { RainlinkNode } from "./RainlinkNode.js";
+import { RainlinkNodeOptions } from '../Interface/Manager.js'
+import { Rainlink } from '../Rainlink.js'
+import { LavalinkLoadType } from '../Interface/Constants.js'
+import { RainlinkNode } from './RainlinkNode.js'
 import {
   LavalinkPlayer,
   LavalinkResponse,
@@ -13,16 +13,16 @@ import {
   RawTrack,
   RoutePlanner,
   UpdatePlayerInfo,
-} from "../Interface/Rest.js";
-import { NodeInfo } from "../Interface/Node.js";
+} from '../Interface/Rest.js'
+import { NodeInfo } from '../Interface/Node.js'
 
 export class RainlinkRest {
   /** The rainlink manager */
-  public manager: Rainlink;
-  protected options: RainlinkNodeOptions;
+  public manager: Rainlink
+  protected options: RainlinkNodeOptions
   /** The node manager (RainlinkNode class) */
-  public nodeManager: RainlinkNode;
-  protected sessionId: string | null;
+  public nodeManager: RainlinkNode
+  protected sessionId: string | null
 
   /**
    * The lavalink rest server handler class
@@ -31,10 +31,10 @@ export class RainlinkRest {
    * @param nodeManager The rainlink's lavalink server handler class
    */
   constructor(manager: Rainlink, options: RainlinkNodeOptions, nodeManager: RainlinkNode) {
-    this.manager = manager;
-    this.options = options;
-    this.nodeManager = nodeManager;
-    this.sessionId = this.nodeManager.driver.sessionId ? this.nodeManager.driver.sessionId : "";
+    this.manager = manager
+    this.options = options
+    this.nodeManager = nodeManager
+    this.sessionId = this.nodeManager.driver.sessionId ? this.nodeManager.driver.sessionId : ''
   }
 
   /**
@@ -44,9 +44,9 @@ export class RainlinkRest {
   public async getPlayers(): Promise<LavalinkPlayer[]> {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players`,
-      headers: { "content-type": "application/json" },
-    };
-    return (await this.nodeManager.driver.requester<LavalinkPlayer[]>(options)) ?? [];
+      headers: { 'content-type': 'application/json' },
+    }
+    return (await this.nodeManager.driver.requester<LavalinkPlayer[]>(options)) ?? []
   }
 
   /**
@@ -55,10 +55,10 @@ export class RainlinkRest {
    */
   public async getStatus(): Promise<LavalinkStats | undefined> {
     const options: RainlinkRequesterOptions = {
-      path: "/stats",
-      headers: { "content-type": "application/json" },
-    };
-    return await this.nodeManager.driver.requester<LavalinkStats>(options);
+      path: '/stats',
+      headers: { 'content-type': 'application/json' },
+    }
+    return await this.nodeManager.driver.requester<LavalinkStats>(options)
   }
 
   /**
@@ -68,9 +68,9 @@ export class RainlinkRest {
   public async decodeTrack(base64track: string): Promise<RawTrack | undefined> {
     const options: RainlinkRequesterOptions = {
       path: `/decodetrack?encodedTrack=${encodeURIComponent(base64track)}`,
-      headers: { "content-type": "application/json" },
-    };
-    return await this.nodeManager.driver.requester<RawTrack>(options);
+      headers: { 'content-type': 'application/json' },
+    }
+    return await this.nodeManager.driver.requester<RawTrack>(options)
   }
 
   /**
@@ -80,13 +80,13 @@ export class RainlinkRest {
   public updatePlayer(data: UpdatePlayerInfo): void {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players/${data.guildId}`,
-      params: { noReplace: data.noReplace?.toString() || "false" },
-      headers: { "content-type": "application/json" },
-      method: "PATCH",
+      params: { noReplace: data.noReplace?.toString() || 'false' },
+      headers: { 'content-type': 'application/json' },
+      method: 'PATCH',
       data: data.playerOptions as Record<string, unknown>,
       rawReqData: data,
-    };
-    this.nodeManager.driver.requester<LavalinkPlayer>(options);
+    }
+    this.nodeManager.driver.requester<LavalinkPlayer>(options)
   }
 
   /**
@@ -96,10 +96,10 @@ export class RainlinkRest {
   public destroyPlayer(guildId: string): void {
     const options: RainlinkRequesterOptions = {
       path: `/sessions/${this.sessionId}/players/${guildId}`,
-      headers: { "content-type": "application/json" },
-      method: "DELETE",
-    };
-    this.nodeManager.driver.requester(options);
+      headers: { 'content-type': 'application/json' },
+      method: 'DELETE',
+    }
+    this.nodeManager.driver.requester(options)
   }
 
   /**
@@ -108,20 +108,20 @@ export class RainlinkRest {
    */
   public async resolver(data: string): Promise<LavalinkResponse | undefined> {
     const options: RainlinkRequesterOptions = {
-      path: "/loadtracks",
+      path: '/loadtracks',
       params: { identifier: data },
-      headers: { "content-type": "application/json" },
-      method: "GET",
-    };
+      headers: { 'content-type': 'application/json' },
+      method: 'GET',
+    }
 
-    const resData = await this.nodeManager.driver.requester<LavalinkResponse>(options);
+    const resData = await this.nodeManager.driver.requester<LavalinkResponse>(options)
 
     if (!resData) {
       return {
         loadType: LavalinkLoadType.EMPTY,
         data: {},
-      };
-    } else return resData;
+      }
+    } else return resData
   }
 
   /**
@@ -130,10 +130,10 @@ export class RainlinkRest {
    */
   public async getRoutePlannerStatus(): Promise<RoutePlanner | undefined> {
     const options = {
-      path: "/routeplanner/status",
-      headers: { "content-type": "application/json" },
-    };
-    return await this.nodeManager.driver.requester<RoutePlanner>(options);
+      path: '/routeplanner/status',
+      headers: { 'content-type': 'application/json' },
+    }
+    return await this.nodeManager.driver.requester<RoutePlanner>(options)
   }
 
   /**
@@ -142,12 +142,12 @@ export class RainlinkRest {
    */
   public async unmarkFailedAddress(address: string): Promise<void> {
     const options = {
-      path: "/routeplanner/free/address",
-      method: "POST",
-      headers: { "content-type": "application/json" },
+      path: '/routeplanner/free/address',
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
       data: { address },
-    };
-    await this.nodeManager.driver.requester(options);
+    }
+    await this.nodeManager.driver.requester(options)
   }
 
   /**
@@ -155,21 +155,21 @@ export class RainlinkRest {
    */
   public getInfo(): Promise<NodeInfo | undefined> {
     const options = {
-      path: "/info",
-      headers: { "content-type": "application/json" },
-    };
-    return this.nodeManager.driver.requester(options);
+      path: '/info',
+      headers: { 'content-type': 'application/json' },
+    }
+    return this.nodeManager.driver.requester(options)
   }
 
   protected testJSON(text: string) {
-    if (typeof text !== "string") {
-      return false;
+    if (typeof text !== 'string') {
+      return false
     }
     try {
-      JSON.parse(text);
-      return true;
+      JSON.parse(text)
+      return true
     } catch (error) {
-      return false;
+      return false
     }
   }
 }
