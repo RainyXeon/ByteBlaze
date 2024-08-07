@@ -46,6 +46,8 @@ export default class implements Command {
 
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
 
+    const maxLength = await client.db.maxlength.get(handler.user.id)
+
     const position = Number(handler.args[0])
     handler.args.splice(0, 1)
     const song = handler.args.join(' ')
@@ -81,7 +83,7 @@ export default class implements Command {
     const result = await player.search(song, { requester: handler.user })
     const track = result.tracks[0]
 
-    if (!result.tracks.length)
+    if (!result.tracks.length || (maxLength && track.duration > maxLength))
       return handler.editReply({
         embeds: [
           new EmbedBuilder()

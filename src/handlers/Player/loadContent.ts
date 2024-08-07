@@ -223,8 +223,10 @@ export class PlayerContentLoader {
       }
     }
 
+    const maxLength = await client.db.maxlength.get(message.author.id)
+
     const result = await player.search(song, { requester: message.author })
-    const tracks = result.tracks
+    const tracks = result.tracks.filter(e => maxLength ? e.duration > maxLength : e)
 
     if (!result.tracks.length) {
       msg

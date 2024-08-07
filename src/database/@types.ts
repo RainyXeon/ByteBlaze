@@ -9,6 +9,7 @@ import { SongNoti } from './schema/SongNoti.js'
 import { QuickDatabasePlus } from '../structures/QuickDatabasePlus.js'
 import { GuildPremium } from './schema/GuildPremium.js'
 import Blacklist from '../commands/Owner/Blacklist.js'
+import { MaxLength } from './schema/MaxLength.js'
 
 export interface DatabaseTable {
   autoreconnect: QuickDatabasePlus<AutoReconnect>
@@ -21,4 +22,5 @@ export interface DatabaseTable {
   prefix: QuickDatabasePlus<Prefix>
   songNoti: QuickDatabasePlus<SongNoti>
   blacklist: QuickDatabasePlus<Blacklist>
+  maxlength: QuickDatabasePlus<MaxLength>
 }

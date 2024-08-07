@@ -39,6 +39,7 @@ export default class implements Command {
     let player = client.rainlink.players.get(handler.guild!.id)
 
     const value = handler.args.join(' ')
+    const maxLength = await client.db.maxlength.get(handler.user.id)
 
     if (!value)
       return handler.editReply({
@@ -86,7 +87,7 @@ export default class implements Command {
     player.textId = handler.channel!.id
 
     const result = await player.search(value, { requester: handler.user })
-    const tracks = result.tracks
+    const tracks = result.tracks.filter(e => typeof maxLength !== 'string' ? e.duration > maxLength : e)
 
     if (!result.tracks.length)
       return handler.editReply({
@@ -182,6 +183,8 @@ export default class implements Command {
     let choice: AutocompleteInteractionChoices[] = []
     const url = String((interaction as CommandInteraction).options.get('search')!.value)
 
+    const maxLength = await client.db.maxlength.get(interaction.user.id)
+
     const Random =
       client.config.player.AUTOCOMPLETE_SEARCH[
         Math.floor(Math.random() * client.config.player.AUTOCOMPLETE_SEARCH.length)
@@ -206,12 +209,14 @@ export default class implements Command {
     }
     const searchRes = await client.rainlink.search(url || Random)
 
-    if (searchRes.tracks.length == 0 || !searchRes.tracks) {
+    const tracks = searchRes.tracks.filter(e => maxLength ? e.duration > maxLength : e)
+
+    if (tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: 'Error song not matches', value: url })
     }
 
     for (let i = 0; i < 10; i++) {
-      const x = searchRes.tracks[i]
+      const x = tracks[i]
       choice.push({
         name: x && x.title ? x.title : 'Unknown track name',
         value: x && x.uri ? x.uri : url,

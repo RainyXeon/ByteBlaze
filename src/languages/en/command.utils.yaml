@@ -34,3 +34,8 @@ bl_invalid_mode: "`❌` | Invalid type of mode, please use add / remove only"
 bl_invalid_type: "`❌` | Invalid type, please use guild / user only"
 bl_add: "`✅` | Blacklisted id `%{id}` successfully!"
 bl_remove: "`✅` | Blacklisted id `%{id}` removed successfully!"
+
+## Max length
+ml_invalid: "`⚠️` | Invalid time. Please use a valid timestamp. Example: **1:30**!"
+ml_set: "`✅` | Successfully set the max length of song to `%{time}`"
+ml_remove: "`✅` | Successfully remove the max length of the song"
