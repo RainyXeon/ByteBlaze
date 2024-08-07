@@ -86,7 +86,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `You have been blocked from using Dreamvast, please contact the owner to resolve`
+              client.i18n.get(guildModel, 'error', 'bl_user', { bot: client.user.id })
             )
             .setColor(client.color),
         ],
@@ -96,7 +96,7 @@ export default class {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `This server has been blocked from using Dreamvast, please contact the owner to resolve or use another server`
+              client.i18n.get(guildModel, 'error', 'bl_guild', { bot: client.user.id })
             )
             .setColor(client.color),
         ],

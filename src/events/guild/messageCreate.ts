@@ -43,27 +43,19 @@ export default class {
       const blacklistService = new BlacklistService(client)
       const checkResult = await blacklistService.fullCheck(message.author.id, message.guildId)
       if (checkResult[0] && checkResult[1] == 'user') {
-        await message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `You have been blocked from using Dreamvast, please contact the owner to resolve`
-              )
-              .setColor(client.color),
-          ],
-        })
+        const blocked = new EmbedBuilder()
+          .setDescription(client.i18n.get(guildModel, 'error', 'bl_user', { bot: client.user.id }))
+          .setColor(client.color)
+
+        await message.reply({ embeds: [blocked] })
         return false
       }
       if (checkResult[0] && checkResult[1] == 'guild') {
-        await message.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `This server has been blocked from using Dreamvast, please contact the owner to resolve or use another server`
-              )
-              .setColor(client.color),
-          ],
-        })
+        const blocked = new EmbedBuilder()
+          .setDescription(client.i18n.get(guildModel, 'error', 'bl_guild', { bot: client.user.id }))
+          .setColor(client.color)
+
+        await message.reply({ embeds: [blocked] })
         return false
       }
       return true
@@ -83,9 +75,7 @@ export default class {
 
     const checkBlackklistRes = await blacklistChecker()
 
-    if (message.content.match(mention)) {
-      if (checkBlackklistRes) return
-
+    if (message.content.match(mention) && checkBlackklistRes) {
       const mention_embed = new EmbedBuilder()
         .setAuthor({
           name: `${client.i18n.get(language, 'event.message', 'wel', {
@@ -140,7 +130,7 @@ export default class {
 
     if (setup && setup.channel == message.channelId) return
 
-    if (checkBlackklistRes) return
+    if (!checkBlackklistRes) return
 
     //////////////////////////////// Ratelimit check start ////////////////////////////////
     const ratelimit = commandRateLimitManager.acquire(

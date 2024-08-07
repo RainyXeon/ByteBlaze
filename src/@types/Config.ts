@@ -52,11 +52,11 @@ export interface Commands {
 }
 
 export interface WebServer {
-  host: string,
-  enable: boolean;
-  port: number;
-  auth: string;
-  whitelist: string[];
+  host: string
+  enable: boolean
+  port: number
+  auth: string
+  whitelist: string[]
 }
 
 export interface Player {

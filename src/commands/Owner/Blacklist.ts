@@ -67,7 +67,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`Invalid type of mode, please use add / remove only`)
+            .setDescription(client.i18n.get(handler.language, 'command.utils', 'bl_invalid_mode'))
             .setColor(client.color),
         ],
       })
@@ -75,7 +75,7 @@ export default class implements Command {
       return handler.editReply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(`Invalid type, please use guild / user only`)
+            .setDescription(client.i18n.get(handler.language, 'command.utils', 'bl_invalid_type'))
             .setColor(client.color),
         ],
       })
@@ -85,7 +85,7 @@ export default class implements Command {
     await client.db.blacklist.set(`${type}_${id}`, true)
 
     const restart = new EmbedBuilder()
-      .setDescription(`Blacklisted id \`${id}\` successfully!`)
+      .setDescription(client.i18n.get(handler.language, 'command.utils', 'bl_add', { id }))
       .setColor(client.color)
 
     await handler.editReply({ embeds: [restart] })
@@ -99,7 +99,7 @@ export default class implements Command {
   ) {
     await client.db.blacklist.delete(`${type}_${id}`)
     const remove = new EmbedBuilder()
-      .setDescription(`Blacklist id \`${id}\` removed successfully!`)
+      .setDescription(client.i18n.get(handler.language, 'command.utils', 'bl_remove', { id }))
       .setColor(client.color)
     await handler.editReply({ embeds: [remove] })
   }

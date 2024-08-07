@@ -5,7 +5,7 @@ import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
   public name = ['earrape']
-  public description = 'Turning on earrape filter'
+  public description = 'Turning on earrape filter (extended by rainy)'
   public category = 'Filter'
   public accessableby = [Accessableby.Member]
   public usage = ''
@@ -22,18 +22,19 @@ export default class implements Command {
 
     const player = client.rainlink.players.get(handler.guild!.id)
 
-    if (player?.data.get('filter-mode') == this.name[0])
+    if (player?.data.get('filter-mode') == this.name[0]) {
+      const filterInvalid = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(handler.language, 'command.filter', 'filter_already', {
+            name: this.name[0],
+          })}`
+        )
+        .setColor(client.color)
+
       return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, 'command.filter', 'filter_already', {
-                name: this.name[0],
-              })}`
-            )
-            .setColor(client.color),
-        ],
+        embeds: [filterInvalid],
       })
+    }
 
     player?.data.set('filter-mode', this.name[0])
     player?.filter.setVolume(500)

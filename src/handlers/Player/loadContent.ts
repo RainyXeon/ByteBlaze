@@ -59,26 +59,21 @@ export class PlayerContentLoader {
     const blacklistService = new BlacklistService(client)
     const checkResult = await blacklistService.fullCheck(interaction.user.id, interaction.guildId)
     if (checkResult[0] && checkResult[1] == 'user') {
+      const blocked = new EmbedBuilder()
+        .setDescription(client.i18n.get(guildModel, 'error', 'bl_user', { bot: client.user.id }))
+        .setColor(client.color)
       await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `You have been blocked from using Dreamvast, please contact the owner to resolve`
-            )
-            .setColor(client.color),
-        ],
+        embeds: [blocked],
       })
       return
     }
     if (checkResult[0] && checkResult[1] == 'guild') {
+      const blocked = new EmbedBuilder()
+        .setDescription(client.i18n.get(guildModel, 'error', 'bl_guild', { bot: client.user.id }))
+        .setColor(client.color)
+
       await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `This server has been blocked from using Dreamvast, please contact the owner to resolve or use another server`
-            )
-            .setColor(client.color),
-        ],
+        embeds: [blocked],
       })
       return
     }

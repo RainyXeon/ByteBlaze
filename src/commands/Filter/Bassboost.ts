@@ -5,7 +5,7 @@ import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
   public name = ['bassboost']
-  public description = 'Turning on bassboost filter'
+  public description = 'Turning on bassboost filter (extended by rainy)'
   public category = 'Filter'
   public accessableby = [Accessableby.Member]
   public usage = '<number>'
@@ -28,16 +28,14 @@ export default class implements Command {
 
     const value = handler.args[0]
 
-    if (value && isNaN(+value))
+    if (value && isNaN(+value)) {
+      const filterNumberInvalid = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(handler.language, 'command.filter', 'filter_number')}`)
+        .setColor(client.color)
       return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, 'command.filter', 'filter_number')}`
-            )
-            .setColor(client.color),
-        ],
+        embeds: [filterNumberInvalid],
       })
+    }
 
     const player = client.rainlink.players.get(handler.guild!.id)
 

@@ -39,3 +39,7 @@ topgg_error_desc: "An exception occurred while checking your vote on top.gg, thi
 topgg_vote_author: "❌ | You haven't voted yet"
 topgg_vote_desc: "To use this command, you have to vote this bot!"
 topgg_vote_button: "Click here to vote!"
+
+# Blacklist error
+bl_user: "`❌` | You have been blocked by <@%{bot}>, please contact the owner to resolve"
+bl_guild: "`❌` | This server has been blocked by <@%{bot}>, please contact the owner to resolve or use another server"
