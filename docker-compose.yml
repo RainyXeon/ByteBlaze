@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   lavalink:
@@ -17,7 +17,7 @@ services:
     expose:
       - 2333
     ports:
-      - "2333:2333"
+      - '2333:2333'
 
   mongodb:
     container_name: mongodb

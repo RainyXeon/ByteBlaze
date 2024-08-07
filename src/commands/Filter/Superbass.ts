@@ -1,41 +1,42 @@
-import { EmbedBuilder } from "discord.js";
-import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
+import { EmbedBuilder } from 'discord.js'
+import { Manager } from '../../manager.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
-  public name = ["superbass"];
-  public description = "Turning on superbass filter";
-  public category = "Filter";
-  public accessableby = [Accessableby.Member];
-  public usage = "";
-  public aliases = ["superbass"];
-  public lavalink = true;
-  public options = [];
-  public playerCheck = true;
-  public usingInteraction = true;
-  public sameVoiceCheck = true;
-  public permissions = [];
+  public name = ['superbass']
+  public description = 'Turning on superbass filter (extended by rainy)'
+  public category = 'Filter'
+  public accessableby = [Accessableby.Member]
+  public usage = ''
+  public aliases = ['superbass']
+  public lavalink = true
+  public options = []
+  public playerCheck = true
+  public usingInteraction = true
+  public sameVoiceCheck = true
+  public permissions = []
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id)
 
-    if (player?.data.get("filter-mode") == this.name[0])
+    if (player?.data.get('filter-mode') == this.name[0]) {
+      const filterInvalid = new EmbedBuilder()
+        .setDescription(
+          `${client.i18n.get(handler.language, 'command.filter', 'filter_already', {
+            name: this.name[0],
+          })}`
+        )
+        .setColor(client.color)
+
       return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "filter_already", {
-                name: this.name[0],
-              })}`
-            )
-            .setColor(client.color),
-        ],
-      });
+        embeds: [filterInvalid],
+      })
+    }
 
-    player?.data.set("filter-mode", this.name[0]);
+    player?.data.set('filter-mode', this.name[0])
     player?.filter.setEqualizer([
       { band: 0, gain: 0.2 },
       { band: 1, gain: 0.3 },
@@ -51,15 +52,15 @@ export default class implements Command {
       { band: 11, gain: 0 },
       { band: 12, gain: 0 },
       { band: 13, gain: 0 },
-    ]);
+    ])
 
     const sbed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.filter", "filter_on", {
+        `${client.i18n.get(handler.language, 'command.filter', 'filter_on', {
           name: this.name[0],
         })}`
       )
-      .setColor(client.color);
-    await handler.editReply({ content: " ", embeds: [sbed] });
+      .setColor(client.color)
+    await handler.editReply({ content: ' ', embeds: [sbed] })
   }
 }

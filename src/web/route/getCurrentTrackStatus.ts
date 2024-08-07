@@ -1,7 +1,7 @@
-import util from "node:util";
-import { User } from "discord.js";
-import { Manager } from "../../manager.js";
-import Fastify from "fastify";
+import util from 'node:util'
+import { User } from 'discord.js'
+import { Manager } from '../../manager.js'
+import Fastify from 'fastify'
 
 export async function getCurrentTrackStatus(
   client: Manager,
@@ -9,18 +9,18 @@ export async function getCurrentTrackStatus(
   res: Fastify.FastifyReply
 ) {
   client.logger.info(
-    "StatusRouterService",
-    `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : "{}"}`
-  );
-  const guildId = (req.params as Record<string, string>)["guildId"];
-  const player = client.rainlink.players.get(guildId);
+    'StatusRouterService',
+    `${req.method} ${req.routeOptions.url} params=${req.params ? util.inspect(req.params) : '{}'}`
+  )
+  const guildId = (req.params as Record<string, string>)['guildId']
+  const player = client.rainlink.players.get(guildId)
   if (!player) {
-    res.code(400);
-    res.send({ error: "Current player not found!" });
-    return;
+    res.code(400)
+    res.send({ error: 'Current player not found!' })
+    return
   }
-  const song = player.queue.current;
-  const requester = song ? (song.requester as User) : null;
+  const song = player.queue.current
+  const requester = song ? (song.requester as User) : null
 
   res.send({
     data: song
@@ -40,5 +40,5 @@ export async function getCurrentTrackStatus(
             : null,
         }
       : null,
-  });
+  })
 }

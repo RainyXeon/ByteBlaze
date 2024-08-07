@@ -1,6 +1,6 @@
 export enum SongNotiEnum {
-  Enable = "enable",
-  Disable = "disable",
+  Enable = 'enable',
+  Disable = 'disable',
 }
 
-export type SongNoti = SongNotiEnum;
+export type SongNoti = SongNotiEnum

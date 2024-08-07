@@ -1,16 +1,16 @@
-import { RainlinkEvents, RainlinkPluginType } from "../../Interface/Constants.js";
-import { Rainlink } from "../../Rainlink.js";
-import { RainlinkPlugin as Plugin } from "./../RainlinkPlugin.js";
+import { RainlinkEvents, RainlinkPluginType } from '../../Interface/Constants.js'
+import { Rainlink } from '../../Rainlink.js'
+import { RainlinkPlugin as Plugin } from './../RainlinkPlugin.js'
 
 export class RainlinkPlugin extends Plugin {
-  private rainlink: Rainlink | null = null;
+  private rainlink: Rainlink | null = null
 
   /**
    * Initialize the plugin.
    * @param client Discord.Client
    */
   constructor(public client: any) {
-    super();
+    super()
   }
 
   /**
@@ -18,7 +18,7 @@ export class RainlinkPlugin extends Plugin {
    * @returns RainlinkPluginType
    */
   public type(): RainlinkPluginType {
-    return RainlinkPluginType.Default;
+    return RainlinkPluginType.Default
   }
 
   /**
@@ -26,8 +26,8 @@ export class RainlinkPlugin extends Plugin {
    * @param rainlink rainlink
    */
   public load(rainlink: Rainlink): void {
-    this.rainlink = rainlink;
-    this.client.on("voiceStateUpdate", this.onVoiceStateUpdate.bind(this));
+    this.rainlink = rainlink
+    this.client.on('voiceStateUpdate', this.onVoiceStateUpdate.bind(this))
   }
 
   /**
@@ -35,36 +35,36 @@ export class RainlinkPlugin extends Plugin {
    * @returns string
    */
   public name(): string {
-    return "rainlink-playerMoved";
+    return 'rainlink-playerMoved'
   }
 
   /**
    * Unload the plugin.
    */
   public unload(): void {
-    this.client.removeListener("voiceStateUpdate", this.onVoiceStateUpdate.bind(this));
-    this.rainlink = null;
+    this.client.removeListener('voiceStateUpdate', this.onVoiceStateUpdate.bind(this))
+    this.rainlink = null
   }
 
   private onVoiceStateUpdate(oldState: any, newState: any): void {
-    if (!this.rainlink || oldState.id !== this.client.user.id) return;
+    if (!this.rainlink || oldState.id !== this.client.user.id) return
 
-    const newChannelId = newState.channelID || newState.channelId;
-    const oldChannelId = oldState.channelID || oldState.channelId;
-    const guildId = newState.guild.id;
+    const newChannelId = newState.channelID || newState.channelId
+    const oldChannelId = oldState.channelID || oldState.channelId
+    const guildId = newState.guild.id
 
-    const player = this.rainlink.players.get(guildId);
-    if (!player) return;
+    const player = this.rainlink.players.get(guildId)
+    if (!player) return
 
-    let state = "UNKNOWN";
-    if (!oldChannelId && newChannelId) state = "JOINED";
-    else if (oldChannelId && !newChannelId) state = "LEFT";
-    else if (oldChannelId && newChannelId && oldChannelId !== newChannelId) state = "MOVED";
+    let state = 'UNKNOWN'
+    if (!oldChannelId && newChannelId) state = 'JOINED'
+    else if (oldChannelId && !newChannelId) state = 'LEFT'
+    else if (oldChannelId && newChannelId && oldChannelId !== newChannelId) state = 'MOVED'
 
-    if (state === "UNKNOWN") return;
+    if (state === 'UNKNOWN') return
     this.rainlink.emit(RainlinkEvents.PlayerMoved, player, state, {
       oldChannelId,
       newChannelId,
-    });
+    })
   }
 }

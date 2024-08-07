@@ -1,58 +1,56 @@
-import { Manager } from "../../manager.js";
-import { EmbedBuilder, ApplicationCommandOptionType, Message } from "discord.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
+import { Manager } from '../../manager.js'
+import { EmbedBuilder, ApplicationCommandOptionType, Message } from 'discord.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
 
 export default class implements Command {
-  public name = ["bassboost"];
-  public description = "Turning on bassboost filter";
-  public category = "Filter";
-  public accessableby = [Accessableby.Member];
-  public usage = "<number>";
-  public aliases = ["bassboost"];
-  public lavalink = true;
-  public playerCheck = true;
-  public usingInteraction = true;
-  public sameVoiceCheck = true;
-  public permissions = [];
+  public name = ['bassboost']
+  public description = 'Turning on bassboost filter (extended by rainy)'
+  public category = 'Filter'
+  public accessableby = [Accessableby.Member]
+  public usage = '<number>'
+  public aliases = ['bassboost']
+  public lavalink = true
+  public playerCheck = true
+  public usingInteraction = true
+  public sameVoiceCheck = true
+  public permissions = []
   public options = [
     {
-      name: "amount",
-      description: "The amount of the bassboost",
+      name: 'amount',
+      description: 'The amount of the bassboost',
       type: ApplicationCommandOptionType.Number,
     },
-  ];
+  ]
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const value = handler.args[0];
+    const value = handler.args[0]
 
-    if (value && isNaN(+value))
+    if (value && isNaN(+value)) {
+      const filterNumberInvalid = new EmbedBuilder()
+        .setDescription(`${client.i18n.get(handler.language, 'command.filter', 'filter_number')}`)
+        .setColor(client.color)
       return handler.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "filter_number")}`
-            )
-            .setColor(client.color),
-        ],
-      });
+        embeds: [filterNumberInvalid],
+      })
+    }
 
-    const player = client.rainlink.players.get(handler.guild!.id);
+    const player = client.rainlink.players.get(handler.guild!.id)
 
     if (!value) {
-      player?.filter.set("bass");
+      player?.filter.set('bass')
 
       const embed = new EmbedBuilder()
         .setDescription(
-          `${client.i18n.get(handler.language, "command.filter", "filter_on", {
-            name: "Bassboost",
+          `${client.i18n.get(handler.language, 'command.filter', 'filter_on', {
+            name: 'Bassboost',
           })}`
         )
-        .setColor(client.color);
+        .setColor(client.color)
 
-      return handler.editReply({ content: " ", embeds: [embed] });
+      return handler.editReply({ content: ' ', embeds: [embed] })
     }
 
     if (Number(value) > 10 || Number(value) < -10)
@@ -60,11 +58,11 @@ export default class implements Command {
         embeds: [
           new EmbedBuilder()
             .setDescription(
-              `${client.i18n.get(handler.language, "command.filter", "bassboost_limit")}`
+              `${client.i18n.get(handler.language, 'command.filter', 'bassboost_limit')}`
             )
             .setColor(client.color),
         ],
-      });
+      })
 
     player?.filter.setEqualizer([
       { band: 0, gain: Number(value) / 10 },
@@ -81,17 +79,17 @@ export default class implements Command {
       { band: 11, gain: 0 },
       { band: 12, gain: 0 },
       { band: 13, gain: 0 },
-    ]);
-    player?.data.set("filter-mode", this.name[0]);
+    ])
+    player?.data.set('filter-mode', this.name[0])
 
     const embed = new EmbedBuilder()
       .setDescription(
-        `${client.i18n.get(handler.language, "command.filter", "bassboost_set", {
+        `${client.i18n.get(handler.language, 'command.filter', 'bassboost_set', {
           amount: value,
         })}`
       )
-      .setColor(client.color);
+      .setColor(client.color)
 
-    return handler.editReply({ content: " ", embeds: [embed] });
+    return handler.editReply({ content: ' ', embeds: [embed] })
   }
 }

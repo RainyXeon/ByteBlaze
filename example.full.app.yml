@@ -8,12 +8,12 @@ bot:
   # You can add more than 1 token to clone the bot
   # Note that performance will be dreaded and you can't set each config for each cloned bot
   # Config data of each bot will be the same
-  TOKEN: "Bot Token 1"
-  EMBED_COLOR: "#2B2D31"
-  OWNER_ID: "Your User ID"
-  ADMIN: ["<your_trusted_admin_discord_id_here>"]
+  TOKEN: 'Bot Token 1'
+  EMBED_COLOR: '#2B2D31'
+  OWNER_ID: 'Your User ID'
+  ADMIN: ['<your_trusted_admin_discord_id_here>']
   # You can set it to en, vi...
-  LANGUAGE: "en"
+  LANGUAGE: 'en'
   DEBUG_MODE: false
 
 player:
@@ -21,11 +21,11 @@ player:
     # Your Spotify ID and Secret, you can get it from here: https://developer.spotify.com
     # If you don't have or don't want, you can disable it
     enable: false
-    id: ""
-    secret: ""
+    id: ''
+    secret: ''
 
   # Default search suggestion for auto complete, leave it empty will use default
-  AUTOCOMPLETE_SEARCH: ["yorushika", "yoasobi", "tuyu", "hinkik"]
+  AUTOCOMPLETE_SEARCH: ['yorushika', 'yoasobi', 'tuyu', 'hinkik']
 
   # Enable this if you want to use realtime duation in nowplaying command
   NP_REALTIME: false
@@ -47,10 +47,10 @@ player:
 
   # You can add more Lavalink servers!
   NODES:
-    - host: "IP"
+    - host: 'IP'
       port: 2333 # Your host port here
-      name: "Name" #only a-z A-Z 0-9 and _
-      auth: "Password"
+      name: 'Name' #only a-z A-Z 0-9 and _
+      auth: 'Password'
       secure: false
       # In rainlink, it support lavalink v3, lavalink v4 and nodelink v2 as driver
       # If you put the wrong driver identify here or not put anything here,
@@ -61,7 +61,7 @@ player:
       # | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
       # | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
       # | Nodelink | v2.0.0 - v2.x.x  | lavalink/v3/koto  |
-      driver: "lavalink@4"
+      driver: 'lavalink@4'
 
 utilities:
   # Enable debug tools for execute code from bot
@@ -70,11 +70,11 @@ utilities:
   # use: sudo rdc help, for more command
   DEBUG_TOOLS: true
   # Log register premium activities
-  PREMIUM_LOG_CHANNEL: ""
+  PREMIUM_LOG_CHANNEL: ''
   # Log all the guild that bot joined or leaved
-  GUILD_LOG_CHANNEL: ""
+  GUILD_LOG_CHANNEL: ''
   # Log all unhandled, error, warnings on discord
-  LOG_CHANNEL: ""
+  LOG_CHANNEL: ''
   # The timeout for deleting msg
   DELETE_MSG_TIMEOUT: 3000
   # Auto resume when bot restarted suddenly
@@ -83,14 +83,14 @@ utilities:
   # Database services config
   DATABASE:
     # Note: If you enter an invalid driver, bot will use json driver as default
-    driver: "json" # mongodb, mysql, json, postgres
+    driver: 'json' # mongodb, mysql, json, postgres
     # Config depends on driver, you can see sample config at src/database/driver
-    config: { path: "./cylane.database.json" }
+    config: { path: './cylane.database.json' }
     # Cache cleaning for reduce memory
     # This feature have the same API with this link below
     # https://github.com/node-cron/node-cron?tab=readme-ov-file#allowed-fields
     # You can disable caching by using DISABLE string
-    cacheCleanSchedule: "0 */30 * * * *"
+    cacheCleanSchedule: '0 */30 * * * *'
 
   # Msg content for bot using prefix command and setup
   MESSAGE_CONTENT:
@@ -98,7 +98,7 @@ utilities:
     # Whenever you want to use prefix command or not
     commands:
       enable: true
-      prefix: "d!" # The prefix you want
+      prefix: 'd!' # The prefix you want
 
   # Fix the Lavalink server when the current is down
   AUTOFIX_LAVALINK:
@@ -108,26 +108,26 @@ utilities:
 
   # WS/REST server for using web player
   WEB_SERVER:
-    host: "0.0.0.0"
+    host: '0.0.0.0'
     enable: false
     port: 3000
     whitelist: [] # Example: ["lavalink.dev"]
-    auth: "youshallnotpass"
+    auth: 'youshallnotpass'
 
 # You can custom your emoji here!
 emojis:
   PLAYER:
-    play: "<:pjad_play:1161595194630754334>"
-    pause: "<:pjad_pause:1161595191573094453>"
-    loop: "<:pjad_loop:1161595185357135892>"
-    shuffle: "<:pjad_shuffle:1161596851020115968>"
-    stop: "<:pjad_stop:1161595204302798909>"
-    skip: "<:pjad_skip:1161595199617781822>"
-    previous: "<:pjad_previous:1161595200985104467>"
-    voldown: "<:pjad_voldown:1161595205993107487>"
-    volup: "<:pjad_volup:1161595209289830450>"
-    queue: "<:pjad_queue:1161595196425912331>"
-    delete: "<:pjad_delete:1161595181418692658>"
+    play: '<:pjad_play:1161595194630754334>'
+    pause: '<:pjad_pause:1161595191573094453>'
+    loop: '<:pjad_loop:1161595185357135892>'
+    shuffle: '<:pjad_shuffle:1161596851020115968>'
+    stop: '<:pjad_stop:1161595204302798909>'
+    skip: '<:pjad_skip:1161595199617781822>'
+    previous: '<:pjad_previous:1161595200985104467>'
+    voldown: '<:pjad_voldown:1161595205993107487>'
+    volup: '<:pjad_volup:1161595209289830450>'
+    queue: '<:pjad_queue:1161595196425912331>'
+    delete: '<:pjad_delete:1161595181418692658>'
   GLOBAL:
-    arrow_next: "<:pjad_arrow_next:1161595178210041919>"
-    arrow_previous: "<:pjad_arrow_back:1161595176737832970>"
+    arrow_next: '<:pjad_arrow_next:1161595178210041919>'
+    arrow_previous: '<:pjad_arrow_back:1161595176737832970>'

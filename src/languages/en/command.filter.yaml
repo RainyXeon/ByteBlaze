@@ -4,6 +4,7 @@ filter_already: "`⚠️` | %{name} filter is already **enabled**!"
 filter_number: "`⚠️` | Please provide a valid number!"
 filter_greater: "`⚠️` | Number must be greater than **0**!"
 filter_less: "`⚠️` | Number must be lesser than **10**!"
+filter_avaliable: "### `❌` | You must type in the correct filter name. Here's all avaliable filter [%{amount}]\n`%{list}`"
 
 ### Bassboost command!
 bassboost_set: "`🎚️` | Bassboost has been set to **%{amount}dB**!"

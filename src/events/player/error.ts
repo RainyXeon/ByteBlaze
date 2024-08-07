@@ -1,7 +1,7 @@
-import { Manager } from "../../manager.js";
+import { Manager } from '../../manager.js'
 
 export default class {
   async execute(client: Manager, error: Error) {
-    client.logger.error("RainlinkError", error);
+    client.logger.error('RainlinkError', error)
   }
 }

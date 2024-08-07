@@ -1,1 +1,1 @@
-export type Prefix = string;
+export type Prefix = string

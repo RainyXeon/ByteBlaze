@@ -1,87 +1,86 @@
-import { EmbedBuilder, User } from "discord.js";
-import { Manager } from "../../manager.js";
-import { Accessableby, Command } from "../../structures/Command.js";
-import { CommandHandler } from "../../structures/CommandHandler.js";
-import { formatDuration } from "../../utilities/FormatDuration.js";
-import { PageQueue } from "../../structures/PageQueue.js";
-import { RainlinkPlayer, RainlinkTrack } from "../../rainlink/main.js";
-import { getTitle } from "../../utilities/GetTitle.js";
+import { EmbedBuilder, User } from 'discord.js'
+import { Manager } from '../../manager.js'
+import { Accessableby, Command } from '../../structures/Command.js'
+import { CommandHandler } from '../../structures/CommandHandler.js'
+import { formatDuration } from '../../utilities/FormatDuration.js'
+import { PageQueue } from '../../structures/PageQueue.js'
+import { RainlinkPlayer } from '../../rainlink/main.js'
+import { getTitle } from '../../utilities/GetTitle.js'
 
 // Main code
 export default class implements Command {
-  public name = ["shuffle"];
-  public description = "Shuffle song in queue!";
-  public category = "Music";
-  public accessableby = [Accessableby.Member];
-  public usage = "";
-  public aliases = [];
-  public lavalink = true;
-  public playerCheck = true;
-  public usingInteraction = true;
-  public sameVoiceCheck = true;
-  public permissions = [];
-  public options = [];
+  public name = ['shuffle']
+  public description = 'Shuffle song in queue!'
+  public category = 'Music'
+  public accessableby = [Accessableby.Member]
+  public usage = ''
+  public aliases = []
+  public lavalink = true
+  public playerCheck = true
+  public usingInteraction = true
+  public sameVoiceCheck = true
+  public permissions = []
+  public options = []
 
   public async execute(client: Manager, handler: CommandHandler) {
-    await handler.deferReply();
+    await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer;
+    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
 
-    const newQueue = await player.queue.shuffle();
+    const newQueue = await player.queue.shuffle()
 
-    const song = newQueue.current;
+    const song = newQueue.current
 
-    const qduration = `${formatDuration(song!.duration + player.queue.duration)}`;
+    const qduration = `${formatDuration(song!.duration + player.queue.duration)}`
     const thumbnail =
-      song!.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`;
+      song!.artworkUrl ?? `https://img.youtube.com/vi/${song!.identifier}/hqdefault.jpg`
 
-    let pagesNum = Math.ceil(newQueue.length / 10);
-    if (pagesNum === 0) pagesNum = 1;
+    let pagesNum = Math.ceil(newQueue.length / 10)
+    if (pagesNum === 0) pagesNum = 1
 
-    const songStrings = [];
+    const songStrings = []
     for (let i = 0; i < newQueue.length; i++) {
-      const song = newQueue[i];
+      const song = newQueue[i]
       songStrings.push(
-        `**${i + 1}.** ${getTitle(client, song)} \`[${formatDuration(song.duration)}]\`
-                    `
-      );
+        `**${i + 1}.** ${getTitle(client, song)} \`[${formatDuration(song.duration)}]\``
+      )
     }
 
-    const pages = [];
+    const pages = []
     for (let i = 0; i < pagesNum; i++) {
-      const str = songStrings.slice(i * 10, i * 10 + 10).join("");
+      const str = songStrings.slice(i * 10, i * 10 + 10).join('')
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, "command.music", "shuffle_msg")}`,
+          name: `${client.i18n.get(handler.language, 'command.music', 'shuffle_msg')}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)
         .setDescription(
-          `${client.i18n.get(handler.language, "command.music", "queue_description", {
+          `${client.i18n.get(handler.language, 'command.music', 'queue_description', {
             title: getTitle(client, song!),
             request: String(song!.requester),
             duration: formatDuration(song!.duration),
-            rest: str == "" ? "  Nothing" : "\n" + str,
+            rest: str == '' ? '  Nothing' : '\n' + str,
           })}`
         )
         .setFooter({
-          text: `${client.i18n.get(handler.language, "command.music", "queue_footer", {
+          text: `${client.i18n.get(handler.language, 'command.music', 'queue_footer', {
             page: String(i + 1),
             pages: String(pagesNum),
             queue_lang: String(newQueue.length),
             duration: qduration,
           })}`,
-        });
+        })
 
-      pages.push(embed);
+      pages.push(embed)
     }
 
     client.wsl.get(handler.guild!.id)?.send({
-      op: "playerQueueShuffle",
+      op: 'playerQueueShuffle',
       guild: handler.guild!.id,
       queue: player.queue.map((track) => {
-        const requesterQueue = track.requester as User;
+        const requesterQueue = track.requester as User
         return {
           title: track.title,
           uri: track.uri,
@@ -96,22 +95,22 @@ export default class implements Command {
                 defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
               }
             : null,
-        };
+        }
       }),
-    });
+    })
 
     if (pages.length == pagesNum && newQueue.length > 10) {
       if (handler.message) {
         await new PageQueue(client, pages, 60000, newQueue.length, handler.language).prefixPage(
           handler.message,
           qduration
-        );
+        )
       } else if (handler.interaction) {
         await new PageQueue(client, pages, 60000, newQueue.length, handler.language).slashPage(
           handler.interaction,
           qduration
-        );
-      } else return;
-    } else return handler.editReply({ embeds: [pages[0]] });
+        )
+      } else return
+    } else return handler.editReply({ embeds: [pages[0]] })
   }
 }
