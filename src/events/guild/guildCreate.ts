@@ -7,7 +7,7 @@ import { BlacklistService } from '../../services/BlacklistService.js'
 export default class {
   async execute(client: Manager, guild: Guild) {
     const blacklistService = new BlacklistService(client)
-    if (blacklistService.checkGuild(guild.id)) {
+    if (await blacklistService.checkGuild(guild.id)) {
       await guild.leave()
       client.logger.info(
         'GuildCreate',
