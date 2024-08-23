@@ -17,7 +17,6 @@ export class WebServer {
         this.server = http.createServer((req, res) => {
           handler(req, res)
         })
-
         return this.server
       },
     })
