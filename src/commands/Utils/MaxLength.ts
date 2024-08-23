@@ -33,7 +33,7 @@ export default class implements Command {
     let value: number
     const time = handler.args[0]
 
-    if (time == "none" || time == "0:00") {
+    if (time == 'none' || time == '0:00') {
       await client.db.maxlength.delete(handler.user.id)
       return handler.editReply({
         embeds: [
@@ -61,14 +61,15 @@ export default class implements Command {
 
     const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
 
-    if (player && player.queue.length !== 0) player.queue.forEach((track, trackIndex) => {
-      if (track.duration >= value) player.queue.remove(trackIndex)
-    })
+    if (player && player.queue.length !== 0)
+      player.queue.forEach((track, trackIndex) => {
+        if (track.duration >= value) player.queue.remove(trackIndex)
+      })
 
     await client.db.maxlength.set(handler.user.id, value)
 
     const embed = new EmbedBuilder()
-      .setDescription(client.i18n.get(handler.language, "command.utils", "ml_set", { time } ))
+      .setDescription(client.i18n.get(handler.language, 'command.utils', 'ml_set', { time }))
       .setColor(client.color)
     return handler.editReply({ embeds: [embed] })
   }

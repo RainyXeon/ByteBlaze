@@ -50,7 +50,7 @@ export class TableSetup {
       songNoti: await baseDB.table<SongNoti>('songNoti'),
       preGuild: await baseDB.table<Premium>('preGuild'),
       blacklist: await baseDB.table<Blacklist>('blacklist'),
-      maxlength:  await baseDB.table<MaxLength>('maxlength')
+      maxlength: await baseDB.table<MaxLength>('maxlength'),
     }
 
     this.client.isDatabaseConnected = true

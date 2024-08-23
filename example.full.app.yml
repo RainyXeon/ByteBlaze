@@ -114,6 +114,11 @@ utilities:
     whitelist: [] # Example: ["lavalink.dev"]
     auth: 'youshallnotpass'
 
+  # Because discord-hybrid-sharding not working with this bot
+  SHARDING_SYSTEM:
+    shardsPerClusters: 2
+    totalClusters: 2
+
 # You can custom your emoji here!
 emojis:
   PLAYER:

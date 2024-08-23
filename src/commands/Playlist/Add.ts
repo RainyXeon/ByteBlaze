@@ -73,7 +73,7 @@ export default class implements Command {
     const result = await client.rainlink.search(input, {
       requester: handler.user,
     })
-    const tracks = result.tracks.filter(e => maxLength ? e.duration > maxLength : e)
+    const tracks = result.tracks.filter((e) => (maxLength ? e.duration > maxLength : e))
 
     if (!result.tracks.length)
       return handler.editReply({
@@ -248,7 +248,9 @@ export default class implements Command {
     }
     const searchRes = await client.rainlink.search(url || Random)
 
-    const tracks = searchRes.tracks.filter(e => typeof maxLength !== 'string' ? e.duration > maxLength : e)
+    const tracks = searchRes.tracks.filter((e) =>
+      typeof maxLength !== 'string' ? e.duration > maxLength : e
+    )
 
     if (tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: 'Error song not matches', value: url })
@@ -261,7 +263,6 @@ export default class implements Command {
         value: x && x.uri ? x.uri : url,
       })
     }
-
 
     await (interaction as AutocompleteInteraction).respond(choice).catch(() => {})
   }

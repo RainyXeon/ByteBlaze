@@ -14,7 +14,6 @@ import {
 import { DatabaseService } from './database/index.js'
 import { resolve } from 'path'
 import { LoggerService } from './services/LoggerService.js'
-import { ClusterClient, getInfo } from 'discord-hybrid-sharding'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { WebServer } from './web/server.js'
@@ -35,7 +34,17 @@ import { RainlinkFilterData, RainlinkPlayer } from './rainlink/main.js'
 import { TopggService } from './services/TopggService.js'
 import { Collection } from './structures/Collection.js'
 import { Localization } from './structures/Localization.js'
+import { ClusterManager } from './cluster/core.js'
+import cluster from 'node:cluster'
 config()
+
+function getShard(clusterManager: ClusterManager) {
+  const shardListData = clusterManager.getShard(cluster.worker.id)
+  return {
+    shards: shardListData,
+    shardCount: clusterManager.totalShards,
+  }
+}
 
 export class Manager extends Client {
   public metadata: Metadata
@@ -70,17 +79,17 @@ export class Manager extends Client {
   public enSwitchMod!: ActionRowBuilder<ButtonBuilder>
   public topgg?: TopggService
   public icons: Emojis
-  public cluster?: ClusterClient<Client>
   public REGEX: RegExp[]
   public selectMenuOptions: StringSelectMenuOptionBuilder[] = []
 
   constructor(
     public config: Config,
-    isMsgEnable: boolean
+    isMsgEnable: boolean,
+    public clusterManager?: ClusterManager
   ) {
     super({
-      shards: process.env.IS_SHARING == 'true' ? getInfo().SHARD_LIST : 'auto',
-      shardCount: process.env.IS_SHARING == 'true' ? getInfo().TOTAL_SHARDS : 1,
+      shards: clusterManager ? getShard(clusterManager).shards : 'auto',
+      shardCount: clusterManager ? getShard(clusterManager).shardCount : 1,
       allowedMentions: {
         parse: ['roles', 'users', 'everyone'],
         repliedUser: false,
@@ -101,7 +110,7 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url))
-    this.logger = new LoggerService(this)
+    this.logger = new LoggerService(this, cluster.worker.id)
     this.metadata = new ManifestService().data.metadata.bot
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
@@ -145,8 +154,6 @@ export class Manager extends Client {
 
     // Icons setup
     this.icons = this.config.emojis
-
-    this.cluster = process.env.IS_SHARING == 'true' ? new ClusterClient(this) : undefined
 
     this.rainlink = new RainlinkInit(this).init
     for (const key of Object.keys(RainlinkFilterData)) {
