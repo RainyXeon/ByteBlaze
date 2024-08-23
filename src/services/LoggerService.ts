@@ -14,7 +14,10 @@ type InfoDataType = {
 export class LoggerService {
   private preLog: Logger
   private padding = 28
-  constructor(private client: Manager) {
+  constructor(
+    private client: Manager,
+    private clusterId: number
+  ) {
     this.preLog = createLogger({
       levels: {
         error: 0,
@@ -102,10 +105,11 @@ export class LoggerService {
     const colored = chalk.hex('#86cecb')('|')
     const timeStamp = (info: InfoDataType) => chalk.hex('#00ddc0')(info.timestamp)
     const msg = (info: InfoDataType) => chalk.hex('#86cecb')(info.message)
+    const cluster = chalk.hex('#86cecb')(`CLUSTER_${this.clusterId}`)
     return format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
-        return `${timeStamp(info)} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`
+        return `${timeStamp(info)} ${colored} ${this.filter(info)} ${colored} ${cluster} ${colored} ${msg(info)}`
       })
     )
   }

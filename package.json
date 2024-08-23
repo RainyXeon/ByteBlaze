@@ -11,7 +11,7 @@
     "build:languages": "node --no-deprecation ./scripts/copyLanguagePackage.mjs",
     "build:manifest": "node --no-deprecation ./scripts/copyManifest.mjs",
     "start": "node --no-deprecation ./dist/index.js",
-    "start:shard": "node --no-deprecation ./dist/shard/index.js",
+    "start:shard": "node --no-deprecation ./dist/cluster/index.js",
     "dev": "npx nodemon ./src/index.ts",
     "build:prettier": "npx prettier -w ./src",
     "start:pm2": "npx pm2-runtime start ecosystem.config.cjs --env production"
@@ -48,7 +48,6 @@
     "chalk": "^5.3.0",
     "chillout": "^5.0.0",
     "common-tags": "^1.8.2",
-    "discord-hybrid-sharding": "^2.1.4",
     "discord.js": "^14.14.1",
     "dreamvast.quick.db": "10.0.0-unsupported",
     "fast-xml-parser": "^4.3.6",

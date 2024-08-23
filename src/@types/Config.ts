@@ -1,3 +1,4 @@
+import { ClusterManagerOptions } from '../cluster/core.js'
 import { RainlinkNodeOptions } from '../rainlink/main.js'
 
 export interface Config {
@@ -17,6 +18,7 @@ export interface Bot {
 }
 
 export interface Utilities {
+  SHARDING_SYSTEM: ClusterManagerOptions
   AUTO_RESUME: boolean
   DELETE_MSG_TIMEOUT: number
   DATABASE: Database

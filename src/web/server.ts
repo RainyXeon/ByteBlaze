@@ -5,13 +5,21 @@ import { WebsocketRoute } from './websocket.js'
 import { PlayerRoute } from './player.js'
 import { getSearch } from './route/getSearch.js'
 import { getCommands } from './route/getCommands.js'
+import http from 'node:http'
 
 export class WebServer {
   app: Fastify.FastifyInstance
+  server: http.Server
   constructor(private client: Manager) {
     this.app = Fastify({
-      logger: false
-    });
+      logger: false,
+      serverFactory: (handler, opts) => {
+        this.server = http.createServer((req, res) => {
+          handler(req, res)
+        })
+        return this.server
+      },
+    })
 
     this.app.register(
       (fastify, _, done) => {
@@ -73,18 +81,9 @@ export class WebServer {
 
     const port = this.client.config.utilities.WEB_SERVER.port
 
-    this.app
-      .listen({ port, host: this.client.config.utilities.WEB_SERVER.host })
-      .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
-      .catch((err) => {
-        if (this.client.config.bot.TOKEN.length > 1) {
-          this.client.config.utilities.WEB_SERVER.port =
-            this.client.config.utilities.WEB_SERVER.port + 1
-          const port = this.client.config.utilities.WEB_SERVER.port
-          return this.app
-            .listen({ port: port + 1 })
-            .then(() => this.client.logger.info(WebServer.name, `Server running at port ${port}`))
-        } else this.client.logger.error(WebServer.name, err)
-      })
+    this.app.ready(() => {
+      this.server.listen({ port: 8080 })
+      this.client.logger.info(WebServer.name, `Server running at port ${port}`)
+    })
   }
 }

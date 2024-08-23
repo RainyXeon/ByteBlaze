@@ -87,7 +87,9 @@ export default class implements Command {
     player.textId = handler.channel!.id
 
     const result = await player.search(value, { requester: handler.user })
-    const tracks = result.tracks.filter(e => typeof maxLength !== 'string' ? e.duration > maxLength : e)
+    const tracks = result.tracks.filter((e) =>
+      typeof maxLength !== 'string' ? e.duration > maxLength : e
+    )
 
     if (!result.tracks.length)
       return handler.editReply({
@@ -174,6 +176,7 @@ export default class implements Command {
         return `[${tracks[0].title}](${value})`
       } else {
         return `[${tracks[0].title}](${tracks[0].uri})`
+        return `[${tracks[0].title}](${tracks[0].uri})`
       }
     }
   }
@@ -209,7 +212,7 @@ export default class implements Command {
     }
     const searchRes = await client.rainlink.search(url || Random)
 
-    const tracks = searchRes.tracks.filter(e => maxLength ? e.duration > maxLength : e)
+    const tracks = searchRes.tracks.filter((e) => (maxLength ? e.duration > maxLength : e))
 
     if (tracks.length == 0 || !searchRes.tracks) {
       return choice.push({ name: 'Error song not matches', value: url })
