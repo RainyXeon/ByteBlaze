@@ -176,6 +176,7 @@ export default class implements Command {
         return `[${tracks[0].title}](${value})`
       } else {
         return `[${tracks[0].title}](${tracks[0].uri})`
+        return `[${tracks[0].title}](${tracks[0].uri})`
       }
     }
   }
