@@ -1,7 +1,16 @@
-import cluster from 'node:cluster'
+import cluster, { Worker } from 'node:cluster'
 import process from 'node:process'
 import { config } from 'dotenv'
 import { bootBot } from './bot.js'
+import pidusage, { Status } from 'pidusage'
+import { Collection } from '../structures/Collection.js'
+import chillout from 'chillout'
+import readdirRecursive from 'recursive-readdir'
+import { resolve } from 'path'
+import { join, dirname } from 'path'
+import { fileURLToPath, pathToFileURL } from 'url'
+import { ClusterCommand } from '../@types/Cluster.js'
+const __dirname = dirname(fileURLToPath(import.meta.url))
 config()
 
 export interface ClusterManagerOptions {
@@ -10,8 +19,11 @@ export interface ClusterManagerOptions {
 }
 
 export class ClusterManager {
+  public readonly workerPID: Collection<Worker> = new Collection<Worker>()
+  public readonly commands: Collection<ClusterCommand> = new Collection<ClusterCommand>()
   public readonly clusterShardList: Record<string, number[]> = {}
   public readonly totalShards: number = 0
+
   constructor(public readonly options: ClusterManagerOptions) {
     this.totalShards = this.options.totalClusters * this.options.shardsPerClusters
     const shardArrayID = this.arrayRange(0, this.totalShards - 1, 1)
@@ -23,12 +35,21 @@ export class ClusterManager {
   public async start() {
     if (cluster.isPrimary) {
       this.log('INFO', `Primary process ${process.pid} is running`)
+      await this.commandLoader()
       for (let i = 0; i < this.options.totalClusters; i++) {
-        cluster.fork()
+        const worker = cluster.fork()
+        this.workerPID.set(String(worker.id), worker)
       }
 
       cluster.on('exit', (worker) => {
-        this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died`)
+        this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died x.x`)
+      })
+      cluster.on('message', async (worker, message) => {
+        const jsonMsg = JSON.parse(message)
+        const command = this.commands.get(jsonMsg.cmd)
+        if (!command) return worker.send(JSON.stringify({ error: { code: 404, message: 'Command not found!' } }))
+        const getRes = await command.execute(this, worker, message)
+        worker.send(JSON.stringify(getRes))
       })
     } else {
       bootBot(this)
@@ -37,8 +58,37 @@ export class ClusterManager {
     }
   }
 
+  public getWorkerInfo(clusterId: number) {
+    return this.workerPID.get(String(clusterId))
+  }
+
+  public async getWorkerStatus(clusterId: number): Promise<Status | null> {
+    const workerData = this.workerPID.get(String(clusterId))
+    if (!workerData) return null
+    return new Promise((resolve, reject) =>
+      pidusage(workerData.process.pid, function (err, stats) {
+        if (err) reject(null)
+        resolve(stats)
+    }))
+  }
+
   public getShard(clusterId: number) {
     return this.clusterShardList[String(clusterId)]
+  }
+
+  public async sendMaster(cmd: string, args: Record<string, unknown> = {}): Promise<Record<string, any> | null> {
+    return new Promise((resolve, reject) => {
+      const fullData = { cmd, args }
+      cluster.worker.on('message', (message) => {
+        const jsonMsg = JSON.parse(message)
+        if (jsonMsg.err) return reject(null)
+        resolve(message)
+      })
+      cluster.worker.on('error', () => {
+        return reject(null)
+      })
+      cluster.worker.send(JSON.stringify(fullData))
+    })
   }
 
   protected arrayRange(start: number, stop: number, step: number) {
@@ -54,10 +104,29 @@ export class ClusterManager {
     )
   }
 
-  protected log(level: string, msg: string, pad: number = 9) {
+  public log(level: string, msg: string, pad: number = 9) {
     const date = new Date(Date.now()).toISOString()
     const prettyLevel = level.toUpperCase().padEnd(pad)
     const prettyClass = 'ClusterManager'.padEnd(28)
     console.log(`${date} - ${prettyLevel} - ${prettyClass} - ${msg}`)
+  }
+
+  protected async commandLoader() {
+    let eventsPath = resolve(join(__dirname, 'commands'))
+    let eventsFile = await readdirRecursive(eventsPath)
+    await chillout.forEach(eventsFile, async (path)  => await this.registerCommand(path))
+    this.log('INFO', `Cluster command loaded successfully`)
+  }
+
+  protected async registerCommand(path: string) {
+    const command = new (await import(pathToFileURL(path).toString())).default() as ClusterCommand
+
+    if (!command.execute)
+      return this.log(
+        'WARN',
+        `Clister command [${command.name}] doesn't have exeture function on the class, Skipping...`
+      )
+
+    this.commands.set(command.name, command)
   }
 }

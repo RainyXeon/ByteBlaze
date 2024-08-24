@@ -2,7 +2,6 @@ import { Manager } from '../manager.js'
 import { KeyCheckerEnum } from '../@types/KeyChecker.js'
 import { LoggerService } from '../services/LoggerService.js'
 import utils from 'node:util'
-import cluster from 'node:cluster'
 
 export class keyChecker {
   obj: Record<string, any>
@@ -21,7 +20,7 @@ export class keyChecker {
   }
 
   execute() {
-    const logger = new LoggerService(this.client, cluster.worker.id)
+    const logger = new LoggerService(this.client, this.client.clusterId)
     const objReqKey = Object.keys(this.sampleConfig)
     const res = this.checkEngine()
 

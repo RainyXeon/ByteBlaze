@@ -29,6 +29,8 @@ export default class implements Command {
     const data = handler.args[0]
     const getData = await handler.parseMentions(data)
 
+    console.log(await client.clusterManager.sendMaster('all_worker_id'))
+
     if (data && getData && getData.type !== ParseMentionEnum.USER)
       return handler.editReply({
         embeds: [

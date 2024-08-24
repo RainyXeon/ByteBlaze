@@ -35,7 +35,7 @@ import { TopggService } from './services/TopggService.js'
 import { Collection } from './structures/Collection.js'
 import { Localization } from './structures/Localization.js'
 import { ClusterManager } from './cluster/core.js'
-import cluster from 'node:cluster'
+import cluster, { Cluster } from 'node:cluster'
 config()
 
 function getShard(clusterManager: ClusterManager) {
@@ -47,6 +47,8 @@ function getShard(clusterManager: ClusterManager) {
 }
 
 export class Manager extends Client {
+  public cluster: Cluster
+  public clusterId: number
   public metadata: Metadata
   public logger: LoggerService
   public db!: DatabaseTable
@@ -110,7 +112,9 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url))
-    this.logger = new LoggerService(this, cluster.worker.id)
+    this.cluster = cluster
+    this.clusterId = cluster.worker.id
+    this.logger = new LoggerService(this, this.clusterId)
     this.metadata = new ManifestService().data.metadata.bot
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
