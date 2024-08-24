@@ -7,12 +7,12 @@ export interface ClusterManagerOptions {
 }
 
 export interface WorkerMessage {
-  cmd: string,
+  cmd: string
   args: Record<string, unknown>
 }
 
 export interface WorkerResponse {
-  response: unknown,
+  response: unknown
 }
 
 export abstract class ClusterCommand {
@@ -20,7 +20,11 @@ export abstract class ClusterCommand {
     throw new Error(`This command doesn't have name`)
   }
 
-  public async execute(manager: ClusterManager, worker: Worker, message: WorkerMessage): Promise<WorkerResponse> {
+  public async execute(
+    manager: ClusterManager,
+    worker: Worker,
+    message: WorkerMessage
+  ): Promise<WorkerResponse> {
     throw new Error(`This command doesn't have execute function`)
-  } 
+  }
 }

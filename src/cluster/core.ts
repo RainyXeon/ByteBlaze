@@ -47,7 +47,10 @@ export class ClusterManager {
       cluster.on('message', async (worker, message) => {
         const jsonMsg = JSON.parse(message)
         const command = this.commands.get(jsonMsg.cmd)
-        if (!command) return worker.send(JSON.stringify({ error: { code: 404, message: 'Command not found!' } }))
+        if (!command)
+          return worker.send(
+            JSON.stringify({ error: { code: 404, message: 'Command not found!' } })
+          )
         const getRes = await command.execute(this, worker, message)
         worker.send(JSON.stringify(getRes))
       })
@@ -69,14 +72,18 @@ export class ClusterManager {
       pidusage(workerData.process.pid, function (err, stats) {
         if (err) reject(null)
         resolve(stats)
-    }))
+      })
+    )
   }
 
   public getShard(clusterId: number) {
     return this.clusterShardList[String(clusterId)]
   }
 
-  public async sendMaster(cmd: string, args: Record<string, unknown> = {}): Promise<Record<string, any> | null> {
+  public async sendMaster(
+    cmd: string,
+    args: Record<string, unknown> = {}
+  ): Promise<Record<string, any> | null> {
     return new Promise((resolve, reject) => {
       const fullData = { cmd, args }
       cluster.worker.on('message', (message) => {
@@ -114,7 +121,7 @@ export class ClusterManager {
   protected async commandLoader() {
     let eventsPath = resolve(join(__dirname, 'commands'))
     let eventsFile = await readdirRecursive(eventsPath)
-    await chillout.forEach(eventsFile, async (path)  => await this.registerCommand(path))
+    await chillout.forEach(eventsFile, async (path) => await this.registerCommand(path))
     this.log('INFO', `Cluster command loaded successfully`)
   }
 

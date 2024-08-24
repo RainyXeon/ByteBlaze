@@ -1,5 +1,5 @@
-import { ClusterCommand, WorkerMessage, WorkerResponse } from "../../@types/Cluster.js";
-import { ClusterManager } from "../core.js";
+import { ClusterCommand, WorkerMessage, WorkerResponse } from '../../@types/Cluster.js'
+import { ClusterManager } from '../core.js'
 import { Worker } from 'node:cluster'
 
 export default class extends ClusterCommand {
@@ -7,9 +7,13 @@ export default class extends ClusterCommand {
     return 'all_worker_id'
   }
 
-  public async execute(manager: ClusterManager, worker: Worker, message: WorkerMessage): Promise<WorkerResponse> {
+  public async execute(
+    manager: ClusterManager,
+    worker: Worker,
+    message: WorkerMessage
+  ): Promise<WorkerResponse> {
     return {
-      response: manager.workerPID.full.map((value) => value[0])
+      response: manager.workerPID.full.map((value) => value[0]),
     }
   }
 }
