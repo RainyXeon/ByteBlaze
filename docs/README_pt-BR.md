@@ -1,9 +1,9 @@
-[English](README.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md)
+[English](README.md) | [Hindi (India)](README_hi.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md)
 
 <br />
 <p align="center">
   <a href="https://github.com/RainyXeon/ByteBlaze">
-    <img src="https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/logo.png" alt="ByteBlaze" width="200" height="200">
+    <img src="https://ucarecdn.com/de81547a-7fe1-47a8-b944-d332e7150c85/38a3efe60cde73928c8d3e9b680f8c92.webp" alt="ByteBlaze" width="200" height="200">
   </a>
 
   <h1 align="center">ByteBlaze</h1>
