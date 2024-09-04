@@ -11,10 +11,6 @@ import { join, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { ClusterCommand } from '../@types/Cluster.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
-import cluster from 'node:cluster'
-import process from 'node:process'
-import { config } from 'dotenv'
-import { bootBot } from './bot.js'
 config()
 
 export interface ClusterManagerOptions {
@@ -57,6 +53,7 @@ export class ClusterManager {
           )
         const getRes = await command.execute(this, worker, message)
         worker.send(JSON.stringify(getRes))
+      })
 
       for (let i = 0; i < this.options.totalClusters; i++) {
         cluster.fork()
