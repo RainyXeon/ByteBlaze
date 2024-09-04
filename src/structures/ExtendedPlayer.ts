@@ -15,4 +15,27 @@ export class ExtendedPlayer extends RainlinkPlayer {
     if (emitEmpty) this.manager.emit(RainlinkEvents.QueueEmpty, this, this.queue)
     return
   }
+
+  public async stop(destroy: boolean) {
+    this.checkDestroyed()
+
+    if (destroy) {
+      await this.destroy()
+      return this
+    }
+
+    this.clear(false)
+
+    this.node.rest.updatePlayer({
+      guildId: this.guildId,
+      playerOptions: {
+        track: {
+          encoded: null,
+        },
+      },
+    })
+    this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current)
+    this.manager.emit("playerStop" as RainlinkEvents.PlayerDestroy, this)
+    return this
+  }
 }
