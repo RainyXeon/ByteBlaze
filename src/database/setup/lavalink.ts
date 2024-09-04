@@ -2,7 +2,7 @@ import { Manager } from '../../manager.js'
 import { AutoReconnect } from '../schema/AutoReconnect.js'
 import chillout from 'chillout'
 import { VoiceChannel } from 'discord.js'
-import { RainlinkLoopMode, RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export class AutoReconnectLavalinkService {
   client: Manager

@@ -5,7 +5,7 @@ import { formatDuration } from '../../utilities/FormatDuration.js'
 import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
 import { SongNotiEnum } from '../../database/schema/SongNoti.js'
-import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from '../../rainlink/main.js'
+import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 export default class {

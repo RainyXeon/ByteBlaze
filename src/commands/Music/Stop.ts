@@ -2,7 +2,7 @@ import { Manager } from '../../manager.js'
 import { EmbedBuilder } from 'discord.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 // Main code
 export default class implements Command {

@@ -1,7 +1,7 @@
 import { Manager } from '../manager.js'
 import { Headers } from '../@types/Lavalink.js'
 import { GetLavalinkServer } from './GetLavalinkServer.js'
-import { RainlinkWebsocket } from '../rainlink/main.js'
+import { RainlinkWebsocket } from 'rainlink'
 
 export class CheckLavalinkServer {
   client: Manager

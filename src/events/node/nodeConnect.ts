@@ -1,5 +1,5 @@
 import { Manager } from '../../manager.js'
-import { RainlinkNode } from '../../rainlink/main.js'
+import { RainlinkNode } from 'rainlink'
 
 export default class {
   execute(client: Manager, node: RainlinkNode) {

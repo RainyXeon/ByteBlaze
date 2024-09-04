@@ -1,6 +1,6 @@
 import { Manager } from '../manager.js'
 import { TextChannel } from 'discord.js'
-import { RainlinkPlayer } from '../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export class ClearMessageService {
   client: Manager

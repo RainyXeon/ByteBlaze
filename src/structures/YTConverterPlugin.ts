@@ -1,12 +1,12 @@
-import { RainlinkTrack } from '../../main.js'
-import { RainlinkPluginType } from '../../main.js'
+import { RainlinkTrack } from 'rainlink'
+import { RainlinkPluginType } from 'rainlink'
 import {
   RainlinkSearchOptions,
   RainlinkSearchResult,
   RainlinkSearchResultType,
-} from '../../main.js'
-import { Rainlink } from '../../main.js'
-import { RainlinkPlugin as Plugin } from '../../main.js'
+} from 'rainlink'
+import { Rainlink } from 'rainlink'
+import { RainlinkPlugin as Plugin } from 'rainlink'
 
 const YOUTUBE_REGEX = [
   /^https?:\/\//,

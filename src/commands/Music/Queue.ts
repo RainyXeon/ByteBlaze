@@ -4,7 +4,7 @@ import { PageQueue } from '../../structures/PageQueue.js'
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer, RainlinkTrack } from '../../rainlink/main.js'
+import { RainlinkPlayer, RainlinkTrack } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 // Main code

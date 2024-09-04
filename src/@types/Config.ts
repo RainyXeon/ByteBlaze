@@ -1,5 +1,5 @@
 import { ClusterManagerOptions } from '../cluster/core.js'
-import { RainlinkNodeOptions } from '../rainlink/main.js'
+import { RainlinkNodeOptions } from 'rainlink'
 
 export interface Config {
   bot: Bot

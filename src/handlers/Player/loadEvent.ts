@@ -4,6 +4,7 @@ import { resolve } from 'path'
 import { join, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { Manager } from '../../manager.js'
+import { RainlinkEventsInterface } from 'rainlink'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export class PlayerEventLoader {
@@ -44,7 +45,7 @@ export class PlayerEventLoader {
         `Event [${eName}] doesn't have exeture function on the class, Skipping...`
       )
 
-    this.client.rainlink.on(eName as 'voiceEndSpeaking', (...args: unknown[]) =>
+    this.client.rainlink.on(eName as keyof RainlinkEventsInterface, (...args: unknown[]) =>
       events.execute(this.client, ...args)
     )
 

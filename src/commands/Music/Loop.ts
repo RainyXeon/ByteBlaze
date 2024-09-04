@@ -3,7 +3,7 @@ import { Manager } from '../../manager.js'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkLoopMode, RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export default class implements Command {
   public name = ['loop']

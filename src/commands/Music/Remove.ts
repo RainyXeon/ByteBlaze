@@ -4,7 +4,7 @@ import { convertTime } from '../../utilities/ConvertTime.js'
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 // Main code

@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkFilterData, RainlinkFilterMode } from '../../rainlink/main.js'
+import { RainlinkFilterData, RainlinkFilterMode } from 'rainlink'
 
 export default class implements Command {
   public name = ['filter']
