@@ -11,6 +11,10 @@ import { join, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { ClusterCommand } from '../@types/Cluster.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
+import cluster from 'node:cluster'
+import process from 'node:process'
+import { config } from 'dotenv'
+import { bootBot } from './bot.js'
 config()
 
 export interface ClusterManagerOptions {
@@ -23,7 +27,6 @@ export class ClusterManager {
   public readonly commands: Collection<ClusterCommand> = new Collection<ClusterCommand>()
   public readonly clusterShardList: Record<string, number[]> = {}
   public readonly totalShards: number = 0
-
   constructor(public readonly options: ClusterManagerOptions) {
     this.totalShards = this.options.totalClusters * this.options.shardsPerClusters
     const shardArrayID = this.arrayRange(0, this.totalShards - 1, 1)
@@ -35,6 +38,7 @@ export class ClusterManager {
   public async start() {
     if (cluster.isPrimary) {
       this.log('INFO', `Primary process ${process.pid} is running`)
+
       await this.commandLoader()
       for (let i = 0; i < this.options.totalClusters; i++) {
         const worker = cluster.fork()
@@ -53,6 +57,13 @@ export class ClusterManager {
           )
         const getRes = await command.execute(this, worker, message)
         worker.send(JSON.stringify(getRes))
+
+      for (let i = 0; i < this.options.totalClusters; i++) {
+        cluster.fork()
+      }
+
+      cluster.on('exit', (worker) => {
+        this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died`)
       })
     } else {
       bootBot(this)

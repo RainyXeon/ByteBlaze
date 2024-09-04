@@ -1,9 +1,9 @@
-[English](README.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md)
+[English](README.md) | [Hindi (India)](README_hi.md) | **Português (Brasil)** | [Tiếng Việt](README_VI.md) | [ภาษาไทย](README_TH.md)
 
 <br />
 <p align="center">
   <a href="https://github.com/RainyXeon/ByteBlaze">
-    <img src="https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/logo.png" alt="ByteBlaze" width="200" height="200">
+    <img src="https://ucarecdn.com/de81547a-7fe1-47a8-b944-d332e7150c85/38a3efe60cde73928c8d3e9b680f8c92.webp" alt="ByteBlaze" width="200" height="200">
   </a>
 
   <h1 align="center">ByteBlaze</h1>
@@ -87,10 +87,11 @@
 
 ## 🖼️ Mostrar
 
-![comando_de_ajuda](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png)
-![req_musica](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/song_request.png)
-![info_playlist](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/playlist_info.png)
-![gerador_pm](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/pm_gen.png)
+![help_command](https://ucarecdn.com/1843f71c-9a4f-4fd0-b72d-63c4ecc40a74/Screenshot_20240825_074957.jpg)
+![song_req](https://ucarecdn.com/25e8fc92-842d-40c2-a653-d1c0224804ae/Picsart_240825_081626013.jpg)
+![playlist_info](https://ucarecdn.com/1f759973-8cc8-49c5-babb-0e60c297ab2e/Screenshot_2024_0825_075240.jpg)
+![player](https://ucarecdn.com/2ef47700-0d6c-4114-86c6-6c98544aa116/Picsart_240825_082538385.jpg)
+
 
 ## 📋 Requisitos
 
