@@ -47,8 +47,7 @@ function getShard(clusterManager: ClusterManager) {
 }
 
 export class Manager extends Client {
-  public cluster: Cluster
-  public clusterId: number
+  public cluster: { id: number | 0, data: Cluster | null }
   public metadata: Metadata
   public logger: LoggerService
   public db!: DatabaseTable
@@ -112,9 +111,11 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url))
-    this.cluster = cluster
-    this.clusterId = cluster.worker.id
-    this.logger = new LoggerService(this, this.clusterId)
+    this.cluster = {
+      data: clusterManager ? cluster : null,
+      id: clusterManager ?  cluster.worker.id : 0
+    }
+    this.logger = new LoggerService(this, this.cluster.id)
     this.metadata = new ManifestService().data.metadata.bot
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
