@@ -1,4 +1,4 @@
-import { RainlinkEvents, RainlinkLoopMode, RainlinkPlayer } from "rainlink";
+import { RainlinkEvents, RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export class ExtendedPlayer extends RainlinkPlayer {
   public clear(emitEmpty: boolean): void {
@@ -35,7 +35,7 @@ export class ExtendedPlayer extends RainlinkPlayer {
       },
     })
     this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current)
-    this.manager.emit("playerStop" as RainlinkEvents.PlayerDestroy, this)
+    this.manager.emit('playerStop' as RainlinkEvents.PlayerDestroy, this)
     return this
   }
 }

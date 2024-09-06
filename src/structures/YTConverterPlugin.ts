@@ -1,10 +1,6 @@
 import { RainlinkTrack } from 'rainlink'
 import { RainlinkPluginType } from 'rainlink'
-import {
-  RainlinkSearchOptions,
-  RainlinkSearchResult,
-  RainlinkSearchResultType,
-} from 'rainlink'
+import { RainlinkSearchOptions, RainlinkSearchResult, RainlinkSearchResultType } from 'rainlink'
 import { Rainlink } from 'rainlink'
 import { RainlinkPlugin as Plugin } from 'rainlink'
 

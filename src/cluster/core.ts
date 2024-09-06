@@ -9,7 +9,7 @@ import readdirRecursive from 'recursive-readdir'
 import { resolve } from 'path'
 import { join, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
-import { ClusterCommand } from '../@types/Cluster.js'
+import { ClusterCommand, WorkerResponse } from '../@types/Cluster.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 config()
 
@@ -23,12 +23,18 @@ export class ClusterManager {
   public readonly commands: Collection<ClusterCommand> = new Collection<ClusterCommand>()
   public readonly clusterShardList: Record<string, number[]> = {}
   public readonly totalShards: number = 0
+  public customData?: {
+    id: number
+    shard: number[]
+    shardCount: number
+  }
   constructor(public readonly options: ClusterManagerOptions) {
     this.totalShards = this.options.totalClusters * this.options.shardsPerClusters
     const shardArrayID = this.arrayRange(0, this.totalShards - 1, 1)
     this.arrayChunk<number>(shardArrayID, this.options.shardsPerClusters).map((value, index) => {
       this.clusterShardList[String(index + 1)] = value
     })
+    console.log(this.options.totalClusters)
   }
 
   public async start() {
@@ -36,10 +42,6 @@ export class ClusterManager {
       this.log('INFO', `Primary process ${process.pid} is running`)
 
       await this.commandLoader()
-      for (let i = 0; i < this.options.totalClusters; i++) {
-        const worker = cluster.fork()
-        this.workerPID.set(String(worker.id), worker)
-      }
 
       cluster.on('exit', (worker) => {
         this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died x.x`)
@@ -63,7 +65,7 @@ export class ClusterManager {
         this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died`)
       })
     } else {
-      bootBot(this)
+      await bootBot(this)
 
       this.log('INFO', `Worker ${process.pid} / ${cluster.worker.id} started`)
     }
@@ -91,7 +93,7 @@ export class ClusterManager {
   public async sendMaster(
     cmd: string,
     args: Record<string, unknown> = {}
-  ): Promise<Record<string, any> | null> {
+  ): Promise<WorkerResponse> {
     return new Promise((resolve, reject) => {
       const fullData = { cmd, args }
       cluster.worker.on('message', (message) => {

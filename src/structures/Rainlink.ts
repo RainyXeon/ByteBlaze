@@ -1,10 +1,5 @@
 import { Manager } from '../manager.js'
-import {
-  Library,
-  Rainlink,
-  RainlinkAdditionalOptions,
-  RainlinkPlugin,
-} from 'rainlink'
+import { Library, Rainlink, RainlinkAdditionalOptions, RainlinkPlugin } from 'rainlink'
 import { SpotifyPlugin } from 'rainlink-spotify'
 import { NicoPlugin } from 'rainlink-nico'
 import { ApplePlugin } from 'rainlink-apple'
@@ -37,7 +32,7 @@ export class RainlinkInit {
       retryTimeout: 3000,
       defaultSearchEngine: 'youtube',
       structures: {
-        player: ExtendedPlayer
+        player: ExtendedPlayer,
       },
       searchFallback: {
         enable: true,

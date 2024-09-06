@@ -47,7 +47,7 @@ function getShard(clusterManager: ClusterManager) {
 }
 
 export class Manager extends Client {
-  public cluster: { id: number | 0, data: Cluster | null }
+  public cluster: { id: number | 0; data: Cluster | null }
   public metadata: Metadata
   public logger: LoggerService
   public db!: DatabaseTable
@@ -113,7 +113,7 @@ export class Manager extends Client {
     const __dirname = dirname(fileURLToPath(import.meta.url))
     this.cluster = {
       data: clusterManager ? cluster : null,
-      id: clusterManager ?  cluster.worker.id : 0
+      id: clusterManager ? cluster.worker.id : 0,
     }
     this.logger = new LoggerService(this, this.cluster.id)
     this.metadata = new ManifestService().data.metadata.bot
