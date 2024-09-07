@@ -3,7 +3,7 @@ import { formatDuration } from '../../utilities/FormatDuration.js'
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 const fastForwardNum = 10
 
 // Main code

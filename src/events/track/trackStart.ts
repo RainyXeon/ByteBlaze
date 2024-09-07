@@ -5,7 +5,7 @@ import { formatDuration } from '../../utilities/FormatDuration.js'
 import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
 import { SongNotiEnum } from '../../database/schema/SongNoti.js'
-import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from '../../rainlink/main.js'
+import { RainlinkFilterMode, RainlinkPlayer, RainlinkTrack } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 export default class {
@@ -42,7 +42,12 @@ export default class {
       const getData = await autoreconnect.get(player.guildId)
       if (!getData) await autoreconnect.playerBuild(player.guildId)
       else {
-        await client.db.autoreconnect.set(`${player.guildId}.current`, player.queue.current?.uri)
+        player.queue.current
+          ? await client.db.autoreconnect.set(
+              `${player.guildId}.current`,
+              player.queue.current?.uri
+            )
+          : true
         await client.db.autoreconnect.set(`${player.guildId}.config.loop`, player.loop)
 
         function queueUri() {
@@ -102,17 +107,11 @@ export default class {
           value: `${song!.requester}`,
           inline: true,
         },
-        {
-          name: `${client.i18n.get(language, 'event.player', 'download_title')}`,
-          value: `**[${song!.title} - 000tube.com](https://www.000tube.com/watch?v=${song?.identifier})**`,
-          inline: false,
-        },
       ])
       .setColor(client.color)
       .setThumbnail(
         track.artworkUrl ?? `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
       )
-      .setTimestamp()
 
     const playing_channel = (await client.channels
       .fetch(player.textId)

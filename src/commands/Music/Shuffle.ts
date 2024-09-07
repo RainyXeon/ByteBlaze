@@ -4,7 +4,7 @@ import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
 import { formatDuration } from '../../utilities/FormatDuration.js'
 import { PageQueue } from '../../structures/PageQueue.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 // Main code

@@ -1,7 +1,7 @@
 import { Manager } from '../../manager.js'
 import { EmbedBuilder, TextChannel } from 'discord.js'
 import { formatDuration } from '../../utilities/FormatDuration.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
 
 export class PlayerUpdateLoader {

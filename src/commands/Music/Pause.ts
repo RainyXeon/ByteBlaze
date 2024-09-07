@@ -2,7 +2,7 @@ import { Manager } from '../../manager.js'
 import { EmbedBuilder } from 'discord.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export default class implements Command {
   public name = ['pause']

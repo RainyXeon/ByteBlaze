@@ -91,6 +91,7 @@
 ![song_req](https://ucarecdn.com/25e8fc92-842d-40c2-a653-d1c0224804ae/Picsart_240825_081626013.jpg)
 ![playlist_info](https://ucarecdn.com/1f759973-8cc8-49c5-babb-0e60c297ab2e/Screenshot_2024_0825_075240.jpg)
 ![player](https://ucarecdn.com/2ef47700-0d6c-4114-86c6-6c98544aa116/Picsart_240825_082538385.jpg)
+
 ## 📋 Requirements
 
 - ![Node.js](https://img.shields.io/badge/Node.js-026E00?style=for-the-badge) Node.js Version 18.0.0+ [Download](https://nodejs.org/en/download)

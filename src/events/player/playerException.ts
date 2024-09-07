@@ -3,7 +3,7 @@ import { EmbedBuilder, TextChannel } from 'discord.js'
 import util from 'node:util'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
 import { ClearMessageService } from '../../services/ClearMessageService.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer, data: Record<string, any>) {

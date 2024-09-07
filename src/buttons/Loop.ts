@@ -2,7 +2,7 @@ import { ButtonInteraction, CacheType, InteractionCollector, Message } from 'dis
 import { PlayerButton } from '../@types/Button.js'
 import { Manager } from '../manager.js'
 import { ReplyInteractionService } from '../services/ReplyInteractionService.js'
-import { RainlinkLoopMode, RainlinkPlayer } from '../rainlink/main.js'
+import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export default class implements PlayerButton {
   name = 'loop'

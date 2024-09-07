@@ -1,5 +1,5 @@
 import { Manager } from '../../manager.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {

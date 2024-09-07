@@ -1,11 +1,11 @@
 import { Manager } from '../manager.js'
-import {
-  Library,
-  Plugin,
-  Rainlink,
-  RainlinkAdditionalOptions,
-  RainlinkPlugin,
-} from '../rainlink/main.js'
+import { Library, Rainlink, RainlinkAdditionalOptions, RainlinkPlugin } from 'rainlink'
+import { SpotifyPlugin } from 'rainlink-spotify'
+import { NicoPlugin } from 'rainlink-nico'
+import { ApplePlugin } from 'rainlink-apple'
+import { DeezerPlugin } from 'rainlink-deezer'
+import { RainlinkPlugin as YTConverterPlugin } from './YTConverterPlugin.js'
+import { ExtendedPlayer } from './ExtendedPlayer.js'
 
 export class RainlinkInit {
   client: Manager
@@ -31,6 +31,9 @@ export class RainlinkInit {
       retryCount: Infinity,
       retryTimeout: 3000,
       defaultSearchEngine: 'youtube',
+      structures: {
+        player: ExtendedPlayer,
+      },
       searchFallback: {
         enable: true,
         engine: 'youtube',
@@ -48,21 +51,21 @@ export class RainlinkInit {
 
   get plugins(): RainlinkPlugin[] {
     const defaultPlugins: RainlinkPlugin[] = [
-      new Plugin.Deezer(),
-      new Plugin.Nico({ searchLimit: 10 }),
-      new Plugin.Apple({ countryCode: 'us' }),
+      new DeezerPlugin(),
+      new NicoPlugin({ searchLimit: 10 }),
+      new ApplePlugin({ countryCode: 'us' }),
     ]
 
     if (this.client.config.player.AVOID_SUSPEND)
       defaultPlugins.push(
-        new Plugin.YoutubeConverter({
+        new YTConverterPlugin({
           sources: ['scsearch'],
         })
       )
 
     if (this.client.config.player.SPOTIFY.enable)
       defaultPlugins.push(
-        new Plugin.Spotify({
+        new SpotifyPlugin({
           clientId: this.client.config.player.SPOTIFY.id,
           clientSecret: this.client.config.player.SPOTIFY.secret,
           playlistPageLimit: 1,

@@ -178,7 +178,7 @@ export class PlayerContentLoader {
 
     let voiceChannel = await message.member!.voice.channel
     if (!voiceChannel)
-      return message.channel.send({
+      return (message.channel as TextChannel).send({
         embeds: [
           new EmbedBuilder()
             .setDescription(`${client.i18n.get(language, 'error', 'no_in_voice')}`)

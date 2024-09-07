@@ -1,7 +1,7 @@
 import { ButtonInteraction, EmbedBuilder } from 'discord.js'
 import { Manager } from '../../../manager.js'
 import { AutoReconnectBuilderService } from '../../../services/AutoReconnectBuilderService.js'
-import { RainlinkLoopMode, RainlinkPlayer } from '../../../rainlink/main.js'
+import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export class ButtonLoop {
   client: Manager

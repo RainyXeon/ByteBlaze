@@ -1,6 +1,6 @@
-import { ButtonInteraction, CacheType, InteractionCollector, Message } from 'discord.js'
+import { ButtonInteraction, InteractionCollector, Message } from 'discord.js'
 import { Manager } from '../manager.js'
-import { RainlinkPlayer } from '../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export class PlayerButton {
   name: string = ''

@@ -1,7 +1,7 @@
 import { playerRowOneEdited, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 import { Manager } from '../../manager.js'
 import { TextChannel } from 'discord.js'
-import { RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {

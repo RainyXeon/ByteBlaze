@@ -9,7 +9,7 @@ import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { AutocompleteInteractionChoices, GlobalInteraction } from '../../@types/Interaction.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer, RainlinkSearchResultType, RainlinkTrack } from '../../rainlink/main.js'
+import { RainlinkPlayer, RainlinkSearchResultType, RainlinkTrack } from 'rainlink'
 
 export default class implements Command {
   public name = ['play']

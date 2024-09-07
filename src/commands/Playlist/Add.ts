@@ -9,7 +9,7 @@ import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
 import { AutocompleteInteractionChoices, GlobalInteraction } from '../../@types/Interaction.js'
-import { RainlinkSearchResultType, RainlinkTrack } from '../../rainlink/main.js'
+import { RainlinkSearchResultType, RainlinkTrack } from 'rainlink'
 
 const TrackAdd: RainlinkTrack[] = []
 

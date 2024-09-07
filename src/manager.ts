@@ -26,16 +26,16 @@ import { Metadata } from './@types/Metadata.js'
 import { Config, Emojis } from './@types/Config.js'
 import { DatabaseTable } from './database/@types.js'
 import { LavalinkDataType, LavalinkUsingDataType } from './@types/Lavalink.js'
-import { Rainlink } from './rainlink/Rainlink.js'
+import { Rainlink } from 'rainlink'
 import { Command } from './structures/Command.js'
 import { PlayerButton } from './@types/Button.js'
 import { GlobalMsg } from './structures/CommandHandler.js'
-import { RainlinkFilterData, RainlinkPlayer } from './rainlink/main.js'
+import { RainlinkFilterData, RainlinkPlayer } from 'rainlink'
 import { TopggService } from './services/TopggService.js'
 import { Collection } from './structures/Collection.js'
 import { Localization } from './structures/Localization.js'
 import { ClusterManager } from './cluster/core.js'
-import cluster from 'node:cluster'
+import cluster, { Cluster } from 'node:cluster'
 config()
 
 function getShard(clusterManager: ClusterManager) {
@@ -47,6 +47,7 @@ function getShard(clusterManager: ClusterManager) {
 }
 
 export class Manager extends Client {
+  public cluster: { id: number | 0; data: Cluster | null }
   public metadata: Metadata
   public logger: LoggerService
   public db!: DatabaseTable
@@ -110,7 +111,11 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url))
-    this.logger = new LoggerService(this, cluster.worker.id)
+    this.cluster = {
+      data: clusterManager ? cluster : null,
+      id: clusterManager ? cluster.worker.id : 0,
+    }
+    this.logger = new LoggerService(this, this.cluster.id)
     this.metadata = new ManifestService().data.metadata.bot
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable

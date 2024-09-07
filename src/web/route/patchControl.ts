@@ -1,7 +1,7 @@
 import util from 'node:util'
 import { Manager } from '../../manager.js'
 import Fastify from 'fastify'
-import { RainlinkLoopMode, RainlinkPlayer } from '../../rainlink/main.js'
+import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
 export type TrackRes = {
   title: string

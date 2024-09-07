@@ -1,6 +1,6 @@
 import { ButtonInteraction, EmbedBuilder, VoiceBasedChannel } from 'discord.js'
 import { Manager } from '../../../manager.js'
-import { RainlinkPlayer } from '../../../rainlink/main.js'
+import { RainlinkPlayer } from 'rainlink'
 
 export class ButtonPrevious {
   client: Manager

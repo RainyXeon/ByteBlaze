@@ -2,7 +2,7 @@ import util from 'node:util'
 import { User } from 'discord.js'
 import { Manager } from '../../manager.js'
 import Fastify from 'fastify'
-import { RainlinkSearchResultType } from '../../rainlink/main.js'
+import { RainlinkSearchResultType } from 'rainlink'
 
 export async function getSearch(
   client: Manager,

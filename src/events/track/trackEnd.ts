@@ -2,7 +2,7 @@ import { Manager } from '../../manager.js'
 import { TextChannel } from 'discord.js'
 import { ClearMessageService } from '../../services/ClearMessageService.js'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
-import { RainlinkPlayer, RainlinkPlayerState } from '../../rainlink/main.js'
+import { RainlinkPlayer, RainlinkPlayerState } from 'rainlink'
 
 export default class {
   async execute(client: Manager, player: RainlinkPlayer) {
