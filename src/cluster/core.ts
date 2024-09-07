@@ -65,7 +65,7 @@ export class ClusterManager {
         this.log('WARN', `worker ${worker.process.pid} / ${worker.id} died`)
       })
     } else {
-      await bootBot(this)
+      bootBot(this)
 
       this.log('INFO', `Worker ${process.pid} / ${cluster.worker.id} started`)
     }
