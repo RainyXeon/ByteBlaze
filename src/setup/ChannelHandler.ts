@@ -1,4 +1,4 @@
-import { Manager } from '../../manager.js'
+import { Manager } from '../manager.js'
 import {
   EmbedBuilder,
   Message,
@@ -6,11 +6,11 @@ import {
   TextChannel,
   StringSelectMenuInteraction,
 } from 'discord.js'
-import { GlobalInteraction } from '../../@types/Interaction.js'
+import { GlobalInteraction } from '../@types/Interaction.js'
 import { RateLimitManager } from '@sapphire/ratelimits'
-import { convertTime } from '../../utilities/ConvertTime.js'
-import { getTitle } from '../../utilities/GetTitle.js'
-import { BlacklistService } from '../../services/BlacklistService.js'
+import { convertTime } from '../utilities/ConvertTime.js'
+import { getTitle } from '../utilities/GetTitle.js'
+import { BlacklistService } from '../services/BlacklistService.js'
 import { RainlinkFilterMode } from 'rainlink'
 const rateLimitManager = new RateLimitManager(2000)
 
@@ -18,7 +18,7 @@ const rateLimitManager = new RateLimitManager(2000)
  * @param {Client} client
  */
 
-export class PlayerContentLoader {
+export class ChannelHandler {
   client: Manager
   constructor(client: Manager) {
     this.client = client
@@ -30,7 +30,7 @@ export class PlayerContentLoader {
       this.client.on('interactionCreate', (interaction) => this.interaction(interaction))
       this.client.on('messageCreate', (message) => this.message(message))
     } catch (err) {
-      this.client.logger.error(PlayerContentLoader.name, err)
+      this.client.logger.error(ChannelHandler.name, err)
     }
   }
 

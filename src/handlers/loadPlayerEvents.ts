@@ -3,7 +3,7 @@ import readdirRecursive from 'recursive-readdir'
 import { resolve } from 'path'
 import { join, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
-import { Manager } from '../../manager.js'
+import { Manager } from '../manager.js'
 import { RainlinkEventsInterface } from 'rainlink'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 

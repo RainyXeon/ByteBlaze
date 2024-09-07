@@ -1,11 +1,11 @@
-import { Manager } from '../../manager.js'
+import { Manager } from '../manager.js'
 import { EmbedBuilder, TextChannel } from 'discord.js'
-import { formatDuration } from '../../utilities/FormatDuration.js'
+import { formatDuration } from '../utilities/FormatDuration.js'
 import { RainlinkPlayer } from 'rainlink'
-import { getTitle } from '../../utilities/GetTitle.js'
-import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
+import { getTitle } from '../utilities/GetTitle.js'
+import { filterSelect, playerRowOne, playerRowTwo } from '../utilities/PlayerControlButton.js'
 
-export class PlayerUpdateLoader {
+export class ChannelUpdater {
   client: Manager
   constructor(client: Manager) {
     this.client = client
