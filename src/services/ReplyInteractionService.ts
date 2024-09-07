@@ -2,13 +2,11 @@ import { EmbedBuilder, ButtonInteraction } from 'discord.js'
 import { Manager } from '../manager.js'
 
 export class ReplyInteractionService {
-  client: Manager
-  message: ButtonInteraction
-  content: string
-  constructor(client: Manager, message: ButtonInteraction, content: string) {
-    this.client = client
-    this.content = content
-    this.message = message
+  constructor(
+    protected client: Manager,
+    protected message: ButtonInteraction,
+    protected content: string
+  ) {
     this.execute()
   }
 

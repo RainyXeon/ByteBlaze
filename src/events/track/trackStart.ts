@@ -120,7 +120,11 @@ export default class {
     const nplaying = playing_channel
       ? await playing_channel.send({
           embeds: [embeded],
-          components: [filterSelect(client), playerRowOne(client), playerRowTwo(client)],
+          components: [
+            filterSelect(client, false),
+            playerRowOne(client, false),
+            playerRowTwo(client, false),
+          ],
           // files: client.config.bot.SAFE_PLAYER_MODE ? [] : [attachment],
         })
       : undefined

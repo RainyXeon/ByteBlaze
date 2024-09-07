@@ -1,4 +1,4 @@
-import { playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
+import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 import { Manager } from '../../manager.js'
 import { TextChannel } from 'discord.js'
 import { RainlinkPlayer } from 'rainlink'
@@ -10,7 +10,13 @@ export default class {
     const nowPlaying = client.nplayingMsg.get(`${player.guildId}`)
     if (nowPlaying) {
       nowPlaying.msg
-        .edit({ components: [playerRowOne(client), playerRowTwo(client)] })
+        .edit({
+          components: [
+            filterSelect(client, false),
+            playerRowOne(client, false),
+            playerRowTwo(client, false),
+          ],
+        })
         .catch(() => null)
     }
 
@@ -26,7 +32,15 @@ export default class {
         .fetch(setup.playmsg)
         .catch(() => undefined)
       if (!msg) return
-      msg.edit({ components: [client.enSwitchMod] }).catch(() => null)
+      msg
+        .edit({
+          components: [
+            filterSelect(client, false),
+            playerRowOne(client, false),
+            playerRowTwo(client, false),
+          ],
+        })
+        .catch(() => null)
     }
   }
 }

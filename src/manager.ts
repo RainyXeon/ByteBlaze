@@ -75,9 +75,6 @@ export class Manager extends Client {
   public wsl: Collection<{ send: (data: Record<string, unknown>) => void }>
   public UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>
   public UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>
-  public enSwitch!: ActionRowBuilder<ButtonBuilder>
-  public diSwitch!: ActionRowBuilder<ButtonBuilder>
-  public enSwitchMod!: ActionRowBuilder<ButtonBuilder>
   public topgg?: TopggService
   public icons: Emojis
   public REGEX: RegExp[]

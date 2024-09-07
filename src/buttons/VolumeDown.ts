@@ -12,9 +12,9 @@ export default class implements PlayerButton {
     language: string,
     player: RainlinkPlayer,
     nplaying: Message<boolean>,
-    collector: InteractionCollector<ButtonInteraction<'cached'>>
+    collector?: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
-    if (!player) {
+    if (!player && collector) {
       collector.stop()
     }
 

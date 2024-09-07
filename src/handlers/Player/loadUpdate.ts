@@ -3,6 +3,7 @@ import { EmbedBuilder, TextChannel } from 'discord.js'
 import { formatDuration } from '../../utilities/FormatDuration.js'
 import { RainlinkPlayer } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
+import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 
 export class PlayerUpdateLoader {
   client: Manager
@@ -87,7 +88,11 @@ export class PlayerUpdateLoader {
         .edit({
           content: player.queue.current && player.queue.size == 0 ? ' ' : queueString,
           embeds: [embed],
-          components: [client.enSwitchMod],
+          components: [
+            filterSelect(client, false),
+            playerRowOne(client, false),
+            playerRowTwo(client, false),
+          ],
         })
         .catch(() => {})
     }
@@ -131,7 +136,11 @@ export class PlayerUpdateLoader {
         .edit({
           content: `${queueMsg}`,
           embeds: [playEmbed],
-          components: [client.diSwitch],
+          components: [
+            filterSelect(client, true),
+            playerRowOne(client, true),
+            playerRowTwo(client, true),
+          ],
         })
         .catch(() => {})
     }

@@ -12,9 +12,9 @@ export default class implements PlayerButton {
     language: string,
     player: RainlinkPlayer,
     nplaying: Message<boolean>,
-    collector: InteractionCollector<ButtonInteraction<'cached'>>
+    collector?: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
-    collector.stop()
+    if (collector) collector.stop()
 
     player.data.set('sudo-destroy', true)
     const is247 = await client.db.autoreconnect.get(`${message.guildId}`)

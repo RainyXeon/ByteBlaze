@@ -2,6 +2,7 @@ import { EmbedBuilder, ApplicationCommandOptionType, ChannelType } from 'discord
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
+import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 
 export default class implements Command {
   public name = ['setup']
@@ -92,7 +93,11 @@ export default class implements Command {
       const channel_msg = await textChannel.send({
         content: `${queueMsg}`,
         embeds: [playEmbed],
-        components: [client.diSwitch],
+        components: [
+          filterSelect(client, true),
+          playerRowOne(client, true),
+          playerRowTwo(client, true),
+        ],
       })
 
       const voiceChannel = await handler.guild!.channels.create({

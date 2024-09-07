@@ -1,4 +1,8 @@
-import { playerRowOneEdited, playerRowTwo } from '../../utilities/PlayerControlButton.js'
+import {
+  filterSelect,
+  playerRowOneEdited,
+  playerRowTwo,
+} from '../../utilities/PlayerControlButton.js'
 import { Manager } from '../../manager.js'
 import { TextChannel } from 'discord.js'
 import { RainlinkPlayer } from 'rainlink'
@@ -10,7 +14,13 @@ export default class {
     const nowPlaying = client.nplayingMsg.get(`${player.guildId}`)
     if (nowPlaying) {
       nowPlaying.msg
-        .edit({ components: [playerRowOneEdited(client), playerRowTwo(client)] })
+        .edit({
+          components: [
+            filterSelect(client, false),
+            playerRowOneEdited(client, false),
+            playerRowTwo(client, false),
+          ],
+        })
         .catch(() => null)
     }
 
@@ -22,11 +32,20 @@ export default class {
       const channel = await client.channels.fetch(setup.channel).catch(() => undefined)
       if (!channel) return
       if (!channel.isTextBased) return
+      if (player.data.get('pause-from-button')) return player.data.delete('pause-from-button')
       const msg = await (channel as TextChannel).messages
         .fetch(setup.playmsg)
         .catch(() => undefined)
       if (!msg) return
-      msg.edit({ components: [client.enSwitch] }).catch(() => null)
+      msg
+        .edit({
+          components: [
+            filterSelect(client, false),
+            playerRowOneEdited(client, false),
+            playerRowTwo(client, false),
+          ],
+        })
+        .catch(() => null)
     }
   }
 }

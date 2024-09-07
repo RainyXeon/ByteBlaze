@@ -1,4 +1,5 @@
 import { Manager } from '../../manager.js'
+import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
 import { Setup } from '../schema/Setup.js'
 import { EmbedBuilder, TextChannel } from 'discord.js'
 
@@ -55,7 +56,11 @@ export class SongRequesterCleanSetup {
       .edit({
         content: `${queueMsg}`,
         embeds: [playEmbed],
-        components: [this.client.diSwitch],
+        components: [
+          filterSelect(this.client, true),
+          playerRowOne(this.client, true),
+          playerRowTwo(this.client, true),
+        ],
       })
       .catch((e) => {})
   }

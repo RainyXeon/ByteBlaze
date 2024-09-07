@@ -10,6 +10,6 @@ export class PlayerButton {
     language: string,
     player: RainlinkPlayer,
     nplaying: Message,
-    collector: InteractionCollector<ButtonInteraction<'cached'>>
+    collector?: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {}
 }

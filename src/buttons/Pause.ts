@@ -18,23 +18,33 @@ export default class implements PlayerButton {
     language: string,
     player: RainlinkPlayer,
     nplaying: Message<boolean>,
-    collector: InteractionCollector<ButtonInteraction<'cached'>>
+    collector?: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
-    if (!player) {
+    if (!player && collector) {
       collector.stop()
     }
+
+    player.data.set('pause-from-button', true)
 
     const newPlayer = await player.setPause(!player.paused)
 
     newPlayer.paused
       ? nplaying
           .edit({
-            components: [playerRowOneEdited(client), playerRowTwo(client), filterSelect(client)],
+            components: [
+              filterSelect(client, false),
+              playerRowOneEdited(client, false),
+              playerRowTwo(client, false),
+            ],
           })
           .catch(() => null)
       : nplaying
           .edit({
-            components: [playerRowOne(client), playerRowTwo(client), filterSelect(client)],
+            components: [
+              filterSelect(client, false),
+              playerRowOne(client, false),
+              playerRowTwo(client, false),
+            ],
           })
           .catch(() => null)
 
