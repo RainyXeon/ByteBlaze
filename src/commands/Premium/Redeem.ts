@@ -107,7 +107,7 @@ export default class implements Command {
         `${client.i18n.get(handler.language, 'command.premium', 'redeem_desc', {
           expires:
             premium.expiresAt !== 'lifetime'
-              ? `<t:${(premium.expiresAt / 1000 ?? 0).toFixed()}:F>`
+              ? `<t:${(premium.expiresAt / 1000).toFixed()}:F>`
               : 'lifetime',
           plan: premium.plan,
         })}`

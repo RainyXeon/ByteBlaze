@@ -88,7 +88,7 @@ export default class implements Command {
 
     const plan = name
 
-    let time
+    let time: number | 'lifetime'
     switch (plan) {
       case 'daily':
         time = Date.now() + 86400000
@@ -138,7 +138,7 @@ export default class implements Command {
           codes_length: String(codes.length),
           codes: codes.join('\n'),
           plan: String(plan),
-          expires: time == 'lifetime' ? 'lifetime' : `<t:${(time / 1000 ?? 0).toFixed()}:F>`,
+          expires: time == 'lifetime' ? 'lifetime' : `<t:${(time / 1000).toFixed()}:F>`,
         })}`
       )
       .setTimestamp()

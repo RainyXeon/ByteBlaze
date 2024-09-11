@@ -49,7 +49,7 @@ export default class implements Command {
           expires:
             PremiumPlan!.expiresAt == 'lifetime'
               ? 'lifetime'
-              : `<t:${(PremiumPlan.expiresAt / 1000 ?? 0).toFixed()}:F>`,
+              : `<t:${(PremiumPlan.expiresAt / 1000).toFixed()}:F>`,
         })}`
       )
       .setColor(client.color)

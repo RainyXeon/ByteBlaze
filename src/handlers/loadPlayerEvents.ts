@@ -17,7 +17,7 @@ export class PlayerEventLoader {
 
   async loader() {
     await chillout.forEach(['player', 'track', 'node'], async (path) => {
-      let eventsPath = resolve(join(__dirname, '..', '..', 'events', path))
+      let eventsPath = resolve(join(__dirname, '..', 'events', path))
       let eventsFile = await readdirRecursive(eventsPath)
       await this.registerPath(eventsFile)
     })
