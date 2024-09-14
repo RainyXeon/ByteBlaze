@@ -9,7 +9,7 @@ import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { AutocompleteInteractionChoices, GlobalInteraction } from '../../@types/Interaction.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer, RainlinkSearchResultType, RainlinkTrack } from 'rainlink'
+import { RainlinkSearchResultType, RainlinkTrack } from 'rainlink'
 
 export default class implements Command {
   public name = ['play']
@@ -175,7 +175,6 @@ export default class implements Command {
       if (type === 'PLAYLIST') {
         return `[${tracks[0].title}](${value})`
       } else {
-        return `[${tracks[0].title}](${tracks[0].uri})`
         return `[${tracks[0].title}](${tracks[0].uri})`
       }
     }

@@ -67,7 +67,7 @@
     "plsargs": "^0.1.6",
     "pm2": "^5.4.2",
     "pretty-ms": "^9.1.0",
-    "rainlink": "^1.0.7",
+    "rainlink": "^1.1.0",
     "rainlink-apple": "^1.0.5",
     "rainlink-deezer": "^1.0.8",
     "rainlink-nico": "^1.0.7",
