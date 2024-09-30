@@ -3,9 +3,9 @@ import { Library, Rainlink, RainlinkAdditionalOptions, RainlinkPlugin } from 'ra
 import { SpotifyPlugin } from 'rainlink-spotify'
 import { NicoPlugin } from 'rainlink-nico'
 import { ApplePlugin } from 'rainlink-apple'
-import { DeezerPlugin } from 'rainlink-deezer'
 import { RainlinkPlugin as YTConverterPlugin } from './YTConverterPlugin.js'
 import { ExtendedPlayer } from './extended/ExtendedPlayer.js'
+import { DeezerPlugin } from 'rainlink-deezer'
 
 export class RainlinkInit {
   client: Manager
@@ -55,7 +55,9 @@ export class RainlinkInit {
 
   get plugins(): RainlinkPlugin[] {
     const defaultPlugins: RainlinkPlugin[] = [
-      new DeezerPlugin(),
+      new DeezerPlugin({
+        market: 'us'
+      }),
       new NicoPlugin({ searchLimit: 10 }),
       new ApplePlugin({ countryCode: 'us' }),
     ]
