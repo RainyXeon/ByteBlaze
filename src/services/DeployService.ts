@@ -1,7 +1,5 @@
 import { fileURLToPath, pathToFileURL } from 'url'
 import { Manager } from '../manager.js'
-import chillout from 'chillout'
-import { makeSureFolderExists } from 'stuffs'
 import path from 'path'
 import readdirRecursive from 'recursive-readdir'
 import { ApplicationCommandOptionType, REST, Routes } from 'discord.js'
@@ -30,11 +28,10 @@ export class DeployService {
       return !state
     })
 
-    await chillout.forEach(interactionFilePaths, async (interactionFilePath: string) => {
+    for await (const interactionFilePath of interactionFilePaths) {
       const cmd = new (await import(pathToFileURL(interactionFilePath).toString())).default()
       cmd.usingInteraction ? store.push(cmd) : true
-      return
-    })
+    }
 
     return store
   }

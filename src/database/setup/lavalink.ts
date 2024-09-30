@@ -1,6 +1,5 @@
 import { Manager } from '../../manager.js'
 import { AutoReconnect } from '../schema/AutoReconnect.js'
-import chillout from 'chillout'
 import { VoiceChannel } from 'discord.js'
 import { RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
 
@@ -51,9 +50,9 @@ export class AutoReconnectLavalinkService {
         `Lavalink avalible, remove interval and continue setup!`
       )
 
-      chillout.forEach(maindata, async (data: { id: string; value: AutoReconnect }) => {
+      for await (const data of maindata) {
         setTimeout(async () => this.connectChannel(data))
-      })
+      }
 
       this.client.logger.info(
         AutoReconnectLavalinkService.name,

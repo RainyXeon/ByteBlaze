@@ -2,7 +2,7 @@ import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
 import { Manager } from '../../manager.js'
 import { stripIndents } from 'common-tags'
-import { EmbedBuilder, version } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 
 export default class implements Command {
   public name = ['info']
@@ -22,13 +22,16 @@ export default class implements Command {
     await handler.deferReply()
 
     const botInfo = stripIndents`\`\`\`
-    Codename        | ${client.metadata.codename}
-    Bot Version     | ${client.metadata.version}
-    Node.js         | ${process.version}
-    Discord.js      | ${version}
-    Autofix Version | ${client.metadata.autofix}
-    Guild Count     | ${client.guilds.cache.size}
-    User Count      | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    Codename         | ${client.manifest.metadata.bot.codename}
+    Bot Version      | ${client.manifest.metadata.bot.version}
+    Node.js          | ${process.version}
+    Discord.js       | ${client.manifest.package.discordjs}
+    Rainlink         | ${client.manifest.package.rainlink}
+    Autofix Version  | ${client.manifest.metadata.autofix.version}
+    Autofix Codename | ${client.manifest.metadata.autofix.codename}
+    Guild Count      | ${client.guilds.cache.size}
+    User Count       | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    Total Packages   | ${client.manifest.package.totalAmount}
     \`\`\``
 
     const embed = new EmbedBuilder()

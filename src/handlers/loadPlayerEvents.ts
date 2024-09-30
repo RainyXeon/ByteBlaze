@@ -1,4 +1,3 @@
-import chillout from 'chillout'
 import readdirRecursive from 'recursive-readdir'
 import { resolve } from 'path'
 import { join, dirname } from 'path'
@@ -16,18 +15,18 @@ export class PlayerEventLoader {
   }
 
   async loader() {
-    await chillout.forEach(['player', 'track', 'node'], async (path) => {
+    for (const path of ['player', 'track', 'node']) {
       let eventsPath = resolve(join(__dirname, '..', 'events', path))
       let eventsFile = await readdirRecursive(eventsPath)
       await this.registerPath(eventsFile)
-    })
+    }
     this.client.logger.info(PlayerEventLoader.name, `${this.counter} Events Loaded!`)
   }
 
   async registerPath(eventsPath: string[]) {
-    await chillout.forEach(eventsPath, async (path) => {
+    for await (const path of eventsPath) {
       await this.registerEvents(path)
-    })
+    }
   }
 
   async registerEvents(path: string) {

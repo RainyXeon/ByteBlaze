@@ -34,6 +34,7 @@ import { Collection } from './structures/Collection.js'
 import { Localization } from './structures/Localization.js'
 import { ClusterManager } from './cluster/core.js'
 import cluster, { Cluster } from 'node:cluster'
+import { ManifestInterface } from './@types/Manifest.js'
 config()
 
 function getShard(clusterManager: ClusterManager) {
@@ -46,7 +47,7 @@ function getShard(clusterManager: ClusterManager) {
 
 export class Manager extends Client {
   public cluster: { id: number | 0; data: Cluster | null }
-  public metadata: Metadata
+  public manifest: ManifestInterface
   public logger: LoggerService
   public db!: DatabaseTable
   public owner: string
@@ -111,12 +112,12 @@ export class Manager extends Client {
       id: clusterManager ? cluster.worker.id : 0,
     }
     this.logger = new LoggerService(this, this.cluster.id)
-    this.metadata = new ManifestService().data.metadata.bot
+    this.manifest = new ManifestService().data
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
     this.i18n = new Localization({
       defaultLocale: this.config.bot.LANGUAGE || 'en',
-      directory: resolve(join(__dirname, 'languages')),
+      directory: resolve(join(__dirname, '..', 'languages')),
     })
     this.prefix = this.config.utilities.MESSAGE_CONTENT.commands.prefix || 'd!'
     this.REGEX = [
@@ -173,9 +174,19 @@ export class Manager extends Client {
 
   public start() {
     this.logger.info('ClientManager', `Booting byteblaze...`)
-    this.logger.info('ClientManager', `├── Version: ${this.metadata.version}`)
-    this.logger.info('ClientManager', `├── Codename: ${this.metadata.codename}`)
-    this.logger.info('ClientManager', `└── Autofix Version: ${this.metadata.autofix}`)
+    this.logger.info('ClientManager', `├── Version: ${this.manifest.metadata.bot.version}`)
+    this.logger.info('ClientManager', `├── Codename: ${this.manifest.metadata.bot.codename}`)
+    this.logger.info(
+      'ClientManager',
+      `├── Autofix Version: ${this.manifest.metadata.autofix.version}`
+    )
+    this.logger.info(
+      'ClientManager',
+      `├── Autofix Codename: ${this.manifest.metadata.autofix.codename}`
+    )
+    this.logger.info('ClientManager', `├── Rainlink: ${this.manifest.package.rainlink}`)
+    this.logger.info('ClientManager', `├── discord.js: ${this.manifest.package.discordjs}`)
+    this.logger.info('ClientManager', `└── Total package: ${this.manifest.package.totalAmount}`)
     if (!this.config.player.AVOID_SUSPEND)
       this.logger.warn(
         'ClientManager',

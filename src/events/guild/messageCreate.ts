@@ -9,7 +9,6 @@ import {
 import { Manager } from '../../manager.js'
 import { EmbedBuilder } from 'discord.js'
 import { stripIndents } from 'common-tags'
-import fs from 'fs'
 import {
   CheckPermissionResultInterface,
   CheckPermissionServices,
@@ -98,18 +97,16 @@ export default class {
             botinfo: `\`${PREFIX}status\` or \`/status\``,
           })}
           ${client.i18n.get(language, 'event.message', 'ver', {
-            botver: client.metadata.version,
+            botver: client.manifest.metadata.bot.version,
           })}
           ${client.i18n.get(language, 'event.message', 'djs', {
-            djsver: JSON.parse(await fs.readFileSync('package.json', 'utf-8')).dependencies[
-              'discord.js'
-            ],
+            djsver: client.manifest.package.discordjs,
           })}
           ${client.i18n.get(language, 'event.message', 'lavalink', {
-            aver: client.metadata.autofix,
+            aver: client.manifest.metadata.autofix.version,
           })}
           ${client.i18n.get(language, 'event.message', 'codename', {
-            codename: client.metadata.codename,
+            codename: client.manifest.metadata.bot.codename,
           })}
           `)
       await message.reply({ embeds: [mention_embed] })

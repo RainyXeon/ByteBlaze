@@ -1,4 +1,3 @@
-import chillout from 'chillout'
 import readdirRecursive from 'recursive-readdir'
 import { resolve } from 'path'
 import { join, dirname } from 'path'
@@ -14,18 +13,18 @@ export class ClientEventsLoader {
     this.loader()
   }
   async loader() {
-    await chillout.forEach(['client', 'guild', 'shard', 'websocket'], async (path) => {
+    for (const path of ['client', 'guild', 'shard', 'websocket']) {
       let eventsPath = resolve(join(__dirname, '..', 'events', path))
       let eventsFile = await readdirRecursive(eventsPath)
       await this.registerPath(eventsFile)
-    })
+    }
     this.client.logger.info(ClientEventsLoader.name, `${this.counter} Events Loaded!`)
   }
 
   async registerPath(eventsPath: string[]) {
-    await chillout.forEach(eventsPath, async (path) => {
+    for await (const path of eventsPath) {
       await this.registerEvents(path)
-    })
+    }
   }
 
   async registerEvents(path: string) {

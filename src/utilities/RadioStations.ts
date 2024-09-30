@@ -310,16 +310,16 @@ export const RadioStationNewInterface = (): Record<
   return result
 }
 
-export const RadioStationArray = (): { no: number; link: string }[] => {
-  const result = [] as { no: number; link: string }[]
+export const RadioStationArray = (): { no: number; name: string; link: string }[] => {
+  const result = [] as { no: number; name: string; link: string }[]
   const keys = Object.keys(RadioStations)
   let no = 1
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i]
     const arrayData = RadioStations[key]
     const convertedData = arrayData.map((ele: string) => {
-      const [_, link] = ele.split(' ')
-      const data = { no, link }
+      const [name, link] = ele.split(' ')
+      const data = { no, link, name }
       no += 1
       return data
     })

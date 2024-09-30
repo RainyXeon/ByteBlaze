@@ -1,4 +1,3 @@
-import chillout from 'chillout'
 import readdirRecursive from 'recursive-readdir'
 import { resolve, relative } from 'path'
 import { Manager } from '../../manager.js'
@@ -19,9 +18,9 @@ export class CommandLoader {
     let commandPath = resolve(join(__dirname, '..', '..', 'commands'))
     let commandFiles = await readdirRecursive(commandPath)
 
-    await chillout.forEach(commandFiles, async (commandFile) => {
+    for await (const commandFile of commandFiles) {
       await this.register(commandFile)
-    })
+    }
 
     this.client.logger.info(CommandLoader.name, `Command Load Results:`)
     if (this.client.commands.size) {

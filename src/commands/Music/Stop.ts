@@ -2,7 +2,7 @@ import { Manager } from '../../manager.js'
 import { EmbedBuilder } from 'discord.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
-import { RainlinkPlayer } from 'rainlink'
+import { ExtendedPlayer } from '../../structures/extended/ExtendedPlayer.js'
 
 // Main code
 export default class implements Command {
@@ -22,7 +22,7 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
+    const player = client.rainlink.players.get(handler.guild!.id) as ExtendedPlayer
 
     const { channel } = handler.member!.voice
 
