@@ -117,7 +117,7 @@ export class Manager extends Client {
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
     this.i18n = new Localization({
       defaultLocale: this.config.bot.LANGUAGE || 'en',
-      directory: resolve(join(__dirname, 'languages')),
+      directory: resolve(join(__dirname, '..', 'languages')),
     })
     this.prefix = this.config.utilities.MESSAGE_CONTENT.commands.prefix || 'd!'
     this.REGEX = [

@@ -14,9 +14,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose",
-    "build:full": "npm run build:prettier && npm run build && npm run build:manifest && npm run build:languages",
-    "build:languages": "node --no-deprecation ./scripts/copyLanguagePackage.mjs",
-    "build:manifest": "node --no-deprecation ./scripts/copyManifest.mjs",
+    "build:full": "npm run build:prettier && npm run build",
     "start": "node --no-deprecation ./dist/index.js",
     "start:shard": "node --no-deprecation ./dist/cluster/index.js",
     "dev": "npx nodemon ./src/index.ts",
