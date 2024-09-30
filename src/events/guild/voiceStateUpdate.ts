@@ -9,6 +9,7 @@ import {
 import { Manager } from '../../manager.js'
 import { AutoReconnectBuilderService } from '../../services/AutoReconnectBuilderService.js'
 import { RainlinkPlayerState } from 'rainlink'
+import { ExtendedPlayer } from '../../structures/extended/ExtendedPlayer.js'
 
 export default class {
   async execute(client: Manager, oldState: VoiceState, newState: VoiceState) {
@@ -18,14 +19,18 @@ export default class {
         'The database is not yet connected so this event will temporarily not execute. Please try again later!'
       )
 
-    const player = client.rainlink?.players.get(newState.guild.id)
+    const player = client.rainlink?.players.get(newState.guild.id) as ExtendedPlayer
     if (!player) return
 
     const is247 = await client.db.autoreconnect.get(`${newState.guild.id}`)
 
-    if (newState.channelId == null && newState.member?.user.id === client.user?.id) {
-      player.data.set('sudo-destroy', true)
-      player.state !== RainlinkPlayerState.DESTROYED ? player.destroy() : true
+    const isNoOneInChannel =
+      newState.channelId == null && newState.member?.user.id === client.user?.id
+    const isNotDestroy =
+      !player.data.get('sudo-destroy') && player.state !== RainlinkPlayerState.DESTROYED
+
+    if (isNoOneInChannel && isNotDestroy) {
+      player.destroy()
     }
 
     if (oldState.member?.user.bot || newState.member?.user.bot) return
@@ -44,9 +49,13 @@ export default class {
 
     const isInVoice = await newState.guild.members.fetch(client.user!.id).catch(() => undefined)
 
-    if (!isInVoice || !isInVoice.voice.channelId) {
+    const isNotInChannel = !isInVoice || !isInVoice.voice.channelId
+    const isNotSudo =
+      !player.data.get('sudo-destroy') && player.state !== RainlinkPlayerState.DESTROYED
+
+    if (isNotInChannel && isNotSudo) {
       player.data.set('sudo-destroy', true)
-      player.state !== RainlinkPlayerState.DESTROYED ? player.destroy() : true
+      player.destroy()
     }
 
     if (
@@ -145,7 +154,7 @@ export default class {
           (m) => !m.user.bot
         ).size
         if (!vcMembers || vcMembers === 1) {
-          const newPlayer = client.rainlink?.players.get(newState.guild.id)
+          const newPlayer = client.rainlink?.players.get(newState.guild.id) as ExtendedPlayer
           player.data.set('sudo-destroy', true)
           if (newPlayer) player.stop(is247 && is247.twentyfourseven ? false : true)
           const TimeoutEmbed = new EmbedBuilder()

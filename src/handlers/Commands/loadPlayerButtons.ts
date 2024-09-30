@@ -1,4 +1,3 @@
-import chillout from 'chillout'
 import readdirRecursive from 'recursive-readdir'
 import { resolve, relative } from 'path'
 import { Manager } from '../../manager.js'
@@ -19,9 +18,9 @@ export class PlayerButtonsLoader {
     let commandPath = resolve(join(__dirname, '..', '..', 'buttons'))
     let commandFiles = await readdirRecursive(commandPath)
 
-    await chillout.forEach(commandFiles, async (commandFile) => {
+    for await (const commandFile of commandFiles) {
       await this.register(commandFile)
-    })
+    }
 
     if (this.client.plButton.size) {
       this.client.logger.info(

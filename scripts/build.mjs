@@ -1,13 +1,10 @@
 import { spawn } from 'node:child_process'
 import archiver from 'dir-archiver'
-import { XMLParser, XMLBuilder } from 'fast-xml-parser'
-import fse from 'fs-extra'
 import { plsParseArgs } from 'plsargs'
 import copydir from 'copy-dir'
 const args = plsParseArgs(process.argv.slice(2))
-const parser = new XMLParser()
-const builder = new XMLBuilder()
 const objectDate = Date.now()
+import fs from 'node:fs'
 
 const acceptedParams = ['clean', 'build', 'build:github']
 
@@ -57,7 +54,7 @@ if (args.get(0) == acceptedParams[0]) {
   const checkDir = ['./dist', './out', './.cylane', './logs']
 
   checkDir.forEach(async (data) => {
-    if (fse.existsSync(data)) fse.rmdirSync(data, { recursive: true, force: true })
+    if (fs.existsSync(data)) fs.rmdirSync(data, { recursive: true, force: true })
   })
 
   logger('Clean successfully!', 'info')
@@ -83,7 +80,7 @@ if (args.get(0) == acceptedParams[2]) {
     logger(`Build finished with code ${code}`, 'build')
 
     // Edit manifest
-    const manifestRaw = fse.readFileSync('./dist/manifest.xml', 'utf-8')
+    const manifestRaw = fs.readFileSync('./dist/manifest.xml', 'utf-8')
     const manifest = parser.parse(manifestRaw)
     const botVersion = manifest.metadata.bot.version
     const warningData =
@@ -107,7 +104,7 @@ if (args.get(0) == acceptedParams[2]) {
     await fse.mkdir('./out/ByteBlaze')
 
     copydir.sync('.', './out/ByteBlaze', {
-      filter: function (stat, filepath, filename) {
+      filter: function (stat, _, filename) {
         if (stat === 'file' && ignored.includes(filename)) {
           return false
         }
@@ -136,27 +133,6 @@ if (args.get(0) == acceptedParams[2]) {
 
   child.on('close', async (code) => {
     logger(`Build finished with code ${code}`, 'build')
-
-    // Edit manifest
-    const manifestRaw = fse.readFileSync('./dist/manifest.xml', 'utf-8')
-    const manifest = parser.parse(manifestRaw)
-    const botVersion = manifest.metadata.bot.version
-    const warningData =
-      `\n` +
-      '<!-- THIS IS THE METADATA BOT FILE -->' +
-      `\n` +
-      '<!-- Do NOT delete this file or it will crash -->' +
-      `\n` +
-      '<!-- Changes to this file may cause incorrect behavior -->' +
-      `\n` +
-      '<!-- You will be responsible for this when changing any content in the file. -->' +
-      `\n`
-
-    manifest.metadata.bot.version = `${botVersion}+${objectDate}`
-
-    fse.writeFileSync('./dist/manifest.xml', builder.build(manifest) + warningData, 'utf-8')
-
-    logger('Edit manifest file complete!', 'build')
 
     // Archive build
     await fse.mkdir('./out')

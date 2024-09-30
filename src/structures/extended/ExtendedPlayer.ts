@@ -1,6 +1,9 @@
 import { RainlinkEvents, RainlinkLoopMode, RainlinkPlayer } from 'rainlink'
+import { ExtendedQueue } from './ExtendedQueue.js'
 
 export class ExtendedPlayer extends RainlinkPlayer {
+  public queue: ExtendedQueue = new ExtendedQueue(this.manager, this)
+
   public clear(emitEmpty: boolean): void {
     this.loop = RainlinkLoopMode.NONE
     this.queue.clear()
@@ -35,7 +38,7 @@ export class ExtendedPlayer extends RainlinkPlayer {
       },
     })
     this.manager.emit(RainlinkEvents.TrackEnd, this, this.queue.current)
-    this.manager.emit('playerStop' as RainlinkEvents.PlayerDestroy, this)
+    this.manager.emit('playerStop' as any, this)
     return this
   }
 }

@@ -2,7 +2,7 @@ import { ButtonInteraction, CacheType, InteractionCollector, Message } from 'dis
 import { PlayerButton } from '../@types/Button.js'
 import { Manager } from '../manager.js'
 import { ReplyInteractionService } from '../services/ReplyInteractionService.js'
-import { RainlinkPlayer } from 'rainlink'
+import { ExtendedPlayer } from '../structures/extended/ExtendedPlayer.js'
 
 export default class implements PlayerButton {
   name = 'stop'
@@ -10,11 +10,11 @@ export default class implements PlayerButton {
     client: Manager,
     message: ButtonInteraction<CacheType>,
     language: string,
-    player: RainlinkPlayer,
+    player: ExtendedPlayer,
     nplaying: Message<boolean>,
     collector?: InteractionCollector<ButtonInteraction<'cached'>>
   ): Promise<any> {
-    if (collector) collector.stop()
+    if (!player && collector) return collector.stop()
 
     player.data.set('sudo-destroy', true)
     const is247 = await client.db.autoreconnect.get(`${message.guildId}`)

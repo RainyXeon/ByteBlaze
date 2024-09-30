@@ -1,4 +1,4 @@
-import { EmbedBuilder, version } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { Manager } from '../../manager.js'
 import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
@@ -43,13 +43,16 @@ export default class implements Command {
     \`\`\``
 
     const botInfo = stripIndents`\`\`\`
-    - Codename: ${client.metadata.codename}
-    - Bot version: ${client.metadata.version}
-    - Autofix version: ${client.metadata.autofix}
-    - Discord.js: ${version}
-    - WebSocket Ping: ${client.ws.ping}ms
+    - Codename: ${client.manifest.metadata.bot.codename}
+    - Bot Version: ${client.manifest.metadata.bot.version}
+    - Node.js: ${process.version}
+    - Discord.js: ${client.manifest.package.discordjs}
+    - Rainlink: ${client.manifest.package.rainlink}
+    - Autofix Version: ${client.manifest.metadata.autofix.version}
+    - Autofix Codename: ${client.manifest.metadata.autofix.codename}
     - Guild Count: ${client.guilds.cache.size}
-    - User count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    - User Count: ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)}
+    - Total Packages: ${client.manifest.package.totalAmount}
     \`\`\``
 
     const embed = new EmbedBuilder()

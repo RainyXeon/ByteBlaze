@@ -4,7 +4,6 @@ import { config } from 'dotenv'
 import { bootBot } from './bot.js'
 import pidusage, { Status } from 'pidusage'
 import { Collection } from '../structures/Collection.js'
-import chillout from 'chillout'
 import readdirRecursive from 'recursive-readdir'
 import { resolve } from 'path'
 import { join, dirname } from 'path'
@@ -131,7 +130,15 @@ export class ClusterManager {
   protected async commandLoader() {
     let eventsPath = resolve(join(__dirname, 'commands'))
     let eventsFile = await readdirRecursive(eventsPath)
-    await chillout.forEach(eventsFile, async (path) => await this.registerCommand(path))
+    for await (const path of eventsFile) {
+      await this.registerCommand(path)
+    }
+    await new Promise((res, rej) =>
+      eventsFile.forEach(async (path, index) => {
+        await this.registerCommand(path)
+        if (index == eventsFile.length - 1) return res(true)
+      })
+    )
     this.log('INFO', `Cluster command loaded successfully`)
   }
 

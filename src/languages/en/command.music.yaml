@@ -97,3 +97,9 @@ volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** an
 insert_desc: "`➕` | Inserted **%{name}** `%{duration}` • %{request}"
 insert_already: "`⚠️` | I can not insert a song that is already playing!"
 insert_notfound: "`⚠️` | Song not found!"
+
+### Radio command!
+radio_list_author: "List all radio avaliable in %{host}"
+radio_list_placeholder: "Choose a provider / country to get radio id list"
+radio_list_move: "`✅` | Moved to **%{providerName}**"
+radio_accept: "`✅` | Currently playing radio number **%{radio_no} [%{radio_name}](%{radio_link})**"

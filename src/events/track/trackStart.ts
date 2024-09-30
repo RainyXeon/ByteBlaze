@@ -236,7 +236,7 @@ export default class {
 
       if (button) {
         try {
-          button.run(client, message, String(language), player, nplaying, collector)
+          return button.run(client, message, String(language), player, nplaying, collector)
         } catch (err) {
           client.logger.error('ButtonError', err)
         }

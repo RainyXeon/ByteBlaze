@@ -49,7 +49,6 @@ export default class implements Command {
     const radioData = radioArrayList[getNum - 1]
     if (!radioData) return this.sendHelp(client, handler, radioList, radioListKeys)
 
-
     const { channel } = handler.member!.voice
     if (!channel)
       return handler.editReply({
@@ -95,11 +94,11 @@ export default class implements Command {
 
     if (!player.playing) player.play()
     const embed = new EmbedBuilder().setColor(client.color).setDescription(
-      `${client.i18n.get(handler.language, 'command.music', 'play_result', {
-        title: this.getTitle(client, result.type, result.tracks),
-        duration: convertTime(result.tracks[0].duration as number),
-        request: String(result.tracks[0].requester),
-      })}`
+      client.i18n.get(handler.language, 'command.music', 'radio_accept', {
+        radio_no: String(radioData.no),
+        radio_name: radioData.name,
+        radio_link: radioData.link,
+      })
     )
 
     handler.editReply({ content: ' ', embeds: [embed] })
@@ -119,7 +118,9 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `List all radio avaliable in ${radioListKey}`,
+          name: client.i18n.get(handler.language, 'command.music', 'radio_list_author', {
+            host: radioListKey,
+          }),
           iconURL: handler.user?.displayAvatarURL(),
         })
         .setColor(client.color)
@@ -132,7 +133,9 @@ export default class implements Command {
       new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('provider')
-          .setPlaceholder('Choose a provider / country to get radio id list')
+          .setPlaceholder(
+            client.i18n.get(handler.language, 'command.music', 'radio_list_placeholder')
+          )
           .addOptions(this.getOptionBuilder(radioListKeys))
           .setDisabled(disable)
       )
@@ -153,9 +156,11 @@ export default class implements Command {
       const getEmbed = pages[providerId]
       await msg.edit({ embeds: [getEmbed] })
 
-      const replyEmbed = new EmbedBuilder()
-        .setColor(client.color)
-        .setDescription(`\`✅\` | Moved to **${providerName}**`)
+      const replyEmbed = new EmbedBuilder().setColor(client.color).setDescription(
+        client.i18n.get(handler.language, 'command.music', 'radio_list_move', {
+          providerName,
+        })
+      )
 
       const msgReply = await message
         .reply({

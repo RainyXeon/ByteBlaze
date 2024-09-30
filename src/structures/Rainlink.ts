@@ -5,7 +5,7 @@ import { NicoPlugin } from 'rainlink-nico'
 import { ApplePlugin } from 'rainlink-apple'
 import { DeezerPlugin } from 'rainlink-deezer'
 import { RainlinkPlugin as YTConverterPlugin } from './YTConverterPlugin.js'
-import { ExtendedPlayer } from './ExtendedPlayer.js'
+import { ExtendedPlayer } from './extended/ExtendedPlayer.js'
 
 export class RainlinkInit {
   client: Manager
@@ -19,8 +19,8 @@ export class RainlinkInit {
       nodes: this.client.config.player.NODES,
       plugins: this.plugins,
       options: this.client.config.utilities.AUTOFIX_LAVALINK.enable
-        ? this.autofixConfig
-        : this.defaultConfig,
+        ? { ...this.defaultConfig, ...this.autofixConfig }
+        : { ...this.defaultConfig, ...this.nonAutoConfig },
     })
   }
 
@@ -28,8 +28,6 @@ export class RainlinkInit {
     return {
       resume: true,
       resumeTimeout: 600,
-      retryCount: Infinity,
-      retryTimeout: 3000,
       defaultSearchEngine: 'youtube',
       structures: {
         player: ExtendedPlayer,
@@ -41,11 +39,17 @@ export class RainlinkInit {
     }
   }
 
+  get nonAutoConfig(): RainlinkAdditionalOptions {
+    return {
+      retryCount: Infinity,
+      retryTimeout: 3000,
+    }
+  }
+
   get autofixConfig(): RainlinkAdditionalOptions {
     return {
       retryCount: this.client.config.utilities.AUTOFIX_LAVALINK.retryCount,
       retryTimeout: this.client.config.utilities.AUTOFIX_LAVALINK.retryTimeout,
-      defaultSearchEngine: 'youtube',
     }
   }
 

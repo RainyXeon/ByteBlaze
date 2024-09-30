@@ -1,5 +1,4 @@
 import fs from 'fs'
-import _ from 'lodash'
 import { config } from 'dotenv'
 config()
 
@@ -28,9 +27,9 @@ export class YAMLParseService {
           const boolean_prase_res: boolean | 'null' | undefined = this.parseBoolean(
             process.env[extract![1]]!
           )
-          res_array.push(_.replace(element, extract![0], String(boolean_prase_res)))
+          res_array.push(element.replace(extract![0], String(boolean_prase_res)))
         } else {
-          res_array.push(_.replace(element, extract![0], process.env[extract![1]]!))
+          res_array.push(element.replace(extract![0], process.env[extract![1]]!))
         }
       } else {
         res_array.push(element)
