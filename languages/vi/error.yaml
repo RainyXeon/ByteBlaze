@@ -1,39 +1,39 @@
 # Invalid Number
-number_invalid: "`⚠️` | Hãy nhập 1 số hợp lệ!"
+number_invalid: '`⚠️` | Hãy nhập 1 số hợp lệ!'
 
 # Execute when invalid
-no_node: "`⚠️` | Hiện không có máy chủ lavalink để chơi nhạc. Vui lòng thử lại sau **5 phút**!"
+no_node: '`⚠️` | Hiện không có máy chủ lavalink để chơi nhạc. Vui lòng thử lại sau **5 phút**!'
 
 # No song is currently playing!
-no_player: "`⚠️` | Hiện giờ không có nhạc nào đang chơi!"
+no_player: '`⚠️` | Hiện giờ không có nhạc nào đang chơi!'
 
 # Need to join voice & same voice to use command!
-no_in_voice: "`⚠️` | Bạn không ở trong kênh đàm thoại với tôi!"
-no_same_voice: "`⚠️` | Bạn không ở cùng kênh đàm thoại với tôi!"
+no_in_voice: '`⚠️` | Bạn không ở trong kênh đàm thoại với tôi!'
+no_same_voice: '`⚠️` | Bạn không ở cùng kênh đàm thoại với tôi!'
 
 # No permission!
-no_perms: "`⚠️` | Bot không có quyền **%{perm}** để thực hiện lệnh này!"
-no_perms_channel: "`⚠️` | Bot không có quyền **%{perm}** trong kênh <#%{channel}> để thực hiện lệnh này!"
+no_perms: '`⚠️` | Bot không có quyền **%{perm}** để thực hiện lệnh này!'
+no_perms_channel: '`⚠️` | Bot không có quyền **%{perm}** trong kênh <#%{channel}> để thực hiện lệnh này!'
 
 # Getting error!
-unexpected_error: "`⚠️` | Có gì đó không ổn. Vui lòng thử lại!"
+unexpected_error: '`⚠️` | Có gì đó không ổn. Vui lòng thử lại!'
 
 # Client owner!
-owner_only: "`⚠️` | Bạn không phải chủ nhân của tôi!"
+owner_only: '`⚠️` | Bạn không phải chủ nhân của tôi!'
 
 # No premium Event!
-no_premium_author: "Dịch vụ trả phí"
-no_premium_desc: "`⚠️` | Bạn không phải người dùng gói dịch vụ trả phí!"
+no_premium_author: 'Dịch vụ trả phí'
+no_premium_desc: '`⚠️` | Bạn không phải người dùng gói dịch vụ trả phí!'
 
 # Rate limit!
-ratelimit: "`⚠️` | Bạn dùng lệnh quá nhanh. Hãy đợi **%{time} giây**!"
+ratelimit: '`⚠️` | Bạn dùng lệnh quá nhanh. Hãy đợi **%{time} giây**!'
 
 # Missing args
-arg_error: "`⚠️` | Dữ liệu đi theo không hợp lệ. Vui lòng chỉ sử dụng %{text}"
+arg_error: '`⚠️` | Dữ liệu đi theo không hợp lệ. Vui lòng chỉ sử dụng %{text}'
 
 # Top.gg error
-topgg_error_author: "❌ | Lỗi Top.gg"
-topgg_error_desc: "Đã xảy ra ngoại lệ khi kiểm tra phiếu bầu của bạn trên top.gg, điều này có thể là do Top.gg không hoạt động. Vui lòng thử lại sau 5-10 phút."
-topgg_vote_author: "❌ | Bạn chưa vote bot"
-topgg_vote_desc: "Để sử dụng lệnh này, bạn cần phải vote cho con bot này trên top.gg!"
-topgg_vote_button: "Nhấn vào đây để vote!"
+topgg_error_author: '❌ | Lỗi Top.gg'
+topgg_error_desc: 'Đã xảy ra ngoại lệ khi kiểm tra phiếu bầu của bạn trên top.gg, điều này có thể là do Top.gg không hoạt động. Vui lòng thử lại sau 5-10 phút.'
+topgg_vote_author: '❌ | Bạn chưa vote bot'
+topgg_vote_desc: 'Để sử dụng lệnh này, bạn cần phải vote cho con bot này trên top.gg!'
+topgg_vote_button: 'Nhấn vào đây để vote!'

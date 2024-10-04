@@ -1,20 +1,20 @@
 ### Playing event!
-track_title: "Empezar a Reproducir"
-track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-author_title: "`✒️` | Autor:"
-request_title: "`👤` | Solicitante:"
-volume_title: "`🔊` | Volumen:"
-queue_title: "`💾` | Longitud de cola:"
-duration_title: "`🕒` | Duración de la canción:"
-total_duration_title: "`🕰️` | Duración de cola:"
-download_title: "`⬇️` | Descargar:"
+track_title: 'Empezar a Reproducir'
+track_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
+author_title: '`✒️` | Autor:'
+request_title: '`👤` | Solicitante:'
+volume_title: '`🔊` | Volumen:'
+queue_title: '`💾` | Longitud de cola:'
+duration_title: '`🕒` | Duración de la canción:'
+total_duration_title: '`🕰️` | Duración de cola:'
+download_title: '`⬇️` | Descargar:'
 ### Same voice!
-join_voice: "`⚠️` | ¡No estás en el mismo canal de voz que yo!"
+join_voice: '`⚠️` | ¡No estás en el mismo canal de voz que yo!'
 ### QueueEnd event!
-queue_end_desc: "`🔚` | ¡La canción a **Terminado**!"
+queue_end_desc: '`🔚` | ¡La canción a **Terminado**!'
 ### Song error!
-error_desc: "`⚠️` | La canción tiene un error. ¡Omitida la **Canción**!"
+error_desc: '`⚠️` | La canción tiene un error. ¡Omitida la **Canción**!'
 ### Auto function!
-player_end: "`🛑` | ¡He salido de <#%{leave}> porque no hay nadie en el canal de voz!"
-leave_pause: "`⏸️` | ¡La canción ha sido pausada porque me dejaron solo!"
-leave_resume: "`▶️` | ¡La canción ha sido reanudada porque alguien se ha unido!"
+player_end: '`🛑` | ¡He salido de <#%{leave}> porque no hay nadie en el canal de voz!'
+leave_pause: '`⏸️` | ¡La canción ha sido pausada porque me dejaron solo!'
+leave_resume: '`▶️` | ¡La canción ha sido reanudada porque alguien se ha unido!'

@@ -4,13 +4,13 @@ import { Accessableby, Command } from '../../structures/Command.js'
 import { CommandHandler } from '../../structures/CommandHandler.js'
 import { formatDuration } from '../../utilities/FormatDuration.js'
 import { PageQueue } from '../../structures/PageQueue.js'
-import { RainlinkPlayer } from 'rainlink'
 import { getTitle } from '../../utilities/GetTitle.js'
+import { ExtendedPlayer } from '../../structures/extended/ExtendedPlayer.js'
 
 // Main code
 export default class implements Command {
-  public name = ['shuffle']
-  public description = 'Shuffle song in queue!'
+  public name = ['unshuffle']
+  public description = 'unshuffle song in queue!'
   public category = 'Music'
   public accessableby = [Accessableby.Member]
   public usage = ''
@@ -25,9 +25,9 @@ export default class implements Command {
   public async execute(client: Manager, handler: CommandHandler) {
     await handler.deferReply()
 
-    const player = client.rainlink.players.get(handler.guild!.id) as RainlinkPlayer
+    const player = client.rainlink.players.get(handler.guild!.id) as ExtendedPlayer
 
-    const newQueue = await player.queue.shuffle()
+    const newQueue = player.queue.restore()
 
     const song = newQueue.current
 
@@ -52,7 +52,7 @@ export default class implements Command {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `${client.i18n.get(handler.language, 'command.music', 'shuffle_msg')}`,
+          name: `${client.i18n.get(handler.language, 'command.music', 'unshuffle_msg')}`,
         })
         .setThumbnail(thumbnail)
         .setColor(client.color)

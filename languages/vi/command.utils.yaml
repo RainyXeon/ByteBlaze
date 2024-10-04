@@ -1,30 +1,30 @@
 ### Language command!
-lang_set: "`📙` | Ngôn ngữ đã được đổi thành **%{language}**!"
-lang_change: "`📙` | Ngôn ngữ đã được đổi thành **%{language}**!"
-lang_perm: "`⚠️` | Bạn ko có quyền để sử dụng lệnh này!"
+lang_set: '`📙` | Ngôn ngữ đã được đổi thành **%{language}**!'
+lang_change: '`📙` | Ngôn ngữ đã được đổi thành **%{language}**!'
+lang_perm: '`⚠️` | Bạn ko có quyền để sử dụng lệnh này!'
 provide_lang: "`⚠️` | Ngôn ngữ mới ko hợp lệ. Vui lòng chỉ nhập\n`%{languages}`"
 
 ### Shutdown command!
-restart_msg: "`🔌` | **Đang tắt nguồn bot**..."
+restart_msg: '`🔌` | **Đang tắt nguồn bot**...'
 
 ### Prefix command!
-prefix_set: "`㊙️` | Prefix đã được đặt thành **%{prefix}**"
-prefix_change: "`㊙️` | Prefix đã được đặt thành **%{prefix}**"
-prefix_arg: "`⚠️` | Vui lòng nhập 1 prefix mới hợp lệ!"
-prefix_length: "`⚠️` | Prefix không thể dài hơn **10 kí tự**!"
+prefix_set: '`㊙️` | Prefix đã được đặt thành **%{prefix}**'
+prefix_change: '`㊙️` | Prefix đã được đặt thành **%{prefix}**'
+prefix_arg: '`⚠️` | Vui lòng nhập 1 prefix mới hợp lệ!'
+prefix_length: '`⚠️` | Prefix không thể dài hơn **10 kí tự**!'
 
 ### SongNoti command!
-songnoti_set: "`🔔` | Thông báo nhạc mới đã được đặt thành **%{toggle}**!"
-songnoti_already: "`⚠️` | Thông báo nhạc mới đã được đặt thành **%{mode}** trước đó!"
+songnoti_set: '`🔔` | Thông báo nhạc mới đã được đặt thành **%{toggle}**!'
+songnoti_already: '`⚠️` | Thông báo nhạc mới đã được đặt thành **%{mode}** trước đó!'
 
 ### 24/7 command!
-247_on: "`✅` | Chế độ 24/7 đã được **bật**!"
-247_off: "`❌` | Chế độ 24/7 đã được **tắt**!"
-247_already: "`⚠️` | 24/7 đã ở chế độ **%{mode}** trước đó!"
+247_on: '`✅` | Chế độ 24/7 đã được **bật**!'
+247_off: '`❌` | Chế độ 24/7 đã được **tắt**!'
+247_already: '`⚠️` | 24/7 đã ở chế độ **%{mode}** trước đó!'
 
 ### Setup command!
 setup_msg: "**`⚙️` | Đã tạo thành công hệ thống yêu cầu nhạc** %{channel}\n```Lưu ý: Đừng xóa bát kì 1 tin nhắn nào trong kênh song-request để hệ thống này hoạt động!```"
-setup_deleted: "**`⚙️` | Đã xóa thành công hệ thống yêu cầu nhạc!**"
+setup_deleted: '**`⚙️` | Đã xóa thành công hệ thống yêu cầu nhạc!**'
 setup_topic: "⏹ **Dừng**\n⏮️ **Trước đó**\n⏯ **Tạm dừng/Tiếp tục**\n⏭️ **Bỏ qua**\n🔁 **Lặp/Không lặp**"
-setup_enable: "`⚠️` | Hệ thống yêu cầu nhạc đã tồn tại!"
-setup_null: "`⚠️` | Không tìm thấy hệ thống yêu cầu nhạc!"
+setup_enable: '`⚠️` | Hệ thống yêu cầu nhạc đã tồn tại!'
+setup_null: '`⚠️` | Không tìm thấy hệ thống yêu cầu nhạc!'

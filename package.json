@@ -45,6 +45,13 @@
     }
   },
   "homepage": "https://github.com/RainyXeon/ByteBlaze#readme",
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100
+  },
   "dependencies": {
     "@execaman/lyricist": "^2.0.2",
     "@fastify/websocket": "^10.0.1",

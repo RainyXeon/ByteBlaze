@@ -1,8 +1,8 @@
-display_name: "Nombre para mostrar"
-username: "Nombre de usuario"
-createdAt: "Creado el"
-redeemedAt: "Canjeado en"
-expiresAt: "Caduca en"
-plan: "Plan"
-title: "💫 ¡Nuevo usuario se ha registrado exitosamente como premium!"
-guild_title: "💫 ¡Nuevo servidor se ha registrado exitosamente como premium!"
+display_name: 'Nombre para mostrar'
+username: 'Nombre de usuario'
+createdAt: 'Creado el'
+redeemedAt: 'Canjeado en'
+expiresAt: 'Caduca en'
+plan: 'Plan'
+title: '💫 ¡Nuevo usuario se ha registrado exitosamente como premium!'
+guild_title: '💫 ¡Nuevo servidor se ha registrado exitosamente como premium!'

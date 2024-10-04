@@ -1,9 +1,9 @@
-joined_title: "📥 ¡Se unió a un servidor!"
-leave_title: "📥 ¡Dejó un servidor!"
-guild_name: "Nombre"
-guild_id: "ID"
-guild_owner: "Propietario/a"
-guild_member_count: "Contador de miembros"
-guild_creation_date: "Fecha de creación"
-current_server_count: "Número actual de servidores"
-join_dm_title: "¡Gracias por elegir %{username} como un bot de música principal!"
+joined_title: '📥 ¡Se unió a un servidor!'
+leave_title: '📥 ¡Dejó un servidor!'
+guild_name: 'Nombre'
+guild_id: 'ID'
+guild_owner: 'Propietario/a'
+guild_member_count: 'Contador de miembros'
+guild_creation_date: 'Fecha de creación'
+current_server_count: 'Número actual de servidores'
+join_dm_title: '¡Gracias por elegir %{username} como un bot de música principal!'

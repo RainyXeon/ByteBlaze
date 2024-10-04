@@ -1,95 +1,95 @@
 ### Create command!
-create_created: "`💿` | Đã tạo **%{playlist}** • `%{id}`"
-create_toolong: "`⚠️` | Tên danh sách phát không được dài hơn **16 ký tự**!"
-des_toolong: "`⚠️` | Mô tả danh sách phát không được dài hơn **1000 ký tự**!"
-create_limit_playlist: "`⚠️` | Bạn không thể tạo nhiều hơn **%{limit} Danh sách phát**!"
+create_created: '`💿` | Đã tạo **%{playlist}** • `%{id}`'
+create_toolong: '`⚠️` | Tên danh sách phát không được dài hơn **16 ký tự**!'
+des_toolong: '`⚠️` | Mô tả danh sách phát không được dài hơn **1000 ký tự**!'
+create_limit_playlist: '`⚠️` | Bạn không thể tạo nhiều hơn **%{limit} Danh sách phát**!'
 
 ### Add command!
-add_track: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}"
-add_playlist: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • (**%{track} Bài hát**) • %{user}"
-add_search: "`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}"
-add_added: "`➕` | Đã thêm **%{count} Bài hát** vào `%{playlist}`"
-add_match: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
-add_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
-add_limit_track: "`⚠️` | Bạn không thể thêm nhiều hơn **%{limit} bài hát**!"
+add_track: '`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}'
+add_playlist: '`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • (**%{track} Bài hát**) • %{user}'
+add_search: '`🔍` | Đã tìm kiếm **%{title}** `%{duration}` • %{user}'
+add_added: '`➕` | Đã thêm **%{count} Bài hát** vào `%{playlist}`'
+add_match: '`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!'
+add_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
+add_limit_track: '`⚠️` | Bạn không thể thêm nhiều hơn **%{limit} bài hát**!'
 
 ### Delete command!
-delete_confirm: "`❓` | Bạn có muốn xóa `%{playlist_id}`"
-delete_deleted: "`❌` | Đã xóa `%{name}`"
-delete_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-delete_no: "`⚠️` | Đã hủy **Xóa**!"
-delete_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
+delete_confirm: '`❓` | Bạn có muốn xóa `%{playlist_id}`'
+delete_deleted: '`❌` | Đã xóa `%{name}`'
+delete_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+delete_no: '`⚠️` | Đã hủy **Xóa**!'
+delete_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
 
 ### Detail command!
-detail_private: "`🔒` | Danh sách phát là **Riêng tư**!"
-detail_embed_title: "%{name}"
-detail_embed_footer: "Trang • %{page}/%{pages} | Bài hát • %{songs} | Tổng thời lượng • %{duration}"
-detail_track: "%{num}. **%{title}** `[%{duration}]` • Tác giả: **%{author}**"
-detail_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-detail_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
-detail_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
+detail_private: '`🔒` | Danh sách phát là **Riêng tư**!'
+detail_embed_title: '%{name}'
+detail_embed_footer: 'Trang • %{page}/%{pages} | Bài hát • %{songs} | Tổng thời lượng • %{duration}'
+detail_track: '%{num}. **%{title}** `[%{duration}]` • Tác giả: **%{author}**'
+detail_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+detail_notnumber: '`⚠️` | Vui lòng cung cấp số trang hợp lệ!'
+detail_page_notfound: '`⚠️` | Chỉ có **%{page} trang**!'
 
 ### Import command!
-import_private: "`🔒` | Danh sách phát là **Riêng tư**!"
-import_imported: "`💿` | Đã nhập **%{name}** • `[%{duration}]` • (**%{tracks} Bài hát**) • %{user}"
-import_voice: "`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!"
-import_empty: "`⚠️` | Danh sách phát **trống**!"
+import_private: '`🔒` | Danh sách phát là **Riêng tư**!'
+import_imported: '`💿` | Đã nhập **%{name}** • `[%{duration}]` • (**%{tracks} Bài hát**) • %{user}'
+import_voice: '`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!'
+import_empty: '`⚠️` | Danh sách phát **trống**!'
 
 ### All command!
-view_embed_title: "%{user}"
-view_embed_footer: "Trang • %{page}/%{pages} | Danh sách phát • %{songs}"
-view_embed_playlist: "%{num}. `%{name}` • (**%{tracks} Bài hát**) • Đã tạo: `[%{create} trước]`"
-view_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
-view_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
+view_embed_title: '%{user}'
+view_embed_footer: 'Trang • %{page}/%{pages} | Danh sách phát • %{songs}'
+view_embed_playlist: '%{num}. `%{name}` • (**%{tracks} Bài hát**) • Đã tạo: `[%{create} trước]`'
+view_notnumber: '`⚠️` | Vui lòng cung cấp số trang hợp lệ!'
+view_page_notfound: '`⚠️` | Chỉ có **%{page} trang**!'
 
 ### Remove command!
-remove_removed: "`➖` | Đã xóa bài hát **%{position} Number** khỏi `%{name}`"
-remove_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-remove_song_notfound: "`⚠️` | Bài hát không được tìm thấy!"
-remove_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
+remove_removed: '`➖` | Đã xóa bài hát **%{position} Number** khỏi `%{name}`'
+remove_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+remove_song_notfound: '`⚠️` | Bài hát không được tìm thấy!'
+remove_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
 
 ### SaveQueue command!
-savequeue_saved: "`✅` | Đã lưu **%{tracks} Bài hát** vào `%{name}`"
-savequeue_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-savequeue_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
-savequeue_no_new_saved: "`⚠️` | Bài hát đã tồn tại trong `%{name}`"
-savequeue_no_tracks: "`⚠️` | Hiện tại không có bài hát nào đang phát!"
+savequeue_saved: '`✅` | Đã lưu **%{tracks} Bài hát** vào `%{name}`'
+savequeue_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+savequeue_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
+savequeue_no_new_saved: '`⚠️` | Bài hát đã tồn tại trong `%{name}`'
+savequeue_no_tracks: '`⚠️` | Hiện tại không có bài hát nào đang phát!'
 
 ### Info Command!
-info_id: "`🆔` | ID:"
-info_total: "`🎵` | Tổng số bài hát:"
-info_created: "`📅` | Tạo:"
-info_private: "`👀` | Hiển thị:"
-info_owner: "`👑` | Người sở hữu:"
-info_des: "`💬` | Sự miêu tả:"
-no_des: "Không có mô tả được cung cấp!"
-public: "Công cộng"
-private: "Riêng tư"
-invalid: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
+info_id: '`🆔` | ID:'
+info_total: '`🎵` | Tổng số bài hát:'
+info_created: '`📅` | Tạo:'
+info_private: '`👀` | Hiển thị:'
+info_owner: '`👑` | Người sở hữu:'
+info_des: '`💬` | Sự miêu tả:'
+no_des: 'Không có mô tả được cung cấp!'
+public: 'Công cộng'
+private: 'Riêng tư'
+invalid: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
 
 ### Editor command!
-edit_playlist_id_label: "Nhập **ID danh sách phát mới** của bạn! `[a-z, A-Z, 0-9]`"
-edit_playlist_name_label: "Nhập **Tên danh sách phát mới** của bạn!"
-edit_playlist_des_label: "Nhập **Mô tả danh sách phát mới** của bạn!"
-edit_playlist_private_label: "Nhập **Chế độ hiển thị danh sách phát mới** của bạn! `[public/private]`"
-edit_success: "`✅` | Đã chỉnh sửa thành công thông tin `%{playlistId}`!"
-edit_arg: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-edit_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-edit_playlist_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
-edit_invalid_id: "`⚠️` | Vui lòng nhập ID danh sách phát hợp lệ và không tồn tại!"
-edit_invalid_mode: "`⚠️` | Chế độ hiển thị không hợp lệ. Vui lòng sử dụng **public** hoặc **private**!"
+edit_playlist_id_label: 'Nhập **ID danh sách phát mới** của bạn! `[a-z, A-Z, 0-9]`'
+edit_playlist_name_label: 'Nhập **Tên danh sách phát mới** của bạn!'
+edit_playlist_des_label: 'Nhập **Mô tả danh sách phát mới** của bạn!'
+edit_playlist_private_label: 'Nhập **Chế độ hiển thị danh sách phát mới** của bạn! `[public/private]`'
+edit_success: '`✅` | Đã chỉnh sửa thành công thông tin `%{playlistId}`!'
+edit_arg: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+edit_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+edit_playlist_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
+edit_invalid_id: '`⚠️` | Vui lòng nhập ID danh sách phát hợp lệ và không tồn tại!'
+edit_invalid_mode: '`⚠️` | Chế độ hiển thị không hợp lệ. Vui lòng sử dụng **public** hoặc **private**!'
 
 ### Editor interaction!
-ineraction_edit_playlist_id_label: "ID danh sách phát mới"
-ineraction_edit_playlist_name_label: "Tên danh sách phát mới"
-ineraction_edit_playlist_des_label: "Mô tả danh sách phát mới"
-ineraction_edit_playlist_private_label: "Hiển thị danh sách phát mới"
-ineraction_edit_playlist_id_placeholder: "Nhập ID danh sách phát mới của bạn! [a-z, A-Z, 0-9]"
-ineraction_edit_playlist_name_placeholder: "Nhập tên danh sách phát mới của bạn!"
-ineraction_edit_playlist_des_placeholder: "Nhập Mô tả danh sách phát mới của bạn!"
-ineraction_edit_playlist_private_placeholder: "Nhập Chế độ hiển thị danh sách phát mới của bạn! [public/private]"
-ineraction_edit_success: "`✅` | Đã chỉnh sửa thành công thông tin `%{playlistId}`!"
-ineraction_edit_playlist_error: "`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại!"
-ineraction_edit_notfound: "`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!"
-ineraction_edit_playlist_owner: "`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!"
-ineraction_edit_invalid_id: "`⚠️` | Vui lòng nhập ID danh sách phát hợp lệ và không tồn tại!"
+ineraction_edit_playlist_id_label: 'ID danh sách phát mới'
+ineraction_edit_playlist_name_label: 'Tên danh sách phát mới'
+ineraction_edit_playlist_des_label: 'Mô tả danh sách phát mới'
+ineraction_edit_playlist_private_label: 'Hiển thị danh sách phát mới'
+ineraction_edit_playlist_id_placeholder: 'Nhập ID danh sách phát mới của bạn! [a-z, A-Z, 0-9]'
+ineraction_edit_playlist_name_placeholder: 'Nhập tên danh sách phát mới của bạn!'
+ineraction_edit_playlist_des_placeholder: 'Nhập Mô tả danh sách phát mới của bạn!'
+ineraction_edit_playlist_private_placeholder: 'Nhập Chế độ hiển thị danh sách phát mới của bạn! [public/private]'
+ineraction_edit_success: '`✅` | Đã chỉnh sửa thành công thông tin `%{playlistId}`!'
+ineraction_edit_playlist_error: '`⚠️` | Đã xảy ra lỗi. Vui lòng thử lại!'
+ineraction_edit_notfound: '`⚠️` | Vui lòng cung cấp ID danh sách phát hợp lệ!'
+ineraction_edit_playlist_owner: '`⚠️` | Bạn không phải là **Chủ sở hữu danh sách phát**!'
+ineraction_edit_invalid_id: '`⚠️` | Vui lòng nhập ID danh sách phát hợp lệ và không tồn tại!'

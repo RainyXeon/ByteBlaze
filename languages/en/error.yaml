@@ -1,45 +1,45 @@
 # Invalid Number
-number_invalid: "`⚠️` | Please provide a valid number!"
+number_invalid: '`⚠️` | Please provide a valid number!'
 
 # Execute when invalid
-no_node: "`⚠️` | No Lavalink server was found. Please try again after **5 Minutes**!"
+no_node: '`⚠️` | No Lavalink server was found. Please try again after **5 Minutes**!'
 
 # No song is currently playing!
-no_player: "`⚠️` | No song is currently playing!"
+no_player: '`⚠️` | No song is currently playing!'
 
 # Need to join voice & same voice to use command!
-no_in_voice: "`⚠️` | You are not in a voice channel!"
-no_same_voice: "`⚠️` | You are not in the same voice channel as me!"
+no_in_voice: '`⚠️` | You are not in a voice channel!'
+no_same_voice: '`⚠️` | You are not in the same voice channel as me!'
 
 # No permission!
-user_no_perms: "`⚠️` | You do not have **%{perm}** permission to execute this command!"
-no_perms: "`⚠️` | I do not have **%{perm}** permission to execute this command!"
-no_perms_channel: "`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!"
+user_no_perms: '`⚠️` | You do not have **%{perm}** permission to execute this command!'
+no_perms: '`⚠️` | I do not have **%{perm}** permission to execute this command!'
+no_perms_channel: '`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!'
 
 # Getting error!
-unexpected_error: "`⚠️` | Something went wrong. Please try again later!"
+unexpected_error: '`⚠️` | Something went wrong. Please try again later!'
 
 # Client owner!
-owner_only: "`⚠️` | You are not my **Owner**!"
+owner_only: '`⚠️` | You are not my **Owner**!'
 
 # No premium Event!
-no_premium_author: "Premium"
-no_premium_desc: "`⚠️` | You are not a Premium user!"
-no_guild_premium_desc: "`⚠️` | You are not in a premium guild!"
+no_premium_author: 'Premium'
+no_premium_desc: '`⚠️` | You are not a Premium user!'
+no_guild_premium_desc: '`⚠️` | You are not in a premium guild!'
 
 # Rate limit!
-ratelimit: "`⚠️` | You are performing actions too quickly. Please wait for **%{time} Seconds**!"
+ratelimit: '`⚠️` | You are performing actions too quickly. Please wait for **%{time} Seconds**!'
 
 # Missing args
-arg_error: "`⚠️` | Invalid argument. Please use %{text}"
+arg_error: '`⚠️` | Invalid argument. Please use %{text}'
 
 # Top.gg error
-topgg_error_author: "❌ | Top.gg error"
-topgg_error_desc: "An exception occurred while checking your vote on top.gg, this may be because Top.gg is down. Please try again after 5-10 minutes."
+topgg_error_author: '❌ | Top.gg error'
+topgg_error_desc: 'An exception occurred while checking your vote on top.gg, this may be because Top.gg is down. Please try again after 5-10 minutes.'
 topgg_vote_author: "❌ | You haven't voted yet"
-topgg_vote_desc: "To use this command, you have to vote this bot!"
-topgg_vote_button: "Click here to vote!"
+topgg_vote_desc: 'To use this command, you have to vote this bot!'
+topgg_vote_button: 'Click here to vote!'
 
 # Blacklist error
-bl_user: "`❌` | You have been blocked by <@%{bot}>, please contact the owner to resolve"
-bl_guild: "`❌` | This server has been blocked by <@%{bot}>, please contact the owner to resolve or use another server"
+bl_user: '`❌` | You have been blocked by <@%{bot}>, please contact the owner to resolve'
+bl_guild: '`❌` | This server has been blocked by <@%{bot}>, please contact the owner to resolve or use another server'

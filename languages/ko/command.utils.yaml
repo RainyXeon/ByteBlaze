@@ -1,25 +1,25 @@
 ### Language command!
-lang_set: "`📙` | 언어가 다음 언어로 설정되었어요! **%{language}**"
-lang_change: "`📙` | 언어가 다음 언어로 변경되었어요! **%{language}**"
-lang_perm: "`⚠️` | 이 명령을 사용할 권한이 없어요!"
-provide_lang: "`⚠️` | 유효하지 않은 언어입니다. 다음 중 하나를 사용하세요: %{languages}"
+lang_set: '`📙` | 언어가 다음 언어로 설정되었어요! **%{language}**'
+lang_change: '`📙` | 언어가 다음 언어로 변경되었어요! **%{language}**'
+lang_perm: '`⚠️` | 이 명령을 사용할 권한이 없어요!'
+provide_lang: '`⚠️` | 유효하지 않은 언어입니다. 다음 중 하나를 사용하세요: %{languages}'
 ### Shutdown command!
-restart_msg: "`🔌` | **봇 종료중**..."
+restart_msg: '`🔌` | **봇 종료중**...'
 ### Prefix command!
-prefix_set: "`㊙️` | 접두사가 성공적으로 설정되었어요! **%{prefix}**"
-prefix_change: "`㊙️` | 접두가가 성공적으로 변경되었어요! **%{prefix}**"
-prefix_arg: "`⚠️` | 올바른 접두사를 설정해주세요!"
-prefix_length: "`⚠️` | 접두사는 10자 이상 설정할 수 없어요!"
+prefix_set: '`㊙️` | 접두사가 성공적으로 설정되었어요! **%{prefix}**'
+prefix_change: '`㊙️` | 접두가가 성공적으로 변경되었어요! **%{prefix}**'
+prefix_arg: '`⚠️` | 올바른 접두사를 설정해주세요!'
+prefix_length: '`⚠️` | 접두사는 10자 이상 설정할 수 없어요!'
 ### SongNoti command!
-songnoti_set: "`🔔` | 노래 재생 알림이 **%{toggle}** 로 설정되었어요!"
-songnoti_already: "`⚠️` | 노래 재생 알림 모드가 이미 **%{mode}** 로 설정되어있어요!"
+songnoti_set: '`🔔` | 노래 재생 알림이 **%{toggle}** 로 설정되었어요!'
+songnoti_already: '`⚠️` | 노래 재생 알림 모드가 이미 **%{mode}** 로 설정되어있어요!'
 ### 24/7 command!
-247_on: "`✅` | 24/7 모드 **활성화됨**!"
-247_off: "`❌` | 24/7 모드 **비활성화됨**!"
-247_already: "`⚠️` | 24/7 모드가 이미 **%{mode}** 로 설정되어있어요!"
+247_on: '`✅` | 24/7 모드 **활성화됨**!'
+247_off: '`❌` | 24/7 모드 **비활성화됨**!'
+247_already: '`⚠️` | 24/7 모드가 이미 **%{mode}** 로 설정되어있어요!'
 ### Setup command!
 setup_msg: "**`⚙️` | 뮤직 시스템이 성공적으로 설정되었어요!** %{channel}\n```경고! 음악 시스템이 정상적으로 작동하기 위해 제가 보낸 메시지를 삭제하지 마세요.!```"
-setup_deleted: "**`⚙️` | 뮤직 시스템 삭제됨!**"
+setup_deleted: '**`⚙️` | 뮤직 시스템 삭제됨!**'
 setup_topic: "⏹ **정지**\n⏮️ **이전곡**\n⏯ **재생/일시정지**\n⏭️ **다음곡**\n🔁 **반복설정/반복해제**"
-setup_enable: "`⚠️` | 뮤직 시스템이 이미 설정되어있어요!"
-setup_null: "`⚠️` | 뮤직 시스템을 찾을 수 없어요!"
+setup_enable: '`⚠️` | 뮤직 시스템이 이미 설정되어있어요!'
+setup_null: '`⚠️` | 뮤직 시스템을 찾을 수 없어요!'

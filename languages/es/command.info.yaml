@@ -1,30 +1,30 @@
 ### Developer command!
-dev_title: "RainyXeon"
-dev_desc: "Solo soy un desarrollador de incógnito. ¡Y un creador oficial de Dreamvast y RainyProduction!"
-dev_foot: "Considere unirse a mi servidor o invitar a mis bots :) ¡Esto me ayudaría mucho!"
+dev_title: 'RainyXeon'
+dev_desc: 'Solo soy un desarrollador de incógnito. ¡Y un creador oficial de Dreamvast y RainyProduction!'
+dev_foot: 'Considere unirse a mi servidor o invitar a mis bots :) ¡Esto me ayudaría mucho!'
 ### Invite command!
-inv_title: "✉️ %{username}"
-inv_desc: "¡Gracias por invitarme de antemano!"
+inv_title: '✉️ %{username}'
+inv_desc: '¡Gracias por invitarme de antemano!'
 ### Ping command!
-ping_title: "🏓 "
+ping_title: '🏓 '
 ping_desc: "**Ping:** `%{ping}ms`\n**Tiempo de respuesta:** `%{response}ms`"
 ### Uptime command!
-uptime_title: "🕒 "
-uptime_desc: "**Uptime:** `%{uptime}`"
+uptime_title: '🕒 '
+uptime_desc: '**Uptime:** `%{uptime}`'
 ### Help command!
-ce_finder_name: "**Comando:**"
-ce_finder_des: "**Descripción:**"
-ce_finder_usage: "**Uso:**"
-ce_finder_access: "**Accesible por:**"
-ce_finder_aliases: "**Alias:**"
-ce_finder_slash: "**Slash:**"
-ce_finder_des_no: "No hay descripción"
-ce_finder_usage_no: "Sin uso"
-ce_finder_aliases_prefix: " [Solo prefijo]"
-ce_finder_aliases_no: "No hay alias"
-ce_finder_slash_enable: "Habilitado"
-ce_finder_slash_disable: "Deshabilitado"
-ce_finder_invalid: "Comando Inválido"
-ce_finder_example: "`⚠️` | ¡Por favor, proporcione un **Nombre de Comando** válido!"
-ce_name: "Comando de Ayuda"
-ce_total: "Comandos totales: "
+ce_finder_name: '**Comando:**'
+ce_finder_des: '**Descripción:**'
+ce_finder_usage: '**Uso:**'
+ce_finder_access: '**Accesible por:**'
+ce_finder_aliases: '**Alias:**'
+ce_finder_slash: '**Slash:**'
+ce_finder_des_no: 'No hay descripción'
+ce_finder_usage_no: 'Sin uso'
+ce_finder_aliases_prefix: ' [Solo prefijo]'
+ce_finder_aliases_no: 'No hay alias'
+ce_finder_slash_enable: 'Habilitado'
+ce_finder_slash_disable: 'Deshabilitado'
+ce_finder_invalid: 'Comando Inválido'
+ce_finder_example: '`⚠️` | ¡Por favor, proporcione un **Nombre de Comando** válido!'
+ce_name: 'Comando de Ayuda'
+ce_total: 'Comandos totales: '

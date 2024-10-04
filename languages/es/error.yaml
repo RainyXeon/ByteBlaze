@@ -1,30 +1,30 @@
 #Invalid Number
-number_invalid: "`⚠️` | ¡Por favor, introduzca un número válido!"
+number_invalid: '`⚠️` | ¡Por favor, introduzca un número válido!'
 #Execute when invalid
-no_node: "`⚠️` | No se encontró ningún servidor Lavalink. ¡Por favor, inténtalo de nuevo después de **5 minutos**!"
+no_node: '`⚠️` | No se encontró ningún servidor Lavalink. ¡Por favor, inténtalo de nuevo después de **5 minutos**!'
 #No song is currently playing!
-no_player: "`⚠️` | ¡No hay canción en reproducción actualmente!"
+no_player: '`⚠️` | ¡No hay canción en reproducción actualmente!'
 #Need to join voice & same voice to use command!
-no_in_voice: "`⚠️` | ¡No estás en un canal de voz!"
-no_same_voice: "`⚠️` | ¡No estás en el mismo canal de voz que yo!"
+no_in_voice: '`⚠️` | ¡No estás en un canal de voz!'
+no_same_voice: '`⚠️` | ¡No estás en el mismo canal de voz que yo!'
 #No permission!
-no_perms: "`⚠️` | ¡No tengo permiso **%{perm}** para ejecutar este comando!"
-no_perms_channel: "`⚠️` | ¡No tengo permiso **%{perm}** en <#%{channel}> para ejecutar este comando!"
+no_perms: '`⚠️` | ¡No tengo permiso **%{perm}** para ejecutar este comando!'
+no_perms_channel: '`⚠️` | ¡No tengo permiso **%{perm}** en <#%{channel}> para ejecutar este comando!'
 #Getting error!
-unexpected_error: "`⚠️` | Algo salió mal. ¡Inténtalo de nuevo!"
+unexpected_error: '`⚠️` | Algo salió mal. ¡Inténtalo de nuevo!'
 #Client owner!
-owner_only: "`⚠️` | ¡No eres mi **Propietario**!"
+owner_only: '`⚠️` | ¡No eres mi **Propietario**!'
 #No premium Event!
-no_premium_author: "Premium"
-no_premium_desc: "`⚠️` | ¡No eres un usuario Premium!"
-no_guild_premium_desc: "`⚠️` | ¡No estás en un servidor premium!"
+no_premium_author: 'Premium'
+no_premium_desc: '`⚠️` | ¡No eres un usuario Premium!'
+no_guild_premium_desc: '`⚠️` | ¡No estás en un servidor premium!'
 #Rate limit!
-ratelimit: "`⚠️` | ¡Estás realizando acciones demasiado rápido! ¡Por favor, espera **%{time} segundos**!"
+ratelimit: '`⚠️` | ¡Estás realizando acciones demasiado rápido! ¡Por favor, espera **%{time} segundos**!'
 #Missing args
-arg_error: "`⚠️` | Argumento no válido. Por favor usa %{text}"
+arg_error: '`⚠️` | Argumento no válido. Por favor usa %{text}'
 #Top.gg error
-topgg_error_author: "❌ | Error en Top.gg"
-topgg_error_desc: "Se ha producido una excepción al comprobar su voto en top.gg, esto puede deberse a que Top.gg está caído. Por favor, inténtelo de nuevo después de 5-10 minutos."
-topgg_vote_author: "❌ | Aún no has votado"
-topgg_vote_desc: "Para usar este comando, ¡tienes que votar este bot!"
-topgg_vote_button: "¡Clic aquí para votar!"
+topgg_error_author: '❌ | Error en Top.gg'
+topgg_error_desc: 'Se ha producido una excepción al comprobar su voto en top.gg, esto puede deberse a que Top.gg está caído. Por favor, inténtelo de nuevo después de 5-10 minutos.'
+topgg_vote_author: '❌ | Aún no has votado'
+topgg_vote_desc: 'Para usar este comando, ¡tienes que votar este bot!'
+topgg_vote_button: '¡Clic aquí para votar!'
