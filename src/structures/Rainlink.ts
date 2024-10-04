@@ -56,7 +56,7 @@ export class RainlinkInit {
   get plugins(): RainlinkPlugin[] {
     const defaultPlugins: RainlinkPlugin[] = [
       new DeezerPlugin({
-        market: 'us'
+        market: 'us',
       }),
       new NicoPlugin({ searchLimit: 10 }),
       new ApplePlugin({ countryCode: 'us' }),

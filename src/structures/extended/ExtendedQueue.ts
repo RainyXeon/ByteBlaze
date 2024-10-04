@@ -3,6 +3,12 @@ import { RainlinkQueue, RainlinkTrack } from 'rainlink'
 export class ExtendedQueue extends RainlinkQueue {
   public previousState: RainlinkTrack[] = []
 
+  public restore() {
+    this.length = 0
+    this.push(...this.previousState)
+    return this
+  }
+
   public splice(start: number, deleteCount?: number): ExtendedQueue {
     super.splice(start, deleteCount)
     this.previousState.splice(start, deleteCount)

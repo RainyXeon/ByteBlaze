@@ -1,32 +1,32 @@
 # Invalid Number
-number_invalid: "`⚠️` | कृपया एक मान्य संख्या प्रदान करें!"
+number_invalid: '`⚠️` | कृपया एक मान्य संख्या प्रदान करें!'
 
 # Execute when invalid
-no_node: "`⚠️` | कोई Lavalink सर्वर नहीं मिला। कृपया **5 मिनट** बाद पुनः प्रयास करें!"
+no_node: '`⚠️` | कोई Lavalink सर्वर नहीं मिला। कृपया **5 मिनट** बाद पुनः प्रयास करें!'
 
 # No song is currently playing!
-no_player: "`⚠️` | वर्तमान में कोई गाना नहीं बज रहा है!"
+no_player: '`⚠️` | वर्तमान में कोई गाना नहीं बज रहा है!'
 
 # Need to join voice & same voice to use command!
-no_in_voice: "`⚠️` | आप एक आवाज चैनल में नहीं हैं!"
-no_same_voice: "`⚠️` | आप मेरे से समान आवाज चैनल में नहीं हैं!"
+no_in_voice: '`⚠️` | आप एक आवाज चैनल में नहीं हैं!'
+no_same_voice: '`⚠️` | आप मेरे से समान आवाज चैनल में नहीं हैं!'
 
 # No permission!
-no_perms: "`⚠️` | मेरे पास इस कमांड को निष्पादित करने के लिए **%{perm}** अनुमति नहीं है!"
-no_perms_channel: "`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!"
+no_perms: '`⚠️` | मेरे पास इस कमांड को निष्पादित करने के लिए **%{perm}** अनुमति नहीं है!'
+no_perms_channel: '`⚠️` | I do not have **%{perm}** permission in <#%{channel}> to execute this command!'
 
 # Getting error!
-unexpected_error: "`⚠️` | कुछ गड़बड़ हो गया है। कृपया बाद में पुनः प्रयास करें!"
+unexpected_error: '`⚠️` | कुछ गड़बड़ हो गया है। कृपया बाद में पुनः प्रयास करें!'
 
 # Client owner!
-owner_only: "`⚠️` | आप मेरे **मालिक** नहीं हैं!"
+owner_only: '`⚠️` | आप मेरे **मालिक** नहीं हैं!'
 
 # No premium Event!
-no_premium_author: "प्रीमियम"
-no_premium_desc: "`⚠️` | आप प्रीमियम उपयोगकर्ता नहीं हैं!"
+no_premium_author: 'प्रीमियम'
+no_premium_desc: '`⚠️` | आप प्रीमियम उपयोगकर्ता नहीं हैं!'
 
 # Rate limit!
-ratelimit: "`⚠️` | आप बहुत तेजी से क्रियाएँ कर रहे हैं। कृपया **%{time} सेकंड** के लिए प्रतीक्षा करें!"
+ratelimit: '`⚠️` | आप बहुत तेजी से क्रियाएँ कर रहे हैं। कृपया **%{time} सेकंड** के लिए प्रतीक्षा करें!'
 
 # Missing args
-arg_error: "`⚠️` | अमान्य तर्क। कृपया %{text} का उपयोग करें।"
+arg_error: '`⚠️` | अमान्य तर्क। कृपया %{text} का उपयोग करें।'

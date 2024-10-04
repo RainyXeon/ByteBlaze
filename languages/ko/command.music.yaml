@@ -1,74 +1,74 @@
 ### Autoplay command!
-autoplay_on: "`✅` | 자동 플레이를 설정했어요!"
-autoplay_off: "`❌` | 자동 플레이를 해제했어요!"
-autoplay_already: "`⚠️` | 자동 플레이가 이미 **%{mode}** 로 설정되어 있어요!"
+autoplay_on: '`✅` | 자동 플레이를 설정했어요!'
+autoplay_off: '`❌` | 자동 플레이를 해제했어요!'
+autoplay_already: '`⚠️` | 자동 플레이가 이미 **%{mode}** 로 설정되어 있어요!'
 ### ClearQueue command!
-clearqueue_msg: "`🗑️` | 대기열을 정리했어요!"
+clearqueue_msg: '`🗑️` | 대기열을 정리했어요!'
 ### Forward command!
-forward_msg: "`⏩` | 해당 지점으로 이동했어요! `%{duration}`"
-forward_beyond: "`⚠️` | 노래가 곧 끝날 예정이에요 그 이후로 앞으로 넘길 수 없어요!"
+forward_msg: '`⏩` | 해당 지점으로 이동했어요! `%{duration}`'
+forward_beyond: '`⚠️` | 노래가 곧 끝날 예정이에요 그 이후로 앞으로 넘길 수 없어요!'
 ### Join command!
-join_msg: "`🔊` | 음성채널에 입장했어요! %{channel}"
-join_voice: "`⚠️` | 이 명령을 사용하려면 음성 채널에 입장해야 해요!"
-join_already: "`⚠️` | 이미 해당 채널에 있어요! %{channel}"
+join_msg: '`🔊` | 음성채널에 입장했어요! %{channel}'
+join_voice: '`⚠️` | 이 명령을 사용하려면 음성 채널에 입장해야 해요!'
+join_already: '`⚠️` | 이미 해당 채널에 있어요! %{channel}'
 ### Stop command!
-stop_msg: "`⏹️` | 플레이어를 종료할게요!"
+stop_msg: '`⏹️` | 플레이어를 종료할게요!'
 ### Loop command!
-loop_current: "`🔁` | 한 곡 반복 모드를 설정했어요!"
-loop_all: "`🔁` | 전체 반복 모드를 설정했어요!"
-unloop_all: "`❌` | 반복 모드를 해제했어요!"
-loop_invalid: "`⚠️` | 잘못된 반복 모드입니다. %{mode} 을 사용해 주세요!"
-loop_already: "`⚠️` | 이미 반복 모드가 **%{mode}** 로 설정되어 있어요!"
+loop_current: '`🔁` | 한 곡 반복 모드를 설정했어요!'
+loop_all: '`🔁` | 전체 반복 모드를 설정했어요!'
+unloop_all: '`❌` | 반복 모드를 해제했어요!'
+loop_invalid: '`⚠️` | 잘못된 반복 모드입니다. %{mode} 을 사용해 주세요!'
+loop_already: '`⚠️` | 이미 반복 모드가 **%{mode}** 로 설정되어 있어요!'
 ### Lyrics command!
-lyrics_title: "📜 %{song}"
-lyrics_notfound: "`⚠️` | 가사를 찾을 수 없어요!"
-lyrics_toolong: "`⚠️` | 가사가 너무 길어서 표시할 수 없어요!"
+lyrics_title: '📜 %{song}'
+lyrics_notfound: '`⚠️` | 가사를 찾을 수 없어요!'
+lyrics_toolong: '`⚠️` | 가사가 너무 길어서 표시할 수 없어요!'
 ### Nowplaying command!
-np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-np_title: "현재 재생 중..."
-np_current_duration: "`⏰` | 노래 길이: `[%{current_duration} / %{total_duration}]`"
+np_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
+np_title: '현재 재생 중...'
+np_current_duration: '`⏰` | 노래 길이: `[%{current_duration} / %{total_duration}]`'
 ### Pause command!
-pause_msg: "`⏸️` | 플레이어가 일시 정지되었어요!"
+pause_msg: '`⏸️` | 플레이어가 일시 정지되었어요!'
 ### Play command!
-play_track: "`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}"
-play_result: "`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • %{request}"
-play_arg: "`⚠️` | 알맞은 노래 이름 또는 URL을 입력해 주세요!"
-play_match: "`⚠️` | 노래를 찾을 수 없어요!"
-play_emoji: "`⚠️` | 이모지를 사용해서 노래를 재생할 수 없어요!"
+play_track: '`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • %{request}'
+play_playlist: '`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • (**%{songs} Songs**) • %{request}'
+play_result: '`💾` | 대기열에 추가되었어요! **[%{title}](%{url})** `%{duration}` • %{request}'
+play_arg: '`⚠️` | 알맞은 노래 이름 또는 URL을 입력해 주세요!'
+play_match: '`⚠️` | 노래를 찾을 수 없어요!'
+play_emoji: '`⚠️` | 이모지를 사용해서 노래를 재생할 수 없어요!'
 ### File command!
-file_notfound: "`⚠️` | 올바른 파일을 제공해주세요!"
-play_invalid_file: "`⚠️` | 파일 형식이 잘못되었습니다. **mp3** 또는 **ogg** 를 사용해주세요!"
-play_warning_file: "`⚠️` | 파일 형식을 찾을 수 없습니다. **mp3** 또는 **ogg** 를 사용해주세요!"
+file_notfound: '`⚠️` | 올바른 파일을 제공해주세요!'
+play_invalid_file: '`⚠️` | 파일 형식이 잘못되었습니다. **mp3** 또는 **ogg** 를 사용해주세요!'
+play_warning_file: '`⚠️` | 파일 형식을 찾을 수 없습니다. **mp3** 또는 **ogg** 를 사용해주세요!'
 ### Previous command!
-previous_msg: "`⏮️` | 다음 노래를 재생할게요!"
-previous_notfound: "`⚠️` | 이전 곡을 찾을 수 없어요!"
+previous_msg: '`⏮️` | 다음 노래를 재생할게요!'
+previous_notfound: '`⚠️` | 이전 곡을 찾을 수 없어요!'
 ### Queue command!
-queue_author: "💾 %{guild}"
+queue_author: '💾 %{guild}'
 queue_description: "`📀` | 현재 재생 중...:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | 대기열에 추가된 항목:**%{rest}**"
-queue_footer: "페이지 • %{page}/%{pages} | 노래 • %{queue_lang} | 총 재생 시간 • %{duration}"
-queue_notnumber: "`⚠️` | 알맞은 페이지 번호를 입력해주세요!"
-queue_page_notfound: "`⚠️` | %{page} 페이지만 남았어요!"
+queue_footer: '페이지 • %{page}/%{pages} | 노래 • %{queue_lang} | 총 재생 시간 • %{duration}'
+queue_notnumber: '`⚠️` | 알맞은 페이지 번호를 입력해주세요!'
+queue_page_notfound: '`⚠️` | %{page} 페이지만 남았어요!'
 ### Replay command!
-replay_msg: "`🔄` | 노래를 다시 재생할게요!"
+replay_msg: '`🔄` | 노래를 다시 재생할게요!'
 ### Resume command!
-resume_msg: "`▶️` | 노래를 다시 재생할게요!"
+resume_msg: '`▶️` | 노래를 다시 재생할게요!'
 ### Rewind command!
-rewind_msg: "`⏪` | 해당 지점으로 이동했어요! `%{duration}`"
-rewind_beyond: "`⚠️` | 노래가 방금 시작해서 그 이전으로 되감을 수 없어요!"
+rewind_msg: '`⏪` | 해당 지점으로 이동했어요! `%{duration}`'
+rewind_beyond: '`⚠️` | 노래가 방금 시작해서 그 이전으로 되감을 수 없어요!'
 ### RemoveTrack command!
-removetrack_desc: "`🗑️` | 대기열에서 제거했어요! **[%{name}](%{url})** `%{duration}` • %{request}"
-removetrack_already: "`⚠️` | 현재 재생 중인 노래는 삭제할 수 없어요!"
-removetrack_notfound: "`⚠️` | 노래를 찾을 수 없어요!"
+removetrack_desc: '`🗑️` | 대기열에서 제거했어요! **[%{name}](%{url})** `%{duration}` • %{request}'
+removetrack_already: '`⚠️` | 현재 재생 중인 노래는 삭제할 수 없어요!'
+removetrack_notfound: '`⚠️` | 노래를 찾을 수 없어요!'
 ### Seek command!
-seek_msg: "`➿` | 해당 지점으로 이동했어요! `%{duration}`"
-seek_beyond: "`⚠️` | 곡의 재생 시간을 초과하여 탐색할 수 없어요!"
-seek_invalid: "`⚠️` | 유효하지 않은 탐색 시간 입니다. 유효한 타임스탬프를 사용해주세요. 예시: **1:30**!"
+seek_msg: '`➿` | 해당 지점으로 이동했어요! `%{duration}`'
+seek_beyond: '`⚠️` | 곡의 재생 시간을 초과하여 탐색할 수 없어요!'
+seek_invalid: '`⚠️` | 유효하지 않은 탐색 시간 입니다. 유효한 타임스탬프를 사용해주세요. 예시: **1:30**!'
 ### Shuffle command!
-shuffle_msg: "🔀 대기열에 등록된 노래를 무작위로 재생할게요!"
+shuffle_msg: '🔀 대기열에 등록된 노래를 무작위로 재생할게요!'
 ### Skip command!
-skip_msg: "`⏭️` | 다음 노래를 재생할게요!"
-skip_notfound: "건너뛸 노래를 찾을 수 없어요!"
+skip_msg: '`⏭️` | 다음 노래를 재생할게요!'
+skip_notfound: '건너뛸 노래를 찾을 수 없어요!'
 ### Volume command!
-volume_msg: "`🔊` | 볼륨을 설정했어요! **%{volume}%**"
-volume_invalid: "`⚠️` | 볼륨은 **1** 부터 **100** 까지만 설정할수 있어요!"
+volume_msg: '`🔊` | 볼륨을 설정했어요! **%{volume}%**'
+volume_invalid: '`⚠️` | 볼륨은 **1** 부터 **100** 까지만 설정할수 있어요!'

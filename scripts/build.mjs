@@ -26,7 +26,7 @@ const ignored = [
   'out',
   'logs',
   '.prettierignore',
-  'example.app.yml'
+  'example.app.yml',
 ]
 
 function logger(data, type) {
@@ -63,7 +63,9 @@ if (args.get(0) == acceptedParams[0]) {
 }
 
 if (args.get(0) == acceptedParams[2]) {
-  const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run', 'build:full'], { shell: true })
+  const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run', 'build:full'], {
+    shell: true,
+  })
 
   child.stdout.on('data', (data) => {
     logger(data, 'build')
@@ -93,7 +95,7 @@ if (args.get(0) == acceptedParams[2]) {
         }
         return true // remind to return a true value when file check passed.
       },
-    });
+    })
 
     copydir.sync('./languages', './out/ByteBlaze/languages', {
       filter: function (stat, _, filename) {
@@ -105,11 +107,13 @@ if (args.get(0) == acceptedParams[2]) {
         }
         return true // remind to return a true value when file check passed.
       },
-    });
+    })
   })
 } else {
   // Build (Local build)
-  const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run', 'build:full'], { shell: true })
+  const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run', 'build:full'], {
+    shell: true,
+  })
 
   child.stdout.on('data', (data) => {
     logger(data, 'build')

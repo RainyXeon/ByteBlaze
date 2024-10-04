@@ -1,38 +1,38 @@
-queue_author: "💾 %{guild}"
+queue_author: '💾 %{guild}'
 queue_description: "`📀` | Currently Playing:\n**%{track}** `[%{duration}]` • %{requester}\n\n`💤` | Rest of Queue:**%{list_song}**"
-queue_footer: "Page • %{page}/%{pages} | Songs • %{queue_lang} | Total Duration • %{total_duration}"
+queue_footer: 'Page • %{page}/%{pages} | Songs • %{queue_lang} | Total Duration • %{total_duration}'
 # Pause
-pause_msg: "`⏸️` | Paused the **Player**!"
-resume_msg: "`▶️` | Resumed the **Player**!"
+pause_msg: '`⏸️` | Paused the **Player**!'
+resume_msg: '`▶️` | Resumed the **Player**!'
 # Skip
-skip_msg: "`⏭️` | Skipped the **Song**!"
-skip_notfound: "`⚠️` | No song was found to Skip to!"
+skip_msg: '`⏭️` | Skipped the **Song**!'
+skip_notfound: '`⚠️` | No song was found to Skip to!'
 # Stop
-stop_msg: "`⏹️` | Stopped the **Player**!"
+stop_msg: '`⏹️` | Stopped the **Player**!'
 # Volume
-volup_msg: "`🔊` | Changed Volume to **%{volume}%**"
-voldown_msg: "`🔉` | Changed Volume to **%{volume}%**"
-volume_invalid: "`⚠️` | Invalid Volume. Please use a number between **1** and **100**!"
-volume_max: "`⚠️` | Player is already at max volume!"
-volume_min: "`⚠️` | Player is already at min volume!"
+volup_msg: '`🔊` | Changed Volume to **%{volume}%**'
+voldown_msg: '`🔉` | Changed Volume to **%{volume}%**'
+volume_invalid: '`⚠️` | Invalid Volume. Please use a number between **1** and **100**!'
+volume_max: '`⚠️` | Player is already at max volume!'
+volume_min: '`⚠️` | Player is already at min volume!'
 # Clear
-clear_msg: "`🗑️` | Queue has been **Cleared**!"
+clear_msg: '`🗑️` | Queue has been **Cleared**!'
 # Loop
-loop_current: "`🔁` | Looping current **Song**!"
-loop_all: "`🔁` | Looping **Queue**!"
-unloop_all: "`❌` | Loop is now **Disabled**!"
-loop_invalid: "`⚠️` | Invalid Loop mode. Please use %{mode}!"
-loop_already: "`⚠️` | Loop mode is already **%{mode}**!"
+loop_current: '`🔁` | Looping current **Song**!'
+loop_all: '`🔁` | Looping **Queue**!'
+unloop_all: '`❌` | Loop is now **Disabled**!'
+loop_invalid: '`⚠️` | Invalid Loop mode. Please use %{mode}!'
+loop_already: '`⚠️` | Loop mode is already **%{mode}**!'
 # Previous
-previous_msg: "`⏮️` | Skipped to Previous **Song**!"
-previous_notfound: "`⚠️` | No Previous song was found!"
+previous_msg: '`⏮️` | Skipped to Previous **Song**!'
+previous_notfound: '`⚠️` | No Previous song was found!'
 # Shuffle
-shuffle_msg: "🔀 Shuffled the Queue"
+shuffle_msg: '🔀 Shuffled the Queue'
 
 ### All filter command!
-filter_on: "`✅` | %{name} filter is now **enable**!"
-filter_already: "`⚠️` | %{name} filter is already **enabled**!"
+filter_on: '`✅` | %{name} filter is now **enable**!'
+filter_already: '`⚠️` | %{name} filter is already **enabled**!'
 
 ### Reset command!
-reset_on: "`❌` | Filter has been **Reset**!"
-reset_already: "`⚠️` | Filter has already been **Reset**!"
+reset_on: '`❌` | Filter has been **Reset**!'
+reset_already: '`⚠️` | Filter has already been **Reset**!'

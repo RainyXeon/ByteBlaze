@@ -1,98 +1,98 @@
 ### Autoplay command!
-autoplay_on: "`✅` | Tính năng tự động phát hiện đã được **Bật**!"
-autoplay_off: "`❌` | Tính năng tự động phát hiện đã được **Đã tắt**!"
+autoplay_on: '`✅` | Tính năng tự động phát hiện đã được **Bật**!'
+autoplay_off: '`❌` | Tính năng tự động phát hiện đã được **Đã tắt**!'
 
 ### ClearQueue command!
-clearqueue_msg: "`🗑️` | Hàng đợi đã được **Xóa**!"
+clearqueue_msg: '`🗑️` | Hàng đợi đã được **Xóa**!'
 
 ### Forward command!
-forward_msg: "`⏩` | Đã chuyển tiếp tới `%{duration}`"
-forward_beyond: "`⚠️` | Bài hát sắp kết thúc. Bạn không thể Chuyển tiếp vượt quá nó!"
+forward_msg: '`⏩` | Đã chuyển tiếp tới `%{duration}`'
+forward_beyond: '`⚠️` | Bài hát sắp kết thúc. Bạn không thể Chuyển tiếp vượt quá nó!'
 
 ### Join command!
-join_msg: "`🔊` | Đã tham gia %{channel}"
-join_voice: "`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!"
-join_already: "`⚠️` | Tôi đã ở %{channel}"
+join_msg: '`🔊` | Đã tham gia %{channel}'
+join_voice: '`⚠️` | Bạn cần ở trong kênh thoại để sử dụng lệnh này!'
+join_already: '`⚠️` | Tôi đã ở %{channel}'
 
 ### Stop command!
-stop_msg: "`⏹️` | Đã dừng **Người chơi**!"
+stop_msg: '`⏹️` | Đã dừng **Người chơi**!'
 
 ### Loop command!
-loop_current: "`🔁` | Vòng lặp hiện tại **Bài hát**!"
-loop_all: "`🔁` | Đang lặp **Hàng đợi**!"
-unloop_all: "`❌` | Bây giờ là vòng lặp **Đã tắt**!"
-loop_invalid: "`⚠️` | Chế độ vòng lặp không hợp lệ. Vui lòng sử dụng %{mode}!"
-loop_already: "`⚠️` | Chế độ vòng lặp đã có **%{mode}**!"
+loop_current: '`🔁` | Vòng lặp hiện tại **Bài hát**!'
+loop_all: '`🔁` | Đang lặp **Hàng đợi**!'
+unloop_all: '`❌` | Bây giờ là vòng lặp **Đã tắt**!'
+loop_invalid: '`⚠️` | Chế độ vòng lặp không hợp lệ. Vui lòng sử dụng %{mode}!'
+loop_already: '`⚠️` | Chế độ vòng lặp đã có **%{mode}**!'
 
 ### Lyrics command!
-lyrics_title: "📜 %{song}"
-lyrics_notfound: "`⚠️` | Lời bài hát không được tìm thấy!"
-lyrics_toolong: "`⚠️` | Lời bài hát quá dài để hiển thị!"
+lyrics_title: '📜 %{song}'
+lyrics_notfound: '`⚠️` | Lời bài hát không được tìm thấy!'
+lyrics_toolong: '`⚠️` | Lời bài hát quá dài để hiển thị!'
 
 ### Nowplaying command!
-np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-np_title: "Đang phát"
-np_current_duration: "`⏰` | Thời lượng hiện tại: `[%{current_duration} / %{total_duration}]`"
+np_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
+np_title: 'Đang phát'
+np_current_duration: '`⏰` | Thời lượng hiện tại: `[%{current_duration} / %{total_duration}]`'
 
 ### Pause command!
-pause_msg: "`⏸️` | Đã tạm dừng **Người chơi**!"
+pause_msg: '`⏸️` | Đã tạm dừng **Người chơi**!'
 
 ### Play command!
-play_track: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}"
-play_playlist: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • (**%{songs} Bài hát**) • %{request}"
-play_result: "`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}"
-play_arg: "`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!"
-play_match: "`⚠️` | Bài hát không được tìm thấy!"
-play_emoji: "`⚠️` | Bạn không thể phát các bài hát bằng biểu tượng cảm xúc!"
+play_track: '`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}'
+play_playlist: '`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • (**%{songs} Bài hát**) • %{request}'
+play_result: '`💾` | Đã thêm vào danh sách phát **%{title}** `%{duration}` • %{request}'
+play_arg: '`⚠️` | Vui lòng cung cấp tên bài hát hoặc URL hợp lệ!'
+play_match: '`⚠️` | Bài hát không được tìm thấy!'
+play_emoji: '`⚠️` | Bạn không thể phát các bài hát bằng biểu tượng cảm xúc!'
 
 ### File command!
-file_notfound: "`⚠️` | Vui lòng cung cấp một tệp hợp lệ!"
-play_invalid_file: "`⚠️` | Loại tệp không hợp lệ. Vui lòng sử dụng **mp3** hoặc **ogg**!"
-play_warning_file: "`⚠️` | Tôi không thể phát hiện loại Tệp. Vui lòng sử dụng **mp3** hoặc **ogg**!"
+file_notfound: '`⚠️` | Vui lòng cung cấp một tệp hợp lệ!'
+play_invalid_file: '`⚠️` | Loại tệp không hợp lệ. Vui lòng sử dụng **mp3** hoặc **ogg**!'
+play_warning_file: '`⚠️` | Tôi không thể phát hiện loại Tệp. Vui lòng sử dụng **mp3** hoặc **ogg**!'
 
 ### Previous command!
-previous_msg: "`⏮️` | Bỏ qua tới phần trước **Bài hát**!"
-previous_notfound: "`⚠️` | Không tìm thấy bài hát trước đó!"
+previous_msg: '`⏮️` | Bỏ qua tới phần trước **Bài hát**!'
+previous_notfound: '`⚠️` | Không tìm thấy bài hát trước đó!'
 
 ### Queue command!
-queue_author: "💾 %{guild}"
+queue_author: '💾 %{guild}'
 queue_description: "`📀` | Đang phát:\n**%{title}** `[%{duration}]` • %{request}\n\n`💤` | Phần còn lại của hàng đợi:**%{rest}**"
-queue_footer: "Trang • %{page}/%{pages} | Bài hát • %{queue_lang} | Tổng thời lượng • %{duration}"
-queue_notnumber: "`⚠️` | Vui lòng cung cấp số trang hợp lệ!"
-queue_page_notfound: "`⚠️` | Chỉ có **%{page} trang**!"
+queue_footer: 'Trang • %{page}/%{pages} | Bài hát • %{queue_lang} | Tổng thời lượng • %{duration}'
+queue_notnumber: '`⚠️` | Vui lòng cung cấp số trang hợp lệ!'
+queue_page_notfound: '`⚠️` | Chỉ có **%{page} trang**!'
 
 ### Replay command!
-replay_msg: "`🔄` | Đã phát lại **Bài hát**!"
+replay_msg: '`🔄` | Đã phát lại **Bài hát**!'
 
 ### Resume command!
-resume_msg: "`▶️` | Đã tiếp tục **Người chơi**!"
+resume_msg: '`▶️` | Đã tiếp tục **Người chơi**!'
 
 ### Rewind command!
-rewind_msg: "`⏪` | Đã tua lại về `%{duration}`"
-rewind_beyond: "`⚠️` | Bài hát vừa mới bắt đầu. Bạn không thể Tua lại ngoài nó!"
+rewind_msg: '`⏪` | Đã tua lại về `%{duration}`'
+rewind_beyond: '`⚠️` | Bài hát vừa mới bắt đầu. Bạn không thể Tua lại ngoài nó!'
 
 ### RemoveTrack command!
-removetrack_desc: "`🗑️` | Đã xóa **%{name}** `%{duration}` • %{request}"
-removetrack_already: "`⚠️` | Tôi không thể xóa bài hát đang phát!"
-removetrack_notfound: "`⚠️` | Bài hát không được tìm thấy!"
+removetrack_desc: '`🗑️` | Đã xóa **%{name}** `%{duration}` • %{request}'
+removetrack_already: '`⚠️` | Tôi không thể xóa bài hát đang phát!'
+removetrack_notfound: '`⚠️` | Bài hát không được tìm thấy!'
 
 ### Seek command!
-seek_msg: "`➿` | Đã tìm kiếm tới `%{duration}`"
-seek_beyond: "`⚠️` | Bạn không thể Tìm kiếm vượt quá thời lượng bài hát!"
-seek_invalid: "`⚠️` | Thời lượng tìm kiếm không hợp lệ. Vui lòng sử dụng dấu thời gian hợp lệ. Ví dụ: **1:30**!"
+seek_msg: '`➿` | Đã tìm kiếm tới `%{duration}`'
+seek_beyond: '`⚠️` | Bạn không thể Tìm kiếm vượt quá thời lượng bài hát!'
+seek_invalid: '`⚠️` | Thời lượng tìm kiếm không hợp lệ. Vui lòng sử dụng dấu thời gian hợp lệ. Ví dụ: **1:30**!'
 
 ### Shuffle command!
-shuffle_msg: "🔀 Đã xáo trộn hàng đợi"
+shuffle_msg: '🔀 Đã xáo trộn hàng đợi'
 
 ### Skip command!
-skip_msg: "`⏭️` | Đã bỏ qua **Bài hát**!"
-skip_notfound: "`⚠️` | Không tìm thấy bài hát nào để Bỏ qua!"
+skip_msg: '`⏭️` | Đã bỏ qua **Bài hát**!'
+skip_notfound: '`⚠️` | Không tìm thấy bài hát nào để Bỏ qua!'
 
 ### Volume command!
-volume_msg: "`🔊` | Âm lượng đã được đặt thành **%{volume}%**"
-volume_invalid: "`⚠️` | Khối lượng không hợp lệ. Vui lòng sử dụng số từ **1** đến **100**!"
+volume_msg: '`🔊` | Âm lượng đã được đặt thành **%{volume}%**'
+volume_invalid: '`⚠️` | Khối lượng không hợp lệ. Vui lòng sử dụng số từ **1** đến **100**!'
 
 ### Insert command!
-insert_desc: "`➕` | Đã chèn nhạc **%{name}** `%{duration}` • %{request}"
-insert_already: "`⚠️` | Tôi không thể chèn vào bài hát đang phát!"
-insert_notfound: "`⚠️` | Bài hát không được tìm thấy!"
+insert_desc: '`➕` | Đã chèn nhạc **%{name}** `%{duration}` • %{request}'
+insert_already: '`⚠️` | Tôi không thể chèn vào bài hát đang phát!'
+insert_notfound: '`⚠️` | Bài hát không được tìm thấy!'

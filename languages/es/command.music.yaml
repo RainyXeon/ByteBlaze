@@ -1,74 +1,74 @@
 ### Autoplay command!
-autoplay_on: "`✅` | ¡La reproducción automática ahora está **Habilitada**!"
-autoplay_off: "`❌` | ¡La reproducción automática ahora está **desactivada**!"
-autoplay_already: "`⚠️` | ¡Autoplay ya está **%{mode}**!"
+autoplay_on: '`✅` | ¡La reproducción automática ahora está **Habilitada**!'
+autoplay_off: '`❌` | ¡La reproducción automática ahora está **desactivada**!'
+autoplay_already: '`⚠️` | ¡Autoplay ya está **%{mode}**!'
 ### ClearQueue command!
-clearqueue_msg: "`🗑️` | ¡La cola ha sido **borrada**!"
+clearqueue_msg: '`🗑️` | ¡La cola ha sido **borrada**!'
 ### Forward command!
-forward_msg: "`⏭` | *Avanzar a:* `%{duration}`"
-forward_beyond: "`⚠️` | La canción está a punto de terminar. ¡No puedes avanzar más allá!"
+forward_msg: '`⏭` | *Avanzar a:* `%{duration}`'
+forward_beyond: '`⚠️` | La canción está a punto de terminar. ¡No puedes avanzar más allá!'
 ### Join command!
-join_msg: "`🔊` | Se unió a %{channel}"
-join_voice: "`⚠️` | ¡Necesitas estar en un canal de voz para usar este comando!"
-join_already: "`⚠️` | Ya estoy en %{channel}"
+join_msg: '`🔊` | Se unió a %{channel}'
+join_voice: '`⚠️` | ¡Necesitas estar en un canal de voz para usar este comando!'
+join_already: '`⚠️` | Ya estoy en %{channel}'
 ### Stop command!
-stop_msg: "`⏹️` | ¡Detenido el **Jugador**!"
+stop_msg: '`⏹️` | ¡Detenido el **Jugador**!'
 ### Loop command!
-loop_current: "`🔁` | ¡Bucle actual **Canción**!"
-loop_all: "`🔁` | ¡Bucle **Cola**!"
-unloop_all: "`❌` | ¡La reproducción automática ahora está **desactivada**!"
-loop_invalid: "`⚠️` | Modo bucle inválido. ¡Por favor usa %{mode}!"
-loop_already: "¡`⚠️` | ¡El modo bucle ya está **%{mode}**!"
+loop_current: '`🔁` | ¡Bucle actual **Canción**!'
+loop_all: '`🔁` | ¡Bucle **Cola**!'
+unloop_all: '`❌` | ¡La reproducción automática ahora está **desactivada**!'
+loop_invalid: '`⚠️` | Modo bucle inválido. ¡Por favor usa %{mode}!'
+loop_already: '¡`⚠️` | ¡El modo bucle ya está **%{mode}**!'
 ### Lyrics command!
-lyrics_title: "📜 %{song}"
-lyrics_notfound: "`⚠️` | ¡Letras no encontradas!"
-lyrics_toolong: "`⚠️` | ¡Las letras son demasiado largas para ser mostradas!"
+lyrics_title: '📜 %{song}'
+lyrics_notfound: '`⚠️` | ¡Letras no encontradas!'
+lyrics_toolong: '`⚠️` | ¡Las letras son demasiado largas para ser mostradas!'
 ### Nowplaying command!
-np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
-np_title: "Reproduciendo ahora"
-np_current_duration: "`⏰` | Duración actual: `[%{current_duration} / %{total_duration}]`"
+np_icon: 'https://cdn.discordapp.com/emojis/741605543046807626.gif'
+np_title: 'Reproduciendo ahora'
+np_current_duration: '`⏰` | Duración actual: `[%{current_duration} / %{total_duration}]`'
 ### Pause command!
-pause_msg: "`⏸️` | ¡Pausado por **Jugador**!"
+pause_msg: '`⏸️` | ¡Pausado por **Jugador**!'
 ### Play command!
-play_track: "`💾` | Cola **[%{title}](%{url})** `%{duration}` • %{request}"
-play_playlist: "`💾` | Cola **[%{title}](%{url})** `%{duration}` • (**%{songs} Canciones**) • %{request}"
-play_result: "`💾` | Cola **[%{title}](%{url})** `%{duration}` • %{request}"
-play_arg: "`⚠️` | ¡Por favor proporcione un nombre de canción o URL válido!"
-play_match: "`⚠️` | ¡Canción no encontrada!"
-play_emoji: "`⚠️` | ¡No puedes reproducir canciones usando emoji!"
+play_track: '`💾` | Cola **[%{title}](%{url})** `%{duration}` • %{request}'
+play_playlist: '`💾` | Cola **[%{title}](%{url})** `%{duration}` • (**%{songs} Canciones**) • %{request}'
+play_result: '`💾` | Cola **[%{title}](%{url})** `%{duration}` • %{request}'
+play_arg: '`⚠️` | ¡Por favor proporcione un nombre de canción o URL válido!'
+play_match: '`⚠️` | ¡Canción no encontrada!'
+play_emoji: '`⚠️` | ¡No puedes reproducir canciones usando emoji!'
 ### File command!
-file_notfound: "`⚠️` | ¡Por favor proporcione un archivo válido!"
-play_invalid_file: "`⚠️` | Tipo de archivo inválido. ¡Por favor usa **mp3** o **ogg**!"
-play_warning_file: "`⚠️` | No pude detectar el tipo de archivo. ¡Por favor usa **mp3** o **ogg**!"
+file_notfound: '`⚠️` | ¡Por favor proporcione un archivo válido!'
+play_invalid_file: '`⚠️` | Tipo de archivo inválido. ¡Por favor usa **mp3** o **ogg**!'
+play_warning_file: '`⚠️` | No pude detectar el tipo de archivo. ¡Por favor usa **mp3** o **ogg**!'
 ### Previous command!
-previous_msg: "`⏮️` | ¡Saltó a la **Canción Anterior**!"
-previous_notfound: "`⚠️` | ¡No se encontró ninguna canción anterior!"
+previous_msg: '`⏮️` | ¡Saltó a la **Canción Anterior**!'
+previous_notfound: '`⚠️` | ¡No se encontró ninguna canción anterior!'
 ### Queue command!
-queue_author: "💾 %{guild}"
+queue_author: '💾 %{guild}'
 queue_description: "`📀` | Actualmente reproduciendo:\n**[%{title}](%{url})** `[%{duration}]` • %{request}\n\n`💤` | Resto de la Cola:**%{rest}**"
-queue_footer: "Página • %{page}/%{pages} | Canción • %{queue_lang} | Duración total • %{duration}"
-queue_notnumber: "`⚠️` | ¡Por favor proporcione un número de página válido!"
-queue_page_notfound: "`⚠️` | ¡Solo hay **%{page} páginas**!"
+queue_footer: 'Página • %{page}/%{pages} | Canción • %{queue_lang} | Duración total • %{duration}'
+queue_notnumber: '`⚠️` | ¡Por favor proporcione un número de página válido!'
+queue_page_notfound: '`⚠️` | ¡Solo hay **%{page} páginas**!'
 ### Replay command!
-replay_msg: "`⏭️` | ¡Se saltó la **canción**!"
+replay_msg: '`⏭️` | ¡Se saltó la **canción**!'
 ### Resume command!
-resume_msg: "`▶️` | ¡Reanudó el **Jugador**!"
+resume_msg: '`▶️` | ¡Reanudó el **Jugador**!'
 ### Rewind command!
-rewind_msg: "`⏮` | *Rebobinar a:* `%{duration}"
-rewind_beyond: "`⚠️` | Canción que acaba de comenzar. ¡No puedes rebobinar más allá!"
+rewind_msg: '`⏮` | *Rebobinar a:* `%{duration}'
+rewind_beyond: '`⚠️` | Canción que acaba de comenzar. ¡No puedes rebobinar más allá!'
 ### RemoveTrack command!
-removetrack_desc: "`🗑️` | Se eliminó **[%{name}](%{url})** `%{duration}` • %{request}"
-removetrack_already: "`⚠️` | ¡No puedo quitar una canción que ya está reproduciendo!"
-removetrack_notfound: "`⚠️` | ¡Canción no encontrada!"
+removetrack_desc: '`🗑️` | Se eliminó **[%{name}](%{url})** `%{duration}` • %{request}'
+removetrack_already: '`⚠️` | ¡No puedo quitar una canción que ya está reproduciendo!'
+removetrack_notfound: '`⚠️` | ¡Canción no encontrada!'
 ### Seek command!
-seek_msg: "`➿` | Buscado en `%{duration}`"
-seek_beyond: "`⚠️` | ¡No puedes buscar más allá de la duración de la canción!"
-seek_invalid: "`⚠️` | Duración de búsqueda inválida. ¡Por favor usa una marca de tiempo válida, Ejemplo: **1:30**!"
+seek_msg: '`➿` | Buscado en `%{duration}`'
+seek_beyond: '`⚠️` | ¡No puedes buscar más allá de la duración de la canción!'
+seek_invalid: '`⚠️` | Duración de búsqueda inválida. ¡Por favor usa una marca de tiempo válida, Ejemplo: **1:30**!'
 ### Shuffle command!
-shuffle_msg: "🔀 Se ha mezclado la cola"
+shuffle_msg: '🔀 Se ha mezclado la cola'
 ### Skip command!
-skip_msg: "`⏭️` | ¡Se saltó la **canción**!"
-skip_notfound: "`⚠️` | ¡No se encontró ninguna canción para Saltar!"
+skip_msg: '`⏭️` | ¡Se saltó la **canción**!'
+skip_notfound: '`⚠️` | ¡No se encontró ninguna canción para Saltar!'
 ### Volume command!
-volume_msg: "`🔊` | El volumen se ha establecido en **%{volume}%**"
-volume_invalid: "`⚠️` | Volumen inválido. ¡Por favor usa un número entre **1** y **100**!"
+volume_msg: '`🔊` | El volumen se ha establecido en **%{volume}%**'
+volume_invalid: '`⚠️` | Volumen inválido. ¡Por favor usa un número entre **1** y **100**!'
