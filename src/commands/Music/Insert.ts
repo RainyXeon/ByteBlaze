@@ -106,27 +106,6 @@ export default class implements Command {
       )
       .setColor(client.color)
 
-    client.wsl.get(handler.guild!.id)?.send({
-      op: 'playerQueueInsert',
-      guild: handler.guild!.id,
-      track: {
-        title: track.title,
-        uri: track.uri,
-        length: track.duration,
-        thumbnail: track.artworkUrl,
-        author: track.author,
-        requester: track.requester
-          ? {
-              id: (track.requester as any).id,
-              username: (track.requester as any).username,
-              globalName: (track.requester as any).globalName,
-              defaultAvatarURL: (track.requester as any).defaultAvatarURL ?? null,
-            }
-          : null,
-      },
-      index: position - 1,
-    })
-
     return handler.editReply({ embeds: [embed] })
   }
 

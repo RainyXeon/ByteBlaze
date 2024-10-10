@@ -14,13 +14,11 @@ import { resolve } from 'path'
 import { LoggerService } from './services/LoggerService.js'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { WebServer } from './web/server.js'
 import { ManifestService } from './services/ManifestService.js'
 import { config } from 'dotenv'
 import { initHandler } from './handlers/index.js'
 import { DeployService } from './services/DeployService.js'
 import { RainlinkInit } from './structures/Rainlink.js'
-import { Metadata } from './@types/Metadata.js'
 import { Config, Emojis } from './@types/Config.js'
 import { DatabaseTable } from './database/@types.js'
 import { LavalinkDataType, LavalinkUsingDataType } from './@types/Lavalink.js'
@@ -32,21 +30,11 @@ import { RainlinkFilterData, RainlinkPlayer } from 'rainlink'
 import { TopggService } from './services/TopggService.js'
 import { Collection } from './structures/Collection.js'
 import { Localization } from './structures/Localization.js'
-import { ClusterManager } from './cluster/core.js'
-import cluster, { Cluster } from 'node:cluster'
 import { ManifestInterface } from './@types/Manifest.js'
+import { ClusterClient, getInfo } from 'discord-hybrid-sharding'
 config()
 
-function getShard(clusterManager: ClusterManager) {
-  const shardListData = clusterManager.getShard(cluster.worker.id)
-  return {
-    shards: shardListData,
-    shardCount: clusterManager.totalShards,
-  }
-}
-
 export class Manager extends Client {
-  public cluster: { id: number | 0; data: Cluster | null }
   public manifest: ManifestInterface
   public logger: LoggerService
   public db!: DatabaseTable
@@ -71,22 +59,21 @@ export class Manager extends Client {
   public plButton: Collection<PlayerButton>
   public leaveDelay: Collection<NodeJS.Timeout>
   public nowPlaying: Collection<{ interval: NodeJS.Timeout; msg: GlobalMsg }>
-  public wsl: Collection<{ send: (data: Record<string, unknown>) => void }>
   public UpdateMusic!: (player: RainlinkPlayer) => Promise<void | Message<true>>
   public UpdateQueueMsg!: (player: RainlinkPlayer) => Promise<void | Message<true>>
   public topgg?: TopggService
   public icons: Emojis
   public REGEX: RegExp[]
   public selectMenuOptions: StringSelectMenuOptionBuilder[] = []
+  public cluster?: ClusterClient<Client>
 
   constructor(
     public config: Config,
-    isMsgEnable: boolean,
-    public clusterManager?: ClusterManager
+    isMsgEnable: boolean
   ) {
     super({
-      shards: clusterManager ? getShard(clusterManager).shards : 'auto',
-      shardCount: clusterManager ? getShard(clusterManager).shardCount : 1,
+      shards: process.env.IS_SHARING == 'true' ? getInfo().SHARD_LIST : 'auto',
+      shardCount: process.env.IS_SHARING == 'true' ? getInfo().TOTAL_SHARDS : 1,
       allowedMentions: {
         parse: ['roles', 'users', 'everyone'],
         repliedUser: false,
@@ -107,11 +94,7 @@ export class Manager extends Client {
 
     // Initial basic bot config
     const __dirname = dirname(fileURLToPath(import.meta.url))
-    this.cluster = {
-      data: clusterManager ? cluster : null,
-      id: clusterManager ? cluster.worker.id : 0,
-    }
-    this.logger = new LoggerService(this, this.cluster.id)
+    this.logger = new LoggerService(this)
     this.manifest = new ManifestService().data
     this.owner = this.config.bot.OWNER_ID
     this.color = (this.config.bot.EMBED_COLOR || '#2b2d31') as ColorResolvable
@@ -150,8 +133,9 @@ export class Manager extends Client {
     this.plButton = new Collection<PlayerButton>()
     this.leaveDelay = new Collection<NodeJS.Timeout>()
     this.nowPlaying = new Collection<{ interval: NodeJS.Timeout; msg: GlobalMsg }>()
-    this.wsl = new Collection<{ send: (data: Record<string, unknown>) => void }>()
     this.isDatabaseConnected = false
+
+    this.cluster = process.env.IS_SHARING == 'true' ? new ClusterClient(this) : undefined
 
     // Icons setup
     this.icons = this.config.emojis
@@ -192,7 +176,6 @@ export class Manager extends Client {
         'ClientManager',
         'You just disabled AVOID_SUSPEND feature. Enable this on app.yml to avoid discord suspend your bot!'
       )
-    if (this.config.utilities.WEB_SERVER.enable) new WebServer(this)
     new DeployService(this)
     new initHandler(this)
     new DatabaseService(this)

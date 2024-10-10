@@ -33,12 +33,6 @@ export default class implements PlayerButton {
 
     player.setVolume(player.volume - 10)
 
-    client.wsl.get(message.guild!.id)?.send({
-      op: 'playerVolume',
-      guild: message.guild!.id,
-      volume: player.volume,
-    })
-
     new ReplyInteractionService(client, message, reply_msg)
     return
   }

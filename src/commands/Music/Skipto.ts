@@ -54,28 +54,7 @@ export default class implements Command {
       player.queue.current ? player.queue.previous.unshift(player.queue.current) : true
       await player.play(nowCurrentTrack)
       player.queue.shift()
-      client.wsl.get(handler.guild!.id)?.send({
-        op: 'playerQueueSkip',
-        guild: handler.guild!.id,
-        queue: player.queue.map((track) => {
-          const requesterQueue = track.requester as User
-          return {
-            title: track.title,
-            uri: track.uri,
-            length: track.duration,
-            thumbnail: track.artworkUrl,
-            author: track.author,
-            requester: requesterQueue
-              ? {
-                  id: requesterQueue.id,
-                  username: requesterQueue.username,
-                  globalName: requesterQueue.globalName,
-                  defaultAvatarURL: requesterQueue.defaultAvatarURL ?? null,
-                }
-              : null,
-          }
-        }),
-      })
+
       const skipped = new EmbedBuilder()
         .setDescription(`${client.i18n.get(handler.language, 'command.music', 'skip_msg')}`)
         .setColor(client.color)

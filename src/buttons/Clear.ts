@@ -24,12 +24,6 @@ export default class implements PlayerButton {
       message,
       `${client.i18n.get(language, 'button.music', 'clear_msg')}`
     )
-
-    client.wsl.get(message.guild!.id)?.send({
-      op: 'playerClearQueue',
-      guild: message.guild!.id,
-    })
-
     return
   }
 }

@@ -118,10 +118,10 @@ export class ConfigDataService {
         AUTO_RESUME: false,
         TOPGG_TOKEN: '',
         DELETE_MSG_TIMEOUT: 2000,
-        SHARDING_SYSTEM: {
-          shardsPerClusters: 2,
-          totalClusters: 2,
-        },
+        // SHARDING_SYSTEM: {
+        //   shardsPerClusters: 2,
+        //   totalClusters: 2,
+        // },
         DATABASE: {
           driver: 'json',
           config: { path: './cylane.database.json' },
@@ -138,13 +138,6 @@ export class ConfigDataService {
           enable: true,
           retryCount: 10,
           retryTimeout: 3000,
-        },
-        WEB_SERVER: {
-          host: '0.0.0.0',
-          enable: false,
-          port: 2880,
-          auth: 'youshallnotpass',
-          whitelist: [],
         },
         PREMIUM_LOG_CHANNEL: '',
         GUILD_LOG_CHANNEL: '',

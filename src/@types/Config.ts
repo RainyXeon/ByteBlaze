@@ -1,4 +1,3 @@
-import { ClusterManagerOptions } from '../cluster/core.js'
 import { RainlinkNodeOptions } from 'rainlink'
 
 export interface Config {
@@ -18,14 +17,13 @@ export interface Bot {
 }
 
 export interface Utilities {
-  SHARDING_SYSTEM: ClusterManagerOptions
+  // SHARDING_SYSTEM: ClusterManagerOptions
   AUTO_RESUME: boolean
   DELETE_MSG_TIMEOUT: number
   DATABASE: Database
   TOPGG_TOKEN: string
   MESSAGE_CONTENT: MessageContent
   AUTOFIX_LAVALINK: AutofixLavalink
-  WEB_SERVER: WebServer
   PREMIUM_LOG_CHANNEL: string
   GUILD_LOG_CHANNEL: string
   LOG_CHANNEL: string
@@ -51,14 +49,6 @@ export interface MessageContent {
 export interface Commands {
   enable: boolean
   prefix: string
-}
-
-export interface WebServer {
-  host: string
-  enable: boolean
-  port: number
-  auth: string
-  whitelist: string[]
 }
 
 export interface Player {

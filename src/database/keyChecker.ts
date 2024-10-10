@@ -21,7 +21,7 @@ export class keyChecker {
   }
 
   execute() {
-    const logger = new LoggerService(this.client, this.client.cluster.id)
+    const logger = new LoggerService(this.client)
     const objReqKey = Object.keys(this.sampleConfig)
     const res = this.checkEngine()
 

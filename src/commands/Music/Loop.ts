@@ -101,12 +101,6 @@ export default class implements Command {
         .setColor(client.color)
       handler.editReply({ content: ' ', embeds: [looped] })
     }
-
-    client.wsl.get(handler.guild!.id)?.send({
-      op: 'playerLoop',
-      guild: handler.guild!.id,
-      mode: mode,
-    })
   }
 
   async setLoop247(client: Manager, player: RainlinkPlayer, loop: string) {

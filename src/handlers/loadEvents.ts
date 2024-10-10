@@ -13,7 +13,7 @@ export class ClientEventsLoader {
     this.loader()
   }
   async loader() {
-    for (const path of ['client', 'guild', 'shard', 'websocket']) {
+    for (const path of ['client', 'guild', 'shard']) {
       let eventsPath = resolve(join(__dirname, '..', 'events', path))
       let eventsFile = await readdirRecursive(eventsPath)
       await this.registerPath(eventsFile)

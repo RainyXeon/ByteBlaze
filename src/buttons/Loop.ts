@@ -36,12 +36,6 @@ export default class implements PlayerButton {
           `${client.i18n.get(language, 'button.music', 'loop_current')}`
         )
 
-        client.wsl.get(message.guild!.id)?.send({
-          op: 'playerLoop',
-          guild: message.guild!.id,
-          mode: 'song',
-        })
-
         break
 
       case 'song':
@@ -55,12 +49,6 @@ export default class implements PlayerButton {
           `${client.i18n.get(language, 'button.music', 'loop_all')}`
         )
 
-        client.wsl.get(message.guild!.id)?.send({
-          op: 'playerLoop',
-          guild: message.guild!.id,
-          mode: 'queue',
-        })
-
         break
 
       case 'queue':
@@ -73,12 +61,6 @@ export default class implements PlayerButton {
           message,
           `${client.i18n.get(language, 'button.music', 'unloop_all')}`
         )
-
-        client.wsl.get(message.guild!.id)?.send({
-          op: 'playerLoop',
-          guild: message.guild!.id,
-          mode: 'none',
-        })
 
         break
     }
