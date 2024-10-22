@@ -32,12 +32,6 @@ export class LoggerService {
           format: this.consoleFormat,
         }),
 
-        new winston.transports.File({
-          level: 'unhandled',
-          filename: './logs/byteblaze.log',
-          format: this.fileFormat,
-        }),
-
         new DailyRotateFile({
           filename: './logs/byteblaze-%DATE%.log',
           datePattern: 'HH-DD-MM-YYYY',
