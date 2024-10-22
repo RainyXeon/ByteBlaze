@@ -13,13 +13,13 @@
     "codename": "kaito"
   },
   "scripts": {
-    "build": "tsc --build --verbose",
-    "build:full": "npm run build:prettier && npm run build",
+    "dev": "npx nodemon ./src/index.ts",
     "start": "node --no-deprecation ./dist/index.js",
     "start:shard": "node --no-deprecation ./dist/shard.js",
-    "dev": "npx nodemon ./src/index.ts",
-    "build:prettier": "npx prettier -w ./src",
-    "start:pm2": "npx pm2-runtime start ecosystem.config.cjs --env production"
+    "start:pm2": "npx pm2-runtime start ecosystem.config.cjs --env production",
+    "build": "tsc --build --verbose",
+    "build:full": "npm run build:prettier && npm run build",
+    "build:prettier": "npx prettier -w ./src"
   },
   "repository": {
     "type": "git",
@@ -84,6 +84,7 @@
     "recursive-readdir": "^2.2.3",
     "voucher-code-generator": "^1.3.0",
     "winston": "^3.14.2",
+    "winston-daily-rotate-file": "^5.0.0",
     "write-file-atomic": "^5.0.1"
   },
   "devDependencies": {

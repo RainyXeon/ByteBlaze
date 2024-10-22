@@ -1,9 +1,11 @@
-import { createLogger, transports, format, Logger } from 'winston'
-const { timestamp, prettyPrint, printf } = format
+import * as winston from 'winston'
+import 'winston-daily-rotate-file';
 import chalk from 'chalk'
 import util from 'node:util'
 import { Manager } from '../manager.js'
 import { EmbedBuilder, TextChannel } from 'discord.js'
+import DailyRotateFile from 'winston-daily-rotate-file';
+const { timestamp, printf } = winston.format
 
 type InfoDataType = {
   message: string
@@ -12,10 +14,10 @@ type InfoDataType = {
 }
 
 export class LoggerService {
-  private preLog: Logger
+  private preLog: winston.Logger
   private padding = 28
   constructor(private client: Manager) {
-    this.preLog = createLogger({
+    this.preLog = winston.createLogger({
       levels: {
         error: 0,
         warn: 1,
@@ -25,16 +27,24 @@ export class LoggerService {
       },
 
       transports: [
-        new transports.Console({
+        new winston.transports.Console({
           level: 'unhandled',
           format: this.consoleFormat,
         }),
 
-        new transports.File({
+        new winston.transports.File({
           level: 'unhandled',
           filename: './logs/byteblaze.log',
           format: this.fileFormat,
         }),
+
+        new DailyRotateFile({
+          filename: 'byteblaze-%DATE%.log',
+          datePattern: 'HH-DD-MM-YYYY',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d'
+        })
       ],
     })
   }
@@ -102,7 +112,7 @@ export class LoggerService {
     const colored = chalk.hex('#86cecb')('|')
     const timeStamp = (info: InfoDataType) => chalk.hex('#00ddc0')(info.timestamp)
     const msg = (info: InfoDataType) => chalk.hex('#86cecb')(info.message)
-    return format.combine(
+    return winston.format.combine(
       timestamp(),
       printf((info: InfoDataType) => {
         return `${timeStamp(info)} ${colored} ${this.filter(info)} ${colored} ${msg(info)}`
@@ -111,7 +121,13 @@ export class LoggerService {
   }
 
   private get fileFormat() {
-    return format.combine(timestamp(), prettyPrint())
+    const pad = 9
+    return winston.format.combine(
+      timestamp(),       
+      printf((info: InfoDataType) => {
+        return `${info.timestamp} | ${info.level.toUpperCase().padEnd(pad)} | ${info.message}`
+      })
+    )
   }
 
   private async sendDiscord(type: string, message: string, className: string) {

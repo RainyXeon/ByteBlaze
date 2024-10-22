@@ -143,3 +143,5 @@ temp/
 pnpm-lock.yaml
 
 test.*************
+
+bun.lockb
