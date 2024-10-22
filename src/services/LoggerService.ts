@@ -39,10 +39,11 @@ export class LoggerService {
         }),
 
         new DailyRotateFile({
-          filename: 'byteblaze-%DATE%.log',
+          filename: './logs/byteblaze-%DATE%.log',
           datePattern: 'HH-DD-MM-YYYY',
           zippedArchive: true,
           maxSize: '20m',
+          format: this.fileFormat,
           maxFiles: '14d'
         })
       ],
