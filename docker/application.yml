@@ -18,7 +18,7 @@ lavalink:
       repository: 'https://repo.projectlounge.pw/maven/releases'
     - dependency: 'me.duncte123:java-lyrics-plugin:1.6.0'
       repository: 'https://maven.lavalink.dev/releases'
-    - dependency: 'dev.lavalink.youtube:youtube-plugin:1.7.2'
+    - dependency: 'dev.lavalink.youtube:youtube-plugin:1.8.3'
       repository: 'https://maven.lavalink.dev/releases'
 
   server:
@@ -64,9 +64,9 @@ plugins:
     # Clients are queried in the order they are given (so the first client is queried first and so on...)
     clients:
       - MUSIC
-      - ANDROID_TESTSUITE
+      - ANDROID_VR
       - WEB
-      - TVHTML5EMBEDDED
+      - WEBEMBEDDED
   lyrics:
     countryCode: en #country code for resolving isrc tracks
   dunctebot:
