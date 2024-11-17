@@ -36,7 +36,7 @@ export default class implements Command {
     player?.data.delete('filter-mode')
 
     await player?.filter.clear()
-    await player?.setVolume(100)
+    await player?.setVolume(client.config.player.DEFAULT_VOLUME)
 
     const resetted = new EmbedBuilder()
       .setDescription(`${client.i18n.get(handler.language, 'command.filter', 'reset_on')}`)

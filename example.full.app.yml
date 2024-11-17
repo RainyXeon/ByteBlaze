@@ -30,7 +30,7 @@ player:
   # Enable this if you want to use realtime duation in nowplaying command
   NP_REALTIME: false
 
-  # The number of leave time you want
+  # The amount of time before the bot leaves the VC in milliseconds
   LEAVE_TIMEOUT: 60000
 
   # Must not over 1000 or bot crash
@@ -75,7 +75,7 @@ utilities:
   GUILD_LOG_CHANNEL: ''
   # Log all unhandled, error, warnings on discord
   LOG_CHANNEL: ''
-  # The timeout for deleting msg
+  # The timeout for deleting msg in milliseconds
   DELETE_MSG_TIMEOUT: 3000
   # Auto resume when bot restarted suddenly
   AUTO_RESUME: false
