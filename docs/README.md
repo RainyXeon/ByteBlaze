@@ -179,3 +179,4 @@ Version numbers can come in different combinations, depending on the release typ
 ## 💫 Credits:
 
 - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` As an owner and a creator of this project
+
