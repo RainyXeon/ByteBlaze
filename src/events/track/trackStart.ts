@@ -109,9 +109,7 @@ export default class {
         },
       ])
       .setColor(client.color)
-      .setThumbnail(
-        track.artworkUrl ?? `https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`
-      )
+      .setThumbnail(track.artworkUrl ?? null)
 
     const playing_channel = (await client.channels
       .fetch(player.textId)
