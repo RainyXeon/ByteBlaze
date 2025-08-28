@@ -167,15 +167,15 @@ ByteBlaze следует [Семантическое версионирован�
 
 ## 💫 Большое спасибо
 
-- [@DarrenOfficial](https://github.com/DarrenOfficial) [Lavalink Sources]
-- [@PAINFUEG0](https://github.com/PAINFUEG0) [My Friend]
-- [@Adivise](https://github.com/Adivise) [Inspiration]
-- [@brblacky](https://github.com/brblacky) [Inspiration]
+- [@DarrenOfficial](https://github.com/DarrenOfficial) [Источники Lavalink]
+- [@PAINFUEG0](https://github.com/PAINFUEG0) [Мои друзья]
+- [@Adivise](https://github.com/Adivise) [Вдохновение]
+- [@brblacky](https://github.com/brblacky) [Вдохновение]
 - [@mrstebo](https://github.com/mrstebo) [env Praser]
-- [@ItzZoldy](https://github.com/ItzZoldy) [Designer]
+- [@ItzZoldy](https://github.com/ItzZoldy) [Дезайнер]
 
 **И всем, кто принял участие и внес свой вклад в мой проект 💖**
 
 ## 💫 Кредиты:
 
-- [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` As an owner and a creator of this project
+- [@RainyXeon](https://github.com/RainyXeon) **Discord:** `rainyxeon` Как владелец и создатель этого проекта
