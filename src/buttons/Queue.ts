@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   InteractionCollector,
   Message,
+  MessageFlags,
 } from 'discord.js'
 import { PlayerButton } from '../@types/Button.js'
 import { Manager } from '../manager.js'
@@ -72,6 +73,6 @@ export default class implements PlayerButton {
 
       pages.push(embed)
     }
-    message.reply({ embeds: [pages[0]], ephemeral: true })
+    message.reply({ embeds: [pages[0]], flags: MessageFlags.Ephemeral })
   }
 }

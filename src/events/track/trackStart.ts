@@ -1,5 +1,5 @@
 import { Manager } from '../../manager.js'
-import { ComponentType, TextChannel } from 'discord.js'
+import { ComponentType, TextChannel, MessageFlags } from 'discord.js'
 import { EmbedBuilder } from 'discord.js'
 import { formatDuration } from '../../utilities/FormatDuration.js'
 import { filterSelect, playerRowOne, playerRowTwo } from '../../utilities/PlayerControlButton.js'
@@ -142,7 +142,7 @@ export default class {
         else {
           message.reply({
             content: `${client.i18n.get(language, 'event.player', 'join_voice')}`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
           return false
         }
@@ -160,7 +160,7 @@ export default class {
         else {
           message.reply({
             content: `${client.i18n.get(language, 'event.player', 'join_voice')}`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
           return false
         }

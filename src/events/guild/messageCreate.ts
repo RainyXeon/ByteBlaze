@@ -113,7 +113,10 @@ export default class {
       return
     }
     const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${escapeRegex(PREFIX.toLowerCase())})\\s*`, 'i')
+    const prefixRegex = new RegExp(
+      `^(<@!?${client.user!.id}>|${escapeRegex(PREFIX.toLowerCase())})\\s*`,
+      'i'
+    )
     if (!prefixRegex.test(message.content)) return
     const [matchedPrefix] = message.content.match(prefixRegex) as RegExpMatchArray
     const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g)

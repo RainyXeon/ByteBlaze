@@ -3,6 +3,7 @@ import {
   ApplicationCommandOptionType,
   ComponentType,
   EmbedBuilder,
+  MessageFlags,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js'
@@ -165,7 +166,7 @@ export default class implements Command {
       const msgReply = await message
         .reply({
           embeds: [replyEmbed],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         })
         .catch(() => {})
       if (msgReply)

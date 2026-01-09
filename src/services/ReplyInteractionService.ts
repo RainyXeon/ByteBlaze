@@ -16,13 +16,12 @@ export class ReplyInteractionService {
     const msg = await this.message
       .reply({
         embeds: [embed],
-        ephemeral: false,
       })
       .catch(() => null)
     const setup = await this.client.db.setup.get(String(this.message.guildId))
 
     setTimeout(() => {
-      (!setup || setup == null || setup.channel !== this.message.channelId) && msg
+      ;(!setup || setup == null || setup.channel !== this.message.channelId) && msg
         ? msg.delete().catch(() => null)
         : true
     }, this.client.config.utilities.DELETE_MSG_TIMEOUT)

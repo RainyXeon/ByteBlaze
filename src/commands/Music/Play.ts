@@ -1,7 +1,7 @@
 import {
   ApplicationCommandOptionType,
   AutocompleteInteraction,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   EmbedBuilder,
 } from 'discord.js'
 import { convertTime } from '../../utilities/ConvertTime.js'
@@ -183,7 +183,7 @@ export default class implements Command {
   // Autocomplete function
   async autocomplete(client: Manager, interaction: GlobalInteraction, language: string) {
     let choice: AutocompleteInteractionChoices[] = []
-    const url = String((interaction as CommandInteraction).options.get('search')!.value)
+    const url = String((interaction as ChatInputCommandInteraction).options.get('search')!.value)
 
     const maxLength = await client.db.maxlength.get(interaction.user.id)
 
