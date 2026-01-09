@@ -2,7 +2,7 @@ import {
   EmbedBuilder,
   ApplicationCommandOptionType,
   Message,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   ActionRowBuilder,
   TextInputBuilder,
   ModalBuilder,
@@ -42,7 +42,7 @@ export default class implements Command {
     if (handler.message) {
       await this.prefixMode(client, handler.message, handler.args, handler.language, handler.prefix)
     } else if (handler.interaction) {
-      await this.interactionMode(client, handler.interaction, handler.language)
+      await this.interactionMode(client, handler.interaction as ChatInputCommandInteraction, handler.language)
     } else return
   }
 
@@ -259,7 +259,7 @@ export default class implements Command {
   // Interaction mode
   private async interactionMode(
     client: Manager,
-    interaction: CommandInteraction,
+    interaction: ChatInputCommandInteraction,
     language: string
   ) {
     const playlistId = new TextInputBuilder()
@@ -314,7 +314,7 @@ export default class implements Command {
         new ActionRowBuilder<TextInputBuilder>().addComponents(playlistPrivate)
       )
 
-    const value = (interaction.options as CommandInteractionOptionResolver).getString('id')
+    const value = (interaction as ChatInputCommandInteraction).options.getString('id')
 
     const playlist = await client.db.playlist.get(value!)
 

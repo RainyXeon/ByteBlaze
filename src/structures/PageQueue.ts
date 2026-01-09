@@ -7,6 +7,7 @@ import {
   ComponentType,
   EmbedBuilder,
   Message,
+  MessageFlags,
 } from 'discord.js'
 import { Manager } from '../manager.js'
 
@@ -425,7 +426,7 @@ export class PageQueue {
       ],
       components: [row],
       allowedMentions: { repliedUser: false },
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     })
     if (this.pages.length == 0) return
 

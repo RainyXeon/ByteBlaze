@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   InteractionCollector,
   Message,
+  MessageFlags,
   User,
 } from 'discord.js'
 import { PlayerButton } from '../@types/Button.js'
@@ -104,6 +105,6 @@ export default class implements PlayerButton {
         message,
         qduration
       )
-    } else message.reply({ embeds: [pages[0]], ephemeral: true })
+    } else message.reply({ embeds: [pages[0]], flags: MessageFlags.Ephemeral })
   }
 }

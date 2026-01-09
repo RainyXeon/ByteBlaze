@@ -138,7 +138,7 @@ export class CommandHandler {
 
   public async deferReply() {
     if (this.interaction) {
-      const data = await this.interaction.deferReply({ ephemeral: false })
+      const data = await this.interaction.deferReply()
       return (this.msg = data)
     } else {
       const data = await this.message?.reply(`**${this.client.user?.username}** is thinking...`)
